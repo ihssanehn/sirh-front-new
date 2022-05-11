@@ -1,0 +1,123 @@
+<!--<div class="side_menu"  [ngClass]="{'opened':opened, 'closed':!opened}" >-->
+
+<!--	<div class="burger_box">-->
+<!--		<div class="menu-icon-container">-->
+<!--            <a  class="menu-icon js-menu_toggle" -->
+<!--                (click)="toggleMenu()"-->
+<!--                [ngClass]="{'opened':opened, 'closed':!opened}"-->
+<!--                >-->
+<!--				<span class="menu-icon_box">-->
+<!--					<span class="menu-icon_line menu-icon_line&#45;&#45;1"></span>-->
+<!--					<span class="menu-icon_line menu-icon_line&#45;&#45;2"></span>-->
+<!--					<span class="menu-icon_line menu-icon_line&#45;&#45;3"></span>-->
+<!--				</span>-->
+<!--			</a>-->
+<!--		</div>-->
+<!--    </div>-->
+<!--    <div class="profile-container">-->
+<!--        <ul class="list_load">-->
+<!--            <li class="list_item">-->
+<!--                <a>-->
+<!--                    <div class="avatar">-->
+<!--                        <img    alt="" -->
+<!--                                class="loggedUserStyle_photo" -->
+<!--                                [src]="loggedUser?.photo">-->
+<!--                    </div>-->
+<!--                    <div class="user">-->
+<!--                        <div class="name">-->
+<!--                            {{loggedUser?.firstname}} {{loggedUser?.lastname}}-->
+<!--                        </div>-->
+<!--                        <div class="company">-->
+<!--                            {{loggedUser?.company}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--	<div class="container">-->
+<!--		<ul class="list_load" *ngIf="opened" >-->
+<!--            <li *ngFor="let item of menus" -->
+<!--                class="list_item">-->
+<!--                <ng-template [ngxPermissionsOnly]="item.permissions">-->
+<!--                    <a [routerLink]="item.route" [routerLinkActive]="'active'" >-->
+<!--                        <span class="ico {{item.icon}}"></span>-->
+<!--                        <div class="title">-->
+<!--                            <span>-->
+<!--                                {{item.title}}-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </ng-template>-->
+<!--            </li>-->
+<!--		</ul>-->
+<!--    </div>-->
+<!--    <div class="container footer">-->
+<!--        <ul class="list_load" *ngIf="opened" >-->
+<!--            <li class="list_item">-->
+<!--                <a (click)="logout()">-->
+<!--                    <span class="ico icon-logout"></span>-->
+<!--                    <div class="title">-->
+<!--                        <span class="value">Déconnexion</span>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<div class="main" [ngClass]="{'opened':opened, 'closed':!opened}" >-->
+<!--    &lt;!&ndash; header content &ndash;&gt;-->
+<!--    <header class="header">-->
+<!--        <div class="logo">-->
+<!--            <img [src]="logo" routerLink="/" alt="">-->
+<!--        </div>-->
+<!--    </header>-->
+<!--    &lt;!&ndash; main &ndash;&gt;-->
+<!--    <div class="page">-->
+<!--         <router-outlet></router-outlet>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<app-password-banner *ngIf="!loggedUser?.pwd_changed" ></app-password-banner>-->
+<!--<div *mobxAutorun>-->
+
+<app-header class=""></app-header>
+    <ng-sidebar-container >
+
+        <ng-sidebar
+                style="height: 100vh"
+                [opened]="mainStore.sidebarOpened"
+                [closeOnClickBackdrop]="true"
+                [dockedSize]="'50px'"
+                [dock]="true"
+                [closeOnClickOutside]="mainStore.sidebarOverMode"
+                [mode]="mainStore.sidebarOverMode? 'over': 'push'">
+            <app-sidebar></app-sidebar>
+        </ng-sidebar>
+
+
+        <div ng-sidebar-content >
+            <section class="app-body">
+<!--                <i class="fa fa-bars toggler pointer btn float-right"-->
+<!--                   *ngIf="!mainStore.sidebarOpened"-->
+<!--                   (click)="toggleSidebar()"-->
+<!--                   aria-hidden="true"-->
+<!--                ></i>-->
+                <p-toast [style]="{marginTop: '80px'}"></p-toast>
+                <div class="main-section" [ngClass]="{'noPadding': mainStore.noPaddingPage}">
+                    <div class="top-header" [ngClass]="{'m-0': mainStore.noPaddingPage}">
+                        <!--                    <app-breadcrumb></app-breadcrumb>-->
+                    </div>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </div>
+
+    </ng-sidebar-container>
+
+
+<!--</div>-->

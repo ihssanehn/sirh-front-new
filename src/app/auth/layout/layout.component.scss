@@ -1,0 +1,54 @@
+@import '~assets/styles/partials/vars';
+@import '~assets/styles/partials/mixins';
+
+:host {
+    background: #ffffff;
+    // position: fixed;
+    // left: auto;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // width: 100%;
+}
+
+
+.auth {
+    .sign-box {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        background: #fff;
+        // border: solid 1px $color-border-light;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 1rem
+            /*16*/
+        ;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -65%);
+    
+        .sign-logo {
+            padding: 43px 0;
+    
+            img {
+                &.logo-content {
+                    height: 80px;
+                }
+            }
+    
+            &.no-photo {
+                border: solid 2px $color-border;
+                text-align: center;
+                border-radius: 50%;
+                line-height: 96px;
+                color: $color-border;
+                font-size: 3.125rem
+                    /*50/16*/
+                ;
+                font-weight: 700;
+            }
+        }
+    }
+}

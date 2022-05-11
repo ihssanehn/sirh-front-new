@@ -1,0 +1,17 @@
+@import '../../profile/profile.module';
+
+.goback{
+  text-decoration: underline;
+  color: $mainColor;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.form-control-feedback{
+  font-size: 13px;
+  color: red;
+  width: 100%;
+  text-align: left;
+  margin-top: 5px;
+  margin-left: 16px;
+}

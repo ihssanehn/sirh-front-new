@@ -1,0 +1,100 @@
+<div class="container-fluid page-content">
+  <form [formGroup]="profileFormGroup" novalidate (submit)="submitProfile()">
+    <div class="main-container">
+      <div class="row">
+        <div class="col-12">
+          <div class="title">
+            Informations personnelles
+          </div>
+          <div class="description">
+            Vous pouvez mettre à jour vos informations personnelles
+          </div>
+        </div>
+      </div>
+      <div class="row">
+<!--        <div class="col-3" *ngIf="userStore.getAuthenticatedUser?.photo">-->
+<!--          <div class="uploadImage">-->
+<!--            <input type="file" id="selectFile" name="selectFile" class="input form-control" style="display: none"-->
+<!--              accept=".jpg,.jpeg,.png,.ico" />-->
+<!--            <div [style.backgroundImage]="userStore.getAuthenticatedUser?.photo | safe" class="image_block">-->
+<!--              &lt;!&ndash; <label class="btn uploadButton" for="selectFile">Parcourir</label> &ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="infoBlock col">
+            <div class="form-group row">
+              <div class="col-3">Nom</div>
+              <div class="col-9">
+                <input class="form-control input" type="text" placeholder="Nom" autocomplete="last-name" formControlName="lastname" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-3">
+                <div class="col-form-label">Prénom</div>
+              </div>
+              <div class="col-9">
+                <input class="form-control input" type="text" placeholder="Prénom" autocomplete="first-name" formControlName="firstname" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-3">Téléphone</div>
+              <div class="col-9">
+                <input class="form-control input" type="text" placeholder="Téléphone" autocomplete="phone" formControlName="phone" />
+              </div>
+            </div>
+          </div>
+      </div>
+<!--      <div class="form-group errors">-->
+<!--          <div *ngFor="let err of profile_errors">{{err}}</div>-->
+<!--      </div>-->
+      <div class="btns_container">
+        <button class="btn save_btn" type="submit" [disabled]="!profileFormGroup.valid">
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </form>
+
+
+  <form [formGroup]="passwordFormGroup" novalidate (submit)="submitPassword()">
+    <div class="main-container">
+      <div class="title">
+          Mot de passe
+      </div>
+      <div class="description">
+          Vous pouvez changer votre mot de passe
+      </div>
+      <div class="align-self-center passwordBlock">
+        <div class="row form-group">
+          <div class="col-3">Mot de passe actuel</div>
+          <div class="col-9">
+            <input class="form-control input" type="password" placeholder="Mot de passe actuel" autocomplete=" "
+              formControlName="old_password" />
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-3">Nouveau mot de passe</div>
+          <div class="col-9">
+            <input class="form-control input" type="password" placeholder="Nouveau mot de passe" autocomplete=" "
+              formControlName="new_password" />
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-3">Confirmer votre mot de passe</div>
+          <div class="col-9">
+            <input class="form-control input" type="password" placeholder="Confirmer votre mot de passe" autocomplete="confrim-password"
+              formControlName="confirm_password" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group errors">
+          <div *ngFor="let err of pwd_errors">{{err}}</div>
+      </div>
+      <div class="btns_container">
+        <button class="btn save_btn" type="submit" [disabled]="!passwordFormGroup.valid">
+          Sauvegarder
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

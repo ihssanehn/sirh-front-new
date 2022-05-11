@@ -1,0 +1,235 @@
+<div class="container-fluid page-content top-container">
+    <div class="goback col-12"
+         (click)="goback()"
+          style="margin-bottom: 10px">
+        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}
+    </div>
+    <form [formGroup]="userFormGroup" novalidate (submit)="submit()" autocomplete="off">
+        <div class="main-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="title">
+                        Informations personnelles
+                    </div>
+                    <div class="description">
+                        Vous pouvez mettre à jour les informations personnelles
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--          <div class="col-3">-->
+                <!-- <div class="uploadImage">
+                  <input type="file" id="selectFile" name="selectFile" class="" style="display: none"
+                    accept=".jpg,.jpeg,.png,.ico" />
+                  <div [style.backgroundImage]="loggedUser?.photo | safe" class="image_block">
+                    <label class="btn uploadButton" for="selectFile">Parcourir</label>
+                  </div>
+                </div> -->
+                <!--          </div>-->
+                <!--          <div class="">-->
+                <div class="infoBlock col-12">
+                    <div class="form-group row">
+                        <div class="col-3">
+                            Nom
+                            <span *ngIf="isRequired(userFormGroup.controls['lastname'])">(*)</span>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input" type="text" placeholder="Nom"  formControlName="lastname" />
+                            <div *ngIf="(userFormGroup.get('lastname')?.invalid &&
+                                         userFormGroup.get('lastname')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="userFormGroup.get('lastname')?.hasError('required')">
+                                    {{'Le nom est requis' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <div class="col-form-label">
+                                Prénom
+                                <span *ngIf="isRequired(userFormGroup.controls['firstname'])">(*)</span>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input" type="text" placeholder="Prénom"  formControlName="firstname" />
+                            <div *ngIf="(userFormGroup.get('firstname')?.invalid &&
+                                         userFormGroup.get('firstname')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="userFormGroup.get('firstname')?.hasError('required')">
+                                    {{'Le prénom est requis' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            Téléphone
+                            <span *ngIf="isRequired(userFormGroup.controls['phone'])">(*)</span>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input" type="text" placeholder="Téléphone"  formControlName="phone" />
+                            <div *ngIf="(userFormGroup.get('phone')?.invalid &&
+                                         userFormGroup.get('phone')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="userFormGroup.get('phone')?.hasError('required')">
+                                    {{'Le num de téléphone est requis' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            Email
+                            <span *ngIf="isRequired(userFormGroup.controls['email'])">(*)</span>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input" type="text" placeholder="Email" formControlName="email" />
+                            <div *ngIf="(userFormGroup.get('email')?.invalid &&
+                                         userFormGroup.get('email')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="userFormGroup.get('email')?.hasError('required')">
+                                    {{'L\'adresse email est requise' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            Role
+                            <span *ngIf="isRequired(userFormGroup.controls['role'])">(*)</span>
+                        </div>
+                        <div class="col-9">
+                            <ng-select
+                                    [items]="allRoles"
+                                    [multiple]="false"
+                                    class="form-control select"
+                                    [clearable]="false"
+                                    placeholder="{{'Sélectionner un role' | translate}}"
+                                    formControlName="role"
+                            >
+                            </ng-select>
+                            <div *ngIf="(userFormGroup.get('role')?.invalid &&
+                                         userFormGroup.get('role')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="userFormGroup.get('role')?.hasError('required')">
+                                    {{'Le role est requise' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--          </div>-->
+            </div>
+<!--            <div class="form-group errors">-->
+<!--                <div *ngFor="let err of errors">{{err}}</div>-->
+<!--            </div>-->
+            <div class="btns_container">
+                <button class="btn save_btn" type="submit" [disabled]="submitting">
+                    <ng-container *ngIf="submitting; else normalbuttonText">
+                        <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
+                        Enregistrement..
+                    </ng-container>
+                    <ng-template #normalbuttonText>
+                        Enregistrer les modifications
+                    </ng-template>
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <form [formGroup]="passwordFormGroup" novalidate (submit)="submitChangePassword()" autocomplete="off"
+          *ngxPermissionsOnly="$userRoles.SUPERADMIN">
+        <div class="main-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="title">
+                        Modifier le mot de passe
+                    </div>
+                    <div class="description">
+                        Vous pouvez mettre à jour le mot de passe de cet utilisateur
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--          <div class="col-3">-->
+                <!-- <div class="uploadImage">
+                  <input type="file" id="selectFile" name="selectFile" class="" style="display: none"
+                    accept=".jpg,.jpeg,.png,.ico" />
+                  <div [style.backgroundImage]="loggedUser?.photo | safe" class="image_block">
+                    <label class="btn uploadButton" for="selectFile">Parcourir</label>
+                  </div>
+                </div> -->
+                <!--          </div>-->
+                <!--          <div class="">-->
+                <div class="infoBlock col-12">
+                    <div class="form-group row">
+                        <div class="col-3">
+                            Nouveau Mot de passe
+                            <span *ngIf="isRequired(passwordFormGroup.controls['password'])">(*)</span>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input"
+                                   type="password"
+                                   placeholder="Saisir Nouveau Mot de passe"
+                                   formControlName="password" />
+                            <div *ngIf="(passwordFormGroup.get('password')?.invalid &&
+                                         passwordFormGroup.get('password')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="passwordFormGroup.get('password')?.hasError('required')">
+                                    {{'Le mot de passe est requis' | translate}}
+                                </small>
+                            </div>
+                            <div *ngIf="(passwordFormGroup.get('password')?.invalid &&
+                                         passwordFormGroup.get('password')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="passwordFormGroup.get('password')?.hasError('minlength')">
+                                    {{'Le mot de passe doit contenir au moins 6 caractères' | translate}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <div class="col-form-label">
+                                Confirmation du mot de passe
+                                <span *ngIf="isRequired(passwordFormGroup.controls['confirm_password'])">(*)</span>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control input"
+                                   type="password"
+                                   placeholder="Saisir la confirmation du mot de passe"
+                                   formControlName="confirm_password" />
+                            <div *ngIf="(passwordFormGroup.get('confirm_password')?.invalid &&
+                                         passwordFormGroup.get('confirm_password')?.dirty)">
+                                <small class="text-danger"
+                                       *ngIf="passwordFormGroup.get('confirm_password')?.hasError('required')">
+                                    {{'La confirmation du mot de passe est requis' | translate}}
+                                </small>
+                            </div>
+                            <div class="text-danger"
+                                 *ngIf="passwordFormGroup.hasError('passwordMismatch') &&
+                                        passwordFormGroup.get('confirm_password').dirty">
+                                {{'PASSWORD CONFIRMATION IS INCORRECT' | translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--          </div>-->
+            </div>
+            <div class="btns_container">
+                <button class="btn save_btn" type="submit" [disabled]="submittingPassword">
+                    <ng-container *ngIf="submittingPassword; else normalbuttonTextPassword">
+                        <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
+                        Enregistrement..
+                    </ng-container>
+                    <ng-template #normalbuttonTextPassword>
+                        Enregistrer le mot de passe
+                    </ng-template>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

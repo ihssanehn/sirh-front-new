@@ -1,0 +1,89 @@
+<div class="container-fluid page-content top-container">
+    <div class="goback col-12"
+         (click)="goback()"
+         style="margin-bottom: 10px">
+      <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}
+    </div>
+    <form [formGroup]="userFormGroup" novalidate (submit)="submitUser()" autocomplete="off">
+      <div class="main-container">
+        <div class="row">
+          <div class="col-12">
+            <div class="title">
+              Informations personnelles
+            </div>
+            <div class="description">
+              Vous pouvez mettre à jour vos informations personnelles
+            </div>
+          </div>
+        </div>
+        <div class="row">
+<!--          <div class="col-3">-->
+            <!-- <div class="uploadImage">
+              <input type="file" id="selectFile" name="selectFile" class="" style="display: none" 
+                accept=".jpg,.jpeg,.png,.ico" />
+              <div [style.backgroundImage]="loggedUser?.photo | safe" class="image_block">
+                <label class="btn uploadButton" for="selectFile">Parcourir</label>
+              </div>
+            </div> -->
+<!--          </div>-->
+<!--          <div class="">-->
+            <div class="infoBlock col-12">
+              <div class="form-group row">
+                <div class="col-3">Nom
+                    <span *ngIf="isRequired(userFormGroup.controls['lastname'])">(*)</span>
+                </div>
+                <div class="col-9">
+                  <input class="form-control input" type="text" placeholder="Nom"  formControlName="lastname" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-3">
+                  <div class="col-form-label">
+                      Prénom
+                      <span *ngIf="isRequired(userFormGroup.controls['firstname'])">(*)</span>
+                  </div>
+                </div>
+                <div class="col-9">
+                  <input class="form-control input" type="text" placeholder="Prénom"  formControlName="firstname" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-3">Téléphone
+                    <span *ngIf="isRequired(userFormGroup.controls['phone'])">(*)</span>
+                </div>
+                <div class="col-9">
+                  <input class="form-control input" type="text" placeholder="Téléphone"  formControlName="phone" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-3">Email
+                    <span *ngIf="isRequired(userFormGroup.controls['email'])">(*)</span>
+                </div>
+                <div class="col-9">
+                  <input class="form-control input" type="text" placeholder="Email" formControlName="email" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-3">Mot de passe
+                    <span *ngIf="isRequired(userFormGroup.controls['password'])">(*)</span>
+                </div>
+                <div class="col-9">
+                  <input class="form-control input" type="password" placeholder="Mot de passe"  formControlName="password" />
+                </div>
+              </div>
+            </div>
+<!--          </div>-->
+        </div>
+        <div class="form-group errors">
+            <div *ngFor="let err of errors">{{err}}</div>
+        </div>
+        <div class="btns_container">
+          <button class="btn save_btn" type="submit" [disabled]="!userFormGroup.valid">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </form>
+  
+
+  </div>

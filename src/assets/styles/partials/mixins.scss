@@ -1,0 +1,8 @@
+@mixin a_bordered_hover($color) { text-decoration: none; color: $color; border-bottom: solid 1px transparent;
+	&:hover { border-bottom-color: fade($color, 50%); }
+}
+
+@mixin clearfix() { zoom: 1;
+	&:before, &:after { content: " "; display: table; }
+	&:after { clear: both; }
+}

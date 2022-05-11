@@ -1,0 +1,60 @@
+{
+  "compileOnSave": false,
+  "angularCompilerOptions": {
+    "enableIvy": true
+  },
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    //    "module": "es2015",
+    "module": "esnext",
+    //    "module": "es2020",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@app/*": ["app/*"],
+      "@env/*": ["environments/*"],
+      "@shared/*": ["app/shared/*"],
+      "@store/*": ["app/store/*"],
+      "@services/*": ["app/core/services/*"],
+      "@entities/*": ["app/core/entities/*"],
+      "@assets/*": ["app/assets/*"],
+      "@layout/*": ["app/layout/*"],
+      "@error/*": ["app/error/*"],
+      "@sharedObjects/*": ["app/sharedObjects/*"],
+      "@angular/*": ["./node_modules/@angular/*"],
+      "@angular/core/*": [
+        "./node_modules/@angular/core/*"
+      ]
+    }
+  },
+//  "include": [
+//    "src/**/*"
+//  ],
+//  "exclude": [
+//    "node_modules",
+//    "build",
+//    "scripts",
+//    "acceptance-tests",
+//    "webpack",
+//    "jest",
+//    "src/setupTests.ts",
+//    "src/typings/adal-angular"
+//  ]
+}
