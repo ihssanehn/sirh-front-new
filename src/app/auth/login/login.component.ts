@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UserService, ErrorService } from '@app/core/services';
 import { NgxPermissionsService } from 'ngx-permissions';
 import {MessageService} from 'primeng/api';
 import {markFormAsDirty} from '@shared/Utils/SharedClasses';
-import {ErrorService, UserService} from "@app/core/services";
 
 @Component({
   selector: 'app-login',
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     const credentials = this.myForm.value;
     this.userService.signin(credentials).toPromise().then( user => {
-      this.permissionsService.loadPermissions([user.role]);
+      // this.permissionsService.loadPermissions([user.login]);
       this.router.navigate(['/']);
       this.loading = false;
     }).catch( err => {

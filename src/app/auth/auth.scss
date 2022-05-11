@@ -1,54 +1,66 @@
 @import "~app/styles/custom.variables";
 
 
-.auth-container{
+.auth-container {
   height: 100vh;
   width: 100%;
-  z-index: 1;
-  //background-image: url("/assets/images/bkg-log.jpg");
+  z-index: 3;
+  background-image: url("/assets/images/sirh_photos/login-3-min.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: left;
   display: flex;
-  justify-content:  center;
+  justify-content: center;
   padding: 10px 60px;
   background-attachment: fixed;
   position: fixed;
   top: 0;
+  &:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-color: rgba(58, 58, 190, 0.72);
+  }
+
   .auth-form {
-    max-width: 400px;
+    max-width: 500px;
     text-align: center;
     background-color: white;
-    width: 50%;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     //margin-right: 40px;
-    height: 80%;
-    .logo{
-      max-width: 248px;
-      img{
-        width: 100%;
-      }
-    }
-    .bigsubtitle{
+    //height: 80%;
+    z-index: 4;
+    //margin: auto;
+    overflow-y: auto;
+    border-radius: 16px;
+
+    .bigsubtitle {
       font-size: 19px;
       font-weight: 700;
       line-height: 1.63;
       text-align: center;
       color: $darkPrimaryColor;
       margin-bottom: 25px;
-      margin-top: 35px;
+      //margin-top: 35px;
     }
-    .text{
+
+    .text {
       font-size: 14px;
       line-height: 1.44;
       text-align: center;
       color: $darkPrimaryColor;
       margin-bottom: 25px;
     }
-    .subtitle{
+
+    .subtitle {
       font-size: 15px;
       line-height: 1.55;
       letter-spacing: 0.4px;
@@ -56,18 +68,20 @@
       color: $lightPrimaryColor;
       margin-bottom: 45px;
       margin-top: 10px;
-      span{
+
+      span {
         color: $primaryColor;
       }
     }
-    .inputs{
+
+    .inputs {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       width: 100%;
       //width: 60%;
-      .form-control-feedback{
+      .form-control-feedback {
         font-size: 13px;
         color: red;
         width: 100%;
@@ -75,31 +89,37 @@
         margin-top: 5px;
         margin-left: 16px;
       }
-      .input-group{
+
+      .input-group {
         margin-bottom: 45px;
         display: flex;
         align-items: baseline;
         white-space: nowrap;
         flex-direction: column;
-        .label{
+
+        .label {
           font-size: 14px;
           margin-bottom: 5px;
           font-weight: 300;
           opacity: .8;
         }
-        .input{
+
+        .input {
           display: flex;
           align-items: center;
           width: 100%;
           border: 0;
           min-height: 40px;
-          i{
+
+          i {
             margin-right: 10px;
           }
-          i:before{
+
+          i:before {
             color: $primaryColor
           }
-          input{
+
+          input {
             border-right: 0;
             border-left: 0;
             border-top: 0;
@@ -109,16 +129,19 @@
         }
       }
     }
-    .btn-group{
+
+    .btn-group {
       width: 90%;
-      .mybtn{
+
+      .mybtn {
         margin-bottom: 20px;
         color: white;
         min-height: 45px;
         background: $mainColor;
       }
     }
-    .link{
+
+    .link {
       font-size: 12px;
       font-weight: 500;
       line-height: 1.5;
@@ -128,23 +151,32 @@
       cursor: pointer;
     }
   }
+  .logo {
+    max-width: 248px;
+
+    img {
+      width: 100%;
+    }
+  }
 
 }
 
 @media screen and (max-width: $LAPTOP_SCREEN) {
-  .auth-container{
+  .auth-container {
     background-image: url("/assets/images/bkg-log-full.jpg");
     //padding: 50px 10px 10px 10px;
     display: flex;
     justify-content: center;
     width: 100%;
+
     .auth-form {
       max-width: unset;
-      width: 70%;
+      //width: 70%;
       margin-right: unset;
-      padding: 10px;
+      //padding: 10px;
       height: unset;
-      .inputs{
+
+      .inputs {
         width: 85%;
       }
     }
@@ -152,16 +184,18 @@
 }
 
 @media screen and (max-width: $LARGE_SCREEN) {
-  .auth-container{
+  .auth-container {
     background-image: url("/assets/images/bkg-log.jpg");
     display: flex;
     justify-content: center;
     padding: 0;
+
     .auth-form {
       margin-right: unset;
       padding: 10px;
       width: 100%;
-      .inputs{
+
+      .inputs {
         width: 85%;
       }
     }
@@ -169,22 +203,25 @@
 }
 
 @media screen and (max-width: $TABLET_SCREEN) {
-  .auth-container{
+  .auth-container {
     background-image: url("/assets/images/bkg-log-full.jpg");
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
-   .auth-form{
-     height: unset;
-     background-color: rgba(0,0, 0, .8);
-     .input-group{
-       .label{
-         color: white;
-       }
-       .input i:before{
-         color: white;
-       }
-     }
-   }
+
+    .auth-form {
+      height: unset;
+      background-color: rgba(0, 0, 0, .8);
+
+      .input-group {
+        .label {
+          color: white;
+        }
+
+        .input i:before {
+          color: white;
+        }
+      }
+    }
   }
 }

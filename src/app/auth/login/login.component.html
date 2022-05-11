@@ -1,63 +1,64 @@
 <p-toast [style]="{marginTop: '80px'}"></p-toast>
 <div class="auth-container">
-  <form class="auth-form" (keyup.enter)="onSubmit()" [formGroup]="myForm">
-    <div class="logo">
-      <img src="assets/images/logo-pds.png" />
-    </div>
-      <div class="bigsubtitle">
-          <span>Bienvenue sur Angular 13 minimal project</span>
-      </div>
-    <div class="subtitle">
-<!--      &nbsp;-->
-<!--      <span>{{'WELCOME' | translate}}</span>-->
-<!--      {{'ON YOUR MANAGEMENT PLATFORM' | translate}}-->
-      Welcome to Anas' personnal minimal project using the last Angular stable version (v13)
-      It s running successfuly on v12.22.12 in my machine
-    </div>
-    <!--      <div class="subtitle">-->
-    <!--        <span>Se connecter</span>-->
-    <!--      </div>-->
-    <div class="inputs">
-      <div class="input-group row">
-        <div class="label">{{'EMAIL' | translate}}</div>
-        <div class="input">
-          <i class="fa fa-user"></i>
-          <input type="text"
-                 placeholder="{{'email@piman-group.fr' | translate}}"
-                 [formControl]="myForm.controls['email']"
-                 class="form-control text-field" />
+    <div class="d-flex align-items-center justify-content-center flex-column w-100" style="z-index: 3;">
+        <div class="logo mb-4">
+            <img src="assets/images/sirh_photos/sirh_logo.png"/>
         </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls['email'].hasError('required') && myForm.controls['email'].dirty">
-          {{'EMAIL IS REQUIRED' | translate}}
-        </div>
-      </div>
-      <div class="input-group row">
-        <div class="label">{{'PASSWORD' | translate}}</div>
-        <div class="input">
-            <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-<!--          <i class="icon-lock"></i>-->
-          <input type="password"
-                 [formControl]="myForm.controls['password']"
-                 placeholder="{{'ENTER YOUR PASSWORD' | translate}}"
-                 class="form-control text-field" />
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls['password'].hasError('required') && myForm.controls['password'].dirty">
-          {{'PASSWORD IS REQUIRED' | translate}}
-        </div>
-      </div>
+        <form class="auth-form p-4 px-5" (keyup.enter)="onSubmit()" [formGroup]="myForm">
+            <div class="bigsubtitle">
+                <span>Bienvenue sur SIRH</span>
+            </div>
+<!--            <div class="subtitle">-->
+                <!--      &nbsp;-->
+                <!--      <span>{{'WELCOME' | translate}}</span>-->
+                <!--      {{'ON YOUR MANAGEMENT PLATFORM' | translate}}-->
+<!--                Découvrez les solutions développées par PIMAN Digital Solutions pour ses clients.-->
+<!--            </div>-->
+            <!--      <div class="subtitle">-->
+            <!--        <span>Se connecter</span>-->
+            <!--      </div>-->
+            <div class="inputs">
+                <div class="input-group row">
+                    <div class="label">{{'EMAIL' | translate}}</div>
+                    <div class="input">
+                        <i class="fa fa-user"></i>
+                        <input type="text"
+                               placeholder="{{'email@piman-group.fr' | translate}}"
+                               [formControl]="myForm.controls['email']"
+                               class="form-control text-field"/>
+                    </div>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls['email'].hasError('required') && myForm.controls['email'].dirty">
+                        {{'EMAIL IS REQUIRED' | translate}}
+                    </div>
+                </div>
+                <div class="input-group row">
+                    <div class="label">{{'PASSWORD' | translate}}</div>
+                    <div class="input">
+                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                        <!--          <i class="icon-lock"></i>-->
+                        <input type="password"
+                               [formControl]="myForm.controls['password']"
+                               placeholder="{{'ENTER YOUR PASSWORD' | translate}}"
+                               class="form-control text-field"/>
+                    </div>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls['password'].hasError('required') && myForm.controls['password'].dirty">
+                        {{'PASSWORD IS REQUIRED' | translate}}
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group row">
+                <button class="col-12 mybtn w-100"
+                        [disabled]="loading"
+                        mat-button
+                        (click)="onSubmit()">
+                    {{'LOG IN' | translate}}
+                </button>
+            </div>
+            <div class="link row" [routerLink]="['/auth/forgotPassword']">
+                {{'FORGOT YOUR PASSWORD' | translate}} ?
+            </div>
+        </form>
     </div>
-    <div class="btn-group row">
-      <button class="col-12 mybtn w-100"
-                  [disabled]="loading"
-                  mat-button
-                  (click)="onSubmit()">
-        {{'LOG IN' | translate}}
-      </button>
-    </div>
-    <div class="link row" [routerLink]="['/auth/forgotPassword']">
-      {{'FORGOT YOUR PASSWORD' | translate}} ?
-    </div>
-  </form>
 </div>

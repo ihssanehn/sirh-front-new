@@ -6,9 +6,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { AuthRouting } from './auth.routing';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {TranslateModule} from '@ngx-translate/core';
 import {MatButtonModule} from '@angular/material/button';
 import {ToastModule} from 'primeng/toast';
-import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -18,12 +18,12 @@ import {TranslateModule} from "@ngx-translate/core";
         ReactiveFormsModule,
         TranslateModule,
         MatButtonModule,
-        ToastModule,
+        ToastModule
     ],
   declarations: [
-    LoginComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent
+    LoginComponent, 
+    ForgotPasswordComponent, 
+    ResetPasswordComponent,
   ],
   exports: [
     ResetPasswordComponent
