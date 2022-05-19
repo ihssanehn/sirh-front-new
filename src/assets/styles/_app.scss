@@ -2,7 +2,7 @@
 @import '~assets/styles/partials/vars';
 
 
-html { 
+html {
   // background: url('./assets/images/background.jpg') no-repeat center center fixed;
   // background-size: cover;
   // height: 100%;
@@ -11,7 +11,7 @@ html {
 
 
 body {
-  font-family: Montserrat;
+  font-family: $font-family;
   background-color: transparent;
   overflow-y: scroll;
   height: 100%;
@@ -47,6 +47,3 @@ p {
   color: #d50000;
 }
 
-
-
-@import './fonts/style.scss';

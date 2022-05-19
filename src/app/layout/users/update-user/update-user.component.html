@@ -1,235 +1,251 @@
-<div class="container-fluid page-content top-container">
-    <div class="goback col-12"
-         (click)="goback()"
-          style="margin-bottom: 10px">
-        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}
-    </div>
-    <form [formGroup]="userFormGroup" novalidate (submit)="submit()" autocomplete="off">
-        <div class="main-container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="title">
-                        Informations personnelles
-                    </div>
-                    <div class="description">
-                        Vous pouvez mettre à jour les informations personnelles
-                    </div>
-                </div>
+<input type="file" style="display: none" id="uploadAvatar"
+       #inputFile
+       accept="image/jpeg"
+       multiple (change)="uploadFile($event); inputFile.value=''"/>
+
+<div class="container-fluid top-container">
+<!--    <div class="goback col-12"-->
+<!--         (click)="goback()"-->
+<!--          style="margin-bottom: 10px">-->
+<!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
+<!--    </div>-->
+    <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container"
+          novalidate>
+      <div class="row">
+        <div class="main-container head-info">
+            <div class="avatar">
+              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />
+              <label class="overlay" for="uploadAvatar">
+                <i class="fa fa-camera"></i>
+                <span>Charger une photo de profil</span>
+              </label>
             </div>
-            <div class="row">
-                <!--          <div class="col-3">-->
-                <!-- <div class="uploadImage">
-                  <input type="file" id="selectFile" name="selectFile" class="" style="display: none"
-                    accept=".jpg,.jpeg,.png,.ico" />
-                  <div [style.backgroundImage]="loggedUser?.photo | safe" class="image_block">
-                    <label class="btn uploadButton" for="selectFile">Parcourir</label>
-                  </div>
-                </div> -->
-                <!--          </div>-->
-                <!--          <div class="">-->
-                <div class="infoBlock col-12">
-                    <div class="form-group row">
-                        <div class="col-3">
-                            Nom
-                            <span *ngIf="isRequired(userFormGroup.controls['lastname'])">(*)</span>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input" type="text" placeholder="Nom"  formControlName="lastname" />
-                            <div *ngIf="(userFormGroup.get('lastname')?.invalid &&
-                                         userFormGroup.get('lastname')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="userFormGroup.get('lastname')?.hasError('required')">
-                                    {{'Le nom est requis' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <div class="col-form-label">
-                                Prénom
-                                <span *ngIf="isRequired(userFormGroup.controls['firstname'])">(*)</span>
-                            </div>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input" type="text" placeholder="Prénom"  formControlName="firstname" />
-                            <div *ngIf="(userFormGroup.get('firstname')?.invalid &&
-                                         userFormGroup.get('firstname')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="userFormGroup.get('firstname')?.hasError('required')">
-                                    {{'Le prénom est requis' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            Téléphone
-                            <span *ngIf="isRequired(userFormGroup.controls['phone'])">(*)</span>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input" type="text" placeholder="Téléphone"  formControlName="phone" />
-                            <div *ngIf="(userFormGroup.get('phone')?.invalid &&
-                                         userFormGroup.get('phone')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="userFormGroup.get('phone')?.hasError('required')">
-                                    {{'Le num de téléphone est requis' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            Email
-                            <span *ngIf="isRequired(userFormGroup.controls['email'])">(*)</span>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input" type="text" placeholder="Email" formControlName="email" />
-                            <div *ngIf="(userFormGroup.get('email')?.invalid &&
-                                         userFormGroup.get('email')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="userFormGroup.get('email')?.hasError('required')">
-                                    {{'L\'adresse email est requise' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            Role
-                            <span *ngIf="isRequired(userFormGroup.controls['role'])">(*)</span>
-                        </div>
-                        <div class="col-9">
-                            <ng-select
-                                    [items]="allRoles"
-                                    [multiple]="false"
-                                    class="form-control select"
-                                    [clearable]="false"
-                                    placeholder="{{'Sélectionner un role' | translate}}"
-                                    formControlName="role"
-                            >
-                            </ng-select>
-                            <div *ngIf="(userFormGroup.get('role')?.invalid &&
-                                         userFormGroup.get('role')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="userFormGroup.get('role')?.hasError('required')">
-                                    {{'Le role est requise' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--          </div>-->
-            </div>
-<!--            <div class="form-group errors">-->
-<!--                <div *ngFor="let err of errors">{{err}}</div>-->
-<!--            </div>-->
-            <div class="btns_container">
-                <button class="btn save_btn" type="submit" [disabled]="submitting">
-                    <ng-container *ngIf="submitting; else normalbuttonText">
-                        <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
-                        Enregistrement..
-                    </ng-container>
-                    <ng-template #normalbuttonText>
-                        Enregistrer les modifications
-                    </ng-template>
-                </button>
+            <div class="info">
+              <h1>{{userFormGroup.value.nom}}</h1>
+              <div class="info-item">{{userFormGroup.value.email}}</div>
+<!--              <div class="info-item">{{userFormGroup.value.f}}</div>-->
             </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="main-container col form-column">
+          <h5>Informations personnelles</h5>
+          <div class="form-bloc">
+            <div class="row">
+              <label class="col-2">Civilité {{isRequired(formInputs.civilite)}}</label>
+              <div class="col">
+                <div class="btn-group" role="group" ngbRadioGroup name="radioBasic"
+                     [formControl]="userFormGroup.controls[formInputs.civilite]">
+                  <label ngbButtonLabel class="btn">
+                    <input ngbButton type="radio" class="btn-check" [value]="'M'"> Homme
+                  </label>
+                  <label ngbButtonLabel class="btn">
+                    <input ngbButton type="radio" class="btn-check" [value]="'F'"> Femme
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Nom {{isRequired(formInputs.nom)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.nom]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Prénom {{isRequired(formInputs.prenom)}}</label>
+              <div class="col">
+                <input type="text"
+                       [formControl]="userFormGroup.controls[formInputs.prenom]"
+                       class="form-control input"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Email {{isRequired(formInputs.email_perso)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.email_perso]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Numéro {{isRequired(formInputs.tel_perso)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.tel_perso]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Adresse {{isRequired(formInputs.adresse)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.adresse]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Code postal {{isRequired(formInputs.code_postal)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.code_postal]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Date de naissance {{isRequired(formInputs.date_naissance)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.date_naissance]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Lieu de naissance {{isRequired(formInputs.lieu_naissance)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.lieu_naissance]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Nationalité {{isRequired(formInputs.nationalite)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.nationalite]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Numéro de sécurité sociale {{isRequired(formInputs.num_securite_sociale)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.num_securite_sociale]"
+                />
+              </div>
+            </div>
+            <div class="row">
+            <label class="col-2">Situation familiale {{isRequired(formInputs.situation_famille_id)}}</label>
+            <div class="col">
+              <input type="text"
+                     class="form-control input"
+                     [formControl]="userFormGroup.controls[formInputs.situation_famille_id]"
+              />
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="main-container col form-column">
+          <h5>Informations liées à Piman</h5>
+          <div style="margin-bottom: 20px;" class="form-bloc">
+            <div class="row">
+              <label class="col-2">Matricule {{isRequired(formInputs.matricule)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.matricule]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Date d'entrée {{isRequired(formInputs.date_entree)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.date_entree]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Date de sortie {{isRequired(formInputs.date_sortie)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.date_sortie]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Portable professionnel {{isRequired(formInputs.telephone)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.telephone]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Email professionnel {{isRequired(formInputs.email)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.email]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Fonction {{isRequired(formInputs.fonction_id)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.fonction_id]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Statut {{isRequired(formInputs.status_id)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.status_id]"
+                />
+              </div>
+            </div>
+          </div>
+          <h5>A contacter en cas d’urgence</h5>
+          <div class="form-bloc">
+            <div class="row">
+            <label class="col-2">Nom {{isRequired(formInputs.nom_urgence)}}</label>
+            <div class="col">
+              <input type="text"
+                     class="form-control input"
+                     [formControl]="userFormGroup.controls[formInputs.nom_urgence]"
+              />
+            </div>
+            </div>
+            <div class="row">
+              <label class="col-2">lien {{isRequired(formInputs.lien_parente_urgence)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.lien_parente_urgence]"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Numéro {{isRequired(formInputs.telephone_urgence)}}</label>
+              <div class="col">
+                <input type="text"
+                       class="form-control input"
+                       [formControl]="userFormGroup.controls[formInputs.telephone_urgence]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
 
 
-    <form [formGroup]="passwordFormGroup" novalidate (submit)="submitChangePassword()" autocomplete="off"
-          *ngxPermissionsOnly="$userRoles.SUPERADMIN">
-        <div class="main-container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="title">
-                        Modifier le mot de passe
-                    </div>
-                    <div class="description">
-                        Vous pouvez mettre à jour le mot de passe de cet utilisateur
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!--          <div class="col-3">-->
-                <!-- <div class="uploadImage">
-                  <input type="file" id="selectFile" name="selectFile" class="" style="display: none"
-                    accept=".jpg,.jpeg,.png,.ico" />
-                  <div [style.backgroundImage]="loggedUser?.photo | safe" class="image_block">
-                    <label class="btn uploadButton" for="selectFile">Parcourir</label>
-                  </div>
-                </div> -->
-                <!--          </div>-->
-                <!--          <div class="">-->
-                <div class="infoBlock col-12">
-                    <div class="form-group row">
-                        <div class="col-3">
-                            Nouveau Mot de passe
-                            <span *ngIf="isRequired(passwordFormGroup.controls['password'])">(*)</span>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input"
-                                   type="password"
-                                   placeholder="Saisir Nouveau Mot de passe"
-                                   formControlName="password" />
-                            <div *ngIf="(passwordFormGroup.get('password')?.invalid &&
-                                         passwordFormGroup.get('password')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="passwordFormGroup.get('password')?.hasError('required')">
-                                    {{'Le mot de passe est requis' | translate}}
-                                </small>
-                            </div>
-                            <div *ngIf="(passwordFormGroup.get('password')?.invalid &&
-                                         passwordFormGroup.get('password')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="passwordFormGroup.get('password')?.hasError('minlength')">
-                                    {{'Le mot de passe doit contenir au moins 6 caractères' | translate}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-3">
-                            <div class="col-form-label">
-                                Confirmation du mot de passe
-                                <span *ngIf="isRequired(passwordFormGroup.controls['confirm_password'])">(*)</span>
-                            </div>
-                        </div>
-                        <div class="col-9">
-                            <input class="form-control input"
-                                   type="password"
-                                   placeholder="Saisir la confirmation du mot de passe"
-                                   formControlName="confirm_password" />
-                            <div *ngIf="(passwordFormGroup.get('confirm_password')?.invalid &&
-                                         passwordFormGroup.get('confirm_password')?.dirty)">
-                                <small class="text-danger"
-                                       *ngIf="passwordFormGroup.get('confirm_password')?.hasError('required')">
-                                    {{'La confirmation du mot de passe est requis' | translate}}
-                                </small>
-                            </div>
-                            <div class="text-danger"
-                                 *ngIf="passwordFormGroup.hasError('passwordMismatch') &&
-                                        passwordFormGroup.get('confirm_password').dirty">
-                                {{'PASSWORD CONFIRMATION IS INCORRECT' | translate}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--          </div>-->
-            </div>
-            <div class="btns_container">
-                <button class="btn save_btn" type="submit" [disabled]="submittingPassword">
-                    <ng-container *ngIf="submittingPassword; else normalbuttonTextPassword">
-                        <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
-                        Enregistrement..
-                    </ng-container>
-                    <ng-template #normalbuttonTextPassword>
-                        Enregistrer le mot de passe
-                    </ng-template>
-                </button>
-            </div>
-        </div>
-    </form>
 </div>

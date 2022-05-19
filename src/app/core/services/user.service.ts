@@ -26,6 +26,7 @@ export class UserService {
     // Verify JWT in localstorage with server & load user's info.
     // This runs once on application startup.
 
+// /api/public/api/categories/all?model=Personnel
     async populate() {
         console.log('Populating');
         try {
@@ -87,8 +88,8 @@ export class UserService {
 
     getUsers(params): any {
         return this.apiService
-          .post('users/list', params)
-          .pipe(map(result => result.result.data  || []));
+          .post('personnels/search', params)
+          .pipe(map(result => result.result  || []));
     }
 
 
@@ -169,6 +170,6 @@ export class UserService {
     }
 
     getOne(params){
-        return this.apiService.post('users/get', params);
+        return this.apiService.get('personnel/'+ params);
     }
 }

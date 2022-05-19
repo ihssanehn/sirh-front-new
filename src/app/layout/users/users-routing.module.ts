@@ -9,35 +9,35 @@ const routes: Routes = [
   {
     path: '',
     component: ListUsersComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin', 'manager'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin', 'manager'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
   {
     path: 'add',
     component: AddUserComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
   {
     path: 'update/:id',
     component: UpdateUserComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
 ];
 

@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostListener, Inject, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import { User } from '@app/core/entities';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
 
@@ -35,7 +34,6 @@ export class LayoutComponent implements OnInit{
         if (value.urlAfterRedirects) {
           url = value.urlAfterRedirects;
         }
-      this.mainStore.noPaddingPage = url.indexOf('expertise') !== -1;
       }
     });
   }

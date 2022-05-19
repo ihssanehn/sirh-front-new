@@ -10,6 +10,9 @@
     "declaration": false,
     //    "module": "es2015",
     "module": "esnext",
+    "types": [
+      "angular"
+    ],
     //    "module": "es2020",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

@@ -173,50 +173,32 @@ export const appAnimations = [
     ])
 ];
 
-export const $sidebarItems_admin: Array<SidebarItem> = [
+export const $sidebarItems_users: Array<SidebarItem> = [
     {
       id: 1,
-      name: 'OUR ACHIEVEMENTS',
+      name: 'Informaion',
       type: 'link',
-      icon: 'icon-solutions',
-      link: '/solutions',
-      onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      icon: 'icon-user-info',
+      link: '/information',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
     },
     {
       id: 2,
-      name: 'OUR EXPERTISE',
+      name: 'Document',
       type: 'link',
-      icon: 'icon-idea',
-      link: '/expertise',
-      onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      icon: 'icon-document',
+      link: '/document',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
     },
     {
       id: 3,
-      name: 'USERS MANAGEMENT',
+      name: 'Carrière',
       type: 'link',
-      icon: 'icon-users-management',
-      link: '/users',
-      onlyFor: [$userRoles.SUPERADMIN],
+      icon: 'icon-carreer',
+      link: '/carriere',
+      // onlyFor: [$userRoles.SUPERADMIN],
       opened: false,
-    },
-    {
-      id: 4,
-      name: 'PROJECTS MANAGEMENT',
-      type: 'link',
-      icon: 'icon-settings',
-      link: '/solutions_admin',
-      onlyFor: [$userRoles.SUPERADMIN],
-      opened: false,
-    },
-    {
-        id: 5,
-        name: 'SETTINGS',
-        type: 'link',
-        icon: 'icon-configs',
-        link: '/profile',
-        opened: false,
-        onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-    },
+    }
 ];

@@ -1,6 +1,6 @@
 /******   Font *******/
 
-$font-family-base : Montserrat, sans-serif;
+$font-family-base : Roboto, sans-serif;
 $fontFamily: $font-family-base ;
 $btn-font-size: 14px;
 $fontColor: #6f7885;
@@ -51,7 +51,7 @@ $lightSecondaryColor: #36ccb0;
 $tertiaryColor: #5b105d;
 $lightTertiaryColor: #bf25c3;
 
-$quaternaryColor: #f4f5fb;
+$quaternaryColor: #FAFAFA;
 $quinaryColor: #faa142;
 $senaryColor: #7be495;
 $septenaryColor: #5ccec9;
@@ -79,8 +79,9 @@ $btn-color: $primaryColor;
 $sidebar-width: 250px;
 $sidebar-small-width: 220px;
 $header-height: 70px;
-$sidebar-background: white;//$primaryColor;
-$header-background: white;
+$sidebar-background: #F7F7F7;//$primaryColor;
+$header-background: #F0C807;
+$header-color: white;
 $sidebar-activeTabBackground: #fff;// #E5F5E3;
 $sidebar-activeTabBorder: 0;//5px solid;
 $sidebar-activeTabColor: $tertiaryColor;

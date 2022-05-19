@@ -1,14 +1,15 @@
 import { Injectable} from '@angular/core';
 import {computed, observable, toJS} from 'mobx';
 import {UserStore} from '@store/user.store';
-import {$sidebarItems_admin} from '@shared/Objects/sharedObjects';
+import {$sidebarItems_users} from "@shared/Objects/sharedObjects";
+
 
 
 interface Image {name: string; value: string;}
 
 @Injectable()
 export class MainStore {
-  @observable sidebarOpened = false;
+  @observable sidebarOpened = true;
   @observable selectedLanguage;
   @observable current_academic_year;
 
@@ -26,7 +27,7 @@ export class MainStore {
 
   @computed
   get getItems() {
-    return $sidebarItems_admin;
+    return $sidebarItems_users;
   }
 
 

@@ -1,1 +1,111 @@
 @import "../add-user/add-user.component";
+
+
+.head-info{
+  display: flex;
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  .avatar{
+    width: 30%;
+    max-width: 200px;
+    border-radius: 27px;
+    overflow: hidden;
+    position: relative;
+    .overlay{
+      position: absolute;
+      background: rgba(0, 0, 0, .5);
+      display: none;
+      cursor: pointer;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      i:before{
+        color: white;
+        font-size: 30px;
+      }
+      font-size: 11px;
+      color: white;
+
+    }
+    &:hover{
+      //transition: $transition-fade;
+      .overlay{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+    img{
+      width: 100%;
+    }
+  }
+  .info{
+    padding: 5px 20px;
+    //d-flex flex-column info justify-content-center
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h1{
+      font-size: 2rem;
+    }
+    .info-item{
+      font-size: 13px;
+    }
+  }
+
+}
+
+.form-column{
+  @media (min-width: $LAPTOP_SCREEN) {
+    &:first-child{
+      margin-right: 30px;
+    }
+    &:last-child{
+      //padding-left: 5%;
+    }
+  }
+  h5{
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .form-bloc{
+    .row{
+      label{
+        font-size: 12px;
+        min-width: 210px;
+      }
+      align-items: center;
+      //border-bottom: 1px solid lightgray;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .btn-group{
+        width: 100%;
+        .btn{
+          border-radius: 35px;
+          min-width: unset;
+          width: 40%;
+          font-weight: normal;
+        }
+        .active{
+          background-color: #d3d3d378;
+        }
+      }
+    }
+  }
+}
+
+
+
+.input{
+  font-size: 12px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  min-height: 38px;
+  opacity: .8;
+  outline: none;
+  box-shadow: none;
+}
