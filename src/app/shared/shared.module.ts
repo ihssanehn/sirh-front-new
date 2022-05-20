@@ -10,6 +10,8 @@ import {TranslateModule} from '@ngx-translate/core';
 import {GetPhotoPipe} from '@shared/pipes/getPhoto.pipe';
 import {CentredMessageComponent} from '@shared/components/centred-message/centred-message.component';
 import {ButtonComponent} from '@shared/components/button/button.component';
+import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
+import {ImageCropperModule} from "ngx-image-cropper";
 
 @NgModule({
   imports: [
@@ -17,6 +19,7 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     NgxPermissionsModule,
     RouterModule,
     TranslateModule,
+    ImageCropperModule,
   ],
   declarations: [
     PasswordBannerComponent,
@@ -27,7 +30,8 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     SidebareMenuComponent,
     GetPhotoPipe,
     CentredMessageComponent,
-      ButtonComponent
+      ButtonComponent,
+    ImageCropperComponent
   ],
   exports: [
     NgxPermissionsModule,
@@ -39,7 +43,8 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     SidebareMenuComponent,
     GetPhotoPipe,
     CentredMessageComponent,
-    ButtonComponent
+    ButtonComponent,
+    ImageCropperComponent
   ],
 })
 export class SharedModule { }

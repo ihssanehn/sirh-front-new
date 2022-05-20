@@ -136,40 +136,61 @@ export class UserService {
 
 
     getPhoto(photoname: String): Observable<any>{
-        return this.http.get(environment.photosBaseUrl+photoname, {responseType: 'blob'})
+        return this.http.get(environment.photosBaseUrl+photoname+'?token='+this.jwtStore.token, {responseType: 'blob'})
             .pipe(catchError((error: HttpErrorResponse) => throwError(()=>error)));
     }
 
-    async getImageSafeUrl(link, safeUrl = true) {
-        if (link) {
-            const image = this.mainStore.images.find(item => item.name === link);
-            // if(!image){
-            try {
-                let res;
-                if(!image){
-                    res = await this.getPhoto(link).toPromise();
-                    this.mainStore.images.push({name: link, value: res});
-                }else{
-                    res = image.value;
-                }
-                const imageLink = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(res));
-                const imageUrl = window.URL.createObjectURL(res);
-                return !safeUrl ? imageUrl : imageLink;
-            }catch (error) {
-                console.log(error);
-            }
+  async getImageSafeUrl(link, isAvatar, safeUrl = true) {
+    if (link) {
+      const image = this.mainStore.images.find(item => item.name === link);
+      // if(!image){
+      try {
+        let res;
+        if(!image){
+          res = await this.getPhoto(link).toPromise();
+        }else{
+          res = image.value;
         }
+        this.mainStore.images.push({name: link, value: res});
+        const imageLink = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(res));
+        const imageUrl = window.URL.createObjectURL(res);
+        return !safeUrl ? imageUrl : imageLink;
+      }catch (error) {
+        console.log(error);
+        if(isAvatar){
+          return 'assets/images/'+'man.png';
+        }else{
+          return '/assets/images/logo_placeholder_2.png';
+        }
+      }
     }
+  }
 
     delete(params) {
         return this.apiService.post('users/delete', params);
     }
 
     update(params) {
-        return this.apiService.post('users/edit', params);
+        return this.apiService.post('personnel/'+params?.id+'/update', params);
     }
 
     getOne(params){
         return this.apiService.get('personnel/'+ params);
     }
+
+  setProfilePicture(params: any) {
+    return this.apiService.post('personnel/photo-profil', params);
+  }
+
+  getCategoriesFonctions(){
+    return this.apiService.get('categories/all?model=Personnel');
+  }
+
+  getTypes(param){
+    return this.apiService.get('types?model='+param);
+  }
+
+  getStatus(){
+    return this.apiService.get('status?model=Personnel');
+  }
 }

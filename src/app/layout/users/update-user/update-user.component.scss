@@ -73,21 +73,26 @@
   }
   .form-bloc{
     .row{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      align-items: baseline;
       label{
         font-size: 12px;
         min-width: 210px;
       }
-      align-items: center;
-      //border-bottom: 1px solid lightgray;
-      padding-top: 10px;
-      padding-bottom: 10px;
       .btn-group{
         width: 100%;
         .btn{
-          border-radius: 35px;
+          //border-radius: 35px;
           min-width: unset;
           width: 40%;
           font-weight: normal;
+          //border: 1px solid var(--unnamed-color-e5e5e5);
+          border: 1px solid #E5E5E5;
+          border-radius: 20px;
+          &:first-child{
+            margin-right: 5px;
+          }
         }
         .active{
           background-color: #d3d3d378;
@@ -98,6 +103,16 @@
 }
 
 
+.submit-block{
+  padding-top: 30px;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  app-button:first-child{
+    margin-right: 15px;
+  }
+}
 
 .input{
   font-size: 12px;
@@ -108,4 +123,10 @@
   opacity: .8;
   outline: none;
   box-shadow: none;
+}
+
+.error-input{
+  //border-color: #e5616b;
+  border-color: $danger;
+  color: $danger;
 }

@@ -4,10 +4,13 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {SharedClasses} from '@shared/Utils/SharedClasses';
+import {markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
+import * as moment from "moment";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 
 
 
@@ -53,6 +56,7 @@ export class UpdateUserComponent implements OnInit {
     nom_urgence: 'nom_urgence',
     telephone_urgence: 'telephone_urgence',
     lien_parente_urgence: 'lien_parente_urgence',
+    categorie_id: 'categorie_id',
 
     // ville: 'ville',
     // manager_id: 'manager_id',
@@ -94,10 +98,16 @@ export class UpdateUserComponent implements OnInit {
     // is_travailleur_handicape: 'is_travailleur_handicape',
     // cp_cp_id: 'cp_cp_id',
   }
+  user: User;
+  situationsfamilles: any;
+  status: any;
+  fonctionsPersonnels: any;
+  categoriesFonctions: any;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
               private location: Location,
+              private modalService: NgbModal,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
               private translate: TranslateService,
@@ -130,6 +140,7 @@ export class UpdateUserComponent implements OnInit {
       nom_urgence: [null],
       telephone_urgence: [null],
       lien_parente_urgence: [null],
+      categorie_id: [null, Validators.required],
 
       // ville: [null, Validators.required],
 
@@ -145,7 +156,7 @@ export class UpdateUserComponent implements OnInit {
       // remember_token: [null, Validators.required],
       // is_temps_partiel: [null, Validators.required],
       // is_hors_siege: [null, Validators.required],
-      // categorie_id: [null, Validators.required],
+
       // validite_titre_sejour: [null, Validators.required],
       // is_virtual: [null, Validators.required],
       // validateur_absence_id: [null, Validators.required],
@@ -181,9 +192,14 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit(){
     this.getUser(this.activatedRoute.snapshot.params.id);
+    this.getSituationsfamilles();
+    this.getFonctionPersonnel();
+    this.getStatus();
+    this.getCategoriesFonctions();
+    this.categoriesFonctions();
   }
 
-  async getUser(id) {
+  async getUser(id, initForm=true) {
     this.loading = true;
     this.errorLoading = false;
     // const params = {
@@ -193,9 +209,11 @@ export class UpdateUserComponent implements OnInit {
     try {
       const res = await this.userService.getOne(id).toPromise();
       console.log('getUser', res);
-      const user = res.result;
+      this.user = res.result;
       try{
-        this.initFormBuilder(user);
+        if(initForm){
+          this.initFormBuilder(this.user);
+        }
       }catch(err1){
         console.log('err1', err1);
         this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de récupération de données'});
@@ -285,7 +303,7 @@ export class UpdateUserComponent implements OnInit {
 
 
   isRequired(control) {
-    return SharedClasses.isControlRequired(control) ? '*': '';
+    return SharedClasses.isControlRequired(this.userFormGroup.controls[control]) ? '(*)': '';
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -319,4 +337,128 @@ export class UpdateUserComponent implements OnInit {
     // }
 
   }
+
+  getAnciente() {
+    const info = this.userFormGroup?.value;
+    if(info){
+
+      const diff = moment().diff(moment(info.date_entree, 'YYYY-MM-DD'), 'months');
+      let ans: any = Math.floor(diff/12);
+
+      const month = diff % ans;
+      ans = ans > 2 ? ans+' ans' : ans+' année';
+      return ans + ' et '+month+ ' mois';
+    }else {
+      return '';
+    }
+  }
+
+  filechanged(event) {
+    if(this.modalService.hasOpenModals()){
+      return;
+    }
+    const modalRef = this.modalService.open(ImageCropperComponent);
+    modalRef.componentInstance.title = 'Photo de profil';
+    modalRef.componentInstance.file = event.target.files[0];
+    modalRef.componentInstance.submitImage.subscribe(({file, base64}) => {
+      if (file instanceof File) {
+        this.userFormGroup.patchValue({
+          photo_de_profil: file
+        });
+        this.onSubmitProfilePicture(file);
+      }
+    });
+  }
+
+  private async onSubmitProfilePicture(file) {
+    const params = {
+      file,
+      id: this.userFormGroup.value.id
+    }
+    try{
+      const res = await this.userService.setProfilePicture(params).toPromise();
+      this.getUser(this.userFormGroup.value.id, false);
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  cancelEditting() {
+
+  }
+
+  isDisabled() {
+    markFormAsDirty(this.userFormGroup)
+  }
+
+
+  async getCategoriesFonctions(){
+    try{
+      const res = await this.userService.getCategoriesFonctions().toPromise();
+      this.categoriesFonctions = res.result;
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async getSituationsfamilles(){
+    try{
+      const res = await this.userService.getTypes('Situationfamille').toPromise();
+      this.situationsfamilles = res.result;
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async getFonctionPersonnel(){
+    try{
+      const res = await this.userService.getTypes('FonctionPersonnel').toPromise();
+      this.fonctionsPersonnels = res.result;
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async getStatus(){
+    try{
+      const res = await this.userService.getStatus().toPromise();
+      this.status = res.result;
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async onSubmit() {
+    console.log('submit', this.userFormGroup.value);
+    markFormAsDirty(this.userFormGroup);
+    if(!this.userFormGroup.valid){
+      return;
+    }
+    const params = {
+      id: this.user?.id,
+      ...this.userFormGroup.value
+    }
+    this.submitting = true;
+    try{
+      const res = await this.userService.update(params).toPromise();
+      console.log('res', res);
+      this.getUser(this.user.id);
+      this.messageService.add({severity: 'success', summary: 'Parfait!', detail: 'Informations Mis à jour avec succès'});
+    }catch (e){
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue'});
+    }finally {
+      this.submitting = false;
+    }
+  }
 }
+

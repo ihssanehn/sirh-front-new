@@ -1,7 +1,7 @@
 <input type="file" style="display: none" id="uploadAvatar"
        #inputFile
        accept="image/jpeg"
-       multiple (change)="uploadFile($event); inputFile.value=''"/>
+       multiple (change)="filechanged($event); inputFile.value=''"/>
 
 <div class="container-fluid top-container">
 <!--    <div class="goback col-12"-->
@@ -14,7 +14,12 @@
       <div class="row">
         <div class="main-container head-info">
             <div class="avatar">
-              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />
+
+              <div class="photo" *ngIf="user">
+                  <img [attr.src]="'document/'+user.photo_profil_id+'/file' | getPhotoFromBackend: true | async" class="loggedUserStyle_photo"/>
+              </div>
+
+<!--              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />-->
               <label class="overlay" for="uploadAvatar">
                 <i class="fa fa-camera"></i>
                 <span>Charger une photo de profil</span>
@@ -23,7 +28,7 @@
             <div class="info">
               <h1>{{userFormGroup.value.nom}}</h1>
               <div class="info-item">{{userFormGroup.value.email}}</div>
-<!--              <div class="info-item">{{userFormGroup.value.f}}</div>-->
+              <div class="info-item">Ancienneté: {{getAnciente()}}</div>
             </div>
         </div>
       </div>
@@ -40,7 +45,7 @@
                     <input ngbButton type="radio" class="btn-check" [value]="'M'"> Homme
                   </label>
                   <label ngbButtonLabel class="btn">
-                    <input ngbButton type="radio" class="btn-check" [value]="'F'"> Femme
+                    <input ngbButton type="radio" class="btn-check" [value]="'Mme'"> Femme
                   </label>
                 </div>
               </div>
@@ -49,99 +54,202 @@
               <label class="col-2">Nom {{isRequired(formInputs.nom)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le nom ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.nom]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nom].hasError('required')   && userFormGroup.controls[formInputs.nom].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.nom].hasError('required')
+                    && userFormGroup.controls[formInputs.nom].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le nom est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Prénom {{isRequired(formInputs.prenom)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le prénom ici"
                        [formControl]="userFormGroup.controls[formInputs.prenom]"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.prenom].hasError('required')
+                                  && userFormGroup.controls[formInputs.prenom].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.prenom].hasError('required')
+                    && userFormGroup.controls[formInputs.prenom].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le prénom est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Email {{isRequired(formInputs.email_perso)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir l'adresse email ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.email_perso]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.email_perso].hasError('required')
+                                  && userFormGroup.controls[formInputs.email_perso].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.email_perso].hasError('required')
+                    && userFormGroup.controls[formInputs.email_perso].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  L'adresse email est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Numéro {{isRequired(formInputs.tel_perso)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le numéro de téléphone ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.tel_perso]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.tel_perso].hasError('required')
+                                  && userFormGroup.controls[formInputs.tel_perso].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.tel_perso].hasError('required')
+                    && userFormGroup.controls[formInputs.email_perso].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le numéro de téléphone  est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Adresse {{isRequired(formInputs.adresse)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir l'adresse ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.adresse]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.adresse].hasError('required')
+                                  && userFormGroup.controls[formInputs.adresse].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.adresse].hasError('required')
+                    && userFormGroup.controls[formInputs.adresse].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  L'adresse est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Code postal {{isRequired(formInputs.code_postal)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le code postal ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.code_postal]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.code_postal].hasError('required')
+                                  && userFormGroup.controls[formInputs.code_postal].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.code_postal].hasError('required')
+                    && userFormGroup.controls[formInputs.code_postal].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le code postal est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Date de naissance {{isRequired(formInputs.date_naissance)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir la date de naissance ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.date_naissance]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_naissance].hasError('required')
+                                  && userFormGroup.controls[formInputs.date_naissance].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.date_naissance].hasError('required')
+                    && userFormGroup.controls[formInputs.date_naissance].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La date de naissance est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Lieu de naissance {{isRequired(formInputs.lieu_naissance)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le lieu de naissance ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.lieu_naissance]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.lieu_naissance].hasError('required')
+                                  && userFormGroup.controls[formInputs.lieu_naissance].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.lieu_naissance].hasError('required')
+                    && userFormGroup.controls[formInputs.lieu_naissance].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le Lieu de naissance est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Nationalité {{isRequired(formInputs.nationalite)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir la nationalité ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.nationalite]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nationalite].hasError('required')
+                                  && userFormGroup.controls[formInputs.nationalite].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.nationalite].hasError('required')
+                    && userFormGroup.controls[formInputs.nationalite].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le nationalité est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Numéro de sécurité sociale {{isRequired(formInputs.num_securite_sociale)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le numéro de sécurité sociale ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.num_securite_sociale]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.num_securite_sociale].hasError('required')
+                                  && userFormGroup.controls[formInputs.num_securite_sociale].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.num_securite_sociale].hasError('required')
+                    && userFormGroup.controls[formInputs.num_securite_sociale].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le numéro de sécurité social est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
             <label class="col-2">Situation familiale {{isRequired(formInputs.situation_famille_id)}}</label>
             <div class="col">
-              <input type="text"
-                     class="form-control input"
-                     [formControl]="userFormGroup.controls[formInputs.situation_famille_id]"
-              />
+              <ng-select
+                [items]="situationsfamilles"
+                [bindLabel]="'libelle'"
+                [bindValue]="'id'"
+                class="form-control select"
+                placeholder="Saisir la situation familiale ici"
+                [formControl]="userFormGroup.controls[formInputs.situation_famille_id]"
+                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.situation_famille_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.situation_famille_id].dirty}"
+                [multiple]="false"
+              >
+              </ng-select>
+              <div class="form-control-feedback"
+                   *ngIf="userFormGroup.controls[formInputs.situation_famille_id].hasError('required')
+                  && userFormGroup.controls[formInputs.situation_famille_id].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La situation familiale social est obligatoire
+              </div>
             </div>
           </div>
           </div>
@@ -153,63 +261,157 @@
               <label class="col-2">Matricule {{isRequired(formInputs.matricule)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le matricule ici"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.matricule].hasError('required')
+                                  && userFormGroup.controls[formInputs.matricule].dirty}"
                        [formControl]="userFormGroup.controls[formInputs.matricule]"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.matricule].hasError('required')
+                  && userFormGroup.controls[formInputs.matricule].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le matricule est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Date d'entrée {{isRequired(formInputs.date_entree)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir la date d'entée ici"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')
+                                  && userFormGroup.controls[formInputs.date_entree].dirty}"
                        [formControl]="userFormGroup.controls[formInputs.date_entree]"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.date_entree].hasError('required')
+                  && userFormGroup.controls[formInputs.date_entree].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La date d'entée est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Date de sortie {{isRequired(formInputs.date_sortie)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir la date de sortie ici"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_sortie].hasError('required')
+                                  && userFormGroup.controls[formInputs.date_sortie].dirty}"
                        [formControl]="userFormGroup.controls[formInputs.date_sortie]"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.date_sortie].hasError('required')
+                  && userFormGroup.controls[formInputs.date_sortie].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La date de sortie est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Portable professionnel {{isRequired(formInputs.telephone)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le numéro de portable professionnel ici"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.telephone].hasError('required')
+                                  && userFormGroup.controls[formInputs.telephone].dirty}"
                        [formControl]="userFormGroup.controls[formInputs.telephone]"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.telephone].hasError('required')
+                  && userFormGroup.controls[formInputs.telephone].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le numéro de portable professionnel est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Email professionnel {{isRequired(formInputs.email)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir l'email professionnel ici"
                        class="form-control input"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.email].hasError('required')
+                                  && userFormGroup.controls[formInputs.email].dirty}"
                        [formControl]="userFormGroup.controls[formInputs.email]"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.email].hasError('required')
+                  && userFormGroup.controls[formInputs.email].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  L'email professionnel est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Fonction {{isRequired(formInputs.fonction_id)}}</label>
               <div class="col">
-                <input type="text"
-                       class="form-control input"
-                       [formControl]="userFormGroup.controls[formInputs.fonction_id]"
-                />
+                <ng-select
+                  [items]="fonctionsPersonnels"
+                  [bindLabel]="'libelle'"
+                  [bindValue]="'id'"
+                  class="form-control select"
+                  placeholder="Saisir la fonction ici"
+                  [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.fonction_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.fonction_id].dirty}"
+                  [formControl]="userFormGroup.controls[formInputs.fonction_id]"
+                  [multiple]="false"
+                >
+                </ng-select>
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.fonction_id].hasError('required')
+                  && userFormGroup.controls[formInputs.fonction_id].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La fonction est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Statut {{isRequired(formInputs.status_id)}}</label>
               <div class="col">
-                <input type="text"
-                       class="form-control input"
-                       [formControl]="userFormGroup.controls[formInputs.status_id]"
-                />
+                <ng-select
+                  [items]="status"
+                  [bindLabel]="'libelle'"
+                  [bindValue]="'id'"
+                  class="form-control select"
+                  placeholder="Saisir le statut ici"
+                  [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.status_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.status_id].dirty}"
+                  [formControl]="userFormGroup.controls[formInputs.status_id]"
+                  [multiple]="false"
+                >
+                </ng-select>
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.status_id].hasError('required')
+                  && userFormGroup.controls[formInputs.status_id].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le statut est obligatoire
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-2">Contrat {{isRequired(formInputs.categorie_id)}}</label>
+              <div class="col">
+                <ng-select
+                  [items]="categoriesFonctions"
+                  [bindLabel]="'libelle'"
+                  [bindValue]="'id'"
+                  class="form-control select"
+                  placeholder="Saisir le contrat ici"
+                  [formControl]="userFormGroup.controls[formInputs.categorie_id]"
+                  [multiple]="false"
+                >
+                </ng-select>
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="userFormGroup.controls[formInputs.categorie_id].hasError('required')
+                  && userFormGroup.controls[formInputs.categorie_id].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                Le contrat est obligatoire
               </div>
             </div>
           </div>
@@ -219,31 +421,71 @@
             <label class="col-2">Nom {{isRequired(formInputs.nom_urgence)}}</label>
             <div class="col">
               <input type="text"
+                     placeholder="Saisir le nom du contact d'urgence ici"
                      class="form-control input"
                      [formControl]="userFormGroup.controls[formInputs.nom_urgence]"
+                     [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nom_urgence].hasError('required')
+                                  && userFormGroup.controls[formInputs.nom_urgence].dirty}"
               />
+              <div class="form-control-feedback"
+                   *ngIf="userFormGroup.controls[formInputs.nom_urgence].hasError('required')
+                  && userFormGroup.controls[formInputs.nom_urgence].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                Le nom du contact d'urgence est obligatoire
+              </div>
             </div>
             </div>
             <div class="row">
               <label class="col-2">lien {{isRequired(formInputs.lien_parente_urgence)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le lien familiale du contact d'urgence ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.lien_parente_urgence]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.lien_parente_urgence].hasError('required')
+                                  && userFormGroup.controls[formInputs.lien_parente_urgence].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.lien_parente_urgence].hasError('required')
+                  && userFormGroup.controls[formInputs.lien_parente_urgence].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le lien familiale du contact d'urgence est obligatoire
+                </div>
               </div>
             </div>
             <div class="row">
               <label class="col-2">Numéro {{isRequired(formInputs.telephone_urgence)}}</label>
               <div class="col">
                 <input type="text"
+                       placeholder="Saisir le numéro de téléphone du contact d'urgence ici"
                        class="form-control input"
                        [formControl]="userFormGroup.controls[formInputs.telephone_urgence]"
+                       [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.telephone_urgence].hasError('required')
+                                  && userFormGroup.controls[formInputs.telephone_urgence].dirty}"
                 />
+                <div class="form-control-feedback"
+                     *ngIf="userFormGroup.controls[formInputs.telephone_urgence].hasError('required')
+                  && userFormGroup.controls[formInputs.telephone_urgence].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  Le numéro de téléphone du contact d'urgence est obligatoire
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="submit-block">
+        <app-button [text]="'Annuler'"
+                    [type]="'secondary'"
+                    [isDisabled]="submitting"
+                    (onClick)="cancelEditting()"
+                    [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
+        </app-button>
+        <app-button [text]="'Enregistrer les modifications'"
+                    [isDisabled]="isDisabled()"
+                    (onClick)="onSubmit()"
+                    [customStyle]="{'min-height': '30px'}">
+        </app-button>
       </div>
     </form>
 

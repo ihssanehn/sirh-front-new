@@ -29,7 +29,7 @@ const routes: Routes = [
     // }
   },
   {
-    path: 'update/:id',
+    path: 'info/:id',
     component: UpdateUserComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
