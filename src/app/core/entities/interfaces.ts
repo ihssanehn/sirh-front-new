@@ -291,6 +291,7 @@
     has_tjm_fixed?: number;
     is_travailleur_handicape?: number;
     cp_cp_id?: number;
+    photo_profil?: any;
   }
 
   export interface Cdp2 {

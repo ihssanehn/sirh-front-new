@@ -7,7 +7,7 @@ export class GetPhotoPipe implements PipeTransform {
 
   constructor(private userService: UserService) { }
 
-  async transform(photo, isAvatar = false, safeurl=true) {
+  async transform(photo, defaultImage = '', safeurl=true) {
     const regexp_upload = /^data:?[a-z]{5}\/[a-z]*;.*/;
     const patternLink = /^((http|https|ftp):\/\/)/;
     if (regexp_upload.test(photo)) {
@@ -16,6 +16,6 @@ export class GetPhotoPipe implements PipeTransform {
     if(patternLink.test(photo)) {
       return photo;
     }
-    return await this.userService.getImageSafeUrl(photo, isAvatar, safeurl);
+    return await this.userService.getImageSafeUrl(photo, defaultImage, safeurl);
   }
 }

@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {RouterModule} from "@angular/router";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-
-
+import {CustomAdapter, CustomDateParserFormatter} from '@shared/classes/dateAdapter';
+import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+import {CustomDateTimeIntl, MY_CUSTOM_DATETIME_FORMATS} from '@shared/classes/CustomDateTimeFormat';
+import {NgbDateAdapter, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MainStore} from "@store/mainStore.store";
@@ -24,6 +26,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "@shared/shared.module";
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {MessageService} from "primeng/api";
+// import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
+// import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/i18n/', '.json?t='+new Date().getTime());
@@ -45,6 +50,9 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    // OwlMomentDateTimeModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -67,7 +75,13 @@ export function createTranslateLoader(http: HttpClient) {
     },
     JwtStore,
     UserStore,
-    MessageService
+    MessageService,
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr-FR'},
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_DATETIME_FORMATS},
+    {provide: OwlDateTimeIntl, useClass: CustomDateTimeIntl},
+    {provide: NgbDateAdapter, useClass: CustomAdapter},
+    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
   ],
   bootstrap: [AppComponent]
 })

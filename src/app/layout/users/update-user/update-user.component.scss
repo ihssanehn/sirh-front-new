@@ -6,11 +6,14 @@
   padding: 20px 25px;
   margin-bottom: 20px;
   .avatar{
-    width: 30%;
+    min-width: 150px;
     max-width: 200px;
     border-radius: 27px;
     overflow: hidden;
     position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     .overlay{
       position: absolute;
       background: rgba(0, 0, 0, .5);
@@ -20,13 +23,29 @@
       right: 0;
       top: 0;
       bottom: 0;
+      padding: 10%;
+      .upload-action{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
       i:before{
         color: white;
         font-size: 30px;
       }
       font-size: 11px;
       color: white;
-
+      .fa-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .fa-close:before{
+        color: red;
+        font-size: 15px;
+      }
     }
     &:hover{
       //transition: $transition-fade;
@@ -36,6 +55,21 @@
         justify-content: center;
         flex-direction: column;
       }
+    }
+    .show-overlay{
+        display: flex;
+        height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    .actions{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
     }
     img{
       width: 100%;

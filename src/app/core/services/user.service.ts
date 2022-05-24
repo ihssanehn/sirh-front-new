@@ -73,6 +73,7 @@ export class UserService {
     }
 
     purgeAuth() {
+      console.log('purge auth');
         this.permissionsService.flushPermissions();
         // Remove JWT from localstorage
         this.jwtStore.destroyToken();
@@ -140,7 +141,8 @@ export class UserService {
             .pipe(catchError((error: HttpErrorResponse) => throwError(()=>error)));
     }
 
-  async getImageSafeUrl(link, isAvatar, safeUrl = true) {
+  async getImageSafeUrl(link, defaultImage, safeUrl = true) {
+      console.log('getImageSafeUrl', link);
     if (link) {
       const image = this.mainStore.images.find(item => item.name === link);
       // if(!image){
@@ -148,6 +150,9 @@ export class UserService {
         let res;
         if(!image){
           res = await this.getPhoto(link).toPromise();
+          if(res?.return?.code !== 200 || res?.errors){
+            throwError(() => {});
+          }
         }else{
           res = image.value;
         }
@@ -157,11 +162,12 @@ export class UserService {
         return !safeUrl ? imageUrl : imageLink;
       }catch (error) {
         console.log(error);
-        if(isAvatar){
-          return 'assets/images/'+'man.png';
-        }else{
-          return '/assets/images/logo_placeholder_2.png';
-        }
+        return defaultImage;
+        // if(isAvatar){
+        //   return 'assets/images/'+'man.png';
+        // }else{
+        //   return '/assets/images/logo_placeholder_2.png';
+        // }
       }
     }
   }

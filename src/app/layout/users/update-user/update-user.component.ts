@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -27,8 +27,6 @@ export class UpdateUserComponent implements OnInit {
   allRoles = [
       'manager', 'superadmin', 'user'
   ];
-   loading: boolean;
-   errorLoading: boolean;
    submitting: boolean;
   submittingPassword: boolean;
   formInputs = {
@@ -103,6 +101,9 @@ export class UpdateUserComponent implements OnInit {
   status: any;
   fonctionsPersonnels: any;
   categoriesFonctions: any;
+  errorLoadData: boolean;
+  loadingData: boolean;
+  submittingPhoto: boolean;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -111,6 +112,7 @@ export class UpdateUserComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
               private translate: TranslateService,
+              private changeDetectorRef: ChangeDetectorRef,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
@@ -196,34 +198,29 @@ export class UpdateUserComponent implements OnInit {
     this.getFonctionPersonnel();
     this.getStatus();
     this.getCategoriesFonctions();
-    this.categoriesFonctions();
   }
 
   async getUser(id, initForm=true) {
-    this.loading = true;
-    this.errorLoading = false;
     // const params = {
     //   id: id,
     // };
 
     try {
+      this.loadingData = true;
+      this.errorLoadData = false;
       const res = await this.userService.getOne(id).toPromise();
       console.log('getUser', res);
       this.user = res.result;
-      try{
-        if(initForm){
-          this.initFormBuilder(this.user);
-        }
-      }catch(err1){
-        console.log('err1', err1);
-        this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de récupération de données'});
+      if(initForm){
+        this.initFormBuilder(this.user);
       }
+      this.changeDetectorRef.detectChanges();
     } catch (error) {
       console.log('e', error);
-      this.errorLoading = true;
+      this.errorLoadData = false;
       this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Une erreur est survenue lors de la réccupération des donnnées de ccet utilisateur',  sticky: false});
     } finally {
-      this.loading = false;
+      this.loadingData = false;
     }
   }
 
@@ -251,7 +248,15 @@ export class UpdateUserComponent implements OnInit {
     if(!this.userFormGroup.valid ){
       return;
     }
-    let toSubmit = this.userFormGroup.value;
+    let toSubmit = Object.assign({}, this.userFormGroup.value,
+      {
+        fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.fonction_id),
+        status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
+        category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
+         situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)},
+     );
+
+    //Adapting it with backend
 
     this.submitting = true;
     try {
@@ -327,15 +332,6 @@ export class UpdateUserComponent implements OnInit {
   uploadFile(e: Event) {
     console.log('uploadFile', e);
 
-    // this.component.files = [];
-    // if(e.target.files && e.target.files.length>0){
-    //     Array.prototype.forEach.call(e.target.files, file=>{
-    //       if(!this.findFile(file)){
-    //         this.files.push(file);
-    //       }
-    //     });
-    // }
-
   }
 
   getAnciente() {
@@ -361,6 +357,7 @@ export class UpdateUserComponent implements OnInit {
     modalRef.componentInstance.title = 'Photo de profil';
     modalRef.componentInstance.file = event.target.files[0];
     modalRef.componentInstance.submitImage.subscribe(({file, base64}) => {
+      console.log('cropper result ', file);
       if (file instanceof File) {
         this.userFormGroup.patchValue({
           photo_de_profil: file
@@ -371,17 +368,20 @@ export class UpdateUserComponent implements OnInit {
   }
 
   private async onSubmitProfilePicture(file) {
-    const params = {
-      file,
-      id: this.userFormGroup.value.id
+    if(this.submittingPhoto){
+      return;
     }
     try{
-      const res = await this.userService.setProfilePicture(params).toPromise();
+      this.submittingPhoto = true;
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('id', this.userFormGroup.value.id);
+      const res = await this.userService.setProfilePicture(fd).toPromise();
       this.getUser(this.userFormGroup.value.id, false);
     }catch (e){
 
     }finally {
-
+      this.submittingPhoto = false;
     }
   }
 
@@ -446,8 +446,13 @@ export class UpdateUserComponent implements OnInit {
     }
     const params = {
       id: this.user?.id,
-      ...this.userFormGroup.value
+      ...this.userFormGroup.value,
+        fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.fonction_id),
+        status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
+        category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
+        situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)
     }
+
     this.submitting = true;
     try{
       const res = await this.userService.update(params).toPromise();

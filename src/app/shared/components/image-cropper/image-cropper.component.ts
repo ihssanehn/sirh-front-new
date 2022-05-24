@@ -114,7 +114,7 @@ console.log('cropperReady');
   private from64ToImageFile(img64){
     const decodedImage = this.decodeBase64(img64);
     const blob = new Blob([decodedImage], {type: 'image/png'});
-    const file = new File([blob], 'decozin.png', { type: 'image/png' });
+    const file = new File([blob], 'photo.png', { type: 'image/png' });
     console.log('filesize', file);
     return file;
   }

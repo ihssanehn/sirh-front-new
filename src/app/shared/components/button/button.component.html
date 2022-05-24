@@ -42,8 +42,9 @@
   </button>
 
 
-  <button class="btn mybutton"
+  <button class="btn mybutton secondary"
           type="button"
+          [ngStyle]="customStyle"
           [disabled]="isDisabled"
           (click)="onbtnclick()"
           *ngSwitchCase="myButtonTypes.secondary"
@@ -63,6 +64,7 @@
   <button class="btn mybutton danger"
           type="button"
           [disabled]="isDisabled"
+          [ngStyle]="customStyle"
           (click)="onbtnclick()"
           *ngSwitchCase="myButtonTypes.danger"
           mat-button
@@ -81,6 +83,7 @@
   <button class="btn mybutton"
           type="button"
           [disabled]="isDisabled"
+          [ngStyle]="customStyle"
           (click)="onbtnclick()"
           *ngSwitchCase="myButtonTypes.icon"
           mat-icon-button

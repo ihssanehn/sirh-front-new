@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?92a94l');
-  src:  url('fonts/icomoon.eot?92a94l#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?92a94l') format('truetype'),
-    url('fonts/icomoon.woff?92a94l') format('woff'),
-    url('fonts/icomoon.svg?92a94l#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?x3593u');
+  src:  url('fonts/icomoon.eot?x3593u#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?x3593u') format('truetype'),
+    url('fonts/icomoon.woff?x3593u') format('woff'),
+    url('fonts/icomoon.svg?x3593u#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -33,4 +33,28 @@
 }
 .icon-carreer:before {
   content: "\e900";
+}
+.icon-email-2:before {
+  content: "\e908";
+}
+.icon-go-back:before {
+  content: "\e909";
+}
+.icon-close:before {
+  content: "\e90a";
+}
+.icon-manager:before {
+  content: "\e907";
+}
+.icon-phone:before {
+  content: "\e904";
+}
+.icon-email:before {
+  content: "\e905";
+}
+.icon-username:before {
+  content: "\e906";
+}
+.icon-edit:before {
+  content: "\e903";
 }
