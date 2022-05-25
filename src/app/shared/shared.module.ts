@@ -4,12 +4,13 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { PasswordBannerComponent } from './password-banner/password-banner.component';
 import { SafePipe, DefaultDateFormatPipe, TimeAgoPipe } from '@app/core/pipes';
 import { FloatingComponent } from './floating/floating.component';
-import {SidebareMenuComponent} from '@shared/components/sidebaremenu/sidebareMenu.component';
-import {RouterModule} from '@angular/router';
-import {TranslateModule} from '@ngx-translate/core';
-import {GetPhotoPipe} from '@shared/pipes/getPhoto.pipe';
-import {CentredMessageComponent} from '@shared/components/centred-message/centred-message.component';
-import {ButtonComponent} from '@shared/components/button/button.component';
+import { SidebareMenuComponent } from '@shared/components/sidebaremenu/sidebareMenu.component';
+import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { GetPhotoPipe } from '@shared/pipes/getPhoto.pipe';
+import { CentredMessageComponent } from '@shared/components/centred-message/centred-message.component';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
   imports: [
@@ -17,6 +18,9 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     NgxPermissionsModule,
     RouterModule,
     TranslateModule,
+    LaddaModule.forRoot({
+      style: 'zoom-out',
+    }),
   ],
   declarations: [
     PasswordBannerComponent,
@@ -27,7 +31,7 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     SidebareMenuComponent,
     GetPhotoPipe,
     CentredMessageComponent,
-      ButtonComponent
+    ButtonComponent,
   ],
   exports: [
     NgxPermissionsModule,
@@ -39,7 +43,8 @@ import {ButtonComponent} from '@shared/components/button/button.component';
     SidebareMenuComponent,
     GetPhotoPipe,
     CentredMessageComponent,
-    ButtonComponent
+    ButtonComponent,
+    LaddaModule,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

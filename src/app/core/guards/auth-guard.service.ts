@@ -17,6 +17,9 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if(this.userStore.getAuthenticatedUser){
+      return true;
+    }
     console.log('AuthGuard1', next, state);
     const result = await this.userService.populate();
     console.log('result', result);
@@ -26,9 +29,9 @@ export class AuthGuard implements CanActivate {
       return ;
     }
 
-    if(!this.userStore.getAuthenticatedUser.cgu_accepted){
-      this.router.navigate(['/auth/cgu']);
-    }
+    // if(!this.userStore.getAuthenticatedUser.cgu_accepted){
+    //   this.router.navigate(['/auth/cgu']);
+    // }
     let route = '/auth';
 
     // if(state.url !== '/profile' && this.permissionService){

@@ -9,13 +9,13 @@ const routes: Routes = [
   {
     path: '',
     component: ListUsersComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin', 'manager'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin', 'manager'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
   {
     path: 'add',

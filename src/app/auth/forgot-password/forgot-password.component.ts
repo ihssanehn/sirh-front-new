@@ -51,4 +51,8 @@ export class ForgotPasswordComponent implements OnInit {
       });
     })      
   }
+
+  get email() {
+    return this.myForm.get('email');
+  }
 }

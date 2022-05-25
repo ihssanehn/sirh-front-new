@@ -24,6 +24,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "@shared/shared.module";
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {MessageService} from "primeng/api";
+import { ToastModule } from 'primeng/toast';
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/i18n/', '.json?t='+new Date().getTime());
@@ -43,6 +44,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgbModule,
     RouterModule,
     SharedModule,
+    ToastModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
     TranslateModule.forRoot({

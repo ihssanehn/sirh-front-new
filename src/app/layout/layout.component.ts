@@ -29,15 +29,15 @@ export class LayoutComponent implements OnInit{
     // this.loggedUser = this.userService.getCurrentUser();
     // this.route.snapshot
     // this.mainStore.noPaddingPage = true;
-    this.routeSubscription = this.router.events.subscribe((value: any) => {
-      let url;
-      if (value instanceof NavigationEnd) {
-        if (value.urlAfterRedirects) {
-          url = value.urlAfterRedirects;
-        }
-      this.mainStore.noPaddingPage = url.indexOf('expertise') !== -1;
-      }
-    });
+    // this.routeSubscription = this.router.events.subscribe((value: any) => {
+    //   let url;
+    //   if (value instanceof NavigationEnd) {
+    //     if (value.urlAfterRedirects) {
+    //       url = value.urlAfterRedirects;
+    //     }
+    //   this.mainStore.noPaddingPage = url.indexOf('expertise') !== -1;
+    //   }
+    // });
   }
 
 
@@ -49,7 +49,7 @@ export class LayoutComponent implements OnInit{
   onResize(event) {
     // if(this.mainStore.noPaddingPage) return;
     // this.mainStore.sidebarOpened = window.innerWidth >= 992;
-    this.mainStore.sidebarOverMode = window.innerWidth < 992;
+    // this.mainStore.sidebarOverMode = window.innerWidth < 992;
   }
 
   toggleMenu() {

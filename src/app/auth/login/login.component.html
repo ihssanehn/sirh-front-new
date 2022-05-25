@@ -1,63 +1,70 @@
-<p-toast [style]="{marginTop: '80px'}"></p-toast>
-<div class="auth-container">
-    <div class="d-flex align-items-center justify-content-center flex-column w-100" style="z-index: 3;">
-        <div class="logo mb-4">
-            <img src="assets/images/sirh_photos/sirh_logo.png"/>
-        </div>
-        <form class="auth-form p-4 px-5" (keyup.enter)="onSubmit()" [formGroup]="myForm">
-            <div class="bigsubtitle">
-                <span>Bienvenue sur SIRH</span>
-            </div>
-            <div class="subtitle">
-                      &nbsp;
-<!--                      <span>{{'WELCOME' | translate}}</span>-->
-                      {{'ON YOUR MANAGEMENT PLATFORM' | translate}}
-            </div>
-<!--                  <div class="subtitle">-->
-<!--                    <span>Se connecter</span>-->
-<!--                  </div>-->
-            <div class="inputs">
-                <div class="input-group row">
-                    <div class="label">{{'EMAIL' | translate}}</div>
-                    <div class="input">
-                        <i class="fa fa-user"></i>
-                        <input type="text"
-                               placeholder="{{'email@piman-group.fr' | translate}}"
-                               [formControl]="myForm.controls['email']"
-                               class="form-control text-field"/>
-                    </div>
-                    <div class="form-control-feedback"
-                         *ngIf="myForm.controls['email'].hasError('required') && myForm.controls['email'].dirty">
-                        {{'EMAIL IS REQUIRED' | translate}}
-                    </div>
-                </div>
-                <div class="input-group row">
-                    <div class="label">{{'PASSWORD' | translate}}</div>
-                    <div class="input">
-                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                        <!--          <i class="icon-lock"></i>-->
-                        <input type="password"
-                               [formControl]="myForm.controls['password']"
-                               placeholder="{{'ENTER YOUR PASSWORD' | translate}}"
-                               class="form-control text-field"/>
-                    </div>
-                    <div class="form-control-feedback"
-                         *ngIf="myForm.controls['password'].hasError('required') && myForm.controls['password'].dirty">
-                        {{'PASSWORD IS REQUIRED' | translate}}
-                    </div>
-                </div>
-            </div>
-            <div class="btn-group row">
-                <button class="col-12 mybtn w-100"
-                        [disabled]="loading"
-                        mat-button
-                        (click)="onSubmit()">
-                    {{'LOG IN' | translate}}
-                </button>
-            </div>
-            <div class="link row" [routerLink]="['/auth/forgotPassword']">
-                {{'FORGOT YOUR PASSWORD' | translate}} ?
-            </div>
-        </form>
+<form [formGroup]="myForm" class="main-form" (ngSubmit)="onSubmit()">
+  <div
+    class="form-group "
+    [ngClass]="{
+      error: email?.invalid && (email?.dirty || email?.touched)
+    }"
+  >
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">@</div>
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
+        formControlName="email"
+        name="email"
+        placeholder="Email d’utilisateur"
+      />
     </div>
-</div>
+    <div
+      *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+      class="font-12 float-end red--color"
+    >
+      <div *ngIf="email?.errors?.required">le champ email est obligatoire</div>
+      <div *ngIf="email?.errors?.pattern">l’adresse mail est invalide</div>
+    </div>
+  </div>
+  <div
+    class="form-group"
+    [ngClass]="{
+      error: password?.invalid && (password?.dirty || password?.touched)
+    }"
+  >
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">@</div>
+      </div>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Mots de passe"
+        formControlName="password"
+        name="password"
+      />
+    </div>
+    <div
+      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+      class="font-12 float-end red--color"
+    >
+      <div *ngIf="password?.errors?.required">
+        le champ mot de passe est obligatoire
+      </div>
+    </div>
+  </div>
+  <span class="main-text forgot-pwd scale" role="button" routerLink="../forgotPassword">
+    Mot de passe oublié ?</span
+  >
+  <div class="d-flex justify-content-center align-items-center">
+    <button type="submit" class="btn main-btn" [ladda]="loading">
+      Connexion
+    </button>
+  </div>
+  <span class="main-text text-center sign-up scale"
+    >Pas encore de compte ?
+    <span class="text-decoration-underline" role="button">
+      Contactez l’administration</span
+    ></span
+  >
+</form>
