@@ -31,9 +31,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
+              "./node_modules/ladda/dist/ladda.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
               "src/assets/icons/style.css",
-              "./node_modules/font-awesome/css/font-awesome.min.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },

@@ -12,9 +12,10 @@ export class AuthGuard2 implements CanActivate {
   async canActivate() {
     console.log('AuthGuard2');
     // if(!)state
-    if (this.jwtStore.getToken) {
+    if (this.jwtStore.getToken ) {
       const result = await this.userService.populate();
       if(result){
+        console.log('AuthGuard2 result', result);
         this.router.navigate(['/']);
       }else{
         return true;

@@ -13,6 +13,7 @@ export class JwtStore {
 
   @action
   saveToken(token: string) {
+    console.log('saveToken', token);
     localStorage.setItem('token', token);
     this.token = token;
   }

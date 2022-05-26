@@ -1,14 +1,83 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import './assets/styles/_app.scss';
+@import "./assets/styles/_app.scss";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import "~primeicons/primeicons.css";
+@import "~primeng/resources/themes/nova-accent/theme.css";
+@import "~primeng/resources/primeng.min.css";
+@import "~assets/styles/fonts/Icomoon/style.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+}
 
-@import '~primeicons/primeicons.css';
-@import '~primeng/resources/themes/nova-accent/theme.css';
-@import '~primeng/resources/primeng.min.css';
-@import "~assets/styles/fonts/Icomoon/style.css";
+* {
+  outline: none;
+}
 
-html, body { height: 100%; }
-body { margin: 0; overflow: hidden}
+:root {
+  --error-color: #ff6b62;
+  --primary-color: #f0c807;
+}
 
+.red--color {
+  color: var(--error-color);
+}
+.font-12 {
+  font-size: 12px;
+}
+
+.scale {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.scale:hover {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+[role="button"] {
+  cursor: pointer;
+}
+
+.main-btn {
+  background: var(--primary-color) 0% 0% no-repeat padding-box;
+  border-radius: 40px;
+  border-color: transparent;
+  height: 44px;
+  min-width: 288px;
+  font-size: 15px;
+  color: #000;
+  color: #4d4d4d;
+  font-weight: normal;
+  margin: auto;
+  transition: all 0.5s ease;
+  padding: 0;
+  &:focus &:active {
+    -webkit-box-shadow: 0 -3rem 0 var(--primary-color) inset;
+    box-shadow: 0 -3rem 0 var(--primary-color) inset;
+  }
+  &:hover {
+    background: transparent;
+    color: var(--primary-color);
+    -webkit-box-shadow: 0 -3rem 0 #ffffff inset;
+    box-shadow: 0 -3rem 0 #ffffff inset;
+    border-color: var(--primary-color);
+  }
+}
+
+.main-text {
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0px;
+  font-weight: 300;
+}

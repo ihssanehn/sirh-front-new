@@ -12,6 +12,7 @@ import {CentredMessageComponent} from '@shared/components/centred-message/centre
 import {ButtonComponent} from '@shared/components/button/button.component';
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ImageCropperModule} from "ngx-image-cropper";
+import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
   imports: [
@@ -19,6 +20,9 @@ import {ImageCropperModule} from "ngx-image-cropper";
     NgxPermissionsModule,
     RouterModule,
     TranslateModule,
+    LaddaModule.forRoot({
+      style: 'zoom-out',
+    }),
     ImageCropperModule,
   ],
   declarations: [
@@ -30,7 +34,7 @@ import {ImageCropperModule} from "ngx-image-cropper";
     SidebareMenuComponent,
     GetPhotoPipe,
     CentredMessageComponent,
-      ButtonComponent,
+    ButtonComponent,
     ImageCropperComponent
   ],
   exports: [
@@ -44,7 +48,8 @@ import {ImageCropperModule} from "ngx-image-cropper";
     GetPhotoPipe,
     CentredMessageComponent,
     ButtonComponent,
+    LaddaModule,
     ImageCropperComponent
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

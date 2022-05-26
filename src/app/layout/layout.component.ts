@@ -47,7 +47,7 @@ export class LayoutComponent implements OnInit{
   onResize(event) {
     // if(this.mainStore.noPaddingPage) return;
     // this.mainStore.sidebarOpened = window.innerWidth >= 992;
-    this.mainStore.sidebarOverMode = window.innerWidth < 992;
+    // this.mainStore.sidebarOverMode = window.innerWidth < 992;
   }
 
   toggleMenu() {

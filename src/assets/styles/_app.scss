@@ -2,6 +2,8 @@
 @import '~assets/styles/partials/vars';
 
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 html {
   // background: url('./assets/images/background.jpg') no-repeat center center fixed;
   // background-size: cover;
@@ -11,10 +13,11 @@ html {
 
 
 body {
-  font-family: $font-family;
+  font-family: Roboto;
   background-color: transparent;
   overflow-y: scroll;
   height: 100%;
+  color: #434343;
   // background: url('/assets/image/background.jpg');
 }
 

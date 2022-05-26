@@ -26,6 +26,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "@shared/shared.module";
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {MessageService} from "primeng/api";
+import { ToastModule } from 'primeng/toast';
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -48,10 +49,11 @@ export function createTranslateLoader(http: HttpClient) {
     NgbModule,
     RouterModule,
     SharedModule,
+    ToastModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule,
     // OwlMomentDateTimeModule,
     TranslateModule.forRoot({
       loader: {
