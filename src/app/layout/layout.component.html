@@ -92,14 +92,14 @@
                 [opened]="mainStore.sidebarOpened"
                 [closeOnClickBackdrop]="true"
                 [dockedSize]="'50px'"
-                [dock]="true"
+                [dock]="false"
                 [closeOnClickOutside]="mainStore.sidebarOverMode"
-                [mode]="mainStore.sidebarOverMode? 'over': 'push'">
+                [mode]="'push'">
             <app-sidebar></app-sidebar>
         </ng-sidebar>
 
 
-        <div ng-sidebar-content >
+        <div ng-sidebar-content style="height: 100%">
             <section class="app-body">
 <!--                <i class="fa fa-bars toggler pointer btn float-right"-->
 <!--                   *ngIf="!mainStore.sidebarOpened"-->

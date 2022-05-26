@@ -1,14 +1,27 @@
 <div class="header">
+  <i class="fa fa-bars toggler pointer btn float-right"
+     (click)="toggleSidebar()"
+     aria-hidden="true"
+  ></i>
   <div class="logo">
-    <img src="assets/images/logo-pds.png" style="cursor: pointer" [routerLink]="['/solutions']"/>
+    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/solutions']"/>
   </div>
 
   <div class="tabs">
-    <div class="tab" [routerLink]="['/solutions']" [routerLinkActive]="'active-tab'">
-      {{'OUR ACHIEVEMENTS' | translate}}
+    <div class="tab" [routerLink]="['/accueil']" [routerLinkActive]="'active-tab'">
+      Accueil
     </div>
-    <div class="tab" [routerLink]="['/expertise']"  [routerLinkActive]="'active-tab'">
-      {{'OUR EXPERTISE' | translate}}
+    <div class="tab" [routerLink]="['/activite']"  [routerLinkActive]="'active-tab'">
+      Activité
+    </div>
+    <div class="tab" [routerLink]="['/frais']" [routerLinkActive]="'active-tab'">
+      Mes frais
+    </div>
+    <div class="tab" [routerLink]="['/mission']"  [routerLinkActive]="'active-tab'">
+      Mission
+    </div>
+    <div class="tab" [routerLink]="['/rh']"  [routerLinkActive]="'active-tab'">
+      Ressources humaines
     </div>
   </div>
   <div class="right-options">
@@ -53,7 +66,11 @@
           </div>
         </div>
         <div class="image" [matMenuTriggerFor]="profileMenu">
-          <img src="/assets/images/face.png" />
+          <img
+            [attr.src]="userStore.getAuthenticatedUser?.photo_profil ? ('document/'+userStore.getAuthenticatedUser?.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(userStore.getAuthenticatedUser?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(userStore.getAuthenticatedUser?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+          />
         </div>
         <i class="fa fa-chevron-down" aria-hidden="true" [matMenuTriggerFor]="profileMenu" ></i>
 

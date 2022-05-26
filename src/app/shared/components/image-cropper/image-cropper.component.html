@@ -1,0 +1,56 @@
+
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      <i class="fa fa-picture-o" aria-hidden="true"></i>
+      {{title}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngIf="isloading || isCompressing">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+
+      <image-cropper
+        [imageFile]="file"
+        [maintainAspectRatio]="maintainAspectRatio"
+        [aspectRatio]="maintainAspectRatio ? aspectRatio: null"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+
+  </div>
+  <div class="modal-footer">
+      <div>
+          <small class="text-danger" *ngIf="errorMessage && errorMessage.length>0">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;
+              {{errorMessage}}
+          </small>
+          <small class="text-info" *ngIf="infoMessage && infoMessage.length>0">
+              <i class="fa fa-info" aria-hidden="true"></i> &nbsp;
+              {{infoMessage}}
+          </small>
+      </div>
+<!--    <button type="button" class="btn btn-outline-dark" (click)="submit()">Save</button>-->
+<!--      <app-button [text]="'Compress'"-->
+<!--                  [type]="myButtonTypes.secondary"-->
+<!--                  [isDisabled]="isCompressing"-->
+<!--                  (onClick)="compressFileClick()">-->
+<!--      </app-button>-->
+    <app-button [text]="'Annuler'"
+                [type]="myButtonTypes.secondary"
+                (onClick)="cancel()">
+    </app-button>
+    <app-button [text]="'Enregistrer'"
+                (onClick)="submit()"
+                [isDisabled]="isloading || isCompressing">
+    </app-button>
+  </div>

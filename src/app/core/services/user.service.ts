@@ -153,15 +153,31 @@ export class UserService {
     }
   }
 
-  delete(params) {
-    return this.apiService.post('users/delete', params);
+    delete(params) {
+        return this.apiService.post('users/delete', params);
+    }
+
+    update(params) {
+        return this.apiService.post('personnel/'+params?.id+'/update', params);
+    }
+
+    getOne(params){
+        return this.apiService.get('personnel/'+ params);
+    }
+
+  setProfilePicture(params: any) {
+    return this.apiService.post('personnel/photo-profil', params);
   }
 
-  update(params) {
-    return this.apiService.post('users/edit', params);
+  getCategoriesFonctions(){
+    return this.apiService.get('categories/all?model=Personnel');
   }
 
-  getOne(params) {
-    return this.apiService.post('users/get', params);
+  getTypes(param){
+    return this.apiService.get('types?model='+param);
+  }
+
+  getStatus(){
+    return this.apiService.get('status?model=Personnel');
   }
 }

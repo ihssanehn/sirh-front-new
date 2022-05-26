@@ -20,24 +20,24 @@ const routes: Routes = [
   {
     path: 'add',
     component: AddUserComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
   {
-    path: 'update/:id',
+    path: 'info/:id',
     component: UpdateUserComponent,
-    canActivate: [NgxPermissionsGuard],
-    data: {
-      permissions: {
-        only: ['superadmin'],
-        redirectTo: '/'
-      }
-    }
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin'],
+    //     redirectTo: '/'
+    //   }
+    // }
   },
 ];
 

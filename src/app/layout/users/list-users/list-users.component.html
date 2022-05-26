@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of users"  [ngClass]="{'shadowed-line': user.blocked_at}">
-                        <td data-title="Nom">{{user?.firstname}} {{user?.lastname}}</td>
+                        <td data-title="Nom">{{user?.nom}} {{user?.prenom}}</td>
                         <td data-title="Email" class="p-0">{{user?.email}}</td>
                         <!-- <td data-title="Column #3">{{user?.phone}}</td> -->
 <!--                        <td data-title="Entreprise" class="text-center">{{user?.company}}</td> -->
@@ -48,7 +48,7 @@
                                           'manager': user?.role === $roles.MANAGER,
                                           'user': user?.role === $roles.USER}"
                                 >{{user?.role}}</div>
-                        </ng-template> 
+                        </ng-template>
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
                         <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>
                         <td >

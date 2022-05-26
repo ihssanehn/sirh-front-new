@@ -15,11 +15,16 @@
   //top: 0;
   //left: 0;
   //right: 0;
-  .toggler:before{
-    font-size: 22px;
-    font-weight: lighter;
-    //color: white;
+  .toggler{
+    //float: right;
+    margin-left: 15px;
+    &:before{
+      font-size: 20px;
+      font-weight: lighter;
+      color: $headerTextColor;
+    }
   }
+
   .profile{
     display: flex;
     align-items: center;
@@ -29,6 +34,9 @@
     justify-content: flex-end;
     i{
       width: 22px;
+      &:before{
+        color: white;
+      }
     }
     .image{
       img{
@@ -37,8 +45,9 @@
         overflow: hidden;
         border-radius: 50%;
         height: 40px;
-        border: 2px solid $mainColor;
         cursor: pointer;
+        border: 1px solid lightgray;
+        background: white;
       }
     }
     .label{
@@ -61,11 +70,12 @@
   }
 
   .logo{
-    height: 80%;
-    width: 250px;
+    height: 75%;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: calc(250px - 120px);
+    margin-right: 70px;
     img{
       height: 100%;
     }
@@ -74,14 +84,15 @@
     display: flex;
     height: 100%;
     .tab{
-      font-size: calc(min(12px, 2.5vw));
+      font-size: calc(min(14px, 2.5vw));
       height: 100%;
       cursor: pointer;
       font-weight: 500;
       display: flex;
       align-items: center;
-      opacity: .6;
+      //opacity: .6;
       padding: 0 20px;
+      color: $header-color;
       &:first-child{
         margin-right: 10px;
       }

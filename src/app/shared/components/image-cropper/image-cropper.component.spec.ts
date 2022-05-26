@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PasswordBannerComponent } from './password-banner.component';
+import { ImageCropperComponent } from './image-cropper.component';
 
-describe('PasswordBannerComponent', () => {
-  let component: PasswordBannerComponent;
-  let fixture: ComponentFixture<PasswordBannerComponent>;
+describe('ImageCropperComponent', () => {
+  let component: ImageCropperComponent;
+  let fixture: ComponentFixture<ImageCropperComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PasswordBannerComponent ]
+      declarations: [ ImageCropperComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PasswordBannerComponent);
+    fixture = TestBed.createComponent(ImageCropperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

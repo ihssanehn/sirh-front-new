@@ -1,1 +1,166 @@
 @import "../add-user/add-user.component";
+
+
+.head-info{
+  display: flex;
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  .avatar{
+    min-width: 150px;
+    max-width: 200px;
+    border-radius: 27px;
+    overflow: hidden;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .overlay{
+      position: absolute;
+      background: rgba(0, 0, 0, .5);
+      display: none;
+      cursor: pointer;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 10%;
+      .upload-action{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
+      i:before{
+        color: white;
+        font-size: 30px;
+      }
+      font-size: 11px;
+      color: white;
+      .fa-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .fa-close:before{
+        color: red;
+        font-size: 15px;
+      }
+    }
+    &:hover{
+      //transition: $transition-fade;
+      .overlay{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+    .show-overlay{
+        display: flex;
+        height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    .actions{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
+    }
+    img{
+      width: 100%;
+    }
+  }
+  .info{
+    padding: 5px 20px;
+    //d-flex flex-column info justify-content-center
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h1{
+      font-size: 2rem;
+    }
+    .info-item{
+      font-size: 13px;
+    }
+  }
+
+}
+
+.form-column{
+  @media (min-width: $LAPTOP_SCREEN) {
+    &:first-child{
+      margin-right: 30px;
+    }
+    &:last-child{
+      //padding-left: 5%;
+    }
+  }
+  h5{
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .form-bloc{
+    .row{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      align-items: baseline;
+      label{
+        font-size: 12px;
+        min-width: 210px;
+      }
+      .btn-group{
+        width: 100%;
+        .btn{
+          //border-radius: 35px;
+          min-width: unset;
+          width: 40%;
+          font-weight: normal;
+          //border: 1px solid var(--unnamed-color-e5e5e5);
+          border: 1px solid #E5E5E5;
+          border-radius: 20px;
+          &:first-child{
+            margin-right: 5px;
+          }
+        }
+        .active{
+          background-color: #d3d3d378;
+        }
+      }
+    }
+  }
+}
+
+
+.submit-block{
+  padding-top: 30px;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  app-button:first-child{
+    margin-right: 15px;
+  }
+}
+
+.input{
+  font-size: 12px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  min-height: 38px;
+  opacity: .8;
+  outline: none;
+  box-shadow: none;
+}
+
+.error-input{
+  //border-color: #e5616b;
+  border-color: $danger;
+  color: $danger;
+}

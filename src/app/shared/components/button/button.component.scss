@@ -11,6 +11,11 @@
   background-color: #f3f3f3;
   font-size: 13px;
   min-height: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  i{
+    margin-right: 5px;
+  }
   i:before{
     font-size: 17px;
   }
@@ -51,7 +56,6 @@
 }
 
 .secondary{
-  background-color: inherit;
   color: $primaryColor;
   i:before{
     color: $primaryColor;
@@ -60,10 +64,10 @@
 }
 
 .danger{
-  //background-color: inherit;
-  color: $danger;
+  background-color: $danger;
+  color: white;
   i:before{
-    color: $danger;
+    color: white;
     font-size: 14px;
   }
 }

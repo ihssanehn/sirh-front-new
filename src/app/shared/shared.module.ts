@@ -4,12 +4,14 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { PasswordBannerComponent } from './password-banner/password-banner.component';
 import { SafePipe, DefaultDateFormatPipe, TimeAgoPipe } from '@app/core/pipes';
 import { FloatingComponent } from './floating/floating.component';
-import { SidebareMenuComponent } from '@shared/components/sidebaremenu/sidebareMenu.component';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { GetPhotoPipe } from '@shared/pipes/getPhoto.pipe';
-import { CentredMessageComponent } from '@shared/components/centred-message/centred-message.component';
-import { ButtonComponent } from '@shared/components/button/button.component';
+import {SidebareMenuComponent} from '@shared/components/sidebaremenu/sidebareMenu.component';
+import {RouterModule} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
+import {GetPhotoPipe} from '@shared/pipes/getPhoto.pipe';
+import {CentredMessageComponent} from '@shared/components/centred-message/centred-message.component';
+import {ButtonComponent} from '@shared/components/button/button.component';
+import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
+import {ImageCropperModule} from "ngx-image-cropper";
 import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
@@ -21,6 +23,7 @@ import { LaddaModule } from 'angular2-ladda';
     LaddaModule.forRoot({
       style: 'zoom-out',
     }),
+    ImageCropperModule,
   ],
   declarations: [
     PasswordBannerComponent,
@@ -32,6 +35,7 @@ import { LaddaModule } from 'angular2-ladda';
     GetPhotoPipe,
     CentredMessageComponent,
     ButtonComponent,
+    ImageCropperComponent
   ],
   exports: [
     NgxPermissionsModule,
@@ -45,6 +49,7 @@ import { LaddaModule } from 'angular2-ladda';
     CentredMessageComponent,
     ButtonComponent,
     LaddaModule,
+    ImageCropperComponent
   ],
 })
 export class SharedModule {}

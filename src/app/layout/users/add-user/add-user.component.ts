@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User } from '@app/core/entities';
 import { ErrorService, UserService } from '@services/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
@@ -42,9 +41,9 @@ export class AddUserComponent implements OnInit {
     this.errors = [];
     this.userService.addUser(this.userFormGroup.value).toPromise().then((val) => {
       this.router.navigate(['..'], { relativeTo: this.activatedRoute });
-    }).catch( err => {    
+    }).catch( err => {
       this.errors = this.errorService.format(err);
-    }) 
+    })
   }
 
   goback() {

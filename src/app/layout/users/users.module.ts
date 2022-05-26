@@ -8,16 +8,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {UpdateUserComponent} from '@layout/users/update-user/update-user.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {OwlDateTimeModule} from "ng-pick-datetime";
+
 
 @NgModule({
     imports: [
         CommonModule,
         UsersRoutingModule,
+         NgbModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
         TranslateModule,
         NgSelectModule,
+        OwlDateTimeModule
     ],
   declarations: [ListUsersComponent, AddUserComponent, UpdateUserComponent]
 })

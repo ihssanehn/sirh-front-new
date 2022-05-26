@@ -1,4 +1,5 @@
 @import "~app/styles/custom.variables";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 *{
   transition: $hoverTransition;
@@ -23,6 +24,9 @@
   font-size: 12px;
   min-width: unset !important;
   //width: fit-content;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
   min-height: 40px;
   ::ng-deep .ng-value-container {
     ::ng-deep  .ng-value {
@@ -49,7 +53,18 @@
   }
 }
 
-
+.loading{
+  width: 100%;
+  min-height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  img{
+    width: 70px;
+    height: 70px;
+  }
+}
 
 .pointer{
   cursor: pointer;
@@ -127,7 +142,7 @@ p-autoComplete{
 }
 
 .pro-info{
-  background-image: url("~assets/images/grid.png");
+  //background-image: url("~assets/images/grid.png");
   background-repeat: repeat;
   display: flex;
   align-items: center;
@@ -192,7 +207,7 @@ p-autoComplete{
     }
   }
   .logo{
-    background-image: url("~assets/images/grid.png");
+    //background-image: url("~assets/images/grid.png");
     background-repeat: repeat;
   }
   img{

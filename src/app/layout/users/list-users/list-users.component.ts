@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
-import { User } from '@app/core/entities';
 import { Router } from '@angular/router';
 import {Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
+import {User} from "@app/core/entities";
 
 @Component({
   selector: 'app-list-users',
@@ -30,8 +30,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keyword: this.keyword}).subscribe(result => {
+    this.searchSubscription = this.userService.getUsers({keyword: this.keyword}).subscribe((result) => {
       this.users = result;
+      console.log('this.users', result);
+
     }, err =>{
       console.log('err getUsers', err);
     })

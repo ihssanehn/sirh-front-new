@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, HostListener, Inject, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import { User } from '@app/core/entities';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
 
@@ -29,15 +28,14 @@ export class LayoutComponent implements OnInit{
     // this.loggedUser = this.userService.getCurrentUser();
     // this.route.snapshot
     // this.mainStore.noPaddingPage = true;
-    // this.routeSubscription = this.router.events.subscribe((value: any) => {
-    //   let url;
-    //   if (value instanceof NavigationEnd) {
-    //     if (value.urlAfterRedirects) {
-    //       url = value.urlAfterRedirects;
-    //     }
-    //   this.mainStore.noPaddingPage = url.indexOf('expertise') !== -1;
-    //   }
-    // });
+    this.routeSubscription = this.router.events.subscribe((value: any) => {
+      let url;
+      if (value instanceof NavigationEnd) {
+        if (value.urlAfterRedirects) {
+          url = value.urlAfterRedirects;
+        }
+      }
+    });
   }
 
 
