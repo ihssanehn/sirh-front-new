@@ -77,23 +77,18 @@
         <mat-menu #profileMenu="matMenu" [class]="'profile-menu'" >
 
           <div class="connectedUSer name" >
-            {{userStore.getAuthenticatedUser?.complete_name}}
+            {{userStore.getAuthenticatedUser?.nom}}
           </div>
 
           <div class="connectedUSer"  *ngxPermissionsOnly="[$userRoles.SUPERADMIN, $userRoles.MANAGER]">
             {{userStore.getAuthenticatedUser?.role}}
           </div>
 
+
           <a mat-menu-item class="dropdown-item"
-             [routerLink]="['/users']"
-             *ngxPermissionsOnly="[$userRoles.SUPERADMIN]">
-            <i class="fa fa-users"></i>
-            {{'USERS MANAGEMENT' | translate}}
-          </a>
-          <a mat-menu-item class="dropdown-item"
-             [routerLink]="['/profile']">
+             [routerLink]="['/users/info/'+userStore.getAuthenticatedUser?.id]">
             <i class="fa fa-user" aria-hidden="true"></i>
-            <span>{{'PROFILE' | translate}}</span>
+            <span>Profil</span>
           </a>
           <a mat-menu-item class="dropdown-item"
              (click)="logOut()">

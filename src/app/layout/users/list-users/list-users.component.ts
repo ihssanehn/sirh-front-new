@@ -15,6 +15,9 @@ import {User} from "@app/core/entities";
 export class ListUsersComponent implements OnInit, OnDestroy {
 
   users: User[] = [];
+  filter = {
+    keyword: ''
+  }
     keyword = '';
    searchSubscription: Subscription;
   $roles = $userRoles;
@@ -30,7 +33,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keyword: this.keyword}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({keywords: this.filter.keyword}).subscribe((result) => {
       this.users = result;
       console.log('this.users', result);
 

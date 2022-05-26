@@ -1,83 +1,105 @@
 <div class="list container top-container">
-    <div class="wrap">
-        <div class="container buttons">
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
-                    <div class="input-group">
-                        <input type="text"
-                               [(ngModel)]="keyword"
-                               (input)="getUsers()"
-                               placeholder="Recherche ..."
-                               class="form-control input search-field">
-                        <span class="input-group-btn">
-                            <button class="btn search-btn" type="button">
-                                <i class="icon-search"></i>
-                            </button>
-                        </span>
-                    </div><!-- /input-group -->
-                </div>
-            </div>
+    <div class="foback-header">
+      <app-button
+        [text]="'Retour'"
+        [type]="'secondary'"
+        [iconLeft]="'icon-go-back'"
+      ></app-button>
+    </div>
+    <div class="sub-header container-fuil container-lg">
+      <h1 class="main-title">
+        Collaborateurs
+      </h1>
+
+      <div class="search d-flex">
+        <div class="input-group">
+          <input type="text"
+                 class="form-control input"
+                 placeholder="Rechercher un collaborateur"
+                 (input)="getUsers()"
+                 aria-describedby="basic-addon2"
+                 [(ngModel)]="filter.keyword"/>
+          <div class="input-group-append" id="basic-addon2">
+            <i class="fa fa-search"></i>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="wrap">
         <div class="table-wrapper">
             <table class="table-responsive card-list-table">
                 <thead>
                     <tr>
-                        <th>Nom complet</th>
-                        <th>Email</th>
-                        <!-- <th>Téléphone</th> -->
-<!--                        <th class="text-center">Entreprise</th>-->
-                        <ng-template  [ngxPermissionsOnly]="['superadmin']">
-                            <th>Rôle</th>
-                        </ng-template>
+                        <th colspan="2">
+                          <i class="icon-username"></i>
+                          Nom complet</th>
+                        <th>
+                          <i class="icon-email"></i>
+                          Email</th>
+                         <th>
+                           <i class="icon-phone"></i>
+                           Téléphone</th>
+                        <th>
+                          <i class="icon-manager"></i>
+                          Manager</th>
 <!--                        <th class="text-center">Date de création</th>-->
-                        <th>Dernière activité</th>
+<!--                        <th>Dernière activité</th>-->
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users"  [ngClass]="{'shadowed-line': user.blocked_at}">
-                        <td data-title="Nom">{{user?.nom}} {{user?.prenom}}</td>
-                        <td data-title="Email" class="p-0">{{user?.email}}</td>
-                        <!-- <td data-title="Column #3">{{user?.phone}}</td> -->
-<!--                        <td data-title="Entreprise" class="text-center">{{user?.company}}</td> -->
-                        <ng-template  [ngxPermissionsOnly]="['superadmin']">
-                            <td data-title="Role" class="cell">
-                                <div class="tag"
-                                     [ngClass]="{
-                                          'superadmin': user?.role === $roles.SUPERADMIN,
-                                          'manager': user?.role === $roles.MANAGER,
-                                          'user': user?.role === $roles.USER}"
-                                >{{user?.role}}</div>
-                        </ng-template>
+                    <tr *ngFor="let user of users"  [routerLink]="['/users/info/'+user.id]">
+                        <td colspan="2">
+                          <div class="photo-cell">
+                            <div class="photo">
+                              <div class="img-container">
+                                <img
+                                  [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(user.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                                />
+
+                              </div>
+                            </div>
+                            <div class="name">{{user?.nom}} {{user?.prenom}}</div>
+                          </div>
+                        </td>
+<!--                        <td data-title="Nom"></td>-->
+                        <td data-title="Email" >{{user?.email}}</td>
+                         <td data-title="Téléphonne">{{user?.telephone}}</td>
+                        <td data-title="Manager">{{user?.manager?.nom}}</td>
+
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
-                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>
+<!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
                         <td >
 <!--                            appStopPropagation-->
                             <div class="actions">
-                                <i class="fa fa-pencil"
+                                <i class="icon-edit"
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    [routerLink]="['/users/update/'+user.id]"
-                                   title="{{'UPDATE' | translate}}"></i>
-                                <ng-container *ngIf="!user.blocked_at; else unlock">
-                                    <i class="fa fa-lock"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       (click)="askBlockUser(user.id)"
-                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>
-                                </ng-container>
-                                <ng-template #unlock>
-                                    <i class="fa fa-unlock"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       (click)="askUnBlockUser(user.id)"
-                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>
-                                </ng-template>
-                                <i class="fa fa-trash"
-                                   (click)="archive(user.id)"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   title="{{'DELETE' | translate}}"></i>
+                                   title="Détails"></i>
+                              <span class="d-none d-lg-flex">Détails</span>
+
+<!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
+<!--                                    <i class="fa fa-lock"-->
+<!--                                       data-toggle="tooltip"-->
+<!--                                       data-placement="top"-->
+<!--                                       (click)="askBlockUser(user.id)"-->
+<!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
+<!--                                </ng-container>-->
+<!--                                <ng-template #unlock>-->
+<!--                                    <i class="fa fa-unlock"-->
+<!--                                       data-toggle="tooltip"-->
+<!--                                       data-placement="top"-->
+<!--                                       (click)="askUnBlockUser(user.id)"-->
+<!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
+<!--                                </ng-template>-->
+<!--                                <i class="fa fa-trash"-->
+<!--                                   (click)="archive(user.id)"-->
+<!--                                   data-toggle="tooltip"-->
+<!--                                   data-placement="top"-->
+<!--                                   title="{{'DELETE' | translate}}"></i>-->
                             </div>
                         </td>
                     </tr>

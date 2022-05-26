@@ -4,31 +4,124 @@ $screen-sm-min: 768px;
 $shadow: 0 2px 3px rgba(0, 0, 0, .2);
 $gray-border: darken(#f8f8f8, 10%);
 $gray-light: rgba(0, 0, 0, .35);
-$faded-yellow: lighten(#f1c40f, 40%);
+$faded-yellow: #f1c8020f;//lighten(#f1c8020f, 40%);
 
-// thx, @HugoGiraudel
-@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
-    ::-webkit-scrollbar {
-        width: $size;
-        height: $size;
+.photo-cell{
+  display: flex;
+  align-items: center;
+  width: 20px;
+  max-width: unset;
+  min-width: unset;
+  .name{
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 24px;
+    margin-left: 16px;
+    font-weight: 400;
+    color: #393a3b;
+  }
+  .photo{
+    border: 1px solid lightgray;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    margin: 0 auto;
+    .img-container{
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+      border-width: 1px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      img{
+        height: 100%;
+        width: 100%;
+      }
     }
-
-    ::-webkit-scrollbar-thumb {
-        background: $foreground-color;
+    i{
+      position: absolute;
+      bottom: -2px;
+      right: -4px;
+      width: 14px;
+      height: 14px;
+      background: white;
     }
-
-    ::-webkit-scrollbar-track {
-        background: $background-color;
+    i:before{
+      color: red;
+      font-weight: 800;
     }
-
-    // For Internet Explorer
-    body {
-        scrollbar-face-color: $foreground-color;
-        scrollbar-track-color: $background-color;
-    }
+  }
 }
 
-@include scrollbars(.15em, slategray);
+.sub-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  .main-title{
+    font-size: 1.6rem;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .search{
+    width: fill-available;
+    margin-top: 10px;
+    //flex: 1;
+    .input-group{
+      position: relative;
+      //min-width: 290px;
+      //min-width: 300px;
+      input{
+        box-shadow: none;
+        border-radius: 10px;
+      }
+      .input-group-append{
+        position: absolute;
+        right: 18px;
+        height: 100%;
+        display: flex;
+        i{
+          display: flex;
+          align-items: center;
+          opacity: .4;
+          &:before{
+            font-weight: 300;
+          }
+        }
+      }
+    }
+    @media (min-width: $TABLET_SCREEN) {
+      .input-group{
+        min-width: 300px;
+      }
+    }
+    app-button{
+      ::ng-deep .icon-filter .icon-close{
+        padding-right: 5px;
+      }
+    }
+  }
+  @media (min-width: $LARGE_SCREEN) {
+    .search{
+      min-width: 250px;
+      width: unset;
+    }
+  }
+}
 
 .wrap {
     display: flex;
@@ -39,6 +132,44 @@ $faded-yellow: lighten(#f1c40f, 40%);
     width: 100%;
 }
 
+table {
+  td{
+    border-bottom: 1px solid #dfdfdf57;
+    cursor: pointer;
+    display: table-cell;
+    padding: 20px 24px;
+    transition: background .2s ease-out;
+    vertical-align: middle;
+    font-size: 12px;
+    background: white;
+    color: $fontColor;
+    &:after {
+      display: none;
+    }
+
+    &:before {
+      content: '';
+    }
+  }
+  tr.spaceUnder>td {
+    padding-bottom: 1em;
+  }
+  thead{
+    th{
+      border: 0;
+      font-weight: 500;
+      padding: 12px 24px 10px 24px;
+      font-size: 12px;
+      color: $fontColor;
+      i {
+        margin-right: 5px;
+        &:before{
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
 
 button.btn {
     box-shadow: $shadow;
@@ -51,7 +182,7 @@ button.btn {
 }
 
 //@media (min-width: $sm-max-width) {
-    .list {
+.list {
         .table-wrapper {
             //max-width: 80%;
         }
@@ -76,13 +207,6 @@ button.btn {
                 th:last-child {
                     box-shadow: none;
                 }
-
-                th {
-                    border-bottom: 1px solid $gray-border;
-                    padding: 12px 24px;
-                    font-size: 12px;
-                    color: $fontColor;
-                }
             }
 
             tbody {
@@ -92,25 +216,6 @@ button.btn {
 
                     &:nth-of-type(even) {
                         background: #fff;
-                    }
-                }
-
-                td {
-                    border-bottom: 1px solid $gray-border;
-                    cursor: pointer;
-                    display: table-cell;
-                    padding: 20px 24px;
-                    transition: background .2s ease-out;
-                    vertical-align: middle;
-                    font-size: 12px;
-                    background: white;
-
-                    &:after {
-                        display: none;
-                    }
-
-                    &:before {
-                        content: '';
                     }
                 }
 
@@ -179,52 +284,13 @@ button.btn {
     tbody tr {
         //box-shadow: $shadow;
         background: #fff;
-        border-bottom: 1px solid $gray-border;
+        //border-bottom: 1px solid $gray-border;
         cursor: pointer;
         display: block;
         padding: 15px 10px;
         margin: 0 0 10px 0;
     }
 
-    tbody td {
-        border: 0;
-        display: block;
-        padding: 10px 10px 20px 40%;
-        position: relative;
-
-        &:first-of-type::after {
-            visibility: hidden;
-        }
-
-        //&:after {
-        //    content: '';
-        //    width: calc(100% - 30px);
-        //    display: block;
-        //    margin: 0 auto;
-        //    height: 1px;
-        //    background: $gray-border;
-        //    position: absolute;
-        //    left: 0;
-        //    right: 0;
-        //    top: -6px
-        //}
-        //
-        //&:before {
-        //    color: $gray-light;
-        //    text-transform: uppercase;
-        //    font-size: .85em;
-        //    content: attr(data-title);
-        //    display: table-cell;
-        //    font-weight: 500;
-        //    height: 100%;
-        //    left: 15px;
-        //    margin: auto;
-        //    position: absolute;
-        //    vertical-align: middle;
-        //    white-space: nowrap;
-        //    width: 40%;
-        //}
-    }
 }
 
 
@@ -232,6 +298,11 @@ button.btn {
     display: flex;
     justify-content: flex-end !important;
     align-items: center;
+    span{
+      font-weight: 500;
+      color: $primaryColor;
+      margin-left: 5px;
+    }
     img{
         width: 25px !important;
         height: 25px !important;;
@@ -245,30 +316,15 @@ button.btn {
         opacity: .3;
     }
     i{
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        background: #d3d3d33b;
-        margin-right: 5px;
-        &:hover{
-            background-color: #9b9b9b;
-            &:before{
-                color: white !important;
-            }
-        }
-    }
-
-    i:first-child{
-        margin-left: 0;
-    }
-    i:last-child{
-        &:before{
-            font-size: 20px !important;
-        }
+       &:before{
+         font-weight: 600;
+         color: $primaryColor;
+         font-size: 16px;
+       }
     }
 }
 
