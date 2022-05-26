@@ -8,9 +8,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatButtonModule} from '@angular/material/button';
-import {ToastModule} from 'primeng/toast';
-import { SharedModule } from '@app/shared/shared.module';
 import { AuthLayoutComponent } from './layout/layout.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
     imports: [
