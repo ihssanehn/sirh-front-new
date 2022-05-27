@@ -78,23 +78,24 @@ export class UserService {
       .pipe(map((res) => res.result.data));
   }
 
-  getUsers(params): any {
-    return this.apiService
-      .post('users/list', params)
-      .pipe(map((result) => result.result.data || []));
-  }
+    getUsers(params): any {
+        return this.apiService
+          .post('personnels/search', params)
+          .pipe(map(result => result.result  || []));
+    }
 
-  addUser(info): any {
-    return this.apiService
-      .post('user/add', info)
-      .pipe(map((resp) => resp.result));
-  }
 
-  updateProfile(info): any {
-    return this.apiService
-      .post('profile/update', info)
-      .pipe(map((resp) => resp.result));
-  }
+    addUser(info): any {
+        return this.apiService
+                    .post('user/add', info)
+                    .pipe(map(resp => resp.result));
+    }
+
+    updateProfile(info): any {
+        return this.apiService
+                    .post('profile/update', info)
+                    .pipe(map(resp => resp.result));
+    }
 
   updateProfilePassword(payload): any {
     return this.apiService
@@ -130,7 +131,7 @@ export class UserService {
       .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
   }
 
-  async getImageSafeUrl(link, safeUrl = true) {
+  async getImageSafeUrl(link, defaultImage, safeUrl = true) {
     if (link) {
       const image = this.mainStore.images.find((item) => item.name === link);
       // if(!image){
@@ -138,17 +139,19 @@ export class UserService {
         let res;
         if (!image) {
           res = await this.getPhoto(link).toPromise();
-          this.mainStore.images.push({ name: link, value: res });
-        } else {
+          if(res?.return?.code !== 200 || res?.errors){
+            throwError(() => {});
+          }
+        }else{
           res = image.value;
         }
-        const imageLink = this.sanitizer.bypassSecurityTrustUrl(
-          window.URL.createObjectURL(res)
-        );
+        this.mainStore.images.push({name: link, value: res});
+        const imageLink = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(res));
         const imageUrl = window.URL.createObjectURL(res);
         return !safeUrl ? imageUrl : imageLink;
       } catch (error) {
         console.log(error);
+        return defaultImage;
       }
     }
   }
