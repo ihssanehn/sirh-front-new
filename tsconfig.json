@@ -1,9 +1,7 @@
 {
   "compileOnSave": false,
   "angularCompilerOptions": {
-    "enableIvy": true,
-    "strictTemplates": true,
-    "preserveWhitespaces": true
+    "enableIvy": false
   },
   "compilerOptions": {
     "baseUrl": "src",
