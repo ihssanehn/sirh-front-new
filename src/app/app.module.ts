@@ -52,9 +52,10 @@ export function createTranslateLoader(http: HttpClient) {
     ToastModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     // OwlMomentDateTimeModule,
+    // OwlNativeDateTimeModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

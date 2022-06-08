@@ -27,7 +27,8 @@
   border-top: 0;
   border-left: 0;
   border-right: 0;
-  min-height: 40px;
+  border-bottom: 1px solid lightgray;
+  //min-height: 40px;
   ::ng-deep .ng-value-container {
     ::ng-deep  .ng-value {
       white-space: normal !important;
@@ -51,6 +52,12 @@
       //border-color: transparent transparent $primaryColor;
     }
   }
+}
+
+.foback-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .loading{
@@ -214,4 +221,12 @@ p-autoComplete{
     max-width: 90%;
     height: 100%;
   }
+}
+
+.float-right{
+  float: right;
+}
+
+.pointer{
+  cursor: pointer;
 }

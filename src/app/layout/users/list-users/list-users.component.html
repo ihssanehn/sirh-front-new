@@ -2,9 +2,31 @@
     <div class="foback-header">
       <app-button
         [text]="'Retour'"
-        [type]="'secondary'"
+        [type]="'tertiary'"
         [iconLeft]="'icon-go-back'"
       ></app-button>
+      <div class="right-buttons">
+        <app-button
+          [text]="'Importer'"
+          [type]="'tertiary'"
+          [iconLeft]="'icon-file'"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>&nbsp;
+        <app-button
+          [text]="'Exporter'"
+          [type]="'tertiary'"
+          [iconLeft]="'icon-file'"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+        &nbsp;
+        <app-button
+          [text]="'Ajouter un utilisateur/collaborateur'"
+          [type]="'primary'"
+          [iconLeft]="'fa fa-plus'"
+          (onClick)="openSelectRole()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
     </div>
     <div class="sub-header container-fuil container-lg">
       <h1 class="main-title">
@@ -22,8 +44,101 @@
           <div class="input-group-append" id="basic-addon2">
             <i class="fa fa-search"></i>
           </div>
+        </div>&nbsp;
+        <app-button
+          [text]="'Recherche avancé'"
+          [iconLeft]="'fa fa-filter'"
+          [type]="'secondary'"
+          (onClick)="showFilters = !showFilters; resetFillters()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+    </div>
+    <div class="filter-container" *ngIf="showFilters">
+      <h3 class="filter-tilte-bloc ">
+        <span>Recherche avancée</span>
+        <span class="reset-filters">
+          <i class="icon-close"></i>&nbsp;
+          réinitialiser le filtres
+        </span>
+      </h3>
+      <div class="filtres row ">
+        <div class="flex-column col-4">
+          <label>Manager</label>
+          <div>
+            <ng-select class="select"
+                       [items]="managers"
+                       [placeholder]="'Filtrer par manager'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Etablissement Juridique</label>
+          <div>
+            <ng-select class="select"
+                       [items]="etablissementJuridiques"
+                       [placeholder]="'Filtrer par établissement Juridique'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Direction opérationnelle</label>
+          <div>
+            <ng-select class="select"
+                       [items]="directionOperationnelles"
+                       [placeholder]="'Filtrer par direction opérationnelle'"></ng-select>
+          </div>
         </div>
       </div>
+      <div class="filtres row ">
+        <div class=" flex-column col-4">
+          <label>Business Unit</label>
+          <div>
+            <ng-select class="select"
+                       [items]="directionOperationnelles"
+                       [placeholder]="'Filtrer par business unit'"></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Département</label>
+          <div>
+            <ng-select class="select"
+                       [items]="departements"
+                       [placeholder]="'Filtrer par département'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Centre de Profit</label>
+          <div>
+            <ng-select class="select"
+                       [items]="centreProfits"
+                       [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class=" flex-column col-4">
+          <label>Catégorie</label>
+          <div>
+            <ng-select class="select"
+                       [items]="categories"
+                       [placeholder]="'Filtrer par catégorie'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Etat</label>
+          <div>
+            <ng-select class="select"
+                       [items]="etats"
+                       [placeholder]="'Filtrer par état'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+        </div>
+      </div>
+    </div>
+    <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
+      <h2 class="main-title">
+        Résultats de recherche
+      </h2>
     </div>
     <div class="wrap">
         <div class="table-wrapper">

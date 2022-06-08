@@ -10,6 +10,7 @@ import {UpdateUserComponent} from '@layout/users/update-user/update-user.compone
 import {NgSelectModule} from '@ng-select/ng-select';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {OwlDateTimeModule} from "ng-pick-datetime";
+import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {OwlDateTimeModule} from "ng-pick-datetime";
         NgSelectModule,
         OwlDateTimeModule
     ],
-  declarations: [ListUsersComponent, AddUserComponent, UpdateUserComponent]
+  declarations: [ListUsersComponent, AddUserComponent, UpdateUserComponent, SelectRoleComponent],
+  entryComponents: [SelectRoleComponent]
 })
 export class UsersModule { }

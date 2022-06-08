@@ -1,14 +1,14 @@
 @import "~app/styles/custom.variables";
 
 .app-body{
-    background-color: $quaternaryColor;
+    background-color: $septenaryColor;
     //height: 100vh;
     overflow: hidden;
   height: 100%;
 }
 
 .main-section{
-    background-color: $quaternaryColor;
+    background-color: $septenaryColor;
     height: 90%;
     //padding-left: 20px;
     //padding-right: 20px;
@@ -56,5 +56,5 @@
 }
 
 ::ng-deep .ng-sidebar__content{
-    background: $quaternaryColor;
+    background: $septenaryColor;
 }

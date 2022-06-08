@@ -6,6 +6,8 @@ import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
 
 @Component({
   selector: 'app-list-users',
@@ -16,20 +18,36 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   users: User[] = [];
   filter = {
-    keyword: ''
+    keyword: '',
+    manager: null,
+    etablissement_juridique: null,
+    direction_operationnelles: null,
+    departement: null,
+    centreProfit: null,
+    category: null,
+    etat: null
   }
     keyword = '';
    searchSubscription: Subscription;
   $roles = $userRoles;
+  managers = [];
+  etablissementJuridiques = [];
+  directionOperationnelles = [];
+  departements = [];
+  centreProfits = [];
+  categories = [];
+  etats = [];
+  showFilters: boolean;
+
 
   constructor(private userService : UserService,
               private translate: TranslateService,
+              private modalService: NgbModal,
               private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
   }
-
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
@@ -42,6 +60,23 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     })
   }
 
+  openSelectRole(){
+    if(this.modalService.hasOpenModals()){
+      return;
+    }
+    const modalRef = this.modalService.open(SelectRoleComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+      // if(result === 'QUERY'){
+      //   this.getAllStudents();
+      // }
+    }, reason => {
+      console.log('closed');
+      // this.getAllStudents();
+    });
+    // modalRef.componentInstance.idUser = item.id;
+  }
+
   gotoAddUser(){
     this.router.navigate(['users/add']);
   }
@@ -49,7 +84,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
   }
-
 
   async askBlockUser(id) {
     Swal.fire({
@@ -171,5 +205,18 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  resetFillters() {
+    this.filter = {
+      keyword: this.filter.keyword,
+      manager: null,
+      etablissement_juridique: null,
+      direction_operationnelles: null,
+      departement: null,
+      centreProfit: null,
+      category: null,
+      etat: null
+    }
   }
 }

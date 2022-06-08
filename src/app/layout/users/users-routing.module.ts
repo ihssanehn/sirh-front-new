@@ -18,8 +18,19 @@ const routes: Routes = [
     // }
   },
   {
-    path: 'add',
+    path: 'add_user',
     component: AddUserComponent,
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin'],
+    //     redirectTo: '/'
+    //   }
+    // }
+  },
+  {
+    path: 'add_collab',
+    component: UpdateUserComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {

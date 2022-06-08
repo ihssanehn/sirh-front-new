@@ -61,6 +61,26 @@
     </ng-template>
   </button>
 
+
+  <button class="btn mybutton tertiary"
+          type="button"
+          [ngStyle]="customStyle"
+          [disabled]="isDisabled"
+          (click)="onbtnclick()"
+          *ngSwitchCase="myButtonTypes.tertiary"
+          mat-button
+  >
+    <ng-container *ngIf="!isLoading; else loading">
+      <i class="{{iconLeft}}"></i>
+      {{text}}
+      <i class="{{iconRight}}"></i>
+    </ng-container>
+    <ng-template #loading>
+      <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
+      {{textLoading}}
+    </ng-template>
+  </button>
+
   <button class="btn mybutton danger"
           type="button"
           [disabled]="isDisabled"

@@ -32,7 +32,7 @@ $LAPTOP_SCREEN: 1024px;
 //  //  margin-right: 10px;
 //  //}
 //  //.card:nth-child(4){
-//  //  background-color: $darkPrimaryColor;
+//  //  background-color: $secondaryColor
 //
 /******   Colors *******/
 //$primaryColor: #CE6D39;
@@ -43,18 +43,17 @@ $LAPTOP_SCREEN: 1024px;
 //$tertiaryColor: #000000;
 //$lightTertiaryColor: #878B8D;
 
-$primaryColor: #8F4FA9;
-$darkPrimaryColor:  #262C79FF;;
-$lightPrimaryColor: #4754E5FF;
-$secondaryColor: #f4f5f7;//#22806f;
-$lightSecondaryColor: #36ccb0;
-$tertiaryColor: #5b105d;
-$lightTertiaryColor: #bf25c3;
+$primaryColor: #F0C807;
+//$darkPrimaryColor:  #262C79FF;
+//$lightPrimaryColor: #4754E5FF;
+$secondaryColor: #4D4D4D;//#22806f;
+$tertiaryColor: #77B279;
+$quaternaryColor: #F54F4F;
+$quinaryColor: #00000029;
+$senaryColor: #EDEDED;
+$septenaryColor: #FAFAFA;
 
-$quaternaryColor: #fafafa;//#F7F7F7;
-$quinaryColor: #faa142;
-$senaryColor: #7be495;
-$septenaryColor: #5ccec9;
+
 $octonaryColor: #adbac3;
 $nonaryColor: #547ce2;
 $denaryColor: #f3533b;
@@ -94,7 +93,7 @@ $header-activeTabBorder: 3px solid;
 $header-activeTabColor: #3F9C35;
 
 
-$headerTextColor: $quaternaryColor;
+$headerTextColor: $septenaryColor;
 
 
 

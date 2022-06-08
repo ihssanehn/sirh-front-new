@@ -44,7 +44,7 @@
 
 .primary{
   //background-image: $maingradient;
-  background: $primaryColor;//$secondaryColor;
+  background: $tertiaryColor;//$secondaryColor;
   //color: #ffffff;
   color: white; //$primaryColor;
   //border: 0.1px solid $primaryColor;
@@ -56,15 +56,41 @@
 }
 
 .secondary{
-  color: $primaryColor;
+  background: $secondaryColor;
+  color: white;
   i:before{
-    color: $primaryColor;
-    font-size: 13px;
+    color: white;
+    font-size: 14px;
+  }
+  &:hover{
+    color: $secondaryColor;
+    background: white;
+    i:before{
+      color: $secondaryColor;
+      font-size: 14px;
+    }
+  }
+}
+
+.tertiary{
+  color: $secondaryColor;
+  background: inherit;
+  i:before{
+    color: $secondaryColor;
+    font-size: 14px;
+  }
+  &:hover{
+    background: $secondaryColor;
+    color: white;
+    i:before{
+      color: white;
+      font-size: 14px;
+    }
   }
 }
 
 .danger{
-  background-color: $danger;
+  background-color: $quaternaryColor;
   color: white;
   i:before{
     color: white;

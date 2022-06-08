@@ -1,0 +1,559 @@
+@import "~app/app.component";
+
+
+.head-info{
+  display: flex;
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  .avatar{
+    min-width: 150px;
+    max-width: 200px;
+    border-radius: 27px;
+    overflow: hidden;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .overlay{
+      position: absolute;
+      background: rgba(0, 0, 0, .5);
+      display: none;
+      cursor: pointer;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 10%;
+      .upload-action{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
+      i:before{
+        color: white;
+        font-size: 30px;
+      }
+      font-size: 11px;
+      color: white;
+      .fa-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .fa-close:before{
+        color: red;
+        font-size: 15px;
+      }
+    }
+    &:hover{
+      //transition: $transition-fade;
+      .overlay{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+    .show-overlay{
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    .actions{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      bottom: 5px;
+      width: 100%;
+    }
+    img{
+      width: 100%;
+    }
+  }
+  .info{
+    padding: 5px 20px;
+    //d-flex flex-column info justify-content-center
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h1{
+      font-size: 2rem;
+    }
+    .info-item{
+      font-size: 13px;
+    }
+  }
+
+}
+
+.form-column{
+  @media (min-width: $LAPTOP_SCREEN) {
+    &:first-child{
+      margin-right: 30px;
+    }
+    &:last-child{
+      //padding-left: 5%;
+    }
+  }
+  h5{
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .form-bloc{
+    .row{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      align-items: baseline;
+      label{
+        font-size: 12px;
+        min-width: 210px;
+      }
+      .btn-group{
+        width: 100%;
+        .btn{
+          //border-radius: 35px;
+          min-width: unset;
+          width: 40%;
+          font-weight: normal;
+          //border: 1px solid var(--unnamed-color-e5e5e5);
+          border: 1px solid #E5E5E5;
+          border-radius: 20px;
+          &:first-child{
+            margin-right: 5px;
+          }
+        }
+        .active{
+          background-color: #d3d3d378;
+        }
+      }
+    }
+  }
+}
+
+
+.submit-block{
+  padding-top: 30px;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  app-button:first-child{
+    margin-right: 15px;
+  }
+}
+
+.input{
+  font-size: 12px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  min-height: 38px;
+  opacity: .8;
+  outline: none;
+  box-shadow: none;
+}
+
+.error-input{
+  //border-color: #e5616b;
+  border-color: $danger;
+  color: $danger;
+}
+
+
+.top-container-modal{
+  padding: 25px 25px 8px 25px;
+  .cards{
+    display: flex;
+    margin-bottom: 15px;
+    .card{
+      border: 1px solid lightgray;
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      color: $secondaryColor;
+      text-decoration: none;
+      &:hover{
+        color: white;
+        background: $secondaryColor;
+      }
+    }
+  }
+  .modal-footer{
+    width: 100%;
+    text-align: right;
+    padding: 0;
+    margin-top: 22px;
+  }
+  .main-title{
+    font-size: 1.5em;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  .sub-title{
+    font-size: 13px;
+    opacity: .7;
+    font-weight: 300;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+}
+
+
+
+.photo-cell{
+  display: flex;
+  align-items: center;
+  width: 20px;
+  max-width: unset;
+  min-width: unset;
+  .name{
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 24px;
+    margin-left: 16px;
+    font-weight: 400;
+    color: #393a3b;
+  }
+  .photo{
+    border: 1px solid lightgray;
+    position: relative;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    margin: 0 auto;
+    .img-container{
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+      border-width: 1px !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      img{
+        height: 100%;
+        width: 100%;
+      }
+    }
+    i{
+      position: absolute;
+      bottom: -2px;
+      right: -4px;
+      width: 14px;
+      height: 14px;
+      background: white;
+    }
+    i:before{
+      color: red;
+      font-weight: 800;
+    }
+  }
+}
+
+.sub-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  .main-title{
+    font-size: 1.6rem;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-top: 10px;
+  }
+  .search{
+    width: fill-available;
+    margin-top: 10px;
+    //flex: 1;
+    .input-group{
+      position: relative;
+      //min-width: 290px;
+      //min-width: 300px;
+      input{
+        box-shadow: none;
+        border-radius: 10px;
+      }
+      .input-group-append{
+        position: absolute;
+        right: 18px;
+        height: 100%;
+        display: flex;
+        i{
+          display: flex;
+          align-items: center;
+          opacity: .4;
+          &:before{
+            font-weight: 300;
+          }
+        }
+      }
+    }
+    @media (min-width: $TABLET_SCREEN) {
+      .input-group{
+        min-width: 300px;
+      }
+    }
+    app-button{
+      ::ng-deep .icon-filter .icon-close{
+        padding-right: 5px;
+      }
+    }
+  }
+  @media (min-width: $LARGE_SCREEN) {
+    .search{
+      min-width: 250px;
+      width: unset;
+    }
+  }
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+table {
+  td{
+    border-bottom: 1px solid #dfdfdf57;
+    cursor: pointer;
+    display: table-cell;
+    padding: 20px 24px;
+    transition: background .2s ease-out;
+    vertical-align: middle;
+    font-size: 12px;
+    background: white;
+    color: $fontColor;
+    &:after {
+      display: none;
+    }
+
+    &:before {
+      content: '';
+    }
+  }
+  tr.spaceUnder>td {
+    padding-bottom: 1em;
+  }
+  thead{
+    th{
+      border: 0;
+      font-weight: 500;
+      padding: 12px 24px 10px 24px;
+      font-size: 12px;
+      color: $fontColor;
+      i {
+        margin-right: 5px;
+        &:before{
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+button.btn {
+  border: 0;
+  border-radius: 0px;
+
+  i {
+    margin-right: 3px;
+  }
+}
+
+//@media (min-width: $sm-max-width) {
+.list {
+  .table-wrapper {
+    //max-width: 80%;
+  }
+
+  .card-list-table {
+    display: inline-table;
+    overflow: scroll;
+    min-width: 550px;
+    tbody tr {
+      background: transparent;
+      box-shadow: none;
+      margin: 0;
+    }
+
+    thead {
+      display: table-header-group;
+
+      th:last-child {
+        box-shadow: none;
+      }
+    }
+
+    tbody {
+      tr {
+        display: table-row;
+        padding-bottom: 0;
+
+        &:nth-of-type(even) {
+          background: #fff;
+        }
+      }
+
+      .cell{
+        //display: flex;
+        align-items: center;
+        display: table-cell;
+        .tag{
+          color: white;
+          margin: 1px;
+          padding: 2px 7px;
+          border: 0;
+          font-weight: 600;
+          width: fit-content;
+          border-radius: 10px;
+        }
+      }
+      .lightcell{
+        color: #acacb3;
+      }
+    }
+  }
+}
+//}
+
+.shadowed-line{
+  background: unset !important;
+  td{
+    opacity: .3;
+  }
+}
+.table-wrapper {
+  //max-width: 300px;
+  width: 100%;
+  margin: 0 auto 0;
+  // max-height: 500px;
+  // overflow-y: scroll;
+  position: relative;
+  transition: all .2s ease-out;
+  //border-radius: 30px;
+  //border: 0;
+}
+.card-list-table {
+  table-layout: fixed;
+  background: transparent;
+  margin-bottom: 0;
+  width: 100%;
+  border: 0;
+  box-shadow: none;
+  border-radius: 30px;
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    background: #fff;
+    cursor: pointer;
+    display: block;
+    padding: 15px 10px;
+    margin: 0 0 10px 0;
+  }
+
+}
+.actions{
+  display: flex;
+  justify-content: flex-end !important;
+  align-items: center;
+  span{
+    font-weight: 500;
+    color: $primaryColor;
+    margin-left: 5px;
+  }
+  img{
+    width: 25px !important;
+    height: 25px !important;;
+    margin-right: 5px;
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+  .disable-img{
+    opacity: .3;
+  }
+  i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:before{
+      font-weight: 600;
+      color: $primaryColor;
+      font-size: 16px;
+    }
+  }
+}
+.buttons {
+  margin: 40px 0;
+  max-width: 80%;
+  padding: 0;
+
+  .search-field {
+    height: 45px;
+    padding-left: 30px;
+    border-radius: 0 ;
+    border-color: transparent ;
+    border-top-left-radius: 16px ;
+    border-bottom-left-radius: 16px ;
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2) ;
+    -moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2) ;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.2) ;
+    font-size: 12px;
+  }
+
+  .search-btn {
+    border-radius: 0 ;
+    height: 45px;
+    border-top-right-radius: 3px ;
+    border-bottom-right-radius: 3px ;
+    width: 4.8em;
+    background-color: #1E90FF;
+    color: white;
+    border-top-right-radius: 16px ;
+    border-bottom-right-radius: 16px ;
+    font-size: 25px;
+  }
+}
+.manager{
+  background-color: #7be495;
+  border: solid 2px #63ce7e;
+}
+.superadmin{
+  border: solid 2px #f59223;
+  background-color: #faa242;
+}
+.user{
+  border: solid 2px #415cd6;
+  background-color: #5876e2;
+}

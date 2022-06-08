@@ -1,0 +1,18 @@
+<div class="container top-container-modal">
+  <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  <h1 class="main-title">Ajouter un nouveau compte</h1>
+  <h5 class="sub-title">Veillez selectionner le rôle du compte à ajouter</h5>
+  <div class="cards row">
+    <a class="card col" [routerLink]="['/users/add_user']" >Utilisateur</a>
+    <a class="card col" [routerLink]="['/users/add_collab']">Collaborateur</a>
+    <a class="card col" [routerLink]="['/users/add_collab']">Utilisateur & collaborateur</a>
+  </div>
+  <div class="modal-footer">
+    <app-button
+      [text]="'Fermer'"
+      [type]="'tertiary'"
+      (onClick)="modal.dismiss()"
+    >
+    </app-button>
+  </div>
+</div>

@@ -104,6 +104,7 @@ export class UpdateUserComponent implements OnInit {
   errorLoadData: boolean;
   loadingData: boolean;
   submittingPhoto: boolean;
+  photoBase64 = null;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -186,18 +187,26 @@ export class UpdateUserComponent implements OnInit {
       // cp_cp_id: [null, Validators.required],
     });
 
+    this.modalService.dismissAll();
+
     this.passwordFormGroup = this.formBuilder.group({
       password: [null, [Validators.required, Validators.minLength(6)]],
       confirm_password: [null, [Validators.required, Validators.minLength(6)]],
     }, {validator: this.passwordConfirming});
+    this.activatedRoute.params.subscribe(params => {
+      console.log('params', params);
+    })
   }
 
   ngOnInit(){
-    this.getUser(this.activatedRoute.snapshot.params.id);
+    if(this.activatedRoute.snapshot.params.id){
+      this.getUser(this.activatedRoute.snapshot.params.id);
+    }
     this.getSituationsfamilles();
     this.getFonctionPersonnel();
     this.getStatus();
     this.getCategoriesFonctions();
+    this.changeDetectorRef.detectChanges();
   }
 
   async getUser(id, initForm=true) {
@@ -358,11 +367,14 @@ export class UpdateUserComponent implements OnInit {
     modalRef.componentInstance.file = event.target.files[0];
     modalRef.componentInstance.submitImage.subscribe(({file, base64}) => {
       console.log('cropper result ', file);
+      this.photoBase64 = base64;
       if (file instanceof File) {
         this.userFormGroup.patchValue({
           photo_de_profil: file
         });
-        this.onSubmitProfilePicture(file);
+        if(this.userFormGroup?.value?.id){
+          this.onSubmitProfilePicture(file);
+        }
       }
     });
   }
@@ -390,7 +402,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   isDisabled() {
-    markFormAsDirty(this.userFormGroup)
+    // markFormAsDirty(this.userFormGroup)
   }
 
 
