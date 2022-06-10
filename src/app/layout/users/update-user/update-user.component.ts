@@ -31,34 +31,39 @@ export class UpdateUserComponent implements OnInit {
   submittingPassword: boolean;
   formInputs = {
     id: 'id',
-    civilite: 'civilite',
-    nom: 'nom',
-    prenom: 'prenom',
-    tel_perso: 'tel_perso',
-    email_perso: 'email_perso',
-    adresse: 'adresse',
+    civility: 'civility',
+    last_name: 'last_name',
+    first_name: 'first_name',
+    tel_personal: 'tel_personal',
+    email_personal: 'email_personal',
+    address: 'address',
     code_postal: 'code_postal',
-    date_naissance: 'date_naissance',
-    lieu_naissance: 'lieu_naissance',
-    nationalite: 'nationalite',
-    num_securite_sociale: 'num_securite_sociale',
-    situation_famille_id: 'situation_famille_id',
+    birthday: 'birthday',
+    birth_place: 'birth_place',
+    nationality: 'nationality',
+    number_security_social: 'number_security_social',
+    family_situation_id: 'family_situation_id',
+    city: 'city',
 
     matricule: 'matricule',
-    date_entree: 'date_entree',
-    date_sortie: 'date_sortie',
+    start_date: 'start_date',
+    end_date: 'end_date',
     telephone: 'telephone',
-    fonction_id: 'fonction_id',
+    function_id: 'function_id',
     status_id: 'status_id',
-    email: 'email',
-    nom_urgence: 'nom_urgence',
-    telephone_urgence: 'telephone_urgence',
-    lien_parente_urgence: 'lien_parente_urgence',
+    email_professional: 'email_professional',
+    urgency_name_1: 'urgency_name_1',
+    urgency_telephone_1: 'urgency_telephone_1',
+    family_link_1: 'family_link_1',
     categorie_id: 'categorie_id',
+    urgency_name_2: 'urgency_name_2',
+    urgency_telephone_2: 'urgency_telephone_2',
+    family_link_2: 'family_link_2',
 
-    // ville: 'ville',
-    // manager_id: 'manager_id',
-    // cp_id: 'cp_id',
+    manager_id: 'manager_id',
+    cp_id: 'cp_id',
+    is_virtual: 'is_virtual',
+    kids_number: 'kids_number',
     // creator_id: 'creator_id',
     // archive: 'archive',
     // profil_conges_id: 'profil_conges_id',
@@ -71,11 +76,8 @@ export class UpdateUserComponent implements OnInit {
     // is_hors_siege: 'is_hors_siege',
     // categorie_id: 'categorie_id',
     // validite_titre_sejour: 'validite_titre_sejour',
-    // is_virtual: 'is_virtual',
+
     // validateur_absence_id: 'validateur_absence_id',
-    // nom_urgence_2: 'nom_urgence_2',
-    // telephone_urgence_2: 'telephone_urgence_2',
-    // lien_parente_urgence_2: 'lien_parente_urgence_2',
     // is_fr: 'is_fr',
     // titre_sejour_id: 'titre_sejour_id',
     // date_fin_periode_essais: 'date_fin_periode_essais',
@@ -105,6 +107,7 @@ export class UpdateUserComponent implements OnInit {
   loadingData: boolean;
   submittingPhoto: boolean;
   photoBase64 = null;
+
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -119,36 +122,43 @@ export class UpdateUserComponent implements OnInit {
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
       id: [null, Validators.required],
-      civilite: [null, Validators.required],
-      nom: [null, Validators.required],
-      prenom: [null, Validators.required],
-      tel_perso: [null, Validators.required],
-      email_perso: [null],
-      adresse: [null],
+      civility: [null, Validators.required],
+      last_name: [null, Validators.required],
+      first_name: [null, Validators.required],
+      tel_personal: [null, Validators.required],  //to add
+      email_personal: [null],
+      address: [null],
       code_postal: [null],
-      date_naissance: [null, Validators.required],
-      lieu_naissance: [null, Validators.required],
-      nationalite: [null, Validators.required],
-      num_securite_sociale: [null],
-      situation_famille_id: [null],
+      birthday: [null, Validators.required],
+      birth_place: [null, Validators.required],
+      nationality: [null, Validators.required],
+      number_security_social: [null],
+      family_situation_id: [null],
+      city: [null],
 
       matricule: [null],
-      date_entree: [null, Validators.required],
-      date_sortie: [null],
+      start_date: [null, Validators.required],
+      end_date: [null],
       telephone: [null],
-      fonction_id: [null, Validators.required],
+      function_id: [null, Validators.required],
       status_id: [null, Validators.required],
-      email: [null, Validators.required],
+      email_professional: [null, Validators.required],
 
-      nom_urgence: [null],
-      telephone_urgence: [null],
-      lien_parente_urgence: [null],
+      urgency_name_1: [null],
+      urgency_telephone_1: [null],
+      family_link_1: [null],
       categorie_id: [null, Validators.required],
 
-      // ville: [null, Validators.required],
+      urgency_name_2: [null, Validators.required],
+      urgency_telephone_2: [null, Validators.required],
+      family_link_2: [null, Validators.required],
 
-      // manager_id: [null, Validators.required],
-      // cp_id: [null, Validators.required],
+
+
+      manager_id: [null, Validators.required],
+      cp_id: [null, Validators.required],
+      is_virtual: [false],
+      kids_number: [null],
       // creator_id: [null, Validators.required],
       // archive: [null, Validators.required],
       // profil_conges_id: [null, Validators.required],
@@ -161,11 +171,7 @@ export class UpdateUserComponent implements OnInit {
       // is_hors_siege: [null, Validators.required],
 
       // validite_titre_sejour: [null, Validators.required],
-      // is_virtual: [null, Validators.required],
       // validateur_absence_id: [null, Validators.required],
-      // nom_urgence_2: [null, Validators.required],
-      // telephone_urgence_2: [null, Validators.required],
-      // lien_parente_urgence_2: [null, Validators.required],
       // is_fr: [null, Validators.required],
       // titre_sejour_id: [null, Validators.required],
       // date_fin_periode_essais: [null, Validators.required],
@@ -259,10 +265,10 @@ export class UpdateUserComponent implements OnInit {
     }
     let toSubmit = Object.assign({}, this.userFormGroup.value,
       {
-        fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.fonction_id),
+        function: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
         status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
         category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
-         situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)},
+        family_situation: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.family_situation_id)},
      );
 
     //Adapting it with backend
@@ -347,7 +353,7 @@ export class UpdateUserComponent implements OnInit {
     const info = this.userFormGroup?.value;
     if(info){
 
-      const diff = moment().diff(moment(info.date_entree, 'YYYY-MM-DD'), 'months');
+      const diff = moment().diff(moment(info.start_date, 'YYYY-MM-DD'), 'months');
       let ans: any = Math.floor(diff/12);
 
       const month = diff % ans;
@@ -459,7 +465,7 @@ export class UpdateUserComponent implements OnInit {
     const params = {
       id: this.user?.id,
       ...this.userFormGroup.value,
-        fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.fonction_id),
+        fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
         status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
         category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
         situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)

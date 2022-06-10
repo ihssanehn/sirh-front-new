@@ -138,10 +138,11 @@
     display: none;
   }
   .mat-menu-item{
-    padding-left: 25px !important;
-    padding-right: 25px !important;
+    //padding-left: 25px !important;
+    //padding-right: 25px !important;
     font-size: calc(min(12px, 3.8vw));
     opacity: .9;
+    padding: 0;
     i{
       margin-right: 10px;
       &:before{

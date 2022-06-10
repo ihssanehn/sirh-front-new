@@ -31,70 +31,9 @@ export class AddUserComponent implements OnInit {
   submittingPassword: boolean;
   formInputs = {
     id: 'id',
-    civilite: 'civilite',
     nom: 'nom',
     prenom: 'prenom',
-    tel_perso: 'tel_perso',
-    email_perso: 'email_perso',
-    adresse: 'adresse',
-    code_postal: 'code_postal',
-    date_naissance: 'date_naissance',
-    lieu_naissance: 'lieu_naissance',
-    nationalite: 'nationalite',
-    num_securite_sociale: 'num_securite_sociale',
-    situation_famille_id: 'situation_famille_id',
-
-    matricule: 'matricule',
-    date_entree: 'date_entree',
-    date_sortie: 'date_sortie',
-    telephone: 'telephone',
-    fonction_id: 'fonction_id',
-    status_id: 'status_id',
-    email: 'email',
-    nom_urgence: 'nom_urgence',
-    telephone_urgence: 'telephone_urgence',
-    lien_parente_urgence: 'lien_parente_urgence',
-    categorie_id: 'categorie_id',
-
-    // ville: 'ville',
-    // manager_id: 'manager_id',
-    // cp_id: 'cp_id',
-    // creator_id: 'creator_id',
-    // archive: 'archive',
-    // profil_conges_id: 'profil_conges_id',
-    // profil_conges_custom: 'profil_conges_custom',
-    // profil_conges_customs_id: 'profil_conges_customs_id',
-    // cout_revient: 'cout_revient',
-    // cout_vente: 'cout_vente',
-    // remember_token: 'remember_token',
-    // is_temps_partiel: 'is_temps_partiel',
-    // is_hors_siege: 'is_hors_siege',
-    // categorie_id: 'categorie_id',
-    // validite_titre_sejour: 'validite_titre_sejour',
-    // is_virtual: 'is_virtual',
-    // validateur_absence_id: 'validateur_absence_id',
-    // nom_urgence_2: 'nom_urgence_2',
-    // telephone_urgence_2: 'telephone_urgence_2',
-    // lien_parente_urgence_2: 'lien_parente_urgence_2',
-    // is_fr: 'is_fr',
-    // titre_sejour_id: 'titre_sejour_id',
-    // date_fin_periode_essais: 'date_fin_periode_essais',
-    // has_done_periode_essais: 'has_done_periode_essais',
-    // periode_essais_comment: 'periode_essais_comment',
-    // type_titre_sejour: 'type_titre_sejour',
-    // num_titre_sejour: 'num_titre_sejour',
-    // status_pe_id: 'status_pe_id',
-    // photo_profil_id: 'photo_profil_id',
-    // duree_mission: 'duree_mission',
-    //
-    //
-    // nombre_enfants: 'nombre_enfants',
-    // salaire_brut: 'salaire_brut',
-    // compte_salarie: 'compte_salarie',
-    // avantage_nature: 'avantage_nature',
-    // has_tjm_fixed: 'has_tjm_fixed',
-    // is_travailleur_handicape: 'is_travailleur_handicape',
-    // cp_cp_id: 'cp_cp_id',
+    email: 'email'
   }
   user: User;
   situationsfamilles: any;
@@ -119,72 +58,9 @@ export class AddUserComponent implements OnInit {
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
       id: [null, Validators.required],
-      civilite: [null, Validators.required],
       nom: [null, Validators.required],
       prenom: [null, Validators.required],
-      tel_perso: [null, Validators.required],
-      email_perso: [null],
-      adresse: [null],
-      code_postal: [null],
-      date_naissance: [null, Validators.required],
-      lieu_naissance: [null, Validators.required],
-      nationalite: [null, Validators.required],
-      num_securite_sociale: [null],
-      situation_famille_id: [null],
-
-      matricule: [null],
-      date_entree: [null, Validators.required],
-      date_sortie: [null],
-      telephone: [null],
-      fonction_id: [null, Validators.required],
-      status_id: [null, Validators.required],
       email: [null, Validators.required],
-
-      nom_urgence: [null],
-      telephone_urgence: [null],
-      lien_parente_urgence: [null],
-      categorie_id: [null, Validators.required],
-
-      // ville: [null, Validators.required],
-
-      // manager_id: [null, Validators.required],
-      // cp_id: [null, Validators.required],
-      // creator_id: [null, Validators.required],
-      // archive: [null, Validators.required],
-      // profil_conges_id: [null, Validators.required],
-      // profil_conges_custom: [null, Validators.required],
-      // profil_conges_customs_id: [null, Validators.required],
-      // cout_revient: [null, Validators.required],
-      // cout_vente: [null, Validators.required],
-      // remember_token: [null, Validators.required],
-      // is_temps_partiel: [null, Validators.required],
-      // is_hors_siege: [null, Validators.required],
-
-      // validite_titre_sejour: [null, Validators.required],
-      // is_virtual: [null, Validators.required],
-      // validateur_absence_id: [null, Validators.required],
-      // nom_urgence_2: [null, Validators.required],
-      // telephone_urgence_2: [null, Validators.required],
-      // lien_parente_urgence_2: [null, Validators.required],
-      // is_fr: [null, Validators.required],
-      // titre_sejour_id: [null, Validators.required],
-      // date_fin_periode_essais: [null, Validators.required],
-      // has_done_periode_essais: [null, Validators.required],
-      // periode_essais_comment: [null, Validators.required],
-      // type_titre_sejour: [null, Validators.required],
-      // num_titre_sejour: [null, Validators.required],
-      // status_pe_id: [null, Validators.required],
-      // photo_profil_id: [null, Validators.required],
-      // duree_mission: [null, Validators.required],
-      //
-      //
-      // nombre_enfants: [null, Validators.required],
-      // salaire_brut: [null, Validators.required],
-      // compte_salarie: [null, Validators.required],
-      // avantage_nature: [null, Validators.required],
-      // has_tjm_fixed: [null, Validators.required],
-      // is_travailleur_handicape: [null, Validators.required],
-      // cp_cp_id: [null, Validators.required],
     });
 
     this.modalService.dismissAll();
@@ -210,10 +86,6 @@ export class AddUserComponent implements OnInit {
   }
 
   async getUser(id, initForm=true) {
-    // const params = {
-    //   id: id,
-    // };
-
     try {
       this.loadingData = true;
       this.errorLoadData = false;
@@ -239,15 +111,6 @@ export class AddUserComponent implements OnInit {
       ...user
     });
   }
-
-  // submit(){
-  //   this.errors = [];
-  //   this.userService.update(this.userFormGroup.value).toPromise().then((val) => {
-  //     this.router.navigate(['..'], { relativeTo: this.activatedRoute });
-  //   }).catch( err => {
-  //     this.errors = this.errorService.format(err);
-  //   })
-  // }
 
 
   async submit() {

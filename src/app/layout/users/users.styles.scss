@@ -91,6 +91,11 @@
 
 }
 
+.form-box{
+  padding: 10px 10px;
+  background: white;
+}
+
 .form-column{
   @media (min-width: $LAPTOP_SCREEN) {
     &:first-child{
@@ -114,7 +119,7 @@
         font-size: 12px;
         min-width: 210px;
       }
-      .btn-group{
+      .civilite{
         width: 100%;
         .btn{
           //border-radius: 35px;
@@ -127,12 +132,43 @@
           &:first-child{
             margin-right: 5px;
           }
+          &:hover{
+            background-color: $secondaryColor;
+            color: white;
+          }
         }
         .active{
           background-color: #d3d3d378;
         }
       }
+      .boolean-button{
+        label{
+          min-width: unset;
+          border: 1px solid lightgray;
+          color: lightgray;
+          box-shadow: none;
+        }
+        .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary{
+          background: $secondaryColor;
+          color: white;
+        }
+      }
     }
+    .civilite{
+      .label:hover{
+        background: red;
+      }
+    }
+  }
+  .sub-form-bloc{
+    h6{
+      opacity: .7;
+      margin-bottom: 0;
+    }
+  //  &:first-child{
+  //    background: red;
+  //    margin-bottom: 15px;
+  //  }
   }
 }
 
