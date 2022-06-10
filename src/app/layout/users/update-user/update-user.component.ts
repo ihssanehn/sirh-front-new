@@ -34,7 +34,7 @@ export class UpdateUserComponent implements OnInit {
     civility: 'civility',
     last_name: 'last_name',
     first_name: 'first_name',
-    tel_personal: 'tel_personal',
+    telephone_personal: 'telephone_personal',
     email_personal: 'email_personal',
     address: 'address',
     code_postal: 'code_postal',
@@ -45,10 +45,10 @@ export class UpdateUserComponent implements OnInit {
     family_situation_id: 'family_situation_id',
     city: 'city',
 
-    matricule: 'matricule',
+    registration_number: 'registration_number',
     start_date: 'start_date',
     end_date: 'end_date',
-    telephone: 'telephone',
+    telephone_professional: 'telephone_professional',
     function_id: 'function_id',
     status_id: 'status_id',
     email_professional: 'email_professional',
@@ -64,6 +64,16 @@ export class UpdateUserComponent implements OnInit {
     cp_id: 'cp_id',
     is_virtual: 'is_virtual',
     kids_number: 'kids_number',
+    validator_absence_id:  'validator_absence_id',
+    profile_id: 'profile_id',
+    is_part_time: 'is_part_time',
+    first_annual_salary: 'first_annual_salary',
+
+    is_head_office: 'is_head_office',
+    benefits: 'benefits',
+    number_carte_vitale: 'number_carte_vitale',
+
+
     // creator_id: 'creator_id',
     // archive: 'archive',
     // profil_conges_id: 'profil_conges_id',
@@ -107,7 +117,10 @@ export class UpdateUserComponent implements OnInit {
   loadingData: boolean;
   submittingPhoto: boolean;
   photoBase64 = null;
-
+  validators_conge =  [];
+  profils =  [];
+  managers =  [];
+  centres_profit =  [];
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -125,7 +138,7 @@ export class UpdateUserComponent implements OnInit {
       civility: [null, Validators.required],
       last_name: [null, Validators.required],
       first_name: [null, Validators.required],
-      tel_personal: [null, Validators.required],  //to add
+      telephone_personal: [null, Validators.required],  //to add
       email_personal: [null],
       address: [null],
       code_postal: [null],
@@ -136,11 +149,11 @@ export class UpdateUserComponent implements OnInit {
       family_situation_id: [null],
       city: [null],
 
-      matricule: [null],
+      registration_number: [null],
       start_date: [null, Validators.required],
       end_date: [null],
-      telephone: [null],
-      function_id: [null, Validators.required],
+      telephone_professional: [null],
+      function_id: [null],
       status_id: [null, Validators.required],
       email_professional: [null, Validators.required],
 
@@ -154,11 +167,19 @@ export class UpdateUserComponent implements OnInit {
       family_link_2: [null, Validators.required],
 
 
-
       manager_id: [null, Validators.required],
       cp_id: [null, Validators.required],
       is_virtual: [false],
       kids_number: [null],
+
+      validator_absence_id: [null],
+      profile_id: [null, Validators.required],
+      is_head_office: [null, Validators.required],
+      is_part_time: [null],
+      first_annual_salary: [null],
+
+      benefits: [null],
+      number_carte_vitale: [null],
       // creator_id: [null, Validators.required],
       // archive: [null, Validators.required],
       // profil_conges_id: [null, Validators.required],
