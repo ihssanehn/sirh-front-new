@@ -64,7 +64,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     if(this.modalService.hasOpenModals()){
       return;
     }
-    const modalRef = this.modalService.open(SelectRoleComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    const modalRef = this.modalService.open(SelectRoleComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
       // if(result === 'QUERY'){

@@ -9,7 +9,7 @@ import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
 import * as moment from "moment";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 
 
@@ -52,6 +52,7 @@ export class AddUserComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
               private translate: TranslateService,
+              public modal: NgbActiveModal,
               private changeDetectorRef: ChangeDetectorRef,
               private userService : UserService) {
 

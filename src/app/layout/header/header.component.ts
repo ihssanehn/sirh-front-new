@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MainStore} from '@store/mainStore.store';
 import {UserStore} from '@store/user.store';
-import {$userRoles} from '@shared/Objects/sharedObjects';
+import {$headerItems, $userRoles} from '@shared/Objects/sharedObjects';
 import {Router} from '@angular/router';
 import {UserService} from '@app/core/services';
 
@@ -13,6 +13,7 @@ import {UserService} from '@app/core/services';
 export class HeaderComponent implements OnInit {
 
   $userRoles = $userRoles;
+  $headerItems = $headerItems;
   constructor(
     public mainStore: MainStore,
     public userStore: UserStore,

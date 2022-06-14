@@ -1,16 +1,34 @@
 <div class="container top-container-modal">
   <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
-  <h1 class="main-title">Ajouter un nouveau compte</h1>
-  <h5 class="sub-title">Veillez selectionner le rôle du compte à ajouter</h5>
+  <h1 class="main-title">Ajouter un profil</h1>
+  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>
   <div class="cards row">
-    <a class="card col" [routerLink]="['/users/add_user']" >Utilisateur</a>
-    <a class="card col" [routerLink]="['/users/add_collab']">Collaborateur</a>
-    <a class="card col" [routerLink]="['/users/add_collab']">Utilisateur & collaborateur</a>
+    <div class="card col" (click)="openModal('user')"  >
+      <div class="icon"><i class="icon-user-profil"></i></div>
+      <div class="title">Utilisateur</div>
+    </div>
+    <div class="card col" (click)="openModal('collab')" >
+      <div class="icon"><i class="icon-user-profil-2"></i></div>
+      <div class="title">Collaborateur</div>
+    </div>
+    <div class="card col" (click)="openModal('collab-user')">
+      <div class="icon"><i class="icon-user-profil-3"></i></div>
+      <div class="title">Utilisateur et collaborateur</div>
+    </div>
+<!--    [routerLink]="['/users/add_user']"-->
+<!--    [routerLink]="['/users/add_collab']"-->
+<!--    [routerLink]="['/users/add_collab']"-->
   </div>
   <div class="modal-footer">
     <app-button
-      [text]="'Fermer'"
-      [type]="'tertiary'"
+      [text]="'Annuler'"
+      [type]="'secondary_inverse'"
+      (onClick)="modal.dismiss()"
+    >
+    </app-button>
+    <app-button
+      [text]="'Valider l\'ajout'"
+      [type]="'primary'"
       (onClick)="modal.dismiss()"
     >
     </app-button>

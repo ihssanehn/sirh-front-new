@@ -186,9 +186,11 @@
 
 .input{
   font-size: 12px;
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid lightgray;
+  //border-radius: 0;
+  //border: 0;
+  //border-bottom: 1px solid lightgray;
+  border: 1px solid lightgray;
+  border-radius: 5px;
   min-height: 38px;
   opacity: .8;
   outline: none;
@@ -218,6 +220,17 @@
       border-radius: 5px;
       color: $secondaryColor;
       text-decoration: none;
+      text-align: center;
+      .icon{
+        margin-bottom: 10px;
+      }
+      .title{
+        font-size: 14px;
+        min-height: 40px;
+      }
+      i:before{
+        font-size: 40px;
+      }
       &:hover{
         color: white;
         background: $secondaryColor;
@@ -228,20 +241,21 @@
     width: 100%;
     text-align: right;
     padding: 0;
-    margin-top: 22px;
+    //margin-top: 22px;
+    border: 0;
   }
   .main-title{
-    font-size: 1.5em;
+    font-size: 20px;
     width: 100%;
-    text-align: left;
+    text-align: center;
     margin-bottom: 10px;
   }
   .sub-title{
-    font-size: 13px;
+    font-size: 14px;
     opacity: .7;
     font-weight: 300;
     width: 100%;
-    text-align: left;
+    text-align: center;
     margin-bottom: 20px;
   }
 
@@ -313,7 +327,7 @@
   margin-top: 0px;
   margin-bottom: 10px;
   .main-title{
-    font-size: 1.6rem;
+    font-size: 18px;
     min-height: 60px;
     display: flex;
     align-items: center;
@@ -380,7 +394,7 @@ table {
     border-bottom: 1px solid #dfdfdf57;
     cursor: pointer;
     display: table-cell;
-    padding: 20px 24px;
+    padding: 10px 24px;
     transition: background .2s ease-out;
     vertical-align: middle;
     font-size: 12px;
@@ -403,7 +417,7 @@ table {
       font-weight: 500;
       padding: 12px 24px 10px 24px;
       font-size: 12px;
-      color: $fontColor;
+      color: #4D4D4D;
       i {
         margin-right: 5px;
         &:before{
@@ -545,10 +559,15 @@ button.btn {
     cursor: pointer;
     &:before{
       font-weight: 600;
-      color: $primaryColor;
+      //color: $primaryColor;
       font-size: 16px;
     }
   }
+}
+.right-buttons{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
 }
 .buttons {
   margin: 40px 0;
@@ -592,4 +611,9 @@ button.btn {
 .user{
   border: solid 2px #415cd6;
   background-color: #5876e2;
+}
+
+::ng-deep .myModal .modal-sm {
+  max-width: 40%;
+  width: 40%;
 }

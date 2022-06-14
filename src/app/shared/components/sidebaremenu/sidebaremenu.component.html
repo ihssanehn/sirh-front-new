@@ -90,6 +90,10 @@
         </div>
       </div>
     </ng-container>
+
+    <ng-container  *ngIf="item.type === 'empty'">
+      <div class="list-group-item align-items-center">&nbsp;</div>
+    </ng-container>
   </ng-container>
 </div>
 

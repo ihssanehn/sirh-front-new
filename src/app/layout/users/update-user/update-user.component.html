@@ -18,6 +18,11 @@
       <!--    </div>-->
       <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container"
             novalidate>
+        <h5 *ngIf="title">
+          <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
+          Ajouter un {{title}}
+          <i class="icon-close float-right" (click)="modal.dismiss()"></i>
+        </h5>
         <div class="row form-box">
           <div class="main-container head-info" [ngClass]="{'justify-content-center': !user}">
             <div>
@@ -696,6 +701,10 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row form-box">
+          <div class="main-container col form-column">
             <h5>A contacter en cas d’urgence</h5>
             <div class="form-bloc sub-form-bloc">
               <h6>1er contact</h6>
@@ -754,7 +763,10 @@
                 </div>
               </div>
             </div>
-            <div class="form-bloc sub-form-bloc" style="margin-top: 15px">
+          </div>
+          <div class="main-container col form-column">
+            <h5>A contacter en cas d’urgence 2</h5>
+            <div class="form-bloc sub-form-bloc" >
               <h6>2ème contact</h6>
               <div class="row">
                 <label class="col-2">Nom {{isRequired(formInputs.urgency_name_2)}}</label>
@@ -813,6 +825,16 @@
             </div>
           </div>
         </div>
+        <div class="row form-box">
+          <div class="main-container col form-column">
+            <div class="form-bloc sub-form-bloc">
+              <div class="check-box-btn text-center">
+                <input type="checkbox" id="todo" name="todo" value="todo">
+                <label for="todo" data-content="Get out of bed">Création d'un nouveau compte</label>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="submit-block">
           <app-button [text]="'Annuler'"
                       [type]="'tertiary'"
@@ -820,7 +842,7 @@
                       (onClick)="cancelEditting()"
                       [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
           </app-button>
-          <app-button [text]="'Enregistrer les modifications'"
+          <app-button [text]="'Enregistrer'"
                       [isDisabled]="isDisabled()"
                       [type]="'secondary'"
                       (onClick)="onSubmit()"

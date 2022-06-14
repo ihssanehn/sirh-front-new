@@ -4,7 +4,7 @@
 
 .mybutton{
   //min-height: 36px;
-  //border-radius: 6px;
+  border-radius: 8px;
   //display: inline-block;
   border: none;
   transition: all 0.4s ease 0s;
@@ -17,7 +17,7 @@
     margin-right: 5px;
   }
   i:before{
-    font-size: 17px;
+    font-size: 11px;
   }
 
   &:focus {
@@ -51,23 +51,50 @@
   //border-radius: 0;
   i:before{
     color: white; //$primaryColor;
-    font-size: 14px;
+    font-size: 11px;
   }
 }
+
+.primary_inverse{
+  color: $tertiaryColor;
+  background: white;
+  i:before{
+    color: $tertiaryColor;
+    font-size: 11px;
+  }
+}
+
 
 .secondary{
   background: $secondaryColor;
   color: white;
   i:before{
     color: white;
-    font-size: 14px;
+    font-size: 11px;
   }
   &:hover{
     color: $secondaryColor;
     background: white;
     i:before{
       color: $secondaryColor;
-      font-size: 14px;
+      font-size: 11px;
+    }
+  }
+}
+
+.secondary_inverse{
+  color: $secondaryColor;
+  background: white;
+  i:before{
+    color: $secondaryColor;
+    font-size: 11px;
+  }
+  &:hover{
+    background: $secondaryColor;
+    color: white;
+    i:before{
+      color: white;
+      font-size: 11px;
     }
   }
 }
@@ -77,14 +104,31 @@
   background: inherit;
   i:before{
     color: $secondaryColor;
-    font-size: 14px;
+    font-size: 11px;
   }
   &:hover{
     background: $secondaryColor;
     color: white;
     i:before{
       color: white;
-      font-size: 14px;
+      font-size: 11px;
+    }
+  }
+}
+
+.tertiary_inverse{
+  background: $secondaryColor;
+  color: inherit;
+  i:before{
+    color: white;
+    font-size: 11px;
+  }
+  &:hover{
+    color: $secondaryColor;
+    background: white;
+    i:before{
+      color: $secondaryColor;
+      font-size: 11px;
     }
   }
 }
@@ -94,7 +138,16 @@
   color: white;
   i:before{
     color: white;
-    font-size: 14px;
+    font-size: 11px;
+  }
+}
+
+.danger_inverse{
+  color: $quaternaryColor;
+  background-color: white;
+  i:before{
+    color: $quaternaryColor;
+    font-size: 11px;
   }
 }
 

@@ -1,33 +1,33 @@
 <div class="list container top-container">
-    <div class="foback-header">
-      <app-button
-        [text]="'Retour'"
-        [type]="'tertiary'"
-        [iconLeft]="'icon-go-back'"
-      ></app-button>
-      <div class="right-buttons">
-        <app-button
-          [text]="'Importer'"
-          [type]="'tertiary'"
-          [iconLeft]="'icon-file'"
-          [customStyle]="{'white-space': 'nowrap'}"
-        ></app-button>&nbsp;
-        <app-button
-          [text]="'Exporter'"
-          [type]="'tertiary'"
-          [iconLeft]="'icon-file'"
-          [customStyle]="{'white-space': 'nowrap'}"
-        ></app-button>
-        &nbsp;
-        <app-button
-          [text]="'Ajouter un utilisateur/collaborateur'"
-          [type]="'primary'"
-          [iconLeft]="'fa fa-plus'"
-          (onClick)="openSelectRole()"
-          [customStyle]="{'white-space': 'nowrap'}"
-        ></app-button>
-      </div>
-    </div>
+<!--    <div class="foback-header">-->
+<!--&lt;!&ndash;      <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;        [text]="'Retour'"&ndash;&gt;-->
+<!--&lt;!&ndash;        [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;        [iconLeft]="'icon-go-back'"&ndash;&gt;-->
+<!--&lt;!&ndash;      ></app-button>&ndash;&gt;-->
+<!--      <div class="right-buttons">-->
+<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;          [text]="'Importer'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
+<!--&lt;!&ndash;        ></app-button>&nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;          [text]="'Exporter'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
+<!--&lt;!&ndash;        ></app-button>&ndash;&gt;-->
+<!--        &nbsp;-->
+<!--        <app-button-->
+<!--          [text]="'Ajouter un utilisateur/collaborateur'"-->
+<!--          [type]="'primary'"-->
+<!--          [iconLeft]="'fa fa-plus'"-->
+<!--          (onClick)="openSelectRole()"-->
+<!--          [customStyle]="{'white-space': 'nowrap'}"-->
+<!--        ></app-button>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="sub-header container-fuil container-lg">
       <h1 class="main-title">
         Collaborateurs
@@ -47,9 +47,18 @@
         </div>&nbsp;
         <app-button
           [text]="'Recherche avancé'"
-          [iconLeft]="'fa fa-filter'"
-          [type]="'secondary'"
+          [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
+          [type]="'secondary_inverse'"
           (onClick)="showFilters = !showFilters; resetFillters()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+      <div class="right-buttons">
+        <app-button
+          [text]="'Ajouter'"
+          [type]="'primary'"
+          [iconRight]="'icon-add'"
+          (onClick)="openSelectRole()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>
@@ -145,18 +154,29 @@
             <table class="table-responsive card-list-table">
                 <thead>
                     <tr>
-                        <th colspan="2">
-                          <i class="icon-username"></i>
-                          Nom complet</th>
                         <th>
-                          <i class="icon-email"></i>
-                          Email</th>
+<!--                          <i class="icon-username"></i>-->
+                          Nom
+                        </th>
+                        <th>
+<!--                          <i class="icon-username"></i>-->
+                          Prénom
+                        </th>
+                        <th>
+<!--                          <i class="icon-email"></i>-->
+                          Email
+                        </th>
                          <th>
-                           <i class="icon-phone"></i>
+<!--                           <i class="icon-phone"></i>-->
                            Téléphone</th>
                         <th>
-                          <i class="icon-manager"></i>
-                          Manager</th>
+<!--                          <i class="icon-manager"></i>-->
+                          Profil
+                        </th>
+                        <th>
+<!--                            <i class="icon-manager"></i>-->
+                            Centre d'interêt
+                          </th>
 <!--                        <th class="text-center">Date de création</th>-->
 <!--                        <th>Dernière activité</th>-->
                         <th></th>
@@ -164,7 +184,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of users"  [routerLink]="['/users/info/'+user.id]">
-                        <td colspan="2">
+                        <td>
                           <div class="photo-cell">
                             <div class="photo">
                               <div class="img-container">
@@ -176,25 +196,27 @@
 
                               </div>
                             </div>
-                            <div class="name">{{user?.nom}} {{user?.prenom}}</div>
+                            <div class="name">{{user?.nom}} </div>
                           </div>
                         </td>
+                      <td>{{user?.prenom}}</td>
 <!--                        <td data-title="Nom"></td>-->
                         <td data-title="Email" >{{user?.email}}</td>
                          <td data-title="Téléphonne">{{user?.telephone}}</td>
-                        <td data-title="Manager">{{user?.manager?.nom}}</td>
+                        <td data-title="Profil">{{user?.user?.profil?.libelle}}</td>
+                        <td data-title="Centre d'interêt">{{user?.nom}}</td>
 
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
 <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
                         <td >
 <!--                            appStopPropagation-->
                             <div class="actions">
-                                <i class="icon-edit"
+                                <i class="icon-eye"
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    [routerLink]="['/users/update/'+user.id]"
                                    title="Détails"></i>
-                              <span class="d-none d-lg-flex">Détails</span>
+<!--                              <span class="d-none d-lg-flex">Détails</span>-->
 
 <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
 <!--                                    <i class="fa fa-lock"-->
@@ -222,6 +244,20 @@
             </table>
         </div>
     </div>
+    <div class="right-buttons flex-end">
+            <app-button
+              [text]="'Importer'"
+              [type]="'secondary'"
+              [iconLeft]="'icon-file'"
+              [customStyle]="{'white-space': 'nowrap'}"
+            ></app-button>&nbsp;
+            <app-button
+              [text]="'Exporter'"
+              [type]="'secondary'"
+              [iconLeft]="'icon-file'"
+              [customStyle]="{'white-space': 'nowrap'}"
+            ></app-button>
+  </div>
 </div>
 
 <ng-template  [ngxPermissionsOnly]="['superadmin']">

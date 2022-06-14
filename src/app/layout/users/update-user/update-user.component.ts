@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,7 +9,7 @@ import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
 import * as moment from "moment";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 
 
@@ -121,6 +121,8 @@ export class UpdateUserComponent implements OnInit {
   profils =  [];
   managers =  [];
   centres_profit =  [];
+  @Input() title = '';
+  @Input() type = '';
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -128,6 +130,7 @@ export class UpdateUserComponent implements OnInit {
               private modalService: NgbModal,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
+              public modal: NgbActiveModal,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
               private userService : UserService) {

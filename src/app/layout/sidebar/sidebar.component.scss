@@ -6,7 +6,6 @@
 .sidebar {
   z-index: 20;
   width: $sidebar-width;
-  height: 100%;
   background-color: $sidebar-background;
   background-image:url('/assets/images/wave.png') ;
   background-position: top;
@@ -19,7 +18,7 @@
   font-weight: 500;
   line-height: 20px;
   backdrop-filter: blur(30px);
-  //box-shadow: 0 3px 3px 0 rgb(0 0 0 / 16%);
+  box-shadow: 0 3px 6px #00000029;
   padding-top: 10px;
   outline: none;
   margin-right: 3px;

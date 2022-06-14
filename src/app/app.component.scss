@@ -230,3 +230,8 @@ p-autoComplete{
 .pointer{
   cursor: pointer;
 }
+
+.form-control-feedback{
+  font-size: 12px;
+  color: $danger;
+}

@@ -8,20 +8,11 @@
   </div>
 
   <div class="tabs">
-    <div class="tab" [routerLink]="['/accueil']" [routerLinkActive]="'active-tab'">
-      Accueil
-    </div>
-    <div class="tab" [routerLink]="['/activite']"  [routerLinkActive]="'active-tab'">
-      Activité
-    </div>
-    <div class="tab" [routerLink]="['/frais']" [routerLinkActive]="'active-tab'">
-      Mes frais
-    </div>
-    <div class="tab" [routerLink]="['/mission']"  [routerLinkActive]="'active-tab'">
-      Mission
-    </div>
-    <div class="tab" [routerLink]="['/rh']"  [routerLinkActive]="'active-tab'">
-      Ressources humaines
+    <div class="tab"
+         [routerLink]="[$item.link]"
+         [routerLinkActive]="'active-tab'"
+         *ngFor="let $item of $headerItems">
+      {{$item.name}}
     </div>
   </div>
   <div class="right-options">

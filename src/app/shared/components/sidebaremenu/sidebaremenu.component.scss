@@ -4,7 +4,7 @@ $sidebar-transition: all 0.5s linear !important;
 
 
 .nav-content {
-  margin-top: $header-height;
+  margin-top: 15px;
   padding-bottom: $header-height;
   transition: $sidebar-transition;
   //background-color: $sidebar-background;
@@ -50,11 +50,11 @@ $sidebar-transition: all 0.5s linear !important;
     }
     .label{
       .icon-container{
-        min-width: 35px;
+        min-width: 20px;//35px;//todo
         display: inline-block;
         text-align: right;
         i {
-          min-width: 35px;
+          min-width: 20px;
           display: inline-block;
           //margin-right: 5px;
           &:before {
@@ -88,6 +88,7 @@ $sidebar-transition: all 0.5s linear !important;
   .activeTopMenu{
     background: $sidebar-menuItem-background-active-1;
     color: $sidebar-menuItem-text-active-1;
+    border-right: 4px solid $mainColor;
     font-weight: 600;
     i:before {
       font-weight: 500;

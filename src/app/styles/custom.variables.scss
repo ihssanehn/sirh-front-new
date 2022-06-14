@@ -3,7 +3,7 @@
 $font-family-base : Roboto, sans-serif;
 $fontFamily: $font-family-base ;
 $btn-font-size: 14px;
-$fontColor: #6f7885;
+$fontColor: #4d4d4d;
 
 /******   Responsive *******/
 
@@ -75,10 +75,10 @@ $btn-color: $primaryColor;
 
 /******   Sidebar *******/
 
-$sidebar-width: 230px;
+$sidebar-width: 200px;
 $sidebar-small-width: 220px;
 $header-height: 55px;
-$sidebar-background: #fff;//#f9f9f9;//#F7F7F7;//$primaryColor;
+$sidebar-background: #F7F7F7;//#f9f9f9;//#F7F7F7;//$primaryColor;
 $header-background: #F0C807;
 $header-color: white;
 $sidebar-activeTabBackground: #fff;// #E5F5E3;
@@ -86,7 +86,7 @@ $sidebar-activeTabBorder: 0;//5px solid;
 $sidebar-activeTabColor: $tertiaryColor;
 $sidebarTextColor: #707070;
 $sidebarTextColorHover: #fff;
-$sidebarItemHeight: 69px;
+$sidebarItemHeight: 50px;
 
 $header-activeTabBackground: #fff;
 $header-activeTabBorder: 3px solid;
@@ -117,8 +117,8 @@ $sidebar-menuItem-text-hover-2: #fff;
 $sidebar-menuItem-text-hover-3: #fff;
 
 // Active item
-$sidebar-menuItem-text-active-1: #f1c802;
-$sidebar-menuItem-background-active-1: #fff;
+$sidebar-menuItem-text-active-1: $fontColor;
+$sidebar-menuItem-background-active-1: #ededed;
 
 $sidebar-menuItem-text-active-2: #f1c802;//#387BB7;
 $sidebar-menuItem-background-active-2: #fff;//#3D86C7;
