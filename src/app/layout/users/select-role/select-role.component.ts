@@ -60,7 +60,6 @@ export class SelectRoleComponent implements OnInit {
       // }
     }, reason => {
       console.log('closed');
-      // this.getAllStudents();
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.type = type;

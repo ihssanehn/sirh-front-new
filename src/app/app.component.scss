@@ -24,10 +24,10 @@
   font-size: 12px;
   min-width: unset !important;
   //width: fit-content;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 1px solid lightgray;
+  //border-top: 0;
+  //border-left: 0;
+  //border-right: 0;
+  border: 1px solid lightgray;
   //min-height: 40px;
   ::ng-deep .ng-value-container {
     ::ng-deep  .ng-value {
@@ -234,4 +234,8 @@ p-autoComplete{
 .form-control-feedback{
   font-size: 12px;
   color: $danger;
+}
+
+.min-w-unset{
+  min-width: unset !important;
 }

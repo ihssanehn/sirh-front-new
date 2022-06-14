@@ -183,7 +183,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users"  [routerLink]="['/users/info/'+user.id]">
+<!--                [routerLink]="['/users/info/'+user.id]"-->
+                <tr *ngFor="let user of users"  (click)="openModal()">
                         <td>
                           <div class="photo-cell">
                             <div class="photo">
@@ -214,7 +215,7 @@
                                 <i class="icon-eye"
                                    data-toggle="tooltip"
                                    data-placement="top"
-                                   [routerLink]="['/users/update/'+user.id]"
+                                   (click)="openModal()"
                                    title="Détails"></i>
 <!--                              <span class="d-none d-lg-flex">Détails</span>-->
 

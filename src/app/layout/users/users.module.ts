@@ -26,6 +26,6 @@ import {SelectRoleComponent} from "@layout/users/select-role/select-role.compone
         OwlDateTimeModule
     ],
   declarations: [ListUsersComponent, AddUserComponent, UpdateUserComponent, SelectRoleComponent],
-  entryComponents: [SelectRoleComponent]
+  entryComponents: [SelectRoleComponent, UpdateUserComponent, AddUserComponent]
 })
 export class UsersModule { }

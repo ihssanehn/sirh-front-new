@@ -17,7 +17,10 @@ import {ImageCropperComponent} from "@shared/components/image-cropper/image-crop
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss']
+  styleUrls: ['./update-user.component.scss'],
+  providers: [
+    NgbActiveModal,
+  ]
 })
 export class UpdateUserComponent implements OnInit {
   userFormGroup: FormGroup;

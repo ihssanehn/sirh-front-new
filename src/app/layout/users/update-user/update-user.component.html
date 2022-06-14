@@ -630,20 +630,19 @@
               <div class="row">
                 <label class="col-2">Siège{{isRequired(formInputs.is_head_office)}}</label>
                 <div class="col">
-                  <div class="btn-group boolean-button" role="group" aria-label="Radio Buttons with Bootstrap 5">
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
-                           [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
+                  <input type="text"
+                         placeholder="Saisir le siège ici"
+                         class="form-control input"
+                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
                                   && userFormGroup.controls[formInputs.is_head_office].dirty}"
-                           [value]="false" class="btn-check" id="is_head_office_5" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="is_head_office_5">Hors Siège</label>
-
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
-                           [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
-                                  && userFormGroup.controls[formInputs.is_head_office].dirty}"
-                           [value]="true" class="btn-check" id="is_head_office_6" autocomplete="off">
-                    <label class="btn btn-outline-primary" for="is_head_office_6">Siège</label>
+                         [formControl]="userFormGroup.controls[formInputs.is_head_office]"
+                  />
+                  <div class="form-control-feedback"
+                       *ngIf="userFormGroup.controls[formInputs.is_head_office].hasError('required')
+                  && userFormGroup.controls[formInputs.is_head_office].dirty">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    Le siège est obligatoire
                   </div>
-
                 </div>
               </div>
               <div class="row">
@@ -703,13 +702,12 @@
             </div>
           </div>
         </div>
-        <div class="row form-box">
+        <div class="row form-box main-container">
           <div class="main-container col form-column">
             <h5>A contacter en cas d’urgence</h5>
             <div class="form-bloc sub-form-bloc">
-              <h6>1er contact</h6>
               <div class="row">
-                <label class="col-2">Nom {{isRequired(formInputs.urgency_name_1)}}</label>
+                <label class="col-2 min-w-unset">Nom {{isRequired(formInputs.urgency_name_1)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le nom du contact d'urgence ici"
@@ -727,7 +725,7 @@
                 </div>
               </div>
               <div class="row">
-                <label class="col-2">lien {{isRequired(formInputs.family_link_1)}}</label>
+                <label class="col-2 min-w-unset">lien {{isRequired(formInputs.family_link_1)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le lien familiale du contact d'urgence ici"
@@ -745,7 +743,7 @@
                 </div>
               </div>
               <div class="row">
-                <label class="col-2">Numéro {{isRequired(formInputs.urgency_telephone_1)}}</label>
+                <label class="col-2 min-w-unset">Numéro {{isRequired(formInputs.urgency_telephone_1)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le numéro de téléphone du contact d'urgence ici"
@@ -767,9 +765,8 @@
           <div class="main-container col form-column">
             <h5>A contacter en cas d’urgence 2</h5>
             <div class="form-bloc sub-form-bloc" >
-              <h6>2ème contact</h6>
               <div class="row">
-                <label class="col-2">Nom {{isRequired(formInputs.urgency_name_2)}}</label>
+                <label class="col-2 min-w-unset">Nom {{isRequired(formInputs.urgency_name_2)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le nom du 2ème contact d'urgence ici"
@@ -787,7 +784,7 @@
                 </div>
               </div>
               <div class="row">
-                <label class="col-2">lien {{isRequired(formInputs.family_link_2)}}</label>
+                <label class="col-2 min-w-unset">lien {{isRequired(formInputs.family_link_2)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le lien familiale du 2ème contact d'urgence ici"
@@ -805,7 +802,7 @@
                 </div>
               </div>
               <div class="row">
-                <label class="col-2">Numéro {{isRequired(formInputs.urgency_telephone_2)}}</label>
+                <label class="col-2 min-w-unset">Numéro {{isRequired(formInputs.urgency_telephone_2)}}</label>
                 <div class="col">
                   <input type="text"
                          placeholder="Saisir le numéro de téléphone du 2ème contact d'urgence ici"
@@ -825,7 +822,7 @@
             </div>
           </div>
         </div>
-        <div class="row form-box">
+        <div class="row form-box" *ngIf="type === 'collab-user'">
           <div class="main-container col form-column">
             <div class="form-bloc sub-form-bloc">
               <div class="check-box-btn text-center">
@@ -839,7 +836,7 @@
           <app-button [text]="'Annuler'"
                       [type]="'tertiary'"
                       [isDisabled]="submitting"
-                      (onClick)="cancelEditting()"
+                      (onClick)="modal.dismiss()"
                       [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
           </app-button>
           <app-button [text]="'Enregistrer'"

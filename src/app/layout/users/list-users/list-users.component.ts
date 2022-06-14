@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
+import {AddUserComponent} from "@layout/users/add-user/add-user.component";
+import {UpdateUserComponent} from "@layout/users/update-user/update-user.component";
 
 @Component({
   selector: 'app-list-users',
@@ -218,5 +220,26 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       category: null,
       etat: null
     }
+  }
+
+  openModal() {
+    if(this.modalService.hasOpenModals()){
+      this.modalService.dismissAll();
+    }
+    let size = 'xl';
+    let title = 'collaborateur';
+    let type ='collab';
+
+    const modalRef = this.modalService.open(UpdateUserComponent, { size: size , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+      // if(result === 'QUERY'){
+      //   this.getAllStudents();
+      // }
+    }, reason => {
+      console.log('closed');
+    });
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.type = type;
   }
 }
