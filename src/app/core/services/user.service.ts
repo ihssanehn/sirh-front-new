@@ -29,9 +29,9 @@ export class UserService {
   async populate() {
     console.log('Populating');
     try {
-      const res = await this.apiService.get('login/checkAccess').toPromise();
-      if (res?.result?.user) {
-        this.setAuth({ user: res.result.user });
+      const res = await this.apiService.get('user/auth').toPromise();
+      if (res?.result?.data) {
+        this.setAuth({ user: res.result.data });
         return true;
       } else {
         this.purgeAuth();
@@ -45,10 +45,10 @@ export class UserService {
   }
 
   signin(credentials): any {
-    return this.apiService.post('login', credentials).pipe(
+    return this.apiService.post('user/signin', credentials).pipe(
       map((res) => {
         console.log(res);
-        this.setAuth({ user: res.result.user, token: res.result.user.token });
+        this.setAuth({ user: res.result.data, token: res.result.data.token });
         return res.result;
       })
     );
@@ -72,57 +72,52 @@ export class UserService {
     this.userStore.setAuthenticatedUser(null);
   }
 
-  acceptCGU() {
-    return this.apiService
-      .get('auth/accept/cgu')
-      .pipe(map((res) => res.result.data));
-  }
 
     getUsers(params): any {
         return this.apiService
-          .post('personnels/search', params)
+          .get('personal/getAllPersonals', params)
           .pipe(map(result => result.result  || []));
     }
 
 
     addUser(info): any {
         return this.apiService
-                    .post('user/add', info)
+                    .post('user/user/add', info)
                     .pipe(map(resp => resp.result));
     }
 
     updateProfile(info): any {
         return this.apiService
-                    .post('profile/update', info)
+                    .post('user/profile/update', info)
                     .pipe(map(resp => resp.result));
     }
 
   updateProfilePassword(payload): any {
     return this.apiService
-      .post('profile/password/update', payload)
+      .post('user/profile/password/update', payload)
       .pipe(map((resp) => resp.result));
   }
 
   changePwdRequest(credentials): any {
     return this.apiService
-      .post('password/create', credentials)
+      .post('user/password/create', credentials)
       .pipe(map((resp) => resp.result));
   }
 
   checkResetToken(token): any {
     return this.apiService
-      .get('password/find/' + token)
+      .get('user/password/find/' + token)
       .pipe(map((resp) => resp.result.data));
   }
 
   resetPwd(credentials): any {
     return this.apiService
-      .post('password/reset', credentials)
+      .post('user/password/reset', credentials)
       .pipe(map((resp) => resp.result));
   }
 
   loggout() {
-    return this.apiService.post('logout', {});
+    return this.apiService.post('user/logout', {});
   }
 
   getPhoto(photoname: String): Observable<any> {
@@ -157,30 +152,30 @@ export class UserService {
   }
 
     delete(params) {
-        return this.apiService.post('users/delete', params);
+        return this.apiService.post('user/users/delete', params);
     }
 
     update(params) {
-        return this.apiService.post('personnel/'+params?.id+'/update', params);
+        return this.apiService.post('user/personnel/'+params?.id+'/update', params);
     }
 
     getOne(params){
-        return this.apiService.get('personnel/'+ params);
+        return this.apiService.get('user/personnel/'+ params);
     }
 
   setProfilePicture(params: any) {
-    return this.apiService.post('personnel/photo-profil', params);
+    return this.apiService.post('user/personnel/photo-profil', params);
   }
 
   getCategoriesFonctions(){
-    return this.apiService.get('categories/all?model=Personnel');
+    return this.apiService.get('user/categories/all?model=Personnel');
   }
 
   getTypes(param){
-    return this.apiService.get('types?model='+param);
+    return this.apiService.get('user/types?model='+param);
   }
 
   getStatus(){
-    return this.apiService.get('status?model=Personnel');
+    return this.apiService.get('user/status?model=Personnel');
   }
 }

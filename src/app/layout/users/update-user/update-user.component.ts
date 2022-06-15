@@ -123,7 +123,7 @@ export class UpdateUserComponent implements OnInit, AfterViewInit {
   centres_profit =  [];
   @Input() title = '';
   @Input() type = '';
-  @Input()  idUSer: any;
+  @Input()  idUser: any;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -230,8 +230,9 @@ export class UpdateUserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(this.idUSer){
-      this.getUser(this.idUSer)
+    if(this.idUser){
+      this.getUser(this.idUser);
+      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -396,9 +397,9 @@ export class UpdateUserComponent implements OnInit, AfterViewInit {
   }
 
   filechanged(event) {
-    if(this.modalService.hasOpenModals()){
-      return;
-    }
+    // if(this.modalService.hasOpenModals()){
+    //   return;
+    // }
     const modalRef = this.modalService.open(ImageCropperComponent);
     modalRef.componentInstance.title = 'Photo de profil';
     modalRef.componentInstance.file = event.target.files[0];

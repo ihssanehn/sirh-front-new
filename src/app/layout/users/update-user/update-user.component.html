@@ -24,7 +24,7 @@
           <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
         </h5>
         <div class="row form-box">
-          <div class="main-container head-info" [ngClass]="{'justify-content-center': !user}">
+          <div class="main-container head-info justify-content-center">
             <div>
               <div class="avatar">
                 <div class="photo" *ngIf="user; else noUser">
@@ -565,17 +565,26 @@
               <div class="row">
                 <label class="col-2">Utilisateur virtuel {{isRequired(formInputs.is_virtual)}}</label>
                 <div class="col">
-                  <div class="btn-group boolean-button" role="group" aria-label="Radio Buttons with Bootstrap 5">
+                  <div class="btn-group boolean-button" role="group" >
                     <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_virtual]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_virtual].hasError('required')
                                   && userFormGroup.controls[formInputs.is_virtual].dirty}"
-                           [value]="false" class="btn-check" id="is_virtual_1" autocomplete="off">
+                           [value]="false"
+                           class="btn-check"
+                           id="is_virtual_1"
+                           name="is_virtual"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_virtual_1">Non</label>
 
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_virtual]"
+                    <input type="radio"
+                           [formControl]="userFormGroup.controls[formInputs.is_virtual]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_virtual].hasError('required')
                                   && userFormGroup.controls[formInputs.is_virtual].dirty}"
-                           [value]="true" class="btn-check" id="is_virtual_2" autocomplete="off">
+                           [value]="true"
+                           class="btn-check"
+                           id="is_virtual_2"
+                           name="is_virtual"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_virtual_2">Oui</label>
                   </div>
 
@@ -630,17 +639,27 @@
               <div class="row">
                 <label class="col-2">Siège{{isRequired(formInputs.is_head_office)}}</label>
                 <div class="col">
-                  <div class="btn-group boolean-button" role="group" aria-label="Radio Buttons with Bootstrap 5">
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
+                  <div class="btn-group boolean-button" role="group" >
+                    <input type="radio"
+                           [formControl]="userFormGroup.controls[formInputs.is_head_office]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
                                   && userFormGroup.controls[formInputs.is_head_office].dirty}"
-                           [value]="false" class="btn-check" id="is_head_office_5" autocomplete="off">
+                           [value]="false"
+                           class="btn-check"
+                           id="is_head_office_5"
+                           name="is_head_office"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_head_office_5">Hors Siège</label>
 
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
+                    <input type="radio"
+                           [formControl]="userFormGroup.controls[formInputs.is_head_office]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
                                   && userFormGroup.controls[formInputs.is_head_office].dirty}"
-                           [value]="true" class="btn-check" id="is_head_office_6" autocomplete="off">
+                           [value]="true"
+                           class="btn-check"
+                           id="is_head_office_6"
+                           name="is_head_office"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_head_office_6">Siège</label>
                   </div>
 
@@ -686,16 +705,25 @@
                 <label class="col-2">Temps partiel {{isRequired(formInputs.is_part_time)}}</label>
                 <div class="col">
                   <div class="btn-group boolean-button" role="group" aria-label="Radio Buttons with Bootstrap 5">
-                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_part_time]"
+                    <input type="radio"
+                           [formControl]="userFormGroup.controls[formInputs.is_part_time]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_part_time].hasError('required')
                                   && userFormGroup.controls[formInputs.is_part_time].dirty}"
-                           [value]="false" class="btn-check" id="is_part_time_3" autocomplete="off">
+                           [value]="false"
+                           class="btn-check"
+                           id="is_part_time_3"
+                           name="is_part_time"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_part_time_3">Non</label>
 
                     <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_part_time]"
                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_part_time].hasError('required')
                                   && userFormGroup.controls[formInputs.is_part_time].dirty}"
-                           [value]="true" class="btn-check" id="is_part_time_4" autocomplete="off">
+                           [value]="true"
+                           class="btn-check"
+                           id="is_part_time_4"
+                           name="is_part_time"
+                           autocomplete="off">
                     <label class="btn btn-outline-primary" for="is_part_time_4">Oui</label>
                   </div>
                 </div>

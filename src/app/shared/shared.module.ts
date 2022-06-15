@@ -13,6 +13,8 @@ import {ButtonComponent} from '@shared/components/button/button.component';
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ImageCropperModule} from "ngx-image-cropper";
 import { LaddaModule } from 'angular2-ladda';
+import {PaginationComponent} from "@shared/components/pagination/pagination.component";
+import {PaginatePipe} from "@shared/pipes/paginate.pipe";
 
 @NgModule({
   imports: [
@@ -35,7 +37,9 @@ import { LaddaModule } from 'angular2-ladda';
     GetPhotoPipe,
     CentredMessageComponent,
     ButtonComponent,
-    ImageCropperComponent
+    ImageCropperComponent,
+    PaginationComponent,
+    PaginatePipe
   ],
   exports: [
     NgxPermissionsModule,
@@ -49,7 +53,9 @@ import { LaddaModule } from 'angular2-ladda';
     CentredMessageComponent,
     ButtonComponent,
     LaddaModule,
-    ImageCropperComponent
+    ImageCropperComponent,
+    PaginationComponent,
+    PaginatePipe
   ],
 })
 export class SharedModule {}

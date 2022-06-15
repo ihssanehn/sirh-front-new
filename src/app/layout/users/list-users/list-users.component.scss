@@ -31,3 +31,17 @@
     }
   }
 }
+
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tel{
+  white-space: nowrap;
+}
+
+.icon-cell{
+  width: 70px;
+}

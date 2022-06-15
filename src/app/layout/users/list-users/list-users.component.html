@@ -179,43 +179,43 @@
                           </th>
 <!--                        <th class="text-center">Date de création</th>-->
 <!--                        <th>Dernière activité</th>-->
-                        <th></th>
+                        <th class="icon-cell"></th>
                     </tr>
                 </thead>
                 <tbody>
-<!--                [routerLink]="['/users/info/'+user.id]"-->
-                <tr *ngFor="let user of users"  (click)="openModal()">
+<!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+                <tr *ngFor="let user of users | paginate: pagination"  >
                         <td>
                           <div class="photo-cell">
                             <div class="photo">
                               <div class="img-container">
                                 <img
                                   [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(user.civilite === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                      getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
                                 />
 
                               </div>
                             </div>
-                            <div class="name">{{user?.nom}} </div>
+                            <div class="name">{{user?.last_name}} </div>
                           </div>
                         </td>
-                      <td>{{user?.prenom}}</td>
+                      <td>{{user?.first_name}}</td>
 <!--                        <td data-title="Nom"></td>-->
-                        <td data-title="Email" >{{user?.email}}</td>
-                         <td data-title="Téléphonne">{{user?.telephone}}</td>
+                        <td data-title="Email" >{{user?.email_professional}}</td>
+                         <td data-title="Téléphonne" class="tel">{{user?.telephone_professional}}</td>
                         <td data-title="Profil">{{user?.user?.profil?.libelle}}</td>
                         <td data-title="Centre d'interêt">{{user?.nom}}</td>
 
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
 <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
-                        <td >
+                        <td class="icon-cell">
 <!--                            appStopPropagation-->
                             <div class="actions">
                                 <i class="icon-eye"
                                    data-toggle="tooltip"
                                    data-placement="top"
-                                   (click)="openModal()"
+                                   (click)="openModal(user?.id)"
                                    title="Détails"></i>
 <!--                              <span class="d-none d-lg-flex">Détails</span>-->
 
@@ -245,19 +245,23 @@
             </table>
         </div>
     </div>
+<!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
+  <div class="footer">
+    <app-pagination name="pagination" [(ngModel)]="pagination" ngDefaultControl></app-pagination>
     <div class="right-buttons flex-end">
-            <app-button
-              [text]="'Importer'"
-              [type]="'secondary'"
-              [iconLeft]="'icon-file'"
-              [customStyle]="{'white-space': 'nowrap'}"
-            ></app-button>&nbsp;
-            <app-button
-              [text]="'Exporter'"
-              [type]="'secondary'"
-              [iconLeft]="'icon-file'"
-              [customStyle]="{'white-space': 'nowrap'}"
-            ></app-button>
+      <app-button
+        [text]="'Importer'"
+        [type]="'secondary'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>&nbsp;
+      <app-button
+        [text]="'Exporter'"
+        [type]="'secondary'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>
+    </div>
   </div>
 </div>
 

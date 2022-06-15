@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
 
-  apiUrl : 'http://sirh-piman.dev.piman2-0.fr/api/public/api/',
+  apiUrl : ' http://localhost:9073/',
   appBaseHref : './',
   logo: 'logo-pds.png',
   favicon: 'favicon.ico',

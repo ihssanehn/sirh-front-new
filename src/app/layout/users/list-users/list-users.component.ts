@@ -39,7 +39,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   categories = [];
   etats = [];
   showFilters: boolean;
-
+  pagination: any = {
+    page: 1,
+    total: 10,
+    pageSize: 10
+  };
 
   constructor(private userService : UserService,
               private translate: TranslateService,
@@ -52,10 +56,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keywords: this.filter.keyword}).subscribe((result) => {
-      this.users = result;
-      console.log('this.users', result);
-
+    this.searchSubscription = this.userService.getUsers({keywords: this.filter.keyword, limit: 5, page: 1}).subscribe((result) => {
+      this.users = result.data.data;
+      console.log('this.users', this.users);
+      this.pagination = { ...this.pagination, total: this.users.length };
     }, err =>{
       console.log('err getUsers', err);
     })
@@ -218,7 +222,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  openModal() {
+  openModal(idUser) {
     if(this.modalService.hasOpenModals()){
       this.modalService.dismissAll();
     }
@@ -237,5 +241,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.type = type;
+    modalRef.componentInstance.idUser = idUser;
   }
 }
