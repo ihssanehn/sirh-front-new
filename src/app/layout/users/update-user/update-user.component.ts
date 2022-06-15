@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,11 +18,8 @@ import {ImageCropperComponent} from "@shared/components/image-cropper/image-crop
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.scss'],
-  providers: [
-    NgbActiveModal,
-  ]
 })
-export class UpdateUserComponent implements OnInit {
+export class UpdateUserComponent implements OnInit, AfterViewInit {
   userFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
   errors : Array<any> = [];
@@ -126,6 +123,7 @@ export class UpdateUserComponent implements OnInit {
   centres_profit =  [];
   @Input() title = '';
   @Input() type = '';
+  @Input()  idUSer: any;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -229,6 +227,12 @@ export class UpdateUserComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       console.log('params', params);
     })
+  }
+
+  ngAfterViewInit(): void {
+    if(this.idUSer){
+      this.getUser(this.idUSer)
+    }
   }
 
   ngOnInit(){

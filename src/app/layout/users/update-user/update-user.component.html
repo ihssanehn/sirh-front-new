@@ -21,7 +21,7 @@
         <h5 *ngIf="title">
           <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
           Ajouter un {{title}}
-          <i class="icon-close float-right" (click)="modal.dismiss()"></i>
+          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
         </h5>
         <div class="row form-box">
           <div class="main-container head-info" [ngClass]="{'justify-content-center': !user}">
@@ -630,19 +630,20 @@
               <div class="row">
                 <label class="col-2">Siège{{isRequired(formInputs.is_head_office)}}</label>
                 <div class="col">
-                  <input type="text"
-                         placeholder="Saisir le siège ici"
-                         class="form-control input"
-                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
+                  <div class="btn-group boolean-button" role="group" aria-label="Radio Buttons with Bootstrap 5">
+                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
+                           [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
                                   && userFormGroup.controls[formInputs.is_head_office].dirty}"
-                         [formControl]="userFormGroup.controls[formInputs.is_head_office]"
-                  />
-                  <div class="form-control-feedback"
-                       *ngIf="userFormGroup.controls[formInputs.is_head_office].hasError('required')
-                  && userFormGroup.controls[formInputs.is_head_office].dirty">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    Le siège est obligatoire
+                           [value]="false" class="btn-check" id="is_head_office_5" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="is_head_office_5">Hors Siège</label>
+
+                    <input type="radio" [formControl]="userFormGroup.controls[formInputs.is_head_office]"
+                           [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.is_head_office].hasError('required')
+                                  && userFormGroup.controls[formInputs.is_head_office].dirty}"
+                           [value]="true" class="btn-check" id="is_head_office_6" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="is_head_office_6">Siège</label>
                   </div>
+
                 </div>
               </div>
               <div class="row">
@@ -836,7 +837,7 @@
           <app-button [text]="'Annuler'"
                       [type]="'tertiary'"
                       [isDisabled]="submitting"
-                      (onClick)="modal.dismiss()"
+                      (onClick)="modal.close()"
                       [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
           </app-button>
           <app-button [text]="'Enregistrer'"
@@ -855,7 +856,7 @@
 
 
 <ng-template #emptyState>
-  <app-centred-message [message]="( 'NO STUDENT FOUND FOR THE MOMENT' | translate )"
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
                        [image]="'images/emptystate.png'"
   ></app-centred-message>
 </ng-template>
