@@ -54,16 +54,20 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
 
   moveForward() {
+    console.log('moveForward');
+    this.myStepper.next();
     if(this.myStepper){
-      console.log('moveForward');
-      this.myStepper.next();
+
+
     }
   }
 
   moveBackward( ) {
+    console.log('moveBackward');
+    this.myStepper.previous();
     if(this.myStepper) {
-      console.log('moveBackward');
-      this.myStepper.previous();
+
+
     }
   }
 }

@@ -16,7 +16,7 @@
         [text]="'Précédent'"
         [type]="'secondary_inverse'"
         [iconLeft]="'icon-arrow-left'"
-        (onClick)="move(0)"
+        (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
       <app-button
         [text]="'Suivant'"
@@ -321,7 +321,7 @@
                   <div class="col">
                     <ng-select
                       [items]="family_situations"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner la situation familiale ici"
@@ -450,7 +450,7 @@
                   <div class="col">
                     <ng-select
                       [items]="functions"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionnez la fonction ici"
@@ -476,7 +476,7 @@
                   <div class="col">
                     <ng-select
                       [items]="profit_centers"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le centre de profit ici"
@@ -506,7 +506,7 @@
                   <div class="col">
                     <ng-select
                       [items]="managers"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le manager ici"
@@ -543,7 +543,7 @@
                     <!--                  />-->
                     <ng-select
                       [items]="validators_conge"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le validateur de congé ici"
@@ -566,7 +566,7 @@
                   <div class="col">
                     <ng-select
                       [items]="profiles"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le profil ici"
@@ -618,7 +618,7 @@
                   <div class="col">
                     <ng-select
                       [items]="contracts"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le contrat ici"
@@ -641,7 +641,7 @@
                   <div class="col">
                     <ng-select
                       [items]="status"
-                      [bindLabel]="'libelle'"
+                      [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner le statut ici"

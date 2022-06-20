@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-
+import { map } from 'rxjs/operators'
 
 @Injectable()
 export class ListsService {
@@ -19,9 +19,11 @@ export class ListsService {
 
   getAll(entity, params = null) {
     if(entity === this.list.STATUS){
-      return this.apiService.get( 'status/getStatusByModel?model='+params);
+      return this.apiService.get( 'status/getStatusByModel?model='+params)
+        .pipe(map(res => { return res?.result?.data || []}))
     } else{
-      return this.apiService.get( '/filter/getFilter?model='+entity);
+      return this.apiService.get( 'filter/getFilter?model='+entity)
+        .pipe(map(res => { return res?.result?.data || []}));
     }
   }
 }
