@@ -1,17 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddUserComponent} from "@layout/users/add-user/add-user.component";
-import {UpdateUserComponent} from "@layout/users/update-user/update-user.component";
+import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
+
 @Component({
   selector: 'app-select-role',
   templateUrl: './select-role.component.html',
   styleUrls: ['./select-role.component.scss']
 })
 export class SelectRoleComponent implements OnInit {
-
+  @Output() next: EventEmitter<any> = new EventEmitter();
+  @Output() preview: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    public modal: NgbActiveModal,
     private modalService: NgbModal,
   ) {
   }
@@ -37,14 +38,14 @@ export class SelectRoleComponent implements OnInit {
         break;
       }
       case 'collab': {
-        modal = UpdateUserComponent;
+        modal = UserInfoFormComponent;
         size = 'xl';
         title = 'collaborateur';
         type = 'collab';
         break;
       }
       case 'collab-user': {
-        modal = UpdateUserComponent;
+        modal = UserInfoFormComponent;
         size = 'xl';
         title = 'utilisateur et collaborateur';
         type = 'collab-user';
@@ -63,5 +64,13 @@ export class SelectRoleComponent implements OnInit {
     });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.type = type;
+  }
+
+  move(to) {
+    if(to == 1){
+      this.next.emit();
+    }else{
+      this.preview.emit();
+    }
   }
 }

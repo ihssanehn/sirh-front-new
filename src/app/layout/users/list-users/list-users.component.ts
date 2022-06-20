@@ -7,8 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
-import {UpdateUserComponent} from "@layout/users/update-user/update-user.component";
+import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 
 @Component({
   selector: 'app-list-users',
@@ -66,16 +65,17 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   openSelectRole(){
-    if(this.modalService.hasOpenModals()){
-      return;
-    }
-    const modalRef = this.modalService.open(SelectRoleComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
-    modalRef.result.then(result=>{
-      console.log('closed', result);
-    }, reason => {
-      console.log('closed');
-      // this.getAllStudents();
-    });
+    this.router.navigate(['users/new']);
+    // if(this.modalService.hasOpenModals()){
+    //   return;
+    // }
+    // const modalRef = this.modalService.open(SelectRoleComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    // modalRef.result.then(result=>{
+    //   console.log('closed', result);
+    // }, reason => {
+    //   console.log('closed');
+    //   // this.getAllStudents();
+    // });
     // modalRef.componentInstance.idUser = item.id;
   }
 
@@ -230,7 +230,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     let title = 'collaborateur';
     let type ='collab';
 
-    const modalRef = this.modalService.open(UpdateUserComponent, { size: size , centered: true, windowClass: 'myModal'});
+    const modalRef = this.modalService.open(UserInfoFormComponent, { size: size , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
       // if(result === 'QUERY'){

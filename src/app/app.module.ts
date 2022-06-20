@@ -27,6 +27,8 @@ import {SharedModule} from "@shared/shared.module";
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 import {MessageService} from "primeng/api";
 import { ToastModule } from 'primeng/toast';
+import {MATERIAL_SANITY_CHECKS} from "@angular/material/core";
+import {ListsService} from "@services/lists.service";
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -79,13 +81,19 @@ export function createTranslateLoader(http: HttpClient) {
     JwtStore,
     UserStore,
     MessageService,
+    ListsService,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr-FR'},
     {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_DATETIME_FORMATS},
     {provide: OwlDateTimeIntl, useClass: CustomDateTimeIntl},
     {provide: NgbDateAdapter, useClass: CustomAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+    {
+      provide: MATERIAL_SANITY_CHECKS,
+      useValue: false
+    }
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

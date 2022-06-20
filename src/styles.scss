@@ -6,6 +6,7 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+
 html,
 body {
   height: 100%;
@@ -79,3 +80,7 @@ body {
   letter-spacing: 0px;
   font-weight: 300;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

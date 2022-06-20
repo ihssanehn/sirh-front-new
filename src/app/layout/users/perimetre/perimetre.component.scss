@@ -1,0 +1,23 @@
+@import '../users.styles';
+
+
+.top-container{
+  padding-top: 30px;
+}
+.form-column{
+  .form-bloc{
+    .row {
+      label {
+        min-width: 130px !important;
+      }
+    }
+  }
+}
+
+.form-column:first-child {
+  margin-right: unset !important;
+}
+
+.head-info{
+  margin-bottom: 0 !important;
+}

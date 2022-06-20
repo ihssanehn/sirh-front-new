@@ -37,6 +37,7 @@ export enum MyButtonTypes {
   primary = 'primary',
   primary_inverse = 'primary_inverse',
   secondary = 'secondary',
+  secondary_2 = 'secondary_2',
   secondary_inverse = 'secondary_inverse',
   tertiary = 'tertiary',
   tertiary_inverse = 'tertiary_inverse',

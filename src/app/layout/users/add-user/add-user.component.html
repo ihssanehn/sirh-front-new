@@ -1,160 +1,27 @@
-<input type="file" style="display: none" id="uploadAvatar"
-       #inputFile
-       accept="image/jpeg"
-       multiple (change)="filechanged($event); inputFile.value=''"/>
+<mat-stepper linear #stepper>
+  <mat-step
+            label="Profil"
+            [editable]="isEditable">
+        <app-select-role
+          (next)="moveForward()"
+          (preview)="moveBackward()"
+        ></app-select-role>
+  </mat-step>
+  <mat-step
+            label="Informations"
+            [editable]="isEditable">
+        <app-user-info-form></app-user-info-form>
+  </mat-step>
+  <mat-step
+            label="Périmètre"
+            [editable]="isEditable">
+        <app-perimetre></app-perimetre>
+  </mat-step>
+  <mat-step
+            label="Accès"
+            [editable]="isEditable">
+        <app-access></app-access>
+  </mat-step>
 
-<ng-container *ngIf="!errorLoadData; else dataNotFound">
-  <ng-container *ngIf="loadingData; else loadedData">
-    <div class="loading">
-      <img src="assets/images/loader.gif" />
-    </div>
-  </ng-container>
-  <ng-template #loadedData>
-    <div class="container-fluid top-container">
-      <!--    <div class="goback col-12"-->
-      <!--         (click)="goback()"-->
-      <!--          style="margin-bottom: 10px">-->
-      <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
-      <!--    </div>-->
-      <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container"
-            novalidate>
-        <h5>
-          <i class="icon-user-profil"></i>&nbsp;
-          Ajouter un utilisateur
-          <i class="icon-close float-right" (click)="modal.dismiss()"></i>
-        </h5>
-        <div class="row form-box">
-          <div class="main-container head-info" [ngClass]="{'justify-content-center': !user}">
-            <div>
-              <div class="avatar">
-                <div class="photo" *ngIf="user; else noUser">
-                  <img
-                    [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
-                    class="loggedUserStyle_photo"/>
-                </div>
-                <ng-template #noUser>
-                  <div class="photo">
-                    <img
-                      [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
-                      class="loggedUserStyle_photo"/>
-                  </div>
-                </ng-template>
-                <!--              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />-->
-                <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !user}">
-                  <ng-container *ngIf="submittingPhoto; else loadedPhoto">
-                    Chargement..
-                  </ng-container>
-                  <ng-template #loadedPhoto>
-                    <div class="upload-action">
-                      <i class="fa fa-camera"></i>
-                      <span>Charger une photo de profil</span>
-                    </div>
-                  </ng-template>
-                </label>
-                <div class="actions" *ngIf="(user?.photo_profil && !submittingPhoto) || photoBase64?.length>0">
-                  <app-button
-                    [type]="'danger'"
-                    [text]="'Supprimer la photo de profil'"
-                    [iconLeft]="'fa fa-trash'"
-                    [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"
-                    (onClick)="onSubmitProfilePicture({}); photoBase64 = null"
-                  ></app-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row form-box">
-          <div class="main-container col form-column">
-            <div class="form-bloc">
-              <div class="row">
-                <label class="col-2">Nom {{isRequired(formInputs.nom)}}</label>
-                <div class="col">
-                  <input type="text"
-                         placeholder="Saisir le nom ici"
-                         class="form-control input"
-                         [formControl]="userFormGroup.controls[formInputs.nom]"
-                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nom].hasError('required')   && userFormGroup.controls[formInputs.nom].dirty}"
-                  />
-                  <div class="form-control-feedback"
-                       *ngIf="userFormGroup.controls[formInputs.nom].hasError('required')
-                    && userFormGroup.controls[formInputs.nom].dirty">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    Le nom est obligatoire
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <label class="col-2">Prénom {{isRequired(formInputs.prenom)}}</label>
-                <div class="col">
-                  <input type="text"
-                         placeholder="Saisir le prénom ici"
-                         [formControl]="userFormGroup.controls[formInputs.prenom]"
-                         class="form-control input"
-                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.prenom].hasError('required')
-                                  && userFormGroup.controls[formInputs.prenom].dirty}"
-                  />
-                  <div class="form-control-feedback"
-                       *ngIf="userFormGroup.controls[formInputs.prenom].hasError('required')
-                    && userFormGroup.controls[formInputs.prenom].dirty">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    Le prénom est obligatoire
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <label class="col-2">Email {{isRequired(formInputs.email)}}</label>
-                <div class="col">
-                  <input type="text"
-                         placeholder="Saisir l'adresse email ici"
-                         class="form-control input"
-                         [formControl]="userFormGroup.controls[formInputs.email]"
-                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.email].hasError('required')
-                                  && userFormGroup.controls[formInputs.email].dirty}"
-                  />
-                  <div class="form-control-feedback"
-                       *ngIf="userFormGroup.controls[formInputs.email].hasError('required')
-                    && userFormGroup.controls[formInputs.email].dirty">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                    L'adresse email est obligatoire
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="submit-block">
-          <app-button [text]="'Annuler'"
-                      [type]="'tertiary'"
-                      [isDisabled]="submitting"
-                      (onClick)="modal.dismiss()"
-                      [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
-          </app-button>
-          <app-button [text]="'Enregistrer les modifications'"
-                      [isDisabled]="isDisabled()"
-                      [type]="'secondary'"
-                      (onClick)="onSubmit()"
-                      [customStyle]="{'min-height': '30px'}">
-          </app-button>
-        </div>
-      </form>
+</mat-stepper>
 
-
-    </div>
-  </ng-template>
-</ng-container>
-
-
-<ng-template #emptyState>
-  <app-centred-message [message]="( 'NO STUDENT FOUND FOR THE MOMENT' | translate )"
-                       [image]="'images/emptystate.png'"
-  ></app-centred-message>
-</ng-template>
-
-<ng-template #dataNotFound>
-  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
-                       [image]="'images/error404.png'">
-  </app-centred-message>
-</ng-template>

@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListUsersComponent } from './list-users/list-users.component';
-import { NgxPermissionsGuard } from 'ngx-permissions';
 import { AddUserComponent } from './add-user/add-user.component';
-import {UpdateUserComponent} from '@layout/users/update-user/update-user.component';
+
 
 const routes: Routes = [
   {
@@ -18,7 +17,7 @@ const routes: Routes = [
     // }
   },
   {
-    path: 'add_user',
+    path: 'new',
     component: AddUserComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
@@ -28,9 +27,9 @@ const routes: Routes = [
     //   }
     // }
   },
-  {
-    path: 'add_collab',
-    component: UpdateUserComponent,
+  // {
+  //   path: 'add_collab',
+  //   component: InfoFormComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {
@@ -38,10 +37,10 @@ const routes: Routes = [
     //     redirectTo: '/'
     //   }
     // }
-  },
-  {
-    path: 'info/:id',
-    component: UpdateUserComponent,
+  // },
+  // {
+  //   path: 'info/:id',
+  //   component: InfoFormComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {
@@ -49,7 +48,7 @@ const routes: Routes = [
     //     redirectTo: '/'
     //   }
     // }
-  },
+  // },
 ];
 
 @NgModule({

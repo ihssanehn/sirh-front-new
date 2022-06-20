@@ -206,9 +206,15 @@
 
 .top-container-modal{
   padding: 25px 25px 8px 25px;
+  .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .cards{
     display: flex;
     margin-bottom: 15px;
+    justify-content: center;
     .card{
       border: 1px solid lightgray;
       margin: 10px;
@@ -221,15 +227,20 @@
       color: $secondaryColor;
       text-decoration: none;
       text-align: center;
+      width: 160px;
+      height: 132px;
       .icon{
         margin-bottom: 10px;
       }
       .title{
-        font-size: 14px;
-        min-height: 40px;
+        font-size: 13px;
+        color: #919191;
+        font-weight: normal;
+        //min-height: 40px;
       }
       i:before{
-        font-size: 40px;
+        font-size: 30px;
+        color: #919191;
       }
       &:hover{
         color: white;
@@ -248,7 +259,7 @@
     font-size: 20px;
     width: 100%;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   .sub-title{
     font-size: 14px;
