@@ -5,15 +5,32 @@
   padding-top: 30px;
 }
 .form-column{
+  h5{
+    margin-bottom: 0;
+  }
   .form-bloc{
     .row {
       label {
         min-width: 130px !important;
       }
     }
+    .check-box-btn{
+      margin: unset;
+      justify-content: unset;
+      background: unset;
+    }
   }
 }
 
+.form-bloc{
+  //border: 1px solid lightgray;
+  margin: 20px 0;
+}
+
+.input-container{
+  width: 20px;
+  height: 20px;
+}
 .form-column:first-child {
   margin-right: unset !important;
 }

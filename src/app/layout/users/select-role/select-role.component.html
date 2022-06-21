@@ -10,12 +10,6 @@
     <h1 class="main-title">Type ou rôle du profil</h1>
     <div class="btns right-btns">
       <app-button
-        [text]="'Précédent'"
-        [type]="'secondary_inverse'"
-        [iconLeft]="'icon-arrow-left'"
-        (onClick)="move(-1)"
-      ></app-button>&nbsp;&nbsp;
-      <app-button
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
@@ -25,25 +19,9 @@
   </div>
 <!--  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>-->
   <div class="cards row">
-    <div class="card"  >
-      <div class="icon"><i class="icon-user-profil"></i></div>
-      <div class="title">Consultant</div>
-    </div>
-    <div class="card" >
-      <div class="icon"><i class="icon-user-profil-2"></i></div>
-      <div class="title">Responsable ADV</div>
-    </div>
-    <div class="card" >
-      <div class="icon"><i class="icon-user-profil-2"></i></div>
-      <div class="title">Responsable RH</div>
-    </div>
-    <div class="card ">
-      <div class="icon"><i class="icon-user-profil-3"></i></div>
-      <div class="title">Manager</div>
-    </div>
-    <div class="card ">
-      <div class="icon"><i class="icon-user-profil-3"></i></div>
-      <div class="title">Directeur</div>
+    <div class="card" *ngFor="let profile of profiles" (click)="selectProfil(profile.id)" [ngClass]="{'selected': profile.id === selectedProfile_id}">
+      <div class="icon"><i class="{{profile.icon}}"></i></div>
+      <div class="title">{{profile.label}}</div>
     </div>
   </div>
 

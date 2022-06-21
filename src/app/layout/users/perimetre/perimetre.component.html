@@ -23,28 +23,47 @@
       ></app-button>
     </div>
   </div>
-  <!--  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>-->
-  <div class="cards row">
-    <div class="card"  >
-      <div class="icon"><i class="icon-user-profil"></i></div>
-      <div class="title">Consultant</div>
+
+  <div class="row">
+    <div class="col-3" style="border-right: 1px solid lightgray;">
+      <div class="searchbar">
+        <input type="text" class="input form-control" placeholder="Rechercher une personne"/>
+        <div class="smal-users-list">
+          <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+            <div class="user-item d-flex align-items-center" *ngFor="let user of users">
+              <img src="assets/images/man.png" />
+              <div class="name">{{user.first_name+' '+user.last_name}}</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
     </div>
-    <div class="card" >
-      <div class="icon"><i class="icon-user-profil-2"></i></div>
-      <div class="title">Responsable ADV</div>
-    </div>
-    <div class="card" >
-      <div class="icon"><i class="icon-user-profil-2"></i></div>
-      <div class="title">Responsable RH</div>
-    </div>
-    <div class="card ">
-      <div class="icon"><i class="icon-user-profil-3"></i></div>
-      <div class="title">Manager</div>
-    </div>
-    <div class="card ">
-      <div class="icon"><i class="icon-user-profil-3"></i></div>
-      <div class="title">Directeur</div>
+    <div class="col-9 main-container form-column">
+      <h5>Ajouter une personne</h5>
+      <div class="users-list">
+        <ng-container *ngIf="0; else emptyStateRightList">
+        </ng-container>
+      </div>
     </div>
   </div>
 
 </div>
+
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+        [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
+<ng-template #emptyStateRightList>
+  <app-centred-message
+        [message]="( 'Cette liste est vide' | translate )"
+        [smallMessage]="( 'Essayer d’ajouter une ou plusieurs personnes depuis la liste a gauche.' | translate )"
+  ></app-centred-message>
+</ng-template>
+<!--[image]="'images/emptystate.png'"-->
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>

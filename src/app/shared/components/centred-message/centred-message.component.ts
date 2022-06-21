@@ -9,6 +9,7 @@ export class CentredMessageComponent implements OnInit {
 
   @Input() title = '';
   @Input() message = '';
+  @Input() smallMessage = '';
   @Input() image = '';
 
   constructor() { }

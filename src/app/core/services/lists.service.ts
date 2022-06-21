@@ -26,4 +26,9 @@ export class ListsService {
         .pipe(map(res => { return res?.result?.data || []}));
     }
   }
+
+  getFilter(entity) {
+    return this.apiService.get( 'filter/getFilter?model='+entity)
+      .pipe(map(res => { return res?.result?.data || []}));
+  }
 }

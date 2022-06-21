@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddUserComponent} from "@layout/users/add-user/add-user.component";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
+import {ListsService} from "@services/lists.service";
 
 @Component({
   selector: 'app-select-role',
@@ -11,13 +12,53 @@ import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form
 export class SelectRoleComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  selectedProfile_id = null;
+  profiles = [
+    {
+      id: 1,
+      icon: 'icon-user-profil',
+      label: 'consultant'
+    },
+    {
+      id: 2,
+      icon: 'icon-tasks-line',
+      label: 'Responsable ADV'
+    },
+    {
+      id: 3,
+      icon: 'icon-magnifying-glass',
+      label: 'Responsable RH'
+    },
+    {
+      id: 4,
+      icon: 'icon-settings-outline',
+      label: 'Manager'
+    },
+    {
+      id: 5,
+      icon: 'icon-lightbulb',
+      label: 'Directeur'
+    },
 
+  ];
   constructor(
     private modalService: NgbModal,
+    private listService: ListsService,
   ) {
   }
 
   ngOnInit() {
+  }
+
+  async getProfiles(){
+    try{
+      const res = await this.listService.getFilter('PROFILE').toPromise();
+      this.profiles = res || [];
+    }catch (e) {
+
+    }finally {
+
+    }
   }
 
 
@@ -72,5 +113,9 @@ export class SelectRoleComponent implements OnInit {
     }else{
       this.preview.emit();
     }
+  }
+
+  selectProfil(profile_id){
+    this.selectedProfile_id = profile_id;
   }
 }

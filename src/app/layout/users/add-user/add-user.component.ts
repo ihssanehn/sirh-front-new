@@ -7,6 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
+import {timeout} from "rxjs";
 
 
 
@@ -18,12 +19,6 @@ import {MatStepper} from "@angular/material/stepper";
 export class AddUserComponent implements OnInit, AfterViewInit {
 
   @ViewChild('stepper') private myStepper: MatStepper;
-  firstFormGroup = this.formBuilder.group({
-    firstCtrl: [''],
-  });
-  secondFormGroup = this.formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
   isEditable = true;
   constructor(
     private formBuilder: FormBuilder,
@@ -37,37 +32,50 @@ export class AddUserComponent implements OnInit, AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef,
     private userService : UserService
   ) {
+
   }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit(): void {
-    this.move(2);
+    this.activatedRoute?.queryParams?.subscribe(params => {
+      console.log(' this.activatedRoute', params, this.myStepper);
+      if(typeof params.step !== 'undefined'  && this.myStepper){
+        this.move(Number(params.step));
+      }
+    })
   }
 
   move(index: number) {
-    if(this.myStepper){
-      this.myStepper.selectedIndex = index;
-    }
+    // if(this.myStepper){
+    // setTimeout(() => {
+    //   console.log('move', index);
+    //   this.myStepper.selectedIndex = index;
+    //   console.log('moving to', this.myStepper.selectedIndex, index);
+    // });
+    // while(this.myStepper.selectedIndex < index){
+    //   setTimeout(() => {
+    //     this.myStepper.next();
+    //   }, 10)
+    // }
+    console.log('this.myStepper.selectedIndex', this.myStepper.selectedIndex);
+    // }
   }
 
 
   moveForward() {
-    console.log('moveForward');
-    this.myStepper.next();
     if(this.myStepper){
-
-
+      console.log('moveForward');
+      this.myStepper.next();
     }
   }
 
   moveBackward( ) {
-    console.log('moveBackward');
-    this.myStepper.previous();
     if(this.myStepper) {
-
-
+      console.log('moveBackward');
+      this.myStepper.previous();
     }
   }
 }

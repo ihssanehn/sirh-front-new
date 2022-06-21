@@ -10,17 +10,26 @@
   <mat-step
             label="Informations"
             [editable]="isEditable">
-        <app-user-info-form></app-user-info-form>
+        <app-user-info-form
+          (next)="moveForward()"
+          (preview)="moveBackward()"
+        ></app-user-info-form>
   </mat-step>
   <mat-step
             label="Périmètre"
             [editable]="isEditable">
-        <app-perimetre></app-perimetre>
+        <app-perimetre
+          (next)="moveForward()"
+          (preview)="moveBackward()"
+        ></app-perimetre>
   </mat-step>
   <mat-step
             label="Accès"
             [editable]="isEditable">
-        <app-access></app-access>
+        <app-access
+          (next)="moveForward()"
+          (preview)="moveBackward()"
+        ></app-access>
   </mat-step>
 
 </mat-stepper>

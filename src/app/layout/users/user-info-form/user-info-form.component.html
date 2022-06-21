@@ -46,54 +46,54 @@
             Ajouter un {{title}}
             <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
           </h5>
-          <div class="row form-box">
-            <div class="main-container head-info justify-content-center">
-              <div>
-                <div class="avatar">
-                  <div class="photo" *ngIf="user; else noUser">
-                    <img
-                      [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
-                      class="loggedUserStyle_photo"/>
-                  </div>
-                  <ng-template #noUser>
-                    <div class="photo">
-                      <img
-                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
-                        class="loggedUserStyle_photo"/>
-                    </div>
-                  </ng-template>
-                  <!--              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />-->
-                  <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !this.user}">
-                    <ng-container *ngIf="submittingPhoto; else loadedPhoto">
-                      Chargement..
-                    </ng-container>
-                    <ng-template #loadedPhoto>
-                      <div class="upload-action">
-                        <i class="fa fa-camera"></i>
-                        <span>Charger une photo de profil</span>
-                      </div>
-                    </ng-template>
-                  </label>
-                  <div class="actions" *ngIf="(user?.photo_profil && !submittingPhoto) || photoBase64?.length>0">
-                    <app-button
-                      [type]="'danger'"
-                      [text]="'Supprimer la photo de profil'"
-                      [iconLeft]="'fa fa-trash'"
-                      [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"
-                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"
-                    ></app-button>
-                  </div>
-                </div>
-              </div>
-              <div class="info">
-                <h1>{{userFormGroup.value.nom}}</h1>
-                <div class="info-item">{{userFormGroup.value.email}}</div>
-                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>
-              </div>
-            </div>
-          </div>
+<!--          <div class="row form-box">-->
+<!--            <div class="main-container head-info justify-content-center">-->
+<!--              <div>-->
+<!--                <div class="avatar">-->
+<!--                  <div class="photo" *ngIf="user; else noUser">-->
+<!--                    <img-->
+<!--                      [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |-->
+<!--                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |-->
+<!--                      async) : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"-->
+<!--                      class="loggedUserStyle_photo"/>-->
+<!--                  </div>-->
+<!--                  <ng-template #noUser>-->
+<!--                    <div class="photo">-->
+<!--                      <img-->
+<!--                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"-->
+<!--                        class="loggedUserStyle_photo"/>-->
+<!--                    </div>-->
+<!--                  </ng-template>-->
+<!--                  &lt;!&ndash;              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />&ndash;&gt;-->
+<!--                  <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !this.user}">-->
+<!--                    <ng-container *ngIf="submittingPhoto; else loadedPhoto">-->
+<!--                      Chargement..-->
+<!--                    </ng-container>-->
+<!--                    <ng-template #loadedPhoto>-->
+<!--                      <div class="upload-action">-->
+<!--                        <i class="fa fa-camera"></i>-->
+<!--                        <span>Charger une photo de profil</span>-->
+<!--                      </div>-->
+<!--                    </ng-template>-->
+<!--                  </label>-->
+<!--                  <div class="actions" *ngIf="(user?.photo_profil && !submittingPhoto) || photoBase64?.length>0">-->
+<!--                    <app-button-->
+<!--                      [type]="'danger'"-->
+<!--                      [text]="'Supprimer la photo de profil'"-->
+<!--                      [iconLeft]="'fa fa-trash'"-->
+<!--                      [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"-->
+<!--                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"-->
+<!--                    ></app-button>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="info">-->
+<!--                <h1>{{userFormGroup.value.nom}}</h1>-->
+<!--                <div class="info-item">{{userFormGroup.value.email}}</div>-->
+<!--                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="row form-box">
             <div class="main-container col form-column">
               <h5>Informations personnelles</h5>
@@ -884,19 +884,19 @@
               </div>
             </div>
           </div>
-          <div class="submit-block">
-            <app-button [text]="'Annuler'"
-                        [type]="'tertiary'"
-                        [isDisabled]="submitting"
-                        [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
-            </app-button>
-            <app-button [text]="'Enregistrer'"
-                        [isDisabled]="isDisabled()"
-                        [type]="'secondary'"
-                        (onClick)="onSubmit()"
-                        [customStyle]="{'min-height': '30px'}">
-            </app-button>
-          </div>
+<!--          <div class="submit-block">-->
+<!--            <app-button [text]="'Annuler'"-->
+<!--                        [type]="'tertiary'"-->
+<!--                        [isDisabled]="submitting"-->
+<!--                        [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">-->
+<!--            </app-button>-->
+<!--            <app-button [text]="'Enregistrer'"-->
+<!--                        [isDisabled]="isDisabled()"-->
+<!--                        [type]="'secondary'"-->
+<!--                        (onClick)="onSubmit()"-->
+<!--                        [customStyle]="{'min-height': '30px'}">-->
+<!--            </app-button>-->
+<!--          </div>-->
         </form>
 
 

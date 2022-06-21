@@ -11,6 +11,7 @@ import {User} from "@app/core/entities";
 import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
+import {Subscription} from "rxjs";
 
 
 
@@ -22,8 +23,24 @@ import {ImageCropperComponent} from "@shared/components/image-cropper/image-crop
 export class PerimetreComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  users: User[] = [];
+  keyword = '';
+  searchSubscription: Subscription;
+  constructor(private userService : UserService,) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers(){
+    if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
+    this.searchSubscription = this.userService.getUsers({keywords: this.keyword, limit: 5, page: 1}).subscribe((result) => {
+      this.users = result.data.data;
+      console.log('this.users', this.users);
+    }, err =>{
+      console.log('err getUsers', err);
+    })
   }
 
   move(to) {

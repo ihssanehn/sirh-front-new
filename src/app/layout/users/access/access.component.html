@@ -1,5 +1,4 @@
 <div class="container top-container-modal">
-  <!--  <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
   <div class="header">
     <div class="btns left-btns">
       <app-button
@@ -7,7 +6,7 @@
         [type]="'secondary_2'"
       ></app-button>
     </div>
-    <h1 class="main-title">Accès</h1>
+    <h1 class="main-title">Accès du profil</h1>
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
@@ -23,6 +22,57 @@
       ></app-button>
     </div>
   </div>
-  <!--  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>-->
 
+
+  <div class="top-container">
+    <form (submit)="submit()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container" novalidate>
+      <div class="row form-box">
+        <div class="col form-column">
+          <div class="form-bloc">
+            <div class="row">
+              <div class="btn-group boolean-button" role="group" ngbRadioGroup name="radioBasic"
+                   [formControl]="formGroup.controls[formInputs.type]">
+                <label ngbButtonLabel class="btn">
+                  <input ngbButton type="radio" class="btn-check" [value]="'M'"> Selon profil
+                </label>
+                <label ngbButtonLabel class="btn">
+                  <input ngbButton type="radio" class="btn-check" [value]="'Mme'"> Personnaliser
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-box">
+        <div class="form-column row">
+
+            <div class="form-bloc col-4 row" *ngFor="let category of access"
+                 [ngClass]="{'col-8': category.access?.length>5 &&  category.access?.length<=10,
+                    'col-12': category.access?.length>10 ,
+                   'col-4': category.access?.length<=5}">
+              <h5>{{category.category}}</h5>
+
+<!--              <ng-container *ngIf="category.access.length>5" >-->
+<!--                -->
+<!--              </ng-container>-->
+
+              <div *ngFor="let access of getPage(category.access); let _id=index"
+                   [ngClass]="{'col-4': _id%5 === 0 && _id,
+                    'col-12': category.access?.length<=5, 'col-4': category.access?.length>5
+                   }"
+              >
+<!--                <div class="col-4">-->
+                  <div class="check-box-btn text-center">
+                    <div class="input-container">
+                      <input type="checkbox" id="{{access.id}}" name="{{access.id}}" value="todo">
+                    </div>
+                    <label for="{{access.id}}" data-content="Get out of bed">{{access.label}}</label>
+                  </div>
+<!--                </div>-->
+              </div>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

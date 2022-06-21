@@ -2,7 +2,6 @@
 
 
 .top-container{
-  padding-top: 30px;
   .form-box{
   }
   .main-container{
@@ -17,68 +16,3 @@
 }
 
 
-.check-box-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 13px;
-  background: #F7F7F7;
-  border-radius: 8px;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 12px 45px;
-  input[type="checkbox"] {
-    position: relative;
-    width: 1.5em;
-    height: 1.5em;
-    color: $fontColor;
-    border: 1px solid lightgray;
-    border-radius: 4px;
-    appearance: none;
-    outline: 0;
-    cursor: pointer;
-    transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-    &::before {
-      position: absolute;
-      content: '';
-      display: block;
-      top: 0;
-      left: 5px;
-      width: 8px;
-      height: 14px;
-      border-style: solid;
-      border-color: white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      opacity: 0;
-    }
-    &:checked {
-      color: white;
-      border-color: $tertiaryColor;
-      background: $tertiaryColor;
-      &::before {
-        opacity: 1;
-      }
-    }
-  }
-
-  label {
-    position: relative;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 0 0.25em 0;
-    user-select: none;
-    color: $fontColor;
-    margin-left: 10px;
-    &::before {
-      position: absolute;
-      content: attr(data-content);
-      color: lightgray;
-      clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
-      text-decoration: line-through;
-      text-decoration-thickness: 3px;
-      text-decoration-color: $fontColor;
-      transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-  }
-}
