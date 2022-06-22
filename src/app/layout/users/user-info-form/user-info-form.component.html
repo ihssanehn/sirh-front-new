@@ -2,7 +2,7 @@
        #inputFile
        accept="image/jpeg"
        multiple (change)="filechanged($event); inputFile.value=''"/>
-<div class="container top-container-modal">
+<div class="container top-container">
   <div class="header">
     <div class="btns left-btns">
       <app-button
@@ -33,13 +33,13 @@
       </div>
     </ng-container>
     <ng-template #loadedData>
-      <div class="container-fluid top-container">
+      <div class="container-fluid top-container p-0">
         <!--    <div class="goback col-12"-->
         <!--         (click)="goback()"-->
         <!--          style="margin-bottom: 10px">-->
         <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
         <!--    </div>-->
-        <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container"
+        <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container p-0"
               novalidate>
           <h5 *ngIf="title">
             <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
@@ -95,7 +95,7 @@
 <!--            </div>-->
 <!--          </div>-->
           <div class="row form-box">
-            <div class="main-container col form-column">
+            <div class="main-container col-xl-6 col-12 form-column">
               <h5>Informations personnelles</h5>
               <div class="form-bloc">
                 <div class="row">
@@ -341,7 +341,7 @@
                 </div>
               </div>
             </div>
-            <div class="main-container col form-column">
+            <div class="main-container  col-xl-6 col-12 form-column">
               <h5>Informations liées à Piman</h5>
               <div style="margin-bottom: 20px;" class="form-bloc">
                 <div class="row">
@@ -755,7 +755,7 @@
             </div>
           </div>
           <div class="row form-box main-container">
-            <div class="main-container col form-column">
+            <div class="main-container  col-lg-6 col-12 form-column">
               <h5>A contacter en cas d’urgence</h5>
               <div class="form-bloc sub-form-bloc">
                 <div class="row">
@@ -814,7 +814,7 @@
                 </div>
               </div>
             </div>
-            <div class="main-container col form-column">
+            <div class="main-container  col-lg-6 col-12 form-column">
               <h5>A contacter en cas d’urgence 2</h5>
               <div class="form-bloc sub-form-bloc" >
                 <div class="row">
@@ -874,16 +874,16 @@
               </div>
             </div>
           </div>
-          <div class="row form-box" *ngIf="type === 'collab-user'">
-            <div class="main-container col form-column">
-              <div class="form-bloc sub-form-bloc">
-                <div class="check-box-btn text-center">
-                  <input type="checkbox" id="todo" name="todo" value="todo">
-                  <label for="todo" data-content="Get out of bed">Création d'un nouveau compte</label>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--          <div class="row form-box" *ngIf="type === 'collab-user'">-->
+<!--            <div class="main-container col form-column">-->
+<!--              <div class="form-bloc sub-form-bloc">-->
+<!--                <div class="check-box-btn text-center">-->
+<!--                  <input type="checkbox" id="todo" name="todo" value="todo">-->
+<!--                  <label for="todo" data-content="Get out of bed">Création d'un nouveau compte</label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 <!--          <div class="submit-block">-->
 <!--            <app-button [text]="'Annuler'"-->
 <!--                        [type]="'tertiary'"-->

@@ -17,24 +17,26 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UsersRoutingModule,
-    NgbModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgSelectModule,
-    OwlDateTimeModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ],
+    imports: [
+        CommonModule,
+        UsersRoutingModule,
+        NgbModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgSelectModule,
+        OwlDateTimeModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        InfiniteScrollModule
+    ],
   declarations: [
     ListUsersComponent,
     AddUserComponent,

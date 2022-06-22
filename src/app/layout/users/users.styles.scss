@@ -97,14 +97,7 @@
 }
 
 .form-column{
-  @media (min-width: $LAPTOP_SCREEN) {
-    &:first-child{
-      margin-right: 30px;
-    }
-    &:last-child{
-      //padding-left: 5%;
-    }
-  }
+
   h5{
     min-height: 40px;
     display: flex;
@@ -172,6 +165,17 @@
   //    margin-bottom: 15px;
   //  }
   }
+  @media (min-width: $LAPTOP_SCREEN) {
+    &:first-child{
+      //margin-right: 30px;
+    }
+    &:last-child{
+      //padding-left: 5%;
+    }
+    label{
+      min-width: unset;
+    }
+  }
 }
 .boolean-button{
   width: fit-content;
@@ -179,13 +183,13 @@
 
 .check-box-btn{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-size: 13px;
-  background: #F7F7F7;
+  //background: #F7F7F7;
   border-radius: 8px;
   width: fit-content;
-  margin: 0 auto;
+  //margin: 0 auto;
   padding: 12px 10px;
   input[type="checkbox"] {
     position: relative;
@@ -277,8 +281,10 @@
 }
 
 
-.top-container-modal{
+.top-container{
   padding: 25px 25px 8px 25px;
+  height: 100%;
+  overflow: hidden;
   .header{
     display: flex;
     justify-content: space-between;

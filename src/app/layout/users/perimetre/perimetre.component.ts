@@ -26,8 +26,21 @@ export class PerimetreComponent implements OnInit {
   users: User[] = [];
   keyword = '';
   searchSubscription: Subscription;
-  constructor(private userService : UserService,) {
+  pagesize = 10;
+
+  pagination: {
+    limit: number,
+    page: number,
   }
+
+  constructor(private userService : UserService,) {
+    this.pagination = {
+      limit: this.pagesize,
+      page: 1
+    }
+  }
+
+
 
   ngOnInit() {
     this.getUsers();
@@ -35,7 +48,7 @@ export class PerimetreComponent implements OnInit {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keywords: this.keyword, limit: 5, page: 1}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({keywords: this.keyword, ...this.pagination}).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
     }, err =>{
@@ -49,6 +62,12 @@ export class PerimetreComponent implements OnInit {
     }else{
       this.preview.emit();
     }
+  }
+
+  onScroll() {
+    console.log('scrooool');
+    this.pagination.limit = this.pagination.limit + this.pagesize;
+    this.getUsers();
   }
 }
 

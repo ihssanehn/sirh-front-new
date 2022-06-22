@@ -3,6 +3,48 @@
 
 .top-container{
   padding-top: 30px;
+  overflow: hidden !important;
+  .list{
+    //height: 100%;
+    height: calc(100% - 40px);
+    .side-panel{
+      border-right: 1px solid lightgray;
+      background: #FAFAFA;
+      padding: 11px 10px 5px 14px;
+      height: 100%;
+    }
+
+    .smal-users-list{
+      margin-top: 5px;
+      height: calc(100% - 65px);
+      .user-item{
+        padding: 10px 0;
+        img{
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+        .name{
+          font-size: 13px;
+        }
+      }
+    }
+
+    .users-scroll-panel{
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .user-item{
+      cursor: pointer;
+      &:hover{
+        background: #e5e5e5;
+        transition: $hoverTransition;
+      }
+    }
+  }
 }
 .form-column{
   .form-bloc{
@@ -17,24 +59,12 @@
 .form-column:first-child {
   margin-right: unset !important;
 }
+.second-column{
+  padding: 10px 10px 5px 20px;
+}
 
 .head-info{
   margin-bottom: 0 !important;
 }
 
-.smal-users-list{
-  margin-top: 5px;
-  .user-item{
-    padding: 10px 0;
-    img{
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .name{
-      font-size: 13px;
-    }
-  }
-}
+

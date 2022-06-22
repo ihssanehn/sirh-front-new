@@ -4,6 +4,7 @@
 .top-container{
   padding-top: 30px;
 }
+
 .form-column{
   h5{
     margin-bottom: 0;
@@ -37,4 +38,9 @@
 
 .head-info{
   margin-bottom: 0 !important;
+}
+
+form{
+  overflow: auto;
+  height: calc(100% - 45px);
 }

@@ -434,9 +434,9 @@ export class AccessComponent implements OnInit {
   getPage(data) {
     if(!data) return;
 
-      while(data.length>0 && data?.length < 5){
-        data.push();
-      }
+      // while(data.length>0 && data?.length < 5){
+      //   data.push();
+      // }
 
   }
 }

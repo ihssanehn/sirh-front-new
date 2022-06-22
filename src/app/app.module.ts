@@ -29,6 +29,7 @@ import {MessageService} from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import {MATERIAL_SANITY_CHECKS} from "@angular/material/core";
 import {ListsService} from "@services/lists.service";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -52,6 +53,7 @@ export function createTranslateLoader(http: HttpClient) {
     RouterModule,
     SharedModule,
     ToastModule,
+    InfiniteScrollModule,
     SweetAlert2Module.forRoot(),
     NgxPermissionsModule.forRoot(),
     OwlDateTimeModule,

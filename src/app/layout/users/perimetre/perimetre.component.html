@@ -1,4 +1,4 @@
-<div class="container top-container-modal">
+<div class="container top-container">
   <!--  <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
   <div class="header">
     <div class="btns left-btns">
@@ -24,21 +24,36 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-3" style="border-right: 1px solid lightgray;">
+  <div class="row list">
+    <div class="col-4 col-xl-3 side-panel">
       <div class="searchbar">
         <input type="text" class="input form-control" placeholder="Rechercher une personne"/>
-        <div class="smal-users-list">
-          <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+      </div>
+      <div class="smal-users-list">
+        <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+          <div
+            class="users-scroll-panel"
+            infiniteScroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="50"
+            (scrolled)="onScroll()"
+            [scrollWindow]="false"
+          >
             <div class="user-item d-flex align-items-center" *ngFor="let user of users">
-              <img src="assets/images/man.png" />
-              <div class="name">{{user.first_name+' '+user.last_name}}</div>
+              <div class="check-box-btn text-center">
+                <input type="checkbox" id="{{user.id}}" name="todo" value="todo">
+                <label for="{{user.id}}" data-content="{{user.first_name+' '+user.last_name}}">
+                  <img src="assets/images/man.png" />
+                  <span class="name">{{user.first_name+' '+user.last_name}}</span>
+                </label>
+              </div>
             </div>
-          </ng-container>
-        </div>
+          </div>
+
+        </ng-container>
       </div>
     </div>
-    <div class="col-9 main-container form-column">
+    <div class="col-8 col-xl-9 main-container form-column second-column">
       <h5>Ajouter une personne</h5>
       <div class="users-list">
         <ng-container *ngIf="0; else emptyStateRightList">

@@ -14,37 +14,14 @@ export class SelectRoleComponent implements OnInit {
   @Output() preview: EventEmitter<any> = new EventEmitter();
   selectedProfile_id = null;
   profiles = [
-    {
-      id: 1,
-      icon: 'icon-user-profil',
-      label: 'consultant'
-    },
-    {
-      id: 2,
-      icon: 'icon-tasks-line',
-      label: 'Responsable ADV'
-    },
-    {
-      id: 3,
-      icon: 'icon-magnifying-glass',
-      label: 'Responsable RH'
-    },
-    {
-      id: 4,
-      icon: 'icon-settings-outline',
-      label: 'Manager'
-    },
-    {
-      id: 5,
-      icon: 'icon-lightbulb',
-      label: 'Directeur'
-    },
+
 
   ];
   constructor(
     private modalService: NgbModal,
     private listService: ListsService,
   ) {
+    this.getProfiles();
   }
 
   ngOnInit() {
