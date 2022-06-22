@@ -49,26 +49,28 @@
                  [ngClass]="{'col-8': category.access?.length>5 &&  category.access?.length<=10,
                     'col-12': category.access?.length>10 ,
                    'col-4': category.access?.length<=5}">
-              <h5>{{category.category}}</h5>
+              <h5>{{category.label}}</h5>
 
 <!--              <ng-container *ngIf="category.access.length>5" >-->
 <!--                -->
 <!--              </ng-container>-->
 
-              <div *ngFor="let access of getPage(category.access); let _id=index"
-                   [ngClass]="{'col-4': _id%5 === 0 && _id,
+              <ng-container *ngFor="let access of getPage(category.access); let _id=index">
+                <div
+                     [ngClass]="{'col-4': _id%5 === 0 && _id,
                     'col-12': category.access?.length<=5, 'col-4': category.access?.length>5
                    }"
-              >
-<!--                <div class="col-4">-->
+                >
+                  <!--                <div class="col-4">-->
                   <div class="check-box-btn text-center">
                     <div class="input-container">
-                      <input type="checkbox" id="{{access.id}}" name="{{access.id}}" value="todo">
+                      <input type="checkbox"  *ngIf="access.id" id="{{access.id}}" name="{{access.id}}" value="todo">
                     </div>
-                    <label for="{{access.id}}" data-content="Get out of bed">{{access.label}}</label>
+                    <label for="{{access.id}}" >{{access.label}}</label>
                   </div>
-<!--                </div>-->
-              </div>
+                  <!--                </div>-->
+                </div>
+              </ng-container>
             </div>
         </div>
       </div>

@@ -13,7 +13,8 @@ export class ListsService {
     PROFILE: 'PROFILE',
     STATUS: 'STATUS',
     PERSONAL: 'PERSONAL',
-    PROFIT_CENTER: 'PROFIT_CENTER'
+    PROFIT_CENTER: 'PROFIT_CENTER',
+    PERMISSIONS_BY_ELEMENT: 'permission/getPermissionsByElement'
   }
   constructor(private apiService: ApiService) {}
 
@@ -21,14 +22,22 @@ export class ListsService {
     if(entity === this.list.STATUS){
       return this.apiService.get( 'status/getStatusByModel?model='+params)
         .pipe(map(res => { return res?.result?.data || []}))
-    } else{
+    } else if(entity === this.list.PERMISSIONS_BY_ELEMENT){
+      return this.apiService.get( this.list.PERMISSIONS_BY_ELEMENT)
+        .pipe(map(res => { return res?.result?.data || []}));
+    } else {
       return this.apiService.get( 'filter/getFilter?model='+entity)
         .pipe(map(res => { return res?.result?.data || []}));
     }
+
   }
 
   getFilter(entity) {
     return this.apiService.get( 'filter/getFilter?model='+entity)
       .pipe(map(res => { return res?.result?.data || []}));
+  }
+
+  getPermissionsByElement(){
+
   }
 }
