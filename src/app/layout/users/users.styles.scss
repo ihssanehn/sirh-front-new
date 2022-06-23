@@ -93,11 +93,18 @@
 
 .form-box{
   padding: 10px 10px;
+}
+
+.white-box{
   background: white;
+  padding: 5px 20px;
 }
 
 .form-column{
-
+  padding-bottom: 30px;
+  &:first-child{
+    padding-left: 0;
+  }
   h5{
     min-height: 40px;
     display: flex;
@@ -289,7 +296,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
+    background: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 13px;
+    padding-right: 13px;
+    margin-bottom: 15px;
   }
   .cards{
     display: flex;
@@ -657,6 +670,13 @@ button.btn {
       font-weight: 600;
       //color: $primaryColor;
       font-size: 16px;
+    }
+  }
+  .danger-action{
+    display: flex;
+    color: $danger;
+    i:before{
+      color: $danger;
     }
   }
 }

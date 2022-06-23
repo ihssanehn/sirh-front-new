@@ -1,0 +1,34 @@
+<div class="container top-container ">
+  <div class="header modal-header">
+    <h1 class="main-title">Les utilisateurs du périmètre</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+
+  <div class="modal-body">
+    <div class="list-group">
+      <div class="list-group-item" *ngFor="let user of users">
+        <div class="photo-cell">
+          <div class="photo">
+            <div class="img-container">
+              <img
+                [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+              />
+
+            </div>
+          </div>
+          <div class="name">{{user?.last_name+' '+user?.first_name}} </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="modal-footer">-->
+<!--    <app-button-->
+<!--      [type]="'primary'"-->
+<!--      [text]="'Fermer'"-->
+<!--      (onClick)="modal.close()"-->
+<!--    ></app-button>-->
+<!--  </div>-->
+</div>

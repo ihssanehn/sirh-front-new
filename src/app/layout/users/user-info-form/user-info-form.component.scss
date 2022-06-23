@@ -3,11 +3,9 @@
 
 .top-container{
   overflow: hidden;
-  .main-container{
-    background: white;
-    padding: 10px 15px;
-    margin-top: 15px;
-  }
+  //.main-container{
+    //margin-top: 15px;
+  //}:
   form{
     overflow: auto;
     height: calc(100% - 45px);
@@ -18,4 +16,9 @@
   margin-bottom: 0 !important;
 }
 
+.vertical-separator{
+  border-left: 1px solid lightgray;
+  width: 1px;
+  margin: 0 5%;
+}
 

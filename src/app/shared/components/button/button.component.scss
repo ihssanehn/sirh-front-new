@@ -47,7 +47,7 @@ $border-color: #707070;
 
 .primary{
   //background-image: $maingradient;
-  background: $tertiaryColor;//$secondaryColor;
+  background: $primaryColor;//$secondaryColor;
   //color: #ffffff;
   color: white; //$primaryColor;
   //border: 0.1px solid $primaryColor;
@@ -58,11 +58,11 @@ $border-color: #707070;
   }
 }
 .primary_inverse{
-  color: $tertiaryColor;
+  color: $primaryColor;
   background: white;
-  border: 1px solid $tertiaryColor;
+  border: 1px solid $primaryColor;
   i:before{
-    color: $tertiaryColor;
+    color: $primaryColor;
     font-size: 11px;
   }
 }

@@ -43,7 +43,7 @@ $LAPTOP_SCREEN: 1024px;
 //$tertiaryColor: #000000;
 //$lightTertiaryColor: #878B8D;
 
-$primaryColor: #F0C807;
+$primaryColor: #078aff;//#F0C807;
 //$darkPrimaryColor:  #262C79FF;
 //$lightPrimaryColor: #4754E5FF;
 $secondaryColor: #4D4D4D;//#22806f;
@@ -79,7 +79,7 @@ $sidebar-width: 200px;
 $sidebar-small-width: 220px;
 $header-height: 55px;
 $sidebar-background: #F7F7F7;//#f9f9f9;//#F7F7F7;//$primaryColor;
-$header-background: #F0C807;
+$header-background: $mainColor;
 $header-color: white;
 $sidebar-activeTabBackground: #fff;// #E5F5E3;
 $sidebar-activeTabBorder: 0;//5px solid;

@@ -57,14 +57,15 @@
 
               <ng-container *ngFor="let access of getPage(category.access); let _id=index">
                 <div
-                     [ngClass]="{'col-4': _id%5 === 0 && _id,
-                    'col-12': category.access?.length<=5, 'col-4': category.access?.length>5
+                  class="col-4"
+                     [ngClass]="{'col-4': category.access?.length>10,
+                    'col-12':category.access?.length<=5
                    }"
                 >
                   <!--                <div class="col-4">-->
-                  <div class="check-box-btn text-center">
+                  <div class="check-box-btn text-center"  *ngIf="access.id" >
                     <div class="input-container">
-                      <input type="checkbox"  *ngIf="access.id" id="{{access.id}}" name="{{access.id}}" value="todo">
+                      <input type="checkbox"  id="{{access.id}}" name="{{access.id}}" value="todo">
                     </div>
                     <label for="{{access.id}}" >{{access.label}}</label>
                   </div>

@@ -33,12 +33,19 @@ export class AccessComponent implements OnInit {
     try {
       const res = await this.listsService.getAll(this.listsService.list.PERMISSIONS_BY_ELEMENT).toPromise();
       this.access = res;
+      let index = 0;
       this.access.forEach(category => {
         if (category?.access?.length)
           while(category?.access?.length > 0 && category?.access?.length <5){
             category.access.push({});
           }
+        // if(category.access.length>10){
+        //   category.class= 'col-4';
+        // }else if()
+        // if(index %)
+        // index++;
       });
+
       console.log('res', res);
     }catch (e){
       console.log('e', e);

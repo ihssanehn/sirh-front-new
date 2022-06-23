@@ -67,4 +67,30 @@
   margin-bottom: 0 !important;
 }
 
+.users-list{
+  .perim-item{
+    display: flex;
+  }
+  table{
+    tr{
+      background: inherit;
+    }
+    td{
+      background: unset;
+      border: 0;
+      cursor: inherit;
+    }
+    .users-modal-open{
+      font-weight: 500;
+      i:before{
+        color: $fontColor;
+        font-weight: 500;
+      }
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
 

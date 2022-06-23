@@ -12,6 +12,7 @@ import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {Subscription} from "rxjs";
+import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 
 
 
@@ -33,7 +34,9 @@ export class PerimetreComponent implements OnInit {
     page: number,
   }
 
-  constructor(private userService : UserService,) {
+  selectedUsers = [];
+
+  constructor(private userService : UserService, private modalService: NgbModal) {
     this.pagination = {
       limit: this.pagesize,
       page: 1
@@ -68,6 +71,35 @@ export class PerimetreComponent implements OnInit {
     console.log('scrooool');
     this.pagination.limit = this.pagination.limit + this.pagesize;
     this.getUsers();
+  }
+
+  openUsersPerimetreModal(){
+    const modalRef = this.modalService.open(ModalPerimetreUsersComponent,
+      { size: 'sm' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+
+    }, reason => {
+      console.log('closed');
+    });
+    modalRef.componentInstance.users = this.users;
+  }
+
+  appendToSelected(user) {
+    if(! this.selectedUsers){
+      this.selectedUsers = [];
+    }
+    this.selectedUsers.push(user)
+
+  }
+
+  getFiltredUsers() {
+    return this.users.filter(user => !this.selectedUsers.find(selectedUser => selectedUser.id === user.id));
+  }
+
+  deleteFromSelectedUsers(id){
+    if(!id) return;
+    this.selectedUsers = this.selectedUsers.filter(selectedUser => selectedUser.id !== id );
   }
 }
 

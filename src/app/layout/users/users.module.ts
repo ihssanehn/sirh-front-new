@@ -18,32 +18,39 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        UsersRoutingModule,
-        NgbModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgSelectModule,
-        OwlDateTimeModule,
-        MatStepperModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        InfiniteScrollModule
-    ],
+  imports: [
+    CommonModule,
+    UsersRoutingModule,
+    NgbModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgSelectModule,
+    OwlDateTimeModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    InfiniteScrollModule,
+    MatTooltipModule
+  ],
   declarations: [
     ListUsersComponent,
     AddUserComponent,
     UserInfoFormComponent,
     SelectRoleComponent,
     PerimetreComponent,
-    AccessComponent
+    AccessComponent,
+    ModalPerimetreUsersComponent
+  ],
+  entryComponents: [
+    ModalPerimetreUsersComponent
   ]
 })
 export class UsersModule { }

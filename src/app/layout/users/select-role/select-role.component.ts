@@ -74,9 +74,6 @@ export class SelectRoleComponent implements OnInit {
     const modalRef = this.modalService.open(modal, { size: size , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
-      // if(result === 'QUERY'){
-      //   this.getAllStudents();
-      // }
     }, reason => {
       console.log('closed');
     });
