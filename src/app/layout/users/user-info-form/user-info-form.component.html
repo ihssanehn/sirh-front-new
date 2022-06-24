@@ -8,6 +8,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
+        [routerLink]="['/users']"
       ></app-button>
     </div>
     <h1 class="main-title">Informations du profil</h1>
@@ -521,7 +522,7 @@
                 <div class="form-bloc">
 
                   <div class="row">
-                    <label class="col-2">Contrat {{isRequired(formInputs.categorie_id)}}</label>
+                    <label class="col-2">Contrat {{isRequired(formInputs.contract_id)}}</label>
                     <div class="col">
                       <ng-select
                         [items]="contracts"
@@ -529,15 +530,15 @@
                         [bindValue]="'id'"
                         class="form-control select"
                         placeholder="Sélectionner le contrat ici"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.categorie_id].hasError('required')
-                                  && userFormGroup.controls[formInputs.categorie_id].dirty}"
-                        [formControl]="userFormGroup.controls[formInputs.categorie_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.contract_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.contract_id].dirty}"
+                        [formControl]="userFormGroup.controls[formInputs.contract_id]"
                         [multiple]="false"
                       >
                       </ng-select>
                       <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.categorie_id].hasError('required')
-                  && userFormGroup.controls[formInputs.categorie_id].dirty">
+                           *ngIf="userFormGroup.controls[formInputs.contract_id].hasError('required')
+                  && userFormGroup.controls[formInputs.contract_id].dirty">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         Le contrat est obligatoire
                       </div>

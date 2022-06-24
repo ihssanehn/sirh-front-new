@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
+import {ListsService} from "@services/lists.service";
 
 @Component({
   selector: 'app-list-users',
@@ -17,48 +18,66 @@ import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form
 export class ListUsersComponent implements OnInit, OnDestroy {
 
   users: User[] = [];
-  filter = {
-    keyword: '',
-    manager: null,
-    etablissement_juridique: null,
-    direction_operationnelles: null,
-    departement: null,
-    centreProfit: null,
-    category: null,
-    etat: null
-  }
   keyword = '';
   searchSubscription: Subscription;
   $roles = $userRoles;
-  managers = [];
-  etablissementJuridiques = [];
-  directionOperationnelles = [];
-  departements = [];
-  centreProfits = [];
-  categories = [];
-  etats = [];
-  showFilters: boolean;
+  showFilters = true;
   pagination: any = {
     page: 1,
     total: 10,
-    pageSize: 10
+    limit: 10
   };
+  contracts = [];
+  managers = [];
+  functions = [];
+  family_situations = [];
+  profiles = [];
+  status = [];
 
+  entities = [];
+  profit_centers = [];
+  filter = {
+    keyword: '',
+    family_situations: [],
+    functions: [],
+    contracts: [],
+    entities: [],
+    profiles: [],
+    status: [],
+    profit_centers: [],
+    managers: [],
+    is_virtual: null,
+    page: 1,
+    limit: 10,
+  }
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
+              private listService: ListsService,
               private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
+    this.getFilters();
+  }
+
+  async getFilters(){
+    try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
+    try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
+    try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
+    try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
+    try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
+    try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
+    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
   }
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keywords: this.filter.keyword, limit: 5, page: 1}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({...this.filter}).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
-      this.pagination = { ...this.pagination, total: this.users.length };
+      this.pagination = { ...this.pagination, total: result?.data?.total };
     }, err =>{
       console.log('err getUsers', err);
     })
@@ -74,7 +93,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     //   console.log('closed', result);
     // }, reason => {
     //   console.log('closed');
-    //   // this.getAllStudents();
     // });
     // modalRef.componentInstance.idUser = item.id;
   }
@@ -209,17 +227,19 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  resetFillters() {
-    this.filter = {
-      keyword: this.filter.keyword,
-      manager: null,
-      etablissement_juridique: null,
-      direction_operationnelles: null,
-      departement: null,
-      centreProfit: null,
-      category: null,
-      etat: null
-    }
+  resetFilters() {
+    this.filter = Object.assign(this.filter, {
+      functions: [],
+      contracts: [],
+      entities: [],
+      profiles: [],
+      status: [],
+      profit_centers: [],
+      managers: [],
+      is_virtual: null
+    });
+    console.log('resetFilters', this.filter)
+    // showFilters = !showFilters;
   }
 
   openModal(idUser) {
@@ -242,5 +262,16 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.type = type;
     modalRef.componentInstance.idUser = idUser;
+  }
+
+  changePagination() {
+    this.pagination = { ...this.pagination, limit: this.pagination.limit, total: this.pagination.total };
+    this.filter.page = this.pagination.page;
+    this.filter.limit = this.pagination.limit;
+    this.getUsers();
+  }
+
+  filterChanged() {
+    this.getUsers();
   }
 }

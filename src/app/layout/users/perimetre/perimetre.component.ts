@@ -51,7 +51,7 @@ export class PerimetreComponent implements OnInit {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({keywords: this.keyword, ...this.pagination}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
     }, err =>{
@@ -73,7 +73,7 @@ export class PerimetreComponent implements OnInit {
     this.getUsers();
   }
 
-  openUsersPerimetreModal(){
+  openUsersPerimetreModal(user){
     const modalRef = this.modalService.open(ModalPerimetreUsersComponent,
       { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
@@ -82,7 +82,7 @@ export class PerimetreComponent implements OnInit {
     }, reason => {
       console.log('closed');
     });
-    modalRef.componentInstance.users = this.users;
+    modalRef.componentInstance.users = user.perimeters;
   }
 
   appendToSelected(user) {
@@ -90,7 +90,6 @@ export class PerimetreComponent implements OnInit {
       this.selectedUsers = [];
     }
     this.selectedUsers.push(user)
-
   }
 
   getFiltredUsers() {

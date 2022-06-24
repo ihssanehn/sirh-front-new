@@ -13,6 +13,7 @@ export class ListsService {
     PROFILE: 'PROFILE',
     STATUS: 'STATUS',
     PERSONAL: 'PERSONAL',
+    MANAGER: 'MANAGER',
     PROFIT_CENTER: 'PROFIT_CENTER',
     PERMISSIONS_BY_ELEMENT: 'permission/getPermissionsByElement'
   }

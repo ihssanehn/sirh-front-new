@@ -36,6 +36,7 @@ export class LayoutComponent implements OnInit{
         }
       }
     });
+    this.onResize();
   }
 
 
@@ -44,10 +45,10 @@ export class LayoutComponent implements OnInit{
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     // if(this.mainStore.noPaddingPage) return;
-    // this.mainStore.sidebarOpened = window.innerWidth >= 992;
-    // this.mainStore.sidebarOverMode = window.innerWidth < 992;
+    this.mainStore.sidebarOpened = window.innerWidth >= 992;
+    this.mainStore.sidebarOverMode = window.innerWidth < 992;
   }
 
   toggleMenu() {

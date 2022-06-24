@@ -56,7 +56,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     urgency_name_1: 'urgency_name_1',
     urgency_telephone_1: 'urgency_telephone_1',
     family_link_1: 'family_link_1',
-    categorie_id: 'categorie_id',
+    contract_id: 'contract_id',
     urgency_name_2: 'urgency_name_2',
     urgency_telephone_2: 'urgency_telephone_2',
     family_link_2: 'family_link_2',
@@ -85,7 +85,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     // remember_token: 'remember_token',
     // is_temps_partiel: 'is_temps_partiel',
     // is_hors_siege: 'is_hors_siege',
-    // categorie_id: 'categorie_id',
+    // contract_id: 'contract_id',
     // validite_titre_sejour: 'validite_titre_sejour',
 
     // validateur_absence_id: 'validateur_absence_id',
@@ -172,11 +172,11 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       urgency_name_1: [null],
       urgency_telephone_1: [null],
       family_link_1: [null],
-      categorie_id: [null, Validators.required],
+      contract_id: [null, Validators.required],
 
-      urgency_name_2: [null, Validators.required],
-      urgency_telephone_2: [null, Validators.required],
-      family_link_2: [null, Validators.required],
+      urgency_name_2: [null],
+      urgency_telephone_2: [null],
+      family_link_2: [null],
 
 
       manager_id: [null, Validators.required],
@@ -249,28 +249,20 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       this.getUser(this.activatedRoute.snapshot.params.id);
     }
 
-    // try{
-      this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();
-      this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();
-      this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();
-      this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();
-      this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();
-      this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();
-      this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();
-
-    // }catch (e){
-    //   console.log('e', e);
-    // }
-
+    try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
+    try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
+    try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
+    try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
+    try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
+    try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
+    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
 
     this.changeDetectorRef.detectChanges();
   }
 
-  async getUser(id, initForm=true) {
-    // const params = {
-    //   id: id,
-    // };
 
+  async getUser(id, initForm=true) {
     try {
       this.loadingData = true;
       this.errorLoadData = false;
@@ -318,7 +310,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       // {
         // function: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
         // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
-        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
+        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
         // family_situation: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.family_situation_id)},
      );
 
@@ -479,7 +471,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       ...this.userFormGroup.value,
         // fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
         // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
-        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.categorie_id),
+        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
         // situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)
     }
 

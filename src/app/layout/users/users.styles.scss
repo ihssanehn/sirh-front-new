@@ -289,9 +289,10 @@
 
 
 .top-container{
-  padding: 25px 25px 8px 25px;
+  padding: 25px 0px 8px 0px;
   height: 100%;
   overflow: hidden;
+  max-width: unset;
   .header{
     display: flex;
     justify-content: space-between;
@@ -354,10 +355,11 @@
   }
   .main-title{
     font-size: 17px;
-    width: 100%;
+    //width: 100%;
     text-align: center;
     margin-bottom: 0;
     font-weight: 500;
+    width: fit-content;
   }
   .sub-title{
     font-size: 14px;
@@ -437,7 +439,7 @@
   margin-bottom: 10px;
   .main-title{
     font-size: 18px;
-    min-height: 60px;
+    //min-height: 60px;
     display: flex;
     align-items: center;
     margin: 0;

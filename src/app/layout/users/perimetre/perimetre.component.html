@@ -4,6 +4,7 @@
     <div class="btns left-btns">
       <app-button
         [text]="'Annuler'"
+        [routerLink]="['/users']"
         [type]="'secondary_2'"
       ></app-button>
     </div>
@@ -86,12 +87,12 @@
                     </div>
                    </td>
                   <td style="width: 20%" data-title="users" class="users-modal-open">
-                    <div (click)="openUsersPerimetreModal()">
+                    <div (click)="openUsersPerimetreModal(user)">
                       <i class="icon-user-basic"
                          data-toggle="tooltip"
                          data-placement="top"
                          title="Détails"></i>&nbsp;
-                      8
+                      {{user.perimeters?.length}}
                     </div>
                   </td>
                   <td style="width: 20%" class="icon-cell">

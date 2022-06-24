@@ -30,14 +30,14 @@
 <!--    </div>-->
     <div class="sub-header container-fuil container-lg">
       <h1 class="main-title">
-        Collaborateurs
+        Utilisateurs
       </h1>
 
       <div class="search d-flex">
         <div class="input-group">
           <input type="text"
                  class="form-control input"
-                 placeholder="Rechercher un collaborateur"
+                 placeholder="Rechercher un utilisateur"
                  (input)="getUsers()"
                  aria-describedby="basic-addon2"
                  [(ngModel)]="filter.keyword"/>
@@ -49,7 +49,7 @@
           [text]="'Recherche avancé'"
           [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
           [type]="'secondary_inverse'"
-          (onClick)="showFilters = !showFilters; resetFillters()"
+          (onClick)="resetFilters()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>
@@ -77,70 +77,96 @@
           <div>
             <ng-select class="select"
                        [items]="managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.managers"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
                        [placeholder]="'Filtrer par manager'" ></ng-select>
           </div>
         </div>
         <div class=" flex-column col-4">
-          <label>Etablissement Juridique</label>
+          <label>Contrat</label>
           <div>
             <ng-select class="select"
-                       [items]="etablissementJuridiques"
-                       [placeholder]="'Filtrer par établissement Juridique'" ></ng-select>
+                       [items]="contracts"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.contracts"
+                       [placeholder]="'Filtrer contrat'" ></ng-select>
           </div>
         </div>
         <div class=" flex-column col-4">
-          <label>Direction opérationnelle</label>
+          <label>Fonction</label>
           <div>
             <ng-select class="select"
-                       [items]="directionOperationnelles"
-                       [placeholder]="'Filtrer par direction opérationnelle'"></ng-select>
+                       [items]="functions"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.functions"
+                       [placeholder]="'Filtrer par fonction'"></ng-select>
           </div>
         </div>
       </div>
       <div class="filtres row ">
         <div class=" flex-column col-4">
-          <label>Business Unit</label>
+          <label>Profils</label>
           <div>
             <ng-select class="select"
-                       [items]="directionOperationnelles"
-                       [placeholder]="'Filtrer par business unit'"></ng-select>
+                       [items]="profiles"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.profiles"
+                       [placeholder]="'Filtrer par profils'"></ng-select>
           </div>
         </div>
         <div class=" flex-column col-4">
-          <label>Département</label>
+          <label>Status</label>
           <div>
             <ng-select class="select"
-                       [items]="departements"
-                       [placeholder]="'Filtrer par département'" ></ng-select>
+                       [items]="status"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.status"
+                       [placeholder]="'Filtrer par statut'" ></ng-select>
           </div>
         </div>
         <div class=" flex-column col-4">
           <label>Centre de Profit</label>
           <div>
             <ng-select class="select"
-                       [items]="centreProfits"
+                       [items]="profit_centers"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.profit_centers"
                        [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
           </div>
         </div>
       </div>
-      <div class="filtres row ">
-        <div class=" flex-column col-4">
-          <label>Catégorie</label>
-          <div>
-            <ng-select class="select"
-                       [items]="categories"
-                       [placeholder]="'Filtrer par catégorie'" ></ng-select>
+      <div class="filtres row">
+        <div class="form-group col col-sm block-check ">
+          <label class="">Utilisateur virtuel</label>
+          <div class="btn-group btn-group-toggle"
+               ngbRadioGroup name="radioBasic"
+               (change)="filterChanged()"
+               [(ngModel)]="filter.is_virtual">
+            <label ngbButtonLabel
+                   [ngClass]="{'btn-primary': filter.is_virtual === true}">
+              <input ngbButton type="radio" [value]="true"> Oui
+            </label>
+            <label ngbButtonLabel class="btn-primary"
+                   [ngClass]="{'btn-primary': filter.is_virtual === null}">
+              <input ngbButton type="radio" [value]="null"> Tous
+            </label>
+            <label ngbButtonLabel
+                   [ngClass]="{'btn-primary': filter.is_virtual === false}">
+              <input ngbButton type="radio" [value]="false"> Non
+            </label>
           </div>
-        </div>
-        <div class=" flex-column col-4">
-          <label>Etat</label>
-          <div>
-            <ng-select class="select"
-                       [items]="etats"
-                       [placeholder]="'Filtrer par état'" ></ng-select>
-          </div>
-        </div>
-        <div class=" flex-column col-4">
         </div>
       </div>
     </div>
@@ -184,7 +210,7 @@
                 </thead>
                 <tbody>
 <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-                <tr *ngFor="let user of users | paginate: pagination"  >
+                   <tr *ngFor="let user of users"  >
                         <td>
                           <div class="photo-cell">
                             <div class="photo">
@@ -247,7 +273,12 @@
     </div>
 <!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
   <div class="footer">
-    <app-pagination name="pagination" [(ngModel)]="pagination" ngDefaultControl></app-pagination>
+
+    <app-pagination name="pagination"
+                    (change)="changePagination()"
+                    [(ngModel)]="pagination"
+                    ngDefaultControl>
+    </app-pagination>
     <div class="right-buttons flex-end">
       <app-button
         [text]="'Importer'"

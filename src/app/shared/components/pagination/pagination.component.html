@@ -2,7 +2,7 @@
     <div class="col">
 <!--        {{ 'DISPLAY BY' | translate }} :-->
         Afficher par :
-    <select name="" id="" class="separtor" [(ngModel)]="pagination.pageSize" (change)="updatePageSize($event.target.value)">
+    <select name="" id="" class="separtor" [(ngModel)]="pagination.limit" (change)="updatePageSize($event.target.value)">
         <option value="1">1</option>
       <option value="5">5</option>
 
@@ -13,8 +13,8 @@
     </select>
         <span class="separtor">
 
-      {{ (pagination.page -1) * pagination.pageSize + 1 }}-{{ (pagination.page * pagination.pageSize)
-      < pagination.total ? (pagination.page * pagination.pageSize) : pagination.total }}
+      {{ (pagination.page -1) * pagination.limit + 1 }}-{{ (pagination.page * pagination.limit)
+      < pagination.total ? (pagination.page * pagination.limit) : pagination.total }}
 <!--          {{'OF' | translate}}-->
           sur
           {{pagination.total}} </span>

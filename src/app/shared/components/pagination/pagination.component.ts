@@ -16,7 +16,7 @@ export class PaginationComponent implements ControlValueAccessor {
   @Output() change = new EventEmitter();
   pagination = {
     page: 1,
-    pageSize: 10,
+    limit: 10,
     total: 10
   };
   disabled = false;
@@ -41,11 +41,11 @@ export class PaginationComponent implements ControlValueAccessor {
       this.pagination = data;
     }
   }
-  updatePageSize(pageSize) {
+  updatePageSize(limit) {
     this.pagination = {
       ...this.pagination,
       page: 1,
-      pageSize: parseInt(pageSize, 10)
+      limit: parseInt(limit, 10)
     };
     this.onChange(this.pagination);
     this.change.emit(this.pagination);
@@ -53,7 +53,7 @@ export class PaginationComponent implements ControlValueAccessor {
   next() {
     if (
       this.pagination.page <
-      Math.ceil(this.pagination.total / this.pagination.pageSize)
+      Math.ceil(this.pagination.total / this.pagination.limit)
     ) {
       this.pagination = { ...this.pagination, page: this.pagination.page + 1 };
       this.onChange(this.pagination);
@@ -73,7 +73,7 @@ export class PaginationComponent implements ControlValueAccessor {
   isLastPage() {
     return (
       this.pagination.page ===
-      Math.ceil(this.pagination.total / this.pagination.pageSize)
+      Math.ceil(this.pagination.total / this.pagination.limit)
     );
   }
 }

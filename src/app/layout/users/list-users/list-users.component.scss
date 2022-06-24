@@ -1,5 +1,12 @@
 @import "../users.styles";
 
+.top-container{
+  overflow: inherit !important;
+  height: fit-content !important;
+  padding-bottom: 20px;
+  padding-left: 2%;
+  padding-right: 2%;
+}
 .filter-container{
   background: white;
   border-radius: 5px;
@@ -18,6 +25,7 @@
     .reset-filters{
       font-size: 12px;
       color: $mainColor;
+      cursor: pointer;
     }
   }
   .filtres{
@@ -28,6 +36,38 @@
       font-weight: 300;
       margin-bottom: 5px;
       opacity: .8;
+    }
+    .block-check{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .btn-group-toggle{
+        input{
+          max-width: 80%;
+          display: none;
+        }
+        label{
+          margin-bottom: 0;
+        }
+      }
+      @media (max-width: 1024px){
+        input{
+          max-width: unset;
+        }
+      }
+      .btn-group-toggle{
+        border: 1px solid lightgray;
+        border-radius: 10px;
+        font-size: 12px;
+        .btn-primary{
+          background-color: $mainColor;
+        }
+      }
+    }
+  }
+  ng-select{
+    ::ng-deep .ng-select-container{
+      min-height: 40px;
     }
   }
 }
@@ -44,4 +84,8 @@
 
 .icon-cell{
   width: 70px;
+}
+
+.wrap{
+  justify-content: flex-start !important;
 }

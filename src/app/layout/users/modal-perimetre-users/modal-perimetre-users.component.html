@@ -11,14 +11,14 @@
           <div class="photo">
             <div class="img-container">
               <img
-                [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
+                [attr.src]="user?.photo_profile_path ? ('document/'+user.photo_profil_id+'/file' |
                       getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
                       async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
               />
 
             </div>
           </div>
-          <div class="name">{{user?.last_name+' '+user?.first_name}} </div>
+          <div class="name">{{user?.full_name}} </div>
         </div>
       </div>
     </div>
