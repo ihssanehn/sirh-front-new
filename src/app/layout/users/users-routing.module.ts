@@ -7,6 +7,18 @@ import { AddUserComponent } from './add-user/add-user.component';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'list'
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin', 'manager'],
+    //     redirectTo: '/'
+    //   }
+    // }
+  },
+  {
+    path: 'list',
     component: ListUsersComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {

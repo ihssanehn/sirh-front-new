@@ -81,6 +81,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   }
 
   async submitUser($event: any) {
+    this.moveForward();
     try{
       const res = await this.userService.submitUser($event).toPromise();
       this.moveForward();
@@ -92,9 +93,10 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   }
 
   async submitPerimeters($event: any) {
+    this.moveForward();
     try{
       const res = await this.userService.submitPerimeters($event).toPromise();
-      this.moveForward();
+      // this.moveForward();
     }catch (e){
 
     }finally {

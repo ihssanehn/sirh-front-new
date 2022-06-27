@@ -109,10 +109,10 @@ $sidebar-menuItem-background-3: white;
 
 // hovered item
 $sidebar-menuItem-background-hover-1: #fff;
-$sidebar-menuItem-background-hover-2: #f1c802;
+$sidebar-menuItem-background-hover-2: $primaryColor;
 $sidebar-menuItem-background-hover-3: $secondaryColor;
 
-$sidebar-menuItem-text-hover-1: #f1c802;
+$sidebar-menuItem-text-hover-1: $primaryColor;
 $sidebar-menuItem-text-hover-2: #fff;
 $sidebar-menuItem-text-hover-3: #fff;
 
@@ -120,10 +120,10 @@ $sidebar-menuItem-text-hover-3: #fff;
 $sidebar-menuItem-text-active-1: $fontColor;
 $sidebar-menuItem-background-active-1: #ededed;
 
-$sidebar-menuItem-text-active-2: #f1c802;//#387BB7;
+$sidebar-menuItem-text-active-2: $primaryColor;//#387BB7;
 $sidebar-menuItem-background-active-2: #fff;//#3D86C7;
 
-$sidebar-menuItem-text-active-3: #f1c802;//#fff;
+$sidebar-menuItem-text-active-3: $primaryColor;//#fff;
 $sidebar-menuItem-background-active-3: #fff;//#3D86C7;
 
 //$headerTextColorHover: #fff;

@@ -33,7 +33,7 @@
     }
 
     .users-scroll-panel{
-      height: 100%;
+      height: calc(100% - 10px);
       overflow-y: auto;
     }
 

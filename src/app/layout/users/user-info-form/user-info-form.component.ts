@@ -507,7 +507,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       this.error = 'Il y a des éléments qui nécessitent votre attention';
       // console.log('getFormValidationErrors', );
       getFormValidationErrors(this.userFormGroup);
-      return;
+      // return;
     }
     this.submitUser.emit(this.userFormGroup.value);
   }

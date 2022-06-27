@@ -107,12 +107,13 @@ export class PerimetreComponent implements OnInit {
 
   savePermimeters() {
     this.error = '';
-    markFormAsDirty(this.myForm);
-    if(!this.myForm.valid ){
-      this.error = '';
-      return;
-    }
-    this.submitPerimeters.emit(this.myForm.value);
+    // markFormAsDirty(this.myForm);
+    // if(!this.myForm.valid ){
+    //   this.error = '';
+    //   return;
+    // }
+    // this.submitPerimeters.emit(this.myForm.value);
+    this.submitPerimeters.emit(null);
   }
 }
 
