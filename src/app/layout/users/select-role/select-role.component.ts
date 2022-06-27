@@ -12,10 +12,11 @@ import {ListsService} from "@services/lists.service";
 export class SelectRoleComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  @Output() submitRole: EventEmitter<any> = new EventEmitter();
   selectedProfile_id = null;
+  error = '';
+  warning = '';
   profiles = [
-
-
   ];
   constructor(
     private modalService: NgbModal,
@@ -37,7 +38,6 @@ export class SelectRoleComponent implements OnInit {
 
     }
   }
-
 
   openModal(profil: string) {
     if(this.modalService.hasOpenModals()){
@@ -91,5 +91,14 @@ export class SelectRoleComponent implements OnInit {
 
   selectProfil(profile_id){
     this.selectedProfile_id = profile_id;
+  }
+
+  saveProfile(){
+    this.error = '';
+    if(!this.selectedProfile_id){
+      this.error = 'Veillez séléctionner un profil';
+      return;
+    }
+    this.submitRole.emit(this.selectedProfile_id);
   }
 }

@@ -5,6 +5,7 @@
         <app-select-role
           (next)="moveForward()"
           (preview)="moveBackward()"
+          (submitRole)="submitRole($event)"
         ></app-select-role>
   </mat-step>
   <mat-step
@@ -13,6 +14,8 @@
         <app-user-info-form
           (next)="moveForward()"
           (preview)="moveBackward()"
+          [profile_id]="profile_id"
+          (submitUser)="submitUser($event)"
         ></app-user-info-form>
   </mat-step>
   <mat-step
@@ -21,6 +24,7 @@
         <app-perimetre
           (next)="moveForward()"
           (preview)="moveBackward()"
+          (submitPerimeters)="submitPerimeters($event)"
         ></app-perimetre>
   </mat-step>
   <mat-step
@@ -29,8 +33,9 @@
         <app-access
           (next)="moveForward()"
           (preview)="moveBackward()"
+          (submitAccess)="submitAccess($event)"
+
         ></app-access>
   </mat-step>
-
 </mat-stepper>
 

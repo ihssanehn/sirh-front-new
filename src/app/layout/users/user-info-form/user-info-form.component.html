@@ -15,7 +15,7 @@
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
-        [type]="'secondary_inverse'"
+        [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
@@ -23,10 +23,13 @@
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
-        (onClick)="move(1)"
+        (onClick)="saveUser()"
       ></app-button>
     </div>
   </div>
+
+  <div class="error-pannel" *ngIf="userFormGroup && !userFormGroup.valid && userFormGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
   <ng-container *ngIf="!errorLoadData; else dataNotFound">
     <ng-container *ngIf="loadingData; else loadedData">
       <div class="loading">
@@ -409,7 +412,7 @@
                     <div class="col">
                       <ng-select
                         [items]="managers"
-                        [bindLabel]="'label'"
+                        [bindLabel]="'full_name'"
                         [bindValue]="'id'"
                         class="form-control select"
                         placeholder="Sélectionner le manager ici"
@@ -593,7 +596,12 @@
                                autocomplete="off">
                         <label class="btn btn-outline-primary" for="is_head_office_6">Siège</label>
                       </div>
-
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.is_head_office].hasError('required')
+                  && userFormGroup.controls[formInputs.is_head_office].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le siège est obligatoire
+                      </div>
                     </div>
                   </div>
                   <div class="row">

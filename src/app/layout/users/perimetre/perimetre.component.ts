@@ -24,8 +24,11 @@ import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/
 export class PerimetreComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  @Output() submitPerimeters: EventEmitter<any> = new EventEmitter();
   users: User[] = [];
   keyword = '';
+  error = '';
+  warning = '';
   searchSubscription: Subscription;
   pagesize = 10;
 
@@ -35,6 +38,7 @@ export class PerimetreComponent implements OnInit {
   }
 
   selectedUsers = [];
+  myForm: FormGroup;
 
   constructor(private userService : UserService, private modalService: NgbModal) {
     this.pagination = {
@@ -99,6 +103,16 @@ export class PerimetreComponent implements OnInit {
   deleteFromSelectedUsers(id){
     if(!id) return;
     this.selectedUsers = this.selectedUsers.filter(selectedUser => selectedUser.id !== id );
+  }
+
+  savePermimeters() {
+    this.error = '';
+    markFormAsDirty(this.myForm);
+    if(!this.myForm.valid ){
+      this.error = '';
+      return;
+    }
+    this.submitPerimeters.emit(this.myForm.value);
   }
 }
 

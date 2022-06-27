@@ -14,13 +14,17 @@
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
-        (onClick)="move(1)"
+        (onClick)="saveProfile()"
       ></app-button>
     </div>
   </div>
 <!--  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>-->
+  <div class="error-pannel" *ngIf="error?.length>0 && !selectedProfile_id"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
   <div class="cards row">
-    <div class="card" *ngFor="let profile of profiles" (click)="selectProfil(profile.id)" [ngClass]="{'selected': profile.id === selectedProfile_id}">
+    <div class="card" *ngFor="let profile of profiles"
+         (click)="selectProfil(profile.id)"
+         [ngClass]="{'selected': profile.id === selectedProfile_id}">
       <div class="icon"><i class="{{profile.icon}}"></i></div>
       <div class="title">{{profile.label}}</div>
     </div>

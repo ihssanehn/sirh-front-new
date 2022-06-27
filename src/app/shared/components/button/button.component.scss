@@ -68,32 +68,32 @@ $border-color: #707070;
 }
 
 .secondary{
-  background: $secondaryColor;
+  background: $tertiaryColor;
   color: white;
   i:before{
     color: white;
     font-size: 11px;
   }
   &:hover{
-    color: $secondaryColor;
+    color: $tertiaryColor;
     background: white;
-    border: 1px solid $border-color;
+    border: 1px solid $tertiaryColor;
     i:before{
-      color: $secondaryColor;
+      color: $tertiaryColor;
       font-size: 11px;
     }
   }
 }
 .secondary_inverse{
-  color: $secondaryColor;
+  color: $tertiaryColor;
   background: white;
-  border: 1px solid $border-color;
+  border: 1px solid $tertiaryColor;
   i:before{
-    color: $secondaryColor;
+    color: $tertiaryColor;
     font-size: 11px;
   }
   &:hover{
-    background: $secondaryColor;
+    background: $tertiaryColor;
     color: white;
     i:before{
       color: white;
@@ -122,7 +122,7 @@ $border-color: #707070;
 
 .tertiary{
   color: $secondaryColor;
-  background: inherit;
+  background: white;
   i:before{
     color: $secondaryColor;
     font-size: 11px;
@@ -138,7 +138,7 @@ $border-color: #707070;
 }
 .tertiary_inverse{
   background: $secondaryColor;
-  color: inherit;
+  color: white;
   border: 1px solid $secondaryColor;
   i:before{
     color: white;

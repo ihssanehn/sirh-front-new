@@ -8,7 +8,8 @@
   }
   form{
     overflow: auto;
-    height: calc(100% - 45px);
+    height: 100%;
+    padding-bottom: 120px !important;
     max-width: unset;
   }
 }

@@ -178,4 +178,17 @@ export class UserService {
   getStatus(){
     return this.apiService.get('user/status?model=Personnel');
   }
+
+  // Stepper
+  submitUser(params) {
+    return this.apiService.post('user/status?model=Personnel', params);
+  }
+
+  submitPerimeters(params) {
+    return this.apiService.post('user/status?model=Personnel', params);
+  }
+
+  submitAccess(params) {
+    return this.apiService.post('user/status?model=Personnel', params);
+  }
 }

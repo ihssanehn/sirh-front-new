@@ -38,6 +38,8 @@
     is_part_time: number;
     first_annual_salary: string;
     benefits: string;
+    profile_name?: string,
+    cp_name?: string,
     created_at: Date;
     updated_at: Date;
   }

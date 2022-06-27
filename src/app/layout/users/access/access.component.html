@@ -11,32 +11,39 @@
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
-        [type]="'secondary_inverse'"
+        [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
       <app-button
-        [text]="'Suivant'"
+        [text]="'Terminer'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
-        (onClick)="move(1)"
+        (onClick)="saveAccess()"
       ></app-button>
     </div>
   </div>
+  <div class="error-pannel" *ngIf="error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
 
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
   <div class="top-container">
-    <form (submit)="submit()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container" novalidate>
+    <form (submit)="submit()" *ngIf="myForm" [formGroup]="myForm" autocomplete="off" class="container" novalidate>
       <div class="row form-box">
         <div class="col form-column">
           <div class="form-bloc">
-            <div class="row">
-              <div class="btn-group boolean-button" role="group" ngbRadioGroup name="radioBasic"
-                   [formControl]="formGroup.controls[formInputs.type]">
-                <label ngbButtonLabel class="btn">
-                  <input ngbButton type="radio" class="btn-check" [value]="'M'"> Selon profil
+            <div class="row block-check container">
+              <div class="btn-group btn-group-toggle"
+                   ngbRadioGroup name="radioBasicProfile"
+                   (change)="filterChanged()"
+                   [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="filter.by_profile">
+                <label ngbButtonLabel
+                       [ngClass]="{'btn-primary': filter.by_profile}">
+                  <input ngbButton type="radio" [value]="true"> Selon profil
                 </label>
-                <label ngbButtonLabel class="btn">
-                  <input ngbButton type="radio" class="btn-check" [value]="'Mme'"> Personnaliser
+                <label ngbButtonLabel class="btn-primary"
+                       [ngClass]="{'btn-primary': !filter.by_profile }">
+                  <input ngbButton type="radio" [value]="false"> Personnaliser
                 </label>
               </div>
             </div>
@@ -67,7 +74,11 @@
                   <!--                <div class="col-4">-->
                   <div class="check-box-btn text-center"  *ngIf="access.id" >
                     <div class="input-container">
-                      <input type="checkbox"  id="{{access.id}}" name="{{access.id}}" value="todo">
+                      <input type="checkbox"
+                             id="{{access.id}}"
+                             [value]="access.value"
+                             (change)="onCheckChange($event)"
+                             name="{{access.id}}" >
                     </div>
                     <label for="{{access.id}}" >{{access.label}}</label>
                   </div>

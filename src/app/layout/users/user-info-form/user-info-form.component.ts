@@ -4,7 +4,7 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
@@ -28,7 +28,9 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   allRoles = [
       'manager', 'superadmin', 'user'
   ];
-   submitting: boolean;
+  error = '';
+  warning = '';
+  submitting: boolean;
   submittingPassword: boolean;
   formInputs = {
     id: 'id',
@@ -129,8 +131,10 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   @Input() title = '';
   @Input() type = '';
   @Input()  idUser: any;
+  @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  @Output() submitUser: EventEmitter<any> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -146,7 +150,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
 
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
-      id: [null, Validators.required],
+      id: [null],
       civility: [null, Validators.required],
       last_name: [null, Validators.required],
       first_name: [null, Validators.required],
@@ -300,38 +304,38 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
 
 
   async submit() {
-    Object.keys(this.userFormGroup.controls).forEach(key => {
-      this.userFormGroup.get(key).markAsDirty();
-    });
-    if(!this.userFormGroup.valid ){
-      return;
-    }
-    let toSubmit = Object.assign({}, this.userFormGroup.value,
-      // {
-        // function: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
-        // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
-        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
-        // family_situation: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.family_situation_id)},
-     );
-
-    //Adapting it with backend
-
-    this.submitting = true;
-    try {
-      const result = await this.userService.update(toSubmit).toPromise();
-      if (result) {
-        this.getUser(this.userFormGroup.value.id);
-        this.messageService.add({severity: 'success', summary: 'Succès',
-          detail: 'Utilisateur mis à jour avec succès', sticky: false});
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      console.log('e', error);
-      this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de mise à jour des informations de cet utilisateur',  sticky: false});
-    } finally {
-      this.submitting = false;
-    }
+    // Object.keys(this.userFormGroup.controls).forEach(key => {
+    //   this.userFormGroup.get(key).markAsDirty();
+    // });
+    // if(!this.userFormGroup.valid ){
+    //   return;
+    // }
+    // let toSubmit = Object.assign({}, this.userFormGroup.value,
+    //   // {
+    //     // function: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
+    //     // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
+    //     // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
+    //     // family_situation: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.family_situation_id)},
+    //  );
+    //
+    // //Adapting it with backend
+    //
+    // this.submitting = true;
+    // try {
+    //   const result = await this.userService.update(toSubmit).toPromise();
+    //   if (result) {
+    //     this.getUser(this.userFormGroup.value.id);
+    //     this.messageService.add({severity: 'success', summary: 'Succès',
+    //       detail: 'Utilisateur mis à jour avec succès', sticky: false});
+    //   } else {
+    //     throw new Error();
+    //   }
+    // } catch (error) {
+    //   console.log('e', error);
+    //   this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de mise à jour des informations de cet utilisateur',  sticky: false});
+    // } finally {
+    //   this.submitting = false;
+    // }
   }
 
 
@@ -494,6 +498,18 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     }else{
       this.preview.emit();
     }
+  }
+
+  saveUser() {
+    this.error = '';
+    markFormAsDirty(this.userFormGroup);
+    if(!this.userFormGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.userFormGroup);
+      return;
+    }
+    this.submitUser.emit(this.userFormGroup.value);
   }
 }
 

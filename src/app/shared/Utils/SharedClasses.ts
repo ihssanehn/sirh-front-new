@@ -48,6 +48,7 @@ export function markFormAsDirty(control){
   Object.keys(control.controls).forEach(key => {
     control.get(key).markAsDirty();
   });
+  control.markAsDirty();
 }
 
 export function getFormValidationErrors(form) {

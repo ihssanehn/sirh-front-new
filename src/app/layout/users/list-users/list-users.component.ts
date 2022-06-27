@@ -21,7 +21,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   keyword = '';
   searchSubscription: Subscription;
   $roles = $userRoles;
-  showFilters = true;
+  showFilters = false;
   pagination: any = {
     page: 1,
     total: 10,

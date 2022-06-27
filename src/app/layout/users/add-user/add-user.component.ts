@@ -20,6 +20,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   @ViewChild('stepper') private myStepper: MatStepper;
   isEditable = true;
+  profile_id: number;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -77,6 +78,44 @@ export class AddUserComponent implements OnInit, AfterViewInit {
       console.log('moveBackward');
       this.myStepper.previous();
     }
+  }
+
+  async submitUser($event: any) {
+    try{
+      const res = await this.userService.submitUser($event).toPromise();
+      this.moveForward();
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async submitPerimeters($event: any) {
+    try{
+      const res = await this.userService.submitPerimeters($event).toPromise();
+      this.moveForward();
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  async submitAccess($event: any) {
+    try{
+      const res = await this.userService.submitAccess($event).toPromise();
+      this.moveForward();
+    }catch (e){
+
+    }finally {
+
+    }
+  }
+
+  submitRole($event: any) {
+    this.profile_id = $event;
+    this.moveForward();
   }
 }
 

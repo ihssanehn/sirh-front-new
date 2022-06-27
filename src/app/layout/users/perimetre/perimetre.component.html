@@ -12,7 +12,7 @@
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
-        [type]="'secondary_inverse'"
+        [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
@@ -20,11 +20,12 @@
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
-        (onClick)="move(1)"
+        (onClick)="savePermimeters()"
       ></app-button>
     </div>
   </div>
-
+  <div class="error-pannel" *ngIf="error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
   <div class="row list">
     <div class="col-4 col-xl-3 side-panel">
       <div class="searchbar">

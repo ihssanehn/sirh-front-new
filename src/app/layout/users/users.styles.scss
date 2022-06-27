@@ -135,12 +135,12 @@
             margin-right: 5px;
           }
           &:hover{
-            background-color: $secondaryColor;
+            background-color: $primaryColor;
             color: white;
           }
         }
         .active{
-          background-color: #d3d3d378;
+          background-color: $primaryColor;
         }
       }
       .boolean-button{
@@ -151,7 +151,7 @@
           box-shadow: none;
         }
         .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary{
-          background: $secondaryColor;
+          background: $primaryColor;
           color: white;
         }
       }
@@ -337,13 +337,27 @@
         color: #919191;
       }
       &:hover{
-        color: white;
-        background: $secondaryColor;
+        color: $primaryColor;
+        background: white;
+        border-color: $primaryColor;
+        .title{
+          color: $primaryColor;
+        }
+        i:before{
+          color: $primaryColor;
+        }
       }
     }
     .selected{
       color: white;
-      background: $secondaryColor;
+      background: $primaryColor;
+      border: 0;
+      .title{
+        color: white;
+      }
+      i:before{
+        color: white;
+      }
     }
   }
   .modal-footer{
@@ -651,6 +665,9 @@ button.btn {
     color: $primaryColor;
     margin-left: 5px;
   }
+  i:before{
+    color: $primaryColor
+  }
   img{
     width: 25px !important;
     height: 25px !important;;
@@ -734,4 +751,26 @@ button.btn {
 ::ng-deep .myModal .modal-sm {
   max-width: 40%;
   width: 40%;
+}
+
+.error-pannel{
+  background: #FF5959;
+  color: white;
+  padding: 8px 0;
+  border-radius: 5px;
+  text-align: center;
+  i{
+    margin-right: 5px;
+  }
+}
+
+.warning-pannel{
+  background: #f0c807;
+  color: white;
+  padding: 8px 0;
+  border-radius: 5px;
+  text-align: center;
+  i{
+    margin-right: 5px;
+  }
 }

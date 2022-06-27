@@ -46,17 +46,23 @@
           </div>
         </div>&nbsp;
         <app-button
+          [text]="'Rechercher'"
+          [type]="'secondary_2'"
+          (onClick)="getUsers()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>&nbsp;
+        <app-button
           [text]="'Recherche avancé'"
           [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
-          [type]="'secondary_inverse'"
-          (onClick)="resetFilters()"
+          [type]="'tertiary'"
+          (onClick)="showFilters = !showFilters; resetFilters()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>
       <div class="right-buttons">
         <app-button
           [text]="'Ajouter'"
-          [type]="'primary'"
+          [type]="'secondary'"
           [iconRight]="'icon-add'"
           (onClick)="openSelectRole()"
           [customStyle]="{'white-space': 'nowrap'}"
@@ -184,25 +190,30 @@
 <!--                          <i class="icon-username"></i>-->
                           Nom
                         </th>
-                        <th>
-<!--                          <i class="icon-username"></i>-->
-                          Prénom
-                        </th>
+<!--                        <th>-->
+<!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
+<!--                          Prénom-->
+<!--                        </th>-->
                         <th>
 <!--                          <i class="icon-email"></i>-->
-                          Email
+                          N°
                         </th>
                          <th>
 <!--                           <i class="icon-phone"></i>-->
-                           Téléphone</th>
+                           Profil
+                         </th>
                         <th>
 <!--                          <i class="icon-manager"></i>-->
-                          Profil
+                          Centre de profit
                         </th>
                         <th>
 <!--                            <i class="icon-manager"></i>-->
-                            Centre d'interêt
-                          </th>
+                          Email
+                        </th>
+                        <th>
+  <!--                            <i class="icon-manager"></i>-->
+                            Tel
+                        </th>
 <!--                        <th class="text-center">Date de création</th>-->
 <!--                        <th>Dernière activité</th>-->
                         <th class="icon-cell"></th>
@@ -220,18 +231,16 @@
                       getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
                       async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
                                 />
-
                               </div>
                             </div>
-                            <div class="name">{{user?.last_name}} </div>
+                            <div class="name">{{user?.full_name}} </div>
                           </div>
                         </td>
-                      <td>{{user?.first_name}}</td>
-<!--                        <td data-title="Nom"></td>-->
-                        <td data-title="Email" >{{user?.email_professional}}</td>
-                         <td data-title="Téléphonne" class="tel">{{user?.telephone_professional}}</td>
-                        <td data-title="Profil">{{user?.user?.profil?.libelle}}</td>
-                        <td data-title="Centre d'interêt">{{user?.nom}}</td>
+                      <td>{{user?.registration_number}}</td>
+                        <td data-title="Email" >{{user?.profile_name}}</td>
+                         <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
+                        <td data-title="Profil">{{user?.email_professional}}</td>
+                        <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
 
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
 <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
@@ -282,13 +291,13 @@
     <div class="right-buttons flex-end">
       <app-button
         [text]="'Importer'"
-        [type]="'secondary'"
+        [type]="'tertiary_inverse'"
         [iconLeft]="'icon-file'"
         [customStyle]="{'white-space': 'nowrap'}"
       ></app-button>&nbsp;
       <app-button
         [text]="'Exporter'"
-        [type]="'secondary'"
+        [type]="'tertiary_inverse'"
         [iconLeft]="'icon-file'"
         [customStyle]="{'white-space': 'nowrap'}"
       ></app-button>
