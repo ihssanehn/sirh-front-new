@@ -20,6 +20,7 @@ import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {TrombiComponent} from "@layout/users/trombi/trombi.component";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     SelectRoleComponent,
     PerimetreComponent,
     AccessComponent,
-    ModalPerimetreUsersComponent
+    ModalPerimetreUsersComponent,
+    TrombiComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent

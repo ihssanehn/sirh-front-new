@@ -1,0 +1,249 @@
+<div class="list container top-container">
+
+    <div class="sub-header container-fuil container-lg">
+      <h1 class="main-title">
+        Utilisateurs
+      </h1>
+
+      <div class="search d-flex">
+        <div class="input-group">
+          <input type="text"
+                 class="form-control input"
+                 placeholder="Rechercher un utilisateur"
+                 (input)="getUsers()"
+                 aria-describedby="basic-addon2"
+                 [(ngModel)]="filter.keyword"/>
+          <div class="input-group-append" id="basic-addon2">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>&nbsp;
+        <app-button
+          [text]="'Rechercher'"
+          [type]="'secondary_2'"
+          (onClick)="getUsers()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>&nbsp;
+        <app-button
+          [text]="'Recherche avancé'"
+          [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
+          [type]="'tertiary'"
+          (onClick)="showFilters = !showFilters; resetFilters()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+      <div class="right-buttons">
+        <app-button
+          [text]="'Ajouter'"
+          [type]="'secondary'"
+          [iconRight]="'icon-add'"
+          (onClick)="openSelectRole()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+    </div>
+    <div class="filter-container" *ngIf="showFilters">
+      <h3 class="filter-tilte-bloc ">
+        <span>Recherche avancée</span>
+        <span class="reset-filters">
+          <i class="icon-close"></i>&nbsp;
+          réinitialiser le filtres
+        </span>
+      </h3>
+      <div class="filtres row ">
+        <div class="flex-column col-4">
+          <label>Manager</label>
+          <div>
+            <ng-select class="select"
+                       [items]="managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.managers"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par manager'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Contrat</label>
+          <div>
+            <ng-select class="select"
+                       [items]="contracts"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.contracts"
+                       [placeholder]="'Filtrer contrat'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Fonction</label>
+          <div>
+            <ng-select class="select"
+                       [items]="functions"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.functions"
+                       [placeholder]="'Filtrer par fonction'"></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class=" flex-column col-4">
+          <label>Profils</label>
+          <div>
+            <ng-select class="select"
+                       [items]="profiles"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.profiles"
+                       [placeholder]="'Filtrer par profils'"></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Status</label>
+          <div>
+            <ng-select class="select"
+                       [items]="status"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.status"
+                       [placeholder]="'Filtrer par statut'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column col-4">
+          <label>Centre de Profit</label>
+          <div>
+            <ng-select class="select"
+                       [items]="profit_centers"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.profit_centers"
+                       [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row">
+        <div class="form-group col col-sm block-check ">
+          <label class="">Utilisateur virtuel</label>
+          <div class="btn-group btn-group-toggle"
+               ngbRadioGroup name="radioBasic"
+               (change)="filterChanged()"
+               [(ngModel)]="filter.is_virtual">
+            <label ngbButtonLabel
+                   [ngClass]="{'btn-primary': filter.is_virtual === true}">
+              <input ngbButton type="radio" [value]="true"> Oui
+            </label>
+            <label ngbButtonLabel class="btn-primary"
+                   [ngClass]="{'btn-primary': filter.is_virtual === null}">
+              <input ngbButton type="radio" [value]="null"> Tous
+            </label>
+            <label ngbButtonLabel
+                   [ngClass]="{'btn-primary': filter.is_virtual === false}">
+              <input ngbButton type="radio" [value]="false"> Non
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
+      <h2 class="main-title">
+        Résultats de recherche
+      </h2>
+    </div>
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <ng-container *ngFor="let user of users; let i = index">
+          <div class="col-md-3 col-12">
+            <div class="card">
+              <div class="img-container"
+                   [ngStyle]="{'background-image': 'url(assets/images/man.png)'}"
+              >
+                <div class="content"
+                     [ngStyle]="{'background-image': 'url(https://c8.adlamy.com/comp/M72HJJ/landscape-image-of-the-large-big-waterfall-at-plitvice-from-a-height-M72HJJ.jpg)'}"
+                >&nbsp;</div>
+              </div>
+              <div class="title">
+                {{user.full_name}}
+              </div>
+              <div class="sub-title">
+                {{user.profile_name}}
+              </div>
+              <div class="card-footer" (click)="openDetails(user)">
+                Dossier RH
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-3 right-side" *ngIf="selectedUser">
+      <div class="header">
+        <div class="img-container"
+             [ngStyle]="{'background-image': 'url(assets/images/man.png)'}">
+          <div class="content"
+               [ngStyle]="{'background-image': 'url(https://c8.adlamy.com/comp/M72HJJ/landscape-image-of-the-large-big-waterfall-at-plitvice-from-a-height-M72HJJ.jpg)'}"
+          >&nbsp;</div>
+        </div>
+        <i class="icon-close" (click)="closeDetails()"></i>
+      </div>
+      <div class="info-bloc">
+        <div class="big-title">{{selectedUser.full_name}}</div>
+        <div class="big-sub-title">{{selectedUser.profile_name}}</div>
+      </div>
+      <hr class="separator" />
+      <div class="info-bloc">
+        <div class="title">Nom complet</div>
+        <div class="sub-title">{{selectedUser.full_name}}</div>
+      </div>
+      <div class="info-bloc">
+        <div class="title">Email professionnel</div>
+        <div class="sub-title">{{selectedUser.email_professional || 'Non défini'}}</div>
+      </div>
+      <div class="info-bloc">
+        <div class="title">Manager</div>
+        <div class="sub-title">{{selectedUser.manager_name || 'Non défini'}}</div>
+      </div>
+      <div class="info-bloc">
+        <div class="title">Numéro de téléphone</div>
+        <div class="sub-title">{{selectedUser.telephone_professional || 'Non défini'}}</div>
+      </div>
+      <div class="info-bloc">
+        <app-button
+          [text]="'Consulter son dossier'"
+          [type]="'primary'"
+        >
+        </app-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <app-pagination name="pagination"
+                    (change)="changePagination()"
+                    [(ngModel)]="pagination"
+                    ngDefaultControl>
+    </app-pagination>
+    <div class="right-buttons flex-end">
+      <app-button
+        [text]="'Importer'"
+        [type]="'tertiary_inverse'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>&nbsp;
+      <app-button
+        [text]="'Exporter'"
+        [type]="'tertiary_inverse'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>
+    </div>
+  </div>
+</div>
+
+<ng-template  [ngxPermissionsOnly]="['superadmin']">
+    <app-floating [addTitle]="'Ajouter un utilisateur'" (onAddClick)="gotoAddUser()"></app-floating>
+</ng-template>

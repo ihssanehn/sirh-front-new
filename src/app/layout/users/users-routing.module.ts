@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import {TrombiComponent} from "@layout/users/trombi/trombi.component";
 
 
 const routes: Routes = [
@@ -20,6 +21,17 @@ const routes: Routes = [
   {
     path: 'list',
     component: ListUsersComponent,
+    // canActivate: [NgxPermissionsGuard],
+    // data: {
+    //   permissions: {
+    //     only: ['superadmin', 'manager'],
+    //     redirectTo: '/'
+    //   }
+    // }
+  },
+  {
+    path: 'trombi',
+    component: TrombiComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {
