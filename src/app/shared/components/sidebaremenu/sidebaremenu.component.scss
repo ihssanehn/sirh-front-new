@@ -51,6 +51,8 @@ $sidebar-transition: all 0.5s linear !important;
     .label{
       .icon-container{
         min-width: 20px;//35px;//todo
+        min-width: unset;//35px;//todo
+        width: 15px;//35px;//todo
         display: inline-block;
         text-align: right;
         i {

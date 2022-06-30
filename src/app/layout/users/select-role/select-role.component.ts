@@ -1,18 +1,26 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddUserComponent} from "@layout/users/add-user/add-user.component";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
+import {User} from "@app/core/entities";
 
 @Component({
   selector: 'app-select-role',
   templateUrl: './select-role.component.html',
   styleUrls: ['./select-role.component.scss']
 })
-export class SelectRoleComponent implements OnInit {
+export class SelectRoleComponent implements OnInit, AfterViewInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitRole: EventEmitter<any> = new EventEmitter();
+
+  @Input()
+  public set user(val: User) {
+    this.selectedProfile_id = val?.profile_id;
+    console.log('Input()', val);
+  }
+
   selectedProfile_id = null;
   error = '';
   warning = '';
@@ -21,11 +29,20 @@ export class SelectRoleComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private listService: ListsService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.getProfiles();
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    // if(this.user){
+    //   console.log('ngAfterViewInit select role', this.user);
+    //   this.selectedProfile_id = this.user.profile_id;
+    //   this.changeDetectorRef.detectChanges();
+    // }
   }
 
   async getProfiles(){

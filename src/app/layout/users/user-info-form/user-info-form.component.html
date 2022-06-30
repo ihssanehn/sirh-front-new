@@ -50,54 +50,54 @@
             Ajouter un {{title}}
             <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
           </h5>
-<!--          <div class="row form-box">-->
-<!--            <div class="main-container head-info justify-content-center">-->
-<!--              <div>-->
-<!--                <div class="avatar">-->
-<!--                  <div class="photo" *ngIf="user; else noUser">-->
-<!--                    <img-->
-<!--                      [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |-->
-<!--                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |-->
-<!--                      async) : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"-->
-<!--                      class="loggedUserStyle_photo"/>-->
-<!--                  </div>-->
-<!--                  <ng-template #noUser>-->
-<!--                    <div class="photo">-->
-<!--                      <img-->
-<!--                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"-->
-<!--                        class="loggedUserStyle_photo"/>-->
-<!--                    </div>-->
-<!--                  </ng-template>-->
-<!--                  &lt;!&ndash;              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />&ndash;&gt;-->
-<!--                  <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !this.user}">-->
-<!--                    <ng-container *ngIf="submittingPhoto; else loadedPhoto">-->
-<!--                      Chargement..-->
-<!--                    </ng-container>-->
-<!--                    <ng-template #loadedPhoto>-->
-<!--                      <div class="upload-action">-->
-<!--                        <i class="fa fa-camera"></i>-->
-<!--                        <span>Charger une photo de profil</span>-->
-<!--                      </div>-->
-<!--                    </ng-template>-->
-<!--                  </label>-->
-<!--                  <div class="actions" *ngIf="(user?.photo_profil && !submittingPhoto) || photoBase64?.length>0">-->
-<!--                    <app-button-->
-<!--                      [type]="'danger'"-->
-<!--                      [text]="'Supprimer la photo de profil'"-->
-<!--                      [iconLeft]="'fa fa-trash'"-->
-<!--                      [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"-->
-<!--                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"-->
-<!--                    ></app-button>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="info">-->
-<!--                <h1>{{userFormGroup.value.nom}}</h1>-->
-<!--                <div class="info-item">{{userFormGroup.value.email}}</div>-->
-<!--                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="row form-box">
+            <div class="main-container head-info justify-content-center">
+              <div>
+                <div class="avatar">
+                  <div class="photo" *ngIf="userFormGroup?.value?.photo_profile; else noUser">
+                    <img
+                      [attr.src]="userFormGroup.value.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      async"
+                      class="loggedUserStyle_photo"/>
+                  </div>
+                  <ng-template #noUser>
+                    <div class="photo">
+                      <img
+                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                        class="loggedUserStyle_photo"/>
+                    </div>
+                  </ng-template>
+                  <!--              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />-->
+                  <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !userFormGroup?.value}">
+                    <ng-container *ngIf="submittingPhoto; else loadedPhoto">
+                      Chargement..
+                    </ng-container>
+                    <ng-template #loadedPhoto>
+                      <div class="upload-action">
+                        <i class="fa fa-camera"></i>
+                        <span>Charger une photo de profil</span>
+                      </div>
+                    </ng-template>
+                  </label>
+                  <div class="actions" *ngIf="(userFormGroup?.value?.photo_profile && !submittingPhoto) || photoBase64?.length>0">
+                    <app-button
+                      [type]="'danger'"
+                      [text]="'Supprimer la photo de profil'"
+                      [iconLeft]="'fa fa-trash'"
+                      [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"
+                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"
+                    ></app-button>
+                  </div>
+                </div>
+              </div>
+              <div class="info">
+                <h1>{{userFormGroup.value.nom}}</h1>
+                <div class="info-item">{{userFormGroup.value.email}}</div>
+                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>
+              </div>
+            </div>
+          </div>
           <div class="row form-box">
             <div class="main-container col-xl-6 col-12 form-column">
               <div class="col-12 white-box">
@@ -448,8 +448,8 @@
                       <!--                         [formControl]="userFormGroup.controls[formInputs.validator_absence_id]"-->
                       <!--                  />-->
                       <ng-select
-                        [items]="validators_conge"
-                        [bindLabel]="'label'"
+                        [items]="managers"
+                        [bindLabel]="'full_name'"
                         [bindValue]="'id'"
                         class="form-control select"
                         placeholder="Sélectionner le validateur de congé ici"
@@ -467,30 +467,30 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <label class="col-2">Profil {{isRequired(formInputs.profile_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="profiles"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner le profil ici"
-                        [formControl]="userFormGroup.controls[formInputs.profile_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_id].hasError('required')
-                                  && userFormGroup.controls[formInputs.profile_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
+<!--                  <div class="row">-->
+<!--                    <label class="col-2">Profil {{isRequired(formInputs.profile_id)}}</label>-->
+<!--                    <div class="col">-->
+<!--                      <ng-select-->
+<!--                        [items]="profiles"-->
+<!--                        [bindLabel]="'label'"-->
+<!--                        [bindValue]="'id'"-->
+<!--                        class="form-control select"-->
+<!--                        placeholder="Sélectionner le profil ici"-->
+<!--                        [formControl]="userFormGroup.controls[formInputs.profile_id]"-->
+<!--                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_id].hasError('required')-->
+<!--                                  && userFormGroup.controls[formInputs.profile_id].dirty}"-->
+<!--                        [multiple]="false"-->
+<!--                      >-->
+<!--                      </ng-select>-->
 
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.validator_absence_id].hasError('required')
-                  && userFormGroup.controls[formInputs.validator_absence_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le profil est obligatoire
-                      </div>
-                    </div>
-                  </div>
+<!--                      <div class="form-control-feedback"-->
+<!--                           *ngIf="userFormGroup.controls[formInputs.validator_absence_id].hasError('required')-->
+<!--                  && userFormGroup.controls[formInputs.validator_absence_id].dirty">-->
+<!--                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>-->
+<!--                        Le profil est obligatoire-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
                   <div class="row">
                     <label class="col-2">Utilisateur virtuel {{isRequired(formInputs.is_virtual)}}</label>
                     <div class="col">

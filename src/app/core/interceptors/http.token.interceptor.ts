@@ -43,8 +43,8 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         } else {
           // server-side error
           console.log(err);
-          errorMessage = `Error : ${err.message}`;
-          this.showErrorMessage(err.status, err.statusText);
+          // errorMessage = `Error : ${err.message}`;
+          // this.showErrorMessage(err.status, err.statusText);
         }
         return throwError(err);
       })

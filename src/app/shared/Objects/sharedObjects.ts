@@ -179,7 +179,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       name: 'Trombi',
       type: 'link',
       icon: null,
-      link: null,
+      link: 'users/trombi',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
     },

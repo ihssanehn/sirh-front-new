@@ -56,6 +56,13 @@
   }
 }
 
+.load_more{
+  font-size: 12px;
+  text-decoration: underline;
+  color: $mainColor;
+  cursor: pointer;
+  text-align: center;
+}
 .form-column:first-child {
   margin-right: unset !important;
 }

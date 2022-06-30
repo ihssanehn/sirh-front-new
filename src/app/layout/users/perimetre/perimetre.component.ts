@@ -39,6 +39,7 @@ export class PerimetreComponent implements OnInit {
 
   selectedUsers = [];
   myForm: FormGroup;
+  totalUsers: any;
 
   constructor(private userService : UserService, private modalService: NgbModal) {
     this.pagination = {
@@ -56,7 +57,10 @@ export class PerimetreComponent implements OnInit {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     this.searchSubscription = this.userService.getUsers({with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
-      this.users = result.data.data;
+      if(result){
+        this.users = result.data.data;
+        this.totalUsers = result.result?.data?.total;
+      }
       console.log('this.users', this.users);
     }, err =>{
       console.log('err getUsers', err);

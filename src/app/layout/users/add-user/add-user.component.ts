@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,7 +7,9 @@ import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
-import {timeout} from "rxjs";
+import {debounceTime, timeout} from "rxjs";
+import {User} from "@app/core/entities";
+import {forEach} from "angular";
 
 
 
@@ -21,6 +23,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') private myStepper: MatStepper;
   isEditable = true;
   profile_id: number;
+  user: User;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -41,50 +44,81 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.myStepper.selectedIndex = 0;
     this.activatedRoute?.queryParams?.subscribe(params => {
-      console.log(' this.activatedRoute', params, this.myStepper);
-      if(typeof params.step !== 'undefined'  && this.myStepper){
-        this.move(Number(params.step));
+      const step = Number(params.step);
+      const user_id = Number(params.user_id);
+      console.log('moving', step);
+      if(this.myStepper){
+        if([0, 1, 2, 3].includes(step)){
+          console.log('moved', step);
+          // this.myStepper.selectedIndex = step;
+          while (this.myStepper.selectedIndex < step){
+            this.myStepper.selectedIndex = this.myStepper.selectedIndex + 1;
+          }
+        }else{
+          this.moveForward(0);
+        }
       }
+      if(user_id){
+        this.getUser(user_id);
+      }
+      this.changeDetectorRef.detectChanges();
     })
   }
 
+  async getUser(id){
+    try{
+      const res = await this.userService.getOne({id}).toPromise();
+      this.user = res.result?.data;
+    }catch (e) {
+      console.log('getUser error', e);
+    }finally {
+
+    }
+  }
+
   move(index: number) {
-    // if(this.myStepper){
-    // setTimeout(() => {
-    //   console.log('move', index);
-    //   this.myStepper.selectedIndex = index;
-    //   console.log('moving to', this.myStepper.selectedIndex, index);
-    // });
-    // while(this.myStepper.selectedIndex < index){
-    //   setTimeout(() => {
-    //     this.myStepper.next();
-    //   }, 10)
-    // }
     console.log('this.myStepper.selectedIndex', this.myStepper.selectedIndex);
-    // }
   }
 
 
-  moveForward() {
+  moveForward(step, other_params?) {
     if(this.myStepper){
       console.log('moveForward');
-      this.myStepper.next();
+
+      const snapshot = this.activatedRoute.snapshot;
+      let params = { ...snapshot.queryParams, step: step};
+
+      if(other_params){
+        params = {...params, ...other_params}
+      }
+      this.router.navigate(['/users/new'],
+        { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
 
-  moveBackward( ) {
-    if(this.myStepper) {
-      console.log('moveBackward');
-      this.myStepper.previous();
-    }
-  }
 
   async submitUser($event: any) {
-    this.moveForward();
     try{
-      const res = await this.userService.submitUser($event).toPromise();
-      this.moveForward();
+      if(this.user?.id){
+        this.moveForward(2, {user_id: this.user?.id}); //todo delete
+        return;
+        const res = await this.userService.submitUser($event).toPromise();
+        if(res?.result?.data?.id){
+          this.moveForward(2, {user_id: res?.result?.data?.id});
+        }
+      }
+      const fd = new FormData();
+      Object.keys($event).forEach(key => {
+        if($event[key] != null){
+          fd.append(key, $event[key]);
+        }
+      })
+      const res = await this.userService.submitUser(fd).toPromise();
+      if(res?.result?.data?.id){
+        this.moveForward(2, {user_id: res?.result?.data?.id});
+      }
     }catch (e){
 
     }finally {
@@ -93,10 +127,9 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   }
 
   async submitPerimeters($event: any) {
-    this.moveForward();
     try{
       const res = await this.userService.submitPerimeters($event).toPromise();
-      // this.moveForward();
+      this.moveForward(3);
     }catch (e){
 
     }finally {
@@ -107,7 +140,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
   async submitAccess($event: any) {
     try{
       const res = await this.userService.submitAccess($event).toPromise();
-      this.moveForward();
+      // this.moveForward(4);
     }catch (e){
 
     }finally {
@@ -117,7 +150,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   submitRole($event: any) {
     this.profile_id = $event;
-    this.moveForward();
+    if( this.profile_id) this.moveForward(1);
   }
 }
 

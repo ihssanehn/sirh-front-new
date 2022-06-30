@@ -50,6 +50,9 @@
                 </label>
               </div>
             </div>
+            <div class="load_more" (click)="onScroll()" *ngIf="((users?.length || 0) + (selectedUsers?.length || 0))<totalUsers">
+              Charger plus {{totalUsers}} - somme - {{(users?.length || 0) + (selectedUsers?.length || 0)}}
+            </div>
           </div>
 
         </ng-container>
@@ -93,7 +96,7 @@
                          data-toggle="tooltip"
                          data-placement="top"
                          title="Détails"></i>&nbsp;
-                      {{user.perimeters?.length}}
+                      {{user.perimeters?.length || 0}}
                     </div>
                   </td>
                   <td style="width: 20%" class="icon-cell">
@@ -122,18 +125,21 @@
 
 <ng-template #emptyStateLeftList>
   <app-centred-message
+         [image]="'images/user_empty_state.svg'"
         [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
   ></app-centred-message>
 </ng-template>
 <ng-template #emptyStateRightList>
   <app-centred-message
         [message]="( 'Cette liste est vide' | translate )"
+        [image]="'images/user_empty_state.svg'"
         [smallMessage]="( 'Essayer d’ajouter une ou plusieurs personnes depuis la liste a gauche.' | translate )"
   ></app-centred-message>
 </ng-template>
 <!--[image]="'images/emptystate.png'"-->
 <ng-template #dataNotFound>
-  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
-                       [image]="'images/error404.png'">
+  <app-centred-message
+                      [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/user_empty_state.svg'">
   </app-centred-message>
 </ng-template>

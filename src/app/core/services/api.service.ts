@@ -14,9 +14,32 @@ export class ApiService {
     return new error.error;
   }
 
-  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    return this.http
-      .get(`${this.apiUrl}${path}`, { params });
+  get(path: string, params: HttpParams = new HttpParams(), download=false): Observable<any> {
+    if (!download) {
+      return this.http
+        .get(`${this.apiUrl}${path}`, {params});
+    } else {
+      return this.http
+        .get(`${this.apiUrl}${path}`, {
+          responseType: 'blob',
+          params: params,
+          observe: 'response'
+        });
+    }
+  }
+
+  getWithoutBaseUrl(path: string, params: HttpParams = new HttpParams(), download=false): Observable<any> {
+    if (!download) {
+      return this.http
+        .get(`${path}`, {params});
+    } else {
+      return this.http
+        .get(`${path}`, {
+          responseType: 'blob',
+          params: params,
+          observe: 'response'
+        });
+    }
   }
 
   put(path: string, body: Object = {}): Observable<any> {

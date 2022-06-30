@@ -33,7 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
       email: new FormControl('', [Validators.required])
     });
   }
-  
+
   onSubmit(){
     this.loading = true;
     const credentials = this.myForm.value;
@@ -41,15 +41,15 @@ export class ForgotPasswordComponent implements OnInit {
       this.message = val.message;
       this.loading = false;
       this.messageService.add({severity:'info', summary: 'Email envoyé',
-        detail: this.translate.instant('CHECK YOUR EMAIL BOX TO RESET YOUR PASSWORD'), sticky: true});
-    }).catch( err => {      
+        detail: this.translate.instant('CHECK YOUR EMAIL BOX TO RESET YOUR PASSWORD'), sticky: false});
+    }).catch( err => {
       this.loading = false;
       this.errors = [];
       Object.keys(err.error.errors).map((key: any) => {
           this.errors.push(key + ' : ' + err.error.errors[key]);
-        this.messageService.add({severity:'error', summary: 'Echec', detail:  err.error.errors[key], sticky: true});
+        this.messageService.add({severity:'error', summary: 'Echec', detail:  err.error.errors[key], sticky: false});
       });
-    })      
+    })
   }
 
   get email() {

@@ -81,7 +81,7 @@ export class ResetPasswordComponent implements OnInit {
       console.log('submitted', submitted);
       const data = await this.userService.resetPwd(submitted).toPromise();
       // this.messageService.add({severity:'success', summary: 'Succès',
-      //   detail: 'Mot de passe réinitialisé avec succès', sticky: true});
+      //   detail: 'Mot de passe réinitialisé avec succès', sticky: false});
       Swal.fire({
         title: 'Succès',
         text: 'Mot de passe réinitialisé avec succès',
@@ -96,7 +96,7 @@ export class ResetPasswordComponent implements OnInit {
           severity: 'error',
           summary: 'Echec',
           detail: err.error.errors[key],
-          sticky: true,
+          sticky: false,
         });
       });
     } finally {

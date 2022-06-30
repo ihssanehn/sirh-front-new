@@ -121,19 +121,32 @@ export class UserService {
   }
 
   getPhoto(photoname: String): Observable<any> {
+    const token = this.jwtStore.getToken;
+    console.log('getPhoto', photoname);
     return this.http
-      .get(environment.photosBaseUrl + photoname, { responseType: 'blob' })
-      .pipe(catchError((error: HttpErrorResponse) => throwError(() => error)));
+      .get(`${photoname}`, {
+        responseType: 'blob',
+        params: null,
+        observe: 'response',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'image/jpeg',
+          'accept': '*',
+          'responseType': 'blob',
+        }
+      });
   }
 
   async getImageSafeUrl(link, defaultImage, safeUrl = true) {
     if (link) {
       const image = this.mainStore.images.find((item) => item.name === link);
       // if(!image){
+      console.log('getPhoto link', link)
       try {
         let res;
         if (!image) {
           res = await this.getPhoto(link).toPromise();
+          console.log("anass res" , res);
           if(res?.return?.code !== 200 || res?.errors){
             throwError(() => {});
           }
@@ -141,8 +154,8 @@ export class UserService {
           res = image.value;
         }
         this.mainStore.images.push({name: link, value: res});
-        const imageLink = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(res));
-        const imageUrl = window.URL.createObjectURL(res);
+        const imageUrl = window.URL.createObjectURL(res.body);
+        const imageLink = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
         return !safeUrl ? imageUrl : imageLink;
       } catch (error) {
         console.log(error);
@@ -160,7 +173,7 @@ export class UserService {
     }
 
     getOne(params){
-        return this.apiService.get('user/personnel/'+ params);
+        return this.apiService.get('personal/getPersonal?personal_id='+ params.id);
     }
 
   setProfilePicture(params: any) {
@@ -181,7 +194,11 @@ export class UserService {
 
   // Stepper
   submitUser(params) {
-    return this.apiService.post('user/status?model=Personnel', params);
+    return this.apiService.post('personal/addPersonal', params);
+  }
+
+  submitUpdateUser(params) {
+    return this.apiService.post('personal/updatePersonal', params);
   }
 
   submitPerimeters(params) {

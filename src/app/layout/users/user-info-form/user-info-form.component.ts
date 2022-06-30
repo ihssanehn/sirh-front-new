@@ -12,6 +12,7 @@ import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ListsService} from "@services/lists.service";
+import {isMoment} from "moment";
 
 
 
@@ -111,7 +112,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     // is_travailleur_handicape: 'is_travailleur_handicape',
     // cp_cp_id: 'cp_cp_id',
   }
-  user: User;
+  // user: User;
 
 
   family_situations = [];
@@ -135,6 +136,13 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitUser: EventEmitter<any> = new EventEmitter();
+  @Input()
+  public set user(val: User) {
+    console.log('Input()', val);
+    if(val){
+      this.initFormBuilder(val);
+    }
+  }
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -151,47 +159,48 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
       id: [null],
-      civility: [null, Validators.required],
-      last_name: [null, Validators.required],
-      first_name: [null, Validators.required],
-      telephone_personal: [null, Validators.required],  //to add
-      email_personal: [null],
-      address: [null],
-      code_postal: [null],
-      birthday: [null, Validators.required],
-      birth_place: [null, Validators.required],
-      nationality: [null, Validators.required],
-      number_security_social: [null],
-      family_situation_id: [null],
-      city: [null],
+      photo_profile: [null],
+      civility: ['H', Validators.required],
+      last_name: ['CHBANI', Validators.required],
+      first_name: ['Anass', Validators.required],
+      telephone_personal: ['0232302', Validators.required],  //to add
+      email_personal: ['chbanianass20@gmail.com'],
+      address: ['test addr'],
+      code_postal: [2020],
+      birthday: ['09/06/1995', Validators.required],
+      birth_place: ['Casa', Validators.required],
+      nationality: ['Marocaine', Validators.required],
+      number_security_social: ["123424"],
+      family_situation_id: [2],
+      city: ["Casa"],
 
-      registration_number: [null],
-      start_date: [null, Validators.required],
+      registration_number: [3224234],
+      start_date: ['09/06/2022', Validators.required],
       end_date: [null],
       telephone_professional: [null],
-      function_id: [null],
-      status_id: [null, Validators.required],
-      email_professional: [null, Validators.required],
+      function_id: [2],
+      status_id: [2, Validators.required],
+      email_professional: ["chbanianass20@gmail.com", Validators.required],
 
       urgency_name_1: [null],
       urgency_telephone_1: [null],
       family_link_1: [null],
-      contract_id: [null, Validators.required],
+      contract_id: [2, Validators.required],
 
       urgency_name_2: [null],
       urgency_telephone_2: [null],
       family_link_2: [null],
 
 
-      manager_id: [null, Validators.required],
+      manager_id: [2, Validators.required],
       cp_id: [null, Validators.required],
       is_virtual: [false],
       kids_number: [null],
 
-      validator_absence_id: [null],
-      profile_id: [null, Validators.required],
-      is_head_office: [null, Validators.required],
-      is_part_time: [null],
+      validator_absence_id: [2],
+      profile_id: [this.profile_id],
+      is_head_office: [false, Validators.required],
+      is_part_time: [false],
       first_annual_salary: [null],
 
       benefits: [null],
@@ -242,15 +251,15 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(this.idUser){
-      this.getUser(this.idUser);
-      this.changeDetectorRef.detectChanges();
-    }
+    // if(this.idUser){
+    //   this.getUser(this.idUser);
+      // this.changeDetectorRef.detectChanges();
+    // }
   }
 
   async ngOnInit(){
     if(this.activatedRoute.snapshot.params.id){
-      this.getUser(this.activatedRoute.snapshot.params.id);
+      // this.getUser(this.activatedRoute.snapshot.params.id);
     }
 
     try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
@@ -266,30 +275,15 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   }
 
 
-  async getUser(id, initForm=true) {
-    try {
-      this.loadingData = true;
-      this.errorLoadData = false;
-      const res = await this.userService.getOne(id).toPromise();
-      console.log('getUser', res);
-      this.user = res.result;
-      if(initForm){
-        this.initFormBuilder(this.user);
-      }
-      this.changeDetectorRef.detectChanges();
-    } catch (error) {
-      console.log('e', error);
-      this.errorLoadData = false;
-      this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Une erreur est survenue lors de la réccupération des donnnées de ccet utilisateur',  sticky: false});
-    } finally {
-      this.loadingData = false;
-    }
-  }
-
   initFormBuilder(user: User){
     console.log('initFormBuilder', user);
+    user = {
+      ...user,
+      is_head_office: user?.is_head_office  ? true: false,
+      is_part_time: user?.is_part_time ? true: false
+    }
      this.userFormGroup.patchValue({
-       ...user
+       ...user,
     });
   }
 
@@ -353,7 +347,6 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     try {
       const result = await this.userService.update(toSubmit).toPromise();
       if (result) {
-        this.getUser(this.userFormGroup.value.id);
         this.messageService.add({severity: 'success', summary: 'Succès',
           detail: 'Mot de passe mis à jour avec succès', sticky: false});
       } else {
@@ -423,11 +416,9 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       this.photoBase64 = base64;
       if (file instanceof File) {
         this.userFormGroup.patchValue({
-          photo_de_profil: file
+          photo_profile: file
         });
-        if(this.userFormGroup?.value?.id){
-          this.onSubmitProfilePicture(file);
-        }
+
       }
     });
   }
@@ -442,7 +433,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       fd.append('file', file);
       fd.append('id', this.userFormGroup.value.id);
       const res = await this.userService.setProfilePicture(fd).toPromise();
-      this.getUser(this.userFormGroup.value.id, false);
+      // this.getUser(this.userFormGroup.value.id, false);
     }catch (e){
 
     }finally {
@@ -464,33 +455,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
 
 
 
-  async onSubmit() {
-    console.log('submit', this.userFormGroup.value);
-    markFormAsDirty(this.userFormGroup);
-    if(!this.userFormGroup.valid){
-      return;
-    }
-    const params = {
-      id: this.user?.id,
-      ...this.userFormGroup.value,
-        // fonction: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
-        // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
-        // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
-        // situation_famille: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.situation_famille_id)
-    }
 
-    this.submitting = true;
-    try{
-      const res = await this.userService.update(params).toPromise();
-      console.log('res', res);
-      this.getUser(this.user.id);
-      this.messageService.add({severity: 'success', summary: 'Parfait!', detail: 'Informations Mis à jour avec succès'});
-    }catch (e){
-      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue'});
-    }finally {
-      this.submitting = false;
-    }
-  }
 
   move(to) {
     if(to == 1){
@@ -507,8 +472,16 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       this.error = 'Il y a des éléments qui nécessitent votre attention';
       // console.log('getFormValidationErrors', );
       getFormValidationErrors(this.userFormGroup);
-      // return;
+      return;
     }
+    const {start_date, end_date, birthday} = this.userFormGroup.value;
+    const submit = Object.assign(this.userFormGroup.value,
+      {
+        profile_id: this.profile_id,
+        start_date: start_date && isMoment(moment(start_date)) ? moment(start_date)?.format(' YYYY-MM-DD'): null,
+        end_date: end_date && isMoment(moment(end_date)) ? moment(end_date)?.format(' YYYY-MM-DD'): null,
+        birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format(' YYYY-MM-DD'): null,
+      })
     this.submitUser.emit(this.userFormGroup.value);
   }
 }

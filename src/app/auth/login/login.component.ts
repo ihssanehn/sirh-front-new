@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           summary: "Erreur d'authentification",
           detail:
             'Utilisateur non reconnu. Veuillez vérifier votre adresse mail et mot de passe et prendre contact avec le support technique si besoin.',
-          sticky: true,
+          sticky: false,
         });
       });
   }

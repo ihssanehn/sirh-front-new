@@ -1,40 +1,28 @@
 <mat-stepper linear #stepper>
-  <mat-step
-            label="Profil"
-            [editable]="isEditable">
-        <app-select-role
-          (next)="moveForward()"
-          (preview)="moveBackward()"
-          (submitRole)="submitRole($event)"
-        ></app-select-role>
+  <mat-step label="Profil">
+      <app-select-role
+        [user]="user"
+        (submitRole)="submitRole($event)"
+      ></app-select-role>
   </mat-step>
-  <mat-step
-            label="Informations"
-            [editable]="isEditable">
+  <mat-step label="Informations">
         <app-user-info-form
-          (next)="moveForward()"
-          (preview)="moveBackward()"
+          (preview)="moveForward(0)"
           [profile_id]="profile_id"
+          [user]="user"
           (submitUser)="submitUser($event)"
         ></app-user-info-form>
   </mat-step>
-  <mat-step
-            label="Périmètre"
-            [editable]="isEditable">
+  <mat-step label="Périmètre">
         <app-perimetre
-          (next)="moveForward()"
-          (preview)="moveBackward()"
+          (preview)="moveForward(1)"
           (submitPerimeters)="submitPerimeters($event)"
         ></app-perimetre>
   </mat-step>
-  <mat-step
-            label="Accès"
-            [editable]="isEditable">
+  <mat-step label="Accès">
         <app-access
-          (next)="moveForward()"
-          (preview)="moveBackward()"
+          (preview)="moveForward(2)"
           (submitAccess)="submitAccess($event)"
-
         ></app-access>
   </mat-step>
 </mat-stepper>
