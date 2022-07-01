@@ -57,14 +57,14 @@
                   <div class="photo" *ngIf="userFormGroup?.value?.photo_profile; else noUser">
                     <img
                       [attr.src]="userFormGroup.value.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png')) |
+                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civility === 'Mme' ? 'woman.png': 'man.png')) |
                       async"
                       class="loggedUserStyle_photo"/>
                   </div>
                   <ng-template #noUser>
                     <div class="photo">
                       <img
-                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civility === 'Mme' ? 'woman.png': 'man.png'))"
                         class="loggedUserStyle_photo"/>
                     </div>
                   </ng-template>

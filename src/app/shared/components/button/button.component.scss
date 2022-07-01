@@ -171,6 +171,15 @@ $border-color: #707070;
     font-size: 11px;
   }
 }
+.danger_inverse_2{
+  color: $quaternaryColor;
+  background-color: inherit;
+  border: 0;
+  i:before{
+    color: $quaternaryColor;
+    font-size: 11px;
+  }
+}
 
 
 button:disabled,

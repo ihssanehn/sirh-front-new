@@ -89,7 +89,18 @@
 .icon-cell{
   width: 70px;
 }
-
+.table-wrapper{
+  overflow: auto;
+}
 .wrap{
   justify-content: flex-start !important;
+  overflow: auto;
+}
+
+.wrap table {
+  table-layout: auto !important;
+}
+
+.wrap th, .myclass td, .wrap thead th, .wrap tbody td, .wrap tfoot td, .wrap tfoot th {
+  width: auto !important;
 }

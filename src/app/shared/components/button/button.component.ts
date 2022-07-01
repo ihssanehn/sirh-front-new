@@ -43,6 +43,7 @@ export enum MyButtonTypes {
   tertiary_inverse = 'tertiary_inverse',
   danger = 'danger',
   danger_inverse = 'danger_inverse',
+  danger_inverse_2 = 'danger_inverse_2',
 
   icon = 'icon'
 }

@@ -128,7 +128,11 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   async submitPerimeters($event: any) {
     try{
-      const res = await this.userService.submitPerimeters($event).toPromise();
+      const params = {
+        personal_id: this.user.id,
+        personal_perimeter_ids: $event
+      }
+      const res = await this.userService.submitPerimeters(params).toPromise();
       this.moveForward(3);
     }catch (e){
 

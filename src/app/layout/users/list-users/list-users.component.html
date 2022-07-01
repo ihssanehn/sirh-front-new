@@ -28,7 +28,7 @@
 <!--        ></app-button>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="sub-header container-fuil container-lg">
+    <div class="sub-header container-fuil container-lg row">
       <h1 class="main-title">
         Utilisateurs
       </h1>
@@ -69,119 +69,119 @@
         ></app-button>
       </div>
     </div>
-    <div class="filter-container" *ngIf="showFilters">
-      <h3 class="filter-tilte-bloc ">
-        <span>Recherche avancée</span>
-        <span class="reset-filters">
+  <div class="filter-container" *ngIf="showFilters">
+    <h3 class="filter-tilte-bloc ">
+      <span>Recherche avancée</span>
+      <span class="reset-filters">
           <i class="icon-close"></i>&nbsp;
           réinitialiser le filtres
         </span>
-      </h3>
-      <div class="filtres row ">
-        <div class="flex-column col-4">
-          <label>Manager</label>
-          <div>
-            <ng-select class="select"
-                       [items]="managers"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.managers"
-                       [bindLabel]="'full_name'"
-                       [bindValue]="'id'"
-                       [placeholder]="'Filtrer par manager'" ></ng-select>
-          </div>
-        </div>
-        <div class=" flex-column col-4">
-          <label>Contrat</label>
-          <div>
-            <ng-select class="select"
-                       [items]="contracts"
-                       [bindLabel]="'label'"
-                       [bindValue]="'id'"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.contracts"
-                       [placeholder]="'Filtrer contrat'" ></ng-select>
-          </div>
-        </div>
-        <div class=" flex-column col-4">
-          <label>Fonction</label>
-          <div>
-            <ng-select class="select"
-                       [items]="functions"
-                       [bindLabel]="'label'"
-                       [bindValue]="'id'"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.functions"
-                       [placeholder]="'Filtrer par fonction'"></ng-select>
-          </div>
+    </h3>
+    <div class="filtres row ">
+      <div class="flex-column col-12 col-sm-6 col-lg-4  ">
+        <label>Manager</label>
+        <div>
+          <ng-select class="select" [multiple]="true"  [multiple]="true"
+                     [items]="managers"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.managers"
+                     [bindLabel]="'full_name'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par manager'" ></ng-select>
         </div>
       </div>
-      <div class="filtres row ">
-        <div class=" flex-column col-4">
-          <label>Profils</label>
-          <div>
-            <ng-select class="select"
-                       [items]="profiles"
-                       [bindLabel]="'label'"
-                       [bindValue]="'id'"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.profiles"
-                       [placeholder]="'Filtrer par profils'"></ng-select>
-          </div>
-        </div>
-        <div class=" flex-column col-4">
-          <label>Status</label>
-          <div>
-            <ng-select class="select"
-                       [items]="status"
-                       [bindLabel]="'label'"
-                       [bindValue]="'id'"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.status"
-                       [placeholder]="'Filtrer par statut'" ></ng-select>
-          </div>
-        </div>
-        <div class=" flex-column col-4">
-          <label>Centre de Profit</label>
-          <div>
-            <ng-select class="select"
-                       [items]="profit_centers"
-                       [bindLabel]="'label'"
-                       [bindValue]="'id'"
-                       (change)="filterChanged()"
-                       [(ngModel)]="filter.profit_centers"
-                       [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
-          </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-4 ">
+        <label>Contrat</label>
+        <div>
+          <ng-select class="select" [multiple]="true"
+                     [items]="contracts"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.contracts"
+                     [placeholder]="'Filtrer contrat'" ></ng-select>
         </div>
       </div>
-      <div class="filtres row">
-        <div class="form-group col col-sm block-check ">
-          <label class="">Utilisateur virtuel</label>
-          <div class="btn-group btn-group-toggle"
-               ngbRadioGroup name="radioBasic"
-               (change)="filterChanged()"
-               [(ngModel)]="filter.is_virtual">
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.is_virtual === true}">
-              <input ngbButton type="radio" [value]="true"> Oui
-            </label>
-            <label ngbButtonLabel class="btn-primary"
-                   [ngClass]="{'btn-primary': filter.is_virtual === null}">
-              <input ngbButton type="radio" [value]="null"> Tous
-            </label>
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.is_virtual === false}">
-              <input ngbButton type="radio" [value]="false"> Non
-            </label>
-          </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-4 ">
+        <label>Fonction</label>
+        <div>
+          <ng-select class="select" [multiple]="true"
+                     [items]="functions"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.functions"
+                     [placeholder]="'Filtrer par fonction'"></ng-select>
         </div>
       </div>
     </div>
+    <div class="filtres row ">
+      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
+        <label>Profils</label>
+        <div>
+          <ng-select class="select" [multiple]="true"
+                     [items]="profiles"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.profiles"
+                     [placeholder]="'Filtrer par profils'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
+        <label>Status</label>
+        <div>
+          <ng-select class="select" [multiple]="true"
+                     [items]="status"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.status"
+                     [placeholder]="'Filtrer par statut'" ></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
+        <label>Centre de Profit</label>
+        <div>
+          <ng-select class="select" [multiple]="true"
+                     [items]="profit_centers"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.profit_centers"
+                     [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="filtres row">
+      <div class="form-group  col-12 col-sm-6 col-lg-4  block-check ">
+        <label class="">Utilisateur virtuel</label>
+        <div class="btn-group btn-group-toggle"
+             ngbRadioGroup name="radioBasic"
+             (change)="filterChanged()"
+             [(ngModel)]="filter.is_virtual">
+          <label ngbButtonLabel
+                 [ngClass]="{'btn-primary': filter.is_virtual === true}">
+            <input ngbButton type="radio" [value]="true"> Oui
+          </label>
+          <label ngbButtonLabel class="btn-primary"
+                 [ngClass]="{'btn-primary': filter.is_virtual === null}">
+            <input ngbButton type="radio" [value]="null"> Tous
+          </label>
+          <label ngbButtonLabel
+                 [ngClass]="{'btn-primary': filter.is_virtual === false}">
+            <input ngbButton type="radio" [value]="false"> Non
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
       <h2 class="main-title">
         Résultats de recherche
       </h2>
     </div>
-    <div class="wrap">
+    <div class="wrap" *ngIf="users?.length>0; else emptyState" >
         <div class="table-wrapper">
             <table class="table-responsive card-list-table">
                 <thead>
@@ -228,15 +228,15 @@
                               <div class="img-container">
                                 <img
                                   [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                                 />
                               </div>
                             </div>
                             <div class="name">{{user?.full_name}} </div>
                           </div>
                         </td>
-                      <td>{{user?.registration_number}}</td>
+                     <td>{{user?.registration_number}}</td>
                         <td data-title="Email" >{{user?.profile_name}}</td>
                          <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
                         <td data-title="Profil">{{user?.email_professional}}</td>
@@ -281,7 +281,7 @@
         </div>
     </div>
 <!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
-  <div class="footer">
+  <div class="footer" *ngIf="users?.length>0">
 
     <app-pagination name="pagination"
                     (change)="changePagination()"
@@ -307,4 +307,11 @@
 
 <ng-template  [ngxPermissionsOnly]="['superadmin']">
     <app-floating [addTitle]="'Ajouter un utilisateur'" (onAddClick)="gotoAddUser()"></app-floating>
+</ng-template>
+
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
 </ng-template>

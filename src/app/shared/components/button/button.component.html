@@ -194,6 +194,25 @@
     </ng-template>
   </button>
 
+  <button class="btn mybutton danger_inverse_2"
+          type="button"
+          [disabled]="isDisabled"
+          [ngStyle]="customStyle"
+          (click)="onbtnclick()"
+          *ngSwitchCase="myButtonTypes.danger_inverse_2"
+          mat-button
+  >
+    <ng-container *ngIf="!isLoading; else loading">
+      <i class="{{iconLeft}}"></i>
+      {{text}}
+      <i class="{{iconRight}}"></i>
+    </ng-container>
+    <ng-template #loading>
+      <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
+      {{textLoading}}
+    </ng-template>
+  </button>
+
   <button class="btn mybutton"
           type="button"
           [disabled]="isDisabled"

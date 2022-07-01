@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -25,6 +25,7 @@ export class PerimetreComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitPerimeters: EventEmitter<any> = new EventEmitter();
+  @Input() user: User;
   users: User[] = [];
   keyword = '';
   error = '';
@@ -40,6 +41,7 @@ export class PerimetreComponent implements OnInit {
   selectedUsers = [];
   myForm: FormGroup;
   totalUsers: any;
+  loadingData: boolean;
 
   constructor(private userService : UserService, private modalService: NgbModal) {
     this.pagination = {
@@ -56,14 +58,18 @@ export class PerimetreComponent implements OnInit {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
+    this.loadingData = true;
     this.searchSubscription = this.userService.getUsers({with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
       if(result){
         this.users = result.data.data;
-        this.totalUsers = result.result?.data?.total;
+        this.totalUsers = result?.data?.total;
       }
-      console.log('this.users', this.users);
+      this.users = this.users.filter(user => user.id != this.user?.id);
+      console.log('result', result, result?.data?.total);
     }, err =>{
       console.log('err getUsers', err);
+    }, () => {
+      this.loadingData = false;
     })
   }
 
@@ -117,7 +123,17 @@ export class PerimetreComponent implements OnInit {
     //   return;
     // }
     // this.submitPerimeters.emit(this.myForm.value);
-    this.submitPerimeters.emit(null);
+
+    const appended_users = [];
+    this.selectedUsers.forEach(user => {
+      if(user.with_perimeter){
+        user.perimeters.forEach(item => appended_users.push(item.personal_perimeter_id));
+      }
+    });
+    const submitted_users = [...this.selectedUsers.map(item => item.id), ...appended_users];
+    console.log('submitted_users', SharedClasses.remove_duplicates(submitted_users),submitted_users );
+    this.submitPerimeters.emit(SharedClasses.remove_duplicates(submitted_users));
   }
+
 }
 

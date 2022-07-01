@@ -204,8 +204,9 @@
     position: relative;
     //width: 1.5em;
     //height: 1.5em;
-    width: 20px;
-    height: 20px;
+    //width: 20px;
+    //height: 20px;
+    padding: 9px 9px;
     color: $fontColor;
     border: 1px solid lightgray;
     border-radius: 4px;
@@ -393,9 +394,10 @@
 .photo-cell{
   display: flex;
   align-items: center;
-  width: 20px;
+  //width: 20px;
   max-width: unset;
   min-width: unset;
+  margin: 0;
   .name{
     white-space: nowrap;
     font-size: 14px;
@@ -413,7 +415,7 @@
     align-items: center;
     width: 35px;
     height: 35px;
-    margin: 0 auto;
+    margin: 0;
     .img-container{
       width: 35px;
       height: 35px;
@@ -462,7 +464,8 @@
     margin-top: 10px;
   }
   .search{
-    width: fill-available;
+    //width: fill-available;
+    width: fit-content;
     margin-top: 10px;
     //flex: 1;
     .input-group{
@@ -501,8 +504,8 @@
   }
   @media (min-width: $LARGE_SCREEN) {
     .search{
-      min-width: 250px;
-      width: unset;
+      //min-width: 250px;
+      //width: unset;
     }
   }
 }
@@ -705,6 +708,7 @@ button.btn {
   display: flex;
   justify-content: flex-end;
   margin-top: 15px;
+  width: fit-content;
 }
 .buttons {
   margin: 40px 0;

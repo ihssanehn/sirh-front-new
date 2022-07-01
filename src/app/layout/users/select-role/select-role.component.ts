@@ -26,6 +26,7 @@ export class SelectRoleComponent implements OnInit, AfterViewInit {
   warning = '';
   profiles = [
   ];
+  loadingData;
   constructor(
     private modalService: NgbModal,
     private listService: ListsService,
@@ -47,12 +48,13 @@ export class SelectRoleComponent implements OnInit, AfterViewInit {
 
   async getProfiles(){
     try{
+      this.loadingData = true;
       const res = await this.listService.getFilter('PROFILE').toPromise();
       this.profiles = res || [];
     }catch (e) {
 
     }finally {
-
+      this.loadingData = false;
     }
   }
 

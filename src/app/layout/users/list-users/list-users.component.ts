@@ -74,7 +74,17 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({...this.filter}).subscribe((result) => {
+    const params = {
+      ...this.filter
+    }
+    if(this.filter.is_virtual === null){
+      params.is_virtual = -1;
+    }else if(this.filter.is_virtual){
+      params.is_virtual = 1;
+    }else {
+      params.is_virtual = 0;
+    }
+    this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
       this.pagination = { ...this.pagination, total: result?.data?.total };

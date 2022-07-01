@@ -32,33 +32,34 @@
         <input type="text" class="input form-control" placeholder="Rechercher une personne"/>
       </div>
       <div class="smal-users-list">
-        <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
-          <div
-            class="users-scroll-panel"
-            infiniteScroll
-            [infiniteScrollDistance]="2"
-            [infiniteScrollThrottle]="50"
-            (scrolled)="onScroll()"
-            [scrollWindow]="false"
-          >
-            <div class="user-item d-flex align-items-center" *ngFor="let user of getFiltredUsers()">
-              <div class="check-box-btn text-center" (click)="appendToSelected(user)">
-                <input type="checkbox" id="{{user.id}}" name="todo" value="todo">
-                <label for="{{user.id}}" data-content="{{user.first_name+' '+user.last_name}}">
-                  <img src="assets/images/man.png" />
-                  <span class="name">{{user.first_name+' '+user.last_name}}</span>
-                </label>
+        <ng-container *ngIf="!loadingData; else loadingStateLeftList">
+          <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+            <div
+              class="users-scroll-panel"
+              infiniteScroll
+              [infiniteScrollDistance]="2"
+              [infiniteScrollThrottle]="50"
+              (scrolled)="onScroll()"
+              [scrollWindow]="false"
+            >
+              <div class="user-item d-flex align-items-center" *ngFor="let user of getFiltredUsers()">
+                <div class="check-box-btn text-center" (click)="appendToSelected(user)">
+                  <input type="checkbox" id="{{user.id}}" name="todo" value="todo">
+                  <label for="{{user.id}}" data-content="{{user.first_name+' '+user.last_name}}">
+                    <img src="assets/images/man.png" />
+                    <span class="name">{{user.first_name+' '+user.last_name}}({{user.id}})</span>
+                  </label>
+                </div>
+              </div>
+              <div class="load_more" (click)="onScroll()" *ngIf="users?.length<totalUsers">
+                Charger plus
               </div>
             </div>
-            <div class="load_more" (click)="onScroll()" *ngIf="((users?.length || 0) + (selectedUsers?.length || 0))<totalUsers">
-              Charger plus {{totalUsers}} - somme - {{(users?.length || 0) + (selectedUsers?.length || 0)}}
-            </div>
-          </div>
-
+          </ng-container>
         </ng-container>
       </div>
     </div>
-    <div class="col-8 col-xl-9 main-container form-column second-column">
+    <div class="col col-xl-9 main-container form-column second-column">
       <h5>Ajouter une personne</h5>
       <div class="users-list">
         <ng-container *ngIf="selectedUsers?.length; else emptyStateRightList">
@@ -67,14 +68,14 @@
               <table class="table-responsive card-list-table">
                 <tbody>
                   <tr *ngFor="let user of selectedUsers"  >
-                  <td style="width: 25%">
+                  <td style="width: 25%" class="p-0">
                     <div class="photo-cell">
                       <div class="photo">
                         <div class="img-container">
                           <img
                             [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civilite === 'Mme' ? 'woman.png': 'man.png'))"
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                           />
 
                         </div>
@@ -82,15 +83,15 @@
                       <div class="name">{{user?.last_name+' '+user?.first_name}} </div>
                     </div>
                   </td>
-                  <td style="width: 35%" >
+                  <td style="width: 35%" class="p-0">
                     <div class="check-box-btn text-center">
-                      <input type="checkbox" id="{{'perim'+user.id}}" >
+                      <input type="checkbox" id="{{'perim'+user.id}}" [(ngModel)]="user.with_perimeter">
                       <label for="{{'perim'+user.id}}" data-content="Attacher au périmètre">
                         <span class="name"> Attacher au périmètre</span>
                       </label>
                     </div>
                    </td>
-                  <td style="width: 20%" data-title="users" class="users-modal-open">
+                  <td style="width: 5%" data-title="users" class="users-modal-open p-0">
                     <div (click)="openUsersPerimetreModal(user)">
                       <i class="icon-user-basic"
                          data-toggle="tooltip"
@@ -99,15 +100,22 @@
                       {{user.perimeters?.length || 0}}
                     </div>
                   </td>
-                  <td style="width: 20%" class="icon-cell">
+                  <td style="width: 20%" class="icon-cell p-0">
                     <div class="actions">
-                      <div class="danger-action" (click)="deleteFromSelectedUsers(user?.id)">
-                        Supprimer &nbsp;
-                        <i class="icon-remove-circle"
-                           data-toggle="tooltip"
-                           data-placement="top"
-                           title="Détails"></i>
-                      </div>
+                      <app-button
+                        [type]="'danger_inverse_2'"
+                        [text]="'Supprimer'"
+                        [iconRight]="'icon-close'"
+                        (onClick)="deleteFromSelectedUsers(user?.id)"
+                      >
+                      </app-button>
+<!--                      <div class="danger-action" (click)="deleteFromSelectedUsers(user?.id)">-->
+<!--                        Supprimer &nbsp;-->
+<!--                        <i class="icon-remove-circle"-->
+<!--                           data-toggle="tooltip"-->
+<!--                           data-placement="top"-->
+<!--                           title="Détails"></i>-->
+<!--                      </div>-->
                     </div>
                   </td>
                 </tr>
@@ -122,6 +130,17 @@
 
 </div>
 
+<ng-template #loadingStateLeftList>
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+    <div class="user-item-empty-state" style="opacity: .6">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+    <div class="user-item-empty-state"  style="opacity: .2">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+</ng-template>
 
 <ng-template #emptyStateLeftList>
   <app-centred-message

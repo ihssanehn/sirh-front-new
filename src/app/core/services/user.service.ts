@@ -75,7 +75,7 @@ export class UserService {
 
     getUsers(params): any {
         return this.apiService
-          .get('personal/getAllPersonals', params)
+          .post('personal/getAllPersonalsPost', params)
           .pipe(map(result => result.result  || []));
     }
 
@@ -202,7 +202,7 @@ export class UserService {
   }
 
   submitPerimeters(params) {
-    return this.apiService.post('user/status?model=Personnel', params);
+    return this.apiService.post('personal/addPersonalPerimeter', params);
   }
 
   submitAccess(params) {

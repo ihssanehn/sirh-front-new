@@ -2,18 +2,20 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
 import { Router } from '@angular/router';
 import {Subscription} from 'rxjs';
-import {$userRoles} from '@shared/Objects/sharedObjects';
+import {$userRoles, appAnimations} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
+import {MainStore} from "@store/mainStore.store";
 
 @Component({
   selector: 'app-trombi',
   templateUrl: './trombi.component.html',
-  styleUrls: ['./trombi.component.scss']
+  styleUrls: ['./trombi.component.scss'],
+  animations: appAnimations
 })
 export class TrombiComponent implements OnInit, OnDestroy {
 
@@ -56,6 +58,7 @@ export class TrombiComponent implements OnInit, OnDestroy {
               private translate: TranslateService,
               private modalService: NgbModal,
               private listService: ListsService,
+              public mainStore: MainStore,
               private router: Router) { }
 
   ngOnInit() {
@@ -76,7 +79,17 @@ export class TrombiComponent implements OnInit, OnDestroy {
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    this.searchSubscription = this.userService.getUsers({...this.filter}).subscribe((result) => {
+    const params = {
+      ...this.filter
+    }
+    if(this.filter.is_virtual === null){
+      params.is_virtual = -1;
+    }else if(this.filter.is_virtual){
+      params.is_virtual = 1;
+    }else {
+      params.is_virtual = 0;
+    }
+    this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
       this.pagination = { ...this.pagination, total: result?.data?.total };
@@ -282,6 +295,10 @@ export class TrombiComponent implements OnInit, OnDestroy {
   }
 
   openDetails(user) {
-    this.selectedUser = user;
+    if(user.id === this.selectedUser?.id){
+      this.selectedUser = null;
+    }else{
+      this.selectedUser = user;
+    }
   }
 }

@@ -12,6 +12,7 @@
       background: #FAFAFA;
       padding: 11px 10px 5px 14px;
       height: 100%;
+      width: auto;
     }
 
     .smal-users-list{
@@ -45,6 +46,10 @@
       }
     }
   }
+  .header{
+    margin-bottom: 10px !important;
+    border: 0;
+  }
 }
 .form-column{
   .form-bloc{
@@ -54,6 +59,10 @@
       }
     }
   }
+}
+
+.user-item-empty-state{
+  margin: 10px 0;
 }
 
 .load_more{
@@ -68,6 +77,8 @@
 }
 .second-column{
   padding: 10px 10px 5px 20px;
+  height: inherit;
+  overflow: scroll;
 }
 
 .head-info{
@@ -95,6 +106,13 @@
       }
       &:hover{
         text-decoration: underline;
+      }
+    }
+    .photo-cell{
+      .name{
+        font-size: 12px;
+        margin-left: 10px;
+        font-weight: 500;
       }
     }
   }
