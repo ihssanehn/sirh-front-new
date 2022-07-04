@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ListsService} from "@services/lists.service";
 import {markFormAsDirty} from "@shared/Utils/SharedClasses";
@@ -12,6 +12,20 @@ export class AccessComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitAccess: EventEmitter<any> = new EventEmitter();
+  @Input()
+  public set permissions(val) {
+    if(val && this.myForm){
+      const formArray: FormArray = this.myForm.get('permissions') as FormArray;
+      this.myForm.reset();
+      if(val && Array.isArray(val)){
+        val.forEach(item => {
+          formArray.push(new FormControl(item.id));
+        })
+      }
+      console.log('val && this.myForm', val, this.myForm.value, val.map(item => item.id));
+    }
+  }
+
   myForm: FormGroup;
   formInputs = {
     type:'type'
@@ -94,13 +108,14 @@ export class AccessComponent implements OnInit {
     this.submitAccess.emit(this.myForm.value);
   }
 
-  onCheckChange(event) {
-    const formArray: FormArray = this.myForm.get('myChoices') as FormArray;
+  onCheckChange(event, access) {
+    const formArray: FormArray = this.myForm.get('permissions') as FormArray;
 
+    console.log('event', event.target.checked, event);
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(event.target.value));
+      formArray.push(new FormControl(access.id));
     }
     /* unselected */
     else{
@@ -108,7 +123,7 @@ export class AccessComponent implements OnInit {
       let i: number = 0;
 
       formArray.controls.forEach((ctrl: FormControl) => {
-        if(ctrl.value == event.target.value) {
+        if(ctrl.value == access.id) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
           return;
@@ -116,6 +131,11 @@ export class AccessComponent implements OnInit {
         i++;
       });
     }
+  }
+
+  ischecked(id) {
+    // console.log('this.myForm?.value?.permissions', this.myForm?.value?.permissions);
+    return this.myForm?.value?.permissions?.includes(id);
   }
 }
 

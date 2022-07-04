@@ -206,6 +206,6 @@ export class UserService {
   }
 
   submitAccess(params) {
-    return this.apiService.post('user/status?model=Personnel', params);
+    return this.apiService.post('permission/addUserPermissions', params);
   }
 }

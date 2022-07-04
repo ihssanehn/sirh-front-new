@@ -26,6 +26,13 @@ export class PerimetreComponent implements OnInit {
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitPerimeters: EventEmitter<any> = new EventEmitter();
   @Input() user: User;
+  @Input()
+  public set perimeters(val) {
+    if(val){
+      this.selectedUsers = val.map(item => {item.id = item.personal_perimeter_id; return item;});
+    }
+  }
+
   users: User[] = [];
   keyword = '';
   error = '';
@@ -50,10 +57,12 @@ export class PerimetreComponent implements OnInit {
     }
   }
 
-
-
   ngOnInit() {
     this.getUsers();
+  }
+
+  getSelectedUsers(){
+    return this.selectedUsers.filter(item => item.id !== this.user?.id )
   }
 
   getUsers(){
@@ -64,7 +73,7 @@ export class PerimetreComponent implements OnInit {
         this.users = result.data.data;
         this.totalUsers = result?.data?.total;
       }
-      this.users = this.users.filter(user => user.id != this.user?.id);
+      this.users = this.users.filter(item => item.id !== this.user?.id);
       console.log('result', result, result?.data?.total);
     }, err =>{
       console.log('err getUsers', err);
@@ -107,7 +116,7 @@ export class PerimetreComponent implements OnInit {
   }
 
   getFiltredUsers() {
-    return this.users.filter(user => !this.selectedUsers.find(selectedUser => selectedUser.id === user.id));
+    return this.users.filter(user => user.id !== this.user.id && !this.selectedUsers.find(selectedUser => selectedUser.id === user.id));
   }
 
   deleteFromSelectedUsers(id){

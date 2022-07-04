@@ -1,5 +1,7 @@
 
   export interface User {
+    permissions?: Array<any>;
+    perimeters?: Array<any>;
     id?: number;
     first_name?: string;
     last_name?: string;

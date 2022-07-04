@@ -53,8 +53,14 @@ export class AddUserComponent implements OnInit, AfterViewInit {
         if([0, 1, 2, 3].includes(step)){
           console.log('moved', step);
           // this.myStepper.selectedIndex = step;
-          while (this.myStepper.selectedIndex < step){
-            this.myStepper.selectedIndex = this.myStepper.selectedIndex + 1;
+          if(this.myStepper.selectedIndex < step){
+            while (this.myStepper.selectedIndex < step){
+              this.myStepper.selectedIndex = this.myStepper.selectedIndex + 1;
+            }
+          }else if(this.myStepper.selectedIndex > step){
+            while (this.myStepper.selectedIndex > step){
+              this.myStepper.selectedIndex = this.myStepper.selectedIndex - 1;
+            }
           }
         }else{
           this.moveForward(0);
@@ -85,7 +91,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   moveForward(step, other_params?) {
     if(this.myStepper){
-      console.log('moveForward');
+      console.log('moveForward', step);
 
       const snapshot = this.activatedRoute.snapshot;
       let params = { ...snapshot.queryParams, step: step};
@@ -143,8 +149,21 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   async submitAccess($event: any) {
     try{
-      const res = await this.userService.submitAccess($event).toPromise();
-      // this.moveForward(4);
+
+      const params = {
+        user_id: this.user?.id,
+        permission_ids: $event.permissions
+      }
+      console.log('submitAccess', params);
+      const res = await this.userService.submitAccess(params).toPromise();
+      this.router.navigate(['/users']).then(()=>{
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Parfait!',
+          detail: 'Mise à jour réussie',
+          sticky: false,
+        });
+      });
     }catch (e){
 
     }finally {

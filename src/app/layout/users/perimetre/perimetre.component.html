@@ -36,18 +36,18 @@
           <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
             <div
               class="users-scroll-panel"
-              infiniteScroll
-              [infiniteScrollDistance]="2"
-              [infiniteScrollThrottle]="50"
-              (scrolled)="onScroll()"
-              [scrollWindow]="false"
             >
-              <div class="user-item d-flex align-items-center" *ngFor="let user of getFiltredUsers()">
-                <div class="check-box-btn text-center" (click)="appendToSelected(user)">
-                  <input type="checkbox" id="{{user.id}}" name="todo" value="todo">
-                  <label for="{{user.id}}" data-content="{{user.first_name+' '+user.last_name}}">
+<!--              infiniteScroll-->
+<!--              [infiniteScrollDistance]="2"-->
+<!--              [infiniteScrollThrottle]="50"-->
+<!--              (scrolled)="onScroll()"-->
+<!--              [scrollWindow]="false"-->
+              <div class="user-item d-flex align-items-center" *ngFor="let item of getFiltredUsers()">
+                <div class="check-box-btn text-center" (click)="appendToSelected(item)">
+                  <input type="checkbox" id="{{item.id}}" name="todo" value="todo">
+                  <label for="{{item.id}}" data-content="{{item.full_name}}">
                     <img src="assets/images/man.png" />
-                    <span class="name">{{user.first_name+' '+user.last_name}}({{user.id}})</span>
+                    <span class="name">{{item.full_name}}</span>
                   </label>
                 </div>
               </div>
@@ -67,37 +67,37 @@
             <div class="table-wrapper">
               <table class="table-responsive card-list-table">
                 <tbody>
-                  <tr *ngFor="let user of selectedUsers"  >
+                  <tr *ngFor="let selectedUser of getSelectedUsers()"  >
                   <td style="width: 25%" class="p-0">
                     <div class="photo-cell">
                       <div class="photo">
                         <div class="img-container">
                           <img
-                            [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                            [attr.src]="selectedUser?.photo_profil ? ('document/'+selectedUser.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(selectedUser?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(selectedUser?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                           />
 
                         </div>
                       </div>
-                      <div class="name">{{user?.last_name+' '+user?.first_name}} </div>
+                      <div class="name">{{selectedUser?.full_name}}</div>
                     </div>
                   </td>
                   <td style="width: 35%" class="p-0">
                     <div class="check-box-btn text-center">
-                      <input type="checkbox" id="{{'perim'+user.id}}" [(ngModel)]="user.with_perimeter">
-                      <label for="{{'perim'+user.id}}" data-content="Attacher au périmètre">
+                      <input type="checkbox" id="{{'perim'+selectedUser.id}}" [(ngModel)]="selectedUser.with_perimeter">
+                      <label for="{{'perim'+selectedUser.id}}" data-content="Attacher au périmètre">
                         <span class="name"> Attacher au périmètre</span>
                       </label>
                     </div>
                    </td>
                   <td style="width: 5%" data-title="users" class="users-modal-open p-0">
-                    <div (click)="openUsersPerimetreModal(user)">
+                    <div (click)="openUsersPerimetreModal(selectedUser)">
                       <i class="icon-user-basic"
                          data-toggle="tooltip"
                          data-placement="top"
                          title="Détails"></i>&nbsp;
-                      {{user.perimeters?.length || 0}}
+                      {{selectedUser.perimeters?.length || 0}}
                     </div>
                   </td>
                   <td style="width: 20%" class="icon-cell p-0">
@@ -106,7 +106,7 @@
                         [type]="'danger_inverse_2'"
                         [text]="'Supprimer'"
                         [iconRight]="'icon-close'"
-                        (onClick)="deleteFromSelectedUsers(user?.id)"
+                        (onClick)="deleteFromSelectedUsers(selectedUser?.id)"
                       >
                       </app-button>
 <!--                      <div class="danger-action" (click)="deleteFromSelectedUsers(user?.id)">-->

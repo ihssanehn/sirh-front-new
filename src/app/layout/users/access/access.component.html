@@ -76,10 +76,11 @@
                       <input type="checkbox"
                              id="{{access.id}}"
                              [value]="access.value"
-                             (change)="onCheckChange($event)"
+                             [checked]="ischecked(access.id)"
+                             (change)="onCheckChange($event, access)"
                              name="{{access.id}}" >
                     </div>
-                    <label for="{{access.id}}" >{{access.label}}</label>
+                    <label for="{{access.id}}" >{{access.label}}(#{{access.id}})</label>
                   </div>
                   <!--                </div>-->
                 </div>
