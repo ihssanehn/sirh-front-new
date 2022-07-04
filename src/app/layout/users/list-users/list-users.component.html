@@ -72,7 +72,7 @@
   <div class="filter-container" *ngIf="showFilters">
     <h3 class="filter-tilte-bloc ">
       <span>Recherche avancée</span>
-      <span class="reset-filters">
+      <span class="reset-filters" (click)="resetFilters()">
           <i class="icon-close"></i>&nbsp;
           réinitialiser le filtres
         </span>
@@ -304,10 +304,6 @@
     </div>
   </div>
 </div>
-
-<ng-template  [ngxPermissionsOnly]="['superadmin']">
-    <app-floating [addTitle]="'Ajouter un utilisateur'" (onAddClick)="gotoAddUser()"></app-floating>
-</ng-template>
 
 <ng-template #emptyState>
   <app-centred-message

@@ -45,7 +45,7 @@
   <div class="filter-container" *ngIf="showFilters">
     <h3 class="filter-tilte-bloc ">
       <span>Recherche avancée</span>
-      <span class="reset-filters">
+      <span class="reset-filters" (click)=" resetFilters()">
           <i class="icon-close"></i>&nbsp;
           réinitialiser le filtres
         </span>
@@ -155,145 +155,150 @@
         Résultats de recherche
       </h2>
     </div>
-  <div class="row">
-    <div class="col" [ngClass]="{'col-8': selectedUser, 'col': !selectedUser}">
+    <ng-container *ngIf="users?.length>0; else emptyState" >
       <div class="row">
-        <ng-container *ngFor="let user of users; let i = index">
-          <div class="col-sm-4 col-12" [ngClass]="{'col-lg-4': selectedUser, 'col-lg-3': !selectedUser}">
-            <div class="card">
+        <div class="col" [ngClass]="{'col-lg-8 col': selectedUser, 'col': !selectedUser}">
+          <div class="row">
+            <ng-container *ngFor="let user of users; let i = index">
+              <div class="col-sm-4 col-12" [ngClass]="{'col-lg-4': selectedUser, 'col-lg-3': !selectedUser}">
+                <div class="card">
+                  <div class="img-container"
+                       [ngStyle]="{'background-image': 'url(assets/images/'+(user.civility === 'Mme' ? 'woman.png': 'man.png')+')'}"
+                  >
+                    <img
+                      [attr.src]="user.photo_profile |
+                          getPhotoFromBackend: ('assets/images/'+(user.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                          async"
+                    />
+                  </div>
+                  <div class="title">
+                    {{user.full_name}}
+                  </div>
+                  <div class="sub-title">
+                    {{user.profile_name}}
+                  </div>
+                  <div class="card-footer" (click)="openDetails(user)">
+                    Dossier RH
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 d-md-none"  *ngIf="selectedUser && selectedUser.id === user.id" [@slideToLeft]>
+                <div class="right-side embeded-right-side">
+                  <div class="header">
+                    <div class="img-container"
+                         [ngStyle]="{'background-image': 'url(assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')+')'}">
+                      <img
+                        [attr.src]="selectedUser.photo_profile |
+                            getPhotoFromBackend: ('assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                            async"
+                      />
+                    </div>
+                    <i class="icon-close" (click)="closeDetails()"></i>
+                  </div>
+                  <div class="info-bloc row">
+                    <div class="big-title col-12">{{selectedUser.full_name}}</div>
+                    <div class="big-sub-title col-12">{{selectedUser.profile_name}}</div>
+                  </div>
+                  <hr class="separator" />
+                  <div class="info-bloc row">
+                    <div class="title col-12">Nom complet</div>
+                    <div class="sub-title col-12">{{selectedUser.full_name}}</div>
+                  </div>
+                  <div class="info-bloc row">
+                    <div class="title col-12">Email professionnel</div>
+                    <div class="sub-title col-12">{{selectedUser.email_professional || 'Non défini'}}</div>
+                  </div>
+                  <div class="info-bloc row">
+                    <div class="title col-12">Manager</div>
+                    <div class="sub-title col-12">{{selectedUser.manager_name || 'Non défini'}}</div>
+                  </div>
+                  <div class="info-bloc row">
+                    <div class="title col-12">Numéro de téléphone</div>
+                    <div class="sub-title col-12">{{selectedUser.telephone_professional || 'Non défini'}}</div>
+                  </div>
+                  <div class="info-bloc row text-center">
+                    <app-button
+                      [text]="'Consulter son dossier'"
+                      [type]="'primary'"
+                    >
+                    </app-button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="footer">
+            <app-pagination name="pagination"
+                            (change)="changePagination()"
+                            [(ngModel)]="pagination"
+                            ngDefaultControl>
+            </app-pagination>
+            <div class="right-buttons flex-end">
+              <app-button
+                [text]="'Importer'"
+                [type]="'tertiary_inverse'"
+                [iconLeft]="'icon-file'"
+                [customStyle]="{'white-space': 'nowrap'}"
+              ></app-button>&nbsp;
+              <app-button
+                [text]="'Exporter'"
+                [type]="'tertiary_inverse'"
+                [iconLeft]="'icon-file'"
+                [customStyle]="{'white-space': 'nowrap'}"
+              ></app-button>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 d-none d-md-flex" *ngIf="selectedUser" [@slideToLeft]>
+          <div class="right-side">
+            <div class="header">
               <div class="img-container"
-                   [ngStyle]="{'background-image': 'url(assets/images/'+(user.civility === 'Mme' ? 'woman.png': 'man.png')+')'}"
-              >
+                   [ngStyle]="{'background-image': 'url(assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')+')'}">
                 <img
-                  [attr.src]="user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(user.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async"
+                  [attr.src]="selectedUser.photo_profile |
+                            getPhotoFromBackend: ('assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                            async"
                 />
               </div>
-              <div class="title">
-                {{user.full_name}}
-              </div>
-              <div class="sub-title">
-                {{user.profile_name}}
-              </div>
-              <div class="card-footer" (click)="openDetails(user)">
-                Dossier RH
-              </div>
+              <i class="icon-close" (click)="closeDetails()"></i>
+            </div>
+            <div class="info-bloc row">
+              <div class="big-title col-12">{{selectedUser.full_name}}</div>
+              <div class="big-sub-title col-12">{{selectedUser.profile_name}}</div>
+            </div>
+            <hr class="separator" />
+            <div class="info-bloc row">
+              <div class="title col-12">Nom complet</div>
+              <div class="sub-title col-12">{{selectedUser.full_name}}</div>
+            </div>
+            <div class="info-bloc row">
+              <div class="title col-12">Email professionnel</div>
+              <div class="sub-title col-12">{{selectedUser.email_professional || 'Non défini'}}</div>
+            </div>
+            <div class="info-bloc row">
+              <div class="title col-12">Manager</div>
+              <div class="sub-title col-12">{{selectedUser.manager_name || 'Non défini'}}</div>
+            </div>
+            <div class="info-bloc row">
+              <div class="title col-12">Numéro de téléphone</div>
+              <div class="sub-title col-12">{{selectedUser.telephone_professional || 'Non défini'}}</div>
+            </div>
+            <div class="info-bloc row text-center">
+              <app-button
+                [text]="'Consulter son dossier'"
+                [type]="'primary'"
+              >
+              </app-button>
             </div>
           </div>
-          <div class="col-12 d-md-none"  *ngIf="selectedUser && selectedUser.id === user.id" [@slideToLeft]>
-            <div class="right-side embeded-right-side">
-              <div class="header">
-                <div class="img-container"
-                     [ngStyle]="{'background-image': 'url(assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')+')'}">
-                  <img
-                    [attr.src]="selectedUser.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                        async"
-                  />
-                </div>
-                <i class="icon-close" (click)="closeDetails()"></i>
-              </div>
-              <div class="info-bloc row">
-                <div class="big-title col-12">{{selectedUser.full_name}}</div>
-                <div class="big-sub-title col-12">{{selectedUser.profile_name}}</div>
-              </div>
-              <hr class="separator" />
-              <div class="info-bloc row">
-                <div class="title col-12">Nom complet</div>
-                <div class="sub-title col-12">{{selectedUser.full_name}}</div>
-              </div>
-              <div class="info-bloc row">
-                <div class="title col-12">Email professionnel</div>
-                <div class="sub-title col-12">{{selectedUser.email_professional || 'Non défini'}}</div>
-              </div>
-              <div class="info-bloc row">
-                <div class="title col-12">Manager</div>
-                <div class="sub-title col-12">{{selectedUser.manager_name || 'Non défini'}}</div>
-              </div>
-              <div class="info-bloc row">
-                <div class="title col-12">Numéro de téléphone</div>
-                <div class="sub-title col-12">{{selectedUser.telephone_professional || 'Non défini'}}</div>
-              </div>
-              <div class="info-bloc row text-center">
-                <app-button
-                  [text]="'Consulter son dossier'"
-                  [type]="'primary'"
-                >
-                </app-button>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-      <div class="footer">
-        <app-pagination name="pagination"
-                        (change)="changePagination()"
-                        [(ngModel)]="pagination"
-                        ngDefaultControl>
-        </app-pagination>
-        <div class="right-buttons flex-end">
-          <app-button
-            [text]="'Importer'"
-            [type]="'tertiary_inverse'"
-            [iconLeft]="'icon-file'"
-            [customStyle]="{'white-space': 'nowrap'}"
-          ></app-button>&nbsp;
-          <app-button
-            [text]="'Exporter'"
-            [type]="'tertiary_inverse'"
-            [iconLeft]="'icon-file'"
-            [customStyle]="{'white-space': 'nowrap'}"
-          ></app-button>
         </div>
       </div>
-    </div>
-    <div class="col-4 d-none d-md-flex" *ngIf="selectedUser" [@slideToLeft]>
-      <div class="right-side">
-        <div class="header">
-          <div class="img-container"
-               [ngStyle]="{'background-image': 'url(assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')+')'}">
-            <img
-              [attr.src]="selectedUser.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(selectedUser.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                        async"
-            />
-          </div>
-          <i class="icon-close" (click)="closeDetails()"></i>
-        </div>
-        <div class="info-bloc row">
-          <div class="big-title col-12">{{selectedUser.full_name}}</div>
-          <div class="big-sub-title col-12">{{selectedUser.profile_name}}</div>
-        </div>
-        <hr class="separator" />
-        <div class="info-bloc row">
-          <div class="title col-12">Nom complet</div>
-          <div class="sub-title col-12">{{selectedUser.full_name}}</div>
-        </div>
-        <div class="info-bloc row">
-          <div class="title col-12">Email professionnel</div>
-          <div class="sub-title col-12">{{selectedUser.email_professional || 'Non défini'}}</div>
-        </div>
-        <div class="info-bloc row">
-          <div class="title col-12">Manager</div>
-          <div class="sub-title col-12">{{selectedUser.manager_name || 'Non défini'}}</div>
-        </div>
-        <div class="info-bloc row">
-          <div class="title col-12">Numéro de téléphone</div>
-          <div class="sub-title col-12">{{selectedUser.telephone_professional || 'Non défini'}}</div>
-        </div>
-        <div class="info-bloc row text-center">
-          <app-button
-            [text]="'Consulter son dossier'"
-            [type]="'primary'"
-          >
-          </app-button>
-        </div>
-      </div>
-    </div>
-  </div>
+    </ng-container>
 </div>
 
-<ng-template  [ngxPermissionsOnly]="['superadmin']">
-    <app-floating [addTitle]="'Ajouter un utilisateur'" (onAddClick)="gotoAddUser()"></app-floating>
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
 </ng-template>

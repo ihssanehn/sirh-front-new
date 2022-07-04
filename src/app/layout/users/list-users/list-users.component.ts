@@ -249,6 +249,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       is_virtual: null
     });
     console.log('resetFilters', this.filter)
+    this.getUsers();
     // showFilters = !showFilters;
   }
 
