@@ -1,0 +1,48 @@
+<nav class="sidebar">
+<!--    <i class="fa fa-bars toggler pointer btn float-right"-->
+<!--       (click)="toggleSidebar()"-->
+<!--       aria-hidden="true"-->
+<!--    ></i>-->
+
+    <!--  *ngIf="mainStore.sidebarOpened && mainStore.sidebarOverMode === 'over'"-->
+<!--    <div class="loggedUserStyle_actions">-->
+<!--        <li class="nav-item dropdown" ngbDropdown>-->
+<!--            <div class="loggedUserStyle_profile" ngbDropdownToggle>-->
+<!--        <span class="initials loggedUserStyle_photo"-->
+<!--              [ngClass]="{-->
+<!--                          'super': userStore.getAuthenticatedUser?.roles[0].name === $roles.SUPER,-->
+<!--                          'director': userStore.getAuthenticatedUser?.roles[0].name === $roles.Director,-->
+<!--                          'teacher': userStore.getAuthenticatedUser?.roles[0].name === $roles.TEACHER,-->
+<!--                          'student': userStore.getAuthenticatedUser?.roles[0].name === $roles.STUDENT,-->
+<!--                          'driver': userStore.getAuthenticatedUser?.roles[0].name === $roles.DRIVER,-->
+<!--                          'maid': userStore.getAuthenticatedUser?.roles[0].name === $roles.MAID-->
+<!--                       }"-->
+<!--              *ngIf="userStore.getAuthenticatedUser?.avatar ==='default.png'; else imageavatar">-->
+<!--          {{userStore.getAuthenticatedUser?.firstname[0]+''+userStore.getAuthenticatedUser?.lastname[0]}}</span>-->
+<!--                <ng-template #imageavatar>-->
+<!--                    <img [attr.src]="userStore.getAuthenticatedUser?.avatar | getPhotoFromBackend | async " class="loggedUserStyle_photo"/>-->
+<!--                </ng-template>-->
+<!--                <div class="select_arrow">-->
+<!--                    <i class="fa fa-angle-down"></i>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <span class="loggedUserStyle_label">-->
+<!--          <span class="loggedUserStyle_role">{{getRole()}}</span>-->
+<!--          <br> {{(userStore.getAuthenticatedUser?.name || '')}}-->
+<!--      </span>-->
+<!--            <div class="dropdown-menu-right" ngbDropdownMenu>-->
+<!--                <a class="dropdown-item" [routerLink]="['/profile']">-->
+<!--                    <i class="fa fa-user"></i> Profile-->
+<!--                </a>-->
+<!--                <a class="dropdown-item" (click)="logOut()" [routerLink]="['/']">-->
+<!--                    <i class="icon-switch"></i> Se déconnecter-->
+<!--                </a>-->
+<!--            </div>-->
+<!--        </li>-->
+<!--    </div>-->
+
+    <app-sidebaremenu [items]="mainStore.getItems"
+                      (onItemClick)="mainStore.sidebarOverMode ? mainStore.sidebarOpened = false: null"
+    ></app-sidebaremenu>
+</nav>
+

@@ -1,0 +1,23 @@
+@import "../../../styles/custom.variables";
+
+
+.modal-header{
+  border-bottom: 0;
+  padding-bottom: 0;
+  h4{
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.loading{
+  width: 100%;
+  min-height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img{
+    width: 50px;
+    height: 50px;
+  }
+}

@@ -1,0 +1,237 @@
+@import "~app/app.component";
+
+.main-container {
+  background-color: white;
+  padding: 25px 25px;
+  border-radius: 4px;
+  box-shadow: 0 0 2px 0 lightgrey;
+  margin-bottom: 10px;
+
+  .title {
+    color: #4A4A4A;
+    font-family: $fontFamily;
+    font-weight: 500;
+    height: 27px;
+    font-size: 18px;
+    line-height: 21px;
+    justify-content: space-between;
+
+    .blocked_label {
+      font-size: 13px;
+      font-family: $fontFamily;
+      color: red;
+    }
+  }
+
+  .body {
+    margin-top: 16px;
+  }
+
+  .description {
+    color: #343C4B;
+    font-family: $fontFamily;
+    line-height: 42px;
+    font-size: 14px;
+  }
+
+  .description_input {
+    height: 103px;
+    border: 1px solid #DCDCDC;
+    border-radius: 3px;
+  }
+
+  label {
+    font-size: 12px;
+    color: #343C4B;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .fullName {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .separator {
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 20px;
+  }
+
+  .information {
+    min-height: 30px;
+  }
+
+  .value {
+    font-size: 13px;
+    color: #343C4B;
+    font-weight: 300;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+
+    .tagRestaurant {
+      font-size: 13px;
+      color: #ffffff;
+      font-weight: 300;
+      padding: 2px 15px;
+      border-radius: 13px;
+      background-color: #3BC4E3;
+      display: inline-block;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+
+    .tagRestaurant:hover {
+      box-shadow: 0px 0px 0px 1px lightgrey;
+    }
+  }
+
+  .edit {
+    font-size: 13px;
+    cursor: pointer;
+
+    a {
+      color: #9e9e9e;
+
+      &:hover {
+        color: $mainColor;
+      }
+    }
+  }
+
+  .unblock {
+    margin-right: 10px;
+  }
+}
+
+
+.form-group{
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.btns_container {
+  text-align: right;
+  margin-top: 20px;
+  font-family: $fontFamily;
+
+  .cancel_btn {
+    height: 42px;
+    width: 162px;
+    border-radius: 3px;
+    background: none;
+    color: #4A4A4A;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .save_btn {
+    height: 42px;
+    width: 261px;
+    border-radius: 5px;
+    background: $mainColor;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+
+    .fa-spinner:before {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    &[disabled] {
+      opacity: 0.6;
+    }
+  }
+}
+
+
+.fieldTitle {
+  color: #333333;
+  font-family: $fontFamily;
+  font-size: 14px;
+  line-height: 24px;
+  display: inline-block;
+}
+
+.passwordBlock {
+  margin-top: 20px;
+}
+
+.image_block {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+
+.image_block {
+  height: 180px;
+  border-radius: 5px;
+  background-color: inherit;
+  background-repeat: no-repeat;
+  position: relative;
+  background-size: contain !important;
+  background-position: center;
+  cursor: pointer;
+
+  &.medium {
+    height: 150px;
+  }
+
+  .uploadButton {
+    opacity: 0;
+    transition-property: all;
+    transition: 300ms;
+  }
+
+  &:hover {
+    .uploadButton {
+      opacity: 1;
+    }
+  }
+}
+
+
+.uploadButton {
+  position: absolute;
+  bottom: 5%;
+  left: 15%;
+  height: 29px;
+  width: 70%;
+  border-radius: 5px;
+  background-color: #A2AAA2;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.select{
+  //border: 0;
+  //width: 50px;
+  padding-left: 0;
+  font-size: 12px;
+  min-width: unset !important;
+  //width: fit-content;
+  min-height: 40px;
+  ::ng-deep .ng-select-container {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    height: 20px;
+    min-height: unset;
+    overflow: visible;
+    //*{
+    //  color: $octonaryColor;
+    //}
+    .ng-arrow{
+      //border-color: transparent transparent $primaryColor;
+    }
+  }
+}

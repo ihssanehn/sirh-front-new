@@ -1,0 +1,86 @@
+@import '../users.styles';
+
+
+.top-container{
+  //padding-top: 30px;
+}
+
+.form-column{
+  h5{
+    margin-bottom: 0;
+  }
+  .form-bloc{
+    .row {
+      label {
+        min-width: 130px !important;
+      }
+    }
+    .check-box-btn{
+      margin: unset;
+      justify-content: unset;
+      background: unset;
+    }
+  }
+}
+
+.form-bloc{
+  //border: 1px solid lightgray;
+  margin: 20px 0;
+}
+
+.input-container{
+  width: 20px;
+  height: 20px;
+}
+.form-column:first-child {
+  margin-right: unset !important;
+}
+
+.head-info{
+  margin-bottom: 0 !important;
+}
+
+form{
+  overflow: auto;
+  height: calc(100% - 45px);
+}
+
+.form-column{
+  padding-bottom: 0;
+  .form-bloc{
+    margin: 0;
+  }
+  .btn-group{
+    width: fit-content;
+    //margin: 0 auto;
+  }
+  .block-check{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .btn-group-toggle{
+      padding-left: 0;
+      padding-right: 0;
+      input{
+        max-width: 80%;
+        display: none;
+      }
+      label{
+        margin-bottom: 0;
+      }
+    }
+    @media (max-width: 1024px){
+      input{
+        max-width: unset;
+      }
+    }
+    .btn-group-toggle{
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      font-size: 12px;
+      .btn-primary{
+        background-color: $mainColor;
+      }
+    }
+  }
+}

@@ -1,0 +1,215 @@
+@import "../list-users/list-users.component";
+
+.wrap{
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+}
+.card{
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 0;
+  padding-right: 0;
+  .img-container{
+    width: 60%;
+    padding-bottom: 60%;
+    height: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    &:after {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+    .content{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    img{
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+  .title{
+    font-weight: 500;
+    text-align: center;
+    padding: 0 5%;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  .sub-title{
+    font-size: 13px;
+    opacity: .8;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 0 5%;
+  }
+  .card-footer{
+    background-color: $primaryColor;
+    color: white;
+    border: 0;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: $SMALL_SCREEN) {
+  .card{
+    .title{
+      font-size: 14px;
+    }
+    .sub-title{
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: $MEDIUM_SCREEN) {
+  .card{
+    //width: 100%;
+  }
+}
+
+@media (max-width: $LARGE_SCREEN) {
+  .card{
+    //width: 50%;
+  }
+}
+
+@media (max-width: $TABLET_SCREEN) {
+  .card{
+    //width: 50%;
+  }
+}
+
+@media (min-width: $LAPTOP_SCREEN) {
+  .card{
+    //width: 23%;
+    //margin-right: 15px;
+    margin-bottom: 15px;
+    .title{
+      font-size: 14px;
+    }
+    .sub-title{
+      font-size: 13px;
+    }
+  }
+}
+
+.empty-space{
+  width: 5px;
+}
+
+.right-side{
+  background: white;
+  padding: 0;
+  position: sticky;
+  top: 10px;
+  min-width: fit-content;
+  margin-bottom: 15px;
+  height: fit-content;
+  padding-bottom: 15px;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  .header{
+    height: 130px;
+    background: #D1EAFF;
+    margin-bottom: 20%;
+    position: relative;
+    .icon-close{
+      cursor: pointer;
+      top: 10px;
+      right: 10px;
+      position: absolute;
+    }
+    .img-container{
+      width: 40%;
+      padding-bottom: 40%;
+      height: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-color: white;
+      //position: absolute;
+      bottom: -60%;
+      left: calc(50% - 20%);
+      //&:before{
+      //  background-color: white;
+      //}
+      //&:after {
+      //  content: "";
+      //  display: block;
+      //  padding-bottom: 100%;
+      //}
+      .content{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+  }
+  .separator{
+    margin-left: 10%;
+    padding-right: 10%;
+    color: lightgray;
+    opacity: .8;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .info-bloc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 5%;
+    *{
+      text-align: center;
+    }
+    .big-title{
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    .big-sub-title{
+      font-size: 16px;
+      opacity: .8;
+      text-align: center;
+    }
+  }
+}
+
+

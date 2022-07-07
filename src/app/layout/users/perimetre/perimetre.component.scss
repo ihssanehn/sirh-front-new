@@ -1,0 +1,123 @@
+@import '../users.styles';
+
+
+.top-container{
+  padding-top: 30px;
+  overflow: hidden !important;
+  .list{
+    //height: 100%;
+    height: calc(100% - 40px);
+    .side-panel{
+      border-right: 1px solid lightgray;
+      background: #FAFAFA;
+      padding: 11px 10px 5px 14px;
+      height: 100%;
+      width: auto;
+    }
+
+    .smal-users-list{
+      margin-top: 5px;
+      height: calc(100% - 65px);
+      .user-item{
+        //padding: 10px 0;
+
+        padding-right: 20px;
+        img{
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+        .name{
+          font-size: 13px;
+        }
+      }
+    }
+
+    .users-scroll-panel{
+      height: calc(100% - 10px);
+      overflow-y: auto;
+    }
+
+    .user-item{
+      cursor: pointer;
+      &:hover{
+        background: #e5e5e5;
+        transition: $hoverTransition;
+      }
+    }
+  }
+  .header{
+    margin-bottom: 10px !important;
+    border: 0;
+  }
+}
+.form-column{
+  .form-bloc{
+    .row {
+      label {
+        min-width: 130px !important;
+      }
+    }
+  }
+}
+
+.user-item-empty-state{
+  margin: 10px 0;
+}
+
+.load_more{
+  font-size: 12px;
+  text-decoration: underline;
+  color: $mainColor;
+  cursor: pointer;
+  text-align: center;
+}
+.form-column:first-child {
+  margin-right: unset !important;
+}
+.second-column{
+  padding: 10px 10px 5px 20px;
+  height: inherit;
+  overflow: scroll;
+}
+
+.head-info{
+  margin-bottom: 0 !important;
+}
+
+.users-list{
+  .perim-item{
+    display: flex;
+  }
+  table{
+    tr{
+      background: inherit;
+    }
+    td{
+      background: unset;
+      border: 0;
+      cursor: inherit;
+    }
+    .users-modal-open{
+      font-weight: 500;
+      i:before{
+        color: $fontColor;
+        font-weight: 500;
+      }
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+    .photo-cell{
+      .name{
+        font-size: 12px;
+        margin-left: 10px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+

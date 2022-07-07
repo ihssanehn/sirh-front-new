@@ -1,0 +1,53 @@
+<div class="container top-container">
+<!--  <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [routerLink]="['/users']"
+        [type]="'secondary_2'"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Type ou rôle du profil</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="saveProfile()"
+      ></app-button>
+    </div>
+  </div>
+<!--  <h5 class="sub-title">Déterminer le rôle de ce profil</h5>-->
+  <div class="error-pannel" *ngIf="error?.length>0 && !selectedProfile_id"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <div class="cards row">
+    <ng-container *ngIf="!loadingData; else loadingState">
+      <div class="card" *ngFor="let profile of profiles"
+           (click)="selectProfil(profile.id)"
+           [ngClass]="{'selected': profile.id === selectedProfile_id}">
+        <div class="icon"><i class="{{profile.icon}}"></i></div>
+        <div class="title">{{profile.label}}</div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>
+
+
+<ng-template #loadingState>
+  <div class="d-flex justify-content-center" style="background: white; padding: 30px 15px;">
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/square_empty_state.svg" />
+    </div>&nbsp;&nbsp;
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/square_empty_state.svg" />
+    </div>&nbsp;&nbsp;
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/square_empty_state.svg" />
+    </div>&nbsp;&nbsp;
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/square_empty_state.svg" />
+    </div>
+  </div>
+</ng-template>

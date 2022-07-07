@@ -1,0 +1,94 @@
+.auth-container {
+  position: relative;
+  background-image: url(../../../assets/images/sirh_photos/bkg.png);
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  padding: 7% 3.4%;
+  .auth-wrapper {
+    width: 541px;
+    height: 650px;
+    background: #fcfcfc 0% 0% no-repeat padding-box;
+    box-shadow: 0px 32px 64px #00000029;
+    border-radius: 20px;
+    /* opacity: 1; */
+    padding: 26px 59px;
+    .logo-container {
+      font-weight: bold;
+      position: relative;
+      .big-hello {
+        font-size: 67px;
+      }
+      .hello-desc {
+        font-size: 29px;
+        vertical-align: top;
+        line-height: 22px;
+      }
+      .sirh-logo {
+        position: absolute;
+        top: 80px;
+        right: 0;
+        width: 192px;
+        img {
+          max-width: 100%;
+          min-width: 100%;
+          height: 102px;
+        }
+        .sirh-text {
+          font-size: 19px;
+          color: #f0c807;
+          line-height: 23px;
+          font-weight: normal;
+          text-align: left;
+          margin-top: -10px;
+        }
+      }
+    }
+
+    .form-container {
+      margin-top: 140px;
+      padding: 0 17px;
+    }
+  }
+}
+.main-form {
+  .form-group {
+    padding-left: 27px;
+    margin-bottom: 30px;
+    &.error {
+      .input-group .input-group-prepend .input-group-text {
+        color: var(--error-color);
+      }
+    }
+    .input-group .input-group-prepend .input-group-text {
+      background-color: transparent;
+      border: 0;
+      padding: 16px 0;
+      line-height: normal;
+      font-size: 21px;
+    }
+    input {
+      border: 0;
+      font-size: 15px;
+      padding-left: 10px;
+      box-shadow: none;
+      color: #434343;
+      &::placeholder {
+        color: #dcdcdc;
+      }
+    }
+  }
+  .forgot-pwd {
+    display: block;
+    text-decoration: underline;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .sign-up {
+    display: block;
+    margin-top: 10px;
+  }
+}

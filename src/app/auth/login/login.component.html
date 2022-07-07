@@ -1,0 +1,70 @@
+<form [formGroup]="myForm" class="main-form" (ngSubmit)="onSubmit()">
+  <div
+    class="form-group "
+    [ngClass]="{
+      error: email?.invalid && (email?.dirty || email?.touched)
+    }"
+  >
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">@</div>
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
+        formControlName="email"
+        name="email"
+        placeholder="Email d’utilisateur"
+      />
+    </div>
+    <div
+      *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+      class="font-12 float-end red--color"
+    >
+      <div *ngIf="email?.errors?.required">le champ email est obligatoire</div>
+      <div *ngIf="email?.errors?.pattern">l’adresse mail est invalide</div>
+    </div>
+  </div>
+  <div
+    class="form-group"
+    [ngClass]="{
+      error: password?.invalid && (password?.dirty || password?.touched)
+    }"
+  >
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">@</div>
+      </div>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Mots de passe"
+        formControlName="password"
+        name="password"
+      />
+    </div>
+    <div
+      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+      class="font-12 float-end red--color"
+    >
+      <div *ngIf="password?.errors?.required">
+        le champ mot de passe est obligatoire
+      </div>
+    </div>
+  </div>
+  <span class="main-text forgot-pwd scale" role="button" routerLink="../forgotPassword">
+    Mot de passe oublié ?</span
+  >
+  <div class="d-flex justify-content-center align-items-center">
+    <button type="submit" class="btn main-btn" [ladda]="loading">
+      Connexion
+    </button>
+  </div>
+  <span class="main-text text-center sign-up scale"
+    >Pas encore de compte ?
+    <span class="text-decoration-underline" role="button">
+      Contactez l’administration</span
+    ></span
+  >
+</form>

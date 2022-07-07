@@ -1,0 +1,205 @@
+@import "~app/styles/custom.variables";
+
+$border-color: #707070;
+
+.mybutton{
+  //min-height: 36px;
+  border-radius: 8px;
+  //display: inline-block;
+  border: none;
+  transition: all 0.4s ease 0s;
+  background-color: #f3f3f3;
+  font-size: 13px;
+  min-height: 38px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  white-space: nowrap;
+  i{
+    margin-right: 5px;
+  }
+  i:before{
+    font-size: 11px;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    //background: $textColor;
+    //letter-spacing: .03em;
+    //color: white;
+    background-position: right center;
+    //i:before{
+    //  color: white;
+    //}
+  }
+
+  &:active {
+    transform: translateY(.2em);
+    filter: saturate(150%);
+  }
+}
+
+
+.primary{
+  //background-image: $maingradient;
+  background: $primaryColor;//$secondaryColor;
+  //color: #ffffff;
+  color: white; //$primaryColor;
+  //border: 0.1px solid $primaryColor;
+  //border-radius: 0;
+  i:before{
+    color: white; //$primaryColor;
+    font-size: 11px;
+  }
+}
+.primary_inverse{
+  color: $primaryColor;
+  background: white;
+  border: 1px solid $primaryColor;
+  i:before{
+    color: $primaryColor;
+    font-size: 11px;
+  }
+}
+
+.secondary{
+  background: $tertiaryColor;
+  color: white;
+  i:before{
+    color: white;
+    font-size: 11px;
+  }
+  &:hover{
+    color: $tertiaryColor;
+    background: white;
+    border: 1px solid $tertiaryColor;
+    i:before{
+      color: $tertiaryColor;
+      font-size: 11px;
+    }
+  }
+}
+.secondary_inverse{
+  color: $tertiaryColor;
+  background: white;
+  border: 1px solid $tertiaryColor;
+  i:before{
+    color: $tertiaryColor;
+    font-size: 11px;
+  }
+  &:hover{
+    background: $tertiaryColor;
+    color: white;
+    i:before{
+      color: white;
+      font-size: 11px;
+    }
+  }
+}
+
+.secondary_2{
+  background: #E5E5E5;
+  color: $fontColor;
+  i:before{
+    color: $fontColor;
+    font-size: 11px;
+  }
+  &:hover{
+    color: white;
+    background: $fontColor;
+    border: 1px solid $border-color;
+    i:before{
+      color: white;
+      font-size: 11px;
+    }
+  }
+}
+
+.tertiary{
+  color: $secondaryColor;
+  background: white;
+  i:before{
+    color: $secondaryColor;
+    font-size: 11px;
+  }
+  &:hover{
+    background: $secondaryColor;
+    color: white;
+    i:before{
+      color: white;
+      font-size: 11px;
+    }
+  }
+}
+.tertiary_inverse{
+  background: $secondaryColor;
+  color: white;
+  border: 1px solid $secondaryColor;
+  i:before{
+    color: white;
+    font-size: 11px;
+  }
+  &:hover{
+    color: $secondaryColor;
+    background: white;
+    i:before{
+      color: $secondaryColor;
+      font-size: 11px;
+    }
+  }
+}
+
+.danger{
+  background-color: $quaternaryColor;
+  color: white;
+  i:before{
+    color: white;
+    font-size: 11px;
+  }
+}
+.danger_inverse{
+  color: $quaternaryColor;
+  background-color: white;
+  border: 1px solid $quaternaryColor;
+  i:before{
+    color: $quaternaryColor;
+    font-size: 11px;
+  }
+}
+.danger_inverse_2{
+  color: $quaternaryColor;
+  background-color: inherit;
+  border: 0;
+  i:before{
+    color: $quaternaryColor;
+    font-size: 11px;
+  }
+}
+
+
+button:disabled,
+button[disabled]{
+  //opacity: .6;
+  color: white;
+  background-color: lightgray;
+  background-image: inherit;
+  cursor: auto;
+  border: 0;
+  i:before{
+    color:rgba(0, 0, 0, 0.26);
+  }
+}
+
+::ng-deep .mat-button .mat-button-wrapper>*{
+  vertical-align: baseline !important;
+}
+
+
+::ng-deep .mat-button-disabled{
+  opacity: .7;
+}

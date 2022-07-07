@@ -1,0 +1,43 @@
+<div class="container top-container ">
+  <div class="header modal-header">
+    <h1 class="main-title">Les utilisateurs du périmètre</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+
+  <div class="modal-body">
+    <div class="list-group">
+      <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+        <div class="list-group-item" *ngFor="let user of users">
+          <div class="photo-cell">
+            <div class="photo">
+              <div class="img-container">
+                <img
+                  [attr.src]="user?.photo_profile_path ? ('document/'+user.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                />
+
+              </div>
+            </div>
+            <div class="name">{{user?.full_name}} </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+<!--  <div class="modal-footer">-->
+<!--    <app-button-->
+<!--      [type]="'primary'"-->
+<!--      [text]="'Fermer'"-->
+<!--      (onClick)="modal.close()"-->
+<!--    ></app-button>-->
+<!--  </div>-->
+</div>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>

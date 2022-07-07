@@ -1,0 +1,94 @@
+<div class="header">
+  <i class="fa fa-bars toggler pointer btn float-right"
+     (click)="toggleSidebar()"
+     aria-hidden="true"
+  ></i>
+  <div class="logo">
+    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/solutions']"/>
+  </div>
+
+  <div class="tabs">
+    <div class="tab"
+         [routerLink]="[$item.link]"
+         [routerLinkActive]="'active-tab'"
+         *ngFor="let $item of $headerItems">
+      {{$item.name}}
+    </div>
+  </div>
+  <div class="right-options">
+<!--    <app-language></app-language>-->
+    <!--        <li class="nav-item" *ngIf="loggedIn">-->
+    <!--            <a class="nav-link" routerLinkActive="active" routerLink="/">Home-->
+    <!--            </a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item" *ngIf="!loggedIn">-->
+    <!--            <a class="nav-link" routerLinkActive="active" routerLink="signup">Singup</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item" *ngIf="!loggedIn">-->
+    <!--            <a class="nav-link" routerLinkActive="active" routerLink="login">Login</a>-->
+    <!--        </li>-->
+    <!--        <li class="nav-item" *ngIf="loggedIn">-->
+    <!--            <a class="nav-link" (click)="logout()">Logout</a>-->
+    <!--        </li>-->
+  </div>
+<!--  (click)="mainStore.toggleShowSidebar()"-->
+<!--  <div class="profile" placement="bottom-right" ngbDropdown>-->
+<!--    <div ngbDropdownToggle class="image">-->
+<!--      <img src="assets/images/face.png" />-->
+<!--    </div>-->
+<!--    <div ngbDropdownMenu aria-labelledby="dropdown">-->
+<!--      <a class="dropdown-item pointer">-->
+<!--        <i class="fa fa-user" aria-hidden="true"></i> Profil-->
+<!--      </a>-->
+<!--      <a class="dropdown-item pointer" (click)="logOut()">-->
+<!--        <i class="fa fa-fw fa-power-off"></i>Se déconnecter-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+  <div class="profile">
+      <div class="dropdown-profile-container">
+        <div class="label d-md-block d-none" >
+          <div class="connectedUSer name" >
+            {{userStore.getAuthenticatedUser?.complete_name}}
+          </div>
+
+          <div class="connectedUSer" >
+            {{userStore.getAuthenticatedUser?.role}}
+          </div>
+        </div>
+        <div class="image" [matMenuTriggerFor]="profileMenu">
+          <img
+            [attr.src]="userStore.getAuthenticatedUser?.photo_profil ? ('document/'+userStore.getAuthenticatedUser?.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(userStore.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(userStore.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+          />
+        </div>
+        <i class="fa fa-chevron-down" aria-hidden="true" [matMenuTriggerFor]="profileMenu" ></i>
+
+        <mat-menu #profileMenu="matMenu" [class]="'profile-menu'" >
+
+          <div class="connectedUSer name" >
+            {{userStore.getAuthenticatedUser?.nom}}
+          </div>
+
+          <div class="connectedUSer"  *ngxPermissionsOnly="[$userRoles.SUPERADMIN, $userRoles.MANAGER]">
+            {{userStore.getAuthenticatedUser?.role}}
+          </div>
+
+
+          <a mat-menu-item class="dropdown-item"
+             [routerLink]="['/users/info/'+userStore.getAuthenticatedUser?.id]">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span>Profil</span>
+          </a>
+          <a mat-menu-item class="dropdown-item"
+             (click)="logOut()">
+            <i class="fa fa-fw fa-power-off"></i>
+            <span>{{'LOG OUT' | translate}}</span>
+          </a>
+        </mat-menu>
+      </div>
+  </div>
+</div>
+
+

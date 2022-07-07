@@ -1,0 +1,185 @@
+@import "~app/styles/custom.variables";
+
+.absolute-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .floaty {
+    position: fixed;
+    /*bottom: 80px;*/
+    bottom: 23px;
+    right: 23px;
+    z-index: 99;
+  }
+
+  .floaty-list {
+    margin: 0 0 20px;
+    padding: 0 0 0 6px;
+    list-style: none;
+    opacity: 0;
+    transition: opacity .2s ease-out;
+  }
+
+  .floaty-list-item {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin: 15px 0;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    > img {
+      border-radius: 50%;
+    }
+  }
+
+  .floaty-list-item--purple {
+    background-color: #9C27B0;
+    > svg {
+      fill: #fff;
+    }
+  }
+
+  .floaty-list-item--yellow {
+    > svg {
+      fill: #fff;
+    }
+    background-color: #d4a717;
+  }
+
+  .floaty-list-item--blue {
+    background-color: #3c80f6;
+    > svg {
+      fill: #fff;
+    }
+  }
+
+  .floaty-list-item-label {
+    position: absolute;
+    top: 8px;
+    right: 120%;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #424242;
+    border-radius: 2px;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity .2s ease-out;
+  }
+
+  .floaty-list-item:hover > .floaty-list-item-label {
+    opacity: 1;
+  }
+
+  .floaty-btn {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin-right: 15px;
+    cursor: pointer;
+    background-color: $mainColor;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    &:hover > .floaty-btn-label {
+      opacity: 1;
+    }
+  }
+
+  .floaty-btn-label {
+    position: absolute;
+    top: 14px;
+    right: 115%;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #424242;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity .2s ease-out;
+  }
+
+  .floaty-btn-icon {
+    // @include scaleMe();
+  }
+
+  .floaty-btn-icon-plus {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .floaty.is-active .floaty-btn-icon-plus {
+    opacity: 0;
+    -webkit-transform: rotate(13deg);
+    transform: rotate(130deg);
+  }
+
+  .floaty-btn-icon-create {
+    opacity: 0;
+    -webkit-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+  }
+
+  .floaty {
+    &.is-active .floaty-btn-icon-create {
+      opacity: 1;
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    .fa {
+      top: 13px;
+      font-size: 1em;
+      color: white;
+    }
+  }
+
+  [class^='flaticon-'] {
+    top: 13px;
+    font-size: 1em;
+    color: white;
+  }
+
+  .floaty {
+    .floaty-list {
+      /* animation: plus-in 0.15s linear; */
+      /* animation-fill-mode: forwards; */
+      opacity: 1;
+    }
+    .fa {
+      font-size: 23px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    [class^='flaticon-'] {
+      font-size: 23px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      margin-left: -9px;
+    }
+  }
+
+  @keyframes plus-in {
+    from {
+      opacity: 1;
+      transform: rotateZ(0deg);
+    }
+
+    to {
+      opacity: 0;
+      transform: rotateZ(180deg);
+    }
+  }

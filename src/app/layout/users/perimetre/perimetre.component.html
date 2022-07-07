@@ -1,0 +1,164 @@
+<div class="container top-container">
+  <!--  <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [routerLink]="['/users']"
+        [type]="'secondary_2'"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Périmètre</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="savePermimeters()"
+      ></app-button>
+    </div>
+  </div>
+  <div class="error-pannel" *ngIf="error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <div class="row list">
+    <div class="col-4 col-xl-3 side-panel">
+      <div class="searchbar">
+        <input type="text" class="input form-control" placeholder="Rechercher une personne"/>
+      </div>
+      <div class="smal-users-list">
+        <ng-container *ngIf="!loadingData; else loadingStateLeftList">
+          <ng-container *ngIf="users?.length>0; else emptyStateLeftList">
+            <div
+              class="users-scroll-panel"
+            >
+<!--              infiniteScroll-->
+<!--              [infiniteScrollDistance]="2"-->
+<!--              [infiniteScrollThrottle]="50"-->
+<!--              (scrolled)="onScroll()"-->
+<!--              [scrollWindow]="false"-->
+              <div class="user-item d-flex align-items-center" *ngFor="let item of getFiltredUsers()">
+                <div class="check-box-btn text-center" (click)="appendToSelected(item)">
+                  <input type="checkbox" id="{{item.id}}" name="todo" value="todo">
+                  <label for="{{item.id}}" data-content="{{item.full_name}}">
+                    <img src="assets/images/man.png" />
+                    <span class="name">{{item.full_name}}</span>
+                  </label>
+                </div>
+              </div>
+              <div class="load_more" (click)="onScroll()" *ngIf="users?.length<totalUsers">
+                Charger plus
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col col-xl-9 main-container form-column second-column">
+      <h5>Ajouter une personne</h5>
+      <div class="users-list">
+        <ng-container *ngIf="selectedUsers?.length; else emptyStateRightList">
+          <div class="wrap">
+            <div class="table-wrapper">
+              <table class="table-responsive card-list-table">
+                <tbody>
+                  <tr *ngFor="let selectedUser of getSelectedUsers()"  >
+                  <td style="width: 25%" class="p-0">
+                    <div class="photo-cell">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [attr.src]="selectedUser?.photo_profil ? ('document/'+selectedUser.photo_profil_id+'/file' |
+                      getPhotoFromBackend: ('assets/images/'+(selectedUser?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(selectedUser?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          />
+
+                        </div>
+                      </div>
+                      <div class="name">{{selectedUser?.full_name}}</div>
+                    </div>
+                  </td>
+                  <td style="width: 35%" class="p-0">
+                    <div class="check-box-btn text-center">
+                      <input type="checkbox" id="{{'perim'+selectedUser.id}}" [(ngModel)]="selectedUser.with_perimeter">
+                      <label for="{{'perim'+selectedUser.id}}" data-content="Attacher au périmètre">
+                        <span class="name"> Attacher au périmètre</span>
+                      </label>
+                    </div>
+                   </td>
+                  <td style="width: 5%" data-title="users" class="users-modal-open p-0">
+                    <div (click)="openUsersPerimetreModal(selectedUser)">
+                      <i class="icon-user-basic"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Détails"></i>&nbsp;
+                      {{selectedUser.perimeters?.length || 0}}
+                    </div>
+                  </td>
+                  <td style="width: 20%" class="icon-cell p-0">
+                    <div class="actions">
+                      <app-button
+                        [type]="'danger_inverse_2'"
+                        [text]="'Supprimer'"
+                        [iconRight]="'icon-close'"
+                        (onClick)="deleteFromSelectedUsers(selectedUser?.id)"
+                      >
+                      </app-button>
+<!--                      <div class="danger-action" (click)="deleteFromSelectedUsers(user?.id)">-->
+<!--                        Supprimer &nbsp;-->
+<!--                        <i class="icon-remove-circle"-->
+<!--                           data-toggle="tooltip"-->
+<!--                           data-placement="top"-->
+<!--                           title="Détails"></i>-->
+<!--                      </div>-->
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loadingStateLeftList>
+    <div class="user-item-empty-state">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+    <div class="user-item-empty-state" style="opacity: .6">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+    <div class="user-item-empty-state"  style="opacity: .2">
+      <img src="assets/images/loading/user-item-loading.svg" />
+    </div>
+</ng-template>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+         [image]="'images/user_empty_state.svg'"
+        [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
+<ng-template #emptyStateRightList>
+  <app-centred-message
+        [message]="( 'Cette liste est vide' | translate )"
+        [image]="'images/user_empty_state.svg'"
+        [smallMessage]="( 'Essayer d’ajouter une ou plusieurs personnes depuis la liste a gauche.' | translate )"
+  ></app-centred-message>
+</ng-template>
+<!--[image]="'images/emptystate.png'"-->
+<ng-template #dataNotFound>
+  <app-centred-message
+                      [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/user_empty_state.svg'">
+  </app-centred-message>
+</ng-template>

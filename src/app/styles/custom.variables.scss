@@ -1,0 +1,137 @@
+/******   Font *******/
+
+$font-family-base : Roboto, sans-serif;
+$fontFamily: $font-family-base ;
+$btn-font-size: 14px;
+$fontColor: #4d4d4d;
+
+/******   Responsive *******/
+
+$SMALL_SCREEN: 320px;
+$MEDIUM_SCREEN: 375px;
+$LARGE_SCREEN: 425px;
+$TABLET_SCREEN: 768px;
+$LAPTOP_SCREEN: 1024px;
+
+//.card:first-child{
+//  //  background-color: $mainColor;
+//  //  margin-right: 10px;
+//  //}
+//  $mainColor = #CE6D39
+//$senaryColor = #2280be
+//$octonaryColor = #4A4A4A
+//$yellow = #e3bc08
+//$darkPrimaryColor = #a24302
+//  #F17F42
+//  //.card:nth-child(2){
+//  //  background-color: $senaryColor;
+//  //  margin-right: 10px;
+//  //}
+//  //.card:nth-child(3){
+//  //  background-color: $octonaryColor;
+//  //  margin-right: 10px;
+//  //}
+//  //.card:nth-child(4){
+//  //  background-color: $secondaryColor
+//
+/******   Colors *******/
+//$primaryColor: #CE6D39;
+//$darkPrimaryColor: #a24302;
+//$lightPrimaryColor: #FFEEE4;
+//$secondaryColor: #F17F42;
+//$lightSecondaryColor: #F68657;
+//$tertiaryColor: #000000;
+//$lightTertiaryColor: #878B8D;
+
+$primaryColor: #078aff;//#F0C807;
+//$darkPrimaryColor:  #262C79FF;
+//$lightPrimaryColor: #4754E5FF;
+$secondaryColor: #4D4D4D;//#22806f;
+$tertiaryColor: #68D051;
+$quaternaryColor: #F54F4F;
+$quinaryColor: #00000029;
+$senaryColor: #EDEDED;
+$septenaryColor: #FAFAFA;
+
+
+$octonaryColor: #adbac3;
+$nonaryColor: #547ce2;
+$denaryColor: #f3533b;
+
+$success : #28a745;
+$info : #17a2b8;
+$warning : #ffc107;
+$danger : #dc3545;
+
+$maingradient: radial-gradient(circle, rgba(29,117,227,1) 0%, rgba(26,89,167,1) 100%);
+
+$textColor: #434343;//#919191;
+$mainshadow: 0 0 4px 0 rgba(0,0,0,.1);
+
+
+$mainColor: $primaryColor;
+$appBackground: #FFF;
+$btn-color: $primaryColor;
+
+/******   Sidebar *******/
+
+$sidebar-width: 200px;
+$sidebar-small-width: 220px;
+$header-height: 55px;
+$sidebar-background: #F7F7F7;//#f9f9f9;//#F7F7F7;//$primaryColor;
+$header-background: $mainColor;
+$header-color: white;
+$sidebar-activeTabBackground: #fff;// #E5F5E3;
+$sidebar-activeTabBorder: 0;//5px solid;
+$sidebar-activeTabColor: $tertiaryColor;
+$sidebarTextColor: #707070;
+$sidebarTextColorHover: #fff;
+$sidebarItemHeight: 50px;
+
+$header-activeTabBackground: #fff;
+$header-activeTabBorder: 3px solid;
+$header-activeTabColor: #3F9C35;
+
+
+$headerTextColor: $septenaryColor;
+
+
+
+//item
+$sidebar-menuItem-text-1: $sidebarTextColor;
+$sidebar-menuItem-background-1: white;
+
+$sidebar-menuItem-text-2: $sidebarTextColor;
+$sidebar-menuItem-background-2: white;
+
+$sidebar-menuItem-text-3: $sidebarTextColor;
+$sidebar-menuItem-background-3: white;
+
+// hovered item
+$sidebar-menuItem-background-hover-1: #fff;
+$sidebar-menuItem-background-hover-2:  #fff;
+$sidebar-menuItem-background-hover-3:  #fff;
+
+$sidebar-menuItem-text-hover-1: $mainColor;
+$sidebar-menuItem-text-hover-2: $mainColor;
+$sidebar-menuItem-text-hover-3: $mainColor;
+
+// Active item
+$sidebar-menuItem-text-active-1: $mainColor;
+$sidebar-menuItem-background-active-1: #D1EAFF;
+
+$sidebar-menuItem-text-active-2: $mainColor;//#387BB7;
+$sidebar-menuItem-background-active-2: $appBackground;//#3D86C7;
+
+$sidebar-menuItem-text-active-3: $mainColor;//#fff;
+$sidebar-menuItem-background-active-3: $appBackground;//#3D86C7;
+
+//$headerTextColorHover: #fff;
+
+
+$yiq-contrasted-threshold: 250;
+
+$default-radius: 10px;
+$logo-z-index: 8;
+
+$hoverTransition: all 0.4s ease 0s;

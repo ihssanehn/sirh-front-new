@@ -1,0 +1,9 @@
+@import "../users.styles";
+
+::ng-deep .header{
+  display: flex;
+  justify-content: space-between;
+  .btns{
+    display: flex;
+  }
+}

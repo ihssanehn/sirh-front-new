@@ -1,0 +1,42 @@
+<mat-stepper linear #stepper>
+  <mat-step label="Général">
+    <app-user-info-form
+      (preview)="moveForward(0)"
+      [profile_id]="profile_id"
+      [user]="user"
+      (submitUser)="submitUser($event)"
+    ></app-user-info-form>
+  </mat-step>
+  <mat-step label="Paramètres">
+    <app-user-info-form
+      (preview)="moveForward(0)"
+      [profile_id]="profile_id"
+      [user]="user"
+      (submitUser)="submitUser($event)"
+    ></app-user-info-form>
+  </mat-step>
+  <mat-step label="Doc RH">
+    <app-perimetre
+      (preview)="moveForward(1)"
+      (submitPerimeters)="submitPerimeters($event)"
+      [perimeters]="user?.perimeters"
+      [user]="user"
+    ></app-perimetre>
+  </mat-step>
+  <mat-step label="Périmètre">
+    <app-perimetre
+      (preview)="moveForward(2)"
+      (submitPerimeters)="submitPerimeters($event)"
+      [perimeters]="user?.perimeters"
+      [user]="user"
+    ></app-perimetre>
+  </mat-step>
+  <mat-step label="Accès">
+    <app-access
+      (preview)="moveForward(3)"
+      (submitAccess)="submitAccess($event)"
+      [permissions]="user?.permissions"
+    ></app-access>
+  </mat-step>
+</mat-stepper>
+

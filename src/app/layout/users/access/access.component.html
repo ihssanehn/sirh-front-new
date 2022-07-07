@@ -1,0 +1,93 @@
+<div class="container top-container">
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [routerLink]="['/users']"
+        [type]="'secondary_2'"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Accès du profil</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Terminer'"
+        [type]="'secondary'"
+        (onClick)="saveAccess()"
+      ></app-button>
+    </div>
+  </div>
+  <div class="error-pannel" *ngIf="error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <div class="top-container">
+    <form (submit)="submit()" *ngIf="myForm" [formGroup]="myForm" autocomplete="off" class="container" novalidate>
+      <div class="row form-box">
+        <div class="col form-column">
+          <div class="form-bloc">
+            <div class="row block-check container">
+              <div class="btn-group btn-group-toggle"
+                   ngbRadioGroup name="radioBasicProfile"
+                   (change)="filterChanged()"
+                   [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="filter.by_profile">
+                <label ngbButtonLabel
+                       [ngClass]="{'btn-primary': filter.by_profile}">
+                  <input ngbButton type="radio" [value]="true"> Selon profil
+                </label>
+                <label ngbButtonLabel class="btn-primary"
+                       [ngClass]="{'btn-primary': !filter.by_profile }">
+                  <input ngbButton type="radio" [value]="false"> Personnaliser
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-box">
+        <div class="form-column row">
+
+            <div class="form-bloc col-4 row" *ngFor="let category of access"
+                 style="background-color: #FAFAFA"
+                 [ngClass]="{'col-8': category.access?.length>5 &&  category.access?.length<=10,
+                    'col-12': category.access?.length>10 ,
+                   'col-4': category.access?.length<=5}">
+              <h5>{{category.label}}</h5>
+
+<!--              <ng-container *ngIf="category.access.length>5" >-->
+<!--                -->
+<!--              </ng-container>-->
+
+              <ng-container *ngFor="let access of getPage(category.access); let _id=index">
+                <div
+                  class="col-4"
+                     [ngClass]="{'col-4': category.access?.length>10,
+                    'col-12':category.access?.length<=5
+                   }"
+                >
+                  <!--                <div class="col-4">-->
+                  <div class="check-box-btn text-center"  *ngIf="access.id" >
+                    <div class="input-container">
+                      <input type="checkbox"
+                             id="{{access.id}}"
+                             [value]="access.value"
+                             [checked]="ischecked(access.id)"
+                             (change)="onCheckChange($event, access)"
+                             name="{{access.id}}" >
+                    </div>
+                    <label for="{{access.id}}" >{{access.label}}(#{{access.id}})</label>
+                  </div>
+                  <!--                </div>-->
+                </div>
+              </ng-container>
+            </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
