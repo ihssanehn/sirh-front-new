@@ -20,14 +20,6 @@ body {
   outline: none;
 }
 
-:root {
-  --error-color: #ff6b62;
-  --primary-color: #f0c807;
-}
-
-.red--color {
-  color: var(--error-color);
-}
 .font-12 {
   font-size: 12px;
 }
@@ -46,39 +38,6 @@ body {
 
 [role="button"] {
   cursor: pointer;
-}
-
-.main-btn {
-  background: var(--primary-color) 0% 0% no-repeat padding-box;
-  border-radius: 40px;
-  border-color: transparent;
-  height: 44px;
-  min-width: 288px;
-  font-size: 15px;
-  color: #000;
-  color: #4d4d4d;
-  font-weight: normal;
-  margin: auto;
-  transition: all 0.5s ease;
-  padding: 0;
-  &:focus &:active {
-    -webkit-box-shadow: 0 -3rem 0 var(--primary-color) inset;
-    box-shadow: 0 -3rem 0 var(--primary-color) inset;
-  }
-  &:hover {
-    background: transparent;
-    color: var(--primary-color);
-    -webkit-box-shadow: 0 -3rem 0 #ffffff inset;
-    box-shadow: 0 -3rem 0 #ffffff inset;
-    border-color: var(--primary-color);
-  }
-}
-
-.main-text {
-  font-size: 15px;
-  line-height: 18px;
-  letter-spacing: 0px;
-  font-weight: 300;
 }
 
 html, body { height: 100%; }

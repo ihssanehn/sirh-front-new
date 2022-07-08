@@ -2,12 +2,14 @@
   <div
     class="form-group "
     [ngClass]="{
-      error: email?.invalid && (email?.dirty || email?.touched)
+      error: email?.invalid && (email?.dirty)
     }"
   >
     <div class="input-group">
       <div class="input-group-prepend">
-        <div class="input-group-text">@</div>
+        <div class="input-group-text">
+          <i class="icon-auth-user"></i>
+        </div>
       </div>
       <input
         type="text"
@@ -18,10 +20,7 @@
         placeholder="Email d’utilisateur"
       />
     </div>
-    <div
-      *ngIf="email?.invalid && (email?.dirty || email?.touched)"
-      class="font-12 float-end red--color"
-    >
+    <div *ngIf="email?.invalid && email?.dirty" class="float-end form-control-feedback">
       <div *ngIf="email?.errors?.required">le champ email est obligatoire</div>
       <div *ngIf="email?.errors?.pattern">l’adresse mail est invalide</div>
     </div>
@@ -34,7 +33,9 @@
   >
     <div class="input-group">
       <div class="input-group-prepend">
-        <div class="input-group-text">@</div>
+        <div class="input-group-text">
+          <i class="icon-auth-password"></i>
+        </div>
       </div>
       <input
         type="password"
@@ -44,16 +45,13 @@
         name="password"
       />
     </div>
-    <div
-      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
-      class="font-12 float-end red--color"
-    >
+    <div *ngIf="password?.invalid && password?.dirty" class="float-end form-control-feedback">
       <div *ngIf="password?.errors?.required">
         le champ mot de passe est obligatoire
       </div>
     </div>
   </div>
-  <span class="main-text forgot-pwd scale" role="button" routerLink="../forgotPassword">
+  <span class="main-text forgot-pwd" role="button" routerLink="../forgotPassword">
     Mot de passe oublié ?</span
   >
   <div class="d-flex justify-content-center align-items-center">
@@ -61,7 +59,7 @@
       Connexion
     </button>
   </div>
-  <span class="main-text text-center sign-up scale"
+  <span class="main-text text-center sign-up"
     >Pas encore de compte ?
     <span class="text-decoration-underline" role="button">
       Contactez l’administration</span
