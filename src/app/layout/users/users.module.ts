@@ -21,9 +21,10 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {TrombiComponent} from "@layout/users/trombi/trombi.component";
-import { SimpleAddComponent } from './simple-add/simple-add.component';
-import { GroupAddComponent } from './group-add/group-add.component';
-import { IndependentAddComponent } from './independent-add/independent-add.component';
+import {GeneralSimpleFormComponent} from "@layout/users/general-simple-form/general-simple-form.component";
+import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
+import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
+import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
 
 
 @NgModule({
@@ -53,9 +54,10 @@ import { IndependentAddComponent } from './independent-add/independent-add.compo
     AccessComponent,
     ModalPerimetreUsersComponent,
     TrombiComponent,
-    SimpleAddComponent,
-    GroupAddComponent,
-    IndependentAddComponent
+    SimpleAddStepperComponent,
+    GroupAddStepperComponent,
+    IndependentAddStepperComponent,
+    GeneralSimpleFormComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent

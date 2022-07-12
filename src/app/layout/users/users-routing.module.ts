@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListUsersComponent } from './list-users/list-users.component';
-import { AddUserComponent } from './add-user/add-user.component';
 import {TrombiComponent} from "@layout/users/trombi/trombi.component";
-import {SimpleAddComponent} from "@layout/users/simple-add/simple-add.component";
-import {IndependentAddComponent} from "@layout/users/independent-add/independent-add.component";
-import {GroupAddComponent} from "@layout/users/group-add/group-add.component";
+import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
+import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
+import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
 
 
 const routes: Routes = [
@@ -53,15 +52,15 @@ const routes: Routes = [
       },
       {
         path: 'simple',
-        component: SimpleAddComponent,
+        component: SimpleAddStepperComponent,
       },
       {
         path: 'independent',
-        component: IndependentAddComponent,
+        component: IndependentAddStepperComponent,
       },
       {
         path: 'group',
-        component: GroupAddComponent,
+        component: GroupAddStepperComponent,
       },
     ]
     // canActivate: [NgxPermissionsGuard],

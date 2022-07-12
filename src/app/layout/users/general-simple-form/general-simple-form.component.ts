@@ -13,15 +13,16 @@ import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ListsService} from "@services/lists.service";
 import {isMoment} from "moment";
+import {forEach} from "angular";
 
 
 
 @Component({
-  selector: 'app-user-info-form',
-  templateUrl: './user-info-form.component.html',
-  styleUrls: ['./user-info-form.component.scss'],
+  selector: 'app-general-simple-form',
+  templateUrl: './general-simple-form.component.html',
+  styleUrls: ['./general-simple-form.component.scss'],
 })
-export class UserInfoFormComponent implements OnInit, AfterViewInit {
+export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   userFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
   errors : Array<any> = [];
@@ -34,83 +35,111 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   submitting: boolean;
   submittingPassword: boolean;
   formInputs = {
-    id: 'id',
-    civility: 'civility',
-    last_name: 'last_name',
-    first_name: 'first_name',
-    telephone_personal: 'telephone_personal',
-    email_personal: 'email_personal',
-    address: 'address',
-    code_postal: 'code_postal',
-    birthday: 'birthday',
-    birth_place: 'birth_place',
-    nationality: 'nationality',
-    number_security_social: 'number_security_social',
-    family_situation_id: 'family_situation_id',
-    city: 'city',
-
-    registration_number: 'registration_number',
-    start_date: 'start_date',
-    end_date: 'end_date',
-    telephone_professional: 'telephone_professional',
-    function_id: 'function_id',
-    status_id: 'status_id',
-    email_professional: 'email_professional',
-    urgency_name_1: 'urgency_name_1',
-    urgency_telephone_1: 'urgency_telephone_1',
-    family_link_1: 'family_link_1',
-    contract_id: 'contract_id',
-    urgency_name_2: 'urgency_name_2',
-    urgency_telephone_2: 'urgency_telephone_2',
-    family_link_2: 'family_link_2',
-
-    manager_id: 'manager_id',
-    cp_id: 'cp_id',
-    is_virtual: 'is_virtual',
-    kids_number: 'kids_number',
-    validator_absence_id:  'validator_absence_id',
-    profile_id: 'profile_id',
-    is_part_time: 'is_part_time',
-    first_annual_salary: 'first_annual_salary',
-
-    is_head_office: 'is_head_office',
-    benefits: 'benefits',
-    number_carte_vitale: 'number_carte_vitale',
-
-
-    // creator_id: 'creator_id',
-    // archive: 'archive',
-    // profil_conges_id: 'profil_conges_id',
-    // profil_conges_custom: 'profil_conges_custom',
-    // profil_conges_customs_id: 'profil_conges_customs_id',
-    // cout_revient: 'cout_revient',
-    // cout_vente: 'cout_vente',
-    // remember_token: 'remember_token',
-    // is_temps_partiel: 'is_temps_partiel',
-    // is_hors_siege: 'is_hors_siege',
-    // contract_id: 'contract_id',
-    // validite_titre_sejour: 'validite_titre_sejour',
-
-    // validateur_absence_id: 'validateur_absence_id',
-    // is_fr: 'is_fr',
-    // titre_sejour_id: 'titre_sejour_id',
-    // date_fin_periode_essais: 'date_fin_periode_essais',
-    // has_done_periode_essais: 'has_done_periode_essais',
-    // periode_essais_comment: 'periode_essais_comment',
-    // type_titre_sejour: 'type_titre_sejour',
-    // num_titre_sejour: 'num_titre_sejour',
-    // status_pe_id: 'status_pe_id',
-    // photo_profil_id: 'photo_profil_id',
-    // duree_mission: 'duree_mission',
-    //
-    //
-    // nombre_enfants: 'nombre_enfants',
-    // salaire_brut: 'salaire_brut',
-    // compte_salarie: 'compte_salarie',
-    // avantage_nature: 'avantage_nature',
-    // has_tjm_fixed: 'has_tjm_fixed',
-    // is_travailleur_handicape: 'is_travailleur_handicape',
-    // cp_cp_id: 'cp_cp_id',
+      id: "id",
+     registration_number: "registration_number",
+    first_name: "first_name",
+    last_name: "last_name",
+    email: "email",
+    civility: "civility",
+    fiche_to_be_completed: "fiche_to_be_completed",
+    birth_date: "birth_date",
+    number_security_social: "number_security_social",
+    nationality_id: "nationality_id",
+    city_id: "city_id",
+    address: "address",
+    code_postal: "code_postal",
+    telephone_fix: "telephone_fix",
+    telephone_bureau: "telephone_bureau",
+    telephone_portable: "telephone_portable",
+    profile_id: "profile_id",
+    role_id: "role_id",
+    member_ship_id: "member_ship_id",
+    supplier_id: "supplier_id",
+    cp_id: "cp_id",
+    original_company_id: "original_company_id",
+    attachment_agency_id: "attachment_agency_id",
+    not_billable: "not_billable",
+    in_out_office: "in_out_office",
+    is_part_time: "is_part_time",
+    time_entry_id: "time_entry_id",
+    calendar_id: "calendar_id",
+    emission_of_contract_date: "emission_of_contract_date",
+    signature_of_contract_date: "signature_of_contract_date",
+    group_start_date: "group_start_date",
+    is_group_mutation_entry: "is_group_mutation_entry",
+    entry_date: "entry_date",
+    end_trial_period_date: "end_trial_period_date",
+    depart_mail_received_date: "depart_mail_received_date",
+    theory_end_date: "theory_end_date",
+    end_date: "end_date",
+    could_be_manager: "could_be_manager",
+    manager_id: "manager_id",
+    manage_holidays: "manage_holidays",
+    validator_absence_id: "validator_absence_id",
+    fiscal_car_power_id: "fiscal_car_power_id",
+    complex_charge: "complex_charge",
+    is_exclusion_etp: "is_exclusion_etp",
+    is_exclusion_reporting: "is_exclusion_reporting",
+    creator_id: "creator_id",
+    comment: "comment"
+  }
+  formLabels = {
+    id: "id",
+    //Coordonnées du salarié
+    registration_number: "Matricule",
+    first_name: "Prénom",
+    last_name: "Nom",
+    civility: "Civilité",
+    birth_date: "Date de naissance",
+    number_security_social: "Num sécurité sociale",
+    nationality_id: "Nationalité",
+    city_id: "Ville",
+    address: "Adresse",
+    code_postal: "Code postal",
+    email: "E-mail",
+    telephone_fix: "Tel fixe",
+    telephone_bureau: "Tel bureau",
+    telephone_portable: "Tel portable",
+    //Affectations société
+    profile_id: "Profil",
+    role_id: "Rôle",
+    member_ship_id: "Appartenance",
+    supplier_id: "Fournisseur",
+    cp_id: "Centre de profit",
+    original_company_id: "Société d'origine",
+    attachment_agency_id: "Agence de rattachement",
+    not_billable: "Non Facturable",
+    in_out_office: "Siège / Hors Siège",
+    time_entry_id: "Saisie temps",
+    calendar_id: "Calendrier",
+    is_part_time: "Temps partiel",
+    fiche_to_be_completed: "NOT KNOWN", // to be done // no known
+    //IN
+    emission_of_contract_date: "Date d'émission du contrat de travail",
+    signature_of_contract_date: "Date de signature du contrat de travail",
+    group_start_date: "Date d'entrée groupe",
+    is_group_mutation_entry: "Entrée par mutation groupe",
+    entry_date: "Date d'entrée",
+    end_trial_period_date: "Date de fin de Période d'essai",
+    // OUT
+    depart_mail_received_date: "Date de réception du courier en cas de départ", // to be done // to add in forminputs
+    theory_end_date: "Date de fin théorique", // to be done
+    end_date: "Date de sortie", // to be done
+    // Competence
+    could_be_manager: "Salarié qui peut être chef de projet", // to be done
+    manager_id: "Choix du chef de projet", // to be done
+    // Gestion des congés
+    manage_holidays: "Gestion des congés", // to be done
+    validator_absence_id: "Validation des absences", // to be done
+    // Gestion des frais
+    fiscal_car_power_id: "Puissance fiscale du véhicule", // to be done
+    complex_charge: "Concerne les ingénieurs conseil par exemple", // to be done
+    // Reporting Opérationnel
+    is_exclusion_etp: "Si cette case est cochée, l'utilisateur est exclu du reporting ETP", // to be done
+    is_exclusion_reporting: "Si cette case est cochée, l'utilisateur est exclu du reporting opérationnel", // to be done
+    // Commentaire
+    comment: "Commeentaire", // to be done
+    creator_id: "creator_id", // to be done
   }
   // user: User;
 
@@ -122,7 +151,14 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
   profiles =  [];
   entities =  [];
   managers =  [];
+  roles = [];
+  companies = [];
+  appartenances = [];
+  suppliers = [];
   profit_centers =  [];
+  attachment_agences =  [];
+  time_entries =  [];
+  calendiers =  [];
 
   errorLoadData: boolean;
   loadingData: boolean;
@@ -158,54 +194,54 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
 
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
-      id: [null],
-      photo_profile: [null],
-      civility: ['H', Validators.required],
-      last_name: ['CHBANI', Validators.required],
-      first_name: ['Anass', Validators.required],
-      telephone_personal: ['0232302', Validators.required],  //to add
-      email_personal: ['chbanianass20@gmail.com'],
-      address: ['test addr'],
-      code_postal: [2020],
-      birthday: ['09/06/1995', Validators.required],
-      birth_place: ['Casa', Validators.required],
-      nationality: ['Marocaine', Validators.required],
-      number_security_social: ["123424"],
-      family_situation_id: [2],
-      city: ["Casa"],
-
-      registration_number: [3224234],
-      start_date: ['09/06/2022', Validators.required],
-      end_date: [null],
-      telephone_professional: [null],
-      function_id: [2],
-      status_id: [2, Validators.required],
-      email_professional: ["chbanianass20@gmail.com", Validators.required],
-
-      urgency_name_1: [null],
-      urgency_telephone_1: [null],
-      family_link_1: [null],
-      contract_id: [2, Validators.required],
-
-      urgency_name_2: [null],
-      urgency_telephone_2: [null],
-      family_link_2: [null],
-
-
-      manager_id: [2, Validators.required],
-      cp_id: [null, Validators.required],
-      is_virtual: [false],
-      kids_number: [null],
-
-      validator_absence_id: [2],
-      profile_id: [this.profile_id],
-      is_head_office: [false, Validators.required],
-      is_part_time: [false],
-      first_annual_salary: [null],
-
-      benefits: [null],
-      number_carte_vitale: [null]
-    });
+        id:[null],
+        registration_number:[null,Validators.required], //Matricule *
+        first_name:[null],
+        last_name:[null],
+        email:[null],
+        civility:[null],
+        fiche_to_be_completed:[null],
+        birth_date:[null],
+        number_security_social:[null,Validators.required],
+        nationality_id:[null,Validators.required],
+        city_id:[null,Validators.required],
+        address:[null,Validators.required],
+        code_postal:[null,Validators.required],
+        telephone_fix:[null,Validators.required],
+        telephone_bureau:[null,Validators.required],
+        telephone_portable:[null,Validators.required],
+        profile_id:[null],
+        role_id:[null,Validators.required],
+        member_ship_id:[null,Validators.required],
+        supplier_id:[null,Validators.required],
+        cp_id:[null,Validators.required],
+        original_company_id:[null,Validators.required],
+        attachment_agency_id:[null,Validators.required],
+        not_billable:[null],
+        in_out_office:[null],
+        is_part_time:[null],
+        time_entry_id:[null],
+        calendar_id:[null],
+        emission_of_contract_date:[null,Validators.required],
+        signature_of_contract_date:[null,Validators.required],
+        group_start_date:[null],
+        is_group_mutation_entry:[null],
+        entry_date:[null],
+        end_trial_period_date:[null,Validators.required],
+        depart_mail_received_date:[null],
+        theory_end_date:[null],
+        end_date:[null],
+        could_be_manager:[null],
+        manager_id:[null,Validators.required],
+        manage_holidays:[null],
+        validator_absence_id:[null,Validators.required],
+        fiscal_car_power_id:[null,Validators.required],
+        complex_charge:[null],
+        is_exclusion_etp:[null],
+        is_exclusion_reporting:[null],
+        comment:[null],
+        creator_id:[null,Validators.required]
+      });
 
     this.modalService.dismissAll();
 

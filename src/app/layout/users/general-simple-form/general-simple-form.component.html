@@ -1,0 +1,1165 @@
+<input type="file" style="display: none" id="uploadAvatar"
+       #inputFile
+       accept="image/jpeg"
+       multiple (change)="filechanged($event); inputFile.value=''"/>
+<div class="container top-container">
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [type]="'secondary_2'"
+        [routerLink]="['/users']"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Informations du profil</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="saveUser()"
+      ></app-button>
+    </div>
+  </div>
+
+  <div class="error-pannel" *ngIf="userFormGroup && !userFormGroup.valid && userFormGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <ng-container *ngIf="!errorLoadData; else dataNotFound">
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+      <div class="container-fluid top-container p-0">
+        <!--    <div class="goback col-12"-->
+        <!--         (click)="goback()"-->
+        <!--          style="margin-bottom: 10px">-->
+        <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
+        <!--    </div>-->
+        <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container p-0"
+              novalidate>
+          <h5 *ngIf="title">
+            <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
+            Ajouter un {{title}}
+            <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+          </h5>
+          <div class="row form-box">
+            <div class="main-container head-info justify-content-center">
+              <div>
+                <div class="avatar">
+                  <div class="photo" *ngIf="userFormGroup?.value?.photo_profile; else noUser">
+                    <img
+                      [attr.src]="userFormGroup.value.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async"
+                      class="loggedUserStyle_photo"/>
+                  </div>
+                  <ng-template #noUser>
+                    <div class="photo">
+                      <img
+                        [attr.src]="photoBase64?.length>0 ? photoBase64 : ('assets/images/'+(userFormGroup.value.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        class="loggedUserStyle_photo"/>
+                    </div>
+                  </ng-template>
+                  <!--              <img [src]="'assets/images/'+(userFormGroup.value.civilite === 'F' ? 'woman.png': 'man.png')" />-->
+                  <label class="overlay" for="uploadAvatar" [ngClass]="{'show-overlay': submittingPhoto || !userFormGroup?.value}">
+                    <ng-container *ngIf="submittingPhoto; else loadedPhoto">
+                      Chargement..
+                    </ng-container>
+                    <ng-template #loadedPhoto>
+                      <div class="upload-action">
+                        <i class="fa fa-camera"></i>
+                        <span>Charger une photo de profil</span>
+                      </div>
+                    </ng-template>
+                  </label>
+                  <div class="actions" *ngIf="(userFormGroup?.value?.photo_profile && !submittingPhoto) || photoBase64?.length>0">
+                    <app-button
+                      [type]="'danger'"
+                      [text]="'Supprimer la photo de profil'"
+                      [iconLeft]="'fa fa-trash'"
+                      [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"
+                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"
+                    ></app-button>
+                  </div>
+                </div>
+              </div>
+              <div class="info">
+                <h1>{{userFormGroup.value.nom}}</h1>
+                <div class="info-item">{{userFormGroup.value.email}}</div>
+                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-box">
+            <div class="main-container col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Coordonnées du salarié</h5>
+                <div class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">{{formLabels.registration_number}} {{isRequired(formInputs.registration_number)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le matricule ici"
+                             class="form-control input"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.registration_number].hasError('required')
+                                  && userFormGroup.controls[formInputs.registration_number].dirty}"
+                             [formControl]="userFormGroup.controls[formInputs.registration_number]"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.registration_number].hasError('required')
+                  && userFormGroup.controls[formInputs.registration_number].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le matricule est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.civility}} {{isRequired(formInputs.civility)}}</label>
+                    <div class="col">
+                      <div class="btn-group civilite" role="group" ngbRadioGroup name="radioBasic"
+                           [formControl]="userFormGroup.controls[formInputs.civility]">
+                        <label ngbButtonLabel class="btn">
+                          <input ngbButton type="radio" class="btn-check" [value]="'M'"> Homme
+                        </label>
+                        <label ngbButtonLabel class="btn">
+                          <input ngbButton type="radio" class="btn-check" [value]="'Mme'"> Femme
+                        </label>
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.civility].hasError('required')
+                    && userFormGroup.controls[formInputs.civility].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La civilité est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <label class="col-2">{{formLabels.last_name}} {{isRequired(formInputs.last_name)}}</label>
+                      <div class="col">
+                        <input type="text"
+                               placeholder="Saisir le nom ici"
+                               class="form-control input"
+                               [formControl]="userFormGroup.controls[formInputs.last_name]"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.last_name].hasError('required')   && userFormGroup.controls[formInputs.last_name].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.last_name].hasError('required')
+                    && userFormGroup.controls[formInputs.last_name].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le nom est obligatoire
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.first_name}}  {{isRequired(formInputs.first_name)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le prénom ici"
+                             [formControl]="userFormGroup.controls[formInputs.first_name]"
+                             class="form-control input"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.first_name].hasError('required')
+                                  && userFormGroup.controls[formInputs.first_name].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.first_name].hasError('required')
+                    && userFormGroup.controls[formInputs.first_name].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le prénom est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-2">{{formLabels.birth_date}} {{isRequired(formInputs.birth_date)}}</label>
+                      <div class="col">
+                        <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt3"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt3"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input':
+                               userFormGroup.controls[formInputs.birth_date].hasError('required')
+                                  && userFormGroup.controls[formInputs.birth_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.birth_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.birth_date].hasError('required')
+                    && userFormGroup.controls[formInputs.birth_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de naissance est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.number_security_social}}{{isRequired(formInputs.number_security_social)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le numéro de sécurité sociale ici"
+                             class="form-control input"
+                             [formControl]="userFormGroup.controls[formInputs.number_security_social]"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.number_security_social].hasError('required')
+                                  && userFormGroup.controls[formInputs.number_security_social].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.number_security_social].hasError('required')
+                    && userFormGroup.controls[formInputs.number_security_social].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le numéro de sécurité social est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.nationality_id}} {{isRequired(formInputs.nationality_id)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir la nationalité ici"
+                             class="form-control input"
+                             [formControl]="userFormGroup.controls[formInputs.nationality_id]"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nationality_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.nationality_id].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.nationality_id].hasError('required')
+                    && userFormGroup.controls[formInputs.nationality_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le nationalité est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-2">{{formLabels.city_id}}
+                        {{isRequired(formInputs.city_id)}}</label>
+                      <div class="col">
+                        <input type="text"
+                               placeholder="Saisir le code postal ici"
+                               class="form-control input"
+                               [formControl]="userFormGroup.controls[formInputs.city_id]"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.city_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.city_id].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.city_id].hasError('required')
+                    && userFormGroup.controls[formInputs.city_id].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La ville est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-2">{{formLabels.code_postal}} {{isRequired(formInputs.code_postal)}}</label>
+                      <div class="col">
+                        <input type="text"
+                               placeholder="Saisir le code postal ici"
+                               class="form-control input"
+                               [formControl]="userFormGroup.controls[formInputs.code_postal]"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.code_postal].hasError('required')
+                                  && userFormGroup.controls[formInputs.code_postal].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.code_postal].hasError('required')
+                    && userFormGroup.controls[formInputs.code_postal].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le code postal est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.address}}
+                      {{isRequired(formInputs.address)}}</label>
+                    <div class="col">
+                      <textarea rows="3"
+                                placeholder="Saisir l'adresse ici"
+                                class="form-control input"
+                                [formControl]="userFormGroup.controls[formInputs.address]"
+                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.address].hasError('required')
+                                  && userFormGroup.controls[formInputs.address].dirty}"
+                      ></textarea>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.address].hasError('required')
+                    && userFormGroup.controls[formInputs.address].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'adresse est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.email}} {{isRequired(formInputs.email)}}</label>
+                    <div class="col">
+                      <input
+                        type="email"
+                        placeholder="Saisir l'adresse email ici"
+                        class="form-control input"
+                        [formControl]="userFormGroup.controls[formInputs.email]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.email].hasError('required')
+                                      && userFormGroup.controls[formInputs.email].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.email].hasError('required')
+                    && userFormGroup.controls[formInputs.email].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'adresse email est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.telephone_fix}} {{isRequired(formInputs.telephone_fix)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le numéro de téléphone ici"
+                             class="form-control input"
+                             [formControl]="userFormGroup.controls[formInputs.telephone_fix]"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.telephone_fix].hasError('required')
+                                  && userFormGroup.controls[formInputs.telephone_fix].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.telephone_fix].hasError('required')
+                    && userFormGroup.controls[formInputs.telephone_fix].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le numéro de téléphone fix est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.telephone_bureau}} {{isRequired(formInputs.telephone_bureau)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le numéro de téléphone ici"
+                             class="form-control input"
+                             [formControl]="userFormGroup.controls[formInputs.telephone_bureau]"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.telephone_bureau].hasError('required')
+                                  && userFormGroup.controls[formInputs.telephone_bureau].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.telephone_bureau].hasError('required')
+                    && userFormGroup.controls[formInputs.telephone_bureau].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le numéro de téléphone de bureau est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.telephone_portable}} {{isRequired(formInputs.telephone_portable)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le numéro de téléphone ici"
+                             class="form-control input"
+                             [formControl]="userFormGroup.controls[formInputs.telephone_portable]"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.telephone_portable].hasError('required')
+                                  && userFormGroup.controls[formInputs.telephone_portable].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.telephone_portable].hasError('required')
+                    && userFormGroup.controls[formInputs.telephone_portable].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le numéro de téléphone portable est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Affectations société</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">{{formLabels.profile_id}} {{isRequired(formInputs.profile_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="profiles"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner le profil ici"
+                        [formControl]="userFormGroup.controls[formInputs.profile_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.profile_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.profile_id].hasError('required')
+                  && userFormGroup.controls[formInputs.profile_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le profil est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.role_id}} {{isRequired(formInputs.role_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="roles"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner le rôle ici"
+                        [formControl]="userFormGroup.controls[formInputs.role_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.role_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.role_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.role_id].hasError('required')
+                  && userFormGroup.controls[formInputs.role_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le rôle est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.member_ship_id}} {{isRequired(formInputs.member_ship_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="appartenances"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner l'appartenance ici"
+                        [formControl]="userFormGroup.controls[formInputs.member_ship_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.member_ship_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.member_ship_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.member_ship_id].hasError('required')
+                  && userFormGroup.controls[formInputs.member_ship_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'appartenance est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.supplier_id}} {{isRequired(formInputs.supplier_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="suppliers"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner le fournisseur ici"
+                        [formControl]="userFormGroup.controls[formInputs.supplier_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.supplier_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.supplier_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.supplier_id].hasError('required')
+                  && userFormGroup.controls[formInputs.supplier_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le fournisseur est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.cp_id}} {{isRequired(formInputs.cp_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="profit_centers"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner le centre de profit ici"
+                        [formControl]="userFormGroup.controls[formInputs.cp_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.cp_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.cp_id].hasError('required')
+                  && userFormGroup.controls[formInputs.cp_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le centre de profit est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.original_company_id}} {{isRequired(formInputs.original_company_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="companies"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner la société d'origine ici"
+                        [formControl]="userFormGroup.controls[formInputs.original_company_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.original_company_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.original_company_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.original_company_id].hasError('required')
+                  && userFormGroup.controls[formInputs.original_company_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La société d'origine est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.attachment_agency_id}} {{isRequired(formInputs.attachment_agency_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="attachment_agences"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner l'agence de rattachement ici"
+                        [formControl]="userFormGroup.controls[formInputs.attachment_agency_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.attachment_agency_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.attachment_agency_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.attachment_agency_id].hasError('required')
+                  && userFormGroup.controls[formInputs.attachment_agency_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'agence de rattachement est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.not_billable}}"
+                               [formControl]="userFormGroup.controls[formInputs.not_billable]"
+                        >
+                        <label for="{{formLabels.not_billable}}"
+                               data-content="{{formLabels.not_billable}}">
+                          <span class="name">{{formLabels.not_billable}}</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.in_out_office}}"
+                               [formControl]="userFormGroup.controls[formInputs.in_out_office]"
+                        >
+                        <label for="{{formLabels.in_out_office}}"
+                               data-content="{{formLabels.in_out_office}}">
+                          <span class="name">{{formLabels.in_out_office}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.time_entry_id}} {{isRequired(formInputs.time_entry_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="time_entries"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner l'agence de rattachement ici"
+                        [formControl]="userFormGroup.controls[formInputs.time_entry_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.time_entry_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.time_entry_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.time_entry_id].hasError('required')
+                  && userFormGroup.controls[formInputs.time_entry_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Saisi temps est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.calendar_id}} {{isRequired(formInputs.calendar_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="calendiers"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner l'agence de rattachement ici"
+                        [formControl]="userFormGroup.controls[formInputs.calendar_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.calendar_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.calendar_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <!--                  <input type="text"-->
+                      <!--                         placeholder="Saisir le matricule ici"-->
+                      <!--                         class="form-control input"-->
+                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
+                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
+                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
+                      <!--                  />-->
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.calendar_id].hasError('required')
+                  && userFormGroup.controls[formInputs.calendar_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Calendrier est obligatoire
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.is_part_time}}"
+                               [formControl]="userFormGroup.controls[formInputs.is_part_time]"
+                        >
+                        <label for="{{formLabels.is_part_time}}"
+                               data-content="{{formLabels.is_part_time}}">
+                          <span class="name">{{formLabels.is_part_time}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row white-box form-column">
+            <h5>Carrière</h5>
+            <div class="row form-box">
+              <div class="main-container col-xl-6 col-12 form-column">
+                <div class="col-12 white-box">
+                  <h5>IN</h5>
+                  <div style="margin-bottom: 20px;" class="form-bloc">
+                    <div class="row">
+                      <label class="col-2">{{formLabels.emission_of_contract_date}} {{isRequired(formInputs.emission_of_contract_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
+                                && userFormGroup.controls[formInputs.emission_of_contract_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.emission_of_contract_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
+                && userFormGroup.controls[formInputs.emission_of_contract_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date d'émission du contrat de travail est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.signature_of_contract_date}} {{isRequired(formInputs.signature_of_contract_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
+                                && userFormGroup.controls[formInputs.signature_of_contract_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.signature_of_contract_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
+                && userFormGroup.controls[formInputs.signature_of_contract_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de signature du contrat de travail est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.group_start_date}} {{isRequired(formInputs.group_start_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.group_start_date].hasError('required')
+                                && userFormGroup.controls[formInputs.group_start_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.group_start_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.group_start_date].hasError('required')
+                && userFormGroup.controls[formInputs.group_start_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date d'entrée du groupe est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="check-box-btn text-center">
+                          <input type="checkbox"
+                                 id="{{formLabels.is_group_mutation_entry}}"
+                                 [formControl]="userFormGroup.controls[formInputs.is_group_mutation_entry]"
+                          >
+                          <label for="{{formLabels.is_group_mutation_entry}}"
+                                 data-content="{{formLabels.is_group_mutation_entry}}">
+                            <span class="name">{{formLabels.is_group_mutation_entry}}</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.entry_date}} {{isRequired(formInputs.entry_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.entry_date].hasError('required')
+                                && userFormGroup.controls[formInputs.entry_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.entry_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.entry_date].hasError('required')
+                && userFormGroup.controls[formInputs.entry_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date d'entrée est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
+                      <div class="col">
+                        <owl-date-time #owl_dt2 [pickerType]="'calendar'"></owl-date-time>
+                        <input [owlDateTime]="owl_dt2"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt2"
+                               placeholder="Choisir la date de sortie ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
+                                && userFormGroup.controls[formInputs.end_trial_period_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
+                && userFormGroup.controls[formInputs.end_trial_period_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de find de période d'essai est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="main-container  col-xl-6 col-12 form-column">
+                <div class="col-12 ">
+                  <h5>OUT</h5>
+                  <div style="margin-bottom: 20px;" class="form-bloc">
+                    <div class="row">
+                      <label class="col-2">{{formLabels.depart_mail_received_date}} {{isRequired(formInputs.depart_mail_received_date)}}</label>
+                      <div class="col">
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date d'entée ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.depart_mail_received_date].hasError('required')
+                                && userFormGroup.controls[formInputs.depart_mail_received_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.depart_mail_received_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.depart_mail_received_date].hasError('required')
+                && userFormGroup.controls[formInputs.depart_mail_received_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de reception du courriel en cas de départ est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.theory_end_date}} {{isRequired(formInputs.theory_end_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date de fin théorique ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.theory_end_date].hasError('required')
+                                && userFormGroup.controls[formInputs.theory_end_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.theory_end_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.theory_end_date].hasError('required')
+                && userFormGroup.controls[formInputs.theory_end_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de fin théorique est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <label class="col-2">{{formLabels.end_date}}
+                        {{isRequired(formInputs.end_date)}}</label>
+                      <div class="col">
+                        <!--                  <input type="text"-->
+                        <!--                         placeholder="Saisir la date d'entée ici"-->
+                        <!--                         class="form-control input"-->
+                        <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.date_entree].hasError('required')-->
+                        <!--                                  && userFormGroup.controls[formInputs.date_entree].dirty}"-->
+                        <!--                         [formControl]="userFormGroup.controls[formInputs.date_entree]"-->
+                        <!--                  />-->
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               placeholder="Choisir la date de sortie ici"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_date].hasError('required')
+                                && userFormGroup.controls[formInputs.end_date].dirty}"
+                               [formControl]="userFormGroup.controls[formInputs.end_date]"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.end_date].hasError('required')
+                && userFormGroup.controls[formInputs.end_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de sortie est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-box">
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Compétence</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">Chef de projet {{isRequired(formInputs.could_be_manager)}}</label>
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.could_be_manager}}"
+                               [formControl]="userFormGroup.controls[formInputs.could_be_manager]"
+                        >
+                        <label for="{{formLabels.could_be_manager}}"
+                               data-content="{{formLabels.could_be_manager}}">
+                          <span class="name">{{formLabels.could_be_manager}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.manager_id}}
+                      {{isRequired(formInputs.manager_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="managers"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner l'agence de rattachement ici"
+                        [formControl]="userFormGroup.controls[formInputs.manager_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.manager_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.manager_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.manager_id].hasError('required')
+                  && userFormGroup.controls[formInputs.manager_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le chef de projet est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Gestion des congés</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.manage_holidays}}"
+                               [formControl]="userFormGroup.controls[formInputs.manage_holidays]"
+                        >
+                        <label for="{{formLabels.manage_holidays}}"
+                               data-content="{{formLabels.manage_holidays}}">
+                          <span class="name">{{formLabels.manage_holidays}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">{{formLabels.validator_absence_id}}
+                      {{isRequired(formInputs.validator_absence_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="managers"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner le validateur de congé ici"
+                        [formControl]="userFormGroup.controls[formInputs.validator_absence_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.validator_absence_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.validator_absence_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.validator_absence_id].hasError('required')
+                  && userFormGroup.controls[formInputs.validator_absence_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le validateur de congé est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-box">
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Gestion des frais</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">{{formLabels.fiscal_car_power_id}}
+                      {{isRequired(formInputs.fiscal_car_power_id)}}</label>
+                    <div class="col">
+                      <ng-select
+                        [items]="[]"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner la puissance fiscale du véhicule ici"
+                        [formControl]="userFormGroup.controls[formInputs.fiscal_car_power_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.fiscal_car_power_id].hasError('required')
+                                  && userFormGroup.controls[formInputs.fiscal_car_power_id].dirty}"
+                        [multiple]="false"
+                      >
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.fiscal_car_power_id].hasError('required')
+                  && userFormGroup.controls[formInputs.fiscal_car_power_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La puissance fiscale du véhicule est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">Frais refacturables complexes</label>
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.complex_charge}}"
+                               [formControl]="userFormGroup.controls[formInputs.complex_charge]"
+                        >
+                        <label for="{{formLabels.complex_charge}}"
+                               data-content="{{formLabels.complex_charge}}">
+                          <span class="name">{{formLabels.complex_charge}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Reporting Opérationnel</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">Exclusion ETP</label>
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.is_exclusion_etp}}"
+                               [formControl]="userFormGroup.controls[formInputs.is_exclusion_etp]"
+                        >
+                        <label for="{{formLabels.complex_charge}}"
+                               data-content="{{formLabels.is_exclusion_etp}}">
+                          <span class="name">{{formLabels.is_exclusion_etp}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">Exclusion Reporting</label>
+                    <div class="col">
+                      <div class="check-box-btn text-center">
+                        <input type="checkbox"
+                               id="{{formLabels.is_exclusion_reporting}}"
+                               [formControl]="userFormGroup.controls[formInputs.is_exclusion_reporting]"
+                        >
+                        <label for="{{formLabels.is_exclusion_reporting}}"
+                               data-content="{{formLabels.is_exclusion_reporting}}">
+                          <span class="name">{{formLabels.is_exclusion_reporting}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row form-box">
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Login</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+
+                </div>
+              </div>
+            </div>
+            <div class="main-container  col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Commentaire</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">{{formLabels.comment}}
+                      {{isRequired(formInputs.comment)}}</label>
+                    <div class="col">
+                      <textarea rows="3"
+                                placeholder="Saisir un commentaire ici"
+                                class="form-control input"
+                                [formControl]="userFormGroup.controls[formInputs.comment]"
+                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.comment].hasError('required')
+                                  && userFormGroup.controls[formInputs.comment].dirty}"
+                      ></textarea>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.comment].hasError('required')
+                    && userFormGroup.controls[formInputs.comment].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le commentaire est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>

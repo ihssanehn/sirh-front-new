@@ -11,11 +11,11 @@ import {User} from "@app/core/entities";
 
 
 @Component({
-  selector: 'app-simple-add',
-  templateUrl: './simple-add.component.html',
-  styleUrls: ['./simple-add.component.scss']
+  selector: 'app-simple-add-stepper',
+  templateUrl: './simple-add-stepper.component.html',
+  styleUrls: ['./simple-add-stepper.component.scss']
 })
-export class SimpleAddComponent implements OnInit, AfterViewInit {
+export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   @ViewChild('stepper') private myStepper: MatStepper;
   isEditable = true;
