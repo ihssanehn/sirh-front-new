@@ -112,6 +112,16 @@
     align-items: center;
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 0;
+    margin-top: 10px;
+  }
+  .selected-title{
+    color: $mainColor;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    min-width: 100px;
+    text-underline-position: under;
+
   }
   .form-bloc{
     .row{
@@ -121,9 +131,10 @@
       label{
         font-size: 12px;
         min-width: 210px;
+        margin-bottom: 5px;
       }
       .civilite{
-        width: 100%;
+        //width: 100%;
         .btn{
           //border-radius: 35px;
           min-width: unset;
@@ -247,6 +258,7 @@
     color: $fontColor;
     margin-left: 10px;
     text-align: left;
+    margin-bottom: 5px;
     &::before {
       position: absolute;
       content: attr(data-content);

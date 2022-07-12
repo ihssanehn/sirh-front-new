@@ -109,7 +109,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     original_company_id: "Société d'origine",
     attachment_agency_id: "Agence de rattachement",
     not_billable: "Non Facturable",
-    in_out_office: "Siège / Hors Siège",
+    in_out_office: "Hors Siège",
     time_entry_id: "Saisie temps",
     calendar_id: "Calendrier",
     is_part_time: "Temps partiel",
