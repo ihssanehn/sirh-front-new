@@ -14,6 +14,7 @@ import {ImageCropperComponent} from "@shared/components/image-cropper/image-crop
 import {ListsService} from "@services/lists.service";
 import {isMoment} from "moment";
 import {forEach} from "angular";
+import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
 
 
 
@@ -243,7 +244,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         creator_id:[null,Validators.required]
       });
 
-    this.modalService.dismissAll();
+    // this.modalService.dismissAll();
 
     this.passwordFormGroup = this.formBuilder.group({
       password: [null, [Validators.required, Validators.minLength(6)]],
@@ -276,6 +277,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
 
     this.changeDetectorRef.detectChanges();
+    this.openPeriodFinEssai();
   }
 
 
@@ -290,15 +292,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
        ...user,
     });
   }
-
-  // submit(){
-  //   this.errors = [];
-  //   this.userService.update(this.userFormGroup.value).toPromise().then((val) => {
-  //     this.router.navigate(['..'], { relativeTo: this.activatedRoute });
-  //   }).catch( err => {
-  //     this.errors = this.errorService.format(err);
-  //   })
-  // }
 
 
   async submit() {
@@ -390,7 +383,18 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
 
   uploadFile(e: Event) {
     console.log('uploadFile', e);
+  }
 
+  openPeriodFinEssai(){
+    console.log('openPeriodFinEssai');
+    const modalRef = this.modalService.open(ModalPeriodeEssaiComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+    }, reason => {
+      console.log('closed');
+    });
+    // modalRef.componentInstance.title = title;
+    // modalRef.componentInstance.type = type;
   }
 
   getAnciente() {

@@ -1,0 +1,65 @@
+<div class="container top-container ">
+  <div class="header modal-header">
+    <h1 class="main-title"></h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+  <div class="header top-title">
+    <h3 class="main-title">
+      Definition date fin periode essai
+    </h3>
+  </div>
+  <div class="header sub-title">
+    <h3 class="main-title light">
+      Selon le statut du salarié, calcul de la date de fin de la période d'essai. Vous pouvez aussi la définir manuellement.
+    </h3>
+  </div>
+
+  <div class="modal-body">
+    <div class="list-group">
+      <div class="list-group-item" *ngFor="let item of status">
+        <div class="check-box-btn text-center"   >
+          <div class="input-container">
+            <input type="checkbox"
+                   id="{{item.id}}"
+                   [value]="item.value"
+                   [checked]="ischecked(item.id)"
+                   (change)="onCheckChange($event, item)"
+                   name="{{item.id}}" >
+          </div>
+          <label for="{{item.id}}" >{{item.label}}(#{{item.id}})</label>
+        </div>
+      </div>
+      <div class="list-group-item">
+        <div class="label">Saisi manuelle</div>
+        <div class="date-picker-group">
+          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+          <input [owlDateTime]="owl_dt1"
+                 class="form-control input date"
+                 [owlDateTimeTrigger]="owl_dt1"
+                 placeholder="Choisir la de fin de période d'essai ici"
+                 [formControl]="myForm.controls['end_date']"
+          />
+          <div class="icons-container">
+            <i class="icon-close" (click)="clearDateInput()" *ngIf="myForm.controls['end_date'].value"></i>&nbsp;
+            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <app-button
+      [type]="'primary'"
+      [text]="'Définir la date'"
+      (onClick)="modal.close()"
+    ></app-button>
+  </div>
+</div>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>

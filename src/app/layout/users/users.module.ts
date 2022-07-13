@@ -25,6 +25,7 @@ import {GeneralSimpleFormComponent} from "@layout/users/general-simple-form/gene
 import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
 import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
 import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
+import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-ad
     PerimetreComponent,
     AccessComponent,
     ModalPerimetreUsersComponent,
+    ModalPeriodeEssaiComponent,
     TrombiComponent,
     SimpleAddStepperComponent,
     GroupAddStepperComponent,
@@ -60,7 +62,8 @@ import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-ad
     GeneralSimpleFormComponent
   ],
   entryComponents: [
-    ModalPerimetreUsersComponent
+    ModalPerimetreUsersComponent,
+    ModalPeriodeEssaiComponent
   ]
 })
 export class UsersModule { }

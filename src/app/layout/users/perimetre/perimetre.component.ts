@@ -116,7 +116,7 @@ export class PerimetreComponent implements OnInit {
   }
 
   getFiltredUsers() {
-    return this.users.filter(user => user.id !== this.user.id && !this.selectedUsers.find(selectedUser => selectedUser.id === user.id));
+    return this.users.filter(user => user.id !== this.user?.id && !this.selectedUsers?.find(selectedUser => selectedUser.id === user.id));
   }
 
   deleteFromSelectedUsers(id){

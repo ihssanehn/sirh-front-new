@@ -183,10 +183,10 @@
                     <div class="col">
                       <label class="col-12">{{formLabels.birth_date}} {{isRequired(formInputs.birth_date)}}</label>
                       <div class="col">
-                        <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt3"
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt3"
+                               [owlDateTimeTrigger]="owl_dt1"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input':
                                userFormGroup.controls[formInputs.birth_date].hasError('required')
@@ -678,10 +678,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.emission_of_contract_date}} {{isRequired(formInputs.emission_of_contract_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt2"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt2"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
                                 && userFormGroup.controls[formInputs.emission_of_contract_date].dirty}"
@@ -698,10 +698,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.signature_of_contract_date}} {{isRequired(formInputs.signature_of_contract_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt3"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt3"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
                                 && userFormGroup.controls[formInputs.signature_of_contract_date].dirty}"
@@ -716,10 +716,10 @@
                       </div>
                       <div class="col">
                         <label class="col-12">{{formLabels.group_start_date}} {{isRequired(formInputs.group_start_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt4 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt4"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt4"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.group_start_date].hasError('required')
                                 && userFormGroup.controls[formInputs.group_start_date].dirty}"
@@ -748,10 +748,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.entry_date}} {{isRequired(formInputs.entry_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt5 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt5"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt5"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.entry_date].hasError('required')
                                 && userFormGroup.controls[formInputs.entry_date].dirty}"
@@ -766,10 +766,10 @@
                       </div>
                       <div class="col">
                         <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
-                        <owl-date-time #owl_dt2 [pickerType]="'calendar'"></owl-date-time>
-                        <input [owlDateTime]="owl_dt2"
+                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>
+                        <input [owlDateTime]="owl_dt6"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt2"
+                               [owlDateTimeTrigger]="owl_dt6"
                                placeholder="Choisir la date de sortie ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
                                 && userFormGroup.controls[formInputs.end_trial_period_date].dirty}"
@@ -794,10 +794,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.depart_mail_received_date}} {{isRequired(formInputs.depart_mail_received_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt7 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt7"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt7"
                                placeholder="Choisir la date d'entée ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.depart_mail_received_date].hasError('required')
                                 && userFormGroup.controls[formInputs.depart_mail_received_date].dirty}"
@@ -814,10 +814,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.theory_end_date}} {{isRequired(formInputs.theory_end_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt8 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt8"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt8"
                                placeholder="Choisir la date de fin théorique ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.theory_end_date].hasError('required')
                                 && userFormGroup.controls[formInputs.theory_end_date].dirty}"
@@ -834,10 +834,10 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.end_date}} {{isRequired(formInputs.end_date)}}</label>
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <owl-date-time #owl_dt9 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt9"
                                class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
+                               [owlDateTimeTrigger]="owl_dt9"
                                placeholder="Choisir la date de sortie ici"
                                [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_date].hasError('required')
                                 && userFormGroup.controls[formInputs.end_date].dirty}"
