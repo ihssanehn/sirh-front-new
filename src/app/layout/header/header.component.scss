@@ -33,16 +33,42 @@
         padding: 0;
         margin: 0;
         padding-left: 17px;
-        min-width: 115px;
+        min-width: 130px;
         .dropdown-profile-container{
           justify-content: space-between;
           width: 100%;
         }
         .label{
-          text-overflow: ellipsis;
+          line-height: 1.3em;
+          height: 4.1em;
           overflow: hidden;
-          height: 20px;
-          line-height: 20px;
+          /* white-space: nowrap; */
+          text-overflow: ellipsis;
+          width: 100%;
+          font-size: 11px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .main-label{
+          line-height: 1.3em;
+          max-height: 2.5em;
+          overflow: hidden;
+          /* white-space: nowrap; */
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+        }
+        .light-label{
+          font-size: 10px;
+          opacity: .7;
+          max-height: 1.3em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
         }
       }
     }
@@ -170,7 +196,7 @@
     opacity: .9;
     padding: 0;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 16px;
     i{
       margin-right: 10px;
       &:before{
@@ -325,7 +351,7 @@
     color: $fontColor;
     margin-left: 10px;
     text-align: left;
-    margin-bottom: 5px;
+    //margin-bottom: 5px;
     &::before {
       position: absolute;
       content: attr(data-content);

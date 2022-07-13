@@ -3,6 +3,7 @@ import { UserService } from '@services/index';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
+import {$headerSectionsMetaData} from "@shared/Objects/sharedObjects";
 
 @Component({
   selector: 'app-layout',
@@ -32,7 +33,16 @@ export class LayoutComponent implements OnInit{
       let url;
       if (value instanceof NavigationEnd) {
         if (value.urlAfterRedirects) {
-          url = value.urlAfterRedirects;
+          url = value.urlAfterRedirects.split('/');
+          if(url?.length>0){
+            url = url.filter(item => item?.length>0)
+            console.log('url', url);
+            switch (url[0]){
+              case 'users': {
+                this.mainStore.currentHeaderSection = $headerSectionsMetaData.utilisateur;
+              }
+            }
+          }
         }
       }
     });

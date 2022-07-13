@@ -1,7 +1,8 @@
 import { Injectable} from '@angular/core';
-import {computed, observable, toJS} from 'mobx';
+import {computed, observable, observe, toJS} from 'mobx';
 import {UserStore} from '@store/user.store';
 import {$sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {Observable} from "rxjs";
 
 
 
@@ -12,12 +13,14 @@ export class MainStore {
   @observable sidebarOpened = true;
   @observable selectedLanguage;
   @observable current_academic_year;
+  @observable selectedEntities = [];
+  @observable multipleEntities = false;
 
 
   @observable images: Array<Image> = [];
   @observable sidebarOverMode;
-  @observable  noPaddingPage: boolean;
-
+  @observable noPaddingPage: boolean;
+  @observable currentHeaderSection = null;
 
 
   constructor(private userStore: UserStore) {
@@ -30,6 +33,10 @@ export class MainStore {
     return $sidebarItems_users;
   }
 
-
+  toRx(obj, prop) {
+    return Observable.create(observer =>
+      observe(obj, prop, (change) => observer.next(change.newValue), true)
+    );
+  }
 
 }

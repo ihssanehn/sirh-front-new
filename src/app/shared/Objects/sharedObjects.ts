@@ -319,6 +319,52 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     },
 ];
 
+export const $headerSectionsMetaData = {
+  acceuil: {
+    name: 'acceuil',
+    multipleEntity: false
+  },
+  client: {
+    name: 'client',
+    multipleEntity: false
+  },
+  projets: {
+    name: 'projets',
+    multipleEntity: false
+  },
+  activite: {
+    name: 'activite',
+    multipleEntity: false
+  },
+  conge: {
+    name: 'conge',
+    multipleEntity: false
+  },
+  frais: {
+    name: 'frais',
+    multipleEntity: false
+  },
+  utilisateur: {
+    name: 'utilisateur',
+    multipleEntity: false
+  },
+  document: {
+    name: 'document',
+    multipleEntity: false
+  },
+  materiel: {
+    name: 'materiel',
+    multipleEntity: false
+  },
+  evenement: {
+    name: 'evenement',
+    multipleEntity: false
+  },
+  qhse: {
+    name: 'qhse',
+    multipleEntity: false
+  },
+}
 export const $headerItems = [
   {
     id: 1,

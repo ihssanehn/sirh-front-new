@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MainStore} from '@store/mainStore.store';
 import {UserStore} from '@store/user.store';
 import {$headerItems, $userRoles} from '@shared/Objects/sharedObjects';
@@ -12,7 +12,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
 
   $userRoles = $userRoles;
   status = [];
@@ -26,12 +26,41 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private listService: ListsService,
   ) {
+    this.mainStore.selectedEntities = JSON.parse(localStorage.getItem('selectedEntities'));
+
     this.myForm = this.fb.group({
       status: new FormArray([]),
     });
+
+    if(this.mainStore.selectedEntities && this.mainStore.selectedEntities?.length>0){
+      const fa = this.myForm.get('status') as FormArray;
+      this.mainStore.selectedEntities.forEach(item => {
+        fa.push(new FormControl(item.id));
+      })
+    }
+
     this.getEntites();
   }
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    console.log('header this.myForm.value', this.mainStore.currentHeaderSection);
+    if(this.mainStore.selectedEntities && this.mainStore.selectedEntities?.length>0){
+      if(this.mainStore.selectedEntities?.length>1){
+        // Multiple items are already selected but section doees not support multiple select
+        if(!this.mainStore.currentHeaderSection?.multipleEntities){
+          this.clearEntities();
+        }
+      }
+    }
+  }
+
+  clearEntities(){
+    const fa = this.myForm.get('status') as FormArray;
+    fa.reset();
+    localStorage.removeItem('selectedEntities');
+    this.mainStore.selectedEntities = [];
   }
 
   toggleSidebar(){
@@ -72,7 +101,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ischecked(id) {
-    return this.myForm?.value?.statuts?.includes(id);
+    return this.myForm?.value?.status?.includes(id);
   }
 
   onCheckChange(event, item) {
@@ -82,6 +111,9 @@ export class HeaderComponent implements OnInit {
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
+      if(!this.mainStore.currentHeaderSection?.multipleEntities){
+        this.clearEntities();
+      }
       formArray.push(new FormControl(item.id));
     }
     /* unselected */
@@ -98,5 +130,10 @@ export class HeaderComponent implements OnInit {
         i++;
       });
     }
+
+    this.mainStore.selectedEntities = this.status.filter(element => formArray.value.includes(element.id));
+    localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
   }
+
+
 }

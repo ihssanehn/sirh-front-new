@@ -17,14 +17,29 @@
   </div>
   <div class="right-options">
     <div class="tabs">
-      <div class="tab">
+      <div class="tab"  [matMenuTriggerFor]="statusMenu" >
 <!--        <div class="profile">-->
           <div class="dropdown-profile-container">
-            <div class="label" >
-              test
+            <div class="label">
+              <div *ngIf="!(mainStore.selectedEntities?.length>0) && !mainStore.multipleEntities">Sélectionner une entité</div>
+              <div *ngIf="!(mainStore.selectedEntities?.length>0) && mainStore.multipleEntities">Sélectionner une/des entité(s)</div>
+              <div *ngIf="mainStore.selectedEntities?.length === 1">
+                {{mainStore.selectedEntities[0]?.label}}
+              </div>
+              <ng-container *ngIf="mainStore.selectedEntities">
+                <div class="main-label" *ngIf="mainStore.selectedEntities?.length > 1">
+                  {{mainStore.selectedEntities[0]?.label}}
+                </div>
+                <div class="light-label" *ngIf="mainStore.selectedEntities?.length === 2">
+                  et une autre entitée
+                </div>
+                <div class="light-label" *ngIf="mainStore.selectedEntities?.length > 2">
+                  et {{mainStore.selectedEntities?.length - 1}} autres entitées
+                </div>
+              </ng-container>
             </div>
 
-            <i class="fa fa-chevron-down" aria-hidden="true" [matMenuTriggerFor]="statusMenu" ></i>
+            <i class="fa fa-chevron-down" aria-hidden="true"></i>
 
             <mat-menu #statusMenu="matMenu" [class]="'profile-menu'" >
               <div mat-menu-item class="dropdown-item" *ngFor="let item of status" (click) = "$event.stopPropagation()">

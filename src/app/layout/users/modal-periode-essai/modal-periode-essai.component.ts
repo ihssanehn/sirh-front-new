@@ -19,27 +19,33 @@ export class ModalPeriodeEssaiComponent implements OnInit {
   status = [
     {
       id: 1,
-      label: 'Cadre/Consultant: 4 mois'
+      label: 'Cadre/Consultant: 4 mois',
+      duration: 120, // nombre de jours
     },
     {
       id: 2,
-      label: 'Employé/Ouvrier: 2 mois'
+      label: 'Employé/Ouvrier: 2 mois',
+      duration: 60, // nombre de jours
     },
     {
       id: 3,
-      label: 'ETAM: 1 mois'
+      label: 'ETAM: 1 mois',
+      duration: 30, // nombre de jours
     },
     {
       id: 4,
-      label: 'Ag. maitrise/Techniciens: 3 mois'
+      label: 'Ag. maitrise/Techniciens: 3 mois',
+      duration: 90, // nombre de jours
     },
     {
       id: 5,
-      label: 'CDD: à définir (entre 1 jour et 1 mois)'
+      label: 'CDD: à définir (entre 1 jour et 1 mois)',
+      duration: null, // nombre de jours
     },
     {
       id: 6,
-      label: 'Pas de période d\'essai'
+      label: 'Pas de période d\'essai',
+      duration: null, // nombre de jours
     },
   ];
   myForm: FormGroup;
