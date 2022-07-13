@@ -16,6 +16,33 @@
     </div>
   </div>
   <div class="right-options">
+    <div class="tabs">
+      <div class="tab">
+<!--        <div class="profile">-->
+          <div class="dropdown-profile-container">
+            <div class="label" >
+              test
+            </div>
+
+            <i class="fa fa-chevron-down" aria-hidden="true" [matMenuTriggerFor]="statusMenu" ></i>
+
+            <mat-menu #statusMenu="matMenu" [class]="'profile-menu'" >
+              <div mat-menu-item class="dropdown-item" *ngFor="let item of status" (click) = "$event.stopPropagation()">
+                <div class="check-box-btn">
+                    <input type="checkbox"
+                           id="{{item.id}}"
+                           [value]="item.id"
+                           [checked]="ischecked(item.id)"
+                           (change)="onCheckChange($event, item)"
+                           name="{{item.id}}" >
+                  <label for="{{item.id}}" >{{item.label}}</label>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+<!--        </div>-->
+      </div>
+    </div>
 <!--    <app-language></app-language>-->
     <!--        <li class="nav-item" *ngIf="loggedIn">-->
     <!--            <a class="nav-link" routerLinkActive="active" routerLink="/">Home-->

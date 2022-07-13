@@ -71,14 +71,14 @@ export class ModalPeriodeEssaiComponent implements OnInit {
     return this.myForm?.value?.statuts?.includes(id);
   }
 
-  onCheckChange(event, access) {
-    const formArray: FormArray = this.myForm.get('permissions') as FormArray;
+  onCheckChange(event, item) {
+    const formArray: FormArray = this.myForm.get('status') as FormArray;
 
     console.log('event', event.target.checked, event);
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(access.id));
+      formArray.push(new FormControl(item.id));
     }
     /* unselected */
     else{
@@ -86,7 +86,7 @@ export class ModalPeriodeEssaiComponent implements OnInit {
       let i: number = 0;
 
       formArray.controls.forEach((ctrl: FormControl) => {
-        if(ctrl.value == access.id) {
+        if(ctrl.value == item.id) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
           return;

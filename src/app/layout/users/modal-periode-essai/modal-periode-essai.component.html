@@ -21,12 +21,12 @@
           <div class="input-container">
             <input type="checkbox"
                    id="{{item.id}}"
-                   [value]="item.value"
+                   [value]="item.id"
                    [checked]="ischecked(item.id)"
                    (change)="onCheckChange($event, item)"
                    name="{{item.id}}" >
           </div>
-          <label for="{{item.id}}" >{{item.label}}(#{{item.id}})</label>
+          <label for="{{item.id}}" >{{item.label}}</label>
         </div>
       </div>
       <div class="list-group-item">
