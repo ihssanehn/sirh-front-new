@@ -278,6 +278,9 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
 
     this.changeDetectorRef.detectChanges();
     this.openPeriodFinEssai();
+    this.userFormGroup.controls[this.formInputs.entry_date].valueChanges.subscribe(value => {
+      console.log("changed", value);
+    });
   }
 
 
@@ -514,6 +517,10 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       return false;
     }
     return true;
+  }
+
+  inputChanged(event, input) {
+    console.log('channged', input, event);
   }
 }
 

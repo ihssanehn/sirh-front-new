@@ -174,15 +174,15 @@ export const appAnimations = [
 ];
 
 export const $sidebarItems_users: Array<SidebarItem> = [
-    {
-      id: 1,
-      name: 'Trombi',
-      type: 'link',
-      icon: null,
-      link: 'users/trombi',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
+    // {
+    //   id: 1,
+    //   name: 'Trombi',
+    //   type: 'link',
+    //   icon: null,
+    //   link: 'users/trombi',
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
     {
       id: 2,
       name: 'Liste',
@@ -364,7 +364,8 @@ export const $sidebarItems_users: Array<SidebarItem> = [
 export const $headerSectionsMetaData = {
   acceuil: {
     name: 'acceuil',
-    multipleEntity: false
+    multipleEntity: false,
+    isFullScreen: true
   },
   client: {
     name: 'client',

@@ -800,6 +800,7 @@
                                placeholder="Choisir la date de sortie ici"
                                [disableControl]="!isValidMoment(formInputs.entry_date)"
                                [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
+                               [disabled]="true"
                         />
                         <div class="icons-container">
                           <i class="icon-close"

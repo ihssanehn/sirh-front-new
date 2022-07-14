@@ -41,6 +41,9 @@ export class LayoutComponent implements OnInit{
               case 'users': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.utilisateur;
               }
+              case 'accueil': {
+                this.mainStore.currentHeaderSection = $headerSectionsMetaData.acceuil;
+              }
             }
           }
         }

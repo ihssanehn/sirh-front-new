@@ -12,13 +12,15 @@ import {MatMenuModule} from '@angular/material/menu';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatButtonModule} from '@angular/material/button';
 import {ReactiveFormsModule} from '@angular/forms';
+import { AcceilComponent } from './acceil/acceil.component';
 
 
 @NgModule({
     declarations: [HeaderComponent,
         SidebarComponent,
         HomeComponent,
-        LayoutComponent],
+        LayoutComponent,
+        AcceilComponent],
     exports: [
         HeaderComponent,
         SidebarComponent

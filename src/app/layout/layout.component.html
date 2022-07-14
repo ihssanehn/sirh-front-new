@@ -89,7 +89,7 @@
 
         <ng-sidebar
                 style="height: 100vh"
-                [opened]="mainStore.sidebarOpened"
+                [opened]="mainStore.sidebarOpened && !mainStore.currentHeaderSection.isFullScreen"
                 [closeOnClickBackdrop]="true"
                 [dockedSize]="'50px'"
                 [dock]="false"
