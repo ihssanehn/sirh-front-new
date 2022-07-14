@@ -45,6 +45,7 @@ $LAPTOP_SCREEN: 1024px;
 
 $primaryColor: #078aff;//#F0C807;
 $darkPrimaryColor:  #0080F1;
+$lightPrimaryColor:  #67B8FF;
 //$lightPrimaryColor: #4754E5FF;
 $secondaryColor: #4D4D4D;//#22806f;
 $tertiaryColor: #68D051;
@@ -118,10 +119,10 @@ $sidebar-menuItem-text-hover-3: $mainColor;
 
 // Active item
 $sidebar-menuItem-text-active-1: $mainColor;
-$sidebar-menuItem-background-active-1: #D1EAFF;
+$sidebar-menuItem-background-active-1: $appBackground;//#D1EAFF;
 
 $sidebar-menuItem-text-active-2: $mainColor;//#387BB7;
-$sidebar-menuItem-background-active-2: $appBackground;//#3D86C7;
+$sidebar-menuItem-background-active-2: inherit;//#3D86C7;
 
 $sidebar-menuItem-text-active-3: $mainColor;//#fff;
 $sidebar-menuItem-background-active-3: $appBackground;//#3D86C7;

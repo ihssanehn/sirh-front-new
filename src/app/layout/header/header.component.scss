@@ -78,7 +78,7 @@
     align-items: center;
     font-size: 12px;
     //padding-right: 40px;
-    flex: 1;
+    //flex: 1;
     justify-content: flex-end;
     i{
       width: 22px;
@@ -131,6 +131,8 @@
   .tabs{
     display: flex;
     height: 100%;
+    flex: 1;
+    justify-content: center;
     .tab{
       font-size: min(13px, 2.3vw);
       height: 100%;

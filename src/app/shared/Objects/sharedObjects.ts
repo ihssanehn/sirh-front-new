@@ -186,15 +186,57 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     {
       id: 2,
       name: 'Liste',
-      type: 'link',
+      type: 'sub',
       icon: null,
       link: 'users/list',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Liste Général',
+          type: 'link',
+          icon: null,
+          link: 'users/list/general',
+          opened: false,
+        },
+        {
+          id: 2,
+          name: 'Périodes d’essais',
+          type: 'link',
+          icon: null,
+          link: 'users/list/period_essai',
+          opened: false,
+        },
+        {
+          id: 2,
+          name: 'Entretiens',
+          type: 'link',
+          icon: null,
+          link: 'users/list/entretien',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Formations',
+          type: 'link',
+          icon: null,
+          link: 'users/list/formation',
+          opened: false,
+        },
+        {
+          id: 4,
+          name: 'Visites Médicales',
+          type: 'link',
+          icon: null,
+          link: 'users/list/visite_medicale',
+          opened: false,
+        },
+      ]
     },
     {
       id: 3,
-      name: 'Nouveau membre',
+      name: 'Création',
       type: 'sub',
       icon: null,
       link: 'users/new',
@@ -227,96 +269,96 @@ export const $sidebarItems_users: Array<SidebarItem> = [
         },
       ]
     },
-    {
-      id: 4,
-      name: 'Registre personnel',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 5,
-      name: '',
-      type: 'empty',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 6,
-      name: 'Périodes d\'essais',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 7,
-      name: 'Entretiens',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 8,
-      name: 'Visites médicales',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 9,
-      name: 'Formations',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 10,
-      name: 'Habiliations',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 11,
-      name: '',
-      type: 'empty',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 12,
-      name: 'Synthèse',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
-    {
-      id: 13,
-      name: 'Salaires',
-      type: 'link',
-      icon: null,
-      link: null,
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: false,
-    },
+    // {
+    //   id: 4,
+    //   name: 'Registre personnel',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 5,
+    //   name: '',
+    //   type: 'empty',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Périodes d\'essais',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 7,
+    //   name: 'Entretiens',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 8,
+    //   name: 'Visites médicales',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 9,
+    //   name: 'Formations',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 10,
+    //   name: 'Habiliations',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 11,
+    //   name: '',
+    //   type: 'empty',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 12,
+    //   name: 'Synthèse',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
+    // {
+    //   id: 13,
+    //   name: 'Salaires',
+    //   type: 'link',
+    //   icon: null,
+    //   link: null,
+    //   // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    //   opened: false,
+    // },
 ];
 
 export const $headerSectionsMetaData = {
@@ -372,6 +414,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -379,6 +422,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -386,6 +430,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -393,6 +438,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -400,6 +446,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -407,6 +454,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -414,6 +462,7 @@ export const $headerItems = [
     link: '/users',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: true
   },
   {
     id: 1,
@@ -421,6 +470,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -428,6 +478,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -435,6 +486,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
   {
     id: 1,
@@ -442,5 +494,6 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
+    display: false
   },
 ]

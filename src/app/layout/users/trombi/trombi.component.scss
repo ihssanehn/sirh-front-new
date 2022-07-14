@@ -5,6 +5,7 @@
   flex-direction: row;
   margin: 0;
 }
+
 .card{
   border-radius: 20px;
   display: flex;
@@ -134,7 +135,7 @@
   .header{
     height: 130px;
     background: #D1EAFF;
-    margin-bottom: 20%;
+    margin-bottom: 20% !important;
     position: relative;
     .icon-close{
       cursor: pointer;

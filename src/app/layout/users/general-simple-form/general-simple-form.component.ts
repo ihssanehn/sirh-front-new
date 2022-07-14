@@ -387,13 +387,19 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
 
   openPeriodFinEssai(){
     console.log('openPeriodFinEssai');
+    if(!this.isValidMoment(this.formInputs.entry_date)){
+      return;
+    }
     const modalRef = this.modalService.open(ModalPeriodeEssaiComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
     }, reason => {
       console.log('closed');
     });
-    // modalRef.componentInstance.title = title;
+    modalRef.componentInstance.entry_date = moment(this.userFormGroup.value[this.formInputs.entry_date]);
+    modalRef.componentInstance.period.subscribe(value => {
+      console.log('value', value);
+    });
     // modalRef.componentInstance.type = type;
   }
 
@@ -491,6 +497,23 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format(' YYYY-MM-DD'): null,
       })
     this.submitUser.emit(this.userFormGroup.value);
+  }
+
+  clearDateInput(input: string) {
+    this.userFormGroup.patchValue({
+      [input]: null
+    })
+  }
+
+  isValidMoment(date) {
+    if(!this.userFormGroup.value[date]){
+      return false;
+    }
+    const momentEntryDate = moment(this.userFormGroup.value[date]);
+    if(!momentEntryDate.isValid()){
+      return false;
+    }
+    return true;
   }
 }
 

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
@@ -55,8 +55,32 @@ export class ListUsersComponent implements OnInit, OnDestroy {
               private translate: TranslateService,
               private modalService: NgbModal,
               private listService: ListsService,
+              private route: ActivatedRoute,
               private router: Router) {
 
+    this.route.params.subscribe(params => {
+      console.log('params', params);
+      const {type} = params;
+      switch (type){
+        case 'general': {
+          break;
+        }
+        case 'period_essai': {
+          break;
+        }
+        case 'entretien': {
+          break;
+        }
+        case 'formation': {
+          break;
+        }
+        case 'visite_medicale': {
+          break;
+        }
+        default: {
+        }
+      }
+    });
     const data = [
       {
         "name": "id",

@@ -183,16 +183,21 @@
                     <div class="col">
                       <label class="col-12">{{formLabels.birth_date}} {{isRequired(formInputs.birth_date)}}</label>
                       <div class="col">
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt1"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt1"
                                placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input':
-                               userFormGroup.controls[formInputs.birth_date].hasError('required')
-                                  && userFormGroup.controls[formInputs.birth_date].dirty}"
                                [formControl]="userFormGroup.controls[formInputs.birth_date]"
                         />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.birth_date)"
+                               *ngIf="userFormGroup.controls[formInputs.birth_date].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.birth_date].hasError('required')
                     && userFormGroup.controls[formInputs.birth_date].dirty">
@@ -672,115 +677,144 @@
             <h5 class="align-items-center d-flex justify-content-center col-12">Carrière</h5>
             <div class="d-flex form-box justify-content-between col-12">
               <div class="main-container  col">
-                <div class="col-12 white-box">
-                  <h5 class="selected-title">IN &nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                  <div style="margin-bottom: 20px;" class="form-bloc">
-                    <div class="row">
-                      <div class="col">
-                        <label class="col-12">{{formLabels.emission_of_contract_date}} {{isRequired(formInputs.emission_of_contract_date)}}</label>
+                <h5 class="selected-title">IN &nbsp;&nbsp;&nbsp;&nbsp;</h5>
+                <div style="margin-bottom: 20px;" class="form-bloc">
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.emission_of_contract_date}} {{isRequired(formInputs.emission_of_contract_date)}}</label>
+                      <div class="date-picker-group">
                         <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt2"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt2"
                                placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
-                                && userFormGroup.controls[formInputs.emission_of_contract_date].dirty}"
                                [formControl]="userFormGroup.controls[formInputs.emission_of_contract_date]"
                         />
-                        <div class="form-control-feedback"
-                             *ngIf="userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
-                && userFormGroup.controls[formInputs.emission_of_contract_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date d'émission du contrat de travail est obligatoire
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.emission_of_contract_date)"
+                             *ngIf="userFormGroup.controls[formInputs.emission_of_contract_date].value"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
                         </div>
                       </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.emission_of_contract_date].hasError('required')
+                && userFormGroup.controls[formInputs.emission_of_contract_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date d'émission du contrat de travail est obligatoire
+                      </div>
                     </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="col-12">{{formLabels.signature_of_contract_date}} {{isRequired(formInputs.signature_of_contract_date)}}</label>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.signature_of_contract_date}} {{isRequired(formInputs.signature_of_contract_date)}}</label>
+                      <div class="date-picker-group">
                         <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt3"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt3"
                                placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
-                                && userFormGroup.controls[formInputs.signature_of_contract_date].dirty}"
                                [formControl]="userFormGroup.controls[formInputs.signature_of_contract_date]"
                         />
-                        <div class="form-control-feedback"
-                             *ngIf="userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
-                && userFormGroup.controls[formInputs.signature_of_contract_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date de signature du contrat de travail est obligatoire
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.signature_of_contract_date)"
+                             *ngIf="userFormGroup.controls[formInputs.signature_of_contract_date].value"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
                         </div>
                       </div>
-                      <div class="col">
-                        <label class="col-12">{{formLabels.group_start_date}} {{isRequired(formInputs.group_start_date)}}</label>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.signature_of_contract_date].hasError('required')
+                && userFormGroup.controls[formInputs.signature_of_contract_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date de signature du contrat de travail est obligatoire
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.group_start_date}} {{isRequired(formInputs.group_start_date)}}</label>
+                      <div class="date-picker-group">
                         <owl-date-time #owl_dt4 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt4"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt4"
                                placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.group_start_date].hasError('required')
-                                && userFormGroup.controls[formInputs.group_start_date].dirty}"
                                [formControl]="userFormGroup.controls[formInputs.group_start_date]"
                         />
-                        <div class="form-control-feedback"
-                             *ngIf="userFormGroup.controls[formInputs.group_start_date].hasError('required')
-                && userFormGroup.controls[formInputs.group_start_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date d'entrée du groupe est obligatoire
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.group_start_date)"
+                             *ngIf="userFormGroup.controls[formInputs.group_start_date].value"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt4" class="fa fa-calendar"></i>
                         </div>
                       </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.group_start_date].hasError('required')
+                && userFormGroup.controls[formInputs.group_start_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date d'entrée du groupe est obligatoire
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="check-box-btn col">
-                          <input type="checkbox"
-                                 id="{{formLabels.is_group_mutation_entry}}"
-                                 [formControl]="userFormGroup.controls[formInputs.is_group_mutation_entry]"
-                          >
-                          <label for="{{formLabels.is_group_mutation_entry}}"
-                                 data-content="{{formLabels.is_group_mutation_entry}}">
-                            <span class="name">{{formLabels.is_group_mutation_entry}}</span>
-                          </label>
-                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="check-box-btn col">
+                      <input type="checkbox"
+                             id="{{formLabels.is_group_mutation_entry}}"
+                             [formControl]="userFormGroup.controls[formInputs.is_group_mutation_entry]"
+                      >
+                      <label for="{{formLabels.is_group_mutation_entry}}"
+                             data-content="{{formLabels.is_group_mutation_entry}}">
+                        <span class="name">{{formLabels.is_group_mutation_entry}}</span>
+                      </label>
                     </div>
-                    <div class="row">
-                      <div class="col">
-                        <label class="col-12">{{formLabels.entry_date}} {{isRequired(formInputs.entry_date)}}</label>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.entry_date}} {{isRequired(formInputs.entry_date)}}</label>
+                      <div class="date-picker-group">
                         <owl-date-time #owl_dt5 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt5"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt5"
                                placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.entry_date].hasError('required')
-                                && userFormGroup.controls[formInputs.entry_date].dirty}"
                                [formControl]="userFormGroup.controls[formInputs.entry_date]"
                         />
-                        <div class="form-control-feedback"
-                             *ngIf="userFormGroup.controls[formInputs.entry_date].hasError('required')
-                && userFormGroup.controls[formInputs.entry_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date d'entrée est obligatoire
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.entry_date)"
+                             *ngIf="userFormGroup.controls[formInputs.entry_date].value"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt5" class="fa fa-calendar"></i>
                         </div>
                       </div>
-                      <div class="col">
-                        <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
-                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>
-                        <input [owlDateTime]="owl_dt6"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt6"
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.entry_date].hasError('required')
+                && userFormGroup.controls[formInputs.entry_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date d'entrée est obligatoire
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
+                      <div class="date-picker-group">
+<!--                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>-->
+                        <input class="form-control input date"
                                placeholder="Choisir la date de sortie ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
-                                && userFormGroup.controls[formInputs.end_trial_period_date].dirty}"
+                               [disableControl]="!isValidMoment(formInputs.entry_date)"
                                [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
                         />
-                        <div class="form-control-feedback"
-                             *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
-                && userFormGroup.controls[formInputs.end_trial_period_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date de find de période d'essai est obligatoire
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.end_trial_period_date)"
+                             *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].value"></i>&nbsp;
+                          <i class="fa fa-calendar"
+                            (click)="openPeriodFinEssai()"
+                          ></i>
                         </div>
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
+                && userFormGroup.controls[formInputs.end_trial_period_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date de find de période d'essai est obligatoire
                       </div>
                     </div>
                   </div>
@@ -794,15 +828,21 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.depart_mail_received_date}} {{isRequired(formInputs.depart_mail_received_date)}}</label>
-                        <owl-date-time #owl_dt7 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt7"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt7"
-                               placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.depart_mail_received_date].hasError('required')
-                                && userFormGroup.controls[formInputs.depart_mail_received_date].dirty}"
-                               [formControl]="userFormGroup.controls[formInputs.depart_mail_received_date]"
-                        />
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt7 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt7"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dt7"
+                                 placeholder="Choisir la date d'entée ici"
+                                 [formControl]="userFormGroup.controls[formInputs.depart_mail_received_date]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.depart_mail_received_date)"
+                               *ngIf="userFormGroup.controls[formInputs.depart_mail_received_date].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt7" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.depart_mail_received_date].hasError('required')
                 && userFormGroup.controls[formInputs.depart_mail_received_date].dirty">
@@ -814,15 +854,21 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.theory_end_date}} {{isRequired(formInputs.theory_end_date)}}</label>
-                        <owl-date-time #owl_dt8 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt8"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt8"
-                               placeholder="Choisir la date de fin théorique ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.theory_end_date].hasError('required')
-                                && userFormGroup.controls[formInputs.theory_end_date].dirty}"
-                               [formControl]="userFormGroup.controls[formInputs.theory_end_date]"
-                        />
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt8 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt8"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dt8"
+                                 placeholder="Choisir la date de fin théorique ici"
+                                 [formControl]="userFormGroup.controls[formInputs.theory_end_date]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.theory_end_date)"
+                               *ngIf="userFormGroup.controls[formInputs.theory_end_date].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt8" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.theory_end_date].hasError('required')
                 && userFormGroup.controls[formInputs.theory_end_date].dirty">
@@ -834,15 +880,21 @@
                     <div class="row">
                       <div class="col">
                         <label class="col-12">{{formLabels.end_date}} {{isRequired(formInputs.end_date)}}</label>
-                        <owl-date-time #owl_dt9 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt9"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt9"
-                               placeholder="Choisir la date de sortie ici"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.end_date].hasError('required')
-                                && userFormGroup.controls[formInputs.end_date].dirty}"
-                               [formControl]="userFormGroup.controls[formInputs.end_date]"
-                        />
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt9 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt9"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dt9"
+                                 placeholder="Choisir la date de sortie ici"
+                                 [formControl]="userFormGroup.controls[formInputs.end_date]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.end_date)"
+                               *ngIf="userFormGroup.controls[formInputs.end_date].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt9" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.end_date].hasError('required')
                 && userFormGroup.controls[formInputs.end_date].dirty">

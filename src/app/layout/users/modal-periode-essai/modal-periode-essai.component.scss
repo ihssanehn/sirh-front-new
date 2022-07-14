@@ -6,6 +6,7 @@
   //border-bottom: 1px solid lightgray;
   margin-bottom: 0 !important;
   border: 0;
+  padding-right: 18px;
   .btns{
     display: flex;
   }
@@ -61,24 +62,6 @@
   position: relative;
   max-width: 40%;
   min-width: 280px;
-  input{
-    //position: absolute;
-  }
-  .icons-container{
-    position: absolute;
-    top: 28%;
-    right: 12px;
-    i{
-      color: lightgray;
-      cursor: pointer;
-    }
-    .icon-close:before{
-      font-size: 12px;
-    }
-  }
 }
 
-::ng-deep .cdk-overlay-container {
-  position: fixed;
-  z-index: 99999999;
-}
+

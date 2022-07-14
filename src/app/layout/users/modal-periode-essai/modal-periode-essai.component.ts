@@ -12,10 +12,10 @@ import {markFormAsDirty} from "@shared/Utils/SharedClasses";
   styleUrls: ['./modal-periode-essai.component.scss']
 })
 export class ModalPeriodeEssaiComponent implements OnInit {
-  @Output() next: EventEmitter<any> = new EventEmitter();
-  @Output() preview: EventEmitter<any> = new EventEmitter();
+  @Output() period: EventEmitter<any> = new EventEmitter();
   selectedProfile_id = null;
   @Input() users = [];
+  @Input() entry_date = null;
   status = [
     {
       id: 1,
@@ -70,11 +70,16 @@ export class ModalPeriodeEssaiComponent implements OnInit {
     if(!this.myForm.valid ){
       return;
     }
-    // this.submitAccess.emit(this.myForm.value);
+    this.period.emit(this.myForm.value);
   }
 
   ischecked(id) {
     return this.myForm?.value?.statuts?.includes(id);
+  }
+
+  clearCheckboxes(){
+    const fa = this.myForm.get('status') as FormArray;
+    fa.reset();
   }
 
   onCheckChange(event, item) {
@@ -84,10 +89,10 @@ export class ModalPeriodeEssaiComponent implements OnInit {
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
+      // this.clearCheckboxes();
+      formArray.reset();
       formArray.push(new FormControl(item.id));
-    }
-    /* unselected */
-    else{
+    }else{ /* unselected */
       // find the unselected element
       let i: number = 0;
 

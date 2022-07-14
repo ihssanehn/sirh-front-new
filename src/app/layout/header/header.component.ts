@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   $userRoles = $userRoles;
   status = [];
-  $headerItems = $headerItems;
+  $headerItems = $headerItems.filter(item => item.display);
   myForm: FormGroup;
   constructor(
     public mainStore: MainStore,

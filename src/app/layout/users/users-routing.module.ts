@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: ListUsersComponent,
+    // component: ListUsersComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {
@@ -30,6 +30,37 @@ const routes: Routes = [
     //     redirectTo: '/'
     //   }
     // }
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'general'
+      },
+      {
+        path: ':type',
+        component: ListUsersComponent,
+      },
+      // {
+      //   path: 'general',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'period_essai',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'entretien',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'formation',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'visite_medicale',
+      //   component: ListUsersComponent,
+      // },
+    ]
   },
   {
     path: 'trombi',

@@ -36,6 +36,7 @@ export class ButtonComponent implements OnInit {
 export enum MyButtonTypes {
   primary = 'primary',
   primary_inverse = 'primary_inverse',
+  primary_light = 'primary_light',
   secondary = 'secondary',
   secondary_2 = 'secondary_2',
   secondary_inverse = 'secondary_inverse',
