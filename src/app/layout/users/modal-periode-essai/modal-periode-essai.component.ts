@@ -1,21 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddUserComponent} from "@layout/users/add-user/add-user.component";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {markFormAsDirty} from "@shared/Utils/SharedClasses";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-modal-periode-essai',
   templateUrl: './modal-periode-essai.component.html',
   styleUrls: ['./modal-periode-essai.component.scss']
 })
-export class ModalPeriodeEssaiComponent implements OnInit {
+export class ModalPeriodeEssaiComponent implements OnInit, AfterViewInit {
   @Output() period: EventEmitter<any> = new EventEmitter();
   selectedProfile_id = null;
   @Input() users = [];
   @Input() entry_date = null;
+  min = new Date();
   trial_periods = [];
   myForm: FormGroup;
   selectedStatus  = [];
@@ -30,16 +32,26 @@ export class ModalPeriodeEssaiComponent implements OnInit {
       status: new FormArray([]),
       end_date: [null]
     });
+    this.myForm.controls['end_date'].valueChanges.subscribe(value => {
+      console.log("changed", value);
+      if(value && moment(value).isValid()){
+        this.clearCheckboxes();
+      }
+    });
   }
 
   ngOnInit() {
     this.getTrialPeriods();
   }
 
+  ngAfterViewInit() {
+    this.min = new Date(this.entry_date);
+  }
+
   async getTrialPeriods(){
     try{
       this.loadingData = true;
-      this.trial_periods = await this.listService.getAll(this.listService.list.TRAL_PERIODS).toPromise();
+      this.trial_periods = await this.listService.getAll(this.listService.list.TRAL_PERIOD).toPromise();
     } catch (e) {
       console.log('error filter FAMILY_SITUATION', e);
     }finally {
@@ -52,11 +64,27 @@ export class ModalPeriodeEssaiComponent implements OnInit {
     if(!this.myForm.valid ){
       return;
     }
-    this.period.emit(this.myForm.value);
+    const {status, end_date} = this.myForm.value;
+    if(end_date && moment(end_date).isValid()){
+      this.period.emit(end_date);
+    }else{
+      if(status?.length>0){
+        const trialperiod = this.trial_periods.find(item => status.includes(item.id) );
+        if(trialperiod && trialperiod.value && trialperiod.type){
+          this.entry_date.add(trialperiod.value, trialperiod.type);
+          this.period.emit(this.entry_date);
+        } else {
+          this.period.emit(null);
+        }
+      } else {
+        this.period.emit(null);
+      }
+    }
+    this.modal.close();
   }
 
   ischecked(id) {
-    return this.myForm?.value?.statuts?.includes(id);
+    return this.myForm?.value?.status?.includes(id);
   }
 
   clearCheckboxes(){
@@ -87,11 +115,20 @@ export class ModalPeriodeEssaiComponent implements OnInit {
         i++;
       });
     }
+    if(this.myForm.value.status?.length>0){
+      this.myForm.patchValue({
+        end_date: null
+      });
+    }
   }
 
   clearDateInput() {
     this.myForm.patchValue({
       end_date: null
     });
+  }
+
+  getMinDate() {
+    return Date();
   }
 }

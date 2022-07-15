@@ -38,8 +38,10 @@
         <div class="list-group-item">
           <div class="label">Saisi manuelle</div>
           <div class="date-picker-group">
-            <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+            <owl-date-time #owl_dt1 [pickerType]="'calendar'"
+            ></owl-date-time>
             <input [owlDateTime]="owl_dt1"
+                   [min]="min"
                    class="form-control input date"
                    [owlDateTimeTrigger]="owl_dt1"
                    placeholder="Choisir la de fin de période d'essai ici"

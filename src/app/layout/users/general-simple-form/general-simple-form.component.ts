@@ -296,6 +296,9 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     this.openPeriodFinEssai();
     this.userFormGroup.controls[this.formInputs.entry_date].valueChanges.subscribe(value => {
       console.log("changed", value);
+      this.userFormGroup.patchValue({
+        end_trial_period_date: null
+      });
     });
     this.userFormGroup.controls[this.formInputs.nationality_id].valueChanges.subscribe(async value => {
       this.userFormGroup.patchValue({city_id: null});
@@ -429,9 +432,19 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     }, reason => {
       console.log('closed');
     });
-    modalRef.componentInstance.entry_date = moment(this.userFormGroup.value[this.formInputs.entry_date]);
+    const entry_date_moment =  moment(this.userFormGroup.value[this.formInputs.entry_date]);
+    modalRef.componentInstance.entry_date = entry_date_moment;
     modalRef.componentInstance.period.subscribe(value => {
-      console.log('value', value);
+      console.log('emitted', value);
+      if(value){
+        this.userFormGroup.patchValue({
+          end_trial_period_date: moment(value).format('DD/MM/YYYY')
+        });
+      }else{
+        this.userFormGroup.patchValue({
+          end_trial_period_date: null
+        });
+      }
     });
     // modalRef.componentInstance.type = type;
   }
@@ -551,6 +564,9 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
 
   inputChanged(event, input) {
     console.log('channged', input, event);
+  }
+  returnfalse(){
+    return false;
   }
 }
 

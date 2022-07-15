@@ -808,10 +808,10 @@
                       <div class="date-picker-group">
 <!--                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>-->
                         <input class="form-control input date"
+                               (keydown)="returnfalse()"
                                placeholder="Choisir la date de sortie ici"
                                [disableControl]="!isValidMoment(formInputs.entry_date)"
                                [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
-                               [disabled]="true"
                         />
                         <div class="icons-container">
                           <i class="icon-close"

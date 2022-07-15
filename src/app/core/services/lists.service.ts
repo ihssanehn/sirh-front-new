@@ -20,7 +20,7 @@ export class ListsService {
     MEMBER_SHIP: 'member_ship',
     CALENDAR: 'calendar',
     TEMPS: 'temps',
-    TRAL_PERIODS: 'trial_periods',
+    TRAL_PERIOD: 'trial_period',
     FISCAL_POWER: 'fiscal_power',
     ROLE: 'role',
     COUNTRY: 'country',
