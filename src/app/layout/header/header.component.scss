@@ -157,6 +157,10 @@
   }
 }
 
+.v-hidden{
+  visibility: hidden;
+}
+
 ::ng-deep .profile-menu{
   min-width: 170px !important;
 }

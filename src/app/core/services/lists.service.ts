@@ -6,16 +6,25 @@ import { map } from 'rxjs/operators'
 export class ListsService {
 
   public list = {
-    CONTRACT: 'CONTRACT',
-    FUNCTION: 'FUNCTION',
-    FAMILY_SITUATION: 'FAMILY_SITUATION',
-    ENTITY: 'ENTITY',
-    PROFILE: 'PROFILE',
-    STATUS: 'STATUS',
-    PERSONAL: 'PERSONAL',
-    MANAGER: 'MANAGER',
-    PROFIT_CENTER: 'PROFIT_CENTER',
-    PERMISSIONS_BY_ELEMENT: 'permission/getPermissionsByElement'
+    CONTRACT: 'contract',
+    FUNCTION: 'function',
+    FAMILY_SITUATION: 'family_sitution',
+    ENTITY: 'entity',
+    PROFILE: 'profile',
+    STATUS: 'status',
+    PERSONAL: 'personal',
+    MANAGER: 'manager',
+    PROFIT_CENTER: 'profit_center',
+    SUPPLIER: 'supplier',
+    PERMISSIONS_BY_ELEMENT: 'permission/getPermissionsByElement',
+    MEMBER_SHIP: 'member_ship',
+    CALENDAR: 'calendar',
+    TEMPS: 'temps',
+    TRAL_PERIODS: 'trial_periods',
+    FISCAL_POWER: 'fiscal_power',
+    ROLE: 'role',
+    COUNTRY: 'country',
+    CITY: 'city'
   }
   constructor(private apiService: ApiService) {}
 
@@ -27,7 +36,11 @@ export class ListsService {
       return this.apiService.get( this.list.PERMISSIONS_BY_ELEMENT)
         .pipe(map(res => { return res?.result?.data || []}));
     } else {
-      return this.apiService.get( 'filter/getFilter?model='+entity)
+      const getparams = {
+        model: entity,
+        ...params
+      }
+      return this.apiService.get( 'filter/getFilter', getparams)
         .pipe(map(res => { return res?.result?.data || []}));
     }
 

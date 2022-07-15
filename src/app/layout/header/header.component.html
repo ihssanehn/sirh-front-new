@@ -2,9 +2,10 @@
   <i class="fa fa-bars toggler pointer btn float-right"
      (click)="toggleSidebar()"
      aria-hidden="true"
+     [ngClass]="{'v-hidden': mainStore.currentHeaderSection.isFullScreen}"
   ></i>
   <div class="logo">
-    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/solutions']"/>
+    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/']"/>
   </div>
 
   <div class="tabs">

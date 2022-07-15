@@ -15,6 +15,7 @@ import {ListsService} from "@services/lists.service";
 import {isMoment} from "moment";
 import {forEach} from "angular";
 import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
+import {MainStore} from "@store/mainStore.store";
 
 
 
@@ -153,6 +154,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   entities =  [];
   managers =  [];
   roles = [];
+  countries = [];
+  cities = [];
   companies = [];
   appartenances = [];
   suppliers = [];
@@ -160,10 +163,12 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   attachment_agences =  [];
   time_entries =  [];
   calendiers =  [];
+  fiscal_car_powers = [];
 
   errorLoadData: boolean;
   loadingData: boolean;
   submittingPhoto: boolean;
+  loadingCities: boolean;
   photoBase64 = null;
   validators_conge =  [];
   @Input() title = '';
@@ -191,6 +196,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
+              public mainStore: MainStore,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
@@ -267,6 +273,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
 
+    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
     try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
     try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
     try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
@@ -274,12 +282,34 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
     try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
     try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{ this.suppliers = await this.listService.getAll(this.listService.list.SUPPLIER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter SUPPLIER', e);}
+    try{ this.appartenances = await this.listService.getAll(this.listService.list.MEMBER_SHIP).toPromise();} catch (e) {console.log('error filter MEMBER_SHIP', e);}
+    try{ this.calendiers = await this.listService.getAll(this.listService.list.CALENDAR).toPromise();} catch (e) {console.log('error filter CALENDAR', e);}
+    try{ this.time_entries = await this.listService.getAll(this.listService.list.TEMPS).toPromise();} catch (e) {console.log('error filter TEMPS', e);}
+    try{ this.fiscal_car_powers = await this.listService.getAll(this.listService.list.FISCAL_POWER).toPromise();} catch (e) {console.log('error filter FISCAL_POWER', e);}
+    try{ this.roles = await this.listService.getAll(this.listService.list.ROLE).toPromise();} catch (e) {console.log('error filter ROLE', e);}
+    try{ this.countries = await this.listService.getAll(this.listService.list.COUNTRY).toPromise();} catch (e) {console.log('error filter COUNTRIES', e);}
+    // try{ this.cities = await this.listService.getAll(this.listService.list.CITIES).toPromise();} catch (e) {console.log('error filter CITIES', e);}
 
     this.changeDetectorRef.detectChanges();
     this.openPeriodFinEssai();
     this.userFormGroup.controls[this.formInputs.entry_date].valueChanges.subscribe(value => {
       console.log("changed", value);
+    });
+    this.userFormGroup.controls[this.formInputs.nationality_id].valueChanges.subscribe(async value => {
+      this.userFormGroup.patchValue({city_id: null});
+      this.cities = [];
+      if(value){
+        try{
+          this.loadingCities = true;
+          this.cities = await this.listService.getAll(this.listService.list.CITY, {id: value}).toPromise();
+        } catch (e) {
+          console.log('error filter CITIES', e);
+        }finally {
+          this.loadingCities = false;
+        }
+      }
     });
   }
 

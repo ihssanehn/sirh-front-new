@@ -40,9 +40,12 @@ export class LayoutComponent implements OnInit{
             switch (url[0]){
               case 'users': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.utilisateur;
+                break;
               }
               case 'accueil': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.acceuil;
+                this.mainStore.sidebarOpened = true;
+                break;
               }
             }
           }

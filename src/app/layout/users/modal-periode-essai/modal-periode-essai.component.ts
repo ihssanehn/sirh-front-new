@@ -16,40 +16,10 @@ export class ModalPeriodeEssaiComponent implements OnInit {
   selectedProfile_id = null;
   @Input() users = [];
   @Input() entry_date = null;
-  status = [
-    {
-      id: 1,
-      label: 'Cadre/Consultant: 4 mois',
-      duration: 120, // nombre de jours
-    },
-    {
-      id: 2,
-      label: 'Employé/Ouvrier: 2 mois',
-      duration: 60, // nombre de jours
-    },
-    {
-      id: 3,
-      label: 'ETAM: 1 mois',
-      duration: 30, // nombre de jours
-    },
-    {
-      id: 4,
-      label: 'Ag. maitrise/Techniciens: 3 mois',
-      duration: 90, // nombre de jours
-    },
-    {
-      id: 5,
-      label: 'CDD: à définir (entre 1 jour et 1 mois)',
-      duration: null, // nombre de jours
-    },
-    {
-      id: 6,
-      label: 'Pas de période d\'essai',
-      duration: null, // nombre de jours
-    },
-  ];
+  trial_periods = [];
   myForm: FormGroup;
   selectedStatus  = [];
+  loadingData = false;
   constructor(
     private modalService: NgbModal,
     public modal: NgbActiveModal,
@@ -63,6 +33,18 @@ export class ModalPeriodeEssaiComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTrialPeriods();
+  }
+
+  async getTrialPeriods(){
+    try{
+      this.loadingData = true;
+      this.trial_periods = await this.listService.getAll(this.listService.list.TRAL_PERIODS).toPromise();
+    } catch (e) {
+      console.log('error filter FAMILY_SITUATION', e);
+    }finally {
+      this.loadingData = false;
+    }
   }
 
   save() {

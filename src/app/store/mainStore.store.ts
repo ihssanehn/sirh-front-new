@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
 import {computed, observable, observe, toJS} from 'mobx';
 import {UserStore} from '@store/user.store';
-import {$sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {$headerSectionsMetaData, $sidebarItems_users} from "@shared/Objects/sharedObjects";
 import {Observable} from "rxjs";
 
 
@@ -30,7 +30,15 @@ export class MainStore {
 
   @computed
   get getItems() {
-    return $sidebarItems_users;
+    switch (this.currentHeaderSection?.name){
+      case 'utilisateur': {
+        return $sidebarItems_users;
+      }
+      case 'accueil': {
+        break;
+      }
+    }
+
   }
 
   toRx(obj, prop) {

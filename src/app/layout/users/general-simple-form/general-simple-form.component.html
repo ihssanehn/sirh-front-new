@@ -228,13 +228,18 @@
                     <div class="col">
                       <label class="col-12">{{formLabels.nationality_id}} {{isRequired(formInputs.nationality_id)}}</label>
 
-                      <input type="text"
-                             placeholder="Saisir la nationalité ici"
-                             class="form-control input"
-                             [formControl]="userFormGroup.controls[formInputs.nationality_id]"
-                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nationality_id].hasError('required')
+                      <ng-select
+                        [items]="countries"
+                        [bindLabel]="'label'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner la nationalité ici"
+                        [formControl]="userFormGroup.controls[formInputs.nationality_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.nationality_id].hasError('required')
                                   && userFormGroup.controls[formInputs.nationality_id].dirty}"
-                      />
+                        [multiple]="false"
+                      >
+                      </ng-select>
                       <div class="form-control-feedback"
                            *ngIf="userFormGroup.controls[formInputs.nationality_id].hasError('required')
                     && userFormGroup.controls[formInputs.nationality_id].dirty">
@@ -246,13 +251,19 @@
                       <label class="col-12">{{formLabels.city_id}}
                         {{isRequired(formInputs.city_id)}}</label>
                       <div class="col">
-                        <input type="text"
-                               placeholder="Saisir le code postal ici"
-                               class="form-control input"
-                               [formControl]="userFormGroup.controls[formInputs.city_id]"
-                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.city_id].hasError('required')
+                        <ng-select
+                          [items]="cities"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          [loading]="loadingCities"
+                          class="form-control select"
+                          placeholder="Sélectionner la ville ici"
+                          [formControl]="userFormGroup.controls[formInputs.city_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.city_id].hasError('required')
                                   && userFormGroup.controls[formInputs.city_id].dirty}"
-                        />
+                          [multiple]="false"
+                        >
+                        </ng-select>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.city_id].hasError('required')
                     && userFormGroup.controls[formInputs.city_id].dirty">
@@ -524,7 +535,7 @@
                       <label class="col-12">{{formLabels.original_company_id}} {{isRequired(formInputs.original_company_id)}}</label>
 
                       <ng-select
-                        [items]="companies"
+                        [items]="entities"
                         [bindLabel]="'label'"
                         [bindValue]="'id'"
                         class="form-control select"
@@ -554,7 +565,7 @@
                     <div class="col">
                       <label class="col-12">{{formLabels.attachment_agency_id}} {{isRequired(formInputs.attachment_agency_id)}}</label>
                       <ng-select
-                        [items]="attachment_agences"
+                        [items]="entities"
                         [bindLabel]="'label'"
                         [bindValue]="'id'"
                         class="form-control select"
@@ -935,7 +946,7 @@
                       <label class="col-12">{{formLabels.manager_id}} {{isRequired(formInputs.manager_id)}}</label>
                       <ng-select
                         [items]="managers"
-                        [bindLabel]="'label'"
+                        [bindLabel]="'full_name'"
                         [bindValue]="'id'"
                         class="form-control select"
                         placeholder="Sélectionner l'agence de rattachement ici"
@@ -978,7 +989,7 @@
                         {{isRequired(formInputs.validator_absence_id)}}</label>
                       <ng-select
                         [items]="managers"
-                        [bindLabel]="'label'"
+                        [bindLabel]="'full_name'"
                         [bindValue]="'id'"
                         class="form-control select"
                         placeholder="Sélectionner le validateur de congé ici"
@@ -1011,7 +1022,7 @@
                       <label class="col-12">{{formLabels.fiscal_car_power_id}}
                       {{isRequired(formInputs.fiscal_car_power_id)}}</label>
                       <ng-select
-                        [items]="[]"
+                        [items]="fiscal_car_powers"
                         [bindLabel]="'label'"
                         [bindValue]="'id'"
                         class="form-control select"

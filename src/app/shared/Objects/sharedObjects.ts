@@ -241,7 +241,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       icon: null,
       link: 'users/new',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-      opened: true,
+      opened: false,
       subMenu: [
         {
           id: 2,

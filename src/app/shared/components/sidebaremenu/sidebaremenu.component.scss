@@ -1,7 +1,10 @@
 @import "../../../styles/custom.variables";
 
-$sidebar-transition: all 0.5s linear !important;
+$sidebar-transition: 0.4s;//all 0.5s linear !important;
 
+*{
+  transition: 0.4s;
+}
 
 .nav-content {
   margin-top: 15px;
