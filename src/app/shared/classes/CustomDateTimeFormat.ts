@@ -9,6 +9,7 @@ export const MY_CUSTOM_DATETIME_FORMATS = {
   datePickerInput: 'DD-MM-YYYY',
   calendar: 'DD-MM-YYYY',
   backend_format: 'YYYY-MM-DD HH:mm:ss',
+  backend_calendar_format: 'YYYY-MM-DD',
   timePickerInput: 'HH:mm',
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',

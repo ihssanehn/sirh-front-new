@@ -132,7 +132,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         "default": false
       },
       {
-        "name": "birth_date",
+        "name": "birthday",
         "type": "date",
         "isNullable": false
       },

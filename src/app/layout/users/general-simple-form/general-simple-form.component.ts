@@ -16,6 +16,7 @@ import {isMoment} from "moment";
 import {forEach} from "angular";
 import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
 import {MainStore} from "@store/mainStore.store";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 
 
@@ -83,7 +84,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     is_exclusion_etp: "is_exclusion_etp",
     is_exclusion_reporting: "is_exclusion_reporting",
     creator_id: "creator_id",
-    comment: "comment"
+    comment: "comment",
+    send_info_to_user: "send_info_to_user"
   }
   formLabels = {
     id: "id",
@@ -115,7 +117,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     time_entry_id: "Saisie temps",
     calendar_id: "Calendrier",
     is_part_time: "Temps partiel",
-    fiche_to_be_completed: "NOT KNOWN", // to be done // no known
+    fiche_to_be_completed: "Fiche utilisateur à compléter", // to be done // no known
     //IN
     emission_of_contract_date: "Date d'émission du contrat de travail",
     signature_of_contract_date: "Date de signature du contrat de travail",
@@ -140,7 +142,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     is_exclusion_etp: "Si cette case est cochée, l'utilisateur est exclu du reporting ETP", // to be done
     is_exclusion_reporting: "Si cette case est cochée, l'utilisateur est exclu du reporting opérationnel", // to be done
     // Commentaire
-    comment: "Commeentaire", // to be done
+    comment: "Commentaire", // to be done
+    send_info_to_user: "Envoyer les informations Sirh par mail à l'utilisateur", // to be done
     creator_id: "creator_id", // to be done
   }
   // user: User;
@@ -200,55 +203,111 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
+
+    console.log('ANASS TEDST,', moment('1995-03-23', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format)?.isValid());
+    const userTest = {
+      id: null,
+        registration_number: 323232,
+      first_name:'Anass',
+      last_name:'CHBANI',
+      email:'a.chbani@piman-group.fr',
+      civility:'M',
+      fiche_to_be_completed:true,
+      birth_date: moment('1995-03-23').format('DD/MM/YYYY'),
+      // Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[0-9]{4}$/)
+      number_security_social: 23223,
+      nationality_id: 4,
+      city_id: 227,
+      address: 'Test',
+      code_postal: '2020',
+      telephone_fix: '0330230',
+      telephone_bureau: '0330230',
+      telephone_portable: '0330230',
+      profile_id: 3,
+      role_id: 2,
+      member_ship_id: 2,
+      supplier_id: 13,
+      cp_id: 13,
+      original_company_id: 2,
+      attachment_agency_id: 2,
+      not_billable: true,
+      in_out_office: true,
+      is_part_time: true,
+      time_entry_id: 7,
+      calendar_id: 5,
+      emission_of_contract_date: moment('2017-01-21', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      signature_of_contract_date: moment('2018-02-09', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      group_start_date: moment('2016-11-03', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      is_group_mutation_entry: true,
+      entry_date: moment('2019-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      end_trial_period_date: null,
+      depart_mail_received_date: moment('20220-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      theory_end_date: moment('2025-02-19', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      end_date: moment('2028-03-23', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
+      could_be_manager: true,
+      manager_id: 6,
+      manage_holidays: true,
+      validator_absence_id: 7,
+      fiscal_car_power_id: 13,
+      complex_charge: true,
+      is_exclusion_etp: true,
+      is_exclusion_reporting: true,
+      comment: "More details",
+      send_info_to_user: true
+    };
     this.userFormGroup = this.formBuilder.group({
-        id:[null],
-        registration_number:[null,Validators.required], //Matricule *
-        first_name:[null],
-        last_name:[null],
-        email:[null],
-        civility:[null],
-        fiche_to_be_completed:[null],
-        birth_date:[null],
-        number_security_social:[null,Validators.required],
-        nationality_id:[null,Validators.required],
-        city_id:[null,Validators.required],
-        address:[null,Validators.required],
-        code_postal:[null,Validators.required],
-        telephone_fix:[null,Validators.required],
-        telephone_bureau:[null,Validators.required],
-        telephone_portable:[null,Validators.required],
-        profile_id:[null],
-        role_id:[null,Validators.required],
-        member_ship_id:[null,Validators.required],
-        supplier_id:[null,Validators.required],
-        cp_id:[null,Validators.required],
-        original_company_id:[null,Validators.required],
-        attachment_agency_id:[null,Validators.required],
-        not_billable:[null],
-        in_out_office:[null],
-        is_part_time:[null],
-        time_entry_id:[null],
-        calendar_id:[null],
-        emission_of_contract_date:[null,Validators.required],
-        signature_of_contract_date:[null,Validators.required],
-        group_start_date:[null],
-        is_group_mutation_entry:[null],
-        entry_date:[null],
-        end_trial_period_date:[null,Validators.required],
-        depart_mail_received_date:[null],
-        theory_end_date:[null],
-        end_date:[null],
-        could_be_manager:[null],
-        manager_id:[null,Validators.required],
-        manage_holidays:[null],
-        validator_absence_id:[null,Validators.required],
-        fiscal_car_power_id:[null,Validators.required],
-        complex_charge:[null],
-        is_exclusion_etp:[null],
-        is_exclusion_reporting:[null],
-        comment:[null],
-        creator_id:[null,Validators.required]
+        id: [null],
+        registration_number: [null,Validators.required], //Matricule *
+        first_name: [null],
+        last_name: [null],
+        email: [null],
+        civility: [null],
+        fiche_to_be_completed: [null],
+        birth_date: [ null,
+                  // Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[0-9]{4}$/)
+        ],
+        number_security_social: [null,Validators.required],
+        nationality_id: [null,Validators.required],
+        city_id: [null,Validators.required],
+        address: [null,Validators.required],
+        code_postal: [null,Validators.required],
+        telephone_fix: [null,Validators.required],
+        telephone_bureau: [null,Validators.required],
+        telephone_portable: [null,Validators.required],
+        profile_id: [null],
+        role_id: [null, Validators.required],
+        member_ship_id: [null, Validators.required],
+        supplier_id: [null, Validators.required],
+        cp_id: [null, Validators.required],
+        original_company_id: [null, Validators.required],
+        attachment_agency_id: [null, Validators.required],
+        not_billable: [null],
+        in_out_office: [null],
+        is_part_time: [null],
+        time_entry_id: [null],
+        calendar_id: [null],
+        emission_of_contract_date: [null, Validators.required],
+        signature_of_contract_date: [null, Validators.required],
+        group_start_date: [null],
+        is_group_mutation_entry: [null],
+        entry_date: [null],
+        end_trial_period_date: [null, Validators.required],
+        depart_mail_received_date: [null],
+        theory_end_date: [null],
+        end_date: [null],
+        could_be_manager: [null],
+        manager_id: [null, Validators.required],
+        manage_holidays: [null],
+        validator_absence_id: [null, Validators.required],
+        fiscal_car_power_id: [null, Validators.required],
+        complex_charge: [null],
+        is_exclusion_etp: [null],
+        is_exclusion_reporting: [null],
+        comment: [null],
+        send_info_to_user: [null],
+        // creator_id:[null]
       });
+    console.log('ANASS TEDST,', this.userFormGroup.value);
 
     // this.modalService.dismissAll();
 
@@ -293,7 +352,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     // try{ this.cities = await this.listService.getAll(this.listService.list.CITIES).toPromise();} catch (e) {console.log('error filter CITIES', e);}
 
     this.changeDetectorRef.detectChanges();
-    this.openPeriodFinEssai();
+    // this.openPeriodFinEssai();
     this.userFormGroup.controls[this.formInputs.entry_date].valueChanges.subscribe(value => {
       console.log("changed", value);
       this.userFormGroup.patchValue({
@@ -304,18 +363,21 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       this.userFormGroup.patchValue({city_id: null});
       this.cities = [];
       if(value){
-        try{
-          this.loadingCities = true;
-          this.cities = await this.listService.getAll(this.listService.list.CITY, {id: value}).toPromise();
-        } catch (e) {
-          console.log('error filter CITIES', e);
-        }finally {
-          this.loadingCities = false;
-        }
+        this.getCities(value);
       }
     });
   }
 
+  async getCities(id_country){
+    try{
+      this.loadingCities = true;
+      this.cities = await this.listService.getAll(this.listService.list.CITY, {id: id_country}).toPromise();
+    } catch (e) {
+      console.log('error filter CITIES', e);
+    }finally {
+      this.loadingCities = false;
+    }
+  }
 
   initFormBuilder(user: User){
     console.log('initFormBuilder', user);
@@ -327,6 +389,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
      this.userFormGroup.patchValue({
        ...user,
     });
+    this.getCities(user.nationality_id);
   }
 
 
@@ -534,14 +597,22 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       getFormValidationErrors(this.userFormGroup);
       return;
     }
-    const {start_date, end_date, birthday} = this.userFormGroup.value;
-    const submit = Object.assign(this.userFormGroup.value,
-      {
-        profile_id: this.profile_id,
-        start_date: start_date && isMoment(moment(start_date)) ? moment(start_date)?.format(' YYYY-MM-DD'): null,
-        end_date: end_date && isMoment(moment(end_date)) ? moment(end_date)?.format(' YYYY-MM-DD'): null,
-        birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format(' YYYY-MM-DD'): null,
-      })
+    const date_inputs = [
+      'start_date',
+      'birth_date',
+      'emission_of_contract_date',
+      'signature_of_contract_date',
+      'group_start_date',
+      'entry_date',
+      'end_trial_period_date',
+      'depart_mail_received_date',
+      'theory_end_date',
+      'end_date'
+    ];
+    const submit = Object.assign(this.userFormGroup.value);
+    date_inputs.forEach(input => {
+      submit[input] = this.userFormGroup.value[input] && isMoment(moment(this.userFormGroup.value[input])) ? moment(this.userFormGroup.value[input])?.format(' YYYY-MM-DD'): null;
+    });
     this.submitUser.emit(this.userFormGroup.value);
   }
 
@@ -550,6 +621,14 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       [input]: null
     })
   }
+
+  // birth_place: ["Invalid value"]
+  // birth_date: ["Invalid value"]
+  // contract_id: ["contract_id is not valid"]
+  // is_head_office: ["Invalid value"]
+  // nationality: ["Invalid value"]
+  // profile_id: ["profile_id not valid"]
+  // start_date: ["Invalid value"]
 
   isValidMoment(date) {
     if(!this.userFormGroup.value[date]){

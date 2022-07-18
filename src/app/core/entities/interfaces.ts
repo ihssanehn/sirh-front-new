@@ -1,5 +1,6 @@
 
   export interface User {
+    nationality_id?: number;
     permissions?: Array<any>;
     perimeters?: Array<any>;
     id?: number;

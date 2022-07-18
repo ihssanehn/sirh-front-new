@@ -8,12 +8,12 @@
     ></app-general-simple-form>
   </mat-step>
   <mat-step label="Paramètres">
-    <app-user-info-form
+    <app-parametre-simple-form
       (preview)="moveForward(0)"
       [profile_id]="profile_id"
       [user]="user"
       (submitUser)="submitUser($event)"
-    ></app-user-info-form>
+    ></app-parametre-simple-form>
   </mat-step>
   <mat-step label="Doc RH">
     <app-perimetre

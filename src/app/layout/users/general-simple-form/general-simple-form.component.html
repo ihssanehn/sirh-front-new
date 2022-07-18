@@ -91,12 +91,22 @@
                   </div>
                 </div>
               </div>
-              <div class="info">
-                <h1>{{userFormGroup.value.nom}}</h1>
-                <div class="info-item">{{userFormGroup.value.email}}</div>
-                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>
-              </div>
+<!--              <div class="info">-->
+<!--                <h1>{{userFormGroup.value.nom}}</h1>-->
+<!--                <div class="info-item">{{userFormGroup.value.email}}</div>-->
+<!--                <div class="info-item" *ngIf="this.userFormGroup?.value?.date_entree">Ancienneté: {{getAnciente()}}</div>-->
+<!--              </div>-->
             </div>
+          </div>
+          <div class="check-box-btn col light-checkbox">
+            <input type="checkbox"
+                   id="{{formLabels.fiche_to_be_completed}}"
+                   [formControl]="userFormGroup.controls[formInputs.fiche_to_be_completed]"
+            >
+            <label for="{{formLabels.fiche_to_be_completed}}"
+                   data-content="{{formLabels.fiche_to_be_completed}}">
+              <span class="name">{{formLabels.fiche_to_be_completed}}</span>
+            </label>
           </div>
           <div class="row form-box">
             <div class="main-container col-xl-6 col-12 form-column">
@@ -802,6 +812,12 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         La date d'entrée est obligatoire
                       </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.entry_date].hasError('required')
+                && userFormGroup.controls[formInputs.entry_date].dirty ">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date d'entrée est obligatoire
+                      </div>
                     </div>
                     <div class="col">
                       <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
@@ -1131,6 +1147,24 @@
             </div>
           </div>
 
+          <div class="check-box-btn light-checkbox" style="margin: 0 auto;">
+            <input type="checkbox"
+                   id="{{formLabels.send_info_to_user}}"
+                   [formControl]="userFormGroup.controls[formInputs.send_info_to_user]"
+            >
+            <label for="{{formLabels.send_info_to_user}}"
+                   data-content="{{formLabels.send_info_to_user}}">
+              <span class="name">{{formLabels.send_info_to_user}}</span>
+            </label>
+          </div>
+          <div class="row text-center">
+            <app-button
+              [type]="'primary'"
+              [text]="'Enregistrer'"
+              [isLoading]="submitting"
+            >
+            </app-button>
+          </div>
         </form>
 
 
