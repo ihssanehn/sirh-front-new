@@ -36,94 +36,125 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   submittingPassword: boolean;
   formInputs = {
     id: 'id',
-    civility: 'civility',
-    last_name: 'last_name',
-    first_name: 'first_name',
-    telephone_personal: 'telephone_personal',
-    email_personal: 'email_personal',
-    address: 'address',
-    code_postal: 'code_postal',
-    birthday: 'birthday',
-    birth_place: 'birth_place',
-    nationality: 'nationality',
-    number_security_social: 'number_security_social',
-    family_situation_id: 'family_situation_id',
-    city: 'city',
-
-    registration_number: 'registration_number',
-    start_date: 'start_date',
-    end_date: 'end_date',
-    telephone_professional: 'telephone_professional',
-    function_id: 'function_id',
-    status_id: 'status_id',
-    email_professional: 'email_professional',
-    urgency_name_1: 'urgency_name_1',
-    urgency_telephone_1: 'urgency_telephone_1',
-    family_link_1: 'family_link_1',
-    contract_id: 'contract_id',
-    urgency_name_2: 'urgency_name_2',
-    urgency_telephone_2: 'urgency_telephone_2',
-    family_link_2: 'family_link_2',
-
-    manager_id: 'manager_id',
-    cp_id: 'cp_id',
-    is_virtual: 'is_virtual',
-    kids_number: 'kids_number',
-    validator_absence_id:  'validator_absence_id',
-    profile_id: 'profile_id',
-    is_part_time: 'is_part_time',
-    first_annual_salary: 'first_annual_salary',
-
-    is_head_office: 'is_head_office',
-    benefits: 'benefits',
-    number_carte_vitale: 'number_carte_vitale',
-
-
-    // creator_id: 'creator_id',
-    // archive: 'archive',
-    // profil_conges_id: 'profil_conges_id',
-    // profil_conges_custom: 'profil_conges_custom',
-    // profil_conges_customs_id: 'profil_conges_customs_id',
-    // cout_revient: 'cout_revient',
-    // cout_vente: 'cout_vente',
-    // remember_token: 'remember_token',
-    // is_temps_partiel: 'is_temps_partiel',
-    // is_hors_siege: 'is_hors_siege',
-    // contract_id: 'contract_id',
-    // validite_titre_sejour: 'validite_titre_sejour',
-
-    // validateur_absence_id: 'validateur_absence_id',
-    // is_fr: 'is_fr',
-    // titre_sejour_id: 'titre_sejour_id',
-    // date_fin_periode_essais: 'date_fin_periode_essais',
-    // has_done_periode_essais: 'has_done_periode_essais',
-    // periode_essais_comment: 'periode_essais_comment',
-    // type_titre_sejour: 'type_titre_sejour',
-    // num_titre_sejour: 'num_titre_sejour',
-    // status_pe_id: 'status_pe_id',
-    // photo_profil_id: 'photo_profil_id',
-    // duree_mission: 'duree_mission',
-    //
-    //
-    // nombre_enfants: 'nombre_enfants',
-    // salaire_brut: 'salaire_brut',
-    // compte_salarie: 'compte_salarie',
-    // avantage_nature: 'avantage_nature',
-    // has_tjm_fixed: 'has_tjm_fixed',
-    // is_travailleur_handicape: 'is_travailleur_handicape',
-    // cp_cp_id: 'cp_cp_id',
+    billing_admin_id: 'billing_admin_id',
+    project_creation_right_id: 'project_creation_right_id',
+    has_internal_billing_admin: 'has_internal_billing_admin',
+    has_admin_gp: 'has_admin_gp',
+    has_travel_admin: 'has_travel_admin',
+    formation_admin_id: 'formation_admin_id',
+    cash_management_id: 'cash_management_id',
+    management_obs_manager_id: 'management_obs_manager_id',
+    interview_access_id: 'interview_access_id',
+    theoretical_interview_date_id: 'theoretical_interview_date_id',
+    has_trial_period_access: 'has_trial_period_access',
+    has_multi_etp_access: 'has_multi_etp_access',
+    satisfaction_consultant_id: 'satisfaction_consultant_id',
+    security_review_id: 'security_review_id',
+    access_proposals_id: 'access_proposals_id',
+    employee_follow_up_id: 'employee_follow_up_id',
+    has_advance_management: 'has_advance_management',
+    has_access_management_predefined_states: 'has_access_management_predefined_states',
+    package_management_id: 'package_management_id',
+    questionnaire_access_id: 'questionnaire_access_id',
+    ct_request_model_management_id: 'ct_request_model_management_id',
+    hr_document_access_id: 'hr_document_access_id',
+    has_not_interviewed: 'has_not_interviewed',
+    /// Part 2
+    has_ar_final_validation: 'has_ar_final_validation',
+    ra_cancellation_right_id: 'ra_cancellation_right_id',
+    fee_confirmation_id: 'fee_confirmation_id',
+    profile_caption_overload_id: 'profile_caption_overload_id',
+    is_virtual_user: 'is_virtual_user',
+    has_right_da: 'has_right_da',
+    has_right_br: 'has_right_br',
+    has_view_all_da: 'has_view_all_da',
+    has_purchase_invoice_right: 'has_purchase_invoice_right',
+    has_admin_settings: 'has_admin_settings',
+    supplier_reference_right_id: 'supplier_reference_right_id',
+    closing_synthesis_right_id: 'closing_synthesis_right_id',
+    prevention_plan_admin_id: 'prevention_plan_admin_id',
+    is_employee_subject_local_scheme: 'is_employee_subject_local_scheme',
+    has_access_medical_visits: 'has_access_medical_visits',
+    has_master_project_management: 'has_master_project_management',
+    has_visu_commercial_margin: 'has_visu_commercial_margin',
+    document_administration_id: 'document_administration_id',
+    has_administration_type_rh_document: 'has_administration_type_rh_document',
+    has_right_validate_pointing: 'has_right_validate_pointing',
+    has_meal_ticket_right: 'has_meal_ticket_right'
   }
-  // user: User;
+
+  formLabels =  {
+    id: 'id',
+    billing_admin_id: 'Admin facturation',
+    project_creation_right_id: 'Droit création projet',
+    has_internal_billing_admin: 'Admin facturation interne',
+    has_admin_gp: 'Admin GP',
+    has_travel_admin: 'Admin déplacements',
+    formation_admin_id: 'Admin formation',
+    cash_management_id: 'Cash management (paiement des factures)',
+    management_obs_manager_id: 'Gestion des responsables OBS',
+    interview_access_id: 'Accès entretiens',
+    theoretical_interview_date_id: 'Date théorique entretien',
+    has_trial_period_access: 'Accès période essai',
+    has_multi_etp_access: 'Accès multi ETP',
+    satisfaction_consultant_id: 'Satisfaction consultant',
+    security_review_id: 'Revue sécurité',
+    access_proposals_id: 'Accès Propositions',
+    employee_follow_up_id: 'Suivi salariés',
+    has_advance_management: 'Gestion des avances',
+    has_access_management_predefined_states: 'Gestion accès états prédéfinis',
+    package_management_id: 'Gestion forfait',
+    questionnaire_access_id: 'Accès questionnaires',
+    ct_request_model_management_id: 'Gestion modèle demande CT',
+    hr_document_access_id: 'Accés document RH',
+    has_not_interviewed: 'Non soumis aux entretiens',
+    /// Part 2
+    has_ar_final_validation: 'Validation finale RA',
+    ra_cancellation_right_id: 'Droit Annulation RA',
+    fee_confirmation_id: 'Validation frais',
+    profile_caption_overload_id: 'Surcharge libellé profil',
+    is_virtual_user: 'Utilisateur Virtuel',
+    has_right_da: 'Droit DA',
+    has_right_br: 'Droit BR',
+    has_view_all_da: 'Visu toutes DA',
+    has_purchase_invoice_right: 'Droit facture achat',
+    has_admin_settings: 'Ddmin paramétrage',
+    supplier_reference_right_id: 'Droit référentiel fournisseur',
+    closing_synthesis_right_id: 'Droit synthère cloture',
+    prevention_plan_admin_id: 'Admin plan de prévention',
+    is_employee_subject_local_scheme: 'Salarié soumis au régime local (Alsace/Moselle)',
+    has_access_medical_visits: 'Accès visites médicales',
+    has_master_project_management: 'Gestion Master Projet',
+    has_visu_commercial_margin: 'Visu Marge commerciale',
+    document_administration_id: 'Adminstration documents',
+    has_administration_type_rh_document: 'Administration type documents RH (référentiel)',
+    has_right_validate_pointing: 'Droit validation pointage',
+    has_meal_ticket_right: 'Droit ticket restaurant'
+  }
 
 
-  family_situations = [];
-  status = [];
-  functions = [];
-  contracts = [];
-  profiles =  [];
-  entities =  [];
-  managers =  [];
-  profit_centers =  [];
+  billing_admins = [];
+  project_creation_rights = [];
+  formation_admins =  [];
+  cash_managements = [];
+  management_obs_managers = [];
+  interview_accesses = [];
+  theoretical_interview_dates = [];
+  satisfaction_consultants = [];
+  security_reviews = [];
+  access_proposals = [];
+  employee_follow_ups = [];
+  package_managements = [];
+  questionnaire_accesses =  [];
+  ct_request_model_managements = [];
+  hr_document_accesses = [];
+  ra_cancellation_rights = [];
+  fee_confirmations = [];
+  profile_caption_overloads = [];
+  supplier_reference_rights = [];
+  closing_synthesis_rights  = [];
+  prevention_plan_admins = [];
+  document_administrations = [];
 
   errorLoadData: boolean;
   loadingData: boolean;
@@ -139,7 +170,6 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   @Output() submitUser: EventEmitter<any> = new EventEmitter();
   @Input()
   public set user(val: User) {
-    console.log('Input()', val);
     if(val){
       this.initFormBuilder(val);
     }
@@ -161,52 +191,51 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     this.noWhitespaceValidator.bind(this);
     this.userFormGroup = this.formBuilder.group({
       id: [null],
-      photo_profile: [null],
-      civility: ['H', Validators.required],
-      last_name: ['CHBANI', Validators.required],
-      first_name: ['Anass', Validators.required],
-      telephone_personal: ['0232302', Validators.required],  //to add
-      email_personal: ['chbanianass20@gmail.com'],
-      address: ['test addr'],
-      code_postal: [2020],
-      birthday: ['09/06/1995', Validators.required],
-      birth_place: ['Casa', Validators.required],
-      nationality: ['Marocaine', Validators.required],
-      number_security_social: ["123424"],
-      family_situation_id: [2],
-      city: ["Casa"],
-
-      registration_number: [3224234],
-      start_date: ['09/06/2022', Validators.required],
-      end_date: [null],
-      telephone_professional: [null],
-      function_id: [2],
-      status_id: [2, Validators.required],
-      email_professional: ["chbanianass20@gmail.com", Validators.required],
-
-      urgency_name_1: [null],
-      urgency_telephone_1: [null],
-      family_link_1: [null],
-      contract_id: [2, Validators.required],
-
-      urgency_name_2: [null],
-      urgency_telephone_2: [null],
-      family_link_2: [null],
-
-
-      manager_id: [2, Validators.required],
-      cp_id: [null, Validators.required],
-      is_virtual: [false],
-      kids_number: [null],
-
-      validator_absence_id: [2],
-      profile_id: [this.profile_id],
-      is_head_office: [false, Validators.required],
-      is_part_time: [false],
-      first_annual_salary: [null],
-
-      benefits: [null],
-      number_carte_vitale: [null]
+      billing_admin_id: [null],
+      project_creation_right_id: [null],
+      has_internal_billing_admin: [null],
+      has_admin_gp: [null],
+      has_travel_admin: [null],
+      formation_admin_id: [null],
+      cash_management_id: [null],
+      management_obs_manager_id: [null],
+      interview_access_id: [null],
+      theoretical_interview_date_id: [null],
+      has_trial_period_access: [null],
+      has_multi_etp_access: [null],
+      satisfaction_consultant_id: [null],
+      security_review_id: [null],
+      access_proposals_id: [null],
+      employee_follow_up_id: [null],
+      has_advance_management: [null],
+      has_access_management_predefined_states: [null],
+      package_management_id: [null],
+      questionnaire_access_id: [null],
+      ct_request_model_management_id: [null],
+      hr_document_access_id: [null],
+      has_not_interviewed: [null],
+      /// Part 2
+      has_ar_final_validation: [null],
+      ra_cancellation_right_id: [null],
+      fee_confirmation_id: [null],
+      profile_caption_overload_id: [null],
+      is_virtual_user: [null],
+      has_right_da: [null],
+      has_right_br: [null],
+      has_view_all_da: [null],
+      has_purchase_invoice_right: [null],
+      has_admin_settings: [null],
+      supplier_reference_right_id: [null],
+      closing_synthesis_right_id: [null],
+      prevention_plan_admin_id: [null],
+      is_employee_subject_local_scheme: [null],
+      has_access_medical_visits: [null],
+      has_master_project_management: [null],
+      has_visu_commercial_margin: [null],
+      document_administration_id: [null],
+      has_administration_type_rh_document: [null],
+      has_right_validate_pointing: [null],
+      has_meal_ticket_right: [null],
     });
 
     this.modalService.dismissAll();
@@ -233,14 +262,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     }
     const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
-    try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
-    try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
-    try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
-    try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
-    try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
-    try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    // try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
 
     this.changeDetectorRef.detectChanges();
   }

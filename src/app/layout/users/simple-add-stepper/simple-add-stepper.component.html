@@ -16,13 +16,21 @@
     ></app-parametre-simple-form>
   </mat-step>
   <mat-step label="Doc RH">
-    <app-perimetre
-      (preview)="moveForward(1)"
-      (submitPerimeters)="submitPerimeters($event)"
-      [perimeters]="user?.perimeters"
-      [user]="user"
-    ></app-perimetre>
+<!--    <app-docrh-simple-form-->
+<!--      (preview)="moveForward(0)"-->
+<!--      [profile_id]="profile_id"-->
+<!--      [user]="user"-->
+<!--      (submitUser)="submitUser($event)"-->
+<!--    ></app-docrh-simple-form>-->
   </mat-step>
+<!--  <mat-step label="Doc RH">-->
+<!--    <app-perimetre-->
+<!--      (preview)="moveForward(1)"-->
+<!--      (submitPerimeters)="submitPerimeters($event)"-->
+<!--      [perimeters]="user?.perimeters"-->
+<!--      [user]="user"-->
+<!--    ></app-perimetre>-->
+<!--  </mat-step>-->
   <mat-step label="Périmètre">
     <app-perimetre
       (preview)="moveForward(2)"
