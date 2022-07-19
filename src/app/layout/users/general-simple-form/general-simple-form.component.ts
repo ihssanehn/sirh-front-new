@@ -203,8 +203,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
-
-    console.log('ANASS TEDST,', moment('1995-03-23', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format)?.isValid());
     const userTest = {
       id: null,
         registration_number: 323232,

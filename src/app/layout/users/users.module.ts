@@ -28,6 +28,7 @@ import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-ad
 import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
 import {ParametreSimpleFormComponent} from "@layout/users/parametre-simple-form/parametre-simple-form.component";
 import {DocrhSimpleFormComponent} from "@layout/users/docrh-simple-form/docrh-simple-form.component";
+import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
 
 
 @NgModule({
@@ -63,11 +64,13 @@ import {DocrhSimpleFormComponent} from "@layout/users/docrh-simple-form/docrh-si
     IndependentAddStepperComponent,
     GeneralSimpleFormComponent,
     ParametreSimpleFormComponent,
-    DocrhSimpleFormComponent
+    DocrhSimpleFormComponent,
+    ModalDocrhItemComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,
-    ModalPeriodeEssaiComponent
+    ModalPeriodeEssaiComponent,
+    ModalDocrhItemComponent
   ]
 })
 export class UsersModule { }

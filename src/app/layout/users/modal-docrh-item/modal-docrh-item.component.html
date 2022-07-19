@@ -1,0 +1,248 @@
+<!--<input type="file" style="display: none" id="uploadFile"-->
+<!--       [multiple]="!currentDocument?.id" #upload  (change)="uploadFile($event)" />-->
+
+<input type="file" style="display: none" id="uploadMoreFiles"
+       multiple (change)="uploadFile($event)"/>
+
+
+<div class="container top-container ">
+  <div class="header modal-header">
+    <h1 class="main-title">Ajouter un nouveau document</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+
+  <div class="modal-body">
+    <div class="container-fluid top-container p-0">
+      <form (submit)="submit()"
+            *ngIf="myForm"
+            [formGroup]="myForm"
+            autocomplete="off"
+            class="container p-0"
+            novalidate>
+
+
+        <div class="form-box">
+          <div class="form-column">
+            <div class="white-box">
+              <div class="form-bloc">
+                <div class="row">
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.user_id.label}} {{isRequired(formInputs.user_id)}}</label>
+
+                    <ng-select
+                      [items]="users"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      class="form-control select"
+                      placeholder="Sélectionner la nationalité ici"
+                      [formControl]="myForm.controls[formInputs.user_id]"
+                      [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.user_id].hasError('required')
+                                  && myForm.controls[formInputs.user_id].dirty}"
+                      [multiple]="false"
+                    >
+                    </ng-select>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.user_id].hasError('required')
+                    && myForm.controls[formInputs.user_id].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.user_id.placeholder}}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.type.label}} {{isRequired(formInputs.type)}}</label>
+
+                    <ng-select
+                      [items]="types"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      class="form-control select"
+                      placeholder="{{formMetaData.type.placeholder}}"
+                      [formControl]="myForm.controls[formInputs.type]"
+                      [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.type].hasError('required')
+                                  && myForm.controls[formInputs.type].dirty}"
+                      [multiple]="false"
+                    >
+                    </ng-select>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.type].hasError('required')
+                    && myForm.controls[formInputs.type].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.type.placeholder}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.validation_start_date.label}} {{isRequired(formInputs.validation_start_date)}}</label>
+                    <div class="date-picker-group">
+                      <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                      <input [owlDateTime]="owl_dt1"
+                             class="form-control input date"
+                             [owlDateTimeTrigger]="owl_dt1"
+                             placeholder="{{formMetaData.validation_start_date.placeholder}}"
+                             [formControl]="myForm.controls[formInputs.validation_start_date]"
+                      />
+                      <div class="icons-container">
+                        <i class="icon-close"
+                           (click)="clearDateInput(formInputs.validation_start_date)"
+                           *ngIf="myForm.controls[formInputs.validation_start_date].value"></i>&nbsp;
+                        <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.validation_start_date].hasError('required')
+                    && myForm.controls[formInputs.validation_start_date].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.validation_start_date.placeholder}}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.validation_end_date.label}} {{isRequired(formInputs.validation_end_date)}}</label>
+                    <div class="date-picker-group">
+                      <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                      <input [owlDateTime]="owl_dt2"
+                             class="form-control input date"
+                             [owlDateTimeTrigger]="owl_dt2"
+                             placeholder="{{formMetaData.validation_end_date.placeholder}}"
+                             [formControl]="myForm.controls[formInputs.validation_end_date]"
+                      />
+                      <div class="icons-container">
+                        <i class="icon-close"
+                           (click)="clearDateInput(formInputs.validation_end_date)"
+                           *ngIf="myForm.controls[formInputs.validation_end_date].value"></i>&nbsp;
+                        <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.validation_end_date].hasError('required')
+                    && myForm.controls[formInputs.validation_end_date].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.validation_end_date.placeholder}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.alert_time_limit.label}} {{isRequired(formInputs.alert_time_limit)}}</label>
+                    <input type="text"
+                           placeholder="Saisir le prénom ici"
+                           [formControl]="myForm.controls[formInputs.alert_time_limit]"
+                           class="form-control input"
+                           [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.alert_time_limit].hasError('required')
+                                  && myForm.controls[formInputs.alert_time_limit].dirty}"
+                    />
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.alert_time_limit].hasError('required')
+                    && myForm.controls[formInputs.alert_time_limit].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.alert_time_limit.placeholder}}
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.processed_alert.label}} {{isRequired(formInputs.processed_alert)}}</label>
+                    <div class="btn-group col boolean-button" role="group" ngbRadioGroup name="radioBasic"
+                         [formControl]="myForm.controls[formInputs.processed_alert]">
+                      <label ngbButtonLabel class="btn">
+                        <input ngbButton type="radio" class="btn-check" [value]="true"> Oui
+                      </label>
+                      <label ngbButtonLabel class="btn">
+                        <input ngbButton type="radio" class="btn-check" [value]="false"> Non
+                      </label>
+                    </div>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.validation_end_date].hasError('required')
+                    && myForm.controls[formInputs.validation_end_date].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.validation_end_date.placeholder}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.title.label}} {{isRequired(formInputs.title)}}</label>
+                    <input type="text"
+                           [placeholder]="formMetaData.title.placeholder"
+                           [formControl]="myForm.controls[formInputs.title]"
+                           class="form-control input"
+                           [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.title].hasError('required')
+                                  && myForm.controls[formInputs.title].dirty}"
+                    />
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.title].hasError('required')
+                    && myForm.controls[formInputs.title].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.title.placeholder}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label class="col-12">{{formMetaData.action_to_do.label}} {{isRequired(formInputs.action_to_do)}}</label>
+                    <textarea
+                           [placeholder]="formMetaData.action_to_do.placeholder"
+                           [formControl]="myForm.controls[formInputs.action_to_do]"
+                           class="form-control input"
+                           cols="3"
+                           [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.action_to_do].hasError('required')
+                                  && myForm.controls[formInputs.action_to_do].dirty}"
+                    ></textarea>
+                    <div class="form-control-feedback"
+                         *ngIf="myForm.controls[formInputs.action_to_do].hasError('required')
+                    && myForm.controls[formInputs.action_to_do].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.action_to_do.placeholder}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row files-viewer">
+                  <label class="col-12" for="uploadMoreFiles">
+                    <i class="icon-attachment"></i>
+                    &nbsp;Ajouter une pièce jointe
+                  </label>
+                  <div class="row">
+                    <div class="file" *ngFor="let item of files" title="{{item.name}}">
+                      <div class="close-icon" (click)="removeFile(item)">
+                        <i class="icon-close"></i>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-file-pdf-o"></i>
+                      </div>
+                      <div class="">
+                        <div class="name">{{getFileName(item.name)}}</div>
+                        <div class="size">{{item.size}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+
+
+    </div>
+  </div>
+
+  <div class="modal-footer submit-block">
+    <app-button
+      [type]="'primary_inverse'"
+      [text]="'Annuler'"
+      (onClick)="modal.close()"
+    ></app-button>&nbsp;
+    <app-button
+      [type]="'primary'"
+      [text]="'Enregistrer'"
+      (onClick)="modal.close()"
+    ></app-button>
+  </div>
+</div>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>

@@ -1,0 +1,115 @@
+@import "../users.styles";
+
+::ng-deep .header{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0 !important;
+  padding-left: 30px !important;
+  .btns{
+    display: flex;
+  }
+}
+
+.top-container{
+  border-radius: 10px;
+  padding: 0;
+  .main-title{
+    text-align: left !important;
+  }
+  .modal-dialog{
+    padding-bottom: 0;
+  }
+  .form-column{
+    padding-bottom: 0 !important;
+  }
+  .list-group{
+    .list-group-item{
+      border: 0;
+      padding: 10px 0;
+    }
+
+  }
+}
+
+.submit-block{
+  padding-bottom: 20px !important;
+  padding-right: 38px !important;
+  padding-top: 0 !important;
+}
+
+.files-viewer{
+  display: flex;
+  label{
+    text-decoration: underline;
+    color: $primaryColor;
+    cursor: pointer;
+    i:before{
+      color: $primaryColor;
+    }
+  }
+  .file{
+    border: 1px solid $primaryColor;
+    background: $lighterPrimaryColor;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 140px;
+    display: flex;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    position: relative;
+    transition: unset;
+    cursor: pointer;
+    .close-icon{
+      top: -5px;
+      right: -5px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      i{
+        background: $danger;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:before{
+          color: white;
+          font-size: 7px;
+        }
+      }
+    }
+    .icon{
+      padding: 5px;
+      padding-right: 12px;
+      i{
+        &:before{
+          color: $primaryColor;
+          font-size: 18px;
+        }
+      }
+    }
+    .name{
+      font-size: 13px;
+      font-weight: 400;
+      color: $primaryColor;
+    }
+    .size{
+      font-size: 11px;
+      color: $lightPrimaryColor;
+      opacity: .8;
+    }
+    &:hover{
+      transition: unset;
+      .close-icon{
+        visibility: visible;
+      }
+    }
+  }
+}
+

@@ -7,10 +7,11 @@ import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
 import {Validators} from "@angular/forms";
 import {MainStore} from "@store/mainStore.store";
+import * as moment from "moment";
+import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
 
 @Component({
   selector: 'app-docrh-simple-form',
@@ -192,8 +193,8 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router) {
 
+    this.openDocumentRHModal();
     this.route.params.subscribe(params => {
-      console.log('params', params);
       const {type} = params;
       switch (type){
         case 'general': {
@@ -215,316 +216,6 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
         }
       }
     });
-    const data = [
-      {
-        "name": "id",
-        "type": "INT",
-        "length": "10",
-        "isPrimary": true,
-        "isGenerated": true,
-        "generationStrategy": "increment",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "registration_number",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true,
-        "comment": "Matricule"
-      },
-      {
-        "name": "first_name",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "last_name",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "email",
-        "type": "VARCHAR",
-        "length": "255",
-        "isUnique": true,
-        "isNullable": false
-      },
-      {
-        "name": "civility",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "fiche_to_be_completed",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "birthday",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "number_security_social",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "nationality_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "city_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "address",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "code_postal",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_fix",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_bureau",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_portable",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "profile_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "role_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "member_ship_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true,
-        "comment": "Appartenance"
-      },
-      {
-        "name": "supplier_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true,
-        "comment": "Fournisseur"
-      },
-      {
-        "name": "cp_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "original_company_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "attachment_agency_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "not_billable",
-        "type": "boolean",
-        "default": false,
-        "comment": "Non Facturable"
-      },
-      {
-        "name": "in_out_office",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "is_part_time",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "time_entry_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "calendar_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "emission_of_contract_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "signature_of_contract_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "group_start_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "is_group_mutation_entry",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "entry_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "end_trial_period_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "depart_mail_received_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "theory_end_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "end_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "could_be_manager",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "manager_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "manage_holidays",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "validator_absence_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "fiscal_car_power_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "complex_charge",
-        "type": "boolean",
-        "default": false,
-        "comment": "Frais refacturables complexes"
-      },
-      {
-        "name": "is_exclusion_etp",
-        "type": "boolean",
-        "default": false,
-        "comment": "Exclusion ETP"
-      },
-      {
-        "name": "is_exclusion_reporting",
-        "type": "boolean",
-        "default": false,
-        "comment": "Exclusion Reporting"
-      },
-      {
-        "name": "creator_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "created_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      },
-      {
-        "name": "updated_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      },
-      {
-        "name": "deleted_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      }
-    ];
-    let fb_json: any = {};
-    data.forEach(element => {
-      fb_json[element.name] = [null];
-      if(element.isNullable){
-        fb_json[element.name].push(Validators.required);
-      }
-    });
-    fb_json = JSON.stringify(fb_json);  // {"name":"John Smith"}
-    fb_json = fb_json.replace(/"([^"]+)":/g, '$1:');
-     // {name:"John Smith"}
-    console.log('form builder data', fb_json);
   }
 
   ngOnInit() {
@@ -726,28 +417,6 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     // showFilters = !showFilters;
   }
 
-  openModal(idUser) {
-    if(this.modalService.hasOpenModals()){
-      this.modalService.dismissAll();
-    }
-    let size = 'xl';
-    let title = 'collaborateur';
-    let type ='collab';
-
-    const modalRef = this.modalService.open(UserInfoFormComponent, { size: size , centered: true, windowClass: 'myModal'});
-    modalRef.result.then(result=>{
-      console.log('closed', result);
-      // if(result === 'QUERY'){
-      //   this.getAllStudents();
-      // }
-    }, reason => {
-      console.log('closed');
-    });
-    modalRef.componentInstance.title = title;
-    modalRef.componentInstance.type = type;
-    modalRef.componentInstance.idUser = idUser;
-  }
-
   changePagination() {
     this.pagination = { ...this.pagination, limit: this.pagination.limit, total: this.pagination.total };
     this.filter.page = this.pagination.page;
@@ -757,5 +426,15 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
 
   filterChanged() {
     this.getUsers();
+  }
+
+  openDocumentRHModal(){
+    const modalRef = this.modalService.open(ModalDocrhItemComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+    }, reason => {
+      console.log('closed');
+    });
+    // modalRef.componentInstance.id_document = null;
   }
 }

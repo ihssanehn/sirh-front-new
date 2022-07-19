@@ -12,7 +12,7 @@
 
 .input{
   font-size: 12px;
-  border: 1px solid lightgray;
+  border: 1px solid #EDEDED;
   border-radius: 5px;
   min-height: 40px;
 }
@@ -90,7 +90,7 @@ p-autoComplete{
     width: 100%;
     ::ng-deep input{
       font-size: 12px;
-      border: 1px solid lightgray;
+      border: 1px solid #EDEDED;
       border-radius: 5px;
       min-height: 40px;
       width: 100%;
