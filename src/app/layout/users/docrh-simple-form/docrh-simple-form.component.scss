@@ -1,0 +1,46 @@
+@import "../list-users/list-users.component";
+
+table{
+  thead{
+    background: #FCFCFC;
+    height: 45px;
+    background: var(--unnamed-color-fcfcfc) 0% 0% no-repeat padding-box;
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1;
+  }
+  td{
+    color: $fontColor;
+  }
+}
+.actions{
+  i{
+    margin: 0 10px;
+    line-height: 30px;
+  }
+  .icon-attachment{
+    margin-right: 0;
+    &:before{
+      color: #707070 !important;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+  }
+  span{
+    color: #707070 !important;
+    font-size: 13px;
+  }
+}
+
+.filter-container{
+  background: unset;
+  .input-group{
+    display: flex;
+    flex-direction: column;
+    min-width: 200px !important;
+    margin-right: 10px;
+    label{
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+  }
+}

@@ -1,0 +1,197 @@
+<div class="list container top-container">
+<!--    <div class="foback-header">-->
+<!--&lt;!&ndash;      <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;        [text]="'Retour'"&ndash;&gt;-->
+<!--&lt;!&ndash;        [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;        [iconLeft]="'icon-go-back'"&ndash;&gt;-->
+<!--&lt;!&ndash;      ></app-button>&ndash;&gt;-->
+<!--      <div class="right-buttons">-->
+<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;          [text]="'Importer'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
+<!--&lt;!&ndash;        ></app-button>&nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
+<!--&lt;!&ndash;          [text]="'Exporter'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
+<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
+<!--&lt;!&ndash;        ></app-button>&ndash;&gt;-->
+<!--        &nbsp;-->
+<!--        <app-button-->
+<!--          [text]="'Ajouter un utilisateur/collaborateur'"-->
+<!--          [type]="'primary'"-->
+<!--          [iconLeft]="'fa fa-plus'"-->
+<!--          (onClick)="openSelectRole()"-->
+<!--          [customStyle]="{'white-space': 'nowrap'}"-->
+<!--        ></app-button>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="sub-header container-fuild container-lg ">
+
+<!--      <div class="search">-->
+<!--      </div>-->
+      <div class="filter-container ">
+        <div class="search d-flex filters">
+          <div class="input-group">
+            <label>Type document</label>
+            <ng-select class="select" [multiple]="true"  [multiple]="true"
+                       [items]="managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.managers"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par manager'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>Traité</label>
+            <ng-select class="select" [multiple]="true"  [multiple]="true"
+                       [items]="managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.managers"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par manager'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>Alerte</label>
+            <ng-select class="select" [multiple]="true"  [multiple]="true"
+                       [items]="managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.managers"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par manager'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>&nbsp;</label>
+            <app-button
+              [text]="'Rechercher'"
+              [type]="'tertiary_inverse'"
+              (onClick)="getUsers()"
+              [customStyle]="{'white-space': 'nowrap'}"
+            ></app-button>
+          </div>
+        </div>
+      </div>
+      <div class="right-buttons col">
+        <app-button
+          [text]="'Ajouter'"
+          [type]="'secondary'"
+          [iconRight]="'icon-add'"
+          (onClick)="openSelectRole()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+    </div>
+
+    <div class="wrap" >
+        <div class="table-wrapper">
+            <table class="table-responsive card-list-table">
+                <thead>
+                    <tr>
+                        <th>
+                          Type documents
+                        </th>
+                        <th>
+                          Début validité
+                        </th>
+                         <th>
+                           Fin validité
+                         </th>
+                         <th>
+                           Traité
+                         </th>
+                        <th>
+                          Alerte
+                        </th>
+                        <th>
+                          Titre du document
+                        </th>
+                        <th>
+                          Action a mener
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+<!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+                   <tr *ngFor="let document of documents"  >
+                      <td>
+                        {{document.type}}
+                      </td>
+                       <td>
+                         {{document.validation_start_date}}
+                       </td>
+                       <td>
+                         {{document.validation_end_date}}
+                       </td>
+                       <td>
+                         {{document.processed}}
+                       </td>
+                       <td>
+                         {{document.alert}}
+                       </td>
+                       <td>
+                         {{document.title}}
+                       </td>
+                       <td>
+                         {{document.action_to_do || '----'}}
+                       </td>
+                       <td class="icon-cell">
+                            <div class="actions">
+                              <i class="icon-edit"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 (click)="openModal(document?.id)"
+                                 title="Modifier"></i>
+                                <i class="icon-attachment"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   (click)="openModal(document?.id)"
+                                   title="Documents attachés"></i>
+                                <span>(1)</span>
+                                <i class="fa fa-trash"
+                                   (click)="archive(document.id)"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="Supprimer"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
+  <div class="footer" *ngIf="users?.length>0">
+
+    <app-pagination name="pagination"
+                    (change)="changePagination()"
+                    [(ngModel)]="pagination"
+                    ngDefaultControl>
+    </app-pagination>
+    <div class="right-buttons flex-end">
+      <app-button
+        [text]="'Importer'"
+        [type]="'tertiary_inverse'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>&nbsp;
+      <app-button
+        [text]="'Exporter'"
+        [type]="'tertiary_inverse'"
+        [iconLeft]="'icon-file'"
+        [customStyle]="{'white-space': 'nowrap'}"
+      ></app-button>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
