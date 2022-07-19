@@ -258,7 +258,8 @@
     color: $fontColor;
     margin-left: 10px;
     text-align: left;
-    margin-bottom: 5px;
+    //margin-bottom: 5px;
+    margin-bottom: 0 !important;
     &::before {
       position: absolute;
       content: attr(data-content);

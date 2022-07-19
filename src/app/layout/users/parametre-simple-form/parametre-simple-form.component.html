@@ -56,33 +56,36 @@
                 <h5>Paramètres Supplémentaires (1/2)</h5>
                 <div class="form-bloc">
                   <div class="row">
-                    <label class="col-2">{{formLabels.billing_admin_id}}
-                      {{isRequired(formInputs.billing_admin_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="billing_admins"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner l'admin facturation ici"
-                        [formControl]="userFormGroup.controls[formInputs.billing_admin_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.billing_admin_id].hasError('required')
+                      <label class="col-12">{{formLabels.billing_admin_id}}
+                        {{isRequired(formInputs.billing_admin_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="billing_admins"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner l'admin facturation ici"
+                          [formControl]="userFormGroup.controls[formInputs.billing_admin_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.billing_admin_id].hasError('required')
                                   && userFormGroup.controls[formInputs.billing_admin_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.billing_admin_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.billing_admin_id].hasError('required')
                   && userFormGroup.controls[formInputs.billing_admin_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        L'admin facturation est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          L'admin facturation est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="row">
-                    <label class="col-2">{{formLabels.project_creation_right_id}}
-                      {{isRequired(formInputs.project_creation_right_id)}}</label>
                     <div class="col">
+                      <label class="col-12">{{formLabels.project_creation_right_id}}
+                        {{isRequired(formInputs.project_creation_right_id)}}</label>
+                      <div class="col">
                       <ng-select
                         [items]="project_creation_rights"
                         [bindLabel]="'label'"
@@ -101,6 +104,7 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         Le droit de création de projet est obligatoire
                       </div>
+                    </div>
                     </div>
                   </div>
 
@@ -146,84 +150,91 @@
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.formation_admin_id}}
-                      {{isRequired(formInputs.formation_admin_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="formation_admins"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner l'admin formation ici"
-                        [formControl]="userFormGroup.controls[formInputs.formation_admin_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.formation_admin_id].hasError('required')
+                      <label class="col-12">{{formLabels.formation_admin_id}}
+                        {{isRequired(formInputs.formation_admin_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="formation_admins"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner l'admin formation ici"
+                          [formControl]="userFormGroup.controls[formInputs.formation_admin_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.formation_admin_id].hasError('required')
                                   && userFormGroup.controls[formInputs.formation_admin_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.formation_admin_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.formation_admin_id].hasError('required')
                   && userFormGroup.controls[formInputs.formation_admin_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        L'admin formation est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          L'admin formation est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.cash_management_id}}
-                      {{isRequired(formInputs.cash_management_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="cash_managements"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.cash_management_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cash_management_id].hasError('required')
+                      <label class="col-12">{{formLabels.cash_management_id}}
+                        {{isRequired(formInputs.cash_management_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="cash_managements"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner ici"
+                          [formControl]="userFormGroup.controls[formInputs.cash_management_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cash_management_id].hasError('required')
                                   && userFormGroup.controls[formInputs.cash_management_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.cash_management_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.cash_management_id].hasError('required')
                   && userFormGroup.controls[formInputs.cash_management_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le cash management est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le cash management est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.management_obs_manager_id}}
-                      {{isRequired(formInputs.management_obs_manager_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="management_obs_managers"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.management_obs_manager_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.management_obs_manager_id].hasError('required')
+                      <label class="col-12">{{formLabels.management_obs_manager_id}}
+                        {{isRequired(formInputs.management_obs_manager_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="management_obs_managers"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner ici"
+                          [formControl]="userFormGroup.controls[formInputs.management_obs_manager_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.management_obs_manager_id].hasError('required')
                                   && userFormGroup.controls[formInputs.management_obs_manager_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.management_obs_manager_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.management_obs_manager_id].hasError('required')
                   && userFormGroup.controls[formInputs.management_obs_manager_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le responnsable OBS est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le responnsable OBS est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.interview_access_id}}
-                      {{isRequired(formInputs.interview_access_id)}}</label>
                     <div class="col">
+                      <label class="col-12">{{formLabels.interview_access_id}}
+                        {{isRequired(formInputs.interview_access_id)}}</label>
+                      <div class="col">
                       <ng-select
                         [items]="interview_accesses"
                         [bindLabel]="'label'"
@@ -243,12 +254,14 @@
                         L'access entretien est obligatoire
                       </div>
                     </div>
+                    </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.theoretical_interview_date_id}}
-                      {{isRequired(formInputs.theoretical_interview_date_id)}}</label>
                     <div class="col">
+                      <label class="col-12">{{formLabels.theoretical_interview_date_id}}
+                        {{isRequired(formInputs.theoretical_interview_date_id)}}</label>
+                      <div class="col">
                       <ng-select
                         [items]="theoretical_interview_dates"
                         [bindLabel]="'label'"
@@ -267,6 +280,7 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         La date théorique de l'entretien est obligatoire
                       </div>
+                    </div>
                     </div>
                   </div>
 
@@ -297,9 +311,10 @@
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.satisfaction_consultant_id}}
-                      {{isRequired(formInputs.satisfaction_consultant_id)}}</label>
                     <div class="col">
+                      <label class="col-12">{{formLabels.satisfaction_consultant_id}}
+                        {{isRequired(formInputs.satisfaction_consultant_id)}}</label>
+                      <div class="col">
                       <ng-select
                         [items]="satisfaction_consultants"
                         [bindLabel]="'label'"
@@ -319,79 +334,86 @@
                         La satisfaction consultant est obligatoire
                       </div>
                     </div>
+                    </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.security_review_id}}
-                      {{isRequired(formInputs.security_review_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="security_reviews"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.security_review_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.security_review_id].hasError('required')
+                      <label class="col-12">{{formLabels.security_review_id}}
+                        {{isRequired(formInputs.security_review_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="security_reviews"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner ici"
+                          [formControl]="userFormGroup.controls[formInputs.security_review_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.security_review_id].hasError('required')
                                   && userFormGroup.controls[formInputs.security_review_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.security_review_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.security_review_id].hasError('required')
                   && userFormGroup.controls[formInputs.security_review_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        La revue sécurité est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La revue sécurité est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.access_proposals_id}}
-                      {{isRequired(formInputs.access_proposals_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="access_proposals"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.access_proposals_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.access_proposals_id].hasError('required')
+                      <label class="col-12">{{formLabels.access_proposals_id}}
+                        {{isRequired(formInputs.access_proposals_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="access_proposals"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner ici"
+                          [formControl]="userFormGroup.controls[formInputs.access_proposals_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.access_proposals_id].hasError('required')
                                   && userFormGroup.controls[formInputs.access_proposals_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.access_proposals_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.access_proposals_id].hasError('required')
                   && userFormGroup.controls[formInputs.access_proposals_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        L'accès Propositions' est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          L'accès Propositions' est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <label class="col-2">{{formLabels.employee_follow_up_id}}
-                      {{isRequired(formInputs.employee_follow_up_id)}}</label>
                     <div class="col">
-                      <ng-select
-                        [items]="employee_follow_ups"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.employee_follow_up_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.employee_follow_up_id].hasError('required')
+                      <label class="col-12">{{formLabels.employee_follow_up_id}}
+                        {{isRequired(formInputs.employee_follow_up_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="employee_follow_ups"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner ici"
+                          [formControl]="userFormGroup.controls[formInputs.employee_follow_up_id]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.employee_follow_up_id].hasError('required')
                                   && userFormGroup.controls[formInputs.employee_follow_up_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.employee_follow_up_id].hasError('required')
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.employee_follow_up_id].hasError('required')
                   && userFormGroup.controls[formInputs.employee_follow_up_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le suivi salarié est obligatoire
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le suivi salarié est obligatoire
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -424,7 +446,7 @@
 
                   <div class="row">
                     <div class="col">
-                      <label class="col-2">{{formLabels.package_management_id}}
+                      <label class="col-12">{{formLabels.package_management_id}}
                         {{isRequired(formInputs.package_management_id)}}</label>
                       <div class="col">
                         <ng-select
@@ -448,7 +470,7 @@
                       </div>
                     </div>
                     <div class="col">
-                      <label class="col-2">{{formLabels.questionnaire_access_id}}
+                      <label class="col-12">{{formLabels.questionnaire_access_id}}
                         {{isRequired(formInputs.questionnaire_access_id)}}</label>
                       <div class="col">
                         <ng-select
@@ -475,7 +497,7 @@
 
                   <div class="row">
                     <div class="col">
-                      <label class="col-2">{{formLabels.ct_request_model_management_id}}
+                      <label class="col-12">{{formLabels.ct_request_model_management_id}}
                         {{isRequired(formInputs.ct_request_model_management_id)}}</label>
                       <div class="col">
                         <ng-select
@@ -499,7 +521,7 @@
                       </div>
                     </div>
                     <div class="col">
-                      <label class="col-2">{{formLabels.hr_document_access_id}}
+                      <label class="col-12">{{formLabels.hr_document_access_id}}
                         {{isRequired(formInputs.hr_document_access_id)}}</label>
                       <div class="col">
                         <ng-select
@@ -539,345 +561,362 @@
                 </div>
               </div>
             </div>
-            <div class="main-container  col-xl-6 col-12 form-column">
-              <div class="col-12 white-box">
-                <h5>Paramètres Supplémentaires (2/2)</h5>
-                <div style="margin-bottom: 20px;" class="form-bloc">
-                  <div class="row">
-                    <label class="col-2">{{formLabels.ra_cancellation_right_id}}
-                      {{isRequired(formInputs.ra_cancellation_right_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="ra_cancellation_rights"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.ra_cancellation_right_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.ra_cancellation_right_id].hasError('required')
+            <div class="main-container  col-xl-6 col-12">
+              <div class="form-column">
+                <div class="col-12 white-box">
+                  <h5>Paramètres Supplémentaires (2/2)</h5>
+                  <div style="margin-bottom: 20px;" class="form-bloc">
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.ra_cancellation_right_id}}
+                          {{isRequired(formInputs.ra_cancellation_right_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="ra_cancellation_rights"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner ici"
+                            [formControl]="userFormGroup.controls[formInputs.ra_cancellation_right_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.ra_cancellation_right_id].hasError('required')
                                   && userFormGroup.controls[formInputs.ra_cancellation_right_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.ra_cancellation_right_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.ra_cancellation_right_id].hasError('required')
                   && userFormGroup.controls[formInputs.ra_cancellation_right_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le droit d'annulation est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Le droit d'annulation est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.fee_confirmation_id}}
-                      {{isRequired(formInputs.fee_confirmation_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="fee_confirmations"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner le droit de création de projet  ici"
-                        [formControl]="userFormGroup.controls[formInputs.fee_confirmation_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.fee_confirmation_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.fee_confirmation_id}}
+                          {{isRequired(formInputs.fee_confirmation_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="fee_confirmations"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner le droit de création de projet  ici"
+                            [formControl]="userFormGroup.controls[formInputs.fee_confirmation_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.fee_confirmation_id].hasError('required')
                                   && userFormGroup.controls[formInputs.fee_confirmation_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.fee_confirmation_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.fee_confirmation_id].hasError('required')
                   && userFormGroup.controls[formInputs.fee_confirmation_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        La validation frais est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            La validation frais est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.profile_caption_overload_id}}
-                      {{isRequired(formInputs.profile_caption_overload_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="profile_caption_overloads"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner le droit de création de projet  ici"
-                        [formControl]="userFormGroup.controls[formInputs.profile_caption_overload_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_caption_overload_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.profile_caption_overload_id}}
+                          {{isRequired(formInputs.profile_caption_overload_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="profile_caption_overloads"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner le droit de création de projet  ici"
+                            [formControl]="userFormGroup.controls[formInputs.profile_caption_overload_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_caption_overload_id].hasError('required')
                                   && userFormGroup.controls[formInputs.profile_caption_overload_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.profile_caption_overload_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.profile_caption_overload_id].hasError('required')
                   && userFormGroup.controls[formInputs.profile_caption_overload_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        La surcharge libellé profile est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            La surcharge libellé profile est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.is_virtual_user}}"
-                             [formControl]="userFormGroup.controls[formInputs.is_virtual_user]"
-                      >
-                      <label for="{{formLabels.is_virtual_user}}"
-                             data-content="{{formLabels.is_virtual_user}}">
-                        <span class="name">{{formLabels.is_virtual_user}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.is_virtual_user}}"
+                               [formControl]="userFormGroup.controls[formInputs.is_virtual_user]"
+                        >
+                        <label for="{{formLabels.is_virtual_user}}"
+                               data-content="{{formLabels.is_virtual_user}}">
+                          <span class="name">{{formLabels.is_virtual_user}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">Admin Achat</label>
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_right_da}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_right_da]"
-                      >
-                      <label for="{{formLabels.has_right_da}}"
-                             data-content="{{formLabels.has_right_da}}">
-                        <span class="name">{{formLabels.has_right_da}}</span>
-                      </label>
+                    <div class="row">
+                        <label class="col-12 bold-label">Admin Achat</label>
+                        <div class="col check-box-btn">
+                          <input type="checkbox"
+                                 id="{{formLabels.has_right_da}}"
+                                 [formControl]="userFormGroup.controls[formInputs.has_right_da]"
+                          >
+                          <label for="{{formLabels.has_right_da}}"
+                                 data-content="{{formLabels.has_right_da}}">
+                            <span class="name">{{formLabels.has_right_da}}</span>
+                          </label>
+                        </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_right_br}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_right_br]"
-                      >
-                      <label for="{{formLabels.has_right_br}}"
-                             data-content="{{formLabels.has_right_br}}">
-                        <span class="name">{{formLabels.has_right_br}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_right_br}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_right_br]"
+                        >
+                        <label for="{{formLabels.has_right_br}}"
+                               data-content="{{formLabels.has_right_br}}">
+                          <span class="name">{{formLabels.has_right_br}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_view_all_da}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_view_all_da]"
-                      >
-                      <label for="{{formLabels.has_view_all_da}}"
-                             data-content="{{formLabels.has_view_all_da}}">
-                        <span class="name">{{formLabels.has_view_all_da}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_view_all_da}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_view_all_da]"
+                        >
+                        <label for="{{formLabels.has_view_all_da}}"
+                               data-content="{{formLabels.has_view_all_da}}">
+                          <span class="name">{{formLabels.has_view_all_da}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_purchase_invoice_right}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_purchase_invoice_right]"
-                      >
-                      <label for="{{formLabels.has_purchase_invoice_right}}"
-                             data-content="{{formLabels.has_purchase_invoice_right}}">
-                        <span class="name">{{formLabels.has_purchase_invoice_right}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_purchase_invoice_right}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_purchase_invoice_right]"
+                        >
+                        <label for="{{formLabels.has_purchase_invoice_right}}"
+                               data-content="{{formLabels.has_purchase_invoice_right}}">
+                          <span class="name">{{formLabels.has_purchase_invoice_right}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_admin_settings}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_admin_settings]"
-                      >
-                      <label for="{{formLabels.has_admin_settings}}"
-                             data-content="{{formLabels.has_admin_settings}}">
-                        <span class="name">{{formLabels.has_admin_settings}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_admin_settings}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_admin_settings]"
+                        >
+                        <label for="{{formLabels.has_admin_settings}}"
+                               data-content="{{formLabels.has_admin_settings}}">
+                          <span class="name">{{formLabels.has_admin_settings}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.supplier_reference_right_id}}
-                      {{isRequired(formInputs.supplier_reference_right_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="supplier_reference_rights"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.supplier_reference_right_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.supplier_reference_right_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.supplier_reference_right_id}}
+                          {{isRequired(formInputs.supplier_reference_right_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="supplier_reference_rights"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner ici"
+                            [formControl]="userFormGroup.controls[formInputs.supplier_reference_right_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.supplier_reference_right_id].hasError('required')
                                   && userFormGroup.controls[formInputs.supplier_reference_right_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.supplier_reference_right_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.supplier_reference_right_id].hasError('required')
                   && userFormGroup.controls[formInputs.supplier_reference_right_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le droit référentiel fournisseur est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Le droit référentiel fournisseur est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.closing_synthesis_right_id}}
-                      {{isRequired(formInputs.closing_synthesis_right_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="closing_synthesis_rights"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.closing_synthesis_right_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.closing_synthesis_right_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.closing_synthesis_right_id}}
+                          {{isRequired(formInputs.closing_synthesis_right_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="closing_synthesis_rights"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner ici"
+                            [formControl]="userFormGroup.controls[formInputs.closing_synthesis_right_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.closing_synthesis_right_id].hasError('required')
                                   && userFormGroup.controls[formInputs.closing_synthesis_right_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.closing_synthesis_right_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.closing_synthesis_right_id].hasError('required')
                   && userFormGroup.controls[formInputs.closing_synthesis_right_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le droit synthèse clôture est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Le droit synthèse clôture est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.prevention_plan_admin_id}}
-                      {{isRequired(formInputs.prevention_plan_admin_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="prevention_plan_admins"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.prevention_plan_admin_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.prevention_plan_admin_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.prevention_plan_admin_id}}
+                          {{isRequired(formInputs.prevention_plan_admin_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="prevention_plan_admins"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner ici"
+                            [formControl]="userFormGroup.controls[formInputs.prevention_plan_admin_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.prevention_plan_admin_id].hasError('required')
                                   && userFormGroup.controls[formInputs.prevention_plan_admin_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.prevention_plan_admin_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.prevention_plan_admin_id].hasError('required')
                   && userFormGroup.controls[formInputs.prevention_plan_admin_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le droit admin plan de prévention est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Le droit admin plan de prévention est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">Régime Alsace / Moselle</label>
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.is_employee_subject_local_scheme}}"
-                             [formControl]="userFormGroup.controls[formInputs.is_employee_subject_local_scheme]"
-                      >
-                      <label for="{{formLabels.is_employee_subject_local_scheme}}"
-                             data-content="{{formLabels.is_employee_subject_local_scheme}}">
-                        <span class="name">{{formLabels.is_employee_subject_local_scheme}}</span>
-                      </label>
+                    <div class="row">
+                      <label class="col-12 bold-label">Régime Alsace / Moselle</label>
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.is_employee_subject_local_scheme}}"
+                               [formControl]="userFormGroup.controls[formInputs.is_employee_subject_local_scheme]"
+                        >
+                        <label for="{{formLabels.is_employee_subject_local_scheme}}"
+                               data-content="{{formLabels.is_employee_subject_local_scheme}}">
+                          <span class="name">{{formLabels.is_employee_subject_local_scheme}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_access_medical_visits}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_access_medical_visits]"
-                      >
-                      <label for="{{formLabels.has_access_medical_visits}}"
-                             data-content="{{formLabels.has_access_medical_visits}}">
-                        <span class="name">{{formLabels.has_access_medical_visits}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_access_medical_visits}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_access_medical_visits]"
+                        >
+                        <label for="{{formLabels.has_access_medical_visits}}"
+                               data-content="{{formLabels.has_access_medical_visits}}">
+                          <span class="name">{{formLabels.has_access_medical_visits}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_master_project_management}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_master_project_management]"
-                      >
-                      <label for="{{formLabels.has_master_project_management}}"
-                             data-content="{{formLabels.has_master_project_management}}">
-                        <span class="name">{{formLabels.has_master_project_management}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_master_project_management}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_master_project_management]"
+                        >
+                        <label for="{{formLabels.has_master_project_management}}"
+                               data-content="{{formLabels.has_master_project_management}}">
+                          <span class="name">{{formLabels.has_master_project_management}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_visu_commercial_margin}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_visu_commercial_margin]"
-                      >
-                      <label for="{{formLabels.has_visu_commercial_margin}}"
-                             data-content="{{formLabels.has_visu_commercial_margin}}">
-                        <span class="name">{{formLabels.has_visu_commercial_margin}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_visu_commercial_margin}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_visu_commercial_margin]"
+                        >
+                        <label for="{{formLabels.has_visu_commercial_margin}}"
+                               data-content="{{formLabels.has_visu_commercial_margin}}">
+                          <span class="name">{{formLabels.has_visu_commercial_margin}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <label class="col-2">{{formLabels.document_administration_id}}
-                      {{isRequired(formInputs.document_administration_id)}}</label>
-                    <div class="col">
-                      <ng-select
-                        [items]="document_administrations"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner ici"
-                        [formControl]="userFormGroup.controls[formInputs.document_administration_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.document_administration_id].hasError('required')
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.document_administration_id}}
+                          {{isRequired(formInputs.document_administration_id)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="document_administrations"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="Sélectionner ici"
+                            [formControl]="userFormGroup.controls[formInputs.document_administration_id]"
+                            [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.document_administration_id].hasError('required')
                                   && userFormGroup.controls[formInputs.document_administration_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.document_administration_id].hasError('required')
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="userFormGroup.controls[formInputs.document_administration_id].hasError('required')
                   && userFormGroup.controls[formInputs.document_administration_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        L'administration document est obligatoire
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            L'administration document est obligatoire
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_administration_type_rh_document}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_administration_type_rh_document]"
-                      >
-                      <label for="{{formLabels.has_administration_type_rh_document}}"
-                             data-content="{{formLabels.has_administration_type_rh_document}}">
-                        <span class="name">{{formLabels.has_administration_type_rh_document}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_administration_type_rh_document}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_administration_type_rh_document]"
+                        >
+                        <label for="{{formLabels.has_administration_type_rh_document}}"
+                               data-content="{{formLabels.has_administration_type_rh_document}}">
+                          <span class="name">{{formLabels.has_administration_type_rh_document}}</span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.has_right_validate_pointing}}"
-                             [formControl]="userFormGroup.controls[formInputs.has_right_validate_pointing]"
-                      >
-                      <label for="{{formLabels.has_right_validate_pointing}}"
-                             data-content="{{formLabels.has_right_validate_pointing}}">
-                        <span class="name">{{formLabels.has_right_validate_pointing}}</span>
-                      </label>
+                    <div class="row">
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_right_validate_pointing}}"
+                               [formControl]="userFormGroup.controls[formInputs.has_right_validate_pointing]"
+                        >
+                        <label for="{{formLabels.has_right_validate_pointing}}"
+                               data-content="{{formLabels.has_right_validate_pointing}}">
+                          <span class="name">{{formLabels.has_right_validate_pointing}}</span>
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-12 white-box">
+              <div class="form-column">
+                <div class="col-12 white-box">
                 <h5>Frais</h5>
                 <div class="form-bloc">
                   <div class="row">
@@ -894,11 +933,10 @@
                   </div>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         </form>
-
-
       </div>
     </ng-template>
   </ng-container>
