@@ -8,6 +8,11 @@ import * as moment from "moment";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SharedClasses} from "@shared/Utils/SharedClasses";
 import {FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
+import Swal from "sweetalert2";
+import {UserService} from "@app/core/services";
+import {HttpEventType} from "@angular/common/http";
+import {catchError, throwError} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-modal-docrh-item',
@@ -86,6 +91,7 @@ export class ModalDocrhItemComponent implements OnInit {
   filesSizeErrorMessage: string;
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
   ALL_FILES_SIZE_LIMIT = 10000; // Mb
+  progress: number;
   @ViewChild('upload') inputFile: ElementRef;
   files = [];
   show_loader: boolean;
@@ -93,6 +99,7 @@ export class ModalDocrhItemComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     public modal: NgbActiveModal,
+    public userService: UserService,
     private fb: FormBuilder,
     private listService: ListsService,
   ) {
@@ -111,11 +118,6 @@ export class ModalDocrhItemComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-
-  submit() {
-
   }
 
   isRequired(control) {
@@ -275,5 +277,83 @@ export class ModalDocrhItemComponent implements OnInit {
       file_name = file_name.substr(0,5) + '...';
     }
     return file_name+'.'+file_ex;
+  }
+
+  async submit(){
+    this.progress = null;
+    Object.keys(this.myForm.controls).forEach(key => {
+      this.myForm.get(key).markAsDirty();
+    });
+    if(!this.myForm.valid ){
+      return;
+    }
+    this.progress = 1;
+    const fd = new FormData();
+    fd.append('user_id', this.myForm.value.user_id);
+    fd.append('type', this.myForm.value.type);
+    fd.append('validation_start_date', this.myForm.value.validation_start_date);
+    fd.append('validation_end_date', this.myForm.value.validation_end_date);
+    fd.append('alert_time_limit', this.myForm.value.alert_time_limit);
+    fd.append('processed_alert', this.myForm.value.processed_alert);
+    fd.append('title', this.myForm.value.title);
+    fd.append('action_to_do', this.myForm.value.action_to_do);
+
+
+
+    try{
+      let res: any;
+      for(let i=0; i < this.files?.length; i++){
+        fd.append('files['+i+']', this.files[i]);
+      }
+      if(!this.edittingMode){
+        res = await this.userService.addRHDocument(fd, {
+          reportProgress: true,
+          observe: 'events'
+        }).pipe(
+          map((event: any) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round((100 / event.total) * event.loaded);
+            } else if (event.type === HttpEventType.Response) {
+              this.progress = null;
+            }
+          }),
+          catchError((err: any) => {
+            this.progress = null;
+            return throwError(err);
+          })
+        ).toPromise();
+      }else{
+        fd.append('id', this.myForm.value.id);
+        res = await this.userService.updateRHDocument(fd).toPromise();
+      }
+
+      this.progress = null;
+      console.log('res addStorage', res);
+      Swal.fire({
+        title: this.files?.length>1 ? 'Documents partagés avec succès': 'Document partagé avec succès',
+        icon: 'success',
+        confirmButtonColor: '#078aff'
+      }).then(() => {
+
+      });
+    }catch(e){
+      console.log('err addStorage', e);
+      let messageTest = '';
+      Object.keys(e.error).forEach(error_attr => messageTest = e.error[error_attr] + "<br>");
+      Swal.fire({
+        title: 'Echec de l\'opération',
+        html: e?.status == 422 ? messageTest : e?.error?.message,
+        icon: 'error',
+        confirmButtonColor: '#078aff'
+      });
+    }finally {
+      this.show_loader = false;
+    }
+  }
+
+  getIcon(filename) {
+    const file_ex = filename.split('.').pop();
+    console.log('getIcon', filename, file_ex);
+    return 'icon-file-' + SharedClasses.getFileType(file_ex);
   }
 }

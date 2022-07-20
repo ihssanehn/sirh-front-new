@@ -56,7 +56,7 @@
         }
       }
       .btn-group-toggle{
-        border: 1px solid lightgray;
+        border: 1px solid $lightgray;
         border-radius: 10px;
         font-size: 12px;
         .btn-primary{
@@ -65,11 +65,16 @@
       }
     }
   }
-  ng-select{
-    ::ng-deep .ng-select-container{
-      min-height: 35px;
+  .input-group{
+    .form-control{
+       width: unset !important;
     }
   }
+  //ng-select{
+  //  ::ng-deep .ng-select-container{
+  //    min-height: 35px;
+  //  }
+  //}
 }
 
 .footer{

@@ -104,7 +104,7 @@ $sidebar-transition: 0.4s;//all 0.5s linear !important;
   .submenu{
     max-height: 800px;
     transition: $sidebar-transition;
-    background: #EDEDED;
+    background: $lightgray;
     .submenu-item-1 {
       //background-color: $sidebar-menuItem-background-2;
       color: $sidebar-menuItem-text-2;

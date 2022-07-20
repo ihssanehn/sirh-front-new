@@ -22,6 +22,9 @@
   }
   .form-column{
     padding-bottom: 0 !important;
+    .form-box{
+      padding-top: 0 !important;
+    }
   }
   .list-group{
     .list-group-item{
@@ -34,7 +37,7 @@
 
 .submit-block{
   padding-bottom: 20px !important;
-  padding-right: 38px !important;
+  padding-right: 20px !important;
   padding-top: 0 !important;
 }
 
@@ -49,7 +52,6 @@
     }
   }
   .file{
-    border: 1px solid $primaryColor;
     background: $lighterPrimaryColor;
     padding: 5px 10px;
     border-radius: 5px;
@@ -87,10 +89,12 @@
     .icon{
       padding: 5px;
       padding-right: 12px;
+      display: flex;
+      align-items: center;
       i{
         &:before{
           color: $primaryColor;
-          font-size: 18px;
+          font-size: 20px;
         }
       }
     }
@@ -113,3 +117,20 @@
   }
 }
 
+
+.progress-container{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  ::ng-deep .progress-outer{
+    border: 0;
+    height: 19px;
+    .progress-inner{
+      height: 15px;
+      min-height: unset;
+      font-size: 13px;
+    }
+  }
+}

@@ -208,4 +208,14 @@ export class UserService {
   submitAccess(params) {
     return this.apiService.post('permission/addUserPermissions', params);
   }
+
+  addRHDocument(params, option = null) {
+    return this.apiService.post('permission/addUserPermissions', params, option);
+//TODO
+  }
+
+  updateRHDocument(params, option = null) {
+    return this.apiService.post('permission/addUserPermissions', params, option);
+//TODO
+  }
 }

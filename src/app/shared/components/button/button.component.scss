@@ -195,7 +195,7 @@ button:disabled,
 button[disabled]{
   //opacity: .6;
   color: white;
-  background-color: lightgray;
+  background-color: $lightgray;
   background-image: inherit;
   cursor: auto;
   border: 0;

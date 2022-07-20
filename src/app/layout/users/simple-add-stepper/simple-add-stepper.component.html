@@ -1,5 +1,9 @@
-<mat-stepper linear #stepper>
-  <mat-step label="Général">
+<mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
+  <!-- change default 'edit' icon -->
+  <ng-template #stepperIcon>
+    <i class="icon-general"></i>
+  </ng-template>
+  <mat-step label="Général" state="stt">
     <app-general-simple-form
       (preview)="moveForward(0)"
       [profile_id]="profile_id"
@@ -7,6 +11,9 @@
       (submitUser)="submitUser($event)"
     ></app-general-simple-form>
   </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-parametre"></i>
+  </ng-template>
   <mat-step label="Paramètres">
     <app-parametre-simple-form
       (preview)="moveForward(0)"
@@ -15,6 +22,9 @@
       (submitUser)="submitUser($event)"
     ></app-parametre-simple-form>
   </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-doc"></i>
+  </ng-template>
   <mat-step label="Doc RH">
     <app-docrh-simple-form
       (preview)="moveForward(0)"
@@ -29,6 +39,9 @@
 <!--      [user]="user"-->
 <!--    ></app-perimetre>-->
 <!--  </mat-step>-->
+  <ng-template #stepperIcon>
+    <i class="icon-perimetre"></i>
+  </ng-template>
   <mat-step label="Périmètre">
     <app-perimetre
       (preview)="moveForward(2)"
@@ -37,6 +50,9 @@
       [user]="user"
     ></app-perimetre>
   </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-acces"></i>
+  </ng-template>
   <mat-step label="Accès">
     <app-access
       (preview)="moveForward(3)"
@@ -44,5 +60,18 @@
       [permissions]="user?.permissions"
     ></app-access>
   </mat-step>
+
+  <ng-template matStepperIcon="number" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="edit" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="done" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
 </mat-stepper>
 

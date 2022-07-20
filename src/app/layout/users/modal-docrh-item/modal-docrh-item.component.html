@@ -11,7 +11,7 @@
     <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
   </div>
 
-  <div class="modal-body">
+  <div class="modal-body p-0">
     <div class="container-fluid top-container p-0">
       <form (submit)="submit()"
             *ngIf="myForm"
@@ -199,13 +199,16 @@
                     <i class="icon-attachment"></i>
                     &nbsp;Ajouter une pièce jointe
                   </label>
+                  <div class="errorMessage" *ngIf="filesSizeErrorMessage && filesSizeErrorMessage.length>0" [innerHtml]="filesSizeErrorMessage"></div>
+                  <div class="errorMessage" *ngIf="forbiddenExtesionsErrorMessage && forbiddenExtesionsErrorMessage.length>0" [innerHtml]="forbiddenExtesionsErrorMessage"></div>
+
                   <div class="row">
                     <div class="file" *ngFor="let item of files" title="{{item.name}}">
                       <div class="close-icon" (click)="removeFile(item)">
                         <i class="icon-close"></i>
                       </div>
                       <div class="icon">
-                        <i class="fa fa-file-pdf-o"></i>
+                        <i class="{{getIcon(item.name)}}"></i>
                       </div>
                       <div class="">
                         <div class="name">{{getFileName(item.name)}}</div>
@@ -213,6 +216,9 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="row progress" *ngIf="progress">
+                  <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
                 </div>
               </div>
             </div>

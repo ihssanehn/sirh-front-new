@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -21,6 +21,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   isEditable = true;
   profile_id: number;
   user: User;
+
+  @ViewChildren('stepperIcon') private matStepperIconViewChildren;
+  matStepperIcons: any[];
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -41,13 +44,14 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.matStepperIcons = this.matStepperIconViewChildren.toArray();
     this.myStepper.selectedIndex = 0;
     this.activatedRoute?.queryParams?.subscribe(params => {
       const step = Number(params.step);
       const user_id = Number(params.user_id);
       console.log('moving', step);
       if(this.myStepper){
-        if([0, 1, 2, 3].includes(step)){
+        if([0, 1, 2, 3, 4].includes(step)){
           console.log('moved', step);
           // this.myStepper.selectedIndex = step;
           if(this.myStepper.selectedIndex < step){
@@ -96,7 +100,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
       if(other_params){
         params = {...params, ...other_params}
       }
-      this.router.navigate(['/users/new'],
+      this.router.navigate(['.'],
         { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
@@ -171,6 +175,14 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   submitRole($event: any) {
     this.profile_id = $event;
     if( this.profile_id) this.moveForward(1);
+  }
+
+  selectionChange($event) {
+    console.log('event selectionChange', $event);
+    const snapshot = this.activatedRoute.snapshot;
+    let params = { ...snapshot.queryParams, step: $event.selectedIndex};
+    this.router.navigate(['.'],
+      { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
   }
 }
 
