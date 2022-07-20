@@ -7,7 +7,7 @@ export const MY_CUSTOM_DATETIME_FORMATS = {
   fullPickerInput: 'DD-MM-YYYY HH:mm:ss',
   supportedFormats: ['DD-MM-YYYY HH:mm:ss', 'YYYY-MM-DD HH:mm:ss'],
   datePickerInput: 'DD-MM-YYYY',
-  calendar: 'DD-MM-YYYY',
+  calendar: 'YYYY-MM-DD',
   backend_format: 'YYYY-MM-DD HH:mm:ss',
   backend_calendar_format: 'YYYY-MM-DD',
   timePickerInput: 'HH:mm',

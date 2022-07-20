@@ -54,4 +54,10 @@ export class ListsService {
   getPermissionsByElement(){
 
   }
+
+  getParameters() {
+    return this.apiService.get( 'category/getParameters')
+      .pipe(map(res => { return res?.result?.data || []}));
+
+  }
 }

@@ -3,7 +3,7 @@
   <ng-template #stepperIcon>
     <i class="icon-general"></i>
   </ng-template>
-  <mat-step label="Général" state="stt">
+  <mat-step label="Général">
     <app-general-simple-form
       (preview)="moveForward(0)"
       [profile_id]="profile_id"
@@ -19,7 +19,8 @@
       (preview)="moveForward(0)"
       [profile_id]="profile_id"
       [user]="user"
-      (submitUser)="submitUser($event)"
+      (submitParameters)="submitParameters($event)"
+      (backToZero)="moveForward(0)"
     ></app-parametre-simple-form>
   </mat-step>
   <ng-template #stepperIcon>
@@ -27,8 +28,8 @@
   </ng-template>
   <mat-step label="Doc RH">
     <app-docrh-simple-form
-      (preview)="moveForward(0)"
-
+      (preview)="moveForward(1)"
+      (backToZero)="moveForward(0)"
     ></app-docrh-simple-form>
   </mat-step>
 <!--  <mat-step label="Doc RH">-->
@@ -48,6 +49,7 @@
       (submitPerimeters)="submitPerimeters($event)"
       [perimeters]="user?.perimeters"
       [user]="user"
+      (backToZero)="moveForward(0)"
     ></app-perimetre>
   </mat-step>
   <ng-template #stepperIcon>
@@ -58,6 +60,7 @@
       (preview)="moveForward(3)"
       (submitAccess)="submitAccess($event)"
       [permissions]="user?.permissions"
+      (backToZero)="moveForward(0)"
     ></app-access>
   </mat-step>
 

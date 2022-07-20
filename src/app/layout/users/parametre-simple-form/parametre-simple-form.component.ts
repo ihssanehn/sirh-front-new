@@ -23,8 +23,7 @@ import {MainStore} from "@store/mainStore.store";
   styleUrls: ['./parametre-simple-form.component.scss'],
 })
 export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
-  userFormGroup: FormGroup;
-  passwordFormGroup: FormGroup;
+  parametersFormGroup: FormGroup;
   errors : Array<any> = [];
   $userRoles = $userRoles;
   allRoles = [
@@ -33,9 +32,8 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   error = '';
   warning = '';
   submitting: boolean;
-  submittingPassword: boolean;
   formInputs = {
-    id: 'id',
+    personal_id: 'personal_id',
     billing_admin_id: 'billing_admin_id',
     project_creation_right_id: 'project_creation_right_id',
     has_internal_billing_admin: 'has_internal_billing_admin',
@@ -63,7 +61,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     has_ar_final_validation: 'has_ar_final_validation',
     ra_cancellation_right_id: 'ra_cancellation_right_id',
     fee_confirmation_id: 'fee_confirmation_id',
-    profile_caption_overload_id: 'profile_caption_overload_id',
+    profile_caption_overload: 'profile_caption_overload',
     is_virtual_user: 'is_virtual_user',
     has_right_da: 'has_right_da',
     has_right_br: 'has_right_br',
@@ -82,9 +80,8 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     has_right_validate_pointing: 'has_right_validate_pointing',
     has_meal_ticket_right: 'has_meal_ticket_right'
   }
-
   formLabels =  {
-    id: 'id',
+    personal_id: 'personal_id',
     billing_admin_id: 'Admin facturation',
     project_creation_right_id: 'Droit création projet',
     has_internal_billing_admin: 'Admin facturation interne',
@@ -112,7 +109,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     has_ar_final_validation: 'Validation finale RA',
     ra_cancellation_right_id: 'Droit Annulation RA',
     fee_confirmation_id: 'Validation frais',
-    profile_caption_overload_id: 'Surcharge libellé profil',
+    profile_caption_overload: 'Surcharge libellé profil',
     is_virtual_user: 'Utilisateur Virtuel',
     has_right_da: 'Droit DA',
     has_right_br: 'Droit BR',
@@ -131,43 +128,45 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     has_right_validate_pointing: 'Droit validation pointage',
     has_meal_ticket_right: 'Droit ticket restaurant'
   }
-
-
-  billing_admins = [];
-  project_creation_rights = [];
-  formation_admins =  [];
-  cash_managements = [];
-  management_obs_managers = [];
-  interview_accesses = [];
-  theoretical_interview_dates = [];
-  satisfaction_consultants = [];
-  security_reviews = [];
   access_proposals = [];
-  employee_follow_ups = [];
-  package_managements = [];
-  questionnaire_accesses =  [];
-  ct_request_model_managements = [];
-  hr_document_accesses = [];
-  ra_cancellation_rights = [];
-  fee_confirmations = [];
-  profile_caption_overloads = [];
-  supplier_reference_rights = [];
-  closing_synthesis_rights  = [];
-  prevention_plan_admins = [];
-  document_administrations = [];
+  billing_admin = [];
+  cash_management = [];
+  closing_synthesis_right = []
+  ct_request_model_management = []
+  document_administration = []
+  employee_follow_up = []
+  fee_confirmation = []
+  formation_admin = []
+  hr_document_access = []
+  interview_access = []
+  management_obs_manager = []
+  package_management = []
+  prevention_plan_admin = []
+  project_creation_right = []
+  questionnaire_access = []
+  ra_cancellation_right = []
+  satisfaction_consultant = []
+  security_review = []
+  supplier_reference_right = []
+  theoretical_interview_date = []
+
+
+
 
   errorLoadData: boolean;
   loadingData: boolean;
   submittingPhoto: boolean;
   photoBase64 = null;
   validators_conge =  [];
+  loadingLists: boolean;
   @Input() title = '';
   @Input() type = '';
   @Input()  idUser: any;
   @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-  @Output() submitUser: EventEmitter<any> = new EventEmitter();
+  @Output() submitParameters: EventEmitter<any> = new EventEmitter();
+  // @Output() backToZero: EventEmitter<any> = new EventEmitter();
   @Input()
   public set user(val: User) {
     if(val){
@@ -189,8 +188,8 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
-    this.userFormGroup = this.formBuilder.group({
-      id: [null],
+    this.parametersFormGroup = this.formBuilder.group({
+      personal_id: [null],
       billing_admin_id: [null],
       project_creation_right_id: [null],
       has_internal_billing_admin: [null],
@@ -218,7 +217,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
       has_ar_final_validation: [null],
       ra_cancellation_right_id: [null],
       fee_confirmation_id: [null],
-      profile_caption_overload_id: [null],
+      profile_caption_overload: [null],
       is_virtual_user: [null],
       has_right_da: [null],
       has_right_br: [null],
@@ -239,21 +238,68 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     });
 
     this.modalService.dismissAll();
+  }
 
-    this.passwordFormGroup = this.formBuilder.group({
-      password: [null, [Validators.required, Validators.minLength(6)]],
-      confirm_password: [null, [Validators.required, Validators.minLength(6)]],
-    }, {validator: this.passwordConfirming});
-    this.activatedRoute.params.subscribe(params => {
-      console.log('params', params);
-    })
+  mockupData(){
+    const data = {
+      personal_id: 11,
+      billing_admin_id: 13,
+      project_creation_right_id: 15,
+      has_internal_billing_admin: 1,
+      has_admin_gp: 1,
+      has_travel_admin: 1,
+      formation_admin_id: 19,
+      cash_management_id: 21,
+      management_obs_manager_id: 22,
+      interview_access_id: 26,
+      theoretical_interview_date_id: 29,
+      has_trial_period_access: 1,
+      has_multi_etp_access: 1,
+      satisfaction_consultant_id: 32,
+      security_review_id: 36,
+      access_proposals_id: 37,
+      employee_follow_up_id: 42,
+      has_advance_management: 1,
+      has_access_management_predefined_states: 0,
+      package_management_id: 46,
+      questionnaire_access_id: 52,
+      ct_request_model_management_id: 55,
+      hr_document_access_id: 58,
+      has_not_interviewed: 1,
+      has_ar_final_validation: 1,
+      ra_cancellation_right_id: 60,
+      fee_confirmation_id: 65,
+      profile_caption_overload: 'Profile Label',
+      is_virtual_user: 1,
+      has_right_da: 0,
+      has_right_br: 1,
+      has_view_all_da: 1,
+      has_purchase_invoice_right: 0,
+      has_admin_settings: 1,
+      supplier_reference_right_id: 66,
+      closing_synthesis_right_id: 68,
+      prevention_plan_admin_id: 72 ,
+      is_employee_subject_local_scheme: 1,
+      has_access_medical_visits: 0,
+      has_master_project_management: 1,
+      has_visu_commercial_margin: 1,
+      document_administration_id: 74,
+      has_administration_type_rh_document: 0,
+      has_right_validate_pointing: 1,
+      has_meal_ticket_right: 1
+    };
+    this.parametersFormGroup.patchValue(data);
   }
 
   ngAfterViewInit(): void {
-    // if(this.idUser){
-    //   this.getUser(this.idUser);
+    // if(!this.user){
+      // this.getUser(this.idUser);
+      // this.backToZero.emit();
       // this.changeDetectorRef.detectChanges();
     // }
+    this.parametersFormGroup.patchValue({
+      ...this.user.parameter
+    })
   }
 
   async ngOnInit(){
@@ -261,102 +307,41 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
     const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
-    // try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-
+    this.getParametersLists();
+    // this.mockupData();
     this.changeDetectorRef.detectChanges();
   }
 
+  async getParametersLists(){
+    try{
+      this.loadingLists = true;
+      const res = await this.listService.getParameters().toPromise();
+      console.log('res getParametersLists', res);
+      if(res){
+        Object.keys(res).forEach(key => {
+          this[key] = res[key];
+        });
+      }
+    }catch (e){
+
+    }finally {
+      this.loadingLists = false;
+    }
+  }
 
   initFormBuilder(user: User){
-    console.log('initFormBuilder', user);
-    user = {
-      ...user,
-      is_head_office: user?.is_head_office  ? true: false,
-      is_part_time: user?.is_part_time ? true: false
-    }
-     this.userFormGroup.patchValue({
-       ...user,
-    });
-  }
-
-  // submit(){
-  //   this.errors = [];
-  //   this.userService.update(this.userFormGroup.value).toPromise().then((val) => {
-  //     this.router.navigate(['..'], { relativeTo: this.activatedRoute });
-  //   }).catch( err => {
-  //     this.errors = this.errorService.format(err);
-  //   })
-  // }
-
-
-  async submit() {
-    // Object.keys(this.userFormGroup.controls).forEach(key => {
-    //   this.userFormGroup.get(key).markAsDirty();
+    // console.log('initFormBuilder', user);
+    // user = {
+    //   ...user,
+    // }
+    //  this.parametersFormGroup.patchValue({
+    //    ...user,
     // });
-    // if(!this.userFormGroup.valid ){
-    //   return;
-    // }
-    // let toSubmit = Object.assign({}, this.userFormGroup.value,
-    //   // {
-    //     // function: this.fonctionsPersonnels.find(el => el.id === this.userFormGroup.value.function_id),
-    //     // status: this.status.find(el => el.id === this.userFormGroup.value.status_id),
-    //     // category: this.categoriesFonctions.find(el => el.id === this.userFormGroup.value.contract_id),
-    //     // family_situation: this.situationsfamilles.find(el => el.id === this.userFormGroup.value.family_situation_id)},
-    //  );
-    //
-    // //Adapting it with backend
-    //
-    // this.submitting = true;
-    // try {
-    //   const result = await this.userService.update(toSubmit).toPromise();
-    //   if (result) {
-    //     this.getUser(this.userFormGroup.value.id);
-    //     this.messageService.add({severity: 'success', summary: 'Succès',
-    //       detail: 'Utilisateur mis à jour avec succès', sticky: false});
-    //   } else {
-    //     throw new Error();
-    //   }
-    // } catch (error) {
-    //   console.log('e', error);
-    //   this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de mise à jour des informations de cet utilisateur',  sticky: false});
-    // } finally {
-    //   this.submitting = false;
-    // }
-  }
-
-
-  async submitChangePassword() {
-    Object.keys(this.passwordFormGroup.controls).forEach(key => {
-      this.passwordFormGroup.get(key).markAsDirty();
-    });
-    if(!this.passwordFormGroup.valid ){
-      return;
-    }
-    let toSubmit = this.passwordFormGroup.value;
-    toSubmit.id = this.userFormGroup.value.id;
-
-    this.submittingPassword = true;
-    try {
-      const result = await this.userService.update(toSubmit).toPromise();
-      if (result) {
-        this.messageService.add({severity: 'success', summary: 'Succès',
-          detail: 'Mot de passe mis à jour avec succès', sticky: false});
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      console.log('e', error);
-      this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de mise à jour du mot de passe de cet utilisateur',  sticky: false});
-    } finally {
-      this.submittingPassword = false;
-      this.passwordFormGroup.reset();
-    }
   }
 
 
   isRequired(control) {
-    return SharedClasses.isControlRequired(this.userFormGroup.controls[control]) ? '(*)': '';
+    return SharedClasses.isControlRequired(this.parametersFormGroup.controls[control]) ? '(*)': '';
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -369,85 +354,13 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
 
-  passwordConfirming(c: AbstractControl): { passwordMismatch: boolean } {
-    if (c.get('password').value !== c.get('confirm_password').value
-        && c.get('confirm_password').value !== null) {
-      console.log('passwordMismatch');
-      return {passwordMismatch: true};
-    }
-  }
-
-  uploadFile(e: Event) {
-    console.log('uploadFile', e);
-
-  }
-
-  getAnciente() {
-    const info = this.userFormGroup?.value;
-    if(info){
-
-      const diff = moment().diff(moment(info.start_date, 'YYYY-MM-DD'), 'months');
-      let ans: any = Math.floor(diff/12);
-
-      const month = diff % ans;
-      ans = ans > 2 ? ans+' ans' : ans+' année';
-      return ans + ' et '+month+ ' mois';
-    }else {
-      return '';
-    }
-  }
-
-  filechanged(event) {
-    // if(this.modalService.hasOpenModals()){
-    //   return;
-    // }
-    const modalRef = this.modalService.open(ImageCropperComponent);
-    modalRef.componentInstance.title = 'Photo de profil';
-    modalRef.componentInstance.file = event.target.files[0];
-    modalRef.componentInstance.submitImage.subscribe(({file, base64}) => {
-      console.log('cropper result ', file);
-      this.photoBase64 = base64;
-      if (file instanceof File) {
-        this.userFormGroup.patchValue({
-          photo_profile: file
-        });
-
-      }
-    });
-  }
-
-  private async onSubmitProfilePicture(file) {
-    if(this.submittingPhoto){
-      return;
-    }
-    try{
-      this.submittingPhoto = true;
-      const fd = new FormData();
-      fd.append('file', file);
-      fd.append('id', this.userFormGroup.value.id);
-      const res = await this.userService.setProfilePicture(fd).toPromise();
-      // this.getUser(this.userFormGroup.value.id, false);
-    }catch (e){
-
-    }finally {
-      this.submittingPhoto = false;
-    }
-  }
-
   cancelEditting() {
 
   }
 
   isDisabled() {
-    // markFormAsDirty(this.userFormGroup)
+    // markFormAsDirty(this.parametersFormGroup)
   }
-
-
-
-
-
-
-
 
 
   move(to) {
@@ -458,24 +371,20 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveUser() {
+  save() {
     this.error = '';
-    markFormAsDirty(this.userFormGroup);
-    if(!this.userFormGroup.valid ){
+    markFormAsDirty(this.parametersFormGroup);
+    if(!this.parametersFormGroup.valid ){
       this.error = 'Il y a des éléments qui nécessitent votre attention';
-      // console.log('getFormValidationErrors', );
-      getFormValidationErrors(this.userFormGroup);
+      getFormValidationErrors(this.parametersFormGroup);
       return;
     }
-    const {start_date, end_date, birthday} = this.userFormGroup.value;
-    const submit = Object.assign(this.userFormGroup.value,
-      {
-        profile_id: this.profile_id,
-        start_date: start_date && isMoment(moment(start_date)) ? moment(start_date)?.format(' YYYY-MM-DD'): null,
-        end_date: end_date && isMoment(moment(end_date)) ? moment(end_date)?.format(' YYYY-MM-DD'): null,
-        birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format(' YYYY-MM-DD'): null,
-      })
-    this.submitUser.emit(this.userFormGroup.value);
+    // const {start_date, end_date, birthday} = this.parametersFormGroup.value;
+    // const submit = Object.assign(this.parametersFormGroup.value,
+    //   {
+    //     profile_id: this.profile_id,
+    //   })
+    this.submitParameters.emit(this.parametersFormGroup.value);
   }
 }
 

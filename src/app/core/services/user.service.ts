@@ -216,6 +216,9 @@ export class UserService {
 
   updateRHDocument(params, option = null) {
     return this.apiService.post('permission/addUserPermissions', params, option);
-//TODO
+  }
+
+  submitParameters(params: any) {
+    return this.apiService.post('parameter/updateParameter', params);
   }
 }

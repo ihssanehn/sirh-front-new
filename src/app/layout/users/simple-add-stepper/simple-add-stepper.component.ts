@@ -49,7 +49,6 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     this.activatedRoute?.queryParams?.subscribe(params => {
       const step = Number(params.step);
       const user_id = Number(params.user_id);
-      console.log('moving', step);
       if(this.myStepper){
         if([0, 1, 2, 3, 4].includes(step)){
           console.log('moved', step);
@@ -69,6 +68,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
       }
       if(user_id){
         this.getUser(user_id);
+      }
+      if(!this.user){
+        this.moveForward(0);
       }
       this.changeDetectorRef.detectChanges();
     })
@@ -92,7 +94,6 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   moveForward(step, other_params?) {
     if(this.myStepper){
-      console.log('moveForward', step);
 
       const snapshot = this.activatedRoute.snapshot;
       let params = { ...snapshot.queryParams, step: step};
@@ -108,26 +109,24 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   async submitUser($event: any) {
     try{
-      if(this.user?.id){
-        this.moveForward(2, {user_id: this.user?.id}); //todo delete
-        return;
-        const res = await this.userService.submitUser($event).toPromise();
-        if(res?.result?.data?.id){
-          this.moveForward(2, {user_id: res?.result?.data?.id});
-        }
-      }
+      // this.moveForward(1, {user_id: this.user?.id});
       const fd = new FormData();
       Object.keys($event).forEach(key => {
         if($event[key] != null){
           fd.append(key, $event[key]);
         }
-      })
+      });
       const res = await this.userService.submitUser(fd).toPromise();
       if(res?.result?.data?.id){
-        this.moveForward(2, {user_id: res?.result?.data?.id});
+        this.moveForward(1, {user_id: res?.result?.data?.id});
       }
     }catch (e){
-
+      this.messageService.add({
+        severity: 'error',
+        summary: "Erreur ",
+        detail: 'Une erreur est survenue',
+        sticky: false,
+      });
     }finally {
 
     }
@@ -155,7 +154,6 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         user_id: this.user?.id,
         permission_ids: $event.permissions
       }
-      console.log('submitAccess', params);
       const res = await this.userService.submitAccess(params).toPromise();
       this.router.navigate(['/users']).then(()=>{
         this.messageService.add({
@@ -178,11 +176,23 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   }
 
   selectionChange($event) {
-    console.log('event selectionChange', $event);
     const snapshot = this.activatedRoute.snapshot;
     let params = { ...snapshot.queryParams, step: $event.selectedIndex};
     this.router.navigate(['.'],
       { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
+  }
+
+  async submitParameters($event: any) {
+    try{
+      const res = await this.userService.submitParameters($event).toPromise();
+      if(res?.result?.data?.id){
+        this.moveForward(2, {user_id: res?.result?.data?.id});
+      }
+    }catch (e){
+
+    }finally {
+
+    }
   }
 }
 

@@ -506,7 +506,9 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
           end_trial_period_date: null
         });
       }
+      console.log('change', this.userFormGroup.value.end_trial_period_date,this.userFormGroup.value.entry_date );
     });
+
     // modalRef.componentInstance.type = type;
   }
 
@@ -595,6 +597,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       getFormValidationErrors(this.userFormGroup);
       return;
     }
+    console.log('this.userFormGroup.value', this.userFormGroup.value);
     const date_inputs = [
       'start_date',
       'birth_date',
@@ -609,8 +612,9 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     ];
     const submit = Object.assign(this.userFormGroup.value);
     date_inputs.forEach(input => {
-      submit[input] = this.userFormGroup.value[input] && isMoment(moment(this.userFormGroup.value[input])) ? moment(this.userFormGroup.value[input])?.format(' YYYY-MM-DD'): null;
+      submit[input] = this.userFormGroup.value[input] && isMoment(moment(this.userFormGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.userFormGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
     });
+    console.log('this.userFormGroup.value submit', submit);
     this.submitUser.emit(this.userFormGroup.value);
   }
 

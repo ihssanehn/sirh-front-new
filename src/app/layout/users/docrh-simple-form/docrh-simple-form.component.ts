@@ -193,7 +193,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router) {
 
-    this.openDocumentRHModal();
+    // this.openDocumentRHModal();
     this.route.params.subscribe(params => {
       const {type} = params;
       switch (type){
