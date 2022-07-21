@@ -44,7 +44,7 @@
     benefits?: string;
     profile_name?: string;
     cp_name?: string;
-    photo_profile_path?: string;
+    photo_profile?: string;
     created_at?: Date;
     updated_at?: Date;
   }

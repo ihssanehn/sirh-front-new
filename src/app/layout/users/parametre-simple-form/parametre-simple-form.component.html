@@ -107,12 +107,12 @@
                   <div class="row">
                     <div class="col check-box-btn">
                       <input type="checkbox"
-                             id="{{formLabels.project_creation_right_id}}"
-                             [formControl]="parametersFormGroup.controls[formInputs.project_creation_right_id]"
+                             id="{{formLabels.has_internal_billing_admin}}"
+                             [formControl]="parametersFormGroup.controls[formInputs.has_internal_billing_admin]"
                       >
-                      <label for="{{formLabels.project_creation_right_id}}"
-                             data-content="{{formLabels.project_creation_right_id}}">
-                        <span class="name">{{formLabels.project_creation_right_id}}</span>
+                      <label for="{{formLabels.has_internal_billing_admin}}"
+                             data-content="{{formLabels.has_internal_billing_admin}}">
+                        <span class="name">{{formLabels.has_internal_billing_admin}}</span>
                       </label>
                     </div>
                   </div>
@@ -617,8 +617,8 @@
                     </div>
 
                     <div class="row">
-                      <div class="col">
-                        <label class="col-12">{{formLabels.profile_caption_overload}}
+<!--                      <div class="col">-->
+                        <label class="col-12 bold-label">{{formLabels.profile_caption_overload}}
                           {{isRequired(formInputs.profile_caption_overload)}}</label>
                         <div class="col check-box-btn">
                           <input type="checkbox"
@@ -636,7 +636,7 @@
                             La surcharge libellé profile est obligatoire
                           </div>
                         </div>
-                      </div>
+<!--                      </div>-->
                     </div>
 
                     <div class="row">

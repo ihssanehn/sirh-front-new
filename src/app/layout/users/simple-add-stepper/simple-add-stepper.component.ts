@@ -24,6 +24,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('stepperIcon') private matStepperIconViewChildren;
   matStepperIcons: any[];
+  submittingUser: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -109,16 +110,30 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   async submitUser($event: any) {
     try{
-      // this.moveForward(1, {user_id: this.user?.id});
+      this.submittingUser = true;
       const fd = new FormData();
       Object.keys($event).forEach(key => {
-        if($event[key] != null){
-          fd.append(key, $event[key]);
+        if(key === 'photo_profile'){
+          if($event[key] instanceof File){// Cas de Ajout ou modification de photo
+            fd.append(key, $event[key]);
+          }else if(!($event[key]?.length>0)){ // Cas de suppression de photo
+            fd.append('delete_photo_profile', 'true');
+          }
+        }else{
+          if($event[key] != null){
+            fd.append(key, $event[key]);
+          }
         }
       });
-      const res = await this.userService.submitUser(fd).toPromise();
+      let res;
+      if($event?.id){
+         res = await this.userService.submitUpdateUser(fd).toPromise();
+      }else{
+         res = await this.userService.submitUser(fd).toPromise();
+      }
       if(res?.result?.data?.id){
         this.moveForward(1, {user_id: res?.result?.data?.id});
+        this.user = res.result.data;
       }
     }catch (e){
       this.messageService.add({
@@ -127,8 +142,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         detail: 'Une erreur est survenue',
         sticky: false,
       });
+      console.log('error submit user', e);
     }finally {
-
+      this.submittingUser = false;
     }
   }
 
@@ -185,8 +201,8 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   async submitParameters($event: any) {
     try{
       const res = await this.userService.submitParameters($event).toPromise();
-      if(res?.result?.data?.id){
-        this.moveForward(2, {user_id: res?.result?.data?.id});
+      if(res?.result?.data){
+        this.moveForward(2);
       }
     }catch (e){
 

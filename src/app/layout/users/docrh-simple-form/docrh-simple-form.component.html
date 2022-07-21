@@ -28,6 +28,30 @@
 <!--        ></app-button>-->
 <!--      </div>-->
 <!--    </div>-->
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [type]="'secondary_2'"
+        [routerLink]="['/users']"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Documents RH</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="move(1)"
+      ></app-button>
+    </div>
+  </div>
     <div class="sub-header container-fuild container-lg ">
 
 <!--      <div class="search">-->
@@ -80,7 +104,7 @@
           [text]="'Ajouter'"
           [type]="'secondary'"
           [iconRight]="'icon-add'"
-          (onClick)="openSelectRole()"
+          (onClick)="openDocumentRHModal()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>

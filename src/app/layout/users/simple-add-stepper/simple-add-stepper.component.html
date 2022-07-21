@@ -9,6 +9,7 @@
       [profile_id]="profile_id"
       [user]="user"
       (submitUser)="submitUser($event)"
+      [submitting]="submittingUser"
     ></app-general-simple-form>
   </mat-step>
   <ng-template #stepperIcon>
@@ -29,7 +30,7 @@
   <mat-step label="Doc RH">
     <app-docrh-simple-form
       (preview)="moveForward(1)"
-      (backToZero)="moveForward(0)"
+      (next)="moveForward(3)"
     ></app-docrh-simple-form>
   </mat-step>
 <!--  <mat-step label="Doc RH">-->

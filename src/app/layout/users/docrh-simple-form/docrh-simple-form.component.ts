@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import { UserService } from '@services/index';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -184,7 +184,9 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
       title: 'Affilation mutuelle_helene NOGUES BRUNET',
       action_to_do: null,
     },
-  ]
+  ];
+  @Output() next: EventEmitter<any> = new EventEmitter();
+  @Output() preview: EventEmitter<any> = new EventEmitter();
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
@@ -437,4 +439,14 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     });
     // modalRef.componentInstance.id_document = null;
   }
+
+  move(to) {
+    if(to == 1){
+      this.next.emit();
+    }else{
+      this.preview.emit();
+    }
+  }
+
+
 }

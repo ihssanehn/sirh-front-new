@@ -334,9 +334,9 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     // user = {
     //   ...user,
     // }
-    //  this.parametersFormGroup.patchValue({
-    //    ...user,
-    // });
+     this.parametersFormGroup.patchValue({
+       personal_id: user?.id
+    });
   }
 
 

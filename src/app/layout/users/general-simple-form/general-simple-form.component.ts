@@ -35,7 +35,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   ];
   error = '';
   warning = '';
-  submitting: boolean;
+  @Input() submitting: boolean;
   submittingPassword: boolean;
   formInputs = {
       id: "id",
@@ -256,6 +256,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     this.userFormGroup = this.formBuilder.group({
         id: [null],
         registration_number: [null,Validators.required], //Matricule *
+        photo_profile: [null],
         first_name: [null],
         last_name: [null],
         email: [null],
@@ -305,7 +306,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         send_info_to_user: [null],
         // creator_id:[null]
       });
-    console.log('ANASS TEDST,', this.userFormGroup.value);
 
     // this.modalService.dismissAll();
 
@@ -384,6 +384,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       is_head_office: user?.is_head_office  ? true: false,
       is_part_time: user?.is_part_time ? true: false
     }
+    this.mainStore.images = this.mainStore.images.filter(item => item.name !== user.photo_profile);
+
      this.userFormGroup.patchValue({
        ...user,
     });
@@ -615,6 +617,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       submit[input] = this.userFormGroup.value[input] && isMoment(moment(this.userFormGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.userFormGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
     });
     console.log('this.userFormGroup.value submit', submit);
+    // this.photoBase64 = null;
     this.submitUser.emit(this.userFormGroup.value);
   }
 
@@ -648,6 +651,13 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   }
   returnfalse(){
     return false;
+  }
+
+  deleteProfilePicture() {
+    this.userFormGroup.patchValue({
+      photo_profile: null
+    });
+    this.photoBase64 = null
   }
 }
 

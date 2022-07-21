@@ -8,6 +8,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
+        [isLoading]="submitting"
         [routerLink]="['/users']"
       ></app-button>
     </div>
@@ -17,12 +18,14 @@
         [text]="'Précédent'"
         [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
+        [isLoading]="submitting"
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
       <app-button
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
+        [isLoading]="submitting"
         (onClick)="saveUser()"
       ></app-button>
     </div>
@@ -54,7 +57,7 @@
             <div class="main-container head-info justify-content-center">
               <div>
                 <div class="avatar">
-                  <div class="photo" *ngIf="userFormGroup?.value?.photo_profile; else noUser">
+                  <div class="photo testo" *ngIf="userFormGroup?.value?.photo_profile?.length>0; else noUser">
                     <img
                       [attr.src]="userFormGroup.value.photo_profile |
                       getPhotoFromBackend: ('assets/images/'+(userFormGroup.value.civility === 'Mme' ? 'woman.png': 'man.png')) |
@@ -86,7 +89,7 @@
                       [text]="'Supprimer la photo de profil'"
                       [iconLeft]="'fa fa-trash'"
                       [customStyle]="{'font-size': '11px', 'padding': '4px 10px', 'min-height': 'unset'}"
-                      (onClick)="onSubmitProfilePicture({}); photoBase64 = null"
+                      (onClick)="deleteProfilePicture()"
                     ></app-button>
                   </div>
                 </div>
@@ -822,11 +825,14 @@
                     <div class="col">
                       <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
                       <div class="date-picker-group">
-<!--                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>-->
+                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>
                         <input class="form-control input date"
                                (keydown)="returnfalse()"
+                               [owlDateTime]="owl_dt6"
+                               [owlDateTimeTrigger]="owl_dt6"
                                placeholder="Choisir la date de sortie ici"
                                [disableControl]="!isValidMoment(formInputs.entry_date)"
+
                                [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
                         />
                         <div class="icons-container">
