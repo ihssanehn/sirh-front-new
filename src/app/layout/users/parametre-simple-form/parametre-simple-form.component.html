@@ -620,23 +620,19 @@
 <!--                      <div class="col">-->
                         <label class="col-12 bold-label">{{formLabels.profile_caption_overload}}
                           {{isRequired(formInputs.profile_caption_overload)}}</label>
-                        <div class="col check-box-btn">
-                          <input type="checkbox"
-                                 id="{{formLabels.profile_caption_overload}}"
-                                 [formControl]="parametersFormGroup.controls[formInputs.profile_caption_overload]"
-                          >
-                          <label for="{{formLabels.profile_caption_overload}}"
-                                 data-content="{{formLabels.profile_caption_overload}}">
-                            <span class="name">{{formLabels.profile_caption_overload}}</span>
-                          </label>
-                          <div class="form-control-feedback"
-                               *ngIf="parametersFormGroup.controls[formInputs.profile_caption_overload].hasError('required')
-                  && parametersFormGroup.controls[formInputs.profile_caption_overload].dirty">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            La surcharge libellé profile est obligatoire
-                          </div>
-                        </div>
-<!--                      </div>-->
+                        <input type="text"
+                               placeholder="Saisir la surcharge libellé profil ici"
+                               class="form-control input"
+                               [formControl]="parametersFormGroup.controls[formInputs.profile_caption_overload]"
+                               [ngClass]="{'is-invalid error-input': parametersFormGroup.controls[formInputs.profile_caption_overload].hasError('required')
+                                    && parametersFormGroup.controls[formInputs.profile_caption_overload].dirty}"
+                        />
+                      <div class="form-control-feedback"
+                           *ngIf="parametersFormGroup.controls[formInputs.profile_caption_overload].hasError('required')
+                    && parametersFormGroup.controls[formInputs.profile_caption_overload].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La surcharge libellé profil est obligatoire
+                      </div>
                     </div>
 
                     <div class="row">

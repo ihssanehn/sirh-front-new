@@ -334,9 +334,12 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     // user = {
     //   ...user,
     // }
-     this.parametersFormGroup.patchValue({
-       personal_id: user?.id
-    });
+    if(user){
+      this.parametersFormGroup.patchValue({
+        personal_id: user.id,
+        ...user.parameter
+      });
+    }
   }
 
 
@@ -384,6 +387,11 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
     //   {
     //     profile_id: this.profile_id,
     //   })
+    Object.keys(this.parametersFormGroup.value).forEach(key => {
+      if(this.parametersFormGroup.value[key] === 'false'){
+        this.parametersFormGroup.value[key] = false;
+      }
+    });
     this.submitParameters.emit(this.parametersFormGroup.value);
   }
 }

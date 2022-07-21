@@ -219,6 +219,6 @@ export class UserService {
   }
 
   submitParameters(params: any) {
-    return this.apiService.post('parameter/updateParameter', params);
+    return this.apiService.post('parameter/addOrUpdateParameter', params);
   }
 }
