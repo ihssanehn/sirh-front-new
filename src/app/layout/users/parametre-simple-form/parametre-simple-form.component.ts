@@ -31,7 +31,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   ];
   error = '';
   warning = '';
-  submitting: boolean;
+  @Input() submitting: boolean;
   formInputs = {
     personal_id: 'personal_id',
     billing_admin_id: 'billing_admin_id',
@@ -297,9 +297,12 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
       // this.backToZero.emit();
       // this.changeDetectorRef.detectChanges();
     // }
-    this.parametersFormGroup.patchValue({
-      ...this.user.parameter
-    })
+    // if(this.user){
+    //   this.parametersFormGroup.patchValue({
+    //     ...this.user.parameter
+    //   });
+    //   this.changeDetectorRef.detectChanges();
+    // }
   }
 
   async ngOnInit(){

@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
-import {User} from "@app/core/entities";
+import {RHDocument, User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {Validators} from "@angular/forms";
@@ -53,140 +53,10 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     page: 1,
     limit: 10,
   }
-  documents = [
-    {
-      id: 1,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 2,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 3,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 4,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 5,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 6,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 7,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 8,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 9,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 10,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 11,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 12,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-    {
-      id: 13,
-      type: 'Evènement',
-      validation_start_date: 'N/A',
-      validation_end_date: 'N/A',
-      processed: 'N/A',
-      alert: 'N/A',
-      title: 'Affilation mutuelle_helene NOGUES BRUNET',
-      action_to_do: null,
-    },
-  ];
+  documents: Array<RHDocument> = [];
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+   loading: boolean;
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
@@ -221,8 +91,8 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getUsers();
     this.getFilters();
+    this.getDocuments();
   }
 
   async getFilters(){
@@ -236,27 +106,6 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
     try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
     try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
-  }
-
-  getUsers(){
-    if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    const params = {
-      ...this.filter
-    }
-    if(this.filter.is_virtual === null){
-      params.is_virtual = -1;
-    }else if(this.filter.is_virtual){
-      params.is_virtual = 1;
-    }else {
-      params.is_virtual = 0;
-    }
-    this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
-      this.users = result.data.data;
-      console.log('this.users', this.users);
-      this.pagination = { ...this.pagination, total: result?.data?.total };
-    }, err =>{
-      console.log('err getUsers', err);
-    })
   }
 
   openSelectRole(){
@@ -279,88 +128,6 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-  }
-
-  async askBlockUser(id) {
-    Swal.fire({
-      title: this.translate.instant('ARE YOU SURE?'),
-      text: this.translate.instant('ARE YOU SURE YOU WANT TO BLOCK THIS USER ACCOUNT?'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#59a6d4',
-      cancelButtonColor: '#f3533b',
-      confirmButtonText: this.translate.instant('YES, BLOCK!'),
-      cancelButtonText: this.translate.instant('CANCEL'),
-      heightAuto: false
-    }).then(async (result) => {
-      if (result.value) {
-        try {
-          const res = await this.userService.update({id,  blocked_at: true, keyword: this.keyword}).toPromise();
-          console.log('res', res);
-          if ( res?.result?.data) {
-            Swal.fire({
-              title: this.translate.instant('SUCCESSFUL OPERATION!'),
-              text: 'Ce compte utilisateur a bien été bloqué',
-              icon: 'success',
-              heightAuto: false
-            });
-            this.users = res?.result.data;
-            // this.getUsers();
-          } else {
-            throw new Error();
-          }
-        } catch (error) {
-          // const errorMessage = this.errorsService.getErrorMessage(error.status || null, error);
-          console.log('errorMessage', error);
-          Swal.fire(
-              this.translate.instant('FAILURE!'),
-              error,
-              'error'
-          );
-        }
-      }
-    });
-  }
-
-  async askUnBlockUser(id) {
-    Swal.fire({
-      title: this.translate.instant('ARE YOU SURE?'),
-      text: this.translate.instant('ARE YOU SURE YOU WANT TO UNBLOCK THIS USER ACCOUNT?'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#59a6d4',
-      cancelButtonColor: '#f3533b',
-      confirmButtonText: 'Oui, débloquer!',
-      cancelButtonText: this.translate.instant('CANCEL'),
-      heightAuto: false
-    }).then(async (result) => {
-      if (result.value) {
-        try {
-          const res = await this.userService.update({id, blocked_at: false, keyword: this.keyword}).toPromise();
-          console.log('res', res);
-          if ( res?.result?.data) {
-            Swal.fire({
-              title: this.translate.instant('SUCCESSFUL OPERATION!'),
-              text: 'Ce compte utilisateur a bien été débloqué',
-              icon: 'success',
-              heightAuto: false
-            });
-            this.users = res.result.data;
-            // this.getUsers();
-          } else {
-            throw new Error();
-          }
-        } catch (error) {
-          // const errorMessage = this.errorsService.getErrorMessage(error.status || null, error);
-          console.log('errorMessage', error);
-          Swal.fire(
-              this.translate.instant('FAILURE!'),
-              error,
-              'error'
-          );
-        }
-      }
-    });
   }
 
   async archive(id) {
@@ -414,30 +181,26 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
       managers: [],
       is_virtual: null
     });
-    console.log('resetFilters', this.filter)
-    this.getUsers();
-    // showFilters = !showFilters;
+    this.getDocuments();
   }
 
   changePagination() {
     this.pagination = { ...this.pagination, limit: this.pagination.limit, total: this.pagination.total };
     this.filter.page = this.pagination.page;
     this.filter.limit = this.pagination.limit;
-    this.getUsers();
+    this.getDocuments();
   }
 
-  filterChanged() {
-    this.getUsers();
-  }
-
-  openDocumentRHModal(){
+  openDocumentRHModal(id?){
     const modalRef = this.modalService.open(ModalDocrhItemComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
     }, reason => {
       console.log('closed');
     });
-    // modalRef.componentInstance.id_document = null;
+    if(id){
+      modalRef.componentInstance.id_document = id;
+    }
   }
 
   move(to) {
@@ -448,5 +211,19 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  async getDocuments(){
+    try {
+      this.loading = true;
+      const params = {
+        ...this.filter
+      }
+      const res = await this.userService.getRHDocuments(params).toPromise();
+      this.documents = res.data;
+      console.log('res getDocuments', res);
+    }catch (e){
 
+    }finally {
+      this.loading = false;
+    }
+  }
 }

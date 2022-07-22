@@ -52,6 +52,56 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     page: 1,
     limit: 10,
   }
+  shownItems: {
+    photo_profile: false;
+    registration_number: false;
+    first_name: false;
+    last_name: false;
+    function_id: false;
+    function_name: false;
+    profile_name: false;
+    cp_name: false;
+    start_date: false;
+    end_date: false;
+    telephone_personal: false;
+    email_professional: false;
+    birthday: false;
+
+
+    // parameter: any;
+    // nationality_id: number;
+    // permissions: Array<any>;
+    // perimeters: Array<any>;
+    // email_personal: string;
+    // civility: string;
+    // birth_place: string;
+    // nationality: string;
+    // address: string;
+    // code_postal: string;
+    // city: string;
+    // creator_id: number;
+    // manager_id: number;
+    // kids_number: number;
+    // number_security_social: number;
+    // number_carte_vitale: any;
+    // urgency_name_1: string;
+    // urgency_telephone_1: string;
+    // family_link_1: string;
+    // urgency_name_2: any;
+    // urgency_telephone_2: any;
+    // family_link_2: any;
+    // telephone_professional: string;
+    // family_situation_id: number;
+    // validator_absence_id: any;
+    // status_id: number;
+    // cp_id: number;
+    // is_head_office: any;
+    // is_part_time: any;
+    // first_annual_salary: string;
+    // benefits: string;
+    // created_at: Date;
+    // updated_at: Date;
+  }
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,

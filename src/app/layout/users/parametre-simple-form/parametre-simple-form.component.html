@@ -5,6 +5,7 @@
         [text]="'Annuler'"
         [type]="'secondary_2'"
         [routerLink]="['/users']"
+        [isDisabled]="submitting"
       ></app-button>
     </div>
     <h1 class="main-title">Informations du profil</h1>
@@ -14,12 +15,14 @@
         [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
         (onClick)="move(-1)"
+        [isDisabled]="submitting"
       ></app-button>&nbsp;&nbsp;
       <app-button
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
         (onClick)="save()"
+        [isLoading]="submitting"
       ></app-button>
     </div>
   </div>

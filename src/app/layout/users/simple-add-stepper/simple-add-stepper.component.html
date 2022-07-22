@@ -50,7 +50,8 @@
       (submitPerimeters)="submitPerimeters($event)"
       [perimeters]="user?.perimeters"
       [user]="user"
-      (backToZero)="moveForward(0)"
+      (next)="moveForward(4)"
+      [submitting]="submittingPerimeters"
     ></app-perimetre>
   </mat-step>
   <ng-template #stepperIcon>

@@ -89,7 +89,6 @@
       font-size: 13px;
     }
   }
-
 }
 
 .form-box{
@@ -477,45 +476,6 @@
     margin: 0;
     margin-top: 10px;
   }
-  .search{
-    //width: fill-available;
-    width: fit-content;
-    margin-top: 10px;
-    //flex: 1;
-    .input-group{
-      position: relative;
-      //min-width: 290px;
-      //min-width: 300px;
-      input{
-        box-shadow: none;
-        border-radius: 10px;
-      }
-      .input-group-append{
-        position: absolute;
-        right: 18px;
-        height: 100%;
-        display: flex;
-        i{
-          display: flex;
-          align-items: center;
-          opacity: .4;
-          &:before{
-            font-weight: 300;
-          }
-        }
-      }
-    }
-    @media (min-width: $TABLET_SCREEN) {
-      .input-group{
-        min-width: 300px;
-      }
-    }
-    app-button{
-      ::ng-deep .icon-filter .icon-close{
-        padding-right: 5px;
-      }
-    }
-  }
   @media (min-width: $LARGE_SCREEN) {
     .search{
       //min-width: 250px;
@@ -523,6 +483,7 @@
     }
   }
 }
+
 
 .wrap {
   display: flex;

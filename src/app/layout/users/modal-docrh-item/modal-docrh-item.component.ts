@@ -25,13 +25,13 @@ export class ModalDocrhItemComponent implements OnInit {
   formInputs = {
     id: 'id',
     user_id: 'user_id',
-    type: 'type',
-    validation_start_date: 'validation_start_date',
-    validation_end_date: 'validation_end_date',
+    document_type: 'document_type',
+    valid_start_date: 'valid_start_date',
+    valid_end_date: 'valid_end_date',
     alert_time_limit: 'alert_time_limit',
-    processed_alert: 'processed_alert',
+    has_treated_alert: 'has_treated_alert',
     title: 'title',
-    action_to_do: 'action_to_do',
+    action_to_take: 'action_to_take',
     files: 'files',
   }
   formMetaData = {
@@ -44,17 +44,17 @@ export class ModalDocrhItemComponent implements OnInit {
       required: false,
       placeholder: 'Sélectionner un utilisateur'
     },
-    type:  {
+    document_type:  {
       label: 'Type de document',
       required: false,
       placeholder: 'Sélectionner le type du document'
     },
-    validation_start_date:  {
+    valid_start_date:  {
       label: 'Date début validité',
       required: false,
       placeholder: 'Sélectionner la date début validé du document'
     },
-    validation_end_date:  {
+    valid_end_date:  {
       label: 'Date fin validité',
       required: false,
       placeholder: 'Sélectionner la date fin validé du document'
@@ -64,7 +64,7 @@ export class ModalDocrhItemComponent implements OnInit {
       required: false,
       placeholder: 'Sélectionner le dalais d\'alerte'
     },
-    processed_alert:  {
+    has_treated_alert:  {
       label: 'Alerte traité',
       required: false,
       placeholder: null
@@ -74,7 +74,7 @@ export class ModalDocrhItemComponent implements OnInit {
       required: false,
       placeholder: 'Saisir le titre du document'
     },
-    action_to_do:  {
+    action_to_take:  {
       label: 'Action à mener',
       required: false,
       placeholder: 'Saisir l\'action à mener'
@@ -106,13 +106,13 @@ export class ModalDocrhItemComponent implements OnInit {
     this.myForm = this.fb.group({
       id: [null],
       user_id:[null, Validators.required],
-      type: [null, Validators.required],
-      validation_start_date: [null],
-      validation_end_date: [null, Validators.required],
+      document_type: [null, Validators.required],
+      valid_start_date: [null],
+      valid_end_date: [null, Validators.required],
       alert_time_limit: [null],
-      processed_alert: [null],
+      has_treated_alert: [null],
       title: [null],
-      action_to_do: [null],
+      action_to_take: [null],
       files: [null],
     });
   }
@@ -290,13 +290,13 @@ export class ModalDocrhItemComponent implements OnInit {
     this.progress = 1;
     const fd = new FormData();
     fd.append('user_id', this.myForm.value.user_id);
-    fd.append('type', this.myForm.value.type);
-    fd.append('validation_start_date', this.myForm.value.validation_start_date);
-    fd.append('validation_end_date', this.myForm.value.validation_end_date);
+    fd.append('document_type', this.myForm.value.document_type);
+    fd.append('valid_start_date', this.myForm.value.valid_start_date);
+    fd.append('valid_end_date', this.myForm.value.valid_end_date);
     fd.append('alert_time_limit', this.myForm.value.alert_time_limit);
-    fd.append('processed_alert', this.myForm.value.processed_alert);
+    fd.append('has_treated_alert', this.myForm.value.has_treated_alert);
     fd.append('title', this.myForm.value.title);
-    fd.append('action_to_do', this.myForm.value.action_to_do);
+    fd.append('action_to_take', this.myForm.value.action_to_take);
 
 
 

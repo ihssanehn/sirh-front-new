@@ -60,9 +60,9 @@
         <div class="search d-flex filters">
           <div class="input-group">
             <label>Type document</label>
-            <ng-select class="select form-control" [multiple]="true"  [multiple]="true"
+            <ng-select class="select form-control" [multiple]="true"
                        [items]="managers"
-                       (change)="filterChanged()"
+                       (change)="getDocuments()"
                        [(ngModel)]="filter.managers"
                        [bindLabel]="'full_name'"
                        [bindValue]="'id'"
@@ -70,9 +70,9 @@
           </div>
           <div class="input-group">
             <label>Traité</label>
-            <ng-select class="select form-control" [multiple]="true"  [multiple]="true"
+            <ng-select class="select form-control" [multiple]="true"
                        [items]="managers"
-                       (change)="filterChanged()"
+                       (change)="getDocuments()"
                        [(ngModel)]="filter.managers"
                        [bindLabel]="'full_name'"
                        [bindValue]="'id'"
@@ -80,9 +80,9 @@
           </div>
           <div class="input-group">
             <label>Alerte</label>
-            <ng-select class="select form-control" [multiple]="true"  [multiple]="true"
+            <ng-select class="select form-control" [multiple]="true"
                        [items]="managers"
-                       (change)="filterChanged()"
+                       (change)="getDocuments()"
                        [(ngModel)]="filter.managers"
                        [bindLabel]="'full_name'"
                        [bindValue]="'id'"
@@ -93,7 +93,7 @@
             <app-button
               [text]="'Rechercher'"
               [type]="'tertiary_inverse'"
-              (onClick)="getUsers()"
+              (onClick)="getDocuments()"
               [customStyle]="{'white-space': 'nowrap'}"
             ></app-button>
           </div>
@@ -143,37 +143,37 @@
 <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
                    <tr *ngFor="let document of documents"  >
                       <td>
-                        {{document.type}}
+                        {{document.document_type}}
                       </td>
                        <td>
-                         {{document.validation_start_date}}
+                         {{document.valid_start_date}}
                        </td>
                        <td>
-                         {{document.validation_end_date}}
+                         {{document.valid_end_date}}
                        </td>
                        <td>
-                         {{document.processed}}
+                         {{document.has_treated_alert}}
                        </td>
                        <td>
-                         {{document.alert}}
+                         {{document.alert_time_limit}}
                        </td>
                        <td>
                          {{document.title}}
                        </td>
                        <td>
-                         {{document.action_to_do || '----'}}
+                         {{document.action_to_take || '----'}}
                        </td>
                        <td class="icon-cell">
                             <div class="actions">
                               <i class="icon-edit"
                                  data-toggle="tooltip"
                                  data-placement="top"
-                                 (click)="openModal(document?.id)"
+                                 (click)="openDocumentRHModal(document?.id)"
                                  title="Modifier"></i>
                                 <i class="icon-attachment"
                                    data-toggle="tooltip"
                                    data-placement="top"
-                                   (click)="openModal(document?.id)"
+                                   (click)="openDocumentRHModal(document?.id)"
                                    title="Documents attachés"></i>
                                 <span>(1)</span>
                                 <i class="fa fa-trash"

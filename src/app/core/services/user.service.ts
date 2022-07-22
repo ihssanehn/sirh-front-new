@@ -221,4 +221,8 @@ export class UserService {
   submitParameters(params: any) {
     return this.apiService.post('parameter/addOrUpdateParameter', params);
   }
+
+  getRHDocuments(params) {
+    return this.apiService.post('personal/getAllDocuments', params);
+  }
 }

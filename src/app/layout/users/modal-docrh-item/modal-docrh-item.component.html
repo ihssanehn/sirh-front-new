@@ -49,75 +49,75 @@
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col-12">{{formMetaData.type.label}} {{isRequired(formInputs.type)}}</label>
+                    <label class="col-12">{{formMetaData.document_type.label}} {{isRequired(formInputs.document_type)}}</label>
 
                     <ng-select
                       [items]="types"
                       [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
-                      placeholder="{{formMetaData.type.placeholder}}"
-                      [formControl]="myForm.controls[formInputs.type]"
-                      [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.type].hasError('required')
-                                  && myForm.controls[formInputs.type].dirty}"
+                      placeholder="{{formMetaData.document_type.placeholder}}"
+                      [formControl]="myForm.controls[formInputs.document_type]"
+                      [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.document_type].hasError('required')
+                                  && myForm.controls[formInputs.document_type].dirty}"
                       [multiple]="false"
                     >
                     </ng-select>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.type].hasError('required')
-                    && myForm.controls[formInputs.type].dirty">
+                         *ngIf="myForm.controls[formInputs.document_type].hasError('required')
+                    && myForm.controls[formInputs.document_type].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.type.placeholder}}
+                      {{formMetaData.document_type.placeholder}}
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                    <label class="col-12">{{formMetaData.validation_start_date.label}} {{isRequired(formInputs.validation_start_date)}}</label>
+                    <label class="col-12">{{formMetaData.valid_start_date.label}} {{isRequired(formInputs.valid_start_date)}}</label>
                     <div class="date-picker-group">
                       <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
                       <input [owlDateTime]="owl_dt1"
                              class="form-control input date"
                              [owlDateTimeTrigger]="owl_dt1"
-                             placeholder="{{formMetaData.validation_start_date.placeholder}}"
-                             [formControl]="myForm.controls[formInputs.validation_start_date]"
+                             placeholder="{{formMetaData.valid_start_date.placeholder}}"
+                             [formControl]="myForm.controls[formInputs.valid_start_date]"
                       />
                       <div class="icons-container">
                         <i class="icon-close"
-                           (click)="clearDateInput(formInputs.validation_start_date)"
-                           *ngIf="myForm.controls[formInputs.validation_start_date].value"></i>&nbsp;
+                           (click)="clearDateInput(formInputs.valid_start_date)"
+                           *ngIf="myForm.controls[formInputs.valid_start_date].value"></i>&nbsp;
                         <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                       </div>
                     </div>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.validation_start_date].hasError('required')
-                    && myForm.controls[formInputs.validation_start_date].dirty">
+                         *ngIf="myForm.controls[formInputs.valid_start_date].hasError('required')
+                    && myForm.controls[formInputs.valid_start_date].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.validation_start_date.placeholder}}
+                      {{formMetaData.valid_start_date.placeholder}}
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col-12">{{formMetaData.validation_end_date.label}} {{isRequired(formInputs.validation_end_date)}}</label>
+                    <label class="col-12">{{formMetaData.valid_end_date.label}} {{isRequired(formInputs.valid_end_date)}}</label>
                     <div class="date-picker-group">
                       <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
                       <input [owlDateTime]="owl_dt2"
                              class="form-control input date"
                              [owlDateTimeTrigger]="owl_dt2"
-                             placeholder="{{formMetaData.validation_end_date.placeholder}}"
-                             [formControl]="myForm.controls[formInputs.validation_end_date]"
+                             placeholder="{{formMetaData.valid_end_date.placeholder}}"
+                             [formControl]="myForm.controls[formInputs.valid_end_date]"
                       />
                       <div class="icons-container">
                         <i class="icon-close"
-                           (click)="clearDateInput(formInputs.validation_end_date)"
-                           *ngIf="myForm.controls[formInputs.validation_end_date].value"></i>&nbsp;
+                           (click)="clearDateInput(formInputs.valid_end_date)"
+                           *ngIf="myForm.controls[formInputs.valid_end_date].value"></i>&nbsp;
                         <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
                       </div>
                     </div>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.validation_end_date].hasError('required')
-                    && myForm.controls[formInputs.validation_end_date].dirty">
+                         *ngIf="myForm.controls[formInputs.valid_end_date].hasError('required')
+                    && myForm.controls[formInputs.valid_end_date].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.validation_end_date.placeholder}}
+                      {{formMetaData.valid_end_date.placeholder}}
                     </div>
                   </div>
                 </div>
@@ -139,9 +139,9 @@
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col-12">{{formMetaData.processed_alert.label}} {{isRequired(formInputs.processed_alert)}}</label>
+                    <label class="col-12">{{formMetaData.has_treated_alert.label}} {{isRequired(formInputs.has_treated_alert)}}</label>
                     <div class="btn-group col boolean-button" role="group" ngbRadioGroup name="radioBasic"
-                         [formControl]="myForm.controls[formInputs.processed_alert]">
+                         [formControl]="myForm.controls[formInputs.has_treated_alert]">
                       <label ngbButtonLabel class="btn">
                         <input ngbButton type="radio" class="btn-check" [value]="true"> Oui
                       </label>
@@ -150,10 +150,10 @@
                       </label>
                     </div>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.validation_end_date].hasError('required')
-                    && myForm.controls[formInputs.validation_end_date].dirty">
+                         *ngIf="myForm.controls[formInputs.valid_end_date].hasError('required')
+                    && myForm.controls[formInputs.valid_end_date].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.validation_end_date.placeholder}}
+                      {{formMetaData.valid_end_date.placeholder}}
                     </div>
                   </div>
                 </div>
@@ -177,20 +177,20 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <label class="col-12">{{formMetaData.action_to_do.label}} {{isRequired(formInputs.action_to_do)}}</label>
+                    <label class="col-12">{{formMetaData.action_to_take.label}} {{isRequired(formInputs.action_to_take)}}</label>
                     <textarea
-                           [placeholder]="formMetaData.action_to_do.placeholder"
-                           [formControl]="myForm.controls[formInputs.action_to_do]"
+                           [placeholder]="formMetaData.action_to_take.placeholder"
+                           [formControl]="myForm.controls[formInputs.action_to_take]"
                            class="form-control input"
                            cols="3"
-                           [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.action_to_do].hasError('required')
-                                  && myForm.controls[formInputs.action_to_do].dirty}"
+                           [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.action_to_take].hasError('required')
+                                  && myForm.controls[formInputs.action_to_take].dirty}"
                     ></textarea>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.action_to_do].hasError('required')
-                    && myForm.controls[formInputs.action_to_do].dirty">
+                         *ngIf="myForm.controls[formInputs.action_to_take].hasError('required')
+                    && myForm.controls[formInputs.action_to_take].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.action_to_do.placeholder}}
+                      {{formMetaData.action_to_take.placeholder}}
                     </div>
                   </div>
                 </div>

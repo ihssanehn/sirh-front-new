@@ -25,6 +25,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
   @ViewChildren('stepperIcon') private matStepperIconViewChildren;
   matStepperIcons: any[];
   submittingUser: boolean;
+  submittingPerimeters: boolean;
+  submittingParameters: boolean;
+  submittingAccess: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -44,10 +47,10 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.matStepperIcons = this.matStepperIconViewChildren.toArray();
     this.myStepper.selectedIndex = 0;
-    this.activatedRoute?.queryParams?.subscribe(params => {
+    this.activatedRoute?.queryParams?.subscribe(async params => {
       const step = Number(params.step);
       const user_id = Number(params.user_id);
       if(this.myStepper){
@@ -68,9 +71,11 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         }
       }
       if(user_id){
-        this.getUser(user_id);
-      }
-      if(!this.user){
+        await this.getUser(user_id);
+        if(!this.user){
+          this.moveForward(0);
+        }
+      }else {
         this.moveForward(0);
       }
       this.changeDetectorRef.detectChanges();
@@ -92,6 +97,17 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     console.log('this.myStepper.selectedIndex', this.myStepper.selectedIndex);
   }
 
+  submitRole($event: any) {
+    this.profile_id = $event;
+    if( this.profile_id) this.moveForward(1);
+  }
+
+  selectionChange($event) {
+    const snapshot = this.activatedRoute.snapshot;
+    let params = { ...snapshot.queryParams, step: $event.selectedIndex};
+    this.router.navigate(['.'],
+      { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
+  }
 
   moveForward(step, other_params?) {
     if(this.myStepper){
@@ -106,7 +122,6 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
-
 
   async submitUser($event: any) {
     try{
@@ -150,22 +165,23 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
 
   async submitPerimeters($event: any) {
     try{
+      this.submittingPerimeters = true;
       const params = {
         personal_id: this.user.id,
         personal_perimeter_ids: $event
       }
       const res = await this.userService.submitPerimeters(params).toPromise();
-      this.moveForward(3);
+      this.moveForward(4);
     }catch (e){
 
     }finally {
-
+      this.submittingPerimeters = false;
     }
   }
 
   async submitAccess($event: any) {
     try{
-
+      this.submittingAccess = true;
       const params = {
         user_id: this.user?.id,
         permission_ids: $event.permissions
@@ -182,24 +198,13 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     }catch (e){
 
     }finally {
-
+      this.submittingAccess = false;
     }
-  }
-
-  submitRole($event: any) {
-    this.profile_id = $event;
-    if( this.profile_id) this.moveForward(1);
-  }
-
-  selectionChange($event) {
-    const snapshot = this.activatedRoute.snapshot;
-    let params = { ...snapshot.queryParams, step: $event.selectedIndex};
-    this.router.navigate(['.'],
-      { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
   }
 
   async submitParameters($event: any) {
     try{
+      this.submittingParameters = true;
       const res = await this.userService.submitParameters($event).toPromise();
       if(res?.result?.data){
         this.moveForward(2);
@@ -207,8 +212,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     }catch (e){
 
     }finally {
-
+      this.submittingParameters = false;
     }
   }
+
 }
 

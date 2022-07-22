@@ -25,9 +25,11 @@ export class PerimetreComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitPerimeters: EventEmitter<any> = new EventEmitter();
+  @Input() submitting;
   @Input() user: User;
   @Input()
   public set perimeters(val) {
+    console.log('select perimeters', val);
     if(val){
       this.selectedUsers = val.map(item => {item.id = item.personal_perimeter_id; return item;});
     }
@@ -116,7 +118,11 @@ export class PerimetreComponent implements OnInit {
   }
 
   getFiltredUsers() {
-    return this.users.filter(user => user.id !== this.user?.id && !this.selectedUsers?.find(selectedUser => selectedUser.id === user.id));
+    const filtered =  this.users.filter(user => user.id !== this.user?.id && !this.selectedUsers?.find(selectedUser => selectedUser.id === user.id));
+    if(filtered?.length===0){
+      this.onScroll();
+    }
+    return filtered;
   }
 
   deleteFromSelectedUsers(id){
