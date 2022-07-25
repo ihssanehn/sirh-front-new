@@ -24,7 +24,9 @@ export class ListsService {
     FISCAL_POWER: 'fiscal_power',
     ROLE: 'role',
     COUNTRY: 'country',
-    CITY: 'city'
+    CITY: 'city',
+    DOCUMENT_TYPE: 'document_type',
+    USERS: 'users'
   }
   constructor(private apiService: ApiService) {}
 

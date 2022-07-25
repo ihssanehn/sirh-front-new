@@ -1,33 +1,4 @@
 <div class="list container top-container">
-<!--    <div class="foback-header">-->
-<!--&lt;!&ndash;      <app-button&ndash;&gt;-->
-<!--&lt;!&ndash;        [text]="'Retour'"&ndash;&gt;-->
-<!--&lt;!&ndash;        [type]="'tertiary'"&ndash;&gt;-->
-<!--&lt;!&ndash;        [iconLeft]="'icon-go-back'"&ndash;&gt;-->
-<!--&lt;!&ndash;      ></app-button>&ndash;&gt;-->
-<!--      <div class="right-buttons">-->
-<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
-<!--&lt;!&ndash;          [text]="'Importer'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
-<!--&lt;!&ndash;        ></app-button>&nbsp;&ndash;&gt;-->
-<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
-<!--&lt;!&ndash;          [text]="'Exporter'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [type]="'tertiary'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [iconLeft]="'icon-file'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
-<!--&lt;!&ndash;        ></app-button>&ndash;&gt;-->
-<!--        &nbsp;-->
-<!--        <app-button-->
-<!--          [text]="'Ajouter un utilisateur/collaborateur'"-->
-<!--          [type]="'primary'"-->
-<!--          [iconLeft]="'fa fa-plus'"-->
-<!--          (onClick)="openSelectRole()"-->
-<!--          [customStyle]="{'white-space': 'nowrap'}"-->
-<!--        ></app-button>-->
-<!--      </div>-->
-<!--    </div>-->
   <div class="header">
     <div class="btns left-btns">
       <app-button
@@ -56,7 +27,7 @@
 
 <!--      <div class="search">-->
 <!--      </div>-->
-      <div class="filter-container ">
+      <div class="filter-container">
         <div class="search d-flex filters">
           <div class="input-group">
             <label>Type document</label>
@@ -100,122 +71,111 @@
         </div>
       </div>
       <div class="right-buttons col">
-        <app-button
-          [text]="'Ajouter'"
-          [type]="'secondary'"
-          [iconRight]="'icon-add'"
-          (onClick)="openDocumentRHModal()"
-          [customStyle]="{'white-space': 'nowrap'}"
-        ></app-button>
+        <div class="input-group justify-content-end flex-column">
+              <label>&nbsp;</label>
+              <app-button
+                [text]="'Ajouter'"
+                [type]="'secondary'"
+                [iconRight]="'icon-add'"
+                (onClick)="openDocumentRHModal()"
+                class="text-end"
+                [customStyle]="{'white-space': 'nowrap'}"
+              ></app-button>
+            </div>
       </div>
     </div>
 
-    <div class="wrap" >
-        <div class="table-wrapper">
-            <table class="table-responsive card-list-table">
-                <thead>
-                    <tr>
-                        <th>
-                          Type documents
-                        </th>
-                        <th>
-                          Début validité
-                        </th>
-                         <th>
-                           Fin validité
-                         </th>
-                         <th>
-                           Traité
-                         </th>
-                        <th>
-                          Alerte
-                        </th>
-                        <th>
-                          Titre du document
-                        </th>
-                        <th>
-                          Action a mener
-                        </th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="wrap" *ngIf="documents?.length>0; else emptyState">
+      <div class="table-wrapper">
+          <table class="table-responsive card-list-table">
+              <thead>
+                  <tr>
+                      <th>
+                        Type documents
+                      </th>
+                      <th>
+                        Début validité
+                      </th>
+                       <th>
+                         Fin validité
+                       </th>
+                       <th>
+                         Traité
+                       </th>
+                      <th>
+                        Alerte
+                      </th>
+                      <th>
+                        Titre du document
+                      </th>
+                      <th>
+                        Action a mener
+                      </th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
 <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-                   <tr *ngFor="let document of documents"  >
-                      <td>
-                        {{document.document_type}}
-                      </td>
-                       <td>
-                         {{document.valid_start_date}}
-                       </td>
-                       <td>
-                         {{document.valid_end_date}}
-                       </td>
-                       <td>
-                         {{document.has_treated_alert}}
-                       </td>
-                       <td>
-                         {{document.alert_time_limit}}
-                       </td>
-                       <td>
-                         {{document.title}}
-                       </td>
-                       <td>
-                         {{document.action_to_take || '----'}}
-                       </td>
-                       <td class="icon-cell">
-                            <div class="actions">
-                              <i class="icon-edit"
+                 <tr *ngFor="let document of documents"  >
+                    <td>
+                      {{document.document_type_label}}
+                    </td>
+                     <td>
+                       {{document.valid_start_date | dateMessage : 'DD MMMM YYYY'}}
+                     </td>
+                     <td>
+                       {{document.valid_end_date | dateMessage : 'DD MMMM YYYY'}}
+                     </td>
+                     <td>
+                       {{document.has_treated_alert}}
+                     </td>
+                     <td>
+                       {{document.alert_time_limit}}
+                     </td>
+                     <td>
+                       {{document.title}}
+                     </td>
+                     <td>
+                       {{document.action_to_take || '----'}}
+                     </td>
+                     <td class="icon-cell">
+                          <div class="actions">
+                            <i class="icon-edit"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               (click)="openDocumentRHModal(document?.id)"
+                               title="Modifier"></i>
+                              <i class="icon-attachment"
                                  data-toggle="tooltip"
                                  data-placement="top"
                                  (click)="openDocumentRHModal(document?.id)"
-                                 title="Modifier"></i>
-                                <i class="icon-attachment"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   (click)="openDocumentRHModal(document?.id)"
-                                   title="Documents attachés"></i>
-                                <span>(1)</span>
-                                <i class="fa fa-trash"
-                                   (click)="archive(document.id)"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   title="Supprimer"></i>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                                 title="Documents attachés"></i>
+                              <span>({{(document.attachments?.length > 0) ?  document.attachments?.length : '0'}})</span>
+                              <i class="fa fa-trash"
+                                 (click)="archive(document.id)"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Supprimer"></i>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="footer w-100" >
+        <div></div>
+        <app-pagination name="pagination"
+                        (change)="changePagination()"
+                        [(ngModel)]="pagination"
+                        ngDefaultControl>
+        </app-pagination>
+      </div>
     </div>
-<!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
-  <div class="footer" *ngIf="users?.length>0">
-
-    <app-pagination name="pagination"
-                    (change)="changePagination()"
-                    [(ngModel)]="pagination"
-                    ngDefaultControl>
-    </app-pagination>
-    <div class="right-buttons flex-end">
-      <app-button
-        [text]="'Importer'"
-        [type]="'tertiary_inverse'"
-        [iconLeft]="'icon-file'"
-        [customStyle]="{'white-space': 'nowrap'}"
-      ></app-button>&nbsp;
-      <app-button
-        [text]="'Exporter'"
-        [type]="'tertiary_inverse'"
-        [iconLeft]="'icon-file'"
-        [customStyle]="{'white-space': 'nowrap'}"
-      ></app-button>
-    </div>
-  </div>
 </div>
 
 <ng-template #emptyState>
   <app-centred-message
     [image]="'images/user_empty_state.svg'"
-    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+    [message]="( 'Aucun document trouvé pour le moment' | translate )"
   ></app-centred-message>
 </ng-template>

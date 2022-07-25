@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -91,10 +91,6 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     }finally {
 
     }
-  }
-
-  move(index: number) {
-    console.log('this.myStepper.selectedIndex', this.myStepper.selectedIndex);
   }
 
   submitRole($event: any) {

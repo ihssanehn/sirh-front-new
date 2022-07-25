@@ -198,6 +198,10 @@
 }
 .boolean-button{
   width: fit-content;
+  .active{
+    background: $primaryColor;
+    color: white;
+  }
 }
 
 .check-box-btn{

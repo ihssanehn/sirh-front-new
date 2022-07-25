@@ -1,16 +1,9 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ErrorService, UserService} from '@app/core/services';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MessageService} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
-import {markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
-import {Location} from '@angular/common';
-import {$userRoles} from '@shared/Objects/sharedObjects';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { FormGroup} from '@angular/forms';
+import {UserService} from '@app/core/services';
+import {SharedClasses} from '@shared/Utils/SharedClasses';
 import {User} from "@app/core/entities";
-import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {Subscription} from "rxjs";
 import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 
@@ -29,7 +22,6 @@ export class PerimetreComponent implements OnInit {
   @Input() user: User;
   @Input()
   public set perimeters(val) {
-    console.log('select perimeters', val);
     if(val){
       this.selectedUsers = val.map(item => {item.id = item.personal_perimeter_id; return item;});
     }

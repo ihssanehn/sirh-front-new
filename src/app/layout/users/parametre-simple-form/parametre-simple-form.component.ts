@@ -8,11 +8,8 @@ import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/U
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
-import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ListsService} from "@services/lists.service";
-import {isMoment} from "moment";
 import {MainStore} from "@store/mainStore.store";
 
 
@@ -166,7 +163,6 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitParameters: EventEmitter<any> = new EventEmitter();
-  // @Output() backToZero: EventEmitter<any> = new EventEmitter();
   @Input()
   public set user(val: User) {
     if(val){
@@ -292,17 +288,7 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // if(!this.user){
-      // this.getUser(this.idUser);
-      // this.backToZero.emit();
-      // this.changeDetectorRef.detectChanges();
-    // }
-    // if(this.user){
-    //   this.parametersFormGroup.patchValue({
-    //     ...this.user.parameter
-    //   });
-    //   this.changeDetectorRef.detectChanges();
-    // }
+
   }
 
   async ngOnInit(){
@@ -333,10 +319,6 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
   }
 
   initFormBuilder(user: User){
-    // console.log('initFormBuilder', user);
-    // user = {
-    //   ...user,
-    // }
     if(user){
       this.parametersFormGroup.patchValue({
         personal_id: user.id,
@@ -364,11 +346,6 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
 
   }
 
-  isDisabled() {
-    // markFormAsDirty(this.parametersFormGroup)
-  }
-
-
   move(to) {
     if(to == 1){
       this.next.emit();
@@ -385,11 +362,6 @@ export class ParametreSimpleFormComponent implements OnInit, AfterViewInit {
       getFormValidationErrors(this.parametersFormGroup);
       return;
     }
-    // const {start_date, end_date, birthday} = this.parametersFormGroup.value;
-    // const submit = Object.assign(this.parametersFormGroup.value,
-    //   {
-    //     profile_id: this.profile_id,
-    //   })
     Object.keys(this.parametersFormGroup.value).forEach(key => {
       if(this.parametersFormGroup.value[key] === 'false'){
         this.parametersFormGroup.value[key] = false;

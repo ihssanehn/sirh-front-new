@@ -13,6 +13,8 @@ import {UserService} from "@app/core/services";
 import {HttpEventType} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
 import {map} from "rxjs/operators";
+import {isMoment} from "moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 @Component({
   selector: 'app-modal-docrh-item',
@@ -85,10 +87,11 @@ export class ModalDocrhItemComponent implements OnInit {
     },
   }
   users = [];
-  types = [];
+  document_types = [];
   edittingMode: Boolean;
   forbiddenExtesionsErrorMessage: string;
   filesSizeErrorMessage: string;
+  emptyFilesErrorMessage: any;
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
   ALL_FILES_SIZE_LIMIT = 10000; // Mb
   progress: number;
@@ -110,14 +113,16 @@ export class ModalDocrhItemComponent implements OnInit {
       valid_start_date: [null],
       valid_end_date: [null, Validators.required],
       alert_time_limit: [null],
-      has_treated_alert: [null],
-      title: [null],
+      has_treated_alert: [false],
+      title: [null, Validators.required],
       action_to_take: [null],
       files: [null],
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    try{ this.users = await this.listService.getAll(this.listService.list.USERS).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    try{ this.document_types = await this.listService.getAll(this.listService.list.DOCUMENT_TYPE).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
   }
 
   isRequired(control) {
@@ -131,7 +136,6 @@ export class ModalDocrhItemComponent implements OnInit {
 
   // For upload
   uploadFile(e){
-
     console.log('uploadFile', e);
     this.show_loader = true;
     // this.component.files = [];
@@ -147,12 +151,16 @@ export class ModalDocrhItemComponent implements OnInit {
       }
     }
     this.show_loader = false;
-    this.inputFile.nativeElement.value='';
+    if( this.inputFile ){
+      this.inputFile.nativeElement.value='';
+    }
     console.log('this.component.files', this.files);
     if(this.files.length>0){
       // this.error.files = '';
+      this.emptyFilesErrorMessage = '';
     }else{
       // this.error.files = 'Vous devez charger un docuemnt';
+      this.emptyFilesErrorMessage = 'Vous devez charger un docuemnt';
     }
 
     if(this.getAllFilesSize() > this.ALL_FILES_SIZE_LIMIT){
@@ -258,6 +266,14 @@ export class ModalDocrhItemComponent implements OnInit {
       this.filesSizeErrorMessage = '';
     }
 
+    if(this.files.length>0){
+      // this.error.files = '';
+      this.emptyFilesErrorMessage = '';
+    }else{
+      // this.error.files = 'Vous devez charger un docuemnt';
+      this.emptyFilesErrorMessage = 'Vous devez charger un docuemnt';
+    }
+
     const forbiddenExtesions = this.checkExtensions();
     if(forbiddenExtesions && forbiddenExtesions.length > 0){
       this.forbiddenExtesionsErrorMessage = forbiddenExtesions.length === 1 ?
@@ -284,15 +300,22 @@ export class ModalDocrhItemComponent implements OnInit {
     Object.keys(this.myForm.controls).forEach(key => {
       this.myForm.get(key).markAsDirty();
     });
-    if(!this.myForm.valid ){
+    if(this.files?.length>0){
+      this.emptyFilesErrorMessage = '';
+    }else{
+      this.emptyFilesErrorMessage = 'Vous devez charger un docuemnt';
+    }
+    if(!this.myForm.valid || !(this.files?.length>0)){
       return;
     }
     this.progress = 1;
     const fd = new FormData();
     fd.append('user_id', this.myForm.value.user_id);
     fd.append('document_type', this.myForm.value.document_type);
-    fd.append('valid_start_date', this.myForm.value.valid_start_date);
-    fd.append('valid_end_date', this.myForm.value.valid_end_date);
+    fd.append('valid_start_date', this.myForm.value.valid_start_date && isMoment(moment(this.myForm.value.valid_start_date, MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.myForm.value.valid_start_date, MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null);
+    fd.append('valid_end_date',
+      this.myForm.value.valid_end_date && isMoment(moment(this.myForm.value.valid_end_date, MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.myForm.value.valid_end_date, MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null
+      );
     fd.append('alert_time_limit', this.myForm.value.alert_time_limit);
     fd.append('has_treated_alert', this.myForm.value.has_treated_alert);
     fd.append('title', this.myForm.value.title);
@@ -300,10 +323,12 @@ export class ModalDocrhItemComponent implements OnInit {
 
 
 
+
+
     try{
       let res: any;
       for(let i=0; i < this.files?.length; i++){
-        fd.append('files['+i+']', this.files[i]);
+        fd.append('document_files', this.files[i]);
       }
       if(!this.edittingMode){
         res = await this.userService.addRHDocument(fd, {
@@ -330,11 +355,11 @@ export class ModalDocrhItemComponent implements OnInit {
       this.progress = null;
       console.log('res addStorage', res);
       Swal.fire({
-        title: this.files?.length>1 ? 'Documents partagés avec succès': 'Document partagé avec succès',
+        title: 'Document créé avec succès',
         icon: 'success',
         confirmButtonColor: '#078aff'
-      }).then(() => {
-
+      }).then(()=>{
+        this.modal.close('QUERY');
       });
     }catch(e){
       console.log('err addStorage', e);

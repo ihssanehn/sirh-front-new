@@ -31,7 +31,7 @@
 
                     <ng-select
                       [items]="users"
-                      [bindLabel]="'label'"
+                      [bindLabel]="'full_name'"
                       [bindValue]="'id'"
                       class="form-control select"
                       placeholder="Sélectionner la nationalité ici"
@@ -52,7 +52,7 @@
                     <label class="col-12">{{formMetaData.document_type.label}} {{isRequired(formInputs.document_type)}}</label>
 
                     <ng-select
-                      [items]="types"
+                      [items]="document_types"
                       [bindLabel]="'label'"
                       [bindValue]="'id'"
                       class="form-control select"
@@ -125,7 +125,7 @@
                   <div class="col">
                     <label class="col-12">{{formMetaData.alert_time_limit.label}} {{isRequired(formInputs.alert_time_limit)}}</label>
                     <input type="text"
-                           placeholder="Saisir le prénom ici"
+                           placeholder="{{formMetaData.alert_time_limit.placeholder}}"
                            [formControl]="myForm.controls[formInputs.alert_time_limit]"
                            class="form-control input"
                            [ngClass]="{'is-invalid error-input': myForm.controls[formInputs.alert_time_limit].hasError('required')
@@ -139,21 +139,24 @@
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col-12">{{formMetaData.has_treated_alert.label}} {{isRequired(formInputs.has_treated_alert)}}</label>
+                    <label class="col-12">
+                      {{formMetaData.has_treated_alert.label}}
+                      {{isRequired(formInputs.has_treated_alert)}}
+                    </label>
                     <div class="btn-group col boolean-button" role="group" ngbRadioGroup name="radioBasic"
                          [formControl]="myForm.controls[formInputs.has_treated_alert]">
                       <label ngbButtonLabel class="btn">
-                        <input ngbButton type="radio" class="btn-check" [value]="true"> Oui
+                        <input ngbButton type="radio" class="btn-check" [value]="true" > Oui
                       </label>
                       <label ngbButtonLabel class="btn">
                         <input ngbButton type="radio" class="btn-check" [value]="false"> Non
                       </label>
                     </div>
                     <div class="form-control-feedback"
-                         *ngIf="myForm.controls[formInputs.valid_end_date].hasError('required')
-                    && myForm.controls[formInputs.valid_end_date].dirty">
+                         *ngIf="myForm.controls[formInputs.has_treated_alert].hasError('required')
+                    && myForm.controls[formInputs.has_treated_alert].dirty">
                       <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                      {{formMetaData.valid_end_date.placeholder}}
+                      {{formMetaData.has_treated_alert.placeholder}}
                     </div>
                   </div>
                 </div>
@@ -199,10 +202,7 @@
                     <i class="icon-attachment"></i>
                     &nbsp;Ajouter une pièce jointe
                   </label>
-                  <div class="errorMessage" *ngIf="filesSizeErrorMessage && filesSizeErrorMessage.length>0" [innerHtml]="filesSizeErrorMessage"></div>
-                  <div class="errorMessage" *ngIf="forbiddenExtesionsErrorMessage && forbiddenExtesionsErrorMessage.length>0" [innerHtml]="forbiddenExtesionsErrorMessage"></div>
-
-                  <div class="row">
+                  <div class="row" *ngIf="files?.length>0">
                     <div class="file" *ngFor="let item of files" title="{{item.name}}">
                       <div class="close-icon" (click)="removeFile(item)">
                         <i class="icon-close"></i>
@@ -217,7 +217,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="row progress" *ngIf="progress">
+
+                <div class="row" *ngIf="filesSizeErrorMessage?.length>0">
+                  <div class="form-control-feedback errorMessage"  >
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <span [innerHtml]="filesSizeErrorMessage"></span>
+                  </div>
+                </div>
+                <div class="row" *ngIf="emptyFilesErrorMessage?.length>0">
+                  <div class="form-control-feedback errorMessage" >
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <span [innerHtml]="emptyFilesErrorMessage"></span>
+                  </div>
+                </div>
+                <div class="progress" *ngIf="progress">
                   <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
                 </div>
               </div>
@@ -241,7 +254,7 @@
     <app-button
       [type]="'primary'"
       [text]="'Enregistrer'"
-      (onClick)="modal.close()"
+      (onClick)="submit()"
     ></app-button>
   </div>
 </div>

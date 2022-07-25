@@ -194,9 +194,12 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
   openDocumentRHModal(id?){
     const modalRef = this.modalService.open(ModalDocrhItemComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
-      console.log('closed', result);
+      console.log('closed result', result);
+      if(result === 'QUERY'){
+        this.getDocuments();
+      }
     }, reason => {
-      console.log('closed');
+      console.log('closed reason', reason);
     });
     if(id){
       modalRef.componentInstance.id_document = id;
@@ -211,19 +214,20 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getDocuments(){
-    try {
-      this.loading = true;
-      const params = {
-        ...this.filter
-      }
-      const res = await this.userService.getRHDocuments(params).toPromise();
-      this.documents = res.data;
-      console.log('res getDocuments', res);
-    }catch (e){
-
-    }finally {
-      this.loading = false;
+  getDocuments(){
+    if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
+    const params = {
+      ...this.filter
     }
+    this.loading = true;
+    this.searchSubscription = this.userService.getRHDocuments(params).subscribe((res) => {
+      this.documents = res?.result?.data?.data;
+      console.log('res getDocuments', res?.result, this.documents);
+      this.pagination = { ...this.pagination, total: res?.result?.data?.total };
+    }, err =>{
+      console.log('err getUsers', err);
+    }, ()=>{
+      this.loading = false;
+    });
   }
 }
