@@ -282,7 +282,11 @@ p-autoComplete{
 }
 
 .primary-icon:before{
-  color: $primaryColor;
+  color: $primaryColor !important;
+}
+
+.danger-icon:before{
+  color: $danger !important;
 }
 
 

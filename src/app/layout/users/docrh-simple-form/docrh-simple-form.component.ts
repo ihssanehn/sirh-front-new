@@ -12,6 +12,7 @@ import {Validators} from "@angular/forms";
 import {MainStore} from "@store/mainStore.store";
 import * as moment from "moment";
 import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-docrh-simple-form',
@@ -30,39 +31,40 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     total: 10,
     limit: 10
   };
-  contracts = [];
-  managers = [];
-  functions = [];
-  family_situations = [];
-  profiles = [];
-  status = [];
 
-  entities = [];
-  profit_centers = [];
   filter = {
     keyword: '',
-    family_situations: [],
-    functions: [],
-    contracts: [],
-    entities: [],
-    profiles: [],
-    status: [],
-    profit_centers: [],
-    managers: [],
-    is_virtual: null,
+    has_treated_alert: null,
+    document_type: null,
     page: 1,
     limit: 10,
   }
+  alerts = [
+    {
+      label: 'Oui',
+      value: true,
+    },
+    {
+      label: 'Non',
+      value: false,
+    },
+    {
+      label: 'Tous',
+      value: null,
+    },
+  ]
   documents: Array<RHDocument> = [];
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-   loading: boolean;
+  loading: boolean;
+  document_types = [];
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
               public mainStore: MainStore,
               private listService: ListsService,
               private route: ActivatedRoute,
+              private messageService: MessageService,
               private router: Router) {
 
     // this.openDocumentRHModal();
@@ -90,22 +92,9 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-    this.getFilters();
+  async ngOnInit() {
     this.getDocuments();
-  }
-
-  async getFilters(){
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
-    try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
-    try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
-    try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
-    try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
-    try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
-    try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{ this.document_types = await this.listService.getAll(this.listService.list.DOCUMENT_TYPE).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
   }
 
   openSelectRole(){
@@ -130,56 +119,10 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
   }
 
-  async archive(id) {
-    Swal.fire({
-      title: this.translate.instant('ARE YOU SURE?'),
-      text: this.translate.instant('ARE YOU SURE YOU WANT TO DELETE THIS USER ACCOUNT?'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#59a6d4',
-      cancelButtonColor: '#f3533b',
-      confirmButtonText: this.translate.instant('YES, DELETE!'),
-      cancelButtonText: this.translate.instant('CANCEL'),
-      heightAuto: false
-    }).then(async (result) => {
-      if (result.value) {
-        try {
-          const res = await this.userService.delete({id}).toPromise();
-          console.log('res', res);
-          if ( res?.result?.data) {
-            Swal.fire({
-              title: this.translate.instant('SUCCESSFUL OPERATION!'),
-              text: 'Ce compte utilisateur a bien été supprimé',
-              icon: 'success',
-              heightAuto: false
-            });
-            this.users = res?.result.data
-          } else {
-            throw new Error();
-          }
-        } catch (error) {
-          // const errorMessage = this.errorsService.getErrorMessage(error.status || null, error);
-          console.log('errorMessage', error);
-          Swal.fire(
-              this.translate.instant('FAILURE!'),
-              error,
-              'error'
-          );
-        }
-      }
-    });
-  }
-
   resetFilters() {
     this.filter = Object.assign(this.filter, {
-      functions: [],
-      contracts: [],
-      entities: [],
-      profiles: [],
-      status: [],
-      profit_centers: [],
-      managers: [],
-      is_virtual: null
+      has_treated_alert: null,
+      document_type: null,
     });
     this.getDocuments();
   }
@@ -191,7 +134,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     this.getDocuments();
   }
 
-  openDocumentRHModal(id?){
+  openDocumentRHModal(document?){
     const modalRef = this.modalService.open(ModalDocrhItemComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed result', result);
@@ -201,8 +144,8 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     }, reason => {
       console.log('closed reason', reason);
     });
-    if(id){
-      modalRef.componentInstance.id_document = id;
+    if(document){
+      modalRef.componentInstance.document = document;
     }
   }
 
@@ -219,15 +162,57 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     const params = {
       ...this.filter
     }
+    if(params.has_treated_alert !== true && params.has_treated_alert !== false){
+      delete params['has_treated_alert'];
+    }
     this.loading = true;
     this.searchSubscription = this.userService.getRHDocuments(params).subscribe((res) => {
       this.documents = res?.result?.data?.data;
-      console.log('res getDocuments', res?.result, this.documents);
       this.pagination = { ...this.pagination, total: res?.result?.data?.total };
     }, err =>{
       console.log('err getUsers', err);
     }, ()=>{
       this.loading = false;
+    });
+  }
+
+  async archive(id) {
+    Swal.fire({
+      title: 'Êtes vous sûr?',
+      text: 'Voulez-vous vraiment supprimer ce document?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#59a6d4',
+      cancelButtonColor: '#f3533b',
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler',
+      heightAuto: false
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          const res = await this.userService.deleteDocument({id}).toPromise();
+          console.log('res', res);
+          if ( res?.result?.data) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Opération réussie',
+              detail: 'Document supprimé avec succès',
+              sticky: false,
+            });
+            this.getDocuments();
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          // const errorMessage = this.errorsService.getErrorMessage(error.status || null, error);
+          console.log('errorMessage', error);
+          Swal.fire(
+            this.translate.instant('FAILURE!'),
+            error,
+            'error'
+          );
+        }
+      }
     });
   }
 }

@@ -31,34 +31,37 @@
         <div class="search d-flex filters">
           <div class="input-group">
             <label>Type document</label>
-            <ng-select class="select form-control" [multiple]="true"
-                       [items]="managers"
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="document_types"
                        (change)="getDocuments()"
-                       [(ngModel)]="filter.managers"
-                       [bindLabel]="'full_name'"
+                       [(ngModel)]="filter.document_type"
+                       [bindLabel]="'label'"
                        [bindValue]="'id'"
-                       [placeholder]="'Filtrer par manager'" ></ng-select>
+                       [placeholder]="'Filtrer par type de document'" ></ng-select>
           </div>
           <div class="input-group">
             <label>Traité</label>
-            <ng-select class="select form-control" [multiple]="true"
-                       [items]="managers"
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="alerts"
                        (change)="getDocuments()"
-                       [(ngModel)]="filter.managers"
-                       [bindLabel]="'full_name'"
-                       [bindValue]="'id'"
-                       [placeholder]="'Filtrer par manager'" ></ng-select>
+                       [(ngModel)]="filter.has_treated_alert"
+                       [bindLabel]="'label'"
+                       [bindValue]="'value'"
+                       [placeholder]="'Filtrer par traitement alert'" ></ng-select>
           </div>
-          <div class="input-group">
-            <label>Alerte</label>
-            <ng-select class="select form-control" [multiple]="true"
-                       [items]="managers"
-                       (change)="getDocuments()"
-                       [(ngModel)]="filter.managers"
-                       [bindLabel]="'full_name'"
-                       [bindValue]="'id'"
-                       [placeholder]="'Filtrer par manager'" ></ng-select>
-          </div>
+<!--          <div class="input-group">-->
+<!--            <label>Alerte</label>-->
+<!--            <ng-select class="select form-control"-->
+<!--                       [multiple]="false"-->
+<!--                       [items]="managers"-->
+<!--                       (change)="getDocuments()"-->
+<!--                       [(ngModel)]="filter.managers"-->
+<!--                       [bindLabel]="'full_name'"-->
+<!--                       [bindValue]="'id'"-->
+<!--                       [placeholder]="'Filtrer par alerte'" ></ng-select>-->
+<!--          </div>-->
           <div class="input-group">
             <label>&nbsp;</label>
             <app-button
@@ -127,7 +130,10 @@
                        {{document.valid_end_date | dateMessage : 'DD MMMM YYYY'}}
                      </td>
                      <td>
-                       {{document.has_treated_alert}}
+                       <i *ngIf="document.has_treated_alert; else no_treated_alert" class="icon-check primary-icon"></i>
+                       <ng-template #no_treated_alert>
+                         <i class="icon-close danger-icon"></i>
+                       </ng-template>
                      </td>
                      <td>
                        {{document.alert_time_limit}}
@@ -138,20 +144,20 @@
                      <td>
                        {{document.action_to_take || '----'}}
                      </td>
-                     <td class="icon-cell">
+                     <td>
                           <div class="actions">
                             <i class="icon-edit"
                                data-toggle="tooltip"
                                data-placement="top"
-                               (click)="openDocumentRHModal(document?.id)"
+                               (click)="openDocumentRHModal(document)"
                                title="Modifier"></i>
                               <i class="icon-attachment"
                                  data-toggle="tooltip"
                                  data-placement="top"
-                                 (click)="openDocumentRHModal(document?.id)"
+                                 (click)="openDocumentRHModal(document)"
                                  title="Documents attachés"></i>
-                              <span>({{(document.attachments?.length > 0) ?  document.attachments?.length : '0'}})</span>
-                              <i class="fa fa-trash"
+                              <span>({{(document.attachments?.length > 0) ?  document.attachments?.length : 0}})</span>
+                              <i class="icon-trash danger-icon"
                                  (click)="archive(document.id)"
                                  data-toggle="tooltip"
                                  data-placement="top"

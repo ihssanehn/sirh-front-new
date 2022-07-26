@@ -209,10 +209,6 @@ export class UserService {
     return this.apiService.post('permission/addUserPermissions', params);
   }
 
-  updateRHDocument(params, option = null) {
-    return this.apiService.post('permission/addUserPermissions', params, option);
-  }
-
   submitParameters(params: any) {
     return this.apiService.post('parameter/addOrUpdateParameter', params);
   }
@@ -223,5 +219,17 @@ export class UserService {
 
   addRHDocument(params, option = null) {
     return this.apiService.post('personal/addDocument', params, option);
+  }
+
+  updateRHDocument(params, option = null) {
+    return this.apiService.post('personal/updateDocument', params, option);
+  }
+
+  downloadDocument(params) {
+    return this.apiService.get(`personal/getAttachment`, params, true);
+  }
+
+  deleteDocument(params: { id: any }) {
+    return this.apiService.post(`personal/deleteDocument `, params);
   }
 }

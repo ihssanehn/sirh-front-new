@@ -3,6 +3,7 @@ import {computed, observable, observe, toJS} from 'mobx';
 import {UserStore} from '@store/user.store';
 import {$headerSectionsMetaData, $sidebarItems_users} from "@shared/Objects/sharedObjects";
 import {Observable} from "rxjs";
+import Swal from "sweetalert2";
 
 
 
@@ -47,4 +48,13 @@ export class MainStore {
     );
   }
 
+
+  showMessage(title='', message, type){
+    return Swal.fire({
+      title: title,
+      text: message,
+      icon: type,
+      confirmButtonColor: '#078aff',
+    });
+  }
 }

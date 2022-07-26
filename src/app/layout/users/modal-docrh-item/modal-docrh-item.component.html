@@ -203,7 +203,7 @@
                     &nbsp;Ajouter une pièce jointe
                   </label>
                   <div class="row" *ngIf="files?.length>0">
-                    <div class="file" *ngFor="let item of files" title="{{item.name}}">
+                    <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
                       <div class="close-icon" (click)="removeFile(item)">
                         <i class="icon-close"></i>
                       </div>
@@ -212,7 +212,7 @@
                       </div>
                       <div class="">
                         <div class="name">{{getFileName(item.name)}}</div>
-                        <div class="size">{{item.size}}</div>
+                        <div class="size">{{getFileSize(item.size)}}</div>
                       </div>
                     </div>
                   </div>
