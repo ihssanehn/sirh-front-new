@@ -180,7 +180,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
       this.submittingAccess = true;
       const params = {
         user_id: this.user?.id,
-        permission_ids: $event.permissions
+        permission_ids: $event.permissions.filter(item => item != null)
       }
       const res = await this.userService.submitAccess(params).toPromise();
       this.router.navigate(['/users']).then(()=>{

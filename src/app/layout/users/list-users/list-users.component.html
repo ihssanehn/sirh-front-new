@@ -244,13 +244,13 @@
 
 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
 <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
-                        <td class="icon-cell">
+                        <td >
 <!--                            appStopPropagation-->
                             <div class="actions">
                                 <i class="icon-eye"
                                    data-toggle="tooltip"
                                    data-placement="top"
-                                   (click)="openModal(user?.id)"
+                                   (click)="goToUpdateUser(user)"
                                    title="Détails"></i>
 <!--                              <span class="d-none d-lg-flex">Détails</span>-->
 

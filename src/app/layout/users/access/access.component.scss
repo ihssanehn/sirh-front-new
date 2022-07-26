@@ -36,6 +36,10 @@
   margin-right: unset !important;
 }
 
+input[type=checkbox]:disabled{
+  opacity: .4;
+}
+
 .head-info{
   margin-bottom: 0 !important;
 }

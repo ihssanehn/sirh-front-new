@@ -230,6 +230,10 @@ export class UserService {
   }
 
   deleteDocument(params: { id: any }) {
-    return this.apiService.post(`personal/deleteDocument `, params);
+    return this.apiService.post(`personal/deleteDocument`, params);
+  }
+
+  getDefaultProfilePermissionByProfileId(params) {
+    return this.apiService.post(`permission/getDefaultProfilePermissionByProfileId`, params);
   }
 }

@@ -61,6 +61,7 @@
     <app-access
       (preview)="moveForward(3)"
       (submitAccess)="submitAccess($event)"
+      [user]="user"
       [permissions]="user?.permissions"
       (backToZero)="moveForward(0)"
     ></app-access>

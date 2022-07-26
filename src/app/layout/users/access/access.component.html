@@ -76,11 +76,12 @@
                       <input type="checkbox"
                              id="{{access.id}}"
                              [value]="access.value"
+                             [disabled]="filter.by_profile"
                              [checked]="ischecked(access.id)"
                              (change)="onCheckChange($event, access)"
                              name="{{access.id}}" >
                     </div>
-                    <label for="{{access.id}}" >{{access.label}}(#{{access.id}})</label>
+                    <label for="{{access.id}}" >{{access.label}}</label>
                   </div>
                   <!--                </div>-->
                 </div>

@@ -133,7 +133,7 @@ export class PerimetreComponent implements OnInit {
 
     const appended_users = [];
     this.selectedUsers.forEach(user => {
-      if(user.with_perimeter){
+      if(user.with_perimeter && user.perimeters?.length>0){
         user.perimeters.forEach(item => appended_users.push(item.personal_perimeter_id));
       }
     });
