@@ -70,9 +70,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     member_ships: [],
     profiles: [],
     profit_centers: [],
-    managers: [],
-    status: [],
-    type: [],
+    // managers: [],
+    // status: [],
+    // type: [],
 
     business_lines: [],
     op_directions: [],
@@ -81,7 +81,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     facturation_stats: [],
     stats_to_complete: [],
     matricule_stats: [],
-    user_stats: [],
+    user_stats: null,
     personals: []
   }
   shownItems: {
@@ -294,9 +294,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       member_ships: [],
       profiles: [],
       profit_centers: [],
-      managers: [],
-      status: [],
-      type: [],
 
       business_lines: [],
       op_directions: [],
@@ -305,9 +302,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       facturation_stats: [],
       stats_to_complete: [],
       matricule_stats: [],
-      user_stats: [],
       personals: [],
-      is_virtual: null
+      is_virtual: null,
+      user_stats: null
     });
     console.log('resetFilters', this.filter)
     this.getUsers();

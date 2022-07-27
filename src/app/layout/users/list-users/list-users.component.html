@@ -225,21 +225,6 @@
                      [placeholder]="'Filtrer par état matricule'"></ng-select>
         </div>
       </div>
-      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
-        <label>Etat de l'utilisateur</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="true"
-                     [items]="user_stats"
-                     [bindLabel]="'label'"
-                     [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.user_stats"
-                     [placeholder]="'Filtrer par état de l\'utilisateur'"></ng-select>
-        </div>
-      </div>
-    </div>
-    <div class="filtres row">
       <div class="flex-column col-12 col-sm-6 col-lg-3  ">
         <label>Salarié</label>
         <div>
@@ -251,6 +236,28 @@
                      [bindLabel]="'full_name'"
                      [bindValue]="'id'"
                      [placeholder]="'Filtrer par salarié'" ></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="filtres row">
+      <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
+        <label class="">Etat de l'utilisateur</label>
+        <div class="btn-group btn-group-toggle"
+             ngbRadioGroup name="radioBasic"
+             (change)="filterChanged()"
+             [(ngModel)]="filter.user_stats">
+          <label ngbButtonLabel
+                 [ngClass]="{'btn-primary': filter.user_stats === true}">
+            <input ngbButton type="radio" [value]="true"> Actif
+          </label>
+          <label ngbButtonLabel class="btn-primary"
+                 [ngClass]="{'btn-primary': filter.user_stats === null}">
+            <input ngbButton type="radio" [value]="null"> Tous
+          </label>
+          <label ngbButtonLabel
+                 [ngClass]="{'btn-primary': filter.user_stats === false}">
+            <input ngbButton type="radio" [value]="false"> Inactif
+          </label>
         </div>
       </div>
       <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
@@ -274,7 +281,6 @@
         </div>
       </div>
     </div>
-
   </div>
     <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
       <h2 class="main-title">

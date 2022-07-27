@@ -4,6 +4,7 @@ import {UserStore} from '@store/user.store';
 import {$headerSectionsMetaData, $sidebarItems_users} from "@shared/Objects/sharedObjects";
 import {Observable} from "rxjs";
 import Swal from "sweetalert2";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 
@@ -24,13 +25,17 @@ export class MainStore {
   @observable currentHeaderSection = null;
 
 
-  constructor(private userStore: UserStore) {
+  constructor(private userStore: UserStore,
+              private activateRoute: ActivatedRoute,
+              private router: Router,
+              ) {
     console.log('MainStore', toJS(this.userStore.getAuthenticatedUser));
   }
 
 
   @computed
   get getItems() {
+    console.log('getItems', this.activateRoute.snapshot, this.router.url);
     switch (this.currentHeaderSection?.name){
       case 'utilisateur': {
         return $sidebarItems_users;
