@@ -87,7 +87,7 @@
             </div>
       </div>
     </div>
-
+  <ng-container *ngIf="!loading; else loadingTemplate">
     <div class="wrap" *ngIf="documents?.length>0; else emptyState">
       <div class="table-wrapper">
           <table class="table-responsive card-list-table">
@@ -177,6 +177,7 @@
         </app-pagination>
       </div>
     </div>
+  </ng-container>
 </div>
 
 <ng-template #emptyState>
@@ -184,4 +185,10 @@
     [image]="'images/user_empty_state.svg'"
     [message]="( 'Aucun document trouvé pour le moment' | translate )"
   ></app-centred-message>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <img src="assets/images/loading.svg" style="height: 100px;" />
+  </div>
 </ng-template>

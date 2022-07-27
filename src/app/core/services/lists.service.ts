@@ -53,6 +53,11 @@ export class ListsService {
       .pipe(map(res => { return res?.result?.data || []}));
   }
 
+  getPersonalFilters(){
+    return this.apiService.get( 'filter/getPersonalFilters')
+      .pipe(map(res => { return res?.result?.data || []}));
+  }
+
   getPermissionsByElement(){
 
   }

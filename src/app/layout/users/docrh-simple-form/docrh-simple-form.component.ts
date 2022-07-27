@@ -58,6 +58,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
   @Output() preview: EventEmitter<any> = new EventEmitter();
   loading: boolean;
   document_types = [];
+  loadingData: boolean;
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,

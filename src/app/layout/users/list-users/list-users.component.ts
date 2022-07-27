@@ -29,28 +29,60 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     total: 10,
     limit: 10
   };
-  contracts = [];
-  managers = [];
-  functions = [];
-  family_situations = [];
-  profiles = [];
-  status = [];
+  // contracts = [];
+  // managers = [];
+  // functions = [];
+  // family_situations = [];
+  // profiles = []; //oui
+  // status = [];
+  // entities = [];
+  // profit_centers = [];
 
-  entities = [];
-  profit_centers = [];
+  // roles = [];
+  // member_ships = [];
+  // types = [];
+
+
+  profiles
+  business_lines
+  op_directions
+  business_units
+  departments
+  profit_centers
+  memberships
+  roles
+  facturation_stats
+  states_to_complete
+  matricule_stats
+  user_stats
+  personals
+
+
   filter = {
     keyword: '',
-    family_situations: [],
-    functions: [],
-    contracts: [],
-    entities: [],
-    profiles: [],
-    status: [],
-    profit_centers: [],
-    managers: [],
     is_virtual: null,
     page: 1,
     limit: 10,
+    is_blocked: false,
+    to_be_completed: false,
+
+    roles: [],
+    member_ships: [],
+    profiles: [],
+    profit_centers: [],
+    managers: [],
+    status: [],
+    type: [],
+
+    business_lines: [],
+    op_directions: [],
+    business_units: [],
+    departments: [],
+    facturation_stats: [],
+    stats_to_complete: [],
+    matricule_stats: [],
+    user_stats: [],
+    personals: []
   }
   shownItems: {
     photo_profile: false;
@@ -102,6 +134,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     // created_at: Date;
     // updated_at: Date;
   }
+  loadingData: boolean;
+  type;
+  personnalFilters;
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
@@ -115,334 +150,30 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       const {type} = params;
       switch (type){
         case 'general': {
+          this.type = 'general';
           break;
         }
         case 'period_essai': {
+          this.type = 'period_essai';
           break;
         }
         case 'entretien': {
+          this.type = 'entretien';
           break;
         }
         case 'formation': {
+          this.type = 'formation';
           break;
         }
         case 'visite_medicale': {
+          this.type = 'visite_medicale';
           break;
         }
         default: {
+          this.type = 'general';
         }
       }
     });
-    const data = [
-      {
-        "name": "id",
-        "type": "INT",
-        "length": "10",
-        "isPrimary": true,
-        "isGenerated": true,
-        "generationStrategy": "increment",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "registration_number",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true,
-        "comment": "Matricule"
-      },
-      {
-        "name": "first_name",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "last_name",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "email",
-        "type": "VARCHAR",
-        "length": "255",
-        "isUnique": true,
-        "isNullable": false
-      },
-      {
-        "name": "civility",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": false
-      },
-      {
-        "name": "fiche_to_be_completed",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "birthday",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "number_security_social",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "nationality_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "city_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true
-      },
-      {
-        "name": "address",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "code_postal",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_fix",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_bureau",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "telephone_portable",
-        "type": "VARCHAR",
-        "length": "255",
-        "isNullable": true
-      },
-      {
-        "name": "profile_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "role_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "member_ship_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true,
-        "comment": "Appartenance"
-      },
-      {
-        "name": "supplier_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true,
-        "comment": "Fournisseur"
-      },
-      {
-        "name": "cp_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "original_company_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "attachment_agency_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "not_billable",
-        "type": "boolean",
-        "default": false,
-        "comment": "Non Facturable"
-      },
-      {
-        "name": "in_out_office",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "is_part_time",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "time_entry_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "calendar_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": false,
-        "unsigned": true
-      },
-      {
-        "name": "emission_of_contract_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "signature_of_contract_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "group_start_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "is_group_mutation_entry",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "entry_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "end_trial_period_date",
-        "type": "date",
-        "isNullable": true
-      },
-      {
-        "name": "depart_mail_received_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "theory_end_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "end_date",
-        "type": "date",
-        "isNullable": false
-      },
-      {
-        "name": "could_be_manager",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "manager_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "manage_holidays",
-        "type": "boolean",
-        "default": false
-      },
-      {
-        "name": "validator_absence_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "fiscal_car_power_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "complex_charge",
-        "type": "boolean",
-        "default": false,
-        "comment": "Frais refacturables complexes"
-      },
-      {
-        "name": "is_exclusion_etp",
-        "type": "boolean",
-        "default": false,
-        "comment": "Exclusion ETP"
-      },
-      {
-        "name": "is_exclusion_reporting",
-        "type": "boolean",
-        "default": false,
-        "comment": "Exclusion Reporting"
-      },
-      {
-        "name": "creator_id",
-        "type": "INT",
-        "length": "10",
-        "isNullable": true,
-        "unsigned": true
-      },
-      {
-        "name": "created_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      },
-      {
-        "name": "updated_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      },
-      {
-        "name": "deleted_at",
-        "type": "TIMESTAMP",
-        "isNullable": true
-      }
-    ];
-    let fb_json: any = {};
-    data.forEach(element => {
-      fb_json[element.name] = [null];
-      if(element.isNullable){
-        fb_json[element.name].push(Validators.required);
-      }
-    });
-    fb_json = JSON.stringify(fb_json);  // {"name":"John Smith"}
-    fb_json = fb_json.replace(/"([^"]+)":/g, '$1:');
-     // {name:"John Smith"}
-    console.log('form builder data', fb_json);
   }
 
   ngOnInit() {
@@ -450,23 +181,65 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.getFilters();
   }
 
+  // civility: "M"
+  // cp_name: "CP 1 Piman Switzerland"
+  // created_at: "2022-07-20T16:19:47.000Z"
+  // email: "chbanianass25@gmail.com"
+  // end_date: "2022-07-24T23:00:00.000Z"
+  // entry_date: "2022-07-04T23:00:00.000Z"
+  // first_name: "ANASS"
+  // full_name: "M CHBANI ANASS"
+  // id: 46
+  // last_login: null
+  // last_name: "CHBANI"
+  // manager_id: 2
+  // manager_name: "Homme SIRH Manager-2"
+  // member_ship_name: "Externe"
+  // photo_profile: "http://localhost:9073/personal/getPhotoProfile?personal_id=46"
+  // profile_id: 1
+  // profile_name: "Assistante"
+  // registration_number: "2322332"
+  // role_name: "Comptabilité"
+  // seniority: "0a 0m 22j"
+  // telephone_portable: "023322323"
+
+
   async getFilters(){
     const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
-    try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
-    try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
-    try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
-    try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
-    try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
-    try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    // try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    // try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
+    // try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
+    // try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
+    // try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
+    // try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
+    // try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
+    // try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{
+      this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
+      console.log('this.filters', this.personnalFilters);
+      this.business_lines = this.personnalFilters.business_lines;
+      this.business_units = this.personnalFilters.business_units;
+      this.departments = this.personnalFilters.departments;
+      this.facturation_stats = this.personnalFilters.facturation_stats;
+      this.matricule_stats = this.personnalFilters.matricule_stats;
+      this.memberships = this.personnalFilters.memberships;
+      this.op_directions = this.personnalFilters.op_directions;
+      this.personals = this.personnalFilters.personals;
+      this.profiles = this.personnalFilters.profiles;
+      this.profit_centers = this.personnalFilters.profit_centers;
+      this.roles = this.personnalFilters.roles;
+      this.states_to_complete = this.personnalFilters.states_to_complete;
+    } catch (e) {
+      console.log('error filter PROFIT_CENTER', e);
+    }
   }
 
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      ...this.filter
+      ...this.filter,
+      type: this.type
     }
     if(this.filter.is_virtual === null){
       params.is_virtual = -1;
@@ -475,12 +248,15 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }else {
       params.is_virtual = 0;
     }
+    this.loadingData = true;
     this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.users = result.data.data;
       console.log('this.users', this.users);
       this.pagination = { ...this.pagination, total: result?.data?.total };
     }, err =>{
       console.log('err getUsers', err);
+    }, ()=>{
+      this.loadingData = false;
     })
   }
 
@@ -511,13 +287,26 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.filter = Object.assign(this.filter, {
-      functions: [],
-      contracts: [],
-      entities: [],
+      is_blocked: false,
+      to_be_completed: false,
+
+      roles: [],
+      member_ships: [],
       profiles: [],
-      status: [],
       profit_centers: [],
       managers: [],
+      status: [],
+      type: [],
+
+      business_lines: [],
+      op_directions: [],
+      business_units: [],
+      departments: [],
+      facturation_stats: [],
+      stats_to_complete: [],
+      matricule_stats: [],
+      user_stats: [],
+      personals: [],
       is_virtual: null
     });
     console.log('resetFilters', this.filter)
@@ -537,7 +326,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     modalRef.result.then(result=>{
       console.log('closed', result);
       // if(result === 'QUERY'){
-      //   this.getAllStudents();
       // }
     }, reason => {
       console.log('closed');

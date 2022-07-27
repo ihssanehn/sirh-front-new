@@ -8,6 +8,7 @@ import {Location} from '@angular/common';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
 import {User} from "@app/core/entities";
+import {MainStore} from "@store/mainStore.store";
 
 
 @Component({
@@ -38,6 +39,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private translate: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
+    private mainStore: MainStore,
     private userService : UserService
   ) {
 
@@ -147,15 +149,26 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         this.user = res.result.data;
       }
     }catch (e){
-      this.messageService.add({
-        severity: 'error',
-        summary: "Erreur ",
-        detail: 'Une erreur est survenue',
-        sticky: false,
-      });
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+
       console.log('error submit user', e);
     }finally {
       this.submittingUser = false;
+    }
+  }
+
+  async submitParameters($event: any) {
+    try{
+      this.submittingParameters = true;
+      const res = await this.userService.submitParameters($event).toPromise();
+      if(res?.result?.data){
+        this.moveForward(2);
+      }
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+
+    }finally {
+      this.submittingParameters = false;
     }
   }
 
@@ -169,6 +182,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
       const res = await this.userService.submitPerimeters(params).toPromise();
       this.moveForward(4);
     }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
 
     }finally {
       this.submittingPerimeters = false;
@@ -192,23 +206,10 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         });
       });
     }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
 
     }finally {
       this.submittingAccess = false;
-    }
-  }
-
-  async submitParameters($event: any) {
-    try{
-      this.submittingParameters = true;
-      const res = await this.userService.submitParameters($event).toPromise();
-      if(res?.result?.data){
-        this.moveForward(2);
-      }
-    }catch (e){
-
-    }finally {
-      this.submittingParameters = false;
     }
   }
 

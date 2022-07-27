@@ -78,83 +78,182 @@
         </span>
     </h3>
     <div class="filtres row ">
-      <div class="flex-column col-12 col-sm-6 col-lg-4  ">
-        <label>Manager</label>
+      <div class="flex-column col-12 col-sm-6 col-lg-3  ">
+        <label>Type de profil</label>
         <div>
-          <ng-select class="select form-control" [multiple]="true"
-                     [items]="managers"
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="profiles"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.managers"
-                     [bindLabel]="'full_name'"
+                     [(ngModel)]="filter.profiles"
+                     [bindLabel]="'label'"
                      [bindValue]="'id'"
-                     [placeholder]="'Filtrer par manager'" ></ng-select>
+                     [placeholder]="'Filtrer par profils'" ></ng-select>
         </div>
       </div>
-      <div class=" flex-column  col-12 col-sm-6 col-lg-4 ">
-        <label>Contrat</label>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Business line</label>
         <div>
-          <ng-select class="select form-control" [multiple]="true"
-                     [items]="contracts"
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="business_lines"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.contracts"
-                     [placeholder]="'Filtrer contrat'" ></ng-select>
+                     [(ngModel)]="filter.business_lines"
+                     [placeholder]="'Filtrer business lines'" ></ng-select>
         </div>
       </div>
-      <div class=" flex-column  col-12 col-sm-6 col-lg-4 ">
-        <label>Fonction</label>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Direction OP</label>
         <div>
-          <ng-select class="select form-control" [multiple]="true"
-                     [items]="functions"
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="op_directions"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.functions"
-                     [placeholder]="'Filtrer par fonction'"></ng-select>
+                     [(ngModel)]="filter.op_directions"
+                     [placeholder]="'Filtrer direction op'"></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Business unit</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="business_units"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.business_units"
+                     [placeholder]="'Filtrer par business units'"></ng-select>
         </div>
       </div>
     </div>
     <div class="filtres row ">
-      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
-        <label>Profils</label>
+      <div class="flex-column col-12 col-sm-6 col-lg-3  ">
+        <label>Département</label>
         <div>
-          <ng-select class="select form-control" [multiple]="true"
-                     [items]="profiles"
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="departments"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.departments"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.profiles"
-                     [placeholder]="'Filtrer par profils'"></ng-select>
+                     [placeholder]="'Filtrer par département'" ></ng-select>
         </div>
       </div>
-      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
-        <label>Status</label>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Centre de profit</label>
         <div>
-          <ng-select class="select form-control" [multiple]="true"
-                     [items]="status"
-                     [bindLabel]="'label'"
-                     [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.status"
-                     [placeholder]="'Filtrer par statut'" ></ng-select>
-        </div>
-      </div>
-      <div class="flex-column  col-12 col-sm-6 col-lg-4 ">
-        <label>Centre de Profit</label>
-        <div>
-          <ng-select class="select form-control" [multiple]="true"
+          <ng-select class="select form-control"
+                     [multiple]="true"
                      [items]="profit_centers"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.profit_centers"
-                     [placeholder]="'Filtrer par centre de Profit'" ></ng-select>
+                     [placeholder]="'Filtrer par cenntre de profit'" ></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Appartenance</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="memberships"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.member_ships"
+                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Rôle</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="roles"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.roles"
+                     [placeholder]="'Filtrer par rôles'"></ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="filtres row ">
+      <div class="flex-column col-12 col-sm-6 col-lg-3  ">
+        <label>Etat de facturation</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="facturation_stats"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.facturation_stats"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par état de facturation'" ></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Etat à compléter</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="states_to_complete"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.stats_to_complete"
+                     [placeholder]="'Filtrer contrat'" ></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Etat matricule</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="matricule_stats"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.matricule_stats"
+                     [placeholder]="'Filtrer par état matricule'"></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Etat de l'utilisateur</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="user_stats"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.user_stats"
+                     [placeholder]="'Filtrer par état de l\'utilisateur'"></ng-select>
         </div>
       </div>
     </div>
     <div class="filtres row">
-      <div class="form-group  col-12 col-sm-6 col-lg-4  block-check ">
+      <div class="flex-column col-12 col-sm-6 col-lg-3  ">
+        <label>Salarié</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="personals"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.personals"
+                     [bindLabel]="'full_name'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par salarié'" ></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
         <label class="">Utilisateur virtuel</label>
         <div class="btn-group btn-group-toggle"
              ngbRadioGroup name="radioBasic"
@@ -175,134 +274,492 @@
         </div>
       </div>
     </div>
+
   </div>
     <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
       <h2 class="main-title">
         Résultats de recherche
       </h2>
     </div>
+  <ng-container *ngIf="!loadingData; else loadingTemplate">
     <div class="wrap" *ngIf="users?.length>0; else emptyState" >
-        <div class="table-wrapper">
+      <div class="table-wrapper">
+        <ng-container [ngSwitch]="type">
+          <ng-container *ngSwitchCase="'general'">
             <table class="table-responsive card-list-table">
-                <thead>
-                    <tr>
-                        <th>
-<!--                          <i class="icon-username"></i>-->
-                          Nom
-                        </th>
-<!--                        <th>-->
-<!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
-<!--                          Prénom-->
-<!--                        </th>-->
-                        <th>
-<!--                          <i class="icon-email"></i>-->
-                          N°
-                        </th>
-                         <th>
-<!--                           <i class="icon-phone"></i>-->
-                           Profil
-                         </th>
-                        <th>
-<!--                          <i class="icon-manager"></i>-->
-                          Centre de profit
-                        </th>
-                        <th>
-<!--                            <i class="icon-manager"></i>-->
-                          Email
-                        </th>
-                        <th>
-  <!--                            <i class="icon-manager"></i>-->
-                            Tel
-                        </th>
-<!--                        <th class="text-center">Date de création</th>-->
-<!--                        <th>Dernière activité</th>-->
-                        <th class="icon-cell"></th>
-                    </tr>
-                </thead>
-                <tbody>
-<!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-                   <tr *ngFor="let user of users"  >
-                        <td>
-                          <div class="photo-cell">
-                            <div class="photo">
-                              <div class="img-container">
-                                <img
-                                  [attr.src]="user?.photo_profil ? ('document/'+user.photo_profil_id+'/file' |
+              <thead>
+                <tr>
+                <th>
+                  Salarié
+                </th>
+                <th>
+                  N°
+                </th>
+                <th>
+                  Profil
+                </th>
+                <th>
+                  Rôle
+                </th>
+                <th>
+                  Centre de profit
+                </th>
+                <th>
+                  Appartenance
+                </th>
+                <th>
+                  Entrée
+                </th>
+                <th>
+                  Sortie
+                </th>
+                <th>
+                  Téléphone
+                </th>
+                <th>
+                  Email
+                </th>
+                <th>
+                  Dernière connexion
+                </th>
+                <th >Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users"  >
+                  <td>
+                    <div class="photo-cell">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [attr.src]="user?.photo_profile ? (user.photo_profile |
+                        getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          />
+                        </div>
+                      </div>
+                      <div class="name">{{user?.full_name}} </div>
+                    </div>
+                  </td>
+                  <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
+                  <td data-title="Profile" >{{user?.profile_name}}</td>
+                  <td data-title="Rôle" >{{user?.role_name}}</td>
+                  <td data-title="Ceentre de profit"  >{{user?.cp_name}}</td>
+                  <td data-title="Appartenance" >{{user?.member_ship_name}}</td>
+                  <td data-title="Entrée"  >{{user?.entry_date | dateMessage}}</td>
+                  <td data-title="Sortie"  >{{user?.end_date | dateMessage}}</td>
+                  <td data-title="Telephone portable">{{user?.telephone_portable}}</td>
+                  <td data-title="Email">{{user?.email}}</td>
+                  <td>{{user?.last_login | timeAgo}}</td>
+                  <td>
+                    <div class="actions">
+                      <i class="icon-eye"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         (click)="goToUpdateUser(user)"
+                         title="Détails"></i>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'period_essai'">
+            <table class="table-responsive card-list-table">
+              <thead>
+               <tr>
+                <th>
+                  Salarié
+                </th>
+                 <th>
+                   Centre de profit
+                 </th>
+                <th>
+                  Matricule
+                </th>
+                <th>
+                  Date naissance
+                </th>
+                <th>
+                  Position
+                </th>
+                <th>
+                  Date entrée
+                </th>
+                <th>
+                  Date sortie
+                </th>
+                <th>
+                  Ancienneté
+                </th>
+                <th>
+                  Action
+                </th>
+                <th>
+                  Suivi evolution période d'essai
+                </th>
+                <th>
+                  Date fin période essai
+                </th>
+                <th>
+                  Gestion courrier GP
+                </th>
+               </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of users"  >
+                <td>
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="user?.photo_profile ? (user.photo_profile |
+                        getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                    <div class="name">{{user?.full_name}} </div>
+                  </div>
+                </td>
+                <td data-title="Ceentre de profit" class="tel">{{user?.cp_name}}</td>
+                <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
+                <td data-title="Numéro de registration" >{{user?.birth_date | dateMessage}}</td>
+                <td data-title="Profile" >{{user?.position_name}}</td>
+                <td data-title="Entrée" class="tel">{{user?.entry_date | dateMessage}}</td>
+                <td data-title="Sortie" class="tel">{{user?.end_date | dateMessage}}</td>
+                <td data-title="Rôle" >{{user?.seniority}}</td>
+                <td data-title="Appartenance" class="tel">
+                  <i class="icon-parametre primary-icon"></i>
+                </td>
+                <td data-title="Telephone portable"></td>
+                <td data-title="Email"></td>
+                <td></td>
+
+              </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'entretien'">
+            <table class="table-responsive card-list-table">
+              <thead>
+              <tr>
+                <th>
+                  <!--                          <i class="icon-username"></i>-->
+                  Nom
+                </th>
+                <!--                        <th>-->
+                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
+                <!--                          Prénom-->
+                <!--                        </th>-->
+                <th>
+                  <!--                          <i class="icon-email"></i>-->
+                  N°
+                </th>
+                <th>
+                  <!--                           <i class="icon-phone"></i>-->
+                  Profil
+                </th>
+                <th>
+                  <!--                          <i class="icon-manager"></i>-->
+                  Centre de profit
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Email
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Tel
+                </th>
+                <!--                        <th class="text-center">Date de création</th>-->
+                <!--                        <th>Dernière activité</th>-->
+                <th class="icon-cell"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+              <tr *ngFor="let user of users"  >
+                <td>
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="user?.photo_profile ? (user.photo_profile |
                       getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
                       async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
-                                />
-                              </div>
-                            </div>
-                            <div class="name">{{user?.full_name}} </div>
-                          </div>
-                        </td>
-                     <td>{{user?.registration_number}}</td>
-                        <td data-title="Email" >{{user?.profile_name}}</td>
-                         <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
-                        <td data-title="Profil">{{user?.email_professional}}</td>
-                        <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
+                        />
+                      </div>
+                    </div>
+                    <div class="name">{{user?.full_name}} </div>
+                  </div>
+                </td>
+                <td>{{user?.registration_number}}</td>
+                <td data-title="Email" >{{user?.profile_name}}</td>
+                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
+                <td data-title="Profil">{{user?.email_professional}}</td>
+                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
 
-<!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
-<!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
-                        <td >
-<!--                            appStopPropagation-->
-                            <div class="actions">
-                                <i class="icon-eye"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   (click)="goToUpdateUser(user)"
-                                   title="Détails"></i>
-<!--                              <span class="d-none d-lg-flex">Détails</span>-->
+                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
+                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
+                <td >
+                  <!--                            appStopPropagation-->
+                  <div class="actions">
+                    <i class="icon-eye"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       (click)="goToUpdateUser(user)"
+                       title="Détails"></i>
+                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
 
-<!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
-<!--                                    <i class="fa fa-lock"-->
-<!--                                       data-toggle="tooltip"-->
-<!--                                       data-placement="top"-->
-<!--                                       (click)="askBlockUser(user.id)"-->
-<!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
-<!--                                </ng-container>-->
-<!--                                <ng-template #unlock>-->
-<!--                                    <i class="fa fa-unlock"-->
-<!--                                       data-toggle="tooltip"-->
-<!--                                       data-placement="top"-->
-<!--                                       (click)="askUnBlockUser(user.id)"-->
-<!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
-<!--                                </ng-template>-->
-<!--                                <i class="fa fa-trash"-->
-<!--                                   (click)="archive(user.id)"-->
-<!--                                   data-toggle="tooltip"-->
-<!--                                   data-placement="top"-->
-<!--                                   title="{{'DELETE' | translate}}"></i>-->
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
+                    <!--                                    <i class="fa fa-lock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askBlockUser(user.id)"-->
+                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-container>-->
+                    <!--                                <ng-template #unlock>-->
+                    <!--                                    <i class="fa fa-unlock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askUnBlockUser(user.id)"-->
+                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-template>-->
+                    <!--                                <i class="fa fa-trash"-->
+                    <!--                                   (click)="archive(user.id)"-->
+                    <!--                                   data-toggle="tooltip"-->
+                    <!--                                   data-placement="top"-->
+                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
+                  </div>
+                </td>
+              </tr>
+              </tbody>
             </table>
-        </div>
-    </div>
-<!--    <app-pagination name="pagination" (change)="changePagination()" [(ngModel)]="pagination" ngDefaultControl></app-pagination><br>-->
-  <div class="footer" *ngIf="users?.length>0">
+          </ng-container>
+          <ng-container *ngSwitchCase="'formation'">
+            <table class="table-responsive card-list-table">
+              <thead>
+              <tr>
+                <th>
+                  <!--                          <i class="icon-username"></i>-->
+                  Nom
+                </th>
+                <!--                        <th>-->
+                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
+                <!--                          Prénom-->
+                <!--                        </th>-->
+                <th>
+                  <!--                          <i class="icon-email"></i>-->
+                  N°
+                </th>
+                <th>
+                  <!--                           <i class="icon-phone"></i>-->
+                  Profil
+                </th>
+                <th>
+                  <!--                          <i class="icon-manager"></i>-->
+                  Centre de profit
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Email
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Tel
+                </th>
+                <!--                        <th class="text-center">Date de création</th>-->
+                <!--                        <th>Dernière activité</th>-->
+                <th class="icon-cell"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+              <tr *ngFor="let user of users"  >
+                <td>
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="user?.photo_profile ? (user.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                    <div class="name">{{user?.full_name}} </div>
+                  </div>
+                </td>
+                <td>{{user?.registration_number}}</td>
+                <td data-title="Email" >{{user?.profile_name}}</td>
+                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
+                <td data-title="Profil">{{user?.email_professional}}</td>
+                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
 
-    <app-pagination name="pagination"
-                    (change)="changePagination()"
-                    [(ngModel)]="pagination"
-                    ngDefaultControl>
-    </app-pagination>
-    <div class="right-buttons flex-end">
-      <app-button
-        [text]="'Importer'"
-        [type]="'tertiary_inverse'"
-        [iconLeft]="'icon-file'"
-        [customStyle]="{'white-space': 'nowrap'}"
-      ></app-button>&nbsp;
-      <app-button
-        [text]="'Exporter'"
-        [type]="'tertiary_inverse'"
-        [iconLeft]="'icon-file'"
-        [customStyle]="{'white-space': 'nowrap'}"
-      ></app-button>
+                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
+                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
+                <td >
+                  <!--                            appStopPropagation-->
+                  <div class="actions">
+                    <i class="icon-eye"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       (click)="goToUpdateUser(user)"
+                       title="Détails"></i>
+                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
+
+                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
+                    <!--                                    <i class="fa fa-lock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askBlockUser(user.id)"-->
+                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-container>-->
+                    <!--                                <ng-template #unlock>-->
+                    <!--                                    <i class="fa fa-unlock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askUnBlockUser(user.id)"-->
+                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-template>-->
+                    <!--                                <i class="fa fa-trash"-->
+                    <!--                                   (click)="archive(user.id)"-->
+                    <!--                                   data-toggle="tooltip"-->
+                    <!--                                   data-placement="top"-->
+                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'visite_medicale'">
+            <table class="table-responsive card-list-table">
+              <thead>
+              <tr>
+                <th>
+                  <!--                          <i class="icon-username"></i>-->
+                  Nom
+                </th>
+                <!--                        <th>-->
+                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
+                <!--                          Prénom-->
+                <!--                        </th>-->
+                <th>
+                  <!--                          <i class="icon-email"></i>-->
+                  N°
+                </th>
+                <th>
+                  <!--                           <i class="icon-phone"></i>-->
+                  Profil
+                </th>
+                <th>
+                  <!--                          <i class="icon-manager"></i>-->
+                  Centre de profit
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Email
+                </th>
+                <th>
+                  <!--                            <i class="icon-manager"></i>-->
+                  Tel
+                </th>
+                <!--                        <th class="text-center">Date de création</th>-->
+                <!--                        <th>Dernière activité</th>-->
+                <th class="icon-cell"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+              <tr *ngFor="let user of users"  >
+                <td>
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="user?.photo_profile ? (user.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                    <div class="name">{{user?.full_name}} </div>
+                  </div>
+                </td>
+                <td>{{user?.registration_number}}</td>
+                <td data-title="Email" >{{user?.profile_name}}</td>
+                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
+                <td data-title="Profil">{{user?.email_professional}}</td>
+                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
+
+                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
+                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
+                <td >
+                  <!--                            appStopPropagation-->
+                  <div class="actions">
+                    <i class="icon-eye"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       (click)="goToUpdateUser(user)"
+                       title="Détails"></i>
+                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
+
+                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
+                    <!--                                    <i class="fa fa-lock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askBlockUser(user.id)"-->
+                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-container>-->
+                    <!--                                <ng-template #unlock>-->
+                    <!--                                    <i class="fa fa-unlock"-->
+                    <!--                                       data-toggle="tooltip"-->
+                    <!--                                       data-placement="top"-->
+                    <!--                                       (click)="askUnBlockUser(user.id)"-->
+                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
+                    <!--                                </ng-template>-->
+                    <!--                                <i class="fa fa-trash"-->
+                    <!--                                   (click)="archive(user.id)"-->
+                    <!--                                   data-toggle="tooltip"-->
+                    <!--                                   data-placement="top"-->
+                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <ng-container *ngTemplateOutlet="emptyState"></ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
+    <div class="footer" *ngIf="users?.length>0">
+
+      <app-pagination name="pagination"
+                      (change)="changePagination()"
+                      [(ngModel)]="pagination"
+                      ngDefaultControl>
+      </app-pagination>
+      <div class="right-buttons flex-end">
+        <app-button
+          [text]="'Importer'"
+          [type]="'tertiary_inverse'"
+          [iconLeft]="'icon-file'"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>&nbsp;
+        <app-button
+          [text]="'Exporter'"
+          [type]="'tertiary_inverse'"
+          [iconLeft]="'icon-file'"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+    </div>
+  </ng-container>
 </div>
 
 <ng-template #emptyState>
@@ -310,4 +767,10 @@
     [image]="'images/user_empty_state.svg'"
     [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
   ></app-centred-message>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <img src="assets/images/loading.svg" style="height: 100px;" />
+  </div>
 </ng-template>
