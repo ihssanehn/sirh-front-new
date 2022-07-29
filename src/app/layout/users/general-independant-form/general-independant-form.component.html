@@ -194,6 +194,7 @@
                           <input [owlDateTime]="owl_dt1"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt1"
+                                 (keydown)="returnfalse()"
                                placeholder="Choisir la date d'entée ici"
                                [formControl]="userFormGroup.controls[formInputs.birth_date]"
                         />
@@ -679,6 +680,7 @@
                       <div class="date-picker-group">
                         <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt2"
+                               (keydown)="returnfalse()"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt2"
                                placeholder="Choisir la date d'entée ici"
@@ -705,6 +707,7 @@
                       <div class="date-picker-group">
                         <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt3"
+                               (keydown)="returnfalse()"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt3"
                                placeholder="Choisir la date d'entée ici"
@@ -729,6 +732,7 @@
                       <div class="date-picker-group">
                         <owl-date-time #owl_dt4 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt4"
+                               (keydown)="returnfalse()"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt4"
                                placeholder="Choisir la date d'entée ici"
@@ -767,6 +771,7 @@
                       <div class="date-picker-group">
                         <owl-date-time #owl_dt5 [pickerType]="'calendar'" ></owl-date-time>
                         <input [owlDateTime]="owl_dt5"
+                               (keydown)="returnfalse()"
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt5"
                                placeholder="Choisir la date d'entée ici"
@@ -810,6 +815,7 @@
                           <input [owlDateTime]="owl_dt7"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt7"
+                                 (keydown)="returnfalse()"
                                  placeholder="Choisir la date d'entée ici"
                                  [formControl]="userFormGroup.controls[formInputs.depart_mail_received_date]"
                           />
@@ -836,6 +842,7 @@
                           <input [owlDateTime]="owl_dt8"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt8"
+                                 (keydown)="returnfalse()"
                                  placeholder="Choisir la date de fin théorique ici"
                                  [formControl]="userFormGroup.controls[formInputs.theory_end_date]"
                           />
@@ -862,6 +869,7 @@
                           <input [owlDateTime]="owl_dt9"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt9"
+                                 (keydown)="returnfalse()"
                                  placeholder="Choisir la date de sortie ici"
                                  [formControl]="userFormGroup.controls[formInputs.end_date]"
                           />
