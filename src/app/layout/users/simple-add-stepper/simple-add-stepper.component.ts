@@ -88,6 +88,9 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
     try{
       const res = await this.userService.getOne({id}).toPromise();
       this.user = res.result?.data;
+      if(this.user?.type_account === 'independent'){
+        this.router.navigate(['users/new/'+this.user.type_account], {queryParams: {step: 0, user_id: this.user.id}});
+      }
     }catch (e) {
       console.log('getUser error', e);
     }finally {

@@ -29,12 +29,7 @@ export class CoutIndependantFormComponent implements OnInit, AfterViewInit {
   error = '';
   warning = '';
   @Input() submitting: boolean;
-    // 'tjm_client',
-  // 'tjm_service_provider',
-  // 'has_costs_billable_service_provider',
-  // 'comment_service_provider'
- // 'is_subject_to_vats',
- //  'vat_rate'
+
   formInputs = {
     tjm_client: 'tjm_client',
     tjm_service_provider: 'tjm_service_provider',
@@ -89,8 +84,8 @@ export class CoutIndependantFormComponent implements OnInit, AfterViewInit {
     this.coutFormGroup = this.formBuilder.group({
       tjm_client: [],
       tjm_service_provider: [],
-      is_subject_to_vats: [],
-      has_costs_billable_service_provider: [],
+      is_subject_to_vats: [false],
+      has_costs_billable_service_provider: [false],
       vat_rate: [],
       comment_service_provider: [],
     });
@@ -107,34 +102,20 @@ export class CoutIndependantFormComponent implements OnInit, AfterViewInit {
     if(this.activatedRoute.snapshot.params.id){
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-    this.getParametersLists();
-    // this.mockupData();
-    this.changeDetectorRef.detectChanges();
-  }
 
-  async getParametersLists(){
-    try{
-      this.loadingLists = true;
-      const res = await this.listService.getParameters().toPromise();
-      console.log('res getParametersLists', res);
-      if(res){
-        Object.keys(res).forEach(key => {
-          this[key] = res[key];
-        });
-      }
-    }catch (e){
-
-    }finally {
-      this.loadingLists = false;
-    }
+    // this.changeDetectorRef.detectChanges();
   }
 
   initFormBuilder(user: User){
     if(user){
       this.coutFormGroup.patchValue({
         personal_id: user.id,
-        ...user.parameter
+        tjm_client: user.tjm_client,
+        tjm_service_provider: user.tjm_service_provider,
+        is_subject_to_vats: user.is_subject_to_vats? true: false,
+        has_costs_billable_service_provider: user.has_costs_billable_service_provider ? true: false,
+        vat_rate: user.vat_rate,
+        comment_service_provider: user.comment_service_provider,
       });
     }
   }

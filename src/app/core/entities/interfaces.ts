@@ -1,5 +1,12 @@
 
 export interface User {
+  type_account?: string;
+  comment_service_provider?: any;
+  vat_rate?: any;
+  has_costs_billable_service_provider?: any;
+  is_subject_to_vats?: any;
+  tjm_service_provider?: any;
+    tjm_client?: any;
     parameter: any;
     nationality_id?: number;
     permissions?: Array<any>;

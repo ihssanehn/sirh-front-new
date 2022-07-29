@@ -58,7 +58,7 @@
                       <label class="col-12">{{formLabels.tjm_client}}
                         {{isRequired(formInputs.tjm_client)}}</label>
                       <div class="col">
-                        <input type="text"
+                        <input type="number"
                                placeholder="Saisir le TJM facturé au client ici"
                                [formControl]="coutFormGroup.controls[formInputs.tjm_client]"
                                class="form-control input"
@@ -93,7 +93,7 @@
                         <label class="col-12">{{formLabels.tjm_service_provider}}
                           {{isRequired(formInputs.tjm_service_provider)}}</label>
                         <div class="col">
-                          <input type="text"
+                          <input type="number"
                                  placeholder="Saisir le TJM facturé au prestataire ici"
                                  [formControl]="coutFormGroup.controls[formInputs.tjm_service_provider]"
                                  class="form-control input"
@@ -145,7 +145,7 @@
 
                     <div class="col">
                       <label class="col-12">{{formLabels.comment_service_provider}} {{isRequired(formInputs.comment_service_provider)}}</label>
-                      <textarea rows="3"
+                      <textarea rows="10"
                                 placeholder="Saisir un commentaire ici"
                                 class="form-control input"
                                 [formControl]="coutFormGroup.controls[formInputs.comment_service_provider]"
