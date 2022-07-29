@@ -236,4 +236,8 @@ export class UserService {
   getDefaultProfilePermissionByProfileId(params) {
     return this.apiService.post(`permission/getDefaultProfilePermissionByProfileId`, params);
   }
+
+  addOrUpdatePersonalCost(params) {
+    return this.apiService.post('personal/addOrUpdatePersonalCost', params);
+  }
 }

@@ -174,34 +174,14 @@ export class IndependentAddStepperComponent implements OnInit, AfterViewInit  {
 
   async submitCout($event: any) {
     try{
-      this.moveForward(3, {user_id: this.user?.id});
-      return;
-      //TODO
+      console.log('submitCout', $event);
       this.submittingCout = true;
-      const fd = new FormData();
-      Object.keys($event).forEach(key => {
-        if(key === 'photo_profile'){
-          if($event[key] instanceof File){// Cas de Ajout ou modification de photo
-            fd.append(key, $event[key]);
-          }else if(!($event[key]?.length>0)){ // Cas de suppression de photo
-            fd.append('delete_photo_profile', 'true');
-          }
-        }else{
-          if($event[key] != null){
-            fd.append(key, $event[key]);
-          }
-        }
-      });
+      $event.id = this.user.id;
+      $event.type_account = 'independent';
       let res;
-      fd.append('type_account', 'independent');
-      fd.append('member_ship_id', '5');
-      if($event?.id){
-        res = await this.userService.submitUpdateUser(fd).toPromise();
-      }else{
-        res = await this.userService.submitUser(fd).toPromise();
-      }
+      res = await this.userService.addOrUpdatePersonalCost($event).toPromise();
       if(res?.result?.data?.id){
-        this.moveForward(1, {user_id: res?.result?.data?.id});
+        this.moveForward(3, {user_id: res?.result?.data?.id});
         this.user = res.result.data;
       }
     }catch (e){
