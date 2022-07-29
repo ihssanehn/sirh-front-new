@@ -41,11 +41,11 @@ export class LayoutComponent implements OnInit{
               case 'users': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.utilisateur;
 
-                if(this.router.url.indexOf('/users/list') !== -1){
+                if(this.router.url.indexOf('users/list') !== -1){
                   $sidebarItems_users[0].opened = true;
                   $sidebarItems_users[1].opened = false;
                 }
-                if(this.router.url.indexOf('/users/new') !== -1){
+                if(this.router.url.indexOf('users/new') !== -1){
                   $sidebarItems_users[0].opened = false;
                   $sidebarItems_users[1].opened = true;
                 }

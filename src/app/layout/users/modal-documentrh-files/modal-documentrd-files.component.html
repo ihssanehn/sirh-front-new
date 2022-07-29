@@ -1,0 +1,60 @@
+<div class="container top-container ">
+  <div class="header modal-header">
+    <h1 class="main-title">&nbsp;</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+
+  <div class="modal-body">
+    <div class="list-group">
+      <div class="row" *ngIf="files?.length>0">
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr class="file" *ngFor="let item of files" title="{{item.original_name}}" (click)="download(item)">
+              <td>
+                <div class="first-part col">
+                  <div class="icon">
+                    <i class="{{getIcon(item.original_name)}}"></i>
+                  </div>
+                  <div class="">
+                    <div class="name">{{getFileName(item.original_name)}}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="size col">{{getFileSize(item.size)}}</div>
+              </td>
+              <td>
+                <div class="size col">{{item.created_at | dateMessage}}</div>
+              </td>
+              <td>
+                <div class="actions col">
+                  <i class="fa fa-download"
+                     data-toggle="tooltip"
+                     data-placement="top"
+                     (click)="download(item)"
+                     title="Télécharger"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<!--  <div class="modal-footer">-->
+<!--    <app-button-->
+<!--      [type]="'primary'"-->
+<!--      [text]="'Fermer'"-->
+<!--      (onClick)="modal.close()"-->
+<!--    ></app-button>-->
+<!--  </div>-->
+</div>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>

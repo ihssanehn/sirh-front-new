@@ -17,18 +17,43 @@ table{
     margin: 0 10px;
     margin-right: 0;
     line-height: 30px;
+    &:before{
+      color: #707070;
+      opacity: 0.6;
+    }
+  }
+  i:hover{
+    &:before{
+      color: $primaryColor;
+      opacity: 1;
+    }
+  }
+  .icon-trash:hover{
+    &:before{
+      color: $danger;
+      opacity: 1;
+    }
   }
   .icon-attachment{
     margin-right: 0;
     &:before{
-      color: #707070 !important;
       font-size: 12px;
-      opacity: 0.6;
     }
   }
-  span{
-    color: #707070 !important;
+  div{
+    color: #707070;
     font-size: 13px;
+    span{
+      color: #707070;
+    }
+    &:hover{
+      span{
+        color: $primaryColor;
+      }
+      i:before{
+        color: $primaryColor;
+      }
+    }
   }
 }
 

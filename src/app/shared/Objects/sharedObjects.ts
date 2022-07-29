@@ -256,7 +256,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Création indépendante',
           type: 'link',
           icon: null,
-          link: 'users/new/independent',
+          link: 'users/new/independant',
           opened: false,
         },
         {

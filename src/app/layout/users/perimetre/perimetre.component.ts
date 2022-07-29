@@ -62,7 +62,7 @@ export class PerimetreComponent implements OnInit {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     this.loadingData = true;
-    this.searchSubscription = this.userService.getUsers({with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({type: 'general', with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
       if(result){
         this.users = result.data.data;
         this.totalUsers = result?.data?.total;

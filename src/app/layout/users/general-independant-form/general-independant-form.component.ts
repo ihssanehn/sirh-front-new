@@ -20,11 +20,11 @@ import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 
 @Component({
-  selector: 'app-general-simple-form',
-  templateUrl: './general-simple-form.component.html',
-  styleUrls: ['./general-simple-form.component.scss'],
+  selector: 'app-general-independant-form',
+  templateUrl: './general-independant-form.component.html',
+  styleUrls: ['./general-independant-form.component.scss'],
 })
-export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
+export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
   userFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
   errors : Array<any> = [];
@@ -274,7 +274,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         telephone_portable: [null,Validators.required],
         profile_id: [null],
         role_id: [null, Validators.required],
-        member_ship_id: [null, Validators.required],
+        member_ship_id: [5, Validators.required],
         supplier_id: [null, Validators.required],
         cp_id: [null, Validators.required],
         original_company_id: [null, Validators.required],
@@ -625,6 +625,14 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       [input]: null
     })
   }
+
+  // birth_place: ["Invalid value"]
+  // birth_date: ["Invalid value"]
+  // contract_id: ["contract_id is not valid"]
+  // is_head_office: ["Invalid value"]
+  // nationality: ["Invalid value"]
+  // profile_id: ["profile_id not valid"]
+  // start_date: ["Invalid value"]
 
   isValidMoment(date) {
     if(!this.userFormGroup.value[date]){

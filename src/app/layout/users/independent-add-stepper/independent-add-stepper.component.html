@@ -1,1 +1,91 @@
-<p>independent-add works!</p>
+<mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
+  <!-- change default 'edit' icon -->
+  <ng-template #stepperIcon>
+    <i class="icon-general"></i>
+  </ng-template>
+  <mat-step label="Général">
+    <app-general-independant-form
+      [profile_id]="profile_id"
+      [user]="user"
+      (submitUser)="submitUser($event)"
+      [submitting]="submittingUser"
+    ></app-general-independant-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-parametre"></i>
+  </ng-template>
+  <mat-step label="Paramètres">
+    <app-parametre-independant-form
+      (preview)="moveForward(1)"
+      [profile_id]="profile_id"
+      [user]="user"
+      (submitParameters)="submitParameters($event)"
+    ></app-parametre-independant-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-cout"></i>
+  </ng-template>
+  <mat-step label="Coût">
+    <app-cout-independant-form
+      (preview)="moveForward(1)"
+      [profile_id]="profile_id"
+      [user]="user"
+      (submitParameters)="submitParameters($event)"
+    ></app-cout-independant-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-doc"></i>
+  </ng-template>
+  <mat-step label="Doc RH">
+    <app-docrh-simple-form
+      (preview)="moveForward(2)"
+      (next)="moveForward(4)"
+    ></app-docrh-simple-form>
+  </mat-step>
+  <!--  <mat-step label="Doc RH">-->
+  <!--    <app-perimetre-->
+  <!--      (preview)="moveForward(1)"-->
+  <!--      (submitPerimeters)="submitPerimeters($event)"-->
+  <!--      [perimeters]="user?.perimeters"-->
+  <!--      [user]="user"-->
+  <!--    ></app-perimetre>-->
+  <!--  </mat-step>-->
+  <ng-template #stepperIcon>
+    <i class="icon-perimetre"></i>
+  </ng-template>
+  <mat-step label="Périmètre">
+    <app-perimetre
+      (preview)="moveForward(3)"
+      (submitPerimeters)="submitPerimeters($event)"
+      [perimeters]="user?.perimeters"
+      [user]="user"
+      (next)="moveForward(5)"
+      [submitting]="submittingPerimeters"
+    ></app-perimetre>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-acces"></i>
+  </ng-template>
+  <mat-step label="Accès">
+    <app-access
+      (preview)="moveForward(4)"
+      (submitAccess)="submitAccess($event)"
+      [user]="user"
+      [permissions]="user?.permissions"
+    ></app-access>
+  </mat-step>
+
+  <ng-template matStepperIcon="number" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="edit" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="done" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+</mat-stepper>
+

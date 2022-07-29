@@ -29,6 +29,10 @@ import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/moda
 import {ParametreSimpleFormComponent} from "@layout/users/parametre-simple-form/parametre-simple-form.component";
 import {DocrhSimpleFormComponent} from "@layout/users/docrh-simple-form/docrh-simple-form.component";
 import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
+import {GeneralIndependantFormComponent} from "@layout/users/general-independant-form/general-independant-form.component";
+import {CoutIndependantFormComponent} from "@layout/users/cout-independant-form/cout-independant-form.component";
+import {ParametreIndependantFormComponent} from "@layout/users/parametre-independant-form/parametre-independant-form.component";
 
 
 @NgModule({
@@ -65,12 +69,20 @@ import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docr
     GeneralSimpleFormComponent,
     ParametreSimpleFormComponent,
     DocrhSimpleFormComponent,
-    ModalDocrhItemComponent
+    ModalDocrhItemComponent,
+    ModalDocumentrhFilesComponent,
+    GeneralIndependantFormComponent,
+    CoutIndependantFormComponent,
+    ParametreIndependantFormComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,
     ModalPeriodeEssaiComponent,
-    ModalDocrhItemComponent
+    ModalDocrhItemComponent,
+    ModalDocumentrhFilesComponent,
+    GeneralIndependantFormComponent,
+    CoutIndependantFormComponent,
+    ParametreIndependantFormComponent
   ]
 })
 export class UsersModule { }

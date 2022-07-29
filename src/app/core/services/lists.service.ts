@@ -26,6 +26,7 @@ export class ListsService {
     COUNTRY: 'country',
     CITY: 'city',
     DOCUMENT_TYPE: 'document_type',
+    SITUATION_ALERT: 'situation_alert',
     USERS: 'users'
   }
   constructor(private apiService: ApiService) {}

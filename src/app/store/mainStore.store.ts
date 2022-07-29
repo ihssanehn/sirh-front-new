@@ -35,7 +35,6 @@ export class MainStore {
 
   @computed
   get getItems() {
-    console.log('getItems', this.activateRoute.snapshot, this.router.url);
     switch (this.currentHeaderSection?.name){
       case 'utilisateur': {
         return $sidebarItems_users;

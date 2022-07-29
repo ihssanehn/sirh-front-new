@@ -13,6 +13,7 @@ import {MainStore} from "@store/mainStore.store";
 import * as moment from "moment";
 import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
 import {MessageService} from "primeng/api";
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
 
 @Component({
   selector: 'app-docrh-simple-form',
@@ -36,6 +37,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     keyword: '',
     has_treated_alert: null,
     document_type: null,
+    situation_alert: null,
     page: 1,
     limit: 10,
   }
@@ -58,6 +60,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
   @Output() preview: EventEmitter<any> = new EventEmitter();
   loading: boolean;
   document_types = [];
+  situation_alerts = [];
   loadingData: boolean;
   constructor(private userService : UserService,
               private translate: TranslateService,
@@ -96,6 +99,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.getDocuments();
     try{ this.document_types = await this.listService.getAll(this.listService.list.DOCUMENT_TYPE).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
+    try{ this.situation_alerts = await this.listService.getAll(this.listService.list.SITUATION_ALERT).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
   }
 
   openSelectRole(){
@@ -150,6 +154,18 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  openDocumentRHFilesModal(document?){
+    const modalRef = this.modalService.open(ModalDocumentrhFilesComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed result', result);
+    }, reason => {
+      console.log('closed reason', reason);
+    });
+    if(document){
+      modalRef.componentInstance.files = document.attachments;
+    }
+  }
+
   move(to) {
     if(to == 1){
       this.next.emit();
@@ -170,6 +186,7 @@ export class DocrhSimpleFormComponent implements OnInit, OnDestroy {
     this.searchSubscription = this.userService.getRHDocuments(params).subscribe((res) => {
       this.documents = res?.result?.data?.data;
       this.pagination = { ...this.pagination, total: res?.result?.data?.total };
+      // this.openDocumentRHFilesModal(this.documents[0]);
     }, err =>{
       console.log('err getUsers', err);
     }, ()=>{

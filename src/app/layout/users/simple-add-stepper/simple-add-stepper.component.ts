@@ -139,6 +139,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         }
       });
       let res;
+      fd.append('type_account', 'simple');
       if($event?.id){
          res = await this.userService.submitUpdateUser(fd).toPromise();
       }else{

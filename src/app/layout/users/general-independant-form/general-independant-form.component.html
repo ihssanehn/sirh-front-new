@@ -445,33 +445,10 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <label class="col-12">{{formLabels.member_ship_id}} {{isRequired(formInputs.member_ship_id)}}</label>
-
-                      <ng-select
-                        [items]="appartenances"
-                        [bindLabel]="'label'"
-                        [bindValue]="'id'"
-                        class="form-control select"
-                        placeholder="Sélectionner l'appartenance ici"
-                        [formControl]="userFormGroup.controls[formInputs.member_ship_id]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.member_ship_id].hasError('required')
-                                  && userFormGroup.controls[formInputs.member_ship_id].dirty}"
-                        [multiple]="false"
-                      >
-                      </ng-select>
-                      <!--                  <input type="text"-->
-                      <!--                         placeholder="Saisir le matricule ici"-->
-                      <!--                         class="form-control input"-->
-                      <!--                         [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.cp_id].hasError('required')-->
-                      <!--                                  && userFormGroup.controls[formInputs.cp_id].dirty}"-->
-                      <!--                         [formControl]="userFormGroup.controls[formInputs.cp_id]"-->
-                      <!--                  />-->
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.member_ship_id].hasError('required')
-                  && userFormGroup.controls[formInputs.member_ship_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        L'appartenance est obligatoire
-                      </div>
+                      <label class="col-12">
+                        {{formLabels.member_ship_id}}:
+                        <span style="opacity: .6;">Extérieur</span>
+                      </label>
                     </div>
                   </div>
                   <div class="row">
@@ -815,33 +792,7 @@
                         La date d'entrée est obligatoire
                       </div>
                     </div>
-                    <div class="col" *ngIf="isValidMoment(formInputs.entry_date)">
-                      <label class="col-12">{{formLabels.end_trial_period_date}} {{isRequired(formInputs.end_trial_period_date)}}</label>
-                      <div class="date-picker-group">
-                        <owl-date-time #owl_dt6 [pickerType]="'calendar'"></owl-date-time>
-                        <input class="form-control input date"
-                               [owlDateTime]="owl_dt6"
-                               [owlDateTimeTrigger]="owl_dt6"
-                               placeholder="Choisir la date de sortie ici"
-                               [formControl]="userFormGroup.controls[formInputs.end_trial_period_date]"
-                        />
-<!--                        [disableControl]="!isValidMoment(formInputs.entry_date)"-->
-<!--                        (keydown)="returnfalse()"-->
-                        <div class="icons-container">
-                          <i class="icon-close"
-                             (click)="clearDateInput(formInputs.end_trial_period_date)"
-                             *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].value"></i>&nbsp;
-                          <i class="fa fa-calendar primary-icon"
-                            (click)="openPeriodFinEssai()"
-                          ></i>
-                        </div>
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.controls[formInputs.end_trial_period_date].hasError('required')
-                && userFormGroup.controls[formInputs.end_trial_period_date].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        La date de find de période d'essai est obligatoire
-                      </div>
+                    <div class="col" >
                     </div>
                   </div>
                 </div>

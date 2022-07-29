@@ -63,8 +63,8 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     is_virtual: null,
     page: 1,
     limit: 10,
-    is_blocked: false,
-    to_be_completed: false,
+    is_blocked: null,
+    to_be_completed: null,
 
     roles: [],
     member_ships: [],
@@ -238,16 +238,13 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      ...this.filter,
       type: this.type
     }
-    if(this.filter.is_virtual === null){
-      params.is_virtual = -1;
-    }else if(this.filter.is_virtual){
-      params.is_virtual = 1;
-    }else {
-      params.is_virtual = 0;
-    }
+    Object.keys(this.filter).forEach(key => {
+      if(this.filter[key] !== null && this.filter[key] !== []){
+        params[key] = this.filter[key];
+      }
+    })
     this.loadingData = true;
     this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.users = result.data.data;
@@ -287,8 +284,8 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.filter = Object.assign(this.filter, {
-      is_blocked: false,
-      to_be_completed: false,
+      is_blocked: null,
+      to_be_completed: null,
 
       roles: [],
       member_ships: [],

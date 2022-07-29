@@ -51,17 +51,17 @@
                        [bindValue]="'value'"
                        [placeholder]="'Filtrer par traitement alert'" ></ng-select>
           </div>
-<!--          <div class="input-group">-->
-<!--            <label>Alerte</label>-->
-<!--            <ng-select class="select form-control"-->
-<!--                       [multiple]="false"-->
-<!--                       [items]="managers"-->
-<!--                       (change)="getDocuments()"-->
-<!--                       [(ngModel)]="filter.managers"-->
-<!--                       [bindLabel]="'full_name'"-->
-<!--                       [bindValue]="'id'"-->
-<!--                       [placeholder]="'Filtrer par alerte'" ></ng-select>-->
-<!--          </div>-->
+          <div class="input-group">
+            <label>Alerte</label>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="situation_alerts"
+                       (change)="getDocuments()"
+                       [(ngModel)]="filter.situation_alert"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par alerte'" ></ng-select>
+          </div>
           <div class="input-group">
             <label>&nbsp;</label>
             <app-button
@@ -151,13 +151,14 @@
                                data-placement="top"
                                (click)="openDocumentRHModal(document)"
                                title="Modifier"></i>
+                            <div (click)="openDocumentRHFilesModal(document)" class="align-items-center d-flex">
                               <i class="icon-attachment"
                                  data-toggle="tooltip"
                                  data-placement="top"
-                                 (click)="openDocumentRHModal(document)"
                                  title="Documents attachés"></i>
                               <span>({{(document.attachments?.length > 0) ?  document.attachments?.length : 0}})</span>
-                              <i class="icon-trash danger-icon"
+                            </div>
+                              <i class="icon-trash"
                                  (click)="archive(document.id)"
                                  data-toggle="tooltip"
                                  data-placement="top"

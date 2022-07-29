@@ -86,7 +86,7 @@ const routes: Routes = [
         component: SimpleAddStepperComponent,
       },
       {
-        path: 'independent',
+        path: 'independant',
         component: IndependentAddStepperComponent,
       },
       {
