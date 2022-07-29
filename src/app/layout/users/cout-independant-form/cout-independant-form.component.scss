@@ -1,0 +1,37 @@
+@import '../users.styles';
+
+
+.top-container{
+  overflow: hidden;
+  .main-container{
+    //padding: 0;
+  }
+  form{
+    overflow: auto;
+    height: 100%;
+    padding-bottom: 120px !important;
+    max-width: unset;
+  }
+}
+
+.head-info{
+  margin-bottom: 0 !important;
+}
+
+.vertical-separator{
+  border-left: 1px solid lightgray;
+  width: 1px;
+  margin: 0 5%;
+}
+
+.light-checkbox{
+  label{
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 300;
+    color: #707070;
+  }
+}
+.bold-label{
+  font-weight: 500;
+}

@@ -41,11 +41,10 @@ export class SidebareMenuComponent implements OnInit {
     item.opened = true;
   }
 
+
   navigateSubMenu(link) {
-    this.router.navigate([link], {relativeTo: this.route});
+    this.router.navigate([link], {relativeTo: this.route, queryParamsHandling: "merge"});
   }
-
-
 
   goToSubMenu2(item, subItem_1, subItem_2){
     return item.link+'/'+subItem_1.link+'/'+subItem_2.link;
@@ -54,7 +53,7 @@ export class SidebareMenuComponent implements OnInit {
   goToSubMenu1(item, subItem_1){
     // console.log('goToSubMenu1', item, subItem_1, toJS(this.mainStore.getSelectedSchool.id));
     this.toggleExpand(subItem_1);
-    return item.link+'/'+subItem_1.link;
+    return  subItem_1.link;
   }
 
   itemClicked() {
@@ -62,7 +61,7 @@ export class SidebareMenuComponent implements OnInit {
   }
 
     hideSubMenuCondition(item: SidebarItem) {
-        return true;
+        return !item.opened;
     }
 }
 

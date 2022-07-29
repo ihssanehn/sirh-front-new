@@ -1,5 +1,7 @@
 
-  export interface User {
+export interface User {
+    parameter: any;
+    nationality_id?: number;
     permissions?: Array<any>;
     perimeters?: Array<any>;
     id?: number;
@@ -42,9 +44,29 @@
     benefits?: string;
     profile_name?: string;
     cp_name?: string;
-    photo_profile_path?: string;
+    photo_profile?: string;
     created_at?: Date;
     updated_at?: Date;
   }
 
+export interface RHDocument {
+  id?: number;
+  personal_id?: number;
+  title?: string;
+  original_name?: string;
+  system_name?: string;
+  size?: number;
+  extension?: string;
+  path?: string;
+  action_to_take?: string;
+  has_treated_alert?: boolean;
+  user_id?: number;
+  document_type?: string;
+  alert_time_limit?: any;
+  valid_start_date?: any;
+  valid_end_date?: any;
+  created_at?: any;
+  updated_at?: any;
+  deleted_at?: any;
+}
 

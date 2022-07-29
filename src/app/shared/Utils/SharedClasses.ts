@@ -36,6 +36,46 @@ export class SharedClasses {
     return false;
   }
 
+  static getFileType(extension){
+    switch (extension){
+      case 'aif': case 'cda': case 'mid': case 'midi': case 'mp3': case 'mpa':
+      case 'ogg': case 'wav': case 'wma': case 'wpl':{
+        return 'audio';
+      }
+      case '7z': case 'arj': case 'deb': case 'pkg': case 'rar':
+      case 'rpm': case 'tar.gz': case 'z': case 'zip': {
+        return 'zip';
+      }
+      case 'ai': case 'bmp': case 'gif': case 'ico': case 'svg':
+      case 'jpeg': case 'jpg': case 'png': case 'ps': case 'psd': case 'tif':  case 'tiff': {
+        return 'img';
+      }
+      case 'key': case 'odp':  case 'pps':  case 'ppt':  case 'pptx': {
+        return 'ppt';
+      }
+      case 'ods': case 'xls':  case 'xlsm':  case 'xlsx': {
+        return 'excel';
+      }
+      case '3g2': case '3gp': case 'avi': case 'flv': case 'h264':
+      case 'm4v': case 'mkv': case 'mov': case 'mp4': case 'mpg':
+      case 'mpeg': case 'rm': case 'swf': case 'vob': case 'wmv':
+      {
+        return 'video';
+      }
+      case 'doc': case 'docx': case 'odt': case 'tex': case 'wpd': {
+        return 'word';
+      }
+      case 'pdf': {
+        return 'pdf';
+      }
+      case 'txt': case 'rtf': {
+        return 'text';
+      }
+      default: {
+        return 'default';
+      }
+    }
+  }
 
   static getMonthsForFilter(starts_at) {
     const dateStart = moment(starts_at);

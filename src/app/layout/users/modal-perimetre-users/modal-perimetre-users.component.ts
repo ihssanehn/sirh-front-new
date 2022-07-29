@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AddUserComponent} from "@layout/users/add-user/add-user.component";
-import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
 
 @Component({

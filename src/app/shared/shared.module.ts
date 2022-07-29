@@ -15,6 +15,12 @@ import {ImageCropperModule} from "ngx-image-cropper";
 import { LaddaModule } from 'angular2-ladda';
 import {PaginationComponent} from "@shared/components/pagination/pagination.component";
 import {PaginatePipe} from "@shared/pipes/paginate.pipe";
+import {DateTimeMessagePipe} from "@shared/pipes/dateTimeMessage.pipe";
+import {FilterPipe} from "@shared/pipes/filter.pipe";
+import {GeneratePhotoPipe} from "@shared/pipes/generatePhoto.pipe";
+import {MomentPipe} from "@shared/pipes/MomentPipe";
+import {AgoPipe} from "@shared/pipes/ago.pipe";
+import {DateMessagePipe} from "@shared/pipes/dateMessage.pipe";
 
 @NgModule({
   imports: [
@@ -39,7 +45,13 @@ import {PaginatePipe} from "@shared/pipes/paginate.pipe";
     ButtonComponent,
     ImageCropperComponent,
     PaginationComponent,
-    PaginatePipe
+    PaginatePipe,
+    DateTimeMessagePipe,
+    FilterPipe,
+    GeneratePhotoPipe,
+    MomentPipe,
+    AgoPipe,
+    DateMessagePipe
   ],
   exports: [
     NgxPermissionsModule,
@@ -55,7 +67,13 @@ import {PaginatePipe} from "@shared/pipes/paginate.pipe";
     LaddaModule,
     ImageCropperComponent,
     PaginationComponent,
-    PaginatePipe
+    PaginatePipe,
+    DateTimeMessagePipe,
+    FilterPipe,
+    GeneratePhotoPipe,
+    MomentPipe,
+    AgoPipe,
+    DateMessagePipe
   ],
 })
 export class SharedModule {}

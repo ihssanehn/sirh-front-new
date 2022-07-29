@@ -25,10 +25,12 @@
         (click)="toggleExpand(item)"
         class="top-item list-group-item align-items-center">
         <div class="label">
-          <i [class]="item.icon"></i>&nbsp;
+          <div class="icon-container">
+            <i [class]="item.icon"></i>&nbsp;
+          </div>
           <span>{{ item.name | translate}}</span>
         </div>
-<!--        <i [ngClass]="{'icon-bottom-arrow': !hideSubMenuCondition(item), 'icon-right-arrow': hideSubMenuCondition(item)}"></i>-->
+        <i [ngClass]="{'icon-arrow-down': !hideSubMenuCondition(item), 'icon-arrow-right': hideSubMenuCondition(item)}"></i>
       </a>
       <div class="submenu"
            [ngClass]="{'hide_sub_menu': hideSubMenuCondition(item)}"
@@ -77,7 +79,9 @@
                   [routerLink]="[goToSubMenu2(item, subItem_1, subItem_2)]"
                   class="submenu-item-2 list-group-item align-items-center">
                   <div class="label">
-                    <i [class]="subItem_2.icon"></i>&nbsp;
+                    <div class="icon-container">
+                      <i [class]="subItem_2.icon"></i>&nbsp;
+                    </div>
                     <span>{{ subItem_2.name | translate}}</span>
                   </div>
 <!--                  <i [ngClass]="{'icon-bottom-arrow': subItem_2.opened, 'icon-right-arrow': !subItem_2.opened}"></i>-->

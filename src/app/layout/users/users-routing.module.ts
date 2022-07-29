@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListUsersComponent } from './list-users/list-users.component';
-import { AddUserComponent } from './add-user/add-user.component';
 import {TrombiComponent} from "@layout/users/trombi/trombi.component";
+import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
+import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
+import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
 
 
 const routes: Routes = [
@@ -20,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'list',
-    component: ListUsersComponent,
+    // component: ListUsersComponent,
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {
@@ -28,6 +30,37 @@ const routes: Routes = [
     //     redirectTo: '/'
     //   }
     // }
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'general'
+      },
+      {
+        path: ':type',
+        component: ListUsersComponent,
+      },
+      // {
+      //   path: 'general',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'period_essai',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'entretien',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'formation',
+      //   component: ListUsersComponent,
+      // },
+      // {
+      //   path: 'visite_medicale',
+      //   component: ListUsersComponent,
+      // },
+    ]
   },
   {
     path: 'trombi',
@@ -42,7 +75,25 @@ const routes: Routes = [
   },
   {
     path: 'new',
-    component: AddUserComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'simple'
+      },
+      {
+        path: 'simple',
+        component: SimpleAddStepperComponent,
+      },
+      {
+        path: 'independant',
+        component: IndependentAddStepperComponent,
+      },
+      {
+        path: 'group',
+        component: GroupAddStepperComponent,
+      },
+    ]
     // canActivate: [NgxPermissionsGuard],
     // data: {
     //   permissions: {

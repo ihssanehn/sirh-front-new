@@ -1,0 +1,187 @@
+<div class="container top-container">
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [type]="'secondary_2'"
+        [routerLink]="['/users']"
+        [isDisabled]="submitting"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Coût</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+        [isDisabled]="submitting"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="save()"
+        [isLoading]="submitting"
+      ></app-button>
+    </div>
+  </div>
+
+  <div class="error-pannel" *ngIf="coutFormGroup && !coutFormGroup.valid && coutFormGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <ng-container *ngIf="!errorLoadData; else dataNotFound">
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+      <div class="container-fluid top-container p-0">
+        <!--    <div class="goback col-12"-->
+        <!--         (click)="goback()"-->
+        <!--          style="margin-bottom: 10px">-->
+        <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
+        <!--    </div>-->
+        <form (submit)="save()" *ngIf="coutFormGroup" [formGroup]="coutFormGroup" autocomplete="off" class="container p-0"
+              novalidate>
+          <h5 *ngIf="title">
+            <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
+            Ajouter un {{title}}
+            <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+          </h5>
+          <div class="row form-box">
+            <div class="main-container col-12 form-column">
+              <div class="col-12 white-box">
+                <div class="form-bloc">
+                  <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.tjm_client}}
+                        {{isRequired(formInputs.tjm_client)}}</label>
+                      <div class="col">
+                        <input type="text"
+                               placeholder="Saisir le TJM facturé au client ici"
+                               [formControl]="coutFormGroup.controls[formInputs.tjm_client]"
+                               class="form-control input"
+                               [ngClass]="{'is-invalid error-input': coutFormGroup.controls[formInputs.tjm_client].hasError('required')
+                                  && coutFormGroup.controls[formInputs.tjm_client].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="coutFormGroup.controls[formInputs.tjm_client].hasError('required')
+                  && coutFormGroup.controls[formInputs.tjm_client].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le TJM facturé au client est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label></label>
+                      <div class="col check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.has_costs_billable_service_provider}}"
+                               [formControl]="coutFormGroup.controls[formInputs.has_costs_billable_service_provider]"
+                        >
+                        <label for="{{formLabels.has_costs_billable_service_provider}}"
+                               data-content="{{formLabels.has_costs_billable_service_provider}}">
+                          <span class="name">{{formLabels.has_costs_billable_service_provider}}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="row">
+                        <label class="col-12">{{formLabels.tjm_service_provider}}
+                          {{isRequired(formInputs.tjm_service_provider)}}</label>
+                        <div class="col">
+                          <input type="text"
+                                 placeholder="Saisir le TJM facturé au prestataire ici"
+                                 [formControl]="coutFormGroup.controls[formInputs.tjm_service_provider]"
+                                 class="form-control input"
+                                 [ngClass]="{'is-invalid error-input': coutFormGroup.controls[formInputs.tjm_service_provider].hasError('required')
+                                  && coutFormGroup.controls[formInputs.tjm_service_provider].dirty}"
+                          />
+                          <div class="form-control-feedback"
+                               *ngIf="coutFormGroup.controls[formInputs.tjm_service_provider].hasError('required')
+                  && coutFormGroup.controls[formInputs.tjm_service_provider].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Le TJM facturé au prestataire est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col check-box-btn">
+                          <input type="checkbox"
+                                 id="{{formLabels.is_subject_to_vats}}"
+                                 [formControl]="coutFormGroup.controls[formInputs.is_subject_to_vats]"
+                          >
+                          <label for="{{formLabels.is_subject_to_vats}}"
+                                 data-content="{{formLabels.is_subject_to_vats}}">
+                            <span class="name">{{formLabels.is_subject_to_vats}}</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <label class="col-12">{{formLabels.vat_rate}}
+                            {{isRequired(formInputs.vat_rate)}}</label>
+                          <div class="col">
+                            <input type="number"
+                                   placeholder="Saisir le taux de TVA ici"
+                                   [formControl]="coutFormGroup.controls[formInputs.vat_rate]"
+                                   class="form-control input"
+                                   [ngClass]="{'is-invalid error-input': coutFormGroup.controls[formInputs.vat_rate].hasError('required')
+                                  && coutFormGroup.controls[formInputs.vat_rate].dirty}"
+                            />
+                            <div class="form-control-feedback"
+                                 *ngIf="coutFormGroup.controls[formInputs.vat_rate].hasError('required')
+                  && coutFormGroup.controls[formInputs.vat_rate].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Le taux de TVA est obligatoire
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <label class="col-12">{{formLabels.comment_service_provider}} {{isRequired(formInputs.comment_service_provider)}}</label>
+                      <textarea rows="3"
+                                placeholder="Saisir un commentaire ici"
+                                class="form-control input"
+                                [formControl]="coutFormGroup.controls[formInputs.comment_service_provider]"
+                                [ngClass]="{'is-invalid error-input': coutFormGroup.controls[formInputs.comment_service_provider].hasError('required')
+                                  && coutFormGroup.controls[formInputs.comment_service_provider].dirty}"
+                      ></textarea>
+                      <div class="form-control-feedback"
+                           *ngIf="coutFormGroup.controls[formInputs.comment_service_provider].hasError('required')
+                    && coutFormGroup.controls[formInputs.comment_service_provider].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Un commentaire est obligatoire
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>

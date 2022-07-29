@@ -1,16 +1,9 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ErrorService, UserService} from '@app/core/services';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MessageService} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
-import {markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
-import {Location} from '@angular/common';
-import {$userRoles} from '@shared/Objects/sharedObjects';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { FormGroup} from '@angular/forms';
+import {UserService} from '@app/core/services';
+import {SharedClasses} from '@shared/Utils/SharedClasses';
 import {User} from "@app/core/entities";
-import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {Subscription} from "rxjs";
 import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 
@@ -25,6 +18,7 @@ export class PerimetreComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitPerimeters: EventEmitter<any> = new EventEmitter();
+  @Input() submitting;
   @Input() user: User;
   @Input()
   public set perimeters(val) {
@@ -68,7 +62,7 @@ export class PerimetreComponent implements OnInit {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     this.loadingData = true;
-    this.searchSubscription = this.userService.getUsers({with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
+    this.searchSubscription = this.userService.getUsers({type: 'general', with_perimeter: true, keywords: this.keyword, ...this.pagination}).subscribe((result) => {
       if(result){
         this.users = result.data.data;
         this.totalUsers = result?.data?.total;
@@ -116,7 +110,11 @@ export class PerimetreComponent implements OnInit {
   }
 
   getFiltredUsers() {
-    return this.users.filter(user => user.id !== this.user.id && !this.selectedUsers.find(selectedUser => selectedUser.id === user.id));
+    const filtered =  this.users.filter(user => user.id !== this.user?.id && !this.selectedUsers?.find(selectedUser => selectedUser.id === user.id));
+    if(filtered?.length===0){
+      this.onScroll();
+    }
+    return filtered;
   }
 
   deleteFromSelectedUsers(id){
@@ -135,7 +133,7 @@ export class PerimetreComponent implements OnInit {
 
     const appended_users = [];
     this.selectedUsers.forEach(user => {
-      if(user.with_perimeter){
+      if(user.with_perimeter && user.perimeters?.length>0){
         user.perimeters.forEach(item => appended_users.push(item.personal_perimeter_id));
       }
     });

@@ -208,4 +208,32 @@ export class UserService {
   submitAccess(params) {
     return this.apiService.post('permission/addUserPermissions', params);
   }
+
+  submitParameters(params: any) {
+    return this.apiService.post('parameter/addOrUpdateParameter', params);
+  }
+
+  getRHDocuments(params) {
+    return this.apiService.post('personal/getAllDocuments', params);
+  }
+
+  addRHDocument(params, option = null) {
+    return this.apiService.post('personal/addDocument', params, option);
+  }
+
+  updateRHDocument(params, option = null) {
+    return this.apiService.post('personal/updateDocument', params, option);
+  }
+
+  downloadDocument(params) {
+    return this.apiService.get(`personal/getAttachment`, params, true);
+  }
+
+  deleteDocument(params: { id: any }) {
+    return this.apiService.post(`personal/deleteDocument`, params);
+  }
+
+  getDefaultProfilePermissionByProfileId(params) {
+    return this.apiService.post(`permission/getDefaultProfilePermissionByProfileId`, params);
+  }
 }

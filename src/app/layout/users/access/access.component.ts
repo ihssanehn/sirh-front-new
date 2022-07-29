@@ -2,6 +2,8 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from 
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ListsService} from "@services/lists.service";
 import {markFormAsDirty} from "@shared/Utils/SharedClasses";
+import {UserService} from "@app/core/services";
+import {User} from "@app/core/entities";
 
 @Component({
   selector: 'app-access',
@@ -12,16 +14,17 @@ export class AccessComponent implements OnInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitAccess: EventEmitter<any> = new EventEmitter();
+  profilePermissions = [];
+  @Input()
+  public set user(val: User) {
+    if(val){
+      this.getDefaultProfilePermissionByProfileId(val.profile_id);
+    }
+  }
   @Input()
   public set permissions(val) {
     if(val && this.myForm){
-      const formArray: FormArray = this.myForm.get('permissions') as FormArray;
-      this.myForm.reset();
-      if(val && Array.isArray(val)){
-        val.forEach(item => {
-          formArray.push(new FormControl(item.id));
-        })
-      }
+      this.setPermissions(val);
       console.log('val && this.myForm', val, this.myForm.value, val.map(item => item.id));
     }
   }
@@ -33,13 +36,14 @@ export class AccessComponent implements OnInit {
   error = '';
   warning = '';
 
-
   access = [];
   filter = {
-    by_profile: false
+    by_profile: false,
   }
   constructor(private fb: FormBuilder,
               private listsService: ListsService,
+              private usersService: UserService,
+              private changeDetectorRef: ChangeDetectorRef
               ) {
     this.myForm = this.fb.group({
       permissions: new FormArray([]),
@@ -95,7 +99,11 @@ export class AccessComponent implements OnInit {
   }
 
   filterChanged() {
-
+    if(this.filter.by_profile){
+      this.setPermissions(this.profilePermissions);
+    }else{
+      this.setPermissions([]);
+    }
   }
 
   saveAccess() {
@@ -134,8 +142,33 @@ export class AccessComponent implements OnInit {
   }
 
   ischecked(id) {
-    // console.log('this.myForm?.value?.permissions', this.myForm?.value?.permissions);
     return this.myForm?.value?.permissions?.includes(id);
+  }
+
+  async getDefaultProfilePermissionByProfileId(profile_id){
+    try {
+      const params = {
+        profile_id
+      }
+      const res = await this.usersService.getDefaultProfilePermissionByProfileId(params).toPromise();
+      this.profilePermissions = res.result.data;
+      if(this.filter.by_profile){
+        this.setPermissions(this.profilePermissions );
+      }
+      this.changeDetectorRef.detectChanges();
+    }catch (e) {
+
+    }finally {
+
+    }
+  }
+
+  setPermissions(permissions){
+    const formArray: FormArray = this.myForm.get('permissions') as FormArray;
+    this.myForm.reset();
+    permissions?.forEach(item => {
+      formArray.push(new FormControl(item.id))
+    });
   }
 }
 

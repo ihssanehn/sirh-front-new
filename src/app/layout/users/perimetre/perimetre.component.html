@@ -6,6 +6,7 @@
         [text]="'Annuler'"
         [routerLink]="['/users']"
         [type]="'secondary_2'"
+        [isDisabled]="submitting"
       ></app-button>
     </div>
     <h1 class="main-title">Périmètre</h1>
@@ -15,12 +16,14 @@
         [type]="'primary_inverse'"
         [iconLeft]="'icon-arrow-left'"
         (onClick)="move(-1)"
+        [isDisabled]="submitting"
       ></app-button>&nbsp;&nbsp;
       <app-button
         [text]="'Suivant'"
         [type]="'primary'"
         [iconRight]="'icon-arrow-right'"
         (onClick)="savePermimeters()"
+        [isLoading]="submitting"
       ></app-button>
     </div>
   </div>
@@ -28,8 +31,21 @@
   <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
   <div class="row list">
     <div class="col-4 col-xl-3 side-panel">
-      <div class="searchbar">
-        <input type="text" class="input form-control" placeholder="Rechercher une personne"/>
+<!--      <div class="searchbar">-->
+<!--        <input type="text" class="input form-control" placeholder="Rechercher une personne"/>-->
+<!--      </div>-->
+      <div class="search">
+        <div class="input-group searchbar">
+          <input type="text"
+                 class="form-control input"
+                 placeholder="Rechercher un utilisateur"
+                 (input)="onScroll()"
+                 aria-describedby="basic-addon2"
+                 [(ngModel)]="keyword"/>
+          <div class="input-group-append" id="basic-addon2">
+            <i class="fa fa-search"></i>
+          </div>
+        </div>
       </div>
       <div class="smal-users-list">
         <ng-container *ngIf="!loadingData; else loadingStateLeftList">
@@ -52,14 +68,14 @@
                 </div>
               </div>
               <div class="load_more" (click)="onScroll()" *ngIf="users?.length<totalUsers">
-                Charger plus
+                Charger plus d'utilisateurs
               </div>
             </div>
           </ng-container>
         </ng-container>
       </div>
     </div>
-    <div class="col col-xl-9 main-container form-column second-column">
+    <div class="col main-container form-column second-column">
       <h5>Ajouter une personne</h5>
       <div class="users-list">
         <ng-container *ngIf="selectedUsers?.length; else emptyStateRightList">

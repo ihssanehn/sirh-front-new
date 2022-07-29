@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?an2y4o');
-  src:  url('fonts/icomoon.eot?an2y4o#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?an2y4o') format('truetype'),
-    url('fonts/icomoon.woff?an2y4o') format('woff'),
-    url('fonts/icomoon.svg?an2y4o#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?bk90qu');
+  src:  url('fonts/icomoon.eot?bk90qu#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?bk90qu') format('truetype'),
+    url('fonts/icomoon.woff?bk90qu') format('woff'),
+    url('fonts/icomoon.svg?bk90qu#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,99 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cout:before {
+  content: "\e93d";
+}
+.icon-trash:before {
+  content: "\e93b";
+}
+.icon-check:before {
+  content: "\e93c";
+}
+.icon-file-default:before {
+  content: "\e93a";
+}
+.icon-file-archive:before {
+  content: "\e92d";
+}
+.icon-file-audio:before {
+  content: "\e92e";
+}
+.icon-file-code:before {
+  content: "\e92f";
+}
+.icon-file-excel:before {
+  content: "\e930";
+}
+.icon-file-img:before {
+  content: "\e931";
+}
+.icon-file-video:before {
+  content: "\e932";
+}
+.icon-file-music:before {
+  content: "\e933";
+}
+.icon-file-open-office:before {
+  content: "\e934";
+}
+.icon-file-pdf:before {
+  content: "\e935";
+}
+.icon-file-ppt:before {
+  content: "\e936";
+}
+.icon-file-text:before {
+  content: "\e937";
+}
+.icon-file-word:before {
+  content: "\e938";
+}
+.icon-file-zip:before {
+  content: "\e939";
+}
+.icon-general:before {
+  content: "\e928";
+}
+.icon-parametre:before {
+  content: "\e929";
+}
+.icon-doc:before {
+  content: "\e92a";
+}
+.icon-perimetre:before {
+  content: "\e92b";
+}
+.icon-acces:before {
+  content: "\e92c";
+}
+.icon-attachment:before {
+  content: "\e927";
+  color: #707070;
+}
+.icon-clock:before {
+  content: "\e922";
+}
+.icon-layer-group:before {
+  content: "\e923";
+}
+.icon-users:before {
+  content: "\e924";
+}
+.icon-activity:before {
+  content: "\e925";
+}
+.icon-info:before {
+  content: "\e926";
+}
+.icon-auth-password:before {
+  content: "\e920";
+  color: #707070;
+}
+.icon-auth-user:before {
+  content: "\e921";
+  color: #707070;
+}
 .icon-alert-triangle:before {
   content: "\e91f";
 }

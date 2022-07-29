@@ -19,7 +19,8 @@ export class AppComponent {
       this.mainStore.selectedLanguage = localLang;
     } else {
       const browserLang: string = translate.getBrowserLang();
-      this.translate.use(browserLang.match(/en|fr/) ? browserLang : 'fr');
+      // this.translate.use(browserLang.match(/en|fr/) ? browserLang : 'fr');
+      this.translate.use('fr');
       localStorage.setItem('lang', 'fr');
     }
   }

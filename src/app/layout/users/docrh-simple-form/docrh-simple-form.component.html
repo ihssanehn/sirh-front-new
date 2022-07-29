@@ -1,0 +1,195 @@
+<div class="list container top-container">
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [type]="'secondary_2'"
+        [routerLink]="['/users']"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Documents RH</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="move(1)"
+      ></app-button>
+    </div>
+  </div>
+    <div class="sub-header container-fuild container-lg ">
+
+<!--      <div class="search">-->
+<!--      </div>-->
+      <div class="filter-container">
+        <div class="search d-flex filters">
+          <div class="input-group">
+            <label>Type document</label>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="document_types"
+                       (change)="getDocuments()"
+                       [(ngModel)]="filter.document_type"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par type de document'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>Traité</label>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="alerts"
+                       (change)="getDocuments()"
+                       [(ngModel)]="filter.has_treated_alert"
+                       [bindLabel]="'label'"
+                       [bindValue]="'value'"
+                       [placeholder]="'Filtrer par traitement alert'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>Alerte</label>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="situation_alerts"
+                       (change)="getDocuments()"
+                       [(ngModel)]="filter.situation_alert"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par alerte'" ></ng-select>
+          </div>
+          <div class="input-group">
+            <label>&nbsp;</label>
+            <app-button
+              [text]="'Rechercher'"
+              [type]="'tertiary_inverse'"
+              (onClick)="getDocuments()"
+              [customStyle]="{'white-space': 'nowrap'}"
+            ></app-button>
+          </div>
+        </div>
+      </div>
+      <div class="right-buttons col">
+        <div class="input-group justify-content-end flex-column">
+              <label>&nbsp;</label>
+              <app-button
+                [text]="'Ajouter'"
+                [type]="'secondary'"
+                [iconRight]="'icon-add'"
+                (onClick)="openDocumentRHModal()"
+                class="text-end"
+                [customStyle]="{'white-space': 'nowrap'}"
+              ></app-button>
+            </div>
+      </div>
+    </div>
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <div class="wrap" *ngIf="documents?.length>0; else emptyState">
+      <div class="table-wrapper">
+          <table class="table-responsive card-list-table">
+              <thead>
+                  <tr>
+                      <th>
+                        Type documents
+                      </th>
+                      <th>
+                        Début validité
+                      </th>
+                       <th>
+                         Fin validité
+                       </th>
+                       <th>
+                         Traité
+                       </th>
+                      <th>
+                        Alerte
+                      </th>
+                      <th>
+                        Titre du document
+                      </th>
+                      <th>
+                        Action a mener
+                      </th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+<!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+                 <tr *ngFor="let document of documents"  >
+                    <td>
+                      {{document.document_type_label}}
+                    </td>
+                     <td>
+                       {{document.valid_start_date | dateMessage : 'DD MMMM YYYY'}}
+                     </td>
+                     <td>
+                       {{document.valid_end_date | dateMessage : 'DD MMMM YYYY'}}
+                     </td>
+                     <td>
+                       <i *ngIf="document.has_treated_alert; else no_treated_alert" class="icon-check primary-icon"></i>
+                       <ng-template #no_treated_alert>
+                         <i class="icon-close danger-icon"></i>
+                       </ng-template>
+                     </td>
+                     <td>
+                       {{document.alert_time_limit}}
+                     </td>
+                     <td>
+                       {{document.title}}
+                     </td>
+                     <td>
+                       {{document.action_to_take || '----'}}
+                     </td>
+                     <td>
+                          <div class="actions">
+                            <i class="icon-edit"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               (click)="openDocumentRHModal(document)"
+                               title="Modifier"></i>
+                            <div (click)="openDocumentRHFilesModal(document)" class="align-items-center d-flex">
+                              <i class="icon-attachment"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Documents attachés"></i>
+                              <span>({{(document.attachments?.length > 0) ?  document.attachments?.length : 0}})</span>
+                            </div>
+                              <i class="icon-trash"
+                                 (click)="archive(document.id)"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Supprimer"></i>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="footer w-100" >
+        <div></div>
+        <app-pagination name="pagination"
+                        (change)="changePagination()"
+                        [(ngModel)]="pagination"
+                        ngDefaultControl>
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun document trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <img src="assets/images/loading.svg" style="height: 100px;" />
+  </div>
+</ng-template>

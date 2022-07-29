@@ -10,11 +10,8 @@ $border-color: #707070;
   transition: all 0.4s ease 0s;
   background-color: #f3f3f3;
   font-size: 13px;
-  min-height: 38px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 20px;
-  padding-right: 20px;
+  min-height: 32px;
+  padding: 8px 20px;
   white-space: nowrap;
   i{
     margin-right: 5px;
@@ -55,6 +52,18 @@ $border-color: #707070;
   i:before{
     color: white; //$primaryColor;
     font-size: 11px;
+  }
+}
+
+.primary_light{
+  background: $lightPrimaryColor;
+  color: white;
+  i:before{
+    color: white; //$primaryColor;
+    font-size: 11px;
+  }
+  &:hover{
+    background: $primaryColor;
   }
 }
 .primary_inverse{
@@ -112,7 +121,7 @@ $border-color: #707070;
   &:hover{
     color: white;
     background: $fontColor;
-    border: 1px solid $border-color;
+    //border: 1px solid $border-color;
     i:before{
       color: white;
       font-size: 11px;
@@ -139,7 +148,7 @@ $border-color: #707070;
 .tertiary_inverse{
   background: $secondaryColor;
   color: white;
-  border: 1px solid $secondaryColor;
+  //border: 1px solid $secondaryColor;
   i:before{
     color: white;
     font-size: 11px;
@@ -186,7 +195,7 @@ button:disabled,
 button[disabled]{
   //opacity: .6;
   color: white;
-  background-color: lightgray;
+  background-color: $lightgray;
   background-image: inherit;
   cursor: auto;
   border: 0;

@@ -89,7 +89,6 @@
       font-size: 13px;
     }
   }
-
 }
 
 .form-box{
@@ -112,6 +111,16 @@
     align-items: center;
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 0;
+    margin-top: 10px;
+  }
+  .selected-title{
+    color: $mainColor;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    min-width: 100px;
+    text-underline-position: under;
+
   }
   .form-bloc{
     .row{
@@ -121,9 +130,10 @@
       label{
         font-size: 12px;
         min-width: 210px;
+        margin-bottom: 5px;
       }
       .civilite{
-        width: 100%;
+        //width: 100%;
         .btn{
           //border-radius: 35px;
           min-width: unset;
@@ -148,8 +158,8 @@
       .boolean-button{
         label{
           min-width: unset;
-          border: 1px solid lightgray;
-          color: lightgray;
+          border: 1px solid $lightgray;
+          color: $lightgray;
           box-shadow: none;
         }
         .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary{
@@ -188,6 +198,10 @@
 }
 .boolean-button{
   width: fit-content;
+  .active{
+    background: $primaryColor;
+    color: white;
+  }
 }
 
 .check-box-btn{
@@ -208,7 +222,7 @@
     //height: 20px;
     padding: 9px 9px;
     color: $fontColor;
-    border: 1px solid lightgray;
+    border: 1px solid $lightgray;
     border-radius: 4px;
     appearance: none;
     outline: 0;
@@ -247,10 +261,12 @@
     color: $fontColor;
     margin-left: 10px;
     text-align: left;
+    //margin-bottom: 5px;
+    margin-bottom: 0 !important;
     &::before {
       position: absolute;
       content: attr(data-content);
-      color: lightgray;
+      color: $lightgray;
       clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
       text-decoration: line-through;
       text-decoration-thickness: 3px;
@@ -275,8 +291,8 @@
   font-size: 12px;
   //border-radius: 0;
   //border: 0;
-  //border-bottom: 1px solid lightgray;
-  border: 1px solid lightgray;
+  //border-bottom: 1px solid $lightgray;
+  border: 1px solid $lightgray;
   border-radius: 5px;
   min-height: 38px;
   opacity: .8;
@@ -292,7 +308,7 @@
 
 
 .top-container{
-  padding: 25px 0px 8px 0px;
+  padding: 25px 0 8px 0;
   height: 100%;
   overflow: hidden;
   max-width: unset;
@@ -305,15 +321,16 @@
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 13px;
-    padding-right: 13px;
+    padding-right: 18px;
     margin-bottom: 15px;
+    border: 0;
   }
   .cards{
     display: flex;
     margin-bottom: 15px;
     justify-content: center;
     .card{
-      border: 1px solid lightgray;
+      border: 1px solid $lightgray;
       margin: 10px;
       display: flex;
       align-items: center;
@@ -407,7 +424,7 @@
     color: #393a3b;
   }
   .photo{
-    border: 1px solid lightgray;
+    border: 1px solid $lightgray;
     position: relative;
     border-radius: 50%;
     display: flex;
@@ -462,45 +479,6 @@
     align-items: center;
     margin: 0;
     margin-top: 10px;
-  }
-  .search{
-    //width: fill-available;
-    width: fit-content;
-    margin-top: 10px;
-    //flex: 1;
-    .input-group{
-      position: relative;
-      //min-width: 290px;
-      //min-width: 300px;
-      input{
-        box-shadow: none;
-        border-radius: 10px;
-      }
-      .input-group-append{
-        position: absolute;
-        right: 18px;
-        height: 100%;
-        display: flex;
-        i{
-          display: flex;
-          align-items: center;
-          opacity: .4;
-          &:before{
-            font-weight: 300;
-          }
-        }
-      }
-    }
-    @media (min-width: $TABLET_SCREEN) {
-      .input-group{
-        min-width: 300px;
-      }
-    }
-    app-button{
-      ::ng-deep .icon-filter .icon-close{
-        padding-right: 5px;
-      }
-    }
   }
   @media (min-width: $LARGE_SCREEN) {
     .search{
@@ -779,4 +757,31 @@ button.btn {
   i{
     margin-right: 5px;
   }
+}
+
+
+.date-picker-group{
+  position: relative;
+  //max-width: 40%;
+  //min-width: 280px;
+  input{
+    //position: absolute;
+  }
+  .icons-container{
+    position: absolute;
+    top: 28%;
+    right: 12px;
+    i{
+      color: $lightgray;
+      cursor: pointer;
+    }
+    .icon-close:before{
+      font-size: 12px;
+    }
+  }
+}
+
+::ng-deep .cdk-overlay-container {
+  position: fixed;
+  z-index: 99999999;
 }

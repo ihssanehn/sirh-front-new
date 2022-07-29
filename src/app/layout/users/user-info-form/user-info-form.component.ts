@@ -13,6 +13,7 @@ import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ImageCropperComponent} from "@shared/components/image-cropper/image-cropper.component";
 import {ListsService} from "@services/lists.service";
 import {isMoment} from "moment";
+import {MainStore} from "@store/mainStore.store";
 
 
 
@@ -154,6 +155,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
+              private mainStore: MainStore,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
@@ -204,39 +206,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
       first_annual_salary: [null],
 
       benefits: [null],
-      number_carte_vitale: [null],
-      // creator_id: [null, Validators.required],
-      // archive: [null, Validators.required],
-      // profil_conges_id: [null, Validators.required],
-      // profil_conges_custom: [null, Validators.required],
-      // profil_conges_customs_id: [null, Validators.required],
-      // cout_revient: [null, Validators.required],
-      // cout_vente: [null, Validators.required],
-      // remember_token: [null, Validators.required],
-      // is_temps_partiel: [null, Validators.required],
-      // is_hors_siege: [null, Validators.required],
-
-      // validite_titre_sejour: [null, Validators.required],
-      // validateur_absence_id: [null, Validators.required],
-      // is_fr: [null, Validators.required],
-      // titre_sejour_id: [null, Validators.required],
-      // date_fin_periode_essais: [null, Validators.required],
-      // has_done_periode_essais: [null, Validators.required],
-      // periode_essais_comment: [null, Validators.required],
-      // type_titre_sejour: [null, Validators.required],
-      // num_titre_sejour: [null, Validators.required],
-      // status_pe_id: [null, Validators.required],
-      // photo_profil_id: [null, Validators.required],
-      // duree_mission: [null, Validators.required],
-      //
-      //
-      // nombre_enfants: [null, Validators.required],
-      // salaire_brut: [null, Validators.required],
-      // compte_salarie: [null, Validators.required],
-      // avantage_nature: [null, Validators.required],
-      // has_tjm_fixed: [null, Validators.required],
-      // is_travailleur_handicape: [null, Validators.required],
-      // cp_cp_id: [null, Validators.required],
+      number_carte_vitale: [null]
     });
 
     this.modalService.dismissAll();
@@ -261,6 +231,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     if(this.activatedRoute.snapshot.params.id){
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
+    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
     try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
     try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
@@ -269,7 +240,7 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
     try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
     try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, this.listService.list.PROFIT_CENTER).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
 
     this.changeDetectorRef.detectChanges();
   }

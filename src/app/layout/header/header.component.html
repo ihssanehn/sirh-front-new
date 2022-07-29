@@ -2,9 +2,10 @@
   <i class="fa fa-bars toggler pointer btn float-right"
      (click)="toggleSidebar()"
      aria-hidden="true"
+     [ngClass]="{'v-hidden': mainStore.currentHeaderSection?.isFullScreen}"
   ></i>
   <div class="logo">
-    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/solutions']"/>
+    <img src="assets/images/mini-logo.png" style="cursor: pointer" [routerLink]="['/']"/>
   </div>
 
   <div class="tabs">
@@ -12,10 +13,52 @@
          [routerLink]="[$item.link]"
          [routerLinkActive]="'active-tab'"
          *ngFor="let $item of $headerItems">
-      {{$item.name}}
+        {{$item.name}}
     </div>
   </div>
   <div class="right-options">
+    <div class="tabs">
+      <div class="tab"  [matMenuTriggerFor]="statusMenu" >
+<!--        <div class="profile">-->
+          <div class="dropdown-profile-container">
+            <div class="label">
+              <div *ngIf="!(mainStore.selectedEntities?.length>0) && !mainStore.multipleEntities">Sélectionner une entité</div>
+              <div *ngIf="!(mainStore.selectedEntities?.length>0) && mainStore.multipleEntities">Sélectionner une/des entité(s)</div>
+              <div *ngIf="mainStore.selectedEntities?.length === 1">
+                {{mainStore.selectedEntities[0]?.label}}
+              </div>
+              <ng-container *ngIf="mainStore.selectedEntities">
+                <div class="main-label" *ngIf="mainStore.selectedEntities?.length > 1">
+                  {{mainStore.selectedEntities[0]?.label}}
+                </div>
+                <div class="light-label" *ngIf="mainStore.selectedEntities?.length === 2">
+                  et une autre entitée
+                </div>
+                <div class="light-label" *ngIf="mainStore.selectedEntities?.length > 2">
+                  et {{mainStore.selectedEntities?.length - 1}} autres entitées
+                </div>
+              </ng-container>
+            </div>
+
+            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+
+            <mat-menu #statusMenu="matMenu" [class]="'profile-menu'" >
+              <div mat-menu-item class="dropdown-item" *ngFor="let item of status" (click) = "$event.stopPropagation()">
+                <div class="check-box-btn">
+                    <input type="checkbox"
+                           id="{{item.id}}"
+                           [value]="item.id"
+                           [checked]="ischecked(item.id)"
+                           (change)="onCheckChange($event, item)"
+                           name="{{item.id}}" >
+                  <label for="{{item.id}}" >{{item.label}}</label>
+                </div>
+              </div>
+            </mat-menu>
+          </div>
+<!--        </div>-->
+      </div>
+    </div>
 <!--    <app-language></app-language>-->
     <!--        <li class="nav-item" *ngIf="loggedIn">-->
     <!--            <a class="nav-link" routerLinkActive="active" routerLink="/">Home-->

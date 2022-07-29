@@ -41,6 +41,26 @@
     </ng-template>
   </button>
 
+  <button class="btn mybutton primary_light"
+          type="button"
+          [disabled]="isDisabled"
+          [ngStyle]="customStyle"
+          (click)="onbtnclick()"
+          *ngSwitchCase="myButtonTypes.primary_light"
+          mat-flat-button
+          color="primary"
+  >
+    <ng-container *ngIf="!isLoading; else loading">
+      <i class="{{iconLeft}}"></i>
+      {{text}}
+      <i class="{{iconRight}}"></i>
+    </ng-container>
+    <ng-template #loading>
+      <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
+      {{textLoading}}
+    </ng-template>
+  </button>
+
   <button class="btn mybutton primary_inverse"
           type="button"
           [disabled]="isDisabled"

@@ -48,8 +48,8 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  post(path: string, body: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}${path}`, body);
+  post(path: string, body: any, option={}): Observable<any> {
+    return this.http.post(`${this.apiUrl}${path}`, body, option);
   }
 
   delete(path: string, body?: any): Observable<any> {

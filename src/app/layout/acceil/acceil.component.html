@@ -1,0 +1,86 @@
+<div class="col-12 col-md-9 container top-container">
+  <div class="row">
+    <div class="col-12 col-lg-5">
+      <div class="card row-direction justify-content-center">
+        <div class="img-container"
+             [ngStyle]="{'background-image': 'url(assets/images/'+(userSotre?.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png')+')'}"
+        >
+          <img
+            [attr.src]="userSotre?.getAuthenticatedUser?.photo_profile |
+                          getPhotoFromBackend: ('assets/images/'+(userSotre?.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                          async"
+          />
+        </div>
+        <div class="w-50">
+          <h2 class="welcome">
+            Bienvenue
+          </h2>
+          <h3 class="name">
+            {{userSotre?.getAuthenticatedUser?.first_name}}
+            {{userSotre?.getAuthenticatedUser?.last_name}}
+          </h3>
+          <div class="light-text">
+            <p style="margin-bottom: 0">Dernière connexion :</p>
+            <p>08/07/2022 11:12:00</p>
+          </div>
+        </div>
+      </div>
+      <div class="card column-direction">
+        <div class="card-title">
+          <i class="icon-clock"></i>
+          Dates de diffusion de vos relevés
+        </div>
+        <div class="label-value">
+          <span class="label">Relevé d'activité :</span> <span class="value">dimanche 31 juillet 2022</span>
+        </div>
+        <div class="label-value">
+          <span class="label">Note de frais :</span> <span class="value"> dimanche 31 juillet 2022</span>
+        </div>
+        <div class="footer-text">
+          Alertes générées le 8 juillet 2022 à 11:28:56
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card column-direction">
+        <div class="card-title">
+          <i class="icon-users"></i>
+          Utilisateurs
+        </div>
+        <div class="item-link">
+          1 période d'essai finit dans 35 jours ou moins
+        </div>
+        <div class="item-link">
+          10 formations à valider
+        </div>
+        <div class="item-link">
+          1 entretien à planifier dans moins de 30 jours
+        </div>
+        <div class="item-link">
+          4 entretiens à réalider dans moins de 15 jours
+        </div>
+      </div>
+      <div class="card column-direction">
+        <div class="card-title">
+          <i class="icon-layer-group"></i>
+          Projet
+        </div>
+        <div class="item-link">
+          2 orders de mission en attente de validation
+        </div>
+        <div class="item-link">
+          240 ordres de mission à valider
+        </div>
+      </div>
+      <div class="card column-direction">
+        <div class="card-title">
+          <i class="icon-activity"></i>
+          Activité
+        </div>
+        <div class="item-link">
+          Créer mon relevé d'activité
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

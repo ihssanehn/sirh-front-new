@@ -21,6 +21,18 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {ModalPerimetreUsersComponent} from "@layout/users/modal-perimetre-users/modal-perimetre-users.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {TrombiComponent} from "@layout/users/trombi/trombi.component";
+import {GeneralSimpleFormComponent} from "@layout/users/general-simple-form/general-simple-form.component";
+import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
+import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
+import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
+import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
+import {ParametreSimpleFormComponent} from "@layout/users/parametre-simple-form/parametre-simple-form.component";
+import {DocrhSimpleFormComponent} from "@layout/users/docrh-simple-form/docrh-simple-form.component";
+import {ModalDocrhItemComponent} from "@layout/users/modal-docrh-item/modal-docrh-item.component";
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
+import {GeneralIndependantFormComponent} from "@layout/users/general-independant-form/general-independant-form.component";
+import {CoutIndependantFormComponent} from "@layout/users/cout-independant-form/cout-independant-form.component";
+import {ParametreIndependantFormComponent} from "@layout/users/parametre-independant-form/parametre-independant-form.component";
 
 
 @NgModule({
@@ -49,10 +61,28 @@ import {TrombiComponent} from "@layout/users/trombi/trombi.component";
     PerimetreComponent,
     AccessComponent,
     ModalPerimetreUsersComponent,
-    TrombiComponent
+    ModalPeriodeEssaiComponent,
+    TrombiComponent,
+    SimpleAddStepperComponent,
+    GroupAddStepperComponent,
+    IndependentAddStepperComponent,
+    GeneralSimpleFormComponent,
+    ParametreSimpleFormComponent,
+    DocrhSimpleFormComponent,
+    ModalDocrhItemComponent,
+    ModalDocumentrhFilesComponent,
+    GeneralIndependantFormComponent,
+    CoutIndependantFormComponent,
+    ParametreIndependantFormComponent
   ],
   entryComponents: [
-    ModalPerimetreUsersComponent
+    ModalPerimetreUsersComponent,
+    ModalPeriodeEssaiComponent,
+    ModalDocrhItemComponent,
+    ModalDocumentrhFilesComponent,
+    GeneralIndependantFormComponent,
+    CoutIndependantFormComponent,
+    ParametreIndependantFormComponent
   ]
 })
 export class UsersModule { }
