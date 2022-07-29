@@ -276,7 +276,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   goToUpdateUser(user){
-    this.router.navigate(['users/new/simple'], {queryParams: {step: 0, user_id: user.id}});
+    if(user?.type_account?.length>0){
+      this.router.navigate(['users/new/'+user.type_account], {queryParams: {step: 0, user_id: user.id}});
+    }
   }
   ngOnDestroy() {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
