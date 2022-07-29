@@ -504,6 +504,11 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         Le fournisseur est obligatoire
                       </div>
+                      <div class="form-control-feedback"
+                           *ngIf="!id_entite">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Veillez penser à sélectionner une entité
+                      </div>
                     </div>
                   </div>
                   <div class="row">
@@ -534,6 +539,11 @@
                   && userFormGroup.controls[formInputs.cp_id].dirty">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         Le centre de profit est obligatoire
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="!id_entite">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Veillez penser à sélectionner une entité
                       </div>
                     </div>
                   </div>

@@ -187,6 +187,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       this.initFormBuilder(val);
     }
   }
+  id_entite = null;
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -329,7 +330,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
 
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
     try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
     try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
@@ -338,8 +339,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
     try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
     try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
-    try{ this.suppliers = await this.listService.getAll(this.listService.list.SUPPLIER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter SUPPLIER', e);}
+    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: this.id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    try{ this.suppliers = await this.listService.getAll(this.listService.list.SUPPLIER, {id: this.id_entite}).toPromise();} catch (e) {console.log('error filter SUPPLIER', e);}
     try{ this.appartenances = await this.listService.getAll(this.listService.list.MEMBER_SHIP).toPromise();} catch (e) {console.log('error filter MEMBER_SHIP', e);}
     try{ this.calendiers = await this.listService.getAll(this.listService.list.CALENDAR).toPromise();} catch (e) {console.log('error filter CALENDAR', e);}
     try{ this.time_entries = await this.listService.getAll(this.listService.list.TEMPS).toPromise();} catch (e) {console.log('error filter TEMPS', e);}
