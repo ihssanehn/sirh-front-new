@@ -52,7 +52,6 @@ export class AccessComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   async getPermissions(){

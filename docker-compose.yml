@@ -1,0 +1,75 @@
+version: '3.5'
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+volumes:
+  mysql:
+    driver: local
+services:
+  mysql:
+    build:
+      context: ./docker/mysql
+      args:
+        - MYSQL_VERSION=5.7
+    environment:
+      - MYSQL_DATABASE=sirh_dev
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=UTC
+    volumes:
+      - ~/.laradock/data/mysql:/var/lib/mysql
+      - ./docker/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+  redis:
+    build: ./docker/redis
+    volumes:
+      - ~/.laradock/data/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+  nginx:
+    build: ./
+    restart: always
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - node
+    networks:
+      - backend
+  node:
+    build: ../sirh-dev-api.piman-group.fr
+    volumes:
+      - "./:/src/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - frontend
+      - backend
+  frontend: 
+   build: ./
+   ports:
+     - "4200:4200"
+   volumes: 
+     - ./:/usr/share/html/nginx
+   networks:
+     - frontend
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email a.chbani@piman-group.fr -d sirh-dev.piman-group.fr -d sirh-dev-api.piman-group.fr --agree-tos
