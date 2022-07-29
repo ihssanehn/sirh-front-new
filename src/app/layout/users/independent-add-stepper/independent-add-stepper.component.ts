@@ -28,6 +28,7 @@ export class IndependentAddStepperComponent implements OnInit, AfterViewInit  {
   submittingPerimeters: boolean;
   submittingParameters: boolean;
   submittingAccess: boolean;
+  submittingCout: boolean;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -53,7 +54,7 @@ export class IndependentAddStepperComponent implements OnInit, AfterViewInit  {
       const step = Number(params.step);
       const user_id = Number(params.user_id);
       if(this.myStepper){
-        if([0, 1, 2, 3, 4].includes(step)){
+        if([0, 1, 2, 3, 4, 5].includes(step)){
           console.log('moved', step);
           // this.myStepper.selectedIndex = step;
           if(this.myStepper.selectedIndex < step){
@@ -171,6 +172,47 @@ export class IndependentAddStepperComponent implements OnInit, AfterViewInit  {
     }
   }
 
+  async submitCout($event: any) {
+    try{
+      this.moveForward(3, {user_id: this.user?.id});
+      return;
+      //TODO
+      this.submittingCout = true;
+      const fd = new FormData();
+      Object.keys($event).forEach(key => {
+        if(key === 'photo_profile'){
+          if($event[key] instanceof File){// Cas de Ajout ou modification de photo
+            fd.append(key, $event[key]);
+          }else if(!($event[key]?.length>0)){ // Cas de suppression de photo
+            fd.append('delete_photo_profile', 'true');
+          }
+        }else{
+          if($event[key] != null){
+            fd.append(key, $event[key]);
+          }
+        }
+      });
+      let res;
+      fd.append('type_account', 'independent');
+      fd.append('member_ship_id', '5');
+      if($event?.id){
+        res = await this.userService.submitUpdateUser(fd).toPromise();
+      }else{
+        res = await this.userService.submitUser(fd).toPromise();
+      }
+      if(res?.result?.data?.id){
+        this.moveForward(1, {user_id: res?.result?.data?.id});
+        this.user = res.result.data;
+      }
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+
+      console.log('error submit user', e);
+    }finally {
+      this.submittingUser = false;
+    }
+  }
+
   async submitPerimeters($event: any) {
     try{
       this.submittingPerimeters = true;
@@ -179,7 +221,7 @@ export class IndependentAddStepperComponent implements OnInit, AfterViewInit  {
         personal_perimeter_ids: $event
       }
       const res = await this.userService.submitPerimeters(params).toPromise();
-      this.moveForward(4);
+      this.moveForward(5);
     }catch (e){
       this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
 

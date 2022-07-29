@@ -16,7 +16,7 @@
   </ng-template>
   <mat-step label="Paramètres">
     <app-parametre-independant-form
-      (preview)="moveForward(1)"
+      (preview)="moveForward(0)"
       [profile_id]="profile_id"
       [user]="user"
       (submitParameters)="submitParameters($event)"
@@ -30,7 +30,8 @@
       (preview)="moveForward(1)"
       [profile_id]="profile_id"
       [user]="user"
-      (submitParameters)="submitParameters($event)"
+      [submitting]="submittingCout"
+      (submitCout)="submitCout($event)"
     ></app-cout-independant-form>
   </mat-step>
   <ng-template #stepperIcon>

@@ -64,7 +64,7 @@ export class CoutIndependantFormComponent implements OnInit, AfterViewInit {
   @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-  @Output() submitParameters: EventEmitter<any> = new EventEmitter();
+  @Output() submitCout: EventEmitter<any> = new EventEmitter();
   @Input()
   public set user(val: User) {
     if(val){
@@ -179,7 +179,7 @@ export class CoutIndependantFormComponent implements OnInit, AfterViewInit {
         this.coutFormGroup.value[key] = false;
       }
     });
-    this.submitParameters.emit(this.coutFormGroup.value);
+    this.submitCout.emit(this.coutFormGroup.value);
   }
 }
 
