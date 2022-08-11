@@ -1,1 +1,168 @@
-<p>group-add works!</p>
+<div class="container top-container">
+  <div class="error-pannel" *ngIf="groupFormGroup && !groupFormGroup.valid && groupFormGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <ng-container *ngIf="!errorLoadData; else dataNotFound">
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+      <div class="container-fluid top-container p-0">
+        <!--    <div class="goback col-12"-->
+        <!--         (click)="goback()"-->
+        <!--          style="margin-bottom: 10px">-->
+        <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
+        <!--    </div>-->
+        <form (submit)="save()" *ngIf="groupFormGroup" [formGroup]="groupFormGroup" autocomplete="off" class="container p-0"
+              novalidate>
+          <h5 *ngIf="title">
+            <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
+            Ajouter un {{title}}
+            <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+          </h5>
+          <div class="row form-box">
+            <div class="main-container col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Création utilisateur détaché d'une entité gérér pas Sirh</h5>
+                <div class="form-bloc">
+                  <ng-container *ngIf="id_entite; else noEntiteTemplate">
+                   <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.old_cp}}
+                        {{isRequired(formInputs.old_cp)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="profit_centers"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner la nationalité ici"
+                          [formControl]="groupFormGroup.controls[formInputs.old_cp]"
+                          [ngClass]="{'is-invalid error-input': groupFormGroup.controls[formInputs.old_cp].hasError('required')
+                                  && groupFormGroup.controls[formInputs.old_cp].dirty}"
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="groupFormGroup.controls[formInputs.old_cp].hasError('required')
+                    && groupFormGroup.controls[formInputs.old_cp].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Veillez sélectionner un centre de profil
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.personal_id}} {{isRequired(formInputs.personal_id)}}</label>
+
+                      <ng-select
+                        [items]="users"
+                        [bindLabel]="'full_name'"
+                        [bindValue]="'id'"
+                        class="form-control select"
+                        placeholder="Sélectionner la nationalité ici"
+                        [formControl]="groupFormGroup.controls[formInputs.personal_id]"
+                        [ngClass]="{'is-invalid error-input': groupFormGroup.controls[formInputs.personal_id].hasError('required')
+                                  && groupFormGroup.controls[formInputs.personal_id].dirty}"
+                        [multiple]="false"
+                        [loading]="loadingUsers"
+                        (open)="openSelect('users', 'users')"
+                      >
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="groupFormGroup.controls[formInputs.personal_id].hasError('required')
+                    && groupFormGroup.controls[formInputs.personal_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'utilisateur est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                   <div class="row">
+                    <div class="col">
+                      <label class="col-12">{{formLabels.cp_id}}
+                        {{isRequired(formInputs.cp_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="profit_centers"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner la nationalité ici"
+                          [formControl]="groupFormGroup.controls[formInputs.cp_id]"
+                          [ngClass]="{'is-invalid error-input': groupFormGroup.controls[formInputs.cp_id].hasError('required')
+                                  && groupFormGroup.controls[formInputs.cp_id].dirty}"
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="groupFormGroup.controls[formInputs.cp_id].hasError('required')
+                    && groupFormGroup.controls[formInputs.cp_id].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Veillez sélectionner un centre de profil
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.entry_date}} {{isRequired(formInputs.entry_date)}}</label>
+                      <div class="date-picker-group">
+                        <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt2"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt2"
+                               (keydown)="returnfalse()"
+                               placeholder="Choisir la date d'entée ici"
+                               [formControl]="groupFormGroup.controls[formInputs.entry_date]"
+                        />
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="clearDateInput(formInputs.entry_date)"
+                             *ngIf="groupFormGroup.controls[formInputs.entry_date].value"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                        </div>
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="groupFormGroup.controls[formInputs.entry_date].hasError('required')
+                && groupFormGroup.controls[formInputs.entry_date].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        La date d'émission du contrat de travail est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row text-center">
+            <app-button
+              [type]="'primary'"
+              [text]="'Créer'"
+              [isLoading]="submitting"
+              (onClick)="save()"
+              [customStyle]="{'min-width': '150px'}"
+            >
+            </app-button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+<ng-template #noEntiteTemplate>
+  <app-centred-message [message]="( 'Aucune entité sélectionnée' | translate )"
+                       [image]="'images/error.svg'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>

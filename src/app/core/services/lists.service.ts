@@ -27,7 +27,7 @@ export class ListsService {
     CITY: 'city',
     DOCUMENT_TYPE: 'document_type',
     SITUATION_ALERT: 'situation_alert',
-    USERS: 'users'
+    USERS: 'users',
   }
   constructor(private apiService: ApiService) {}
 
@@ -54,8 +54,12 @@ export class ListsService {
       .pipe(map(res => { return res?.result?.data || []}));
   }
 
-  getPersonalFilters(){
-    return this.apiService.get( 'filter/getPersonalFilters')
+  // getPersonalFilters(){
+  //   return this.apiService.get( 'filter/getPersonalFilters')
+  //     .pipe(map(res => { return res?.result?.data || []}));
+  // }
+  getPersonalFilters(params= null){
+    return this.apiService.get( 'filter/getPersonalsByCpId', params)
       .pipe(map(res => { return res?.result?.data || []}));
   }
 

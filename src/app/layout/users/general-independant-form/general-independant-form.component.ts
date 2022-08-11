@@ -70,7 +70,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
     group_start_date: "group_start_date",
     is_group_mutation_entry: "is_group_mutation_entry",
     entry_date: "entry_date",
-    end_trial_period_date: "end_trial_period_date",
     depart_mail_received_date: "depart_mail_received_date",
     theory_end_date: "theory_end_date",
     end_date: "end_date",
@@ -123,7 +122,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
     group_start_date: "Date d'entrée groupe",
     is_group_mutation_entry: "Entrée par mutation groupe",
     entry_date: "Date d'entrée",
-    end_trial_period_date: "Date de fin de Période d'essai",
     // OUT
     depart_mail_received_date: "Date de réception du courier en cas de départ", // to be done // to add in forminputs
     theory_end_date: "Date de fin théorique", // to be done
@@ -238,7 +236,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
       group_start_date: moment('2016-11-03', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
       is_group_mutation_entry: true,
       entry_date: moment('2019-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      end_trial_period_date: null,
       depart_mail_received_date: moment('20220-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
       theory_end_date: moment('2025-02-19', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
       end_date: moment('2028-03-23', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
@@ -261,7 +258,7 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
         last_name: [null],
         email: [null],
         civility: [null],
-        fiche_to_be_completed: [null],
+        fiche_to_be_completed: [false],
         birth_date: [ null,
                   // Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[0-9]{4}$/)
         ],
@@ -280,17 +277,16 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
         cp_id: [null, Validators.required],
         original_company_id: [null, Validators.required],
         attachment_agency_id: [null, Validators.required],
-        not_billable: [null],
-        in_out_office: [null],
-        is_part_time: [null],
+        not_billable: [false],
+        in_out_office: [false],
+        is_part_time: [false],
         time_entry_id: [null],
         calendar_id: [null],
         emission_of_contract_date: [null, Validators.required],
         signature_of_contract_date: [null, Validators.required],
         group_start_date: [null],
-        is_group_mutation_entry: [null],
+        is_group_mutation_entry: [false],
         entry_date: [null],
-        end_trial_period_date: [null, Validators.required],
         depart_mail_received_date: [null],
         theory_end_date: [null],
         end_date: [null],
@@ -300,8 +296,8 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
         validator_absence_id: [null, Validators.required],
         fiscal_car_power_id: [null, Validators.required],
         complex_charge: [null],
-        is_exclusion_etp: [null],
-        is_exclusion_reporting: [null],
+        is_exclusion_etp: [false],
+        is_exclusion_reporting: [false],
         comment: [null],
         send_info_to_user: [null],
         // creator_id:[null]
@@ -325,6 +321,10 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
     // }
   }
 
+  getIdEntite(){
+     return  this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+  }
+
   async ngOnInit(){
     if(this.activatedRoute.snapshot.params.id){
       // this.getUser(this.activatedRoute.snapshot.params.id);
@@ -332,6 +332,11 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
 
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
+    if(!this.id_entite){
+      this.error = 'Veillez penser à sélectionner une entité';
+    }else{
+      this.error = '';
+    }
     try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
     try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
     try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
@@ -350,13 +355,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
     // try{ this.cities = await this.listService.getAll(this.listService.list.CITIES).toPromise();} catch (e) {console.log('error filter CITIES', e);}
 
     this.changeDetectorRef.detectChanges();
-    // this.openPeriodFinEssai();
-    this.userFormGroup.controls[this.formInputs.entry_date].valueChanges.subscribe(value => {
-      console.log("changed", value);
-      this.userFormGroup.patchValue({
-        end_trial_period_date: null
-      });
-    });
     this.userFormGroup.controls[this.formInputs.nationality_id].valueChanges.subscribe(async value => {
       this.userFormGroup.patchValue({city_id: null});
       this.cities = [];
@@ -484,36 +482,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
     console.log('uploadFile', e);
   }
 
-  openPeriodFinEssai(){
-    console.log('openPeriodFinEssai');
-    if(!this.isValidMoment(this.formInputs.entry_date)){
-      return;
-    }
-    const modalRef = this.modalService.open(ModalPeriodeEssaiComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
-    modalRef.result.then(result=>{
-      console.log('closed', result);
-    }, reason => {
-      console.log('closed');
-    });
-    const entry_date_moment =  moment(this.userFormGroup.value[this.formInputs.entry_date]);
-    modalRef.componentInstance.entry_date = entry_date_moment;
-    modalRef.componentInstance.period.subscribe(value => {
-      console.log('emitted', value);
-      if(value){
-        this.userFormGroup.patchValue({
-          end_trial_period_date: moment(value).format('DD/MM/YYYY')
-        });
-      }else{
-        this.userFormGroup.patchValue({
-          end_trial_period_date: null
-        });
-      }
-      console.log('change', this.userFormGroup.value.end_trial_period_date,this.userFormGroup.value.entry_date );
-    });
-
-    // modalRef.componentInstance.type = type;
-  }
-
   getAnciente() {
     const info = this.userFormGroup?.value;
     if(info){
@@ -607,7 +575,6 @@ export class GeneralIndependantFormComponent implements OnInit, AfterViewInit {
       'signature_of_contract_date',
       'group_start_date',
       'entry_date',
-      'end_trial_period_date',
       'depart_mail_received_date',
       'theory_end_date',
       'end_date'

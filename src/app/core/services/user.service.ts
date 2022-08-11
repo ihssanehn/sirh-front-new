@@ -240,4 +240,8 @@ export class UserService {
   addOrUpdatePersonalCost(params) {
     return this.apiService.post('personal/addOrUpdatePersonalCost', params);
   }
+
+  submitUserGroup(params) {
+    return this.apiService.post('personal/addUserGroup', params);
+  }
 }
