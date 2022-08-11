@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LayoutComponent} from '@layout/layout.component';
-import {ListUsersComponent} from "@layout/users/list-users/list-users.component";
 import {AcceilComponent} from "@layout/acceil/acceil.component";
 
 const routes: Routes = [
@@ -21,6 +20,10 @@ const routes: Routes = [
       {
         path: 'accueil',
         component: AcceilComponent,
+      },
+      {
+        path: 'activity',
+        loadChildren: () => import('./activity/activity.module').then(m => m.ActivityModule),
       },
     ]
   }

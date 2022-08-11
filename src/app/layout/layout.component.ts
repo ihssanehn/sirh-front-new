@@ -3,7 +3,7 @@ import { UserService } from '@services/index';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
-import {$headerSectionsMetaData, $sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {$headerSectionsMetaData, $sidebarItems_activity, $sidebarItems_users} from "@shared/Objects/sharedObjects";
 
 @Component({
   selector: 'app-layout',
@@ -48,6 +48,28 @@ export class LayoutComponent implements OnInit{
                 if(this.router.url.indexOf('users/new') !== -1){
                   $sidebarItems_users[0].opened = false;
                   $sidebarItems_users[1].opened = true;
+                }
+
+                break;
+              }
+              case 'activity': {
+                this.mainStore.currentHeaderSection = $headerSectionsMetaData.activity;
+
+                $sidebarItems_activity.forEach(item => item.opened = false);
+                if(this.router.url.indexOf('activity/list') !== -1 ||
+                  this.router.url.indexOf('activity/update') !== -1 ||
+                  this.router.url.indexOf('activity/history') !== -1
+                ){
+                  $sidebarItems_activity[0].opened = true;
+                }
+                if(this.router.url.indexOf('activity/avance') !== -1){
+                  $sidebarItems_activity[1].opened = true;
+                }
+                if(this.router.url.indexOf('activity/conge') !== -1){
+                  $sidebarItems_activity[2].opened = true;
+                }
+                if(this.router.url.indexOf('activity/frais') !== -1){
+                  $sidebarItems_activity[3].opened = true;
                 }
 
                 break;

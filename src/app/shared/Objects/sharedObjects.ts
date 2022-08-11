@@ -361,6 +361,125 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     // },
 ];
 
+export const $sidebarItems_activity: Array<SidebarItem> = [
+    {
+      id: 2,
+      name: 'Activité',
+      type: 'sub',
+      icon: null,
+      link: 'activity/list',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Liste',
+          type: 'link',
+          icon: null,
+          link: 'activity/list',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Saisir mon activité',
+          type: 'link',
+          icon: null,
+          link: 'activity/update',
+          opened: false,
+        },
+        {
+          id: 4,
+          name: 'Historique',
+          type: 'link',
+          icon: null,
+          link: 'activity/history',
+          opened: false,
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: 'Avance de frais',
+      type: 'sub',
+      icon: null,
+      link: 'activity/avance',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Création',
+          type: 'link',
+          icon: null,
+          link: 'activity/avance/creation',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Liste',
+          type: 'link',
+          icon: null,
+          link: 'activity/avance/list',
+          opened: false,
+        }
+      ]
+    },
+    {
+    id: 5,
+    name: 'Mes congés',
+    type: 'sub',
+    icon: null,
+    link: 'activity/conge',
+    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    opened: false,
+    subMenu: [
+      {
+        id: 2,
+        name: 'demande',
+        type: 'link',
+        icon: null,
+        link: 'activity/conge/demande',
+        opened: false,
+      },
+      {
+        id: 3,
+        name: 'Liste',
+        type: 'link',
+        icon: null,
+        link: 'activity/conge/history',
+        opened: false,
+      }
+    ]
+  },
+    {
+    id: 5,
+    name: 'Mes frais',
+    type: 'sub',
+    icon: null,
+    link: 'activity/frais',
+    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    opened: false,
+    subMenu: [
+      {
+        id: 2,
+        name: 'Création',
+        type: 'link',
+        icon: null,
+        link: 'activity/frais/saisie',
+        opened: false,
+      },
+      {
+        id: 3,
+        name: 'Liste',
+        type: 'link',
+        icon: null,
+        link: 'activity/frais/history',
+        opened: false,
+      }
+    ]
+  },
+];
+
 export const $headerSectionsMetaData = {
   acceuil: {
     name: 'acceuil',
@@ -375,8 +494,8 @@ export const $headerSectionsMetaData = {
     name: 'projets',
     multipleEntity: false
   },
-  activite: {
-    name: 'activite',
+  activity: {
+    name: 'activity',
     multipleEntity: false
   },
   conge: {
@@ -435,11 +554,11 @@ export const $headerItems = [
   },
   {
     id: 1,
-    name: 'Activité',
-    link: '/users/info',
+    name: 'Relevé d\'activité',
+    link: '/activity',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,
