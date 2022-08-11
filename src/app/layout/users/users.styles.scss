@@ -668,10 +668,11 @@ button.btn {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-right: 10px;
     &:before{
       font-weight: 600;
       //color: $primaryColor;
-      font-size: 16px;
+      font-size: 12px;
     }
   }
   .danger-action{

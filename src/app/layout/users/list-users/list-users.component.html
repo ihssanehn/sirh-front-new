@@ -438,9 +438,9 @@
                 <td data-title="Appartenance" class="tel">
                   <i class="icon-parametre primary-icon"></i>
                 </td>
-                <td data-title="Telephone portable"></td>
-                <td data-title="Email"></td>
-                <td></td>
+                <td data-title="Telephone portable">--</td>
+                <td data-title="Email">--</td>
+                <td>--</td>
 
               </tr>
               </tbody>
@@ -450,95 +450,58 @@
             <table class="table-responsive card-list-table">
               <thead>
               <tr>
-                <th>
-                  <!--                          <i class="icon-username"></i>-->
-                  Nom
-                </th>
-                <!--                        <th>-->
-                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
-                <!--                          Prénom-->
-                <!--                        </th>-->
-                <th>
-                  <!--                          <i class="icon-email"></i>-->
-                  N°
-                </th>
-                <th>
-                  <!--                           <i class="icon-phone"></i>-->
-                  Profil
-                </th>
-                <th>
-                  <!--                          <i class="icon-manager"></i>-->
-                  Centre de profit
-                </th>
-                <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Email
-                </th>
-                <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Tel
-                </th>
-                <!--                        <th class="text-center">Date de création</th>-->
-                <!--                        <th>Dernière activité</th>-->
-                <th class="icon-cell"></th>
+                <th>Salarié</th>
+                <th>Matricule</th>
+                <th>Date entrée</th>
+                <th>Centre de profit</th>
+                <th>Type entretien</th>
+                <th>Date théorique</th>
+                <th>Date planifié</th>
+                <th>Date effective</th>
+                <th>Etat</th>
+                <th>Pièces jointes</th>
+                <th>Actions</th>
               </tr>
               </thead>
               <tbody>
-              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let user of users"  >
-                <td>
+                <tr *ngFor="let user of users"  >
+                  <td>
                   <div class="photo-cell">
                     <div class="photo">
                       <div class="img-container">
                         <img
                           [attr.src]="user?.photo_profile ? (user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                         />
                       </div>
                     </div>
                     <div class="name">{{user?.full_name}} </div>
                   </div>
                 </td>
-                <td>{{user?.registration_number}}</td>
-                <td data-title="Email" >{{user?.profile_name}}</td>
-                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
-                <td data-title="Profil">{{user?.email_professional}}</td>
-                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
-
-                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
-                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
-                <td >
-                  <!--                            appStopPropagation-->
-                  <div class="actions">
-                    <i class="icon-eye"
-                       data-toggle="tooltip"
-                       data-placement="top"
-                       (click)="goToUpdateUser(user)"
-                       title="Détails"></i>
-                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
-
-                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
-                    <!--                                    <i class="fa fa-lock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askBlockUser(user.id)"-->
-                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-container>-->
-                    <!--                                <ng-template #unlock>-->
-                    <!--                                    <i class="fa fa-unlock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askUnBlockUser(user.id)"-->
-                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-template>-->
-                    <!--                                <i class="fa fa-trash"-->
-                    <!--                                   (click)="archive(user.id)"-->
-                    <!--                                   data-toggle="tooltip"-->
-                    <!--                                   data-placement="top"-->
-                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
-                  </div>
-                </td>
+                  <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
+                  <td data-title="Entrée" class="tel">{{user?.entry_date | dateMessage}}</td>
+                  <td data-title="Ceentre de profit" class="tel">{{user?.cp_name}}</td>
+                  <td data-title="Ceentre de profit" class="tel">--</td>
+                  <td data-title="Ceentre de profit" class="tel">--</td>
+                  <td data-title="Ceentre de profit" class="tel">--</td>
+                  <td data-title="Ceentre de profit" class="tel">--</td>
+                  <td data-title="Etat">--</td>
+                  <td data-title="Etat">
+                    <i class="icon-attachment"></i>
+                  </td>
+                  <td  >
+                    <div class="actions">
+                      <i class="icon-edit"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Modifier"></i>&nbsp;&nbsp;
+                      <i class="icon-close danger-icon"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Supprimer"></i>
+                    </div>
+                  </td>
               </tr>
               </tbody>
             </table>
@@ -547,36 +510,12 @@
             <table class="table-responsive card-list-table">
               <thead>
               <tr>
-                <th>
-                  <!--                          <i class="icon-username"></i>-->
-                  Nom
-                </th>
-                <!--                        <th>-->
-                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
-                <!--                          Prénom-->
-                <!--                        </th>-->
-                <th>
-                  <!--                          <i class="icon-email"></i>-->
-                  N°
-                </th>
-                <th>
-                  <!--                           <i class="icon-phone"></i>-->
-                  Profil
-                </th>
-                <th>
-                  <!--                          <i class="icon-manager"></i>-->
-                  Centre de profit
-                </th>
-                <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Email
-                </th>
-                <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Tel
-                </th>
-                <!--                        <th class="text-center">Date de création</th>-->
-                <!--                        <th>Dernière activité</th>-->
+                <th>Nom</th>
+                <th>Matricules</th>
+                <th>Profil</th>
+                <th>Centre de profit</th>
+                <th>Email</th>
+                <th>Tel</th>
                 <th class="icon-cell"></th>
               </tr>
               </thead>
