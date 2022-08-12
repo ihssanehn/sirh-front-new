@@ -204,77 +204,7 @@
   }
 }
 
-.check-box-btn{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 13px;
-  //background: #F7F7F7;
-  border-radius: 8px;
-  width: fit-content;
-  //margin: 0 auto;
-  padding: 12px 10px;
-  input[type="checkbox"] {
-    position: relative;
-    //width: 1.5em;
-    //height: 1.5em;
-    //width: 20px;
-    //height: 20px;
-    padding: 9px 9px;
-    color: $fontColor;
-    border: 1px solid $lightgray;
-    border-radius: 4px;
-    appearance: none;
-    outline: 0;
-    cursor: pointer;
-    transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-    &::before {
-      position: absolute;
-      content: '';
-      display: block;
-      top: 0;
-      left: 5px;
-      width: 8px;
-      height: 14px;
-      border-style: solid;
-      border-color: white;
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg);
-      opacity: 0;
-    }
-    &:checked {
-      color: white;
-      border-color: $tertiaryColor;
-      background: $tertiaryColor;
-      &::before {
-        opacity: 1;
-      }
-    }
-  }
 
-  label {
-    position: relative;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 0 0.25em 0;
-    user-select: none;
-    color: $fontColor;
-    margin-left: 10px;
-    text-align: left;
-    //margin-bottom: 5px;
-    margin-bottom: 0 !important;
-    &::before {
-      position: absolute;
-      content: attr(data-content);
-      color: $lightgray;
-      clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
-      text-decoration: line-through;
-      text-decoration-thickness: 3px;
-      text-decoration-color: $fontColor;
-      transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-  }
-}
 
 .submit-block{
   padding-top: 30px;
@@ -403,65 +333,8 @@
     text-align: center;
     margin-bottom: 20px;
   }
-
 }
 
-
-
-.photo-cell{
-  display: flex;
-  align-items: center;
-  //width: 20px;
-  max-width: unset;
-  min-width: unset;
-  margin: 0;
-  .name{
-    white-space: nowrap;
-    font-size: 14px;
-    line-height: 24px;
-    margin-left: 16px;
-    font-weight: 400;
-    color: #393a3b;
-  }
-  .photo{
-    border: 1px solid $lightgray;
-    position: relative;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 35px;
-    height: 35px;
-    margin: 0;
-    .img-container{
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      overflow: hidden;
-      border-width: 1px !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      img{
-        height: 100%;
-        width: 100%;
-      }
-    }
-    i{
-      position: absolute;
-      bottom: -2px;
-      right: -4px;
-      width: 14px;
-      height: 14px;
-      background: white;
-    }
-    i:before{
-      color: red;
-      font-weight: 800;
-    }
-  }
-}
 
 .sub-header{
   display: flex;
@@ -607,17 +480,7 @@ button.btn {
     opacity: .3;
   }
 }
-.table-wrapper {
-  //max-width: 300px;
-  width: 100%;
-  margin: 0 auto 0;
-  // max-height: 500px;
-  // overflow-y: scroll;
-  position: relative;
-  transition: all .2s ease-out;
-  //border-radius: 30px;
-  //border: 0;
-}
+
 .card-list-table {
   table-layout: fixed;
   background: transparent;
@@ -761,26 +624,6 @@ button.btn {
 }
 
 
-.date-picker-group{
-  position: relative;
-  //max-width: 40%;
-  //min-width: 280px;
-  input{
-    //position: absolute;
-  }
-  .icons-container{
-    position: absolute;
-    top: 28%;
-    right: 12px;
-    i{
-      color: $lightgray;
-      cursor: pointer;
-    }
-    .icon-close:before{
-      font-size: 12px;
-    }
-  }
-}
 
 ::ng-deep .cdk-overlay-container {
   position: fixed;

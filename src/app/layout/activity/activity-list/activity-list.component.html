@@ -1,1 +1,425 @@
-<p>activity-list works!</p>
+<div class="top-container list">
+  <h3 class="main-title">Synthèse</h3>
+  <div class="cards-stats row">
+    <div class="card col">
+      <div class="title">
+        Nb total de relevés
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés 100% diffusé non validés admin
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés créés 100% diffusés
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés avec frais non diffusés
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés prêts pour la validation admin
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés non créés
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés validés admin
+      </div>
+      <div class="state-value">1</div>
+    </div>
+    <div class="card col">
+      <div class="title">
+        Relevés non validés admin
+      </div>
+      <div class="state-value">1</div>
+    </div>
+  </div>
+
+  <div class="filter-container">
+
+    <div class="sub-header container-fuil container-lg ">
+      <h3>
+        List des relevés
+      </h3>
+
+      <div class="search  row">
+        <div class="flex-column col-12 col-sm-6 col-lg-2">
+          <div class="date-picker-group">
+            <owl-date-time [pickerType]="'calendar'"
+                           (yearSelected)="chosenYearHandler($event)"
+                           [startView]="'year'"
+                           #dt_1
+                           (monthSelected)="chosenMonthHandler($event, dt_1);dt_1.close()"
+                           >
+            </owl-date-time>
+            <input [owlDateTimeTrigger]="dt_1"
+                   [owlDateTime]="dt_1"
+                   class="form-control input date"
+                   placeholder="Choisir le mois ici"
+                   [formControl]="date"
+            />
+            <div class="icons-container">
+              <i class="icon-close"
+                 (click)="clearDateInput(date)"
+                 *ngIf="date.value"></i>&nbsp;
+              <i [owlDateTimeTrigger]="dt_1" class="fa fa-calendar"></i>
+            </div>
+<!--            <owl-date-time #owl_dt1-->
+<!--                           [pickerType]="'calendar'"-->
+<!--                           [startView]="'year'"-->
+<!--            ></owl-date-time>-->
+<!--            <input [owlDateTime]="owl_dt1"-->
+<!--                   class="form-control input date"-->
+<!--                   placeholder="Choisir le mois ici"-->
+<!--                   [value]="filter.month"-->
+<!--            />-->
+<!--            <div class="icons-container">-->
+<!--              <i class="icon-close"-->
+<!--                 (click)="filter.month = null"-->
+<!--                 *ngIf="filter.month"></i>&nbsp;-->
+<!--              <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>-->
+<!--            </div>-->
+          </div>
+        </div>
+        <div class="flex-column col-12 col-sm-6 col-lg-3">
+<!--          <label>Utilisateur</label>-->
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="personals"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.personals"
+                       [placeholder]="'Sélectionner l\'utilisateur'"></ng-select>
+          </div>
+        </div>
+        <div class="flex-column col">
+          <app-button
+            [text]="'Rechercher'"
+            [type]="'primary'"
+            [iconLeft]="'icon-search'"
+            (onClick)="getActivities()"
+            [customStyle]="{'white-space': 'nowrap'}"
+          ></app-button>&nbsp;
+          <app-button
+            [text]="'Recherche avancé'"
+            [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
+            [type]="'tertiary'"
+            (onClick)="showFilters = !showFilters; resetFilters()"
+            [customStyle]="{'white-space': 'nowrap'}"
+          ></app-button>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="showFilters">
+      <div class="filtres row ">
+        <div class="flex-column  col-12 col-sm-6  ">
+          <label>Siège/Hors siège</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="sieges"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.in_out_office"
+                       [placeholder]="'Sélectionner si c\'est siège/hors siège'"></ng-select>
+          </div>
+        </div>
+        <div class="flex-column  col-12 col-sm-6 ">
+          <label>Appartenance</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="member_ships"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.member_ships"
+                       [placeholder]="'Filtrer par appartenance'"></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class=" flex-column  col-12 col-sm-6  ">
+          <label>Choix du tri</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="sort_choices"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.sort_choices"
+                       [placeholder]="'Sélectionner le tri'"></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column  col-12 col-sm-6  ">
+          <label>Direction OP</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="direction_ops"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.direction_ops"
+                       [placeholder]="'Filtrer direction op'"></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class=" flex-column  col-12 col-sm-6  ">
+          <label>Business unit</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="business_units"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.business_units"
+                       [placeholder]="'Filtrer par business units'"></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column  col-12 col-sm-6  ">
+          <label>Client</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="clients"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.clients"
+                       [placeholder]="'Filtrer par client'"></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column col-12 col-sm-6   ">
+          <label>Geestionnaire (ADV)</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="adv_managers"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.adv_managers"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Filtrer par gestionnaire ADV'" ></ng-select>
+          </div>
+        </div>
+        <div class=" flex-column  col-12 col-sm-6  ">
+          <label>Centre de profit</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="true"
+                       [items]="center_profits"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       (change)="filterChanged()"
+                       [(ngModel)]="filter.center_profits"
+                       [placeholder]="'Filtrer par centre de profit'" ></ng-select>
+          </div>
+          <div class="check-box-btn">
+            <input type="checkbox"
+                   id="with_inactive_cp"
+                   [checked]="filter.with_inactive_cp"
+                   [(ngModel)]="filter.with_inactive_cp"
+                   name="with_inactive_cp" >
+            <label for="with_inactive_cp" >Avec centres de profits inactifs</label>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column col-12 col-sm-6   ">
+          <!--        <label>Admin facturation interne</label>-->
+          <div class="check-box-btn">
+            <label for="has_internal_billing_admin" >Admin facturation interne</label>
+            <input type="checkbox"
+                   id="has_internal_billing_admin"
+                   [checked]="filter.has_internal_billing_admin"
+                   [(ngModel)]="filter.has_internal_billing_admin"
+                   name="has_internal_billing_admin" >
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="main-container">
+
+    <ng-container *ngIf="!loadingData; else loadingTemplate">
+      <ng-container  *ngIf="activities?.length>0; else emptyState">
+        <div class="header">
+          <h3 class="main-title">
+            {{activities?.length}} relevé trouvé
+          </h3>
+
+          <div class="btns right-btns">
+            <app-button
+              [text]="'Tout sélectionner'"
+              [type]="'secondary_2'"
+              [iconLeft]="'icon-arrow-left'"
+              [customStyle]="{'max-height': '34px'}"
+            ></app-button>&nbsp;&nbsp;
+            <app-button
+              [text]="'Désélectionner'"
+              [type]="'secondary_2'"
+              [iconRight]="'icon-arrow-right'"
+              [customStyle]="{'max-height': '34px'}"
+            ></app-button>
+          </div>
+        </div>
+        <div class="wrap" style="margin-top: 20px">
+          <div class="table-wrapper">
+            <table class="table-responsive w-100">
+              <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th colspan="2" class="category-cell">
+                  Activité diffusée
+                </th>
+                <th colspan="2" class="category-cell">
+                  Activité validée
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+                <th>
+                  Action
+                </th>
+                <th></th>
+                <th>
+                  Nom
+                </th>
+                <th>
+                  Prénom
+                </th>
+                <th>
+                  CP
+                </th>
+                <th>
+                  Activité diffusée
+                </th>
+                <th>
+                  Frais diffusés
+                </th>
+                <th>
+                  Activité validée
+                </th>
+                <th>
+                  Frais validés
+                </th>
+                <th>
+                  Détails
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+              <tr *ngFor="let activity of activities" >
+                <td>
+                  <i class="icon-search primary-icon"></i>
+                </td>
+                <td style="width: 35px; padding: 0">
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="activity?.photo_profile ? (activity.photo_profile |
+                        getPhotoFromBackend: ('assets/images/'+(activity?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(activity?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {{activity.last_name}}
+                </td>
+                <td>
+                  {{activity.first_name}}
+                </td>
+                <td  style="opacity: .7;">
+                  {{activity.cp_name}}
+                </td>
+                <td>
+                  <i [ngClass]="{'primary-icon icon-check': activity.is_personal_activity_diffuse,
+                     'danger-icon icon-nope': !activity.is_personal_activity_diffuse}">
+                  </i>
+                </td>
+                <td>
+                  <i [ngClass]="{'primary-icon icon-check': activity.is_personal_costs_diffuse,
+                     'danger-icon icon-nope': !activity.is_personal_costs_diffuse}">
+                  </i>
+                </td>
+                <td>
+                  <i [ngClass]="{'primary-icon icon-check': activity.is_admin_activity_valid,
+                     'danger-icon icon-nope': !activity.is_admin_activity_valid}">
+                  </i>
+                </td>
+                <td>
+                  <i [ngClass]="{'primary-icon icon-check': activity.is_admin_costs_valid,
+                     'danger-icon icon-nope': !activity.is_admin_costs_valid}">
+                  </i>
+                </td>
+                <td style="opacity: .7;">
+                  {{activity.comment}}
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--        <div class="footer w-100" >-->
+          <!--          <div></div>-->
+          <!--          <app-pagination name="pagination"-->
+          <!--                          (change)="changePagination()"-->
+          <!--                          [(ngModel)]="pagination"-->
+          <!--                          ngDefaultControl>-->
+          <!--          </app-pagination>-->
+          <!--        </div>-->
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun document trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+      <img src="assets/images/loading.svg" style="height: 100px;" />
+    </div>
+  </ng-template>
+
+</div>

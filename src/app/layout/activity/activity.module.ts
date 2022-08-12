@@ -11,6 +11,11 @@ import { CongeDemandeComponent } from './conge-demande/conge-demande.component';
 import { CongeHistoryComponent } from './conge-history/conge-history.component';
 import { FraisSaisieComponent } from './frais-saisie/frais-saisie.component';
 import { FraisHistoryComponent } from './frais-history/frais-history.component';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {OwlDateTimeModule} from "ng-pick-datetime";
+import {SharedModule} from "@shared/shared.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @NgModule({
@@ -27,7 +32,13 @@ import { FraisHistoryComponent } from './frais-history/frais-history.component';
   ],
   imports: [
     CommonModule,
-    ActivityRoutingModule
+    ActivityRoutingModule,
+    NgSelectModule,
+    OwlDateTimeModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule
   ]
 })
 export class ActivityModule { }

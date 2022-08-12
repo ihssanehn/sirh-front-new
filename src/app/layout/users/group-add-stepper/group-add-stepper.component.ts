@@ -111,7 +111,7 @@ export class GroupAddStepperComponent implements OnInit, AfterViewInit {
       }
       try{
         this.loadingUsers = true;
-        this.users = await this.listService.getPersonalFilters({cp_id: this.groupFormGroup.value.old_cp}).toPromise();
+        this.users = await this.listService.getPersonalsByCpId({cp_id: this.groupFormGroup.value.old_cp}).toPromise();
       } catch (e) {
         console.log('error filter PROFIT_CENTER', e);
       }finally {

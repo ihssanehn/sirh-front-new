@@ -42,12 +42,13 @@
                  aria-describedby="basic-addon2"
                  [(ngModel)]="filter.keyword"/>
           <div class="input-group-append" id="basic-addon2">
-            <i class="fa fa-search"></i>
+            <i class="icon-search"></i>
           </div>
         </div>&nbsp;
         <app-button
           [text]="'Rechercher'"
           [type]="'primary_light'"
+          [iconLeft]="'icon-search'"
           (onClick)="getUsers()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>&nbsp;
@@ -74,7 +75,7 @@
       <span>Recherche avancée</span>
       <span class="reset-filters" (click)="resetFilters()">
           <i class="icon-close"></i>&nbsp;
-          réinitialiser le filtres
+          Réinitialiser les filtres
         </span>
     </h3>
     <div class="filtres row ">

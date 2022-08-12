@@ -181,40 +181,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.getFilters();
   }
 
-  // civility: "M"
-  // cp_name: "CP 1 Piman Switzerland"
-  // created_at: "2022-07-20T16:19:47.000Z"
-  // email: "chbanianass25@gmail.com"
-  // end_date: "2022-07-24T23:00:00.000Z"
-  // entry_date: "2022-07-04T23:00:00.000Z"
-  // first_name: "ANASS"
-  // full_name: "M CHBANI ANASS"
-  // id: 46
-  // last_login: null
-  // last_name: "CHBANI"
-  // manager_id: 2
-  // manager_name: "Homme SIRH Manager-2"
-  // member_ship_name: "Externe"
-  // photo_profile: "http://localhost:9073/personal/getPhotoProfile?personal_id=46"
-  // profile_id: 1
-  // profile_name: "Assistante"
-  // registration_number: "2322332"
-  // role_name: "Comptabilité"
-  // seniority: "0a 0m 22j"
-  // telephone_portable: "023322323"
-
 
   async getFilters(){
     const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
-    // try{ this.family_situations = await this.listService.getAll(this.listService.list.FAMILY_SITUATION).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    // try{ this.functions = await this.listService.getAll(this.listService.list.FUNCTION).toPromise();} catch (e) {console.log('error filter FUNCTION', e);}
-    // try{ this.contracts = await this.listService.getAll(this.listService.list.CONTRACT).toPromise();} catch (e) {console.log('error filter CONTRACT', e);}
-    // try{ this.entities = await this.listService.getAll(this.listService.list.ENTITY).toPromise();} catch (e) {console.log('error filter ENTITY', e);}
-    // try{  this.managers = await this.listService.getAll(this.listService.list.MANAGER).toPromise();} catch (e) {console.log('error filter MANAGER', e);}
-    // try{ this.profiles = await this.listService.getAll(this.listService.list.PROFILE).toPromise();} catch (e) {console.log('error filter PROFILE', e);}
-    // try{ this.status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.PERSONAL).toPromise();} catch (e) {console.log('error filter PERSONAL', e);}
-    // try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id: id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
     try{
       this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
       console.log('this.filters', this.personnalFilters);

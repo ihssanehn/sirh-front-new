@@ -77,3 +77,19 @@ export interface RHDocument {
   deleted_at?: any;
 }
 
+export interface Activity {
+  id?: number;
+  first_name?: string;
+  last_name?: string;
+  photo_profile?: string;
+  personal_id?: number;
+  is_personal_activity_diffuse?: boolean | number;
+  is_personal_costs_diffuse?: boolean | number;
+  is_admin_activity_valid?: boolean | number;
+  is_admin_costs_valid?: boolean | number;
+  month?: string;
+  status_id?: number;
+  comment?: string;
+  created_at?: string;
+  updated_at?: string;
+}

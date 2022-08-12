@@ -54,11 +54,12 @@ export class ListsService {
       .pipe(map(res => { return res?.result?.data || []}));
   }
 
-  // getPersonalFilters(){
-  //   return this.apiService.get( 'filter/getPersonalFilters')
-  //     .pipe(map(res => { return res?.result?.data || []}));
-  // }
-  getPersonalFilters(params= null){
+  getPersonalFilters(){
+    return this.apiService.get( 'filter/getPersonalFilters')
+      .pipe(map(res => { return res?.result?.data || []}));
+  }
+
+  getPersonalsByCpId(params= null){
     return this.apiService.get( 'filter/getPersonalsByCpId', params)
       .pipe(map(res => { return res?.result?.data || []}));
   }
