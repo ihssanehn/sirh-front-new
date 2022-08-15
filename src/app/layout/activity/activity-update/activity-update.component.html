@@ -1,1 +1,81 @@
-<p>activity-update works!</p>
+<div class="top-container">
+  <div class="main-container top-main-container">
+    <div class="header">
+      <div>
+        Informations pour la saisie du relevé d'activité&nbsp;&nbsp;<i class="icon-arrow-right"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="filter-container">
+      <div class="sub-header container-fuil container-lg ">
+        <h3>
+          List des relevés
+        </h3>
+
+        <div class="search  row">
+          <div class="flex-column col-12 col-sm-6 col-lg-2">
+            <div class="date-picker-group">
+              <owl-date-time [pickerType]="'calendar'"
+                             (yearSelected)="chosenYearHandler($event)"
+                             [startView]="'year'"
+                             #dt_1
+                             (monthSelected)="chosenMonthHandler($event, dt_1);dt_1.close()"
+              >
+              </owl-date-time>
+              <input [owlDateTimeTrigger]="dt_1"
+                     [owlDateTime]="dt_1"
+                     class="form-control input date"
+                     placeholder="Choisir le mois ici"
+                     [formControl]="date"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="clearDateInput(date)"
+                   *ngIf="date.value"></i>&nbsp;
+                <i [owlDateTimeTrigger]="dt_1" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column col-12 col-sm-6 col-lg-3">
+            <label>Saisie du relevé d'activité de Juillet 2022</label>
+          </div>
+
+          <div class="wrap">
+            <table class="table table-responsive">
+              <thead>
+
+                <tr>
+                  <th class="row-title-cell">
+                    Jours
+                  </th>
+                  <th *ngFor="let day of data.calendar">
+                    {{day.date | dateMessage: 'D'}}
+                  </th>
+                </tr>
+              </thead>
+              <tr *ngFor="let type_activity of getRightLabels()"
+                  [ngStyle]="{'background-color': type_activity.bg_color}">
+                <td class="row-title-cell"
+                    [ngClass]="{'bold-cell': !type_activity.bg_color}"
+                >{{type_activity.label}}</td>
+                <td *ngFor="let day of data.calendar">
+                  <div *ngIf="!type_activity.bg_color"
+                       [ngClass]="{'blue-cell': day.is_weekend && !type_activity.bg_color}"
+                       class="cell-content" >
+                    {{getDataInCell(day, type_activity.code)}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
