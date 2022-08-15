@@ -56,6 +56,11 @@ export class ActivityListComponent implements OnInit {
   //   limit: 10
   // };
 
+  exportPrint = {
+    activity_record: null,
+    expense_sheet: null,
+  }
+
   filter = {
     keyword: '',
     is_virtual: null,
@@ -91,6 +96,10 @@ export class ActivityListComponent implements OnInit {
   loadingData = false;
   activities: Array<Activity> = [];
   searchSubscription: Subscription;
+
+  submittingPrint = false;
+  submittingExport = false;
+  submittingDetailedExport = false;
 
   constructor(private listService: ListsService,
               private activitiesService: ActivitiesService,
@@ -188,5 +197,17 @@ export class ActivityListComponent implements OnInit {
     ctrlValue.month(normalizedMonth.month());
     this.date.setValue(ctrlValue);
     datepicker.close();
+  }
+
+  print(){
+
+  }
+
+  export(){
+
+  }
+
+  detailedExport(){
+
   }
 }

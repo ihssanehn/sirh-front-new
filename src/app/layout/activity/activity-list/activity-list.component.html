@@ -227,8 +227,16 @@
                        [bindValue]="'id'"
                        [placeholder]="'Filtrer par gestionnaire ADV'" ></ng-select>
           </div>
+          <div class="check-box-btn">
+            <input type="checkbox"
+                   id="has_internal_billing_admin"
+                   [checked]="filter.has_internal_billing_admin"
+                   [(ngModel)]="filter.has_internal_billing_admin"
+                   name="has_internal_billing_admin" />
+            <label for="has_internal_billing_admin" >Admin facturation interne</label>
+          </div>
         </div>
-        <div class=" flex-column  col-12 col-sm-6  ">
+        <div class="flex-column  col-12 col-sm-6">
           <label>Centre de profit</label>
           <div>
             <ng-select class="select form-control"
@@ -250,19 +258,6 @@
           </div>
         </div>
       </div>
-      <div class="filtres row ">
-        <div class="flex-column col-12 col-sm-6   ">
-          <!--        <label>Admin facturation interne</label>-->
-          <div class="check-box-btn">
-            <label for="has_internal_billing_admin" >Admin facturation interne</label>
-            <input type="checkbox"
-                   id="has_internal_billing_admin"
-                   [checked]="filter.has_internal_billing_admin"
-                   [(ngModel)]="filter.has_internal_billing_admin"
-                   name="has_internal_billing_admin" >
-          </div>
-        </div>
-      </div>
     </ng-container>
   </div>
 
@@ -272,7 +267,7 @@
       <ng-container  *ngIf="activities?.length>0; else emptyState">
         <div class="header">
           <h3 class="main-title">
-            {{activities?.length}} relevé trouvé
+            {{activities?.length}} relevé{{activities?.length>1? 's': ''}} trouvé{{activities?.length>1? 's': ''}}
           </h3>
 
           <div class="btns right-btns">
@@ -408,6 +403,68 @@
     </ng-container>
   </div>
 
+  <div class="main-container export-bloc">
+    <ng-container *ngIf="!loadingData; else loadingTemplate">
+      <ng-container  *ngIf="activities?.length>0; else emptyState">
+        <div class="header">
+          <h3 class="main-title">
+            Impression/Export
+          </h3>
+        </div>
+        <div class="align-items-center d-flex">
+          <div class="label">
+            Options d'impressions
+          </div>
+          <div class="value">
+            <div class="check-box-btn">
+              <label for="activity_record">Relevé d'activité</label>
+              <input type="checkbox"
+                     id="activity_record"
+                     [checked]="exportPrint.activity_record"
+                     [(ngModel)]="exportPrint.activity_record"
+                     name="activity_record" >
+            </div>
+          </div>
+          <div class="value">
+            <div class="check-box-btn">
+              <label for="expense_sheet">Fiche de frais</label>
+              <input type="checkbox"
+                     id="expense_sheet"
+                     [checked]="exportPrint.expense_sheet"
+                     [(ngModel)]="exportPrint.expense_sheet"
+                     name="expense_sheet" >
+            </div>
+          </div>
+        </div>
+        <div class="submit-block">
+          <app-button
+            [type]="'primary'"
+            [text]="'Imprimer'"
+            [isLoading]="submittingPrint"
+            (onClick)="print()"
+            [iconLeft]="'icon-pdf'"
+          >
+          </app-button>&nbsp;&nbsp;
+          <app-button
+            [type]="'primary'"
+            [text]="'Export'"
+            [isLoading]="submittingExport"
+            (onClick)="export()"
+            [iconLeft]="'icon-excel'"
+          >
+          </app-button>&nbsp;&nbsp;
+          <app-button
+            [type]="'primary'"
+            [text]="'Export détaillé'"
+            [isLoading]="submittingDetailedExport"
+            (onClick)="detailedExport()"
+            [iconLeft]="'icon-excel'"
+          >
+          </app-button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
 
   <ng-template #emptyState>
     <app-centred-message
