@@ -146,152 +146,152 @@ export class ActivityUpdateComponent implements OnInit {
       ],
       calendar: [
         {
-          date: "2022-08-01",
+          date: "2022-09-01",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-02",
+          date: "2022-09-02",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-03",
+          date: "2022-09-03",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-04",
+          date: "2022-09-04",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-05",
+          date: "2022-09-05",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-06",
+          date: "2022-09-06",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-07",
+          date: "2022-09-07",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-08",
+          date: "2022-09-08",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-09",
+          date: "2022-09-09",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-10",
+          date: "2022-09-10",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-11",
+          date: "2022-09-11",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-12",
+          date: "2022-09-12",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-13",
+          date: "2022-09-13",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-14",
+          date: "2022-09-14",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-15",
+          date: "2022-09-15",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-16",
+          date: "2022-09-16",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-17",
+          date: "2022-09-17",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-18",
+          date: "2022-09-18",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-19",
+          date: "2022-09-19",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-20",
+          date: "2022-09-20",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-21",
+          date: "2022-09-21",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-22",
+          date: "2022-09-22",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-23",
+          date: "2022-09-23",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-24",
+          date: "2022-09-24",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-25",
+          date: "2022-09-25",
           is_weekend: 1,
           is_holidays: 0
         },
         {
-          date: "2022-08-26",
+          date: "2022-09-26",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-27",
+          date: "2022-09-27",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-28",
+          date: "2022-09-28",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-29",
+          date: "2022-09-29",
           is_weekend: 0,
           is_holidays: 0
         },
         {
-          date: "2022-08-30",
+          date: "2022-09-30",
           is_weekend: 0,
           is_holidays: 0
         }
@@ -315,7 +315,7 @@ export class ActivityUpdateComponent implements OnInit {
             mission_id: null,
             category_id: null,
             type_id: 33,
-            date: "2022-07-31T23:00:00.000Z",
+            date: "2022-09-31T23:00:00.000Z",
             ratio: 1,
             created_at: "2022-08-09T11:55:36.000Z",
             updated_at: "2022-08-09T11:55:36.000Z",
@@ -330,7 +330,7 @@ export class ActivityUpdateComponent implements OnInit {
             mission_id: null,
             category_id: null,
             type_id: 34,
-            date: "2022-08-01T23:00:00.000Z",
+            date: "2022-09-01T23:00:00.000Z",
             ratio: 0.375,
             created_at: "2022-08-09T11:55:36.000Z",
             updated_at: "2022-08-09T11:55:36.000Z",
@@ -343,9 +343,9 @@ export class ActivityUpdateComponent implements OnInit {
             project_id: null,
             absence_id: null,
             mission_id: null,
-            category_id: null,
-            type_id: 34,
-            date: "2022-08-01T23:00:00.000Z",
+            category_id: 79,
+            type_id: null,
+            date: "2022-09-01T23:00:00.000Z",
             ratio: 0.625,
             created_at: "2022-08-09T11:55:36.000Z",
             updated_at: "2022-08-09T11:55:36.000Z",
@@ -353,6 +353,8 @@ export class ActivityUpdateComponent implements OnInit {
           }
         ]
       }
+  submittingCreate: boolean;
+  submittingDiffuse: boolean;
 
   constructor() { }
 
@@ -379,11 +381,16 @@ export class ActivityUpdateComponent implements OnInit {
   getRightLabels(){
     const labels = [];
     this.data.type_activity.forEach((activity: any) => {
-      activity.bg_color = activity.data?.length>0 ? '#F7F7F7': '#EDEDED'
+      activity.bg_color = activity.data?.length>0 ? '#F7F7F7': '#EDEDED';
+      if(activity.code === 'absences'){
+        activity.grayCell = true;
+      }
       labels.push(activity);
       if(activity.data?.length>0){
         activity.data.forEach(subactivity => {
-          subactivity.bg_color = null;
+          if(subactivity.code === 'congés_payés'){
+            subactivity.grayCell = true;
+          }
           labels.push(subactivity);
         })
       }
@@ -391,7 +398,7 @@ export class ActivityUpdateComponent implements OnInit {
     return labels;
   }
 
-  getDataInCell(day, code) {
+  getDataInCell(day, type) {
     if(day.is_weekend){
       return moment(day.date).local('fr').format('dd')[0];
     }
@@ -412,10 +419,26 @@ export class ActivityUpdateComponent implements OnInit {
       //
       //   type_id: 33,
 
-      return moment(day.date).isSame(moment(activity.date), 'date');
+
+      return moment(day.date).isSame(moment(activity.date), 'date')
+        &&
+        (type.type_id ? (activity.type_id === type.id) : (activity.category_id === type.id));
+        // activity.type_id === type.id;
     });
     if(element) {
       return this.data.ratio.find(ratio => element.ratio == Number(ratio.code))?.label || element.ratio;
     }
+  }
+
+  getTotal(day) {
+
+  }
+
+  diffuse(){
+
+  }
+
+  create(){
+
   }
 }

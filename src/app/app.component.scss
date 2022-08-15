@@ -293,6 +293,7 @@
   border: 1px solid $lightgray;
   border-radius: 5px;
   min-height: 40px;
+  box-shadow: none;
 }
 
 .select{
@@ -565,6 +566,10 @@ p-autoComplete{
 
 .danger-icon:before{
   color: $danger !important;
+}
+
+.pointer{
+  cursor: pointer;
 }
 
 

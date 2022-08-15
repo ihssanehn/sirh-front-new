@@ -38,14 +38,19 @@
               </div>
             </div>
           </div>
-          <div class="flex-column col-12 col-sm-6 col-lg-3">
-            <label>Saisie du relevé d'activité de Juillet 2022</label>
+          <div class="flex-column col" style="margin-left: 20%;">
+            <h3>Saisie du relevé d'activité de Juillet 2022</h3>
           </div>
 
           <div class="wrap">
             <table class="table table-responsive">
               <thead>
-
+                <tr>
+                  <th></th>
+                  <th [attr.colspan]="3" class="category-cell">
+                    $ 26
+                  </th>
+                </tr>
                 <tr>
                   <th class="row-title-cell">
                     Jours
@@ -53,25 +58,86 @@
                   <th *ngFor="let day of data.calendar">
                     {{day.date | dateMessage: 'D'}}
                   </th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tr *ngFor="let type_activity of getRightLabels()"
                   [ngStyle]="{'background-color': type_activity.bg_color}">
                 <td class="row-title-cell"
-                    [ngClass]="{'bold-cell': !type_activity.bg_color}"
-                >{{type_activity.label}}</td>
+                    [ngClass]="{'bold-cell': !type_activity.bg_color}">
+                  <span>{{type_activity.label}}
+<!--                    {{type_activity.id}}-->
+                  </span>
+                  <i class="icon-arrow-right-double primary-icon pointer float-right"
+                     *ngIf="!type_activity.bg_color && !type_activity.grayCell"
+                  ></i>
+                </td>
                 <td *ngFor="let day of data.calendar">
                   <div *ngIf="!type_activity.bg_color"
-                       [ngClass]="{'blue-cell': day.is_weekend && !type_activity.bg_color}"
+                       [ngClass]="{
+                           'blue-cell': day.is_weekend && !type_activity.bg_color,
+                           'gray-cell': type_activity.grayCell
+                       }"
                        class="cell-content" >
-                    {{getDataInCell(day, type_activity.code)}}
+                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">
+                      {{getDataInCell(day, type_activity)}}
+                    </ng-container>
                   </div>
+                </td>
+                <td>
+                  <div class="cell-content gray-cell primary-text" ></div>
+                </td>
+              </tr>
+              <tr >
+                <td class="row-title-cell bold-cell">
+                  <span>Total jours</span>
+                </td>
+                <td *ngFor="let day of data.calendar">
+                  <div class="cell-content gray-cell primary-text" >
+                    {{getTotal(day)}}
+                  </div>
+                </td>
+                <td>
+                  <div class="cell-content gray-cell primary-text" ></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="row-title-cell bold-cell d-flex" >
+                  <span>Détail de l'activité <i class="icon-info-cercle primary-icon pointer"></i></span>
+                </td>
+                <td colspan="100%">
+                  <textarea
+                    rows="4"
+                    class="form-control input"
+                    placeholder="Plus de détails"
+                  ></textarea>
                 </td>
               </tr>
             </table>
 
           </div>
 
+        </div>
+
+        <div class="submit-block">
+          <app-button
+            [type]="'secondary'"
+            [text]="'Export'"
+            [isLoading]="submittingCreate"
+            (onClick)="create()"
+            [iconLeft]="'fa fa-save'"
+            [customStyle]="{'min-width': '130px'}"
+          >
+          </app-button>&nbsp;&nbsp;
+          <app-button
+            [type]="'secondary'"
+            [text]="'Export détaillé'"
+            [isLoading]="submittingDiffuse"
+            (onClick)="diffuse()"
+            [iconLeft]="'icon-check'"
+            [customStyle]="{'min-width': '130px'}"
+          >
+          </app-button>
         </div>
       </div>
     </div>

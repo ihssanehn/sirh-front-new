@@ -32,6 +32,7 @@ table{
     font-weight: normal;
     .cell-content{
       border: 1px solid $lightgray;
+      border-radius: 3px;
       padding: 0;
       min-height: 25px;
       display: flex;
@@ -45,11 +46,21 @@ table{
     padding-bottom: 3px;
   }
   .row-title-cell{
-    width: 120px;
+    width: 207px;
     font-size: 11px;
     padding: 4px 8px;
     white-space: nowrap;
     text-align: left;
+    span{
+      line-height: 27px;
+      padding: 0;
+    }
+    i:before{
+      font-size: 9px
+    }
+    .icon-info-cercle:before{
+      font-size: 11px
+    }
   }
 
   .bold-cell{
@@ -68,4 +79,17 @@ table{
     text-transform: uppercase;
   }
 
+  .gray-cell{
+    background: $lightgray;
+  }
+
+  .primary-text{
+    color: $primaryColor;
+  }
+}
+
+.submit-block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
