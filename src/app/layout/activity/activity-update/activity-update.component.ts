@@ -355,10 +355,30 @@ export class ActivityUpdateComponent implements OnInit {
       }
   submittingCreate: boolean;
   submittingDiffuse: boolean;
+  weeks = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.weeks = [];
+    let colspan = 1;
+    (this.data.calendar[0] as any).colspan = colspan;
+    (this.data.calendar[0] as any).week = this.getWeek(this.data.calendar[0].date);
+
+    let k = 0;
+    for(let i=0; i<this.data.calendar.length; i++){
+        if( i > 0 && moment(this.data.calendar[i].date).format('W') === moment(this.data.calendar[i-1].date).format('W')){
+          colspan++;
+          this.weeks[k-1].colspan = colspan;
+        }else{
+          colspan = 1;
+          (this.data.calendar[i] as any).week = this.getWeek(this.data.calendar[i].date);
+          (this.data.calendar[i] as any).fromdate = this.data.calendar[i].date;
+          this.weeks.push(this.data.calendar[i]);
+          this.weeks[k].colspan = colspan;
+          k++;
+        }
+    }
   }
 
   chosenYearHandler( normalizedYear ) {
@@ -440,5 +460,15 @@ export class ActivityUpdateComponent implements OnInit {
 
   create(){
 
+  }
+
+  getWeek(date){
+    return moment(date).format('W');
+  }
+
+  getColspanWeek(week_number, day, index){
+    if(index>=0){
+
+    }
   }
 }

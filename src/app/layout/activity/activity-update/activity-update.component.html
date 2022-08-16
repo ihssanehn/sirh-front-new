@@ -47,10 +47,21 @@
               <thead>
                 <tr>
                   <th></th>
-                  <th [attr.colspan]="3" class="category-cell">
-                    $ 26
-                  </th>
+<!--                  <th [attr.colspan]="3" class="category-cell">-->
+<!--                    $ 26-->
+<!--                  </th>-->
+<!--                  <ng-container *ngFor="let week of weeks; let _i=index" >-->
+                    <th
+                      *ngFor="let week of weeks;"
+                      class="category-cell"
+                      [attr.colspan]="(week.colspan)"
+                    >
+<!--                      [attr.colspan]="getColspanWeek(getWeek(day), day, (_i -1))"-->
+                      S {{ week.week }}
+                    </th>
+<!--                  </ng-container>-->
                 </tr>
+
                 <tr>
                   <th class="row-title-cell">
                     Jours

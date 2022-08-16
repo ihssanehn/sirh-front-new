@@ -86,6 +86,11 @@ table{
   .primary-text{
     color: $primaryColor;
   }
+
+  .category-cell{
+    border-radius: 15px 15px 0 0;
+    border: 2px solid white !important;
+  }
 }
 
 .submit-block{
