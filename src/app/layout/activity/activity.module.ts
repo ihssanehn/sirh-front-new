@@ -16,6 +16,7 @@ import {OwlDateTimeModule} from "ng-pick-datetime";
 import {SharedModule} from "@shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -30,15 +31,16 @@ import {TranslateModule} from "@ngx-translate/core";
     FraisSaisieComponent,
     FraisHistoryComponent
   ],
-  imports: [
-    CommonModule,
-    ActivityRoutingModule,
-    NgSelectModule,
-    OwlDateTimeModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule
-  ]
+    imports: [
+        CommonModule,
+        ActivityRoutingModule,
+        NgSelectModule,
+        OwlDateTimeModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgbModule
+    ]
 })
 export class ActivityModule { }

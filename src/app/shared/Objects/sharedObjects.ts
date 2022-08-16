@@ -63,7 +63,7 @@ export enum $userRolesLabels {
 
 
 export const appAnimations = [
-    trigger('fadeIt', [
+    trigger('c', [
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [

@@ -1,9 +1,26 @@
 <div class="top-container">
   <div class="main-container top-main-container">
-    <div class="header">
+    <div class="header pointer" (click)="showInstructions = !showInstructions" >
       <div>
         Informations pour la saisie du relevé d'activité&nbsp;&nbsp;<i class="icon-arrow-right"></i>
       </div>
+    </div>
+    <div class="info" *ngIf="showInstructions" [@staggerTransition]>
+      <p>
+        - Si vous constatez qu'une mission est absente de votre relevé d'activité, merci de contacter l'adresse suivante pour régularisation : activites@piman-consultants.fr
+      </p>
+      <p>
+        - Les absences ne sont pas directement saisissables dans le relevé d'activité : il faut obligatoirement passer par une demande d'absence ( Activité / Mes congés / Faire une demande )
+      </p>
+      <p class="danger-text">
+        - Veillez à bien diffuser votre relevé d'activité ( obligatoire pour un traitement de votre relevé d'activité )
+      </p>
+      <p>
+        - Pour <u>imprimer</u> votre relevé d'activité : Activité / Mes relevés / Historique
+      </p>
+      <p class="danger-text">
+        - Ne saisissez vos frais que si le relevé d'activité est correct car la fiche de frais est liée à l'activité.
+      </p>
     </div>
   </div>
 

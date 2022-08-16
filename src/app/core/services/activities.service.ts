@@ -14,4 +14,9 @@ export class ActivitiesService {
       .pipe(map(res => res.result  || []));
   }
 
+  getHistoryOfActivity(params) {
+    return this.apiService
+      .post('activity/getHistoryOfActivity', params)
+      .pipe(map(res => res.result  || []));
+  }
 }

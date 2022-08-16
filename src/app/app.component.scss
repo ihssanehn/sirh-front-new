@@ -564,7 +564,19 @@ p-autoComplete{
   color: $primaryColor !important;
 }
 
+.green-icon:before{
+  color: $tertiaryColor !important;
+}
+
+.icon-check:before{
+  font-size: 15px;
+}
+
 .danger-icon:before{
+  color: $danger !important;
+}
+
+.danger-text{
   color: $danger !important;
 }
 

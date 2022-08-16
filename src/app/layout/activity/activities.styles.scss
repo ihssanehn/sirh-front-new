@@ -1,1 +1,99 @@
 @import "src/app/app.component";
+
+
+.main-title{
+  text-align: center;
+  margin-top: 20px;
+}
+.cards-stats{
+  display: flex;
+  .card{
+    padding: 10px;
+    margin: 5px;
+    .title{
+      font-size: 12px;
+      text-align: center;
+      line-height: 21px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .state-value{
+      font-size: 14px;
+      color: $primaryColor;
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
+
+::ng-deep owl-date-time-calendar{
+  height: unset !important;
+}
+
+table{
+  border-collapse: separate;
+}
+
+.category-cell{
+  background: $lighterPrimaryColor;
+  color: $primaryColor !important;
+  text-align: center;
+  height: 29px;
+  padding: 0 !important;
+  border-radius: 8px 8px 0 0;
+  line-height: 29px;
+}
+
+.export-bloc{
+  .label{
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .value{
+    opacity: .8;
+    font-size: 12px;
+    padding: 0 2%;
+  }
+  .submit-block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+
+.top-container{
+  .header{
+    font-size: 16px;
+    div{
+      padding: 15px 10px;
+      i:before{
+        font-size: 12px;
+      }
+    }
+  }
+  .info{
+    padding: 0 10px;
+    p{
+      font-size: 13px;
+      color: $mainGray;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.top-main-container{
+  margin-bottom: 16px;
+  border: 1px solid #EDEDED;
+  border-radius: 5px;
+}
+
+
+.submit-block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

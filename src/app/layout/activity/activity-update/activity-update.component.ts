@@ -11,10 +11,8 @@ import {MY_MOMENT_DATE_TIME_FORMATS} from "@layout/activity/activity-list/activi
 import {FormControl} from "@angular/forms";
 
 import * as _moment from "moment";
+import {appAnimations} from "@shared/Objects/sharedObjects";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
-
-
-
 
 @Component({
   selector: 'app-activity-update',
@@ -24,6 +22,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
     {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
     {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_DATE_TIME_FORMATS},
   ],
+  animations: appAnimations
 })
 export class ActivityUpdateComponent implements OnInit {
 
@@ -356,6 +355,7 @@ export class ActivityUpdateComponent implements OnInit {
   submittingCreate: boolean;
   submittingDiffuse: boolean;
   weeks = [];
+  showInstructions = false;
 
   constructor() { }
 
