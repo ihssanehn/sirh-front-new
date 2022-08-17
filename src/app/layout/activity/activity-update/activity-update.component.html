@@ -60,8 +60,7 @@
         </div>
       </div>
 
-      <div class="main-container">
-
+      <div style="overflow-x: auto; overflow-y: visible">
         <div class="wrap">
           <ng-container *ngIf="!loadingCalendar; else loadingTemplate">
             <table class="table table-responsive">
@@ -112,7 +111,18 @@
                        }"
                        class="cell-content" >
                     <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">
-                      {{getDataInCell(day, type_activity)}}
+                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell; else textCellTemplate">
+                        <ng-select
+                          class="select"
+                          [items]="data?.ratio"
+                          [bindValue]="'id'"
+                          [bindLabel]="'label'"
+                        >
+                        </ng-select>
+                      </ng-container>
+                      <ng-template #textCellTemplate>
+                          {{getDataInCell(day, type_activity)}}
+                      </ng-template>
                     </ng-container>
                   </div>
                 </td>

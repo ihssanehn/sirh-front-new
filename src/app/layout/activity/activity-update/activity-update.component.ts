@@ -28,7 +28,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
 })
 export class ActivityUpdateComponent implements OnInit {
 
-  public date = new FormControl(moment());
+  public date = new FormControl(moment().set({date: 1}));
 
   data;
   activities;
@@ -363,14 +363,12 @@ export class ActivityUpdateComponent implements OnInit {
   loadingCalendar = false;
 
   constructor(private activitiesService: ActivitiesService, private route:ActivatedRoute) {
-
-    this.route.params.subscribe(param => {
-      if(param.id){
-        this.getActivityById(param.id);
-      }else{
-        this.getActivityByMonth();
-      }
-    })
+    this.getActivityByMonth();
+    // this.route.params.subscribe(param => {
+    //   if(param.id){
+    //     this.getActivityById(param.id);
+    //   }
+    // })
   }
 
   ngOnInit(): void {
@@ -381,6 +379,10 @@ export class ActivityUpdateComponent implements OnInit {
     try {
       const res = await this.activitiesService.getInformationForActivity({date: moment(this.date.value).format('YYYY-MM-DD')}).toPromise();
       this.data = res.data;
+      this.data.ratio.unshift({
+        id: null,
+        label: '',
+      })
       this.getWeeks();
     } catch (e){
       console.log('error getActivityByid', e)
@@ -392,18 +394,18 @@ export class ActivityUpdateComponent implements OnInit {
   async addOrUpdateActivity(){
     try {
       const params = {
-        personal_id: 1,
-        id: 25,
-        month: '2022-08-01',
-        activity_details: [
-          {
-            personal_id: 1,
-            type_id: 34,
-            category_id: 77,
-            ratio: 1.000,
-            date: "2022-08-01"
+        personal_id: this.activities.personal_id,
+        id: this.activities.id,
+        month: moment(this.activities.month).format('YYYY-MM-DD'),
+        activity_details: this.activities.activity_details.map(activity => {
+          return {
+            personal_id: activity.personal_id,
+            type_id: activity.type_id,
+            category_id: activity.category_id,
+            ratio: activity.ratio,
+            date: moment(activity.date).format('YYYY-MM-Dd')
           }
-        ]
+        })
       }
       const res = await this.activitiesService.addOrUpdateActivity(params).toPromise();
       this.activities = res.data;
