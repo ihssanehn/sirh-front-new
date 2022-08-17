@@ -1,55 +1,60 @@
 <div class="top-container list">
   <h3 class="main-title">Synthèse</h3>
-  <div class="cards-stats row">
+  <div class="cards-stats row" >
     <div class="card col">
       <div class="title">
         Nb total de relevés
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_total || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés 100% diffusé non validés admin
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_not_valid || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés créés 100% diffusés
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_diffuse || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés avec frais non diffusés
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_diffuse || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés prêts pour la validation admin
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_to_be_validate || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés non créés
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_not_declared || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés validés admin
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_valid || '--'}}</div>
     </div>
     <div class="card col">
       <div class="title">
         Relevés non validés admin
       </div>
-      <div class="state-value">1</div>
+      <div class="state-value">{{stats?.nbr_activity_not_valid || '--'}}</div>
     </div>
   </div>
+
+<!--  "nbr_activity_declared": 3,-->
+<!--  "nbr_cost_declare": 0,-->
+
+
 
   <div class="filter-container">
 
@@ -110,7 +115,7 @@
                        [placeholder]="'Sélectionner l\'utilisateur'"></ng-select>
           </div>
         </div>
-        <div class="flex-column col">
+        <div class="flex-column col" style="margin-top: 10px;">
           <app-button
             [text]="'Rechercher'"
             [type]="'primary'"
@@ -339,7 +344,7 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let activity of activities" >
                 <td>
-                  <i class="icon-search primary-icon"></i>
+                  <i class="icon-search primary-icon" [routerLink]="['/activity/update/'+activity.id]"></i>
                 </td>
                 <td style="width: 35px; padding: 0">
                   <div class="photo-cell">
@@ -403,40 +408,38 @@
     </ng-container>
   </div>
 
-  <div class="main-container export-bloc">
-    <ng-container *ngIf="!loadingData; else loadingTemplate">
-      <ng-container  *ngIf="activities?.length>0; else emptyState">
-        <div class="header">
-          <h3 class="main-title">
-            Impression/Export
-          </h3>
+  <div class="main-container export-bloc" *ngIf="activities?.length>0">
+      <div class="header">
+        <h3 class="main-title">
+          Impression/Export
+        </h3>
+      </div>
+      <div class="align-items-center d-flex">
+        <div class="label">
+          Options d'impressions
         </div>
-        <div class="align-items-center d-flex">
-          <div class="label">
-            Options d'impressions
-          </div>
-          <div class="value">
-            <div class="check-box-btn">
-              <label for="activity_record">Relevé d'activité</label>
-              <input type="checkbox"
-                     id="activity_record"
-                     [checked]="exportPrint.activity_record"
-                     [(ngModel)]="exportPrint.activity_record"
-                     name="activity_record" >
-            </div>
-          </div>
-          <div class="value">
-            <div class="check-box-btn">
-              <label for="expense_sheet">Fiche de frais</label>
-              <input type="checkbox"
-                     id="expense_sheet"
-                     [checked]="exportPrint.expense_sheet"
-                     [(ngModel)]="exportPrint.expense_sheet"
-                     name="expense_sheet" >
-            </div>
+        <div class="value">
+          <div class="check-box-btn">
+            <label for="activity_record">Relevé d'activité</label>
+            <input type="checkbox"
+                   id="activity_record"
+                   [checked]="exportPrint.activity_record"
+                   [(ngModel)]="exportPrint.activity_record"
+                   name="activity_record" >
           </div>
         </div>
-        <div class="submit-block">
+        <div class="value">
+          <div class="check-box-btn">
+            <label for="expense_sheet">Fiche de frais</label>
+            <input type="checkbox"
+                   id="expense_sheet"
+                   [checked]="exportPrint.expense_sheet"
+                   [(ngModel)]="exportPrint.expense_sheet"
+                   name="expense_sheet" >
+          </div>
+        </div>
+      </div>
+      <div class="submit-block">
           <app-button
             [type]="'primary'"
             [text]="'Imprimer'"
@@ -462,20 +465,18 @@
           >
           </app-button>
         </div>
-      </ng-container>
-    </ng-container>
   </div>
 
   <ng-template #emptyState>
     <app-centred-message
       [image]="'images/user_empty_state.svg'"
-      [message]="( 'Aucun document trouvé pour le moment' | translate )"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
     ></app-centred-message>
   </ng-template>
 
   <ng-template #loadingTemplate>
-    <div class="d-flex w-100 h-100 align-items-center justify-content-center">
-      <img src="assets/images/loading.svg" style="height: 100px;" />
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
     </div>
   </ng-template>
 

@@ -2,6 +2,7 @@
 
 .wrap{
   margin-top: 20px;
+  display: unset !important;
   table{
     table-layout: auto !important;
     border-collapse: unset !important;
@@ -19,6 +20,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 30px;
       }
     }
     th{
@@ -73,4 +75,16 @@
       border: 2px solid white !important;
     }
   }
+}
+
+.submit-block{
+  ::ng-deep app-button{
+    ::ng-deep i:before{
+      font-size: 14px !important;
+    }
+  }
+}
+
+.main-container{
+  overflow: auto;
 }

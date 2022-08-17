@@ -30,7 +30,6 @@
         <h3>
           List des relevés
         </h3>
-
         <div class="search  row">
           <div class="flex-column col-12 col-sm-6 col-lg-2">
             <div class="date-picker-group">
@@ -55,52 +54,57 @@
               </div>
             </div>
           </div>
-          <div class="flex-column col" style="margin-left: 20%;">
+          <div class="flex-column col" style="display: flex;align-items: center;">
             <h3>Saisie du relevé d'activité de Juillet 2022</h3>
           </div>
+        </div>
+      </div>
 
-          <div class="wrap">
+      <div class="main-container">
+
+        <div class="wrap">
+          <ng-container *ngIf="!loadingCalendar; else loadingTemplate">
             <table class="table table-responsive">
               <thead>
-                <tr>
-                  <th></th>
-<!--                  <th [attr.colspan]="3" class="category-cell">-->
-<!--                    $ 26-->
-<!--                  </th>-->
-<!--                  <ng-container *ngFor="let week of weeks; let _i=index" >-->
-                    <th
-                      *ngFor="let week of weeks;"
-                      class="category-cell"
-                      [attr.colspan]="(week.colspan)"
-                    >
-<!--                      [attr.colspan]="getColspanWeek(getWeek(day), day, (_i -1))"-->
-                      S {{ week.week }}
-                    </th>
-<!--                  </ng-container>-->
-                </tr>
+              <tr>
+                <th></th>
+                <!--                  <th [attr.colspan]="3" class="category-cell">-->
+                <!--                    $ 26-->
+                <!--                  </th>-->
+                <!--                  <ng-container *ngFor="let week of weeks; let _i=index" >-->
+                <th
+                  *ngFor="let week of weeks;"
+                  class="category-cell"
+                  [attr.colspan]="(week.colspan)"
+                >
+                  <!--                      [attr.colspan]="getColspanWeek(getWeek(day), day, (_i -1))"-->
+                  S {{ week.week }}
+                </th>
+                <!--                  </ng-container>-->
+              </tr>
 
-                <tr>
-                  <th class="row-title-cell">
-                    Jours
-                  </th>
-                  <th *ngFor="let day of data.calendar">
-                    {{day.date | dateMessage: 'D'}}
-                  </th>
-                  <th>Total</th>
-                </tr>
+              <tr>
+                <th class="row-title-cell">
+                  Jours
+                </th>
+                <th *ngFor="let day of data?.calendar">
+                  {{day.date | dateMessage: 'D'}}
+                </th>
+                <th>Total</th>
+              </tr>
               </thead>
               <tr *ngFor="let type_activity of getRightLabels()"
                   [ngStyle]="{'background-color': type_activity.bg_color}">
                 <td class="row-title-cell"
                     [ngClass]="{'bold-cell': !type_activity.bg_color}">
                   <span>{{type_activity.label}}
-<!--                    {{type_activity.id}}-->
+                    <!--                    {{type_activity.id}}-->
                   </span>
                   <i class="icon-arrow-right-double primary-icon pointer float-right"
                      *ngIf="!type_activity.bg_color && !type_activity.grayCell"
                   ></i>
                 </td>
-                <td *ngFor="let day of data.calendar">
+                <td *ngFor="let day of data?.calendar">
                   <div *ngIf="!type_activity.bg_color"
                        [ngClass]="{
                            'blue-cell': day.is_weekend && !type_activity.bg_color,
@@ -120,7 +124,7 @@
                 <td class="row-title-cell bold-cell">
                   <span>Total jours</span>
                 </td>
-                <td *ngFor="let day of data.calendar">
+                <td *ngFor="let day of data?.calendar">
                   <div class="cell-content gray-cell primary-text" >
                     {{getTotal(day)}}
                   </div>
@@ -142,34 +146,38 @@
                 </td>
               </tr>
             </table>
-
-          </div>
-
-        </div>
-
-        <div class="submit-block">
-          <app-button
-            [type]="'secondary'"
-            [text]="'Export'"
-            [isLoading]="submittingCreate"
-            (onClick)="create()"
-            [iconLeft]="'fa fa-save'"
-            [customStyle]="{'min-width': '130px'}"
-          >
-          </app-button>&nbsp;&nbsp;
-          <app-button
-            [type]="'secondary'"
-            [text]="'Export détaillé'"
-            [isLoading]="submittingDiffuse"
-            (onClick)="diffuse()"
-            [iconLeft]="'icon-check'"
-            [customStyle]="{'min-width': '130px'}"
-          >
-          </app-button>
+            <div class="submit-block">
+              <app-button
+                [type]="'secondary'"
+                [text]="'Créer'"
+                [isLoading]="submittingCreate"
+                (onClick)="addOrUpdateActivity()"
+                [iconLeft]="'fa fa-save'"
+                [customStyle]="{'min-width': '130px'}"
+              >
+              </app-button>&nbsp;&nbsp;
+              <app-button
+                [type]="'secondary'"
+                [text]="'Diffuser'"
+                [isLoading]="submittingDiffuse"
+                (onClick)="diffuse()"
+                [iconLeft]="'icon-check'"
+                [customStyle]="{'min-width': '130px'}"
+              >
+              </app-button>
+            </div>
+          </ng-container>
         </div>
       </div>
+
     </div>
 
 
   </div>
 </div>
+
+<ng-template #loadingTemplate>
+  <div style="min-height: 290px;">
+    <img src="assets/images/loading_activity_calendar.svg" style="width: 100%;" />
+  </div>
+</ng-template>

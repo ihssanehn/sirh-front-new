@@ -100,6 +100,7 @@ export class ActivityListComponent implements OnInit {
   submittingPrint = false;
   submittingExport = false;
   submittingDetailedExport = false;
+  stats: any;
 
   constructor(private listService: ListsService,
               private activitiesService: ActivitiesService,
@@ -108,6 +109,7 @@ export class ActivityListComponent implements OnInit {
   ngOnInit(): void {
     this.getFilters();
     this.getActivities();
+    this.getStatsActivity();
   }
 
   resetFilters() {
@@ -165,6 +167,18 @@ export class ActivityListComponent implements OnInit {
     }, ()=>{
       this.loadingData = false;
     })
+  }
+
+  async getStatsActivity(){
+    try {
+      const personals = [1, 2, 3, 4]
+      const res = await this.activitiesService.getStatsActivity(personals).toPromise();
+      this.stats = res.data;
+    } catch (e){
+      console.log('error getStatsActivity', e)
+    } finally {
+
+    }
   }
 
   ischecked(id) {

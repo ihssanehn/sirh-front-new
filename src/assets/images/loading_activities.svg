@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1168" height="355.5" viewBox="0 0 1168 355.5">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.274" y1="1" x2="-0.39" y2="-0.719" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed" stop-opacity="0.502"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="1.151" y1="1.158" x2="-0.325" y2="-0.449" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="1.277" y1="1.119" x2="-0.692" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed" stop-opacity="0.749"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-4" x1="1.055" y1="1" x2="-0.413" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-5" x1="1.055" x2="-0.413" y2="0.5" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-7" x1="1.055" y1="1" x2="-0.413" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed" stop-opacity="0.251"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_5201" data-name="Group 5201" transform="translate(-236 -1559)">
+    <path id="Rectangle_17709" data-name="Rectangle 17709" d="M8,0H216a8,8,0,0,1,8,8V29a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(753 1559)" fill="url(#linear-gradient)"/>
+    <path id="Rectangle_17710" data-name="Rectangle 17710" d="M8,0H203a8,8,0,0,1,8,8V29a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(980 1559)" fill="url(#linear-gradient-2)"/>
+    <path id="Rectangle_156" data-name="Rectangle 156" d="M8,0H1160a8,8,0,0,1,8,8V46a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(236 1588)" fill="url(#linear-gradient-3)"/>
+    <g id="bloc" transform="translate(244.582 1635)">
+      <line id="Line_34" data-name="Line 34" x2="1142.918" transform="translate(0 55)" fill="none" stroke="#ededed" stroke-width="1"/>
+    </g>
+    <g id="bloc-2" data-name="bloc" transform="translate(244.582 1691)">
+      <line id="Line_34-2" data-name="Line 34" x2="1142.918" transform="translate(0 55)" fill="none" stroke="#ededed" stroke-width="1"/>
+    </g>
+    <g id="bloc-3" data-name="bloc" transform="translate(244.582 1747)">
+      <line id="Line_34-3" data-name="Line 34" x2="1142.918" transform="translate(0 55)" fill="none" stroke="#ededed" stroke-width="1"/>
+    </g>
+    <g id="bloc-4" data-name="bloc" transform="translate(244.582 1803)">
+      <line id="Line_34-4" data-name="Line 34" x2="1142.918" transform="translate(0 55)" fill="none" stroke="#ededed" stroke-width="1"/>
+    </g>
+    <g id="bloc-5" data-name="bloc" transform="translate(244.582 1859)">
+      <line id="Line_34-5" data-name="Line 34" x2="1142.918" transform="translate(0 55)" fill="none" stroke="#ededed" stroke-width="1"/>
+    </g>
+    <g id="Group_5277" data-name="Group 5277">
+      <g id="bloc-6" data-name="bloc" transform="translate(254.082 1642)">
+        <g id="Group_37" data-name="Group 37" transform="translate(-27)">
+          <g id="Profil" transform="translate(126.918)">
+            <circle id="Ellipse_2" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#ededed"/>
+            <rect id="Rectangle_17740" data-name="Rectangle 17740" width="753" height="14" rx="4" transform="translate(60 13)" fill="url(#linear-gradient-4)"/>
+          </g>
+        </g>
+      </g>
+      <g id="bloc-7" data-name="bloc" transform="translate(254.082 1698)">
+        <g id="Group_37-2" data-name="Group 37" transform="translate(-27)">
+          <g id="Profil-2" data-name="Profil" transform="translate(126.918)">
+            <circle id="Ellipse_2-2" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#f7f7f7"/>
+            <rect id="Rectangle_17740-2" data-name="Rectangle 17740" width="753" height="14" rx="4" transform="translate(60 13)" fill="url(#linear-gradient-5)"/>
+          </g>
+        </g>
+      </g>
+      <g id="bloc-8" data-name="bloc" transform="translate(254.082 1754)">
+        <g id="Group_37-3" data-name="Group 37" transform="translate(-27)">
+          <g id="Profil-3" data-name="Profil" transform="translate(126.918)">
+            <circle id="Ellipse_2-3" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#f7f7f7"/>
+            <rect id="Rectangle_17740-3" data-name="Rectangle 17740" width="753" height="14" rx="4" transform="translate(60 13)" fill="url(#linear-gradient-5)"/>
+          </g>
+        </g>
+      </g>
+      <g id="bloc-9" data-name="bloc" transform="translate(254.082 1810)">
+        <g id="Group_37-4" data-name="Group 37" transform="translate(-27)">
+          <g id="Profil-4" data-name="Profil" transform="translate(126.918)">
+            <circle id="Ellipse_2-4" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#fcfcfc"/>
+            <rect id="Rectangle_17740-4" data-name="Rectangle 17740" width="753" height="14" rx="4" transform="translate(60 13)" fill="url(#linear-gradient-7)"/>
+          </g>
+        </g>
+      </g>
+      <g id="bloc-10" data-name="bloc" transform="translate(254.082 1866)">
+        <g id="Group_37-5" data-name="Group 37" transform="translate(-27)">
+          <g id="Profil-5" data-name="Profil" transform="translate(126.918)">
+            <circle id="Ellipse_2-5" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#fcfcfc"/>
+            <rect id="Rectangle_17740-5" data-name="Rectangle 17740" width="753" height="14" rx="4" transform="translate(60 13)" fill="url(#linear-gradient-7)"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g id="selec" transform="translate(301.303 1611.906)">
+      <g id="titre" transform="translate(0 0)">
+        <line id="Line_17" data-name="Line 17" x2="1144" transform="translate(-56.802 22.094)" fill="none" stroke="#ededed" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

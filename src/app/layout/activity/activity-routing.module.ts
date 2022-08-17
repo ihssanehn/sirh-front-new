@@ -29,6 +29,10 @@ const routes: Routes = [
         component: ActivityListComponent
       },
       {
+        path: 'update/:id',
+        component: ActivityUpdateComponent
+      },
+      {
         path: 'update',
         component: ActivityUpdateComponent
       },
