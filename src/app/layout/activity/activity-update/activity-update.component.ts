@@ -364,11 +364,11 @@ export class ActivityUpdateComponent implements OnInit {
 
   constructor(private activitiesService: ActivitiesService, private route:ActivatedRoute) {
     this.getActivityByMonth();
-    // this.route.params.subscribe(param => {
-    //   if(param.id){
-    //     this.getActivityById(param.id);
-    //   }
-    // })
+    this.route.params.subscribe(param => {
+      if(param.id){
+        this.getActivityById(param.id);
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -382,7 +382,12 @@ export class ActivityUpdateComponent implements OnInit {
       this.data.ratio.unshift({
         id: null,
         label: '',
-      })
+      });
+      console.log('this.data.ratio', this.data.ratio);
+      this.data.ratio = this.data.ratio.map(ratio => {
+        ratio.code = Number(ratio.code) || null;
+        return ratio;
+      });
       this.getWeeks();
     } catch (e){
       console.log('error getActivityByid', e)
@@ -443,6 +448,10 @@ export class ActivityUpdateComponent implements OnInit {
       this.loadingCalendar = false;
     }
   }
+
+  // initActivities(){
+  //
+  // }
 
   getWeeks(){
     if(!this.data){
@@ -515,30 +524,19 @@ export class ActivityUpdateComponent implements OnInit {
     }
 
     const element = this.activities.activity_details?.find(activity => {
-      //travail_normal
-      //autres_activites
-      //absences                                                  absence_id: null,
-      //Prosq/Qualif/Visite Médicale  type_id: 33,                    category_id: null,
-      //CE / DP / CHSCT  type_id: 33,                   category_id: null, type_id: 33,
-      //Présence agence  type_id: 33,                     category_id: null, type_id: 33,
-      //Disponibilité   type_id: 33,                     category_id: null, type_id: 33,
-
-
-      // absence_id: null,
-      //   activity_id: 17,
-      //
-      //
-      //   type_id: 33,
-
-
       return moment(day.date).isSame(moment(activity.date), 'date')
         &&
-        (type.type_id ? (activity.type_id === type.id) : (activity.category_id === type.id));
-        // activity.type_id === type.id;
+        (activity.type_id ? (activity.type_id === type.id) : (activity.category_id === type.id));
     });
-    if(element) {
-      return this.data.ratio.find(ratio => element.ratio == Number(ratio.code))?.label || element.ratio;
-    }
+    return element;
+  }
+
+  findRatioValue(element){
+    return element?.ratio;
+  }
+
+  findRatioLabel(element){
+    return this.data.ratio.find(ratio => element?.ratio == Number(ratio.code))?.label || null;
   }
 
   getTotal(day) {
@@ -562,4 +560,67 @@ export class ActivityUpdateComponent implements OnInit {
 
     }
   }
+
+  fillLine(type_activity, unfill=false) {
+    const categories = [
+      'Prosq/Qualif/Visite Médicale',
+      'CE / DP / CHSCT',
+      'Disponibilité',
+      'Présence agence'
+    ];
+    this.data.calendar.forEach(day => {
+      const cellContent = this.activities.activity_details.find(activity => moment(activity.date).isSame(day.date, 'date') && activity.ratio>0);
+      if(!cellContent){
+        this.activities.activity_details.push({
+          absence_id: null,
+          activity_id: 17,
+          category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+          date: moment(day.date).format('YYYY-MM-DD'),
+          mission_id: null,
+          personal_id: 1,
+          project_id: null,
+          ratio: unfill ? null: 1,
+          type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+        });
+      }
+    });
+  }
+
+  setDataCell(day, type_activity, $event: any) {
+    const categories = [
+      'Prosq/Qualif/Visite Médicale',
+      'CE / DP / CHSCT',
+      'Disponibilité',
+      'Présence agence'
+    ];
+    const element = this.getDataInCell(day, type_activity);
+    if(element){
+      element.ratio = $event;
+    }else{
+      this.activities.activity_details.push({
+        absence_id: null,
+        activity_id: 17,
+        category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+        date: moment(day.date).format('YYYY-MM-DD'),
+        mission_id: null,
+        personal_id: 1,
+        project_id: null,
+        ratio: $event,
+        type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+      });
+    }
+
+  }
+
+  hasAtLeastAFilledCell(type_activity) {
+      console.log('hasAtLeast', this.activities.activity_details);
+      const cellContent = this.activities.activity_details.find(activity =>
+        activity.ratio
+        &&
+        (activity.category_id === type_activity.id)
+      );
+    return cellContent ? true: false;
+
+  }
+
 }

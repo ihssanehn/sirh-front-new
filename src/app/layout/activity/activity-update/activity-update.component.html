@@ -94,36 +94,45 @@
               </thead>
               <tr *ngFor="let type_activity of getRightLabels()"
                   [ngStyle]="{'background-color': type_activity.bg_color}">
-                <td class="row-title-cell"
-                    [ngClass]="{'bold-cell': !type_activity.bg_color}">
-                  <span>{{type_activity.label}}
-                    <!--                    {{type_activity.id}}-->
-                  </span>
-                  <i class="icon-arrow-right-double primary-icon pointer float-right"
-                     *ngIf="!type_activity.bg_color && !type_activity.grayCell"
-                  ></i>
+                <td class="row-title-cell" [ngClass]="{'bold-cell': !type_activity.bg_color}">
+                  <span>{{type_activity.label}} {{type_activity.id}}</span>
+                  <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">
+                    <i class="icon-arrow-right-double primary-icon pointer float-right"
+                       (click)="fillLine(type_activity, false)"
+                       *ngIf="!hasAtLeastAFilledCell(type_activity); else unFillLineTemplate"
+                    ></i>
+                    <ng-template #unFillLineTemplate>
+                      <i class="icon-arrow-left-double danger-icon pointer float-right"
+                         (click)="fillLine(type_activity, true)"
+                      ></i>
+                    </ng-template>
+                  </ng-container>
                 </td>
                 <td *ngFor="let day of data?.calendar">
-                  <div *ngIf="!type_activity.bg_color"
+                  <!--                    *ngIf="!type_activity.bg_color"-->
+                  <div
                        [ngClass]="{
                            'blue-cell': day.is_weekend && !type_activity.bg_color,
                            'gray-cell': type_activity.grayCell
                        }"
                        class="cell-content" >
-                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">
+<!--                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">-->
                       <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell; else textCellTemplate">
                         <ng-select
                           class="select"
                           [items]="data?.ratio"
-                          [bindValue]="'id'"
+                          [bindValue]="'code'"
                           [bindLabel]="'label'"
+                          [ngModel]="findRatioValue(getDataInCell(day, type_activity))"
+                          (ngModelChange)="setDataCell(day, type_activity, $event)"
                         >
                         </ng-select>
                       </ng-container>
                       <ng-template #textCellTemplate>
-                          {{getDataInCell(day, type_activity)}}
+                          {{findRatioLabel(getDataInCell(day, type_activity))}}
+<!--                        getDataInCell(day, type_activity)-->
                       </ng-template>
-                    </ng-container>
+<!--                    </ng-container>-->
                   </div>
                 </td>
                 <td>
