@@ -569,8 +569,8 @@ export class ActivityUpdateComponent implements OnInit {
       'Présence agence'
     ];
     this.data.calendar.forEach(day => {
-      const cellContent = this.activities.activity_details.find(activity => moment(activity.date).isSame(day.date, 'date') && activity.ratio>0);
-      if(!cellContent){
+      const cells_in_columnn = this.activities.activity_details.filter(activity => moment(activity.date).isSame(day.date, 'date') && activity.activity_id);
+      if(!(cells_in_columnn?.length>0)){ // Si aucune cellule dans cette colonne n'est trouvé
         this.activities.activity_details.push({
           absence_id: null,
           activity_id: 17,
@@ -582,8 +582,39 @@ export class ActivityUpdateComponent implements OnInit {
           ratio: unfill ? null: 1,
           type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
         });
+      }else{ // Si au moins une cellule dans cette colonne existe
+        if(unfill) { // le cas de vidage
+          this.activities.activity_details.forEach(activity => {
+            if(moment(activity.date).isSame(day.date, 'date') &&
+              (activity.type_id ? (activity.type_id === type_activity.id) : (activity.category_id === type_activity.id))
+            ){
+              activity.ratio = null;
+            }
+          })
+        }else{ // le cas de remplissage
+          const ratioCells = cells_in_columnn.filter(cell => cell.ratio); // les cellules dans cette colonne qui on un ratio > 0
+          if(!(ratioCells?.length>0)){// aucune cellule dans cette colonne n'est remplie
+            const exact_cell = cells_in_columnn.find(cell =>  (cell.type_id ? (cell.type_id === type_activity.id) : (cell.category_id === type_activity.id)));
+            if(exact_cell){
+              exact_cell.ratio = 1
+            }else{
+              this.activities.activity_details.push({
+                absence_id: null,
+                activity_id: 17,
+                category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+                date: moment(day.date).format('YYYY-MM-DD'),
+                mission_id: null,
+                personal_id: 1,
+                project_id: null,
+                ratio: 1,
+                type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+              });
+            }
+          }
+        }
       }
     });
+
   }
 
   setDataCell(day, type_activity, $event: any) {
@@ -613,14 +644,17 @@ export class ActivityUpdateComponent implements OnInit {
   }
 
   hasAtLeastAFilledCell(type_activity) {
-      console.log('hasAtLeast', this.activities.activity_details);
+      // console.log('hasAtLeast', this.activities.activity_details);
       const cellContent = this.activities.activity_details.find(activity =>
         activity.ratio
         &&
-        (activity.category_id === type_activity.id)
+        (activity.type_id ? (activity.type_id === type_activity.id) : (activity.category_id === type_activity.id))
       );
     return cellContent ? true: false;
 
   }
 
+  showActivities() {
+    console.log('activities', this.activities.activity_details);
+  }
 }
