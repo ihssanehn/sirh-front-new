@@ -60,13 +60,11 @@ export class ActivityListComponent implements OnInit {
     activity_record: null,
     expense_sheet: null,
   }
-
+// is_virtual: null,
+  // page: 1,
+  // limit: 10,
   filter = {
     keyword: '',
-    is_virtual: null,
-    page: 1,
-    limit: 10,
-
     personals: [],
     member_ships: [],
     center_profits: [],
@@ -78,7 +76,7 @@ export class ActivityListComponent implements OnInit {
     month: null,
     has_internal_billing_admin: null,
     in_out_office: null,
-    with_inactive_cp: null,
+    with_inactive_cp: null
   }
   sieges = [
     {
@@ -113,7 +111,21 @@ export class ActivityListComponent implements OnInit {
   }
 
   resetFilters() {
-
+    this.filter = {
+      keyword:  this.filter.keyword,
+      personals: [],
+      member_ships: [],
+      center_profits: [],
+      sort_choices: [],
+      business_units: [],
+      adv_managers: [],
+      direction_ops: [],
+      clients: [],
+      month: null,
+      has_internal_billing_admin: null,
+      in_out_office: null,
+      with_inactive_cp: null
+    }
   }
 
   async getFilters(){
@@ -151,12 +163,22 @@ export class ActivityListComponent implements OnInit {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
       // type: this.type
+      month: moment(this.date).set({date: 1}).format('YYYY-MM-DD'),
+      personals: this.filter.personals
     }
-    Object.keys(this.filter).forEach(key => {
-      if(this.filter[key] !== null && this.filter[key] !== []){
-        params[key] = this.filter[key];
-      }
-    })
+    if(this.showFilters){
+      Object.keys(this.filter).forEach(key => {
+        if(['has_internal_billing_admin', 'with_inactive_cp'].includes(key) ){ // checkboxes
+          if(this.filter[key]){
+            params[key] = this.filter[key];
+          }
+        }else{
+          if(this.filter[key] !== null  && this.filter[key] !== []){
+            params[key] = this.filter[key];
+          }
+        }
+      })
+    }
     this.loadingData = true;
     this.searchSubscription = this.activitiesService.getAll(params).subscribe((res) => {
       this.activities = res.data;
@@ -171,7 +193,7 @@ export class ActivityListComponent implements OnInit {
 
   async getStatsActivity(){
     try {
-      const personals = [1, 2, 3, 4]
+      const personals = [1, 2, 3, 4] //TODO
       const res = await this.activitiesService.getStatsActivity(personals).toPromise();
       this.stats = res.data;
     } catch (e){

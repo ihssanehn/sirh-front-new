@@ -235,6 +235,7 @@
           <div class="check-box-btn">
             <input type="checkbox"
                    id="has_internal_billing_admin"
+                   (change)="filterChanged()"
                    [checked]="filter.has_internal_billing_admin"
                    [(ngModel)]="filter.has_internal_billing_admin"
                    name="has_internal_billing_admin" />
@@ -258,6 +259,7 @@
                    id="with_inactive_cp"
                    [checked]="filter.with_inactive_cp"
                    [(ngModel)]="filter.with_inactive_cp"
+                   (change)="filterChanged()"
                    name="with_inactive_cp" >
             <label for="with_inactive_cp" >Avec centres de profits inactifs</label>
           </div>
