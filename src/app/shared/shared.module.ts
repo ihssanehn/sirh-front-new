@@ -21,6 +21,7 @@ import {GeneratePhotoPipe} from "@shared/pipes/generatePhoto.pipe";
 import {MomentPipe} from "@shared/pipes/MomentPipe";
 import {AgoPipe} from "@shared/pipes/ago.pipe";
 import {DateMessagePipe} from "@shared/pipes/dateMessage.pipe";
+import {VarDirective} from "@shared/directive/ng-var.directive";
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import {DateMessagePipe} from "@shared/pipes/dateMessage.pipe";
     GeneratePhotoPipe,
     MomentPipe,
     AgoPipe,
-    DateMessagePipe
+    DateMessagePipe,
+    VarDirective
   ],
   exports: [
     NgxPermissionsModule,
@@ -73,7 +75,8 @@ import {DateMessagePipe} from "@shared/pipes/dateMessage.pipe";
     GeneratePhotoPipe,
     MomentPipe,
     AgoPipe,
-    DateMessagePipe
+    DateMessagePipe,
+    VarDirective
   ],
 })
 export class SharedModule {}

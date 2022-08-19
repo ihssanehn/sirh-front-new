@@ -195,14 +195,12 @@ $border-color: #707070;
 
 button:disabled,
 button[disabled]{
-  //opacity: .6;
   color: white;
-  background-color: $lightgray;
   background-image: inherit;
   cursor: auto;
   border: 0;
   i:before{
-    color:rgba(0, 0, 0, 0.26);
+    color: white;
   }
 }
 

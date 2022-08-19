@@ -100,8 +100,8 @@
               <tr *ngFor="let type_activity of getRightLabels()"
                   [ngStyle]="{'background-color': type_activity.bg_color}">
                 <td class="row-title-cell" [ngClass]="{'bold-cell': !type_activity.bg_color}">
-                  <span>{{type_activity.label}} {{type_activity.id}}</span>
-                  <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">
+                  <span>{{type_activity.label}}</span>
+                  <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell && !activities.has_been_diffused">
                     <i class="icon-arrow-right-double primary-icon pointer float-right"
                        (click)="fillLine(type_activity, false)"
                        *ngIf="!hasAtLeastAFilledCell(type_activity); else unFillLineTemplate"
@@ -117,12 +117,12 @@
                   <!--                    *ngIf="!type_activity.bg_color"-->
                   <div
                        [ngClass]="{
-                           'gray-cell': type_activity.grayCell && !(day.is_weekend || !type_activity.bg_color),
-                           'blue-cell': day.is_weekend && !type_activity.bg_color
+                           'gray-cell': type_activity.grayCell && !day.is_weekend,
+                           'blue-cell': day.is_weekend
                        }"
                        class="cell-content" >
 <!--                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">-->
-                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell; else textCellTemplate">
+                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell && !activities.has_been_diffused; else textCellTemplate">
                         <ng-select
                           class="select"
                           [items]="data?.ratio"
@@ -131,6 +131,7 @@
                           [ngModel]="findRatioValue(getDataInCell(day, type_activity))"
                           (ngModelChange)="setDataCell(day, type_activity, $event)"
                           [searchable]="false"
+                          dropdownPosition="bottom"
                         >
                         </ng-select>
                       </ng-container>
@@ -140,7 +141,6 @@
                         </ng-container>
                         <ng-template #ratioTemplate>
                           {{findRatioLabel(getDataInCell(day, type_activity))}}
-                          <!--                        getDataInCell(day, type_activity)-->
                         </ng-template>
                       </ng-template>
 <!--                    </ng-container>-->
@@ -150,13 +150,23 @@
                   <div class="cell-content gray-cell primary-text" ></div>
                 </td>
               </tr>
-              <tr >
+              <tr>
                 <td class="row-title-cell bold-cell">
                   <span>Total jours</span>
                 </td>
-                <td *ngFor="let day of data?.calendar">
-                  <div class="cell-content gray-cell primary-text" >
-                    {{getTotal(day)}}
+                <td *ngFor="let day of data?.calendar"  >
+                  <div class="cell-content primary-text"
+                       [ngClass]="{'blue-cell': day.is_weekend, 'gray-cell': !day.is_weekend}">
+                    <ng-container *ngIf="day.is_weekend; else totalTemplate">
+                      {{getWeekendDay(day)}}
+                    </ng-container>
+                    <ng-template #totalTemplate>
+                      <ng-container *ngVar="getTotalInColumn(day) as total">
+                        <div [ngClass]="{'danger-text':  total !== 1 }">
+                          {{total}}
+                        </div>
+                      </ng-container>
+                    </ng-template>
                   </div>
                 </td>
                 <td>
@@ -172,15 +182,20 @@
                     rows="4"
                     class="form-control input"
                     placeholder="Plus de détails"
+                    [disabled]="activities.has_been_diffused"
                   ></textarea>
                 </td>
               </tr>
             </table>
-            <div class="submit-block">
+            <ul class="error-message" [innerHTML]="getTotalIssues()">
+            </ul>
+            <div class="submit-block" *ngIf="!activities.has_been_diffused">
               <app-button
                 [type]="'secondary'"
                 [text]="'Créer'"
                 [isLoading]="submittingCreate"
+                [isDisabled]="submittingCreate || submittingDiffuse || hasIntegrityError"
+                [textLoading]="'Sauvegarde en cours..'"
                 (onClick)="addOrUpdateActivity()"
                 [iconLeft]="'fa fa-save'"
                 [customStyle]="{'min-width': '130px'}"
@@ -190,7 +205,9 @@
                 [type]="'secondary'"
                 [text]="'Diffuser'"
                 [isLoading]="submittingDiffuse"
-                (onClick)="diffuse()"
+                [textLoading]="'Diffusion en cours..'"
+                [isDisabled]="submittingDiffuse || submittingCreate || hasIntegrityError"
+                (onClick)="diffuseActivity()"
                 [iconLeft]="'icon-check'"
                 [customStyle]="{'min-width': '130px'}"
               >

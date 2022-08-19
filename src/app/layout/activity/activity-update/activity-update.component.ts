@@ -14,6 +14,7 @@ import * as _moment from "moment";
 import {appAnimations} from "@shared/Objects/sharedObjects";
 import {ActivitiesService} from "@services/activities.service";
 import {ActivatedRoute} from "@angular/router";
+import {MessageService} from "primeng/api";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
@@ -361,8 +362,11 @@ export class ActivityUpdateComponent implements OnInit {
   weeks = [];
   showInstructions = false;
   loadingCalendar = false;
+  hasIntegrityError: boolean;
 
-  constructor(private activitiesService: ActivitiesService, private route:ActivatedRoute) {
+  constructor(private activitiesService: ActivitiesService,
+              private messageService: MessageService,
+              private route:ActivatedRoute) {
     this.getActivityByMonth();
     this.route.params.subscribe(param => {
       if(param.id){
@@ -383,7 +387,6 @@ export class ActivityUpdateComponent implements OnInit {
         id: null,
         label: '',
       });
-      console.log('this.data.ratio', this.data.ratio);
       this.data.ratio = this.data.ratio.map(ratio => {
         ratio.code = Number(ratio.code) || null;
         return ratio;
@@ -398,6 +401,7 @@ export class ActivityUpdateComponent implements OnInit {
 
   async addOrUpdateActivity(){
     try {
+      this.submittingCreate = true;
       const params = {
         personal_id: this.activities.personal_id,
         id: this.activities.id,
@@ -408,16 +412,55 @@ export class ActivityUpdateComponent implements OnInit {
             type_id: activity.type_id,
             category_id: activity.category_id,
             ratio: activity.ratio,
-            date: moment(activity.date).format('YYYY-MM-Dd')
+            date: moment(activity.date).format('YYYY-MM-DD')
           }
         })
       }
       const res = await this.activitiesService.addOrUpdateActivity(params).toPromise();
       this.activities = res.data;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Mise à jour d\'activité réussie',
+        sticky: false,
+      });
     } catch (e){
-      console.log('error getActivityByid', e)
+      console.log('error getActivityByid', e);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Echec!',
+        detail: 'Une erreur est survenue',
+        sticky: false,
+      });
     } finally {
+      this.submittingCreate = false;
+    }
+  }
 
+  async diffuseActivity(){
+    try {
+      this.submittingDiffuse= true;
+      const params = {
+        id: this.activities.id
+      }
+      const res = await this.activitiesService.diffuseActivity(params).toPromise();
+      this.activities = res.data;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Activités du mois diffusées avec succès',
+        sticky: false,
+      });
+    } catch (e){
+      console.log('error getActivityByid', e);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Echec!',
+        detail: 'Une erreur est survenue',
+        sticky: false,
+      });
+    } finally {
+      this.submittingDiffuse = false;
     }
   }
 
@@ -448,10 +491,6 @@ export class ActivityUpdateComponent implements OnInit {
       this.loadingCalendar = false;
     }
   }
-
-  // initActivities(){
-  //
-  // }
 
   getWeeks(){
     if(!this.data){
@@ -510,12 +549,19 @@ export class ActivityUpdateComponent implements OnInit {
         activity.data.forEach(subactivity => {
           if(subactivity.code === 'congés_payés'){
             subactivity.grayCell = true;
+          }else{
+            subactivity.type_id = activity.id
+            subactivity.category_id = subactivity.id
           }
           labels.push(subactivity);
         })
       }
     });
     return labels;
+  }
+
+  getWeekendDay(day){
+      return moment(day.date).local('fr').format('dd')[0];
   }
 
   getDataInCell(day, type) {
@@ -526,7 +572,7 @@ export class ActivityUpdateComponent implements OnInit {
     const element = this.activities.activity_details?.find(activity => {
       return moment(day.date).isSame(moment(activity.date), 'date')
         &&
-        (activity.type_id ? (activity.type_id === type.id) : (activity.category_id === type.id));
+        (activity.category_id ? (activity.category_id === type.id):  (activity.type_id === type.id) );
     });
     return element;
   }
@@ -537,18 +583,6 @@ export class ActivityUpdateComponent implements OnInit {
 
   findRatioLabel(element){
     return this.data.ratio.find(ratio => element?.ratio == Number(ratio.code))?.label || null;
-  }
-
-  getTotal(day) {
-
-  }
-
-  diffuse(){
-
-  }
-
-  create(){
-
   }
 
   getWeek(date){
@@ -562,6 +596,7 @@ export class ActivityUpdateComponent implements OnInit {
   }
 
   fillLine(type_activity, unfill=false) {
+    console.log('fillLine', type_activity);
     const categories = [
       'Prosq/Qualif/Visite Médicale',
       'CE / DP / CHSCT',
@@ -574,19 +609,19 @@ export class ActivityUpdateComponent implements OnInit {
         this.activities.activity_details.push({
           absence_id: null,
           activity_id: 17,
-          category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+          category_id: type_activity.category_id,
           date: moment(day.date).format('YYYY-MM-DD'),
           mission_id: null,
           personal_id: 1,
           project_id: null,
           ratio: unfill ? null: 1,
-          type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+          type_id: type_activity.type_id
         });
       }else{ // Si au moins une cellule dans cette colonne existe
         if(unfill) { // le cas de vidage
           this.activities.activity_details.forEach(activity => {
             if(moment(activity.date).isSame(day.date, 'date') &&
-              (activity.type_id ? (activity.type_id === type_activity.id) : (activity.category_id === type_activity.id))
+              (activity.category_id ? (activity.category_id === type_activity.id): (activity.type_id === type_activity.id))
             ){
               activity.ratio = null;
             }
@@ -594,20 +629,20 @@ export class ActivityUpdateComponent implements OnInit {
         }else{ // le cas de remplissage
           const ratioCells = cells_in_columnn.filter(cell => cell.ratio); // les cellules dans cette colonne qui on un ratio > 0
           if(!(ratioCells?.length>0)){// aucune cellule dans cette colonne n'est remplie
-            const exact_cell = cells_in_columnn.find(cell =>  (cell.type_id ? (cell.type_id === type_activity.id) : (cell.category_id === type_activity.id)));
+            const exact_cell = cells_in_columnn.find(cell =>  (cell.category_id ? (cell.category_id === type_activity.id): (cell.type_id === type_activity.id)));
             if(exact_cell){
               exact_cell.ratio = 1
             }else{
               this.activities.activity_details.push({
                 absence_id: null,
                 activity_id: 17,
-                category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+                category_id: type_activity.category_id,
                 date: moment(day.date).format('YYYY-MM-DD'),
                 mission_id: null,
                 personal_id: 1,
                 project_id: null,
                 ratio: 1,
-                type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+                type_id:  type_activity.type_id
               });
             }
           }
@@ -631,13 +666,13 @@ export class ActivityUpdateComponent implements OnInit {
       this.activities.activity_details.push({
         absence_id: null,
         activity_id: 17,
-        category_id: categories.includes(type_activity.code) ? type_activity.id: null,
+        category_id: type_activity.category_id,
         date: moment(day.date).format('YYYY-MM-DD'),
         mission_id: null,
         personal_id: 1,
         project_id: null,
         ratio: $event,
-        type_id: !categories.includes(type_activity.code) ? type_activity.id: null,
+        type_id: type_activity.type_id
       });
     }
 
@@ -648,7 +683,7 @@ export class ActivityUpdateComponent implements OnInit {
       const cellContent = this.activities.activity_details.find(activity =>
         activity.ratio
         &&
-        (activity.type_id ? (activity.type_id === type_activity.id) : (activity.category_id === type_activity.id))
+        (activity.category_id ? (activity.category_id === type_activity.id): (activity.type_id === type_activity.id))
       );
     return cellContent ? true: false;
 
@@ -656,5 +691,31 @@ export class ActivityUpdateComponent implements OnInit {
 
   showActivities() {
     console.log('activities', this.activities.activity_details);
+  }
+
+  getTotalInColumn(day){
+    let sum = 0;
+    this.activities.activity_details.forEach(activity => {
+      if(moment(day.date).isSame(moment(activity.date), 'date')){
+        sum += activity.ratio;
+      }
+    });
+    return sum;
+  }
+
+  getTotalIssues(){
+    this.hasIntegrityError = false;
+    let errorMessage = '';
+    this.data.calendar.forEach(day => {
+      const total = this.getTotalInColumn(day);
+      if(total > 1){
+        const date = moment(day.date).format('DD MMM YYYY');
+        errorMessage += "<li>La date "+date+" présente une erreur</li>"
+      }
+    })
+    if(errorMessage?.length>0){
+      this.hasIntegrityError = true;
+    }
+    return errorMessage;
   }
 }

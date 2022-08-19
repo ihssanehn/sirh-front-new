@@ -49,4 +49,10 @@ export class ActivitiesService {
       .post('activity/addOrUpdateActivity', params)
       .pipe(map(res => res.result  || []));
   }
+
+  diffuseActivity(params) {
+    return this.apiService
+      .post('activity/diffuseActivity', params)
+      .pipe(map(res => res.result  || []));
+  }
 }
