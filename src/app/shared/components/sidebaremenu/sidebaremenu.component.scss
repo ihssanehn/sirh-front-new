@@ -39,7 +39,7 @@ $sidebar-transition: 0.4s;//all 0.5s linear !important;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 20px;
+    padding-left: 10px;
     outline: none;
     line-height: 34px;
     &:hover {
@@ -108,7 +108,8 @@ $sidebar-transition: 0.4s;//all 0.5s linear !important;
     .submenu-item-1 {
       //background-color: $sidebar-menuItem-background-2;
       color: $sidebar-menuItem-text-2;
-      margin-left: 30px;
+      margin-left: 22px;
+      padding-left: 10px;
       border-left: 1px dashed #70707057;
       i:before{
         font-size: 20px;

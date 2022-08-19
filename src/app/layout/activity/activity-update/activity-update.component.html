@@ -29,11 +29,11 @@
       <div class="sub-header container-fuil container-lg ">
         <h3>
           List des relevés
-          <button
-            (click)="showActivities()"
-          >
-            Show activities
-          </button>
+<!--          <button-->
+<!--            (click)="showActivities()"-->
+<!--          >-->
+<!--            Show activities-->
+<!--          </button>-->
         </h3>
         <div class="search  row">
           <div class="flex-column col-12 col-sm-6 col-lg-2">
@@ -117,8 +117,8 @@
                   <!--                    *ngIf="!type_activity.bg_color"-->
                   <div
                        [ngClass]="{
-                           'blue-cell': day.is_weekend && !type_activity.bg_color,
-                           'gray-cell': type_activity.grayCell
+                           'gray-cell': type_activity.grayCell && !(day.is_weekend || !type_activity.bg_color),
+                           'blue-cell': day.is_weekend && !type_activity.bg_color
                        }"
                        class="cell-content" >
 <!--                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">-->
@@ -130,12 +130,18 @@
                           [bindLabel]="'label'"
                           [ngModel]="findRatioValue(getDataInCell(day, type_activity))"
                           (ngModelChange)="setDataCell(day, type_activity, $event)"
+                          [searchable]="false"
                         >
                         </ng-select>
                       </ng-container>
                       <ng-template #textCellTemplate>
+                        <ng-container *ngIf="day.is_weekend; else ratioTemplate">
+                          {{getDataInCell(day, type_activity)}}
+                        </ng-container>
+                        <ng-template #ratioTemplate>
                           {{findRatioLabel(getDataInCell(day, type_activity))}}
-<!--                        getDataInCell(day, type_activity)-->
+                          <!--                        getDataInCell(day, type_activity)-->
+                        </ng-template>
                       </ng-template>
 <!--                    </ng-container>-->
                   </div>

@@ -20,8 +20,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        //min-width: 29px;
         //width: 30px;
-        width: 40px;
+        //width: 40px;
+        //width: fit-content;
+        width: 100%;
+        min-width: 29px;
       }
     }
     th{
@@ -30,7 +34,7 @@
       padding-bottom: 3px;
     }
     .row-title-cell{
-      width: 207px;
+      width: 200px;
       font-size: 11px;
       padding: 4px 8px;
       white-space: nowrap;
@@ -56,11 +60,17 @@
       font-size: 11px;
     }
 
+    td{
+      height: 33px;
+    }
+
     .blue-cell{
       background: $lighterPrimaryColor;
       color: $primaryColor !important;
       text-align: center;
       text-transform: uppercase;
+      min-width: unset !important;
+      width: 22px;
     }
 
     .gray-cell{
@@ -96,6 +106,8 @@
   ::ng-deep .ng-value-container{
     color: $mainGray;
     font-size: 10px;
+    padding: 0;
+    padding-left: 2px;
   }
   ::ng-deep .ng-arrow-wrapper{
     padding-right: 1px !important;
@@ -125,5 +137,17 @@
     ::ng-deep .ng-clear{
       font-size: 12px;
     }
+  }
+
+  ::ng-deep ng-dropdown-panel{
+    min-width: 29px;
+    ::ng-deep .ng-dropdown-panel-items .ng-option{
+      padding-left: 1px;
+      padding-right: 1px;
+    }
+  }
+
+  ::ng-deep  &.ng-select-single .ng-select-container .ng-value-container .ng-input{
+    padding: 0;
   }
 }
