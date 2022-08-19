@@ -187,14 +187,12 @@
                 </td>
               </tr>
             </table>
-            <ul class="error-message" [innerHTML]="getTotalIssues()">
-            </ul>
             <div class="submit-block" *ngIf="!activities.has_been_diffused">
               <app-button
                 [type]="'secondary'"
                 [text]="'Créer'"
                 [isLoading]="submittingCreate"
-                [isDisabled]="submittingCreate || submittingDiffuse || hasIntegrityError"
+                [isDisabled]="submittingCreate || submittingDiffuse"
                 [textLoading]="'Sauvegarde en cours..'"
                 (onClick)="addOrUpdateActivity()"
                 [iconLeft]="'fa fa-save'"
@@ -213,6 +211,8 @@
               >
               </app-button>
             </div>
+            <ul class="error-message" [innerHTML]="getTotalIssues()">
+            </ul>
           </ng-container>
         </div>
       </div>

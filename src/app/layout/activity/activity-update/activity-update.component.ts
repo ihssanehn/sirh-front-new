@@ -708,7 +708,7 @@ export class ActivityUpdateComponent implements OnInit {
     let errorMessage = '';
     this.data.calendar.forEach(day => {
       const total = this.getTotalInColumn(day);
-      if(total > 1){
+      if(total !== 1){
         const date = moment(day.date).format('DD MMM YYYY');
         errorMessage += "<li>La date "+date+" présente une erreur</li>"
       }
