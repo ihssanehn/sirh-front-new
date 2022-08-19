@@ -407,6 +407,14 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       opened: false,
       subMenu: [
         {
+          id: 3,
+          name: 'Liste',
+          type: 'link',
+          icon: null,
+          link: 'activity/avance/list',
+          opened: false,
+        },
+        {
           id: 2,
           name: 'Création',
           type: 'link',
@@ -414,14 +422,6 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           link: 'activity/avance/creation',
           opened: false,
         },
-        {
-          id: 3,
-          name: 'Liste',
-          type: 'link',
-          icon: null,
-          link: 'activity/avance/list',
-          opened: false,
-        }
       ]
     },
     {

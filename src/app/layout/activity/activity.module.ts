@@ -17,6 +17,7 @@ import {SharedModule} from "@shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
         FormsModule,
         ReactiveFormsModule,
         TranslateModule,
-        NgbModule
+        NgbModule,
+        MatTooltipModule
     ]
 })
 export class ActivityModule { }

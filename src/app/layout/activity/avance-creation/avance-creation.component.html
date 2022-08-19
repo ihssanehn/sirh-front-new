@@ -1,1 +1,99 @@
-<p>avance-creation works!</p>
+<div class="top-container">
+  <div class="sub-header container-fuil container-lg ">
+    <h3>
+      Crétion d'une demande d'avance de frais
+    </h3>
+  </div>
+
+  <div class="filter-container">
+    <div class="filtres row ">
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Choix du salarié</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="personnels"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner le salarié'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Type d'avance</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="avances"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Date</label>
+        <div>
+          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+          <input [owlDateTime]="owl_dt1"
+                 class="form-control input date"
+                 [owlDateTimeTrigger]="owl_dt1"
+                 placeholder="Choisir la date ici"
+          />
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Montant</label>
+        <div>
+          <input type="number"
+                 class="form-control input"
+                 placeholder="Saisir le montant ici"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="filtres row ">
+      <div class="flex-column  col-12 ">
+        <label>Motif de l'avance</label>
+        <div>
+         <textarea
+           rows="5"
+           [placeholder]="'Saisir le motif de l\'avance..'"
+           class="form-control input"
+         ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-block" >
+    <app-button
+      [type]="'danger'"
+      [text]="'Retour'"
+      (onClick)="goback()"
+      [iconLeft]="'fa fa-arrow-left'"
+      [customStyle]="{'min-width': '130px'}"
+    >
+    </app-button>&nbsp;&nbsp;
+    <app-button
+      [type]="'primary'"
+      [text]="'Créer'"
+      [isLoading]="submittingCreate"
+      [isDisabled]="submittingCreate || submittingDiffuse"
+      [textLoading]="'Sauvegarde en cours..'"
+      (onClick)="createDemand()"
+      [iconLeft]="'fa fa-save'"
+      [customStyle]="{'min-width': '130px'}"
+    >
+    </app-button>&nbsp;&nbsp;
+    <app-button
+      [type]="'secondary'"
+      [text]="'Diffuser'"
+      [isLoading]="submittingDiffuse"
+      [textLoading]="'Diffusion en cours..'"
+      [isDisabled]="submittingDiffuse || submittingCreate"
+      (onClick)="diffuse()"
+      [iconLeft]="'icon-check'"
+      [customStyle]="{'min-width': '130px'}"
+    >
+    </app-button>
+  </div>
+</div>

@@ -165,11 +165,15 @@
       </div>
       <div class="filtres row ">
         <div class=" flex-column  col-12 col-sm-6  ">
-          <label>Choix du tri</label>
+          <label>
+            Choix du tri
+            <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+          </label>
           <div>
             <ng-select class="select form-control"
                        [multiple]="false"
                        [items]="sort_choices"
+                       [disabled]="true"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
                        (change)="filterChanged()"
@@ -178,11 +182,15 @@
           </div>
         </div>
         <div class=" flex-column  col-12 col-sm-6  ">
-          <label>Direction OP</label>
+          <label>
+            Direction OP
+            <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+          </label>
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
                        [items]="direction_ops"
+                       [disabled]="true"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
                        (change)="filterChanged()"
@@ -193,11 +201,15 @@
       </div>
       <div class="filtres row ">
         <div class=" flex-column  col-12 col-sm-6  ">
-          <label>Business unit</label>
+          <label>
+            Business unit
+            <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+          </label>
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
                        [items]="business_units"
+                       [disabled]="true"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
                        (change)="filterChanged()"
@@ -206,10 +218,13 @@
           </div>
         </div>
         <div class=" flex-column  col-12 col-sm-6  ">
-          <label>Client</label>
+          <label>
+            Client <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+          </label>
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
+                       [disabled]="true"
                        [items]="clients"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
@@ -221,7 +236,10 @@
       </div>
       <div class="filtres row ">
         <div class="flex-column col-12 col-sm-6   ">
-          <label>Geestionnaire (ADV)</label>
+          <label>
+            Geestionnaire (ADV)
+            <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+          </label>
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
@@ -414,6 +432,7 @@
       <div class="header">
         <h3 class="main-title">
           Impression/Export
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Fonctionnel non opérationnelle pour le moment'"></i>
         </h3>
       </div>
       <div class="align-items-center d-flex">
