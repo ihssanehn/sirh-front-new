@@ -113,11 +113,13 @@
   height: 100%;
   border: unset !important;
   cursor: pointer;
+  //background: red;
   ::ng-deep .ng-value-container{
     color: $mainGray;
     font-size: 10px;
     padding: 0;
     padding-left: 2px;
+    cursor: pointer;
   }
   ::ng-deep .ng-arrow-wrapper{
     padding-right: 1px !important;

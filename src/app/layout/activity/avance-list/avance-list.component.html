@@ -1,1 +1,119 @@
-<p>avance-list works!</p>
+<div class="top-container list">
+  <div class="sub-header container-fuil container-lg ">
+    <h3 class="main-title">
+      Avance de frais
+    </h3>
+  </div>
+
+  <div class="filter-container">
+    <div class="sub-header container-fuil container-lg ">
+      <h3>
+         Filtres de recherche
+      </h3>
+    </div>
+    <div class="filtres row ">
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Plage de visualisation</label>
+        <div>
+          <owl-date-time #owl_dt1
+                         [pickerType]="'calendar'"
+          ></owl-date-time>
+
+          <input [owlDateTime]="owl_dt1"
+                 class="form-control input date"
+                 [owlDateTimeTrigger]="owl_dt1"
+                 placeholder="Choisir la plage ici"
+                 [selectMode]="'range'"
+          />
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Statut</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="status"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Type d'avance</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="avance_types"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Etat de remboursement</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="repayment_status"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner l\'état de remboursement'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-block" >
+
+      <app-button
+        [type]="'primary'"
+        [text]="'Exporter'"
+        [isLoading]="submittingExport"
+        [isDisabled]="submittingExport"
+        [textLoading]="'Exportation en cours..'"
+        (onClick)="export()"
+        [iconLeft]="'icon-excel'"
+        [customStyle]="{'min-width': '130px'}"
+      >
+      </app-button>&nbsp;&nbsp;
+      <app-button
+        [type]="'primary'"
+        [text]="'Rechercher'"
+        [textLoading]="'Diffusion en cours..'"
+        (onClick)="getAll()"
+        [iconLeft]="'icon-search'"
+        [customStyle]="{'min-width': '130px'}"
+      >
+      </app-button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="sub-header container-fuil container-lg ">
+      <h3>
+        Tableau de synthèse
+      </h3>
+    </div>
+    <div class="wrap">
+      <table class="table-responsive table">
+        <thead>
+          <tr>
+            <th>Test 1</th>
+            <th>Test 2</th>
+            <th>Test 3</th>
+            <th>Test 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+            <td>test</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+</div>

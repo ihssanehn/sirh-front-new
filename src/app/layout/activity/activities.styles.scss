@@ -2,8 +2,11 @@
 
 
 .main-title{
-  text-align: center;
   margin-top: 20px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 }
 .cards-stats{
   display: flex;

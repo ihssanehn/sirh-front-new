@@ -449,6 +449,7 @@ export class ActivityUpdateComponent implements OnInit {
       const params = {
         id: this.activities.id
       }
+      await this.addOrUpdateActivity();
       const res = await this.activitiesService.diffuseActivity(params).toPromise();
       this.activities = res.data;
       this.getTotalIssues();
@@ -525,17 +526,26 @@ export class ActivityUpdateComponent implements OnInit {
   }
 
   chosenYearHandler( normalizedYear ) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
+    if(normalizedYear){
+      const ctrlValue = this.date.value;
+      ctrlValue?.year(normalizedYear.year());
+      this.date.setValue(ctrlValue);
+    }
   }
 
   chosenMonthHandler(normalizedMonth, datepicker) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+    // if(normalizedMonth){
+    //   const ctrlValue = this.date.value;
+    //   ctrlValue?.month(normalizedMonth.month());
+    //   this.date.setValue(ctrlValue);
+    // }
+    console.log('data value', this.date.value);
+    // datepicker.close();
   }
+
+  //todo
+  //fix filter month
+  //fix validator future months
 
   clearDateInput(date: any) {
     date.patchValue(null);
