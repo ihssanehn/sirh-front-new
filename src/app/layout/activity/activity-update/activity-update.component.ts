@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {
   OwlDateTimeComponent,
   DateTimeAdapter,
@@ -363,9 +363,12 @@ export class ActivityUpdateComponent implements OnInit {
   showInstructions = false;
   loadingCalendar = false;
   hasIntegrityError: boolean;
+  errorMessage = '';
+  other_activity = '';
 
   constructor(private activitiesService: ActivitiesService,
               private messageService: MessageService,
+              private changeDetectorRef: ChangeDetectorRef,
               private route:ActivatedRoute) {
     this.getActivityByMonth();
     this.route.params.subscribe(param => {
@@ -392,6 +395,7 @@ export class ActivityUpdateComponent implements OnInit {
         return ratio;
       });
       this.getWeeks();
+      this.getTotalIssues();
     } catch (e){
       console.log('error getActivityByid', e)
     } finally {
@@ -406,6 +410,7 @@ export class ActivityUpdateComponent implements OnInit {
         personal_id: this.activities.personal_id,
         id: this.activities.id,
         month: moment(this.activities.month).format('YYYY-MM-DD'),
+        comment: this.activities.comment,
         activity_details: this.activities.activity_details.map(activity => {
           return {
             personal_id: activity.personal_id,
@@ -418,6 +423,7 @@ export class ActivityUpdateComponent implements OnInit {
       }
       const res = await this.activitiesService.addOrUpdateActivity(params).toPromise();
       this.activities = res.data;
+      this.getTotalIssues();
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -445,6 +451,7 @@ export class ActivityUpdateComponent implements OnInit {
       }
       const res = await this.activitiesService.diffuseActivity(params).toPromise();
       this.activities = res.data;
+      this.getTotalIssues();
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -597,12 +604,6 @@ export class ActivityUpdateComponent implements OnInit {
 
   fillLine(type_activity, unfill=false) {
     console.log('fillLine', type_activity);
-    const categories = [
-      'Prosq/Qualif/Visite Médicale',
-      'CE / DP / CHSCT',
-      'Disponibilité',
-      'Présence agence'
-    ];
     this.data.calendar.forEach(day => {
       const cells_in_columnn = this.activities.activity_details.filter(activity => moment(activity.date).isSame(day.date, 'date') && activity.activity_id);
       if(!(cells_in_columnn?.length>0)){ // Si aucune cellule dans cette colonne n'est trouvé
@@ -649,16 +650,11 @@ export class ActivityUpdateComponent implements OnInit {
         }
       }
     });
-
+    this.getTotalIssues();
   }
 
   setDataCell(day, type_activity, $event: any) {
-    const categories = [
-      'Prosq/Qualif/Visite Médicale',
-      'CE / DP / CHSCT',
-      'Disponibilité',
-      'Présence agence'
-    ];
+
     const element = this.getDataInCell(day, type_activity);
     if(element){
       element.ratio = $event;
@@ -675,7 +671,7 @@ export class ActivityUpdateComponent implements OnInit {
         type_id: type_activity.type_id
       });
     }
-
+    this.getTotalIssues();
   }
 
   hasAtLeastAFilledCell(type_activity) {
@@ -703,6 +699,16 @@ export class ActivityUpdateComponent implements OnInit {
     return sum;
   }
 
+  getTotalInLine(type_activity){
+    let sum = 0;
+    this.activities.activity_details.forEach(cell =>{
+     if((cell.category_id ? (cell.category_id === type_activity.id): (cell.type_id === type_activity.id))){
+       sum += cell.ratio;
+     }
+    });
+    return sum;
+  }
+
   getTotalIssues(){
     this.hasIntegrityError = false;
     let errorMessage = '';
@@ -716,6 +722,7 @@ export class ActivityUpdateComponent implements OnInit {
     if(errorMessage?.length>0){
       this.hasIntegrityError = true;
     }
-    return errorMessage;
+    // this.changeDetectorRef.detectChanges();
+    this.errorMessage = errorMessage;
   }
 }
