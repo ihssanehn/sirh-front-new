@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CongeDemandeComponent implements OnInit {
 
+  types = [];
+  submittingDiffuse: boolean;
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  diffuse() {
+
+  }
 }

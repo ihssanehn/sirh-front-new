@@ -428,6 +428,12 @@ p-autoComplete{
   color: $danger;
 }
 
+a, .link{
+  text-decoration: underline;
+  color: $primaryColor;
+  cursor: pointer;
+}
+
 .pro-info{
   //background-image: url("~assets/images/grid.png");
   background-repeat: repeat;

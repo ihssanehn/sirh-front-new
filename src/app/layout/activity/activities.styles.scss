@@ -50,6 +50,30 @@ table{
   line-height: 29px;
 }
 
+.gray-category{
+  background: $lightgray;
+  color: $mainGray !important;
+  text-align: center;
+  height: 29px;
+  padding: 0 !important;
+  border-radius: 8px 8px 0 0;
+  line-height: 29px;
+  font-size: 12px;
+}
+
+.wrap{
+  margin-top: 15px;
+  table{
+    th{
+      font-size: 13px;
+    }
+    td{
+      font-size: 12px;
+      color: $mainGray;
+    }
+  }
+}
+
 .export-bloc{
   .label{
     font-size: 12px;
