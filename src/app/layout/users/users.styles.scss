@@ -331,31 +331,6 @@
 }
 
 
-.sub-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0;
-  flex-wrap: wrap;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  .main-title{
-    font-size: 18px;
-    //min-height: 60px;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    margin-top: 10px;
-  }
-  @media (min-width: $LARGE_SCREEN) {
-    .search{
-      //min-width: 250px;
-      //width: unset;
-    }
-  }
-}
-
 .wrap {
   display: flex;
   align-items: center;

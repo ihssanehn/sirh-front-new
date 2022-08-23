@@ -1,13 +1,13 @@
 @import "src/app/app.component";
 
 
-.main-title{
-  margin-top: 20px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-}
+//.main-title{
+//  margin-top: 20px;
+//  font-size: 16px;
+//  display: flex;
+//  align-items: center;
+//  font-weight: 500;
+//}
 .cards-stats{
   display: flex;
   .card{
@@ -66,6 +66,7 @@ table{
   table{
     th{
       font-size: 13px;
+      font-weight: 500;
     }
     td{
       font-size: 12px;
@@ -104,7 +105,7 @@ table{
     }
   }
   .info{
-    padding: 0 10px;
+    //padding: 0 10px;
     p{
       font-size: 13px;
       color: $mainGray;

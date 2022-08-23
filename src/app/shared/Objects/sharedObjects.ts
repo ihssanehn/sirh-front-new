@@ -435,7 +435,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     subMenu: [
       {
         id: 2,
-        name: 'demande',
+        name: 'Faire une demande',
         type: 'link',
         icon: null,
         link: 'activity/conge/demande',
@@ -443,7 +443,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       },
       {
         id: 3,
-        name: 'Liste',
+        name: 'Historique',
         type: 'link',
         icon: null,
         link: 'activity/conge/history',

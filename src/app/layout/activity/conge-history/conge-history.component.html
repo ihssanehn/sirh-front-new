@@ -1,1 +1,199 @@
-<p>conge-history works!</p>
+<div class="top-container list">
+
+
+    <div class="sub-header container-fuil container-lg ">
+      <h3 class="main-title">
+        Historique des absences : Filtre de recherche
+      </h3>
+    </div>
+
+    <div class="filter-container">
+      <div class="sub-header container-fuil container-lg ">
+        <h3 class="main-title">
+          Filtres de recherche
+        </h3>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column  col-12 col-sm-3">
+          <label>Plage de visualisation</label>
+          <div class="date-picker-group">
+            <owl-date-time #owl_dt1
+                           [pickerType]="'calendar'"
+            ></owl-date-time>
+            <input [owlDateTime]="owl_dt1"
+                   class="form-control input date"
+                   [owlDateTimeTrigger]="owl_dt1"
+                   placeholder="Choisir la plage ici"
+                   [selectMode]="'range'"
+                   [(ngModel)]="filters.range"
+            />
+            <div class="icons-container">
+              <i class="icon-close"
+                 (click)="clearDateInput(formInputs.range)"
+                 *ngIf="filters.range"></i>&nbsp;
+              <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+            </div>
+          </div>
+        </div>
+        <div class="flex-column  col-12 col-sm-3">
+          <label>Statut</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="status"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Sélectionner le type d\'avance'"
+                       [(ngModel)]="filters.status"
+            ></ng-select>
+          </div>
+        </div>
+        <div class="flex-column  col-12 col-sm-3">
+          <label>Type d'avance</label>
+          <div>
+            <ng-select class="select form-control"
+                       [multiple]="false"
+                       [items]="avance_types"
+                       [bindLabel]="'label'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Sélectionner le type d\'avance'"
+                       [(ngModel)]="filters.avance"
+            ></ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="submit-block" >
+        <app-button
+          [type]="'primary'"
+          [text]="'Exporter'"
+          [isLoading]="submittingExport"
+          [isDisabled]="submittingExport"
+          [textLoading]="'Exportation en cours..'"
+          (onClick)="export()"
+          [iconLeft]="'icon-excel'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>&nbsp;&nbsp;
+        <app-button
+          [type]="'primary'"
+          [text]="'Rechercher'"
+          [textLoading]="'Diffusion en cours..'"
+          (onClick)="getAll()"
+          [iconLeft]="'icon-search'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>
+      </div>
+    </div>
+
+  <div class="main-container filter-container">
+    <div class="sub-header container-fuil container-lg ">
+      <h3 class="main-title">Synthèse</h3>
+    </div>
+    <div class="info" style="padding: 0">
+      <p>
+        Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022
+      </p>
+    </div>
+    <div class="cards-stats row" >
+      <div class="card col" *ngFor="let card of cards">
+        <div class="title">
+          {{card.title}}
+        </div>
+        <div class="state-value">{{card?.value }}</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="main-container">
+    <div class="sub-header">
+      <h3 class="main-title">
+        Informations pour la saisie du relevé d'activité
+      </h3>
+    </div>
+    <div class="info">
+      <p>
+        En cas d'absence exceptionnelle ( maladie, congé exceptionnel, congé maternité, paternité et parental),
+        nous vous invitons à prendre en contact avec <span class="link">contact@piman-consultants.fr</span>
+      </p>
+
+      <p class="danger-text">
+        En cas de maladie, veuillez prévenir <span class="link">contact@piman-consultants.fr</span>
+        de votre absence dans les 24h et envoyer votre arrét maladie sous 48h.
+      </p>
+    </div>
+  </div>
+
+  <div class="tabs ">
+    <div class="tab selected-tab">
+      Soldes d'absences issus de la paye
+    </div>
+    <div class="tab ">
+      Absences "non prises en compte" dans les soldes
+    </div>
+  </div>
+  <div class="main-container">
+    <div class="wrap">
+      <table class="table">
+        <thead>
+        <tr>
+          <th colspan="100%" class="gray-category ">
+            Solde des absences issus de la fiche de paye de Juillet 2022
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2">
+            Congés payés à solder avant fin Mai 2024
+          </th>
+          <th colspan="2">
+            Congés payés à solder avant fin Mai 2023
+          </th>
+          <th colspan="2">
+            Congés à solder avant fin Mai 2023
+          </th>
+          <th colspan="2">
+            RTT à solder avant fin décembre 2022
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>CP1 acquis</td>
+          <td>CP1 restant</td>
+          <td>CP2 acquis</td>
+          <td>CP2 restant</td>
+          <td>CP ancienneté acquis</td>
+          <td>CP ancienneté acquis</td>
+          <td>RTT acquis</td>
+          <td>RTT restant</td>
+        </tr>
+        <tr>
+          <td>4.16</td>
+          <td>4.16</td>
+          <td>25.00</td>
+          <td>25.00</td>
+          <td>2.00</td>
+          <td>2.00</td>
+          <td>6.44</td>
+          <td>6.44</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info" >
+      <p class="danger-text">
+        <u>Attention :</u> Les informations ci-dessus sont données à titre indicatif. Les informations inscrites sur votre fiche de paye restent la reference.
+      </p>
+      <p>
+        Les absences sont intégrées avec un mois de décalage dans la paye.
+      </p>
+      <p>
+        Les soldes d'absences issus de la paye ne prennent donc pas en compte les absences du mois en cours.
+      </p>
+
+    </div>
+  </div>
+
+</div>
