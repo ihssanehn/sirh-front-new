@@ -54,10 +54,10 @@ table{
   background: $lightgray;
   color: $mainGray !important;
   text-align: center;
-  height: 29px;
   padding: 0 !important;
   border-radius: 8px 8px 0 0;
   line-height: 29px;
+  height: 38px;
   font-size: 12px;
 }
 
@@ -119,9 +119,21 @@ table{
   border-radius: 5px;
 }
 
-
 .submit-block{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.boolean-button{
+  label{
+    min-width: unset;
+    border: 1px solid $lightgray;
+    color: $lightgray;
+    box-shadow: none;
+  }
+  .btn-outline-primary:hover, .btn-check:checked + .btn-outline-primary{
+    background: $primaryColor;
+    color: white;
+  }
 }

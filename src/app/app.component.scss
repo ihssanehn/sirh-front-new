@@ -29,11 +29,15 @@
   .filtres{
     display: flex;
     margin: 15px 0;
+    .flex-column{
+      padding-left: 0;
+    }
     label{
       font-size: 13px;
-      font-weight: 300;
+      font-weight: 500;
       margin-bottom: 5px;
-      opacity: .8;
+      //opacity: .8;
+      color: $mainGray
     }
     .block-check{
       display: flex;
@@ -73,6 +77,34 @@
   //    min-height: 35px;
   //  }
   //}
+}
+
+.radio{
+  //width: 100%;
+  .btn{
+    //border-radius: 35px;
+    min-width: unset;
+    //width: 40%;
+    font-weight: normal;
+    //border: 1px solid var(--unnamed-color-e5e5e5);
+    border: 1px solid #E5E5E5;
+    //border-radius: 20px;
+    span{
+      margin: 0;
+      font-weight: normal !important;
+    }
+    input[type='radio']{
+      display: none;
+    }
+    &:hover{
+      background-color: $primaryColor;
+      color: white !important;
+    }
+  }
+  .active{
+    background-color: $primaryColor;
+    color: white !important;
+  }
 }
 
 .check-box-btn{
@@ -216,6 +248,9 @@
     i{
       color: $lightgray;
       cursor: pointer;
+    }
+    .fa-calendar:hover{
+        color: $primaryColor;
     }
     .icon-close:before{
       font-size: 12px;
