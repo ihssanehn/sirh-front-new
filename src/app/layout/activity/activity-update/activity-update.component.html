@@ -77,14 +77,14 @@
       <div style="overflow-x: auto; overflow-y: visible">
         <div class="wrap">
           <ng-container *ngIf="!loadingCalendar; else loadingTemplate">
-            <table class="table table-responsive">
+            <table class="table table-responsive" *ngIf="data; else emptyState">
               <thead>
               <tr>
                 <th></th>
                 <th [attr.colspan]="(data?.calendar?.length)"
                     class="category-cell"
-                    *ngIf="date?.value && activities?.has_been_diffused">
-                  {{date.value | dateMessage: 'MMMM'}}
+                    *ngIf="activities?.month && activities?.has_been_diffused">
+                  {{activities.month | dateMessage: 'MMMM'}}
                 </th>
                 <th></th>
               </tr>
@@ -156,7 +156,8 @@
                       </ng-container>
                       <ng-template #textCellTemplate>
                         <ng-container *ngIf="day.is_weekend; else ratioTemplate">
-                          {{getDataInCell(day, type_activity)}}
+<!--                          {{getDataInCell(day, type_activity)}}-->
+                          {{getWeekendDay(day)}}
                         </ng-container>
                         <ng-template #ratioTemplate>
                           {{findRatioLabel(getDataInCell(day, type_activity))}}
@@ -210,7 +211,7 @@
                 </td>
               </tr>
             </table>
-            <div class="submit-block" *ngIf="!activities?.has_been_diffused">
+            <div class="submit-block" *ngIf="activities && !activities?.has_been_diffused">
               <app-button
                 [type]="'secondary'"
                 [text]="'Enregistrer'"
@@ -250,4 +251,10 @@
   <div style="min-height: 290px;">
     <img src="assets/images/loading_activity_calendar.svg" style="width: 100%;" />
   </div>
+</ng-template>
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( !selectedMonth ? 'Aucun mois sélectionné': 'Pas d\'activité correspondant à ce mois pour l\'instant.' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
 </ng-template>

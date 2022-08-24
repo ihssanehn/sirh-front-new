@@ -1,6 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
-
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import * as _moment from "moment";
 import {appAnimations} from "@shared/Objects/sharedObjects";
 import {ActivitiesService} from "@services/activities.service";
@@ -8,9 +6,9 @@ import {ActivatedRoute} from "@angular/router";
 import {MessageService} from "primeng/api";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
-import { getYear } from 'date-fns';
-import locale from 'date-fns/locale/en-US';
-import frLocale from "date-fns/locale/fr";
+import {IDatePickerConfig} from "ng2-date-picker/lib/date-picker/date-picker-config.model";
+import {DatePickerComponent} from "ng2-date-picker";
+// import {DatePickerComponent} from "ng2-date-picker/lib/date-picker/date-picker.component";
 
 @Component({
   selector: 'app-activity-update',
@@ -18,338 +16,16 @@ import frLocale from "date-fns/locale/fr";
   styleUrls: ['./activity-update.component.scss'],
   animations: appAnimations
 })
-export class ActivityUpdateComponent implements OnInit {
+export class ActivityUpdateComponent implements OnInit , AfterViewInit{
   dateValue;
-  config = {
+  selectedMonth = null;
+  @ViewChild('datepicker') datepicker: DatePickerComponent;
+  config: IDatePickerConfig = {
     format: 'MM/YYYY',
-    locale: frLocale,
   }
 
   data;
   activities;
-  // data = {
-  //     type_activity: [
-  //       {
-  //         id: 33,
-  //         label: "Travail Normal",
-  //         code: "travail_normal",
-  //         order: 1,
-  //         is_active: 1,
-  //         only_admin: 1,
-  //         model: "type_activity",
-  //         color: "NULL",
-  //         data: [],
-  //         creator_id: 1,
-  //         created_at: "2022-08-08T13:48:14.000Z",
-  //         updated_at: "2022-08-08T13:48:14.000Z"
-  //       },
-  //       {
-  //         id: 34,
-  //         label: "Autres activités",
-  //         code: "autres_activites",
-  //         order: 2,
-  //         is_active: 1,
-  //         only_admin: 1,
-  //         model: "type_activity",
-  //         color: "NULL",
-  //         data: [
-  //           {
-  //             id: 77,
-  //             label: "Prosq/Qualif/Visite Médicale",
-  //             code: "Prosq/Qualif/Visite Médicale"
-  //           },
-  //           {
-  //             id: 78,
-  //             label: "CE / DP / CHSCT",
-  //             code: "CE / DP / CHSCT"
-  //           },
-  //           {
-  //             id: 79,
-  //             label: "Disponibilité",
-  //             code: "Disponibilité"
-  //           },
-  //           {
-  //             id: 80,
-  //             label: "Présence agence",
-  //             code: "Présence agence"
-  //           }
-  //         ],
-  //         creator_id: 1,
-  //         created_at: "2022-08-08T13:48:14.000Z",
-  //         updated_at: "2022-08-08T13:48:14.000Z"
-  //       },
-  //       {
-  //         id: 35,
-  //         label: "Absences",
-  //         code: "absences",
-  //         order: 3,
-  //         is_active: 1,
-  //         only_admin: 1,
-  //         model: "type_activity",
-  //         color: "NULL",
-  //         data: [
-  //           {
-  //             id: 81,
-  //             label: "Congés payés",
-  //             code: "congés_payés"
-  //           }
-  //         ],
-  //         creator_id: 1,
-  //         created_at: "2022-08-08T13:48:14.000Z",
-  //         updated_at: "2022-08-08T13:48:14.000Z"
-  //       }
-  //     ],
-  //     ratio: [
-  //       {
-  //         id: 82,
-  //         label: "1/8",
-  //         code: "1"
-  //       },
-  //       {
-  //         id: 83,
-  //         label: "2/8",
-  //         code: "0.25"
-  //       },
-  //       {
-  //         id: 84,
-  //         label: "3/8",
-  //         code: "0.375"
-  //       },
-  //       {
-  //         id: 85,
-  //         label: "4/8",
-  //         code: "0.5"
-  //       },
-  //       {
-  //         id: 86,
-  //         label: "5/8",
-  //         code: "0.625"
-  //       },
-  //       {
-  //         id: 87,
-  //         label: "6/8",
-  //         code: "0.75"
-  //       },
-  //       {
-  //         id: 88,
-  //         label: "7/8",
-  //         code: "0.875"
-  //       },
-  //       {
-  //         id: 89,
-  //         label: "8/8",
-  //         code: "1"
-  //       }
-  //     ],
-  //     calendar: [
-  //       {
-  //         date: "2022-09-01",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-02",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-03",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-04",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-05",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-06",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-07",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-08",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-09",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-10",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-11",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-12",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-13",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-14",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-15",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-16",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-17",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-18",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-19",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-20",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-21",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-22",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-23",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-24",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-25",
-  //         is_weekend: 1,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-26",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-27",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-28",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-29",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       },
-  //       {
-  //         date: "2022-09-30",
-  //         is_weekend: 0,
-  //         is_holidays: 0
-  //       }
-  //     ]
-  //   };
-  //
-  // activities = {
-  //       id: 17,
-  //       personal_id: 1,
-  //       month: "2022-07-31T23:00:00.000Z",
-  //       status_id: 8,
-  //       has_been_diffused: 1,
-  //       comment: null,
-  //       activity_details: [
-  //         {
-  //           id: 1,
-  //           activity_id: 17,
-  //           personal_id: 1,
-  //           project_id: null,
-  //           absence_id: null,
-  //           mission_id: null,
-  //           category_id: null,
-  //           type_id: 33,
-  //           date: "2022-09-31T23:00:00.000Z",
-  //           ratio: 1,
-  //           created_at: "2022-08-09T11:55:36.000Z",
-  //           updated_at: "2022-08-09T11:55:36.000Z",
-  //           deleted_at: null
-  //         },
-  //         {
-  //           id: 2,
-  //           activity_id: 17,
-  //           personal_id: 1,
-  //           project_id: null,
-  //           absence_id: null,
-  //           mission_id: null,
-  //           category_id: null,
-  //           type_id: 34,
-  //           date: "2022-09-01T23:00:00.000Z",
-  //           ratio: 0.375,
-  //           created_at: "2022-08-09T11:55:36.000Z",
-  //           updated_at: "2022-08-09T11:55:36.000Z",
-  //           deleted_at: null
-  //         },
-  //         {
-  //           id: 3,
-  //           activity_id: 17,
-  //           personal_id: 1,
-  //           project_id: null,
-  //           absence_id: null,
-  //           mission_id: null,
-  //           category_id: 79,
-  //           type_id: null,
-  //           date: "2022-09-01T23:00:00.000Z",
-  //           ratio: 0.625,
-  //           created_at: "2022-08-09T11:55:36.000Z",
-  //           updated_at: "2022-08-09T11:55:36.000Z",
-  //           deleted_at: null
-  //         }
-  //       ]
-  //     }
 
   submittingCreate: boolean;
   submittingDiffuse: boolean;
@@ -359,11 +35,11 @@ export class ActivityUpdateComponent implements OnInit {
   hasIntegrityError: boolean;
   errorMessage = '';
   other_activity = '';
-
   constructor(private activitiesService: ActivitiesService,
               private messageService: MessageService,
               private changeDetectorRef: ChangeDetectorRef,
               private route:ActivatedRoute) {
+
     this.getActivityByMonth();
     this.route.params.subscribe(param => {
       if(param.id){
@@ -372,13 +48,23 @@ export class ActivityUpdateComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit() {
+    // if(!this.selectedMonth){
+      console.log('this.datepicker.api.', this.datepicker.api);
+    // }
+  }
+
   ngOnInit(): void {
 
   }
 
   async getInformationForActivity(){
     try {
-      const res = await this.activitiesService.getInformationForActivity({date: moment(this.activities.month).format('YYYY-MM-DD')}).toPromise();
+      if(!this.selectedMonth){
+        this.selectedMonth = moment();
+        this.dateValue = moment().format('MM/YYYY')
+      }
+      const res = await this.activitiesService.getInformationForActivity({date: moment(this.selectedMonth).set({date: 1}).format('YYYY-MM-DD')}).toPromise();
       this.data = res.data;
       if(this.data && Object.keys(this.data)?.length > 0){
         this.data.ratio.unshift({
@@ -406,7 +92,7 @@ export class ActivityUpdateComponent implements OnInit {
       const params = {
         personal_id: this.activities.personal_id,
         id: this.activities.id,
-        month: moment(this.activities.month).format('YYYY-MM-DD'),
+        month: moment(this.selectedMonth).format('YYYY-MM-DD'),
         comment: this.activities.comment,
         activity_details: this.activities.activity_details?.map(activity => {
           return {
@@ -485,7 +171,12 @@ export class ActivityUpdateComponent implements OnInit {
   async getActivityByMonth(){
     try {
       this.loadingCalendar = true;
-      const res = await this.activitiesService.getActivityByMonth({month: moment(this.activities.month)?.format('YYYY-MM-DD')}).toPromise();
+      if(!this.selectedMonth){
+        this.selectedMonth = moment();
+        this.dateValue = moment().format('MM/YYYY')
+      }
+      console.log('getActivityByMonth');
+      const res = await this.activitiesService.getActivityByMonth({month: moment(this.selectedMonth)?.set({date: 1}).format('YYYY-MM-DD')}).toPromise();
       this.activities = res.data;
       await this.getInformationForActivity();
     } catch (e){
@@ -499,6 +190,7 @@ export class ActivityUpdateComponent implements OnInit {
     if(!this.data){
       return [];
     }
+    //Script for guetting weeks in top of the calendar table
     this.weeks = [];
     let colspan = 1;
     (this.data.calendar[0] as any).colspan = colspan;
@@ -523,9 +215,8 @@ export class ActivityUpdateComponent implements OnInit {
 
 
   chosenMonthHandler() {
-    if(this.dateValue?.$d){
-      this.activities.month = moment(this.dateValue.$d)?.format('YYYY-MM-DD');
-
+    if(this.dateValue){
+      this.selectedMonth = moment('01/'+this.dateValue, 'DD/MM/YYYY');
       this.getActivityByMonth();
     }
   }
@@ -679,6 +370,9 @@ export class ActivityUpdateComponent implements OnInit {
 
   hasAtLeastAFilledCell(type_activity) {
       // console.log('hasAtLeast', this.activities.activity_details);
+      if(!this.activities.activity_details){
+        return false;
+      }
       const cellContent = this.activities.activity_details.find(activity =>
         activity.ratio
         &&

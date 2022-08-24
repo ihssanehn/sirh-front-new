@@ -78,7 +78,7 @@
 
             <div class="icons-container">
               <i class="icon-close"
-                 (click)="filter.month = null; filterChanged()"
+                 (click)="filter.month = null; dateValue = null; filterChanged()"
                  *ngIf="filter.month"></i>&nbsp;
               <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
             </div>
