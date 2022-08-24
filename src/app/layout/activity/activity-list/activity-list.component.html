@@ -1,5 +1,5 @@
 <div class="top-container list">
-  <h3 class="main-title">Synthèse</h3>
+  <h3 class="top-title">Synthèse</h3>
   <div class="cards-stats row" >
     <div class="card col">
       <div class="title">
@@ -58,48 +58,30 @@
 
   <div class="filter-container">
 
-    <div class="sub-header container-fuil container-lg ">
-      <h3>
-        List des relevés
-      </h3>
+    <div class="container-lg ">
+      <div class="sub-header">
+        <h3 class="main-title">
+          List des relevés
+        </h3>
+      </div>
 
-      <div class="search  row">
+      <div class="search row">
         <div class="flex-column col-12 col-sm-6 col-lg-2">
           <div class="date-picker-group">
-            <owl-date-time [pickerType]="'calendar'"
-                           (yearSelected)="chosenYearHandler($event)"
-                           [startView]="'year'"
-                           #dt_1
-                           (monthSelected)="chosenMonthHandler($event, dt_1);dt_1.close()"
-                           >
-            </owl-date-time>
-            <input [owlDateTimeTrigger]="dt_1"
-                   [owlDateTime]="dt_1"
-                   class="form-control input date"
-                   placeholder="Choisir le mois ici"
-                   [formControl]="date"
-            />
+            <dp-date-picker [(ngModel)]="dateValue"
+                            [mode]="'month'"
+                            [placeholder]="'Filtre du mois'"
+                            (onChange)="chosenMonthHandler()"
+                            class="date-picker"
+                            #datepicker
+                            [config]="config"></dp-date-picker>
+
             <div class="icons-container">
               <i class="icon-close"
-                 (click)="clearDateInput(date)"
-                 *ngIf="date.value"></i>&nbsp;
-              <i [owlDateTimeTrigger]="dt_1" class="fa fa-calendar"></i>
+                 (click)="filter.month = null; filterChanged()"
+                 *ngIf="filter.month"></i>&nbsp;
+              <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
             </div>
-<!--            <owl-date-time #owl_dt1-->
-<!--                           [pickerType]="'calendar'"-->
-<!--                           [startView]="'year'"-->
-<!--            ></owl-date-time>-->
-<!--            <input [owlDateTime]="owl_dt1"-->
-<!--                   class="form-control input date"-->
-<!--                   placeholder="Choisir le mois ici"-->
-<!--                   [value]="filter.month"-->
-<!--            />-->
-<!--            <div class="icons-container">-->
-<!--              <i class="icon-close"-->
-<!--                 (click)="filter.month = null"-->
-<!--                 *ngIf="filter.month"></i>&nbsp;-->
-<!--              <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>-->
-<!--            </div>-->
           </div>
         </div>
         <div class="flex-column col-12 col-sm-6 col-lg-3">
@@ -286,11 +268,11 @@
     </ng-container>
   </div>
 
-  <div class="main-container">
+  <div class="main-container container-lg filter-container">
 
     <ng-container *ngIf="!loadingData; else loadingTemplate">
       <ng-container  *ngIf="activities?.length>0; else emptyState">
-        <div class="header">
+        <div class="sub-header header">
           <h3 class="main-title">
             {{activities?.length}} relevé{{activities?.length>1? 's': ''}} trouvé{{activities?.length>1? 's': ''}}
           </h3>

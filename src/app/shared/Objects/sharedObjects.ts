@@ -462,7 +462,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     subMenu: [
       {
         id: 2,
-        name: 'Création',
+        name: 'saisie',
         type: 'link',
         icon: null,
         link: 'activity/frais/saisie',
@@ -470,7 +470,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       },
       {
         id: 3,
-        name: 'Liste',
+        name: 'Historique',
         type: 'link',
         icon: null,
         link: 'activity/frais/history',

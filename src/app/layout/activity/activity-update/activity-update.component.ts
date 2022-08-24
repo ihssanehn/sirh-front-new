@@ -1,13 +1,4 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {
-  OwlDateTimeComponent,
-  DateTimeAdapter,
-  OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE,
-  OwlDateTimeFormats
-} from 'ng-pick-datetime';
-import {MomentDateTimeAdapter} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class";
-import {MY_MOMENT_DATE_TIME_FORMATS} from "@layout/activity/activity-list/activity-list.component";
 import {FormControl} from "@angular/forms";
 
 import * as _moment from "moment";
@@ -17,19 +8,22 @@ import {ActivatedRoute} from "@angular/router";
 import {MessageService} from "primeng/api";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
+import { getYear } from 'date-fns';
+import locale from 'date-fns/locale/en-US';
+import frLocale from "date-fns/locale/fr";
+
 @Component({
   selector: 'app-activity-update',
   templateUrl: './activity-update.component.html',
   styleUrls: ['./activity-update.component.scss'],
-  providers: [
-    {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_DATE_TIME_FORMATS},
-  ],
   animations: appAnimations
 })
 export class ActivityUpdateComponent implements OnInit {
-
-  public date = new FormControl(moment().set({date: 1}));
+  dateValue;
+  config = {
+    format: 'MM/YYYY',
+    locale: frLocale,
+  }
 
   data;
   activities;
@@ -384,18 +378,21 @@ export class ActivityUpdateComponent implements OnInit {
 
   async getInformationForActivity(){
     try {
-      const res = await this.activitiesService.getInformationForActivity({date: moment(this.date.value).format('YYYY-MM-DD')}).toPromise();
+      const res = await this.activitiesService.getInformationForActivity({date: moment(this.activities.month).format('YYYY-MM-DD')}).toPromise();
       this.data = res.data;
-      this.data.ratio.unshift({
-        id: null,
-        label: '',
-      });
-      this.data.ratio = this.data.ratio.map(ratio => {
-        ratio.code = Number(ratio.code) || null;
-        return ratio;
-      });
-      this.getWeeks();
-      this.getTotalIssues();
+      if(this.data && Object.keys(this.data)?.length > 0){
+        this.data.ratio.unshift({
+          id: null,
+          label: '',
+        });
+        this.data.ratio = this.data.ratio.map(ratio => {
+          ratio.code = Number(ratio.code) || null;
+          return ratio;
+        });
+        this.getWeeks();
+        this.getTotalIssues();
+      }
+
     } catch (e){
       console.log('error getActivityByid', e)
     } finally {
@@ -411,7 +408,7 @@ export class ActivityUpdateComponent implements OnInit {
         id: this.activities.id,
         month: moment(this.activities.month).format('YYYY-MM-DD'),
         comment: this.activities.comment,
-        activity_details: this.activities.activity_details.map(activity => {
+        activity_details: this.activities.activity_details?.map(activity => {
           return {
             personal_id: activity.personal_id,
             type_id: activity.type_id,
@@ -477,7 +474,6 @@ export class ActivityUpdateComponent implements OnInit {
       this.loadingCalendar = true;
       const res = await this.activitiesService.getActivityById({id}).toPromise();
       this.activities = res.data;
-      this.date.patchValue(this.activities.month);
       await this.getInformationForActivity();
     } catch (e){
       console.log('error getActivityByid', e)
@@ -489,9 +485,8 @@ export class ActivityUpdateComponent implements OnInit {
   async getActivityByMonth(){
     try {
       this.loadingCalendar = true;
-      const res = await this.activitiesService.getActivityByMonth({month: moment(this.date.value)?.format('YYYY-MM-DD')}).toPromise();
+      const res = await this.activitiesService.getActivityByMonth({month: moment(this.activities.month)?.format('YYYY-MM-DD')}).toPromise();
       this.activities = res.data;
-      this.date.patchValue(this.activities.month);
       await this.getInformationForActivity();
     } catch (e){
       console.log('error getActivityByMonth', e)
@@ -525,22 +520,14 @@ export class ActivityUpdateComponent implements OnInit {
     }
   }
 
-  chosenYearHandler( normalizedYear ) {
-    if(normalizedYear){
-      const ctrlValue = this.date.value;
-      ctrlValue?.year(normalizedYear.year());
-      this.date.setValue(ctrlValue);
-    }
-  }
 
-  chosenMonthHandler(normalizedMonth, datepicker) {
-    // if(normalizedMonth){
-    //   const ctrlValue = this.date.value;
-    //   ctrlValue?.month(normalizedMonth.month());
-    //   this.date.setValue(ctrlValue);
-    // }
-    console.log('data value', this.date.value);
-    // datepicker.close();
+
+  chosenMonthHandler() {
+    if(this.dateValue?.$d){
+      this.activities.month = moment(this.dateValue.$d)?.format('YYYY-MM-DD');
+
+      this.getActivityByMonth();
+    }
   }
 
   //todo
@@ -582,6 +569,9 @@ export class ActivityUpdateComponent implements OnInit {
   }
 
   getDataInCell(day, type) {
+    if(!this.activities.activity_details){
+      return null;
+    }
     if(day.is_weekend){
       return moment(day.date).local('fr').format('dd')[0];
     }
@@ -614,6 +604,9 @@ export class ActivityUpdateComponent implements OnInit {
 
   fillLine(type_activity, unfill=false) {
     console.log('fillLine', type_activity);
+    if(!this.activities.activity_details){
+      return;
+    }
     this.data.calendar.forEach(day => {
       const cells_in_columnn = this.activities.activity_details.filter(activity => moment(activity.date).isSame(day.date, 'date') && activity.activity_id);
       if(!(cells_in_columnn?.length>0)){ // Si aucune cellule dans cette colonne n'est trouvé
@@ -700,6 +693,9 @@ export class ActivityUpdateComponent implements OnInit {
   }
 
   getTotalInColumn(day){
+    if(!this.activities.activity_details){
+      return 0;
+    }
     let sum = 0;
     this.activities.activity_details.forEach(activity => {
       if(moment(day.date).isSame(moment(activity.date), 'date')){
@@ -711,6 +707,9 @@ export class ActivityUpdateComponent implements OnInit {
 
   getTotalInLine(type_activity){
     let sum = 0;
+    if(!this.activities.activity_details){
+      return 0;
+    }
     this.activities.activity_details.forEach(cell =>{
      if((cell.category_id ? (cell.category_id === type_activity.id): (cell.type_id === type_activity.id))){
        sum += cell.ratio;
@@ -724,7 +723,7 @@ export class ActivityUpdateComponent implements OnInit {
     let errorMessage = '';
     this.data.calendar.forEach(day => {
       const total = this.getTotalInColumn(day);
-      if(total !== 1){
+      if((total !== 1 && moment(day.date).isSameOrBefore(moment(), 'date')) || ![0, 1].includes(total)){
         const date = moment(day.date).format('DD MMM YYYY');
         errorMessage += "<li>La date "+date+" présente une erreur</li>"
       }

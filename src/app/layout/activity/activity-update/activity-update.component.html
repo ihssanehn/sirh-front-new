@@ -26,8 +26,8 @@
 
   <div class="main-container">
     <div class="filter-container">
-      <div class="sub-header container-fuil container-lg ">
-        <h3>
+      <div class="container-fuil container-lg ">
+        <h3 class="main-title">
           List des relevés
 <!--          <button-->
 <!--            (click)="showActivities()"-->
@@ -38,27 +38,36 @@
         <div class="search  row">
           <div class="flex-column col-12 col-sm-6 col-lg-2">
             <div class="date-picker-group">
-              <owl-date-time [pickerType]="'calendar'"
-                             (yearSelected)="chosenYearHandler($event)"
-                             [startView]="'year'"
-                             #dt_1
-                             (monthSelected)="chosenMonthHandler($event, dt_1);dt_1.close()"
-              >
-              </owl-date-time>
-              <input [owlDateTimeTrigger]="dt_1"
-                     [owlDateTime]="dt_1"
-                     class="form-control input date"
-                     placeholder="Choisir le mois ici"
-                     [formControl]="date"
-              />
-              <div class="icons-container">
-                <i class="icon-close"
-                   (click)="clearDateInput(date)"
-                   *ngIf="date.value"></i>&nbsp;
-                <i [owlDateTimeTrigger]="dt_1" class="fa fa-calendar"></i>
+              <div class="date-picker-group">
+                <dp-date-picker [(ngModel)]="dateValue"
+                                [mode]="'month'"
+                                [placeholder]="'Filtre du mois'"
+                                (onChange)="chosenMonthHandler()"
+                                class="date-picker"
+                                #datepicker
+                                [config]="config"></dp-date-picker>
+
+                <div class="icons-container">
+                  <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+                </div>
               </div>
             </div>
           </div>
+
+<!--          <div class="flex-column col-12 col-sm-6 col-lg-2">-->
+<!--            <div class="date-picker-group">-->
+<!--              <ngx-datepicker [(ngModel)]="date2"-->
+
+<!--                              [options]="options"></ngx-datepicker>-->
+<!--            <dp-month-calendar></dp-month-calendar>-->
+<!--              <div class="icons-container">-->
+<!--                <i class="icon-close"-->
+<!--                   (click)="clearDateInput(date)"-->
+<!--                   *ngIf="date.value"></i>&nbsp;-->
+<!--                <i [owlDateTimeTrigger]="dt_1" class="fa fa-calendar"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="flex-column col" style="display: flex;align-items: center;">
             <h3>Saisie du relevé d'activité de Juillet 2022</h3>
           </div>

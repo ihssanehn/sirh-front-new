@@ -683,3 +683,68 @@ a, .link{
   border-color: $mainColor;
   background: transparent !important;
 }
+
+// date picker
+
+.date-picker-group{
+  border: 1px solid $lightgray;
+  border-radius: 5px;
+}
+
+::ng-deep .dp-popup{
+  box-shadow: none !important;
+  border: 1px solid $lightgray;
+}
+.date-picker{
+  ::ng-deep input{
+    border: 0;
+    min-height: 38px;
+    font-size: 12px;
+    border-radius: 5px;
+    padding-left: 7px;
+  }
+}
+
+::ng-deep dp-month-calendar{
+  ::ng-deep .dp-calendar-nav-container{
+    font-size: 12px;
+    color: $mainGray;
+    border: 0 !important;
+    top: 7px;
+    height: 30px;
+    ::ng-deep .dp-nav-header{
+      left: 13px !important;
+    }
+  }
+  ::ng-deep .dp-nav-btns-container{
+    ::ng-deep button{
+      border: 0 !important;
+      background: unset !important;
+      &:before{
+        color: $mainGray;
+      }
+    }
+    ::ng-deep .dp-current-location-btn{
+      display: none;
+    }
+  }
+  ::ng-deep .dp-calendar-wrapper{
+    box-shadow: none !important;
+    border: 0 !important;
+    ::ng-deep button {
+      background: unset;
+      border: unset;
+      font-size: 12px;
+      color: $mainGray;
+      border-radius: 10px;
+      &:hover{
+        font-weight: 500;
+        color: $primaryColor;
+      }
+    }
+    ::ng-deep .dp-calendar-month.dp-selected{
+      color: white;
+      background: $primaryColor;
+    }
+  }
+}

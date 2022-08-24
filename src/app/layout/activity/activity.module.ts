@@ -18,6 +18,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { DatepickerModule } from 'ng2-datepicker';
+import {DpDatePickerModule} from 'ng2-date-picker';
+
 
 
 @NgModule({
@@ -32,17 +35,19 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     FraisSaisieComponent,
     FraisHistoryComponent
   ],
-    imports: [
-        CommonModule,
-        ActivityRoutingModule,
-        NgSelectModule,
-        OwlDateTimeModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgbModule,
-        MatTooltipModule
-    ]
+  imports: [
+    CommonModule,
+    ActivityRoutingModule,
+    NgSelectModule,
+    OwlDateTimeModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgbModule,
+    MatTooltipModule,
+    DatepickerModule,
+    DpDatePickerModule
+  ]
 })
 export class ActivityModule { }

@@ -1,45 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import {ListsService} from "@services/lists.service";
 import * as _moment from 'moment';
-import { Moment } from 'moment';
+import frLocale from 'date-fns/locale/fr';
 
-import {
-  OwlDateTimeComponent,
-  DateTimeAdapter,
-  OWL_DATE_TIME_FORMATS,
-  OWL_DATE_TIME_LOCALE,
-  OwlDateTimeFormats
-} from 'ng-pick-datetime';
-
-import {FormControl} from "@angular/forms";
-import {MomentDateTimeAdapter} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class";
 import {Subscription} from "rxjs";
 import {ActivitiesService} from "@services/activities.service";
 import {Activity} from "@app/core/entities";
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
-export const MY_MOMENT_DATE_TIME_FORMATS: OwlDateTimeFormats = {
-  parseInput: 'MM/YYYY',
-  fullPickerInput: 'l LT',
-  datePickerInput: 'MM/YYYY',
-  timePickerInput: 'LT',
-  monthYearLabel: 'MMM YYYY',
-  dateA11yLabel: 'LL',
-  monthYearA11yLabel: 'MMMM YYYY',
-};
-
 @Component({
   selector: 'app-activity-list',
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.scss'],
-  providers: [
-    {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_DATE_TIME_FORMATS},
-  ],
 })
 export class ActivityListComponent implements OnInit {
   showFilters = false;
+  dateValue;
+  config = {
+    format: 'MM/YYYY',
+    locale: frLocale,
+  }
 
   personals = [];
   member_ships = [];
@@ -90,7 +71,6 @@ export class ActivityListComponent implements OnInit {
   ];
 
   personnalFilters;
-  public date = new FormControl(moment());
   loadingData = false;
   activities: Array<Activity> = [];
   searchSubscription: Subscription;
@@ -150,6 +130,7 @@ export class ActivityListComponent implements OnInit {
 
   filterChanged() {
     this.getActivities();
+    this.getStatsActivity();
   }
 
   // changePagination() {
@@ -163,7 +144,7 @@ export class ActivityListComponent implements OnInit {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
       // type: this.type
-      month: moment(this.date).set({date: 1}).format('YYYY-MM-DD'),
+      month: this.filter.month,
       personals: this.filter.personals
     }
     if(this.showFilters){
@@ -215,24 +196,12 @@ export class ActivityListComponent implements OnInit {
     date.patchValue(null);
   }
 
-  selectMonthFilter($event) {
-    // if(isMoment(moment($event))){
-    //   this.filter.month = moment($event);
-    //   console.log('selectMonthFilter', this.filter.month )
-    // }
-  }
+  chosenMonthHandler() {
+    if(this.dateValue?.$d){
+      this.filter.month = moment(this.dateValue.$d)?.format('YYYY-MM-DD');
 
-  chosenYearHandler( normalizedYear ) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
-  }
-
-  chosenMonthHandler(normalizedMonth, datepicker) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+     this.filterChanged();
+    }
   }
 
   print(){
