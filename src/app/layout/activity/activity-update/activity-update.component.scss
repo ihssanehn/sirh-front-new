@@ -120,7 +120,8 @@
   //background: red;
   ::ng-deep .ng-value-container{
     color: $mainGray;
-    font-size: 10px;
+    //font-size: 10px;
+    font-size: 11px;
     padding: 0;
     padding-left: 2px;
     cursor: pointer;
@@ -171,3 +172,4 @@
     padding: 0;
   }
 }
+

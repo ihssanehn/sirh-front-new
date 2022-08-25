@@ -637,8 +637,20 @@ a, .link{
   color: $primaryColor !important;
 }
 
+.blue-text{
+  color: $primaryColor !important;
+}
+
 .green-icon:before{
   color: $tertiaryColor !important;
+}
+
+.green-text{
+  color: $tertiaryColor !important;
+}
+
+.bold-text{
+  font-weight: 500;
 }
 
 .icon-check:before{

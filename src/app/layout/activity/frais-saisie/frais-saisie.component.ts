@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FraisSaisieComponent implements OnInit {
 
+  note_frais_list = [];
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  ischecked(id) {
+
+  }
+
+  onCheckChange($event) {
+
+  }
 }

@@ -26,10 +26,11 @@
   <div class="main-container ">
     <div class="sub-header">
       <div class="main-title">
-        Tableau de synthèse
+        Tableau de synthèse &nbsp;
+        <i class="fa fa-refresh primary-icon"></i>
       </div>
-      <div class="wrap">
-        <table class="table table-responsive">
+      <div class="wrap" >
+        <table class="table table-responsive" style="width: 75%;">
           <thead>
             <tr>
               <th></th>
@@ -54,8 +55,8 @@
             </tr>
             <tr>
               <td>
-                <div>TICKETS RESTAURANT <i class="fa fa-zoom-plus"></i></div>
-                <div>Modif TR</div>
+                <div class="green-text">TICKETS RESTAURANT <i class="fa fa-search-plus primary-icon"></i></div>
+                <div class="blue-text">Modif TR</div>
               </td>
               <td>8</td>
               <td></td>
@@ -63,11 +64,11 @@
               <td></td>
             </tr>
             <tr>
-              <td>TOTAL</td>
-              <td></td>
-              <td>93</td>
-              <td></td>
-              <td>93</td>
+              <td class="blue-text bold-text">TOTAL</td>
+              <td class="blue-text bold-text"></td>
+              <td class="blue-text bold-text">93</td>
+              <td class="blue-text bold-text"></td>
+              <td class="blue-text bold-text">93</td>
             </tr>
           </tbody>
         </table>
@@ -81,6 +82,7 @@
       Statut de la note de frais
       </div>
     </div>
+    <div *ngIf="note_frais_list?.length>0; else emptyState"></div>
   </div>
 
   <div class="main-container ">
@@ -89,5 +91,129 @@
         Note de frais - Aout 2022
       </div>
     </div>
+
+    <div class="sub-header">
+      <div class="blue-text">
+        <i class="icon-settings-outline primary-icon"></i> &nbsp;
+        Renumérotation des frais
+      </div>
+      <div class="blue-text">
+        <i class="icon-setting-refresh primary-icon"></i> &nbsp;
+        Génération auto
+      </div>
+    </div>
+
+    <div class="collapse-horizontal">
+      &nbsp;<i class="icon-arrow-right"></i>
+       <div class="title">lun. 01</div>
+       <div class="description">C CADRE CEA DIMP-KKO</div>
+       <div class="value">38</div>
+    </div>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>n°1</th>
+          <th>Exceptionnel</th>
+          <th>Hotel</th>
+          <th>Montant TTC 46.50</th>
+          <th style="text-align: right;">
+            <i class="icon-edit primary-icon"></i>&nbsp;
+            <i class="icon-file"></i>&nbsp;
+            <i class="icon-trash danger-icon"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="no-borders">
+        <tr>
+          <td>
+            <ng-select class="select form-control"
+                       placeholder="Aucune demande"
+            >
+            </ng-select>
+          </td>
+          <td>
+            <div class="input-container check-box-btn">
+              <input type="checkbox"
+                     id="exceptionnel"
+                     [value]="false"
+                     [checked]="ischecked(true)"
+                     (change)="onCheckChange($event)"
+                     name="exceptionnel" >
+              <label for="exceptionnel" >Exceptionnel</label>
+            </div>
+          </td>
+          <td>
+            <input type="text" class="form-control input" placeholder="Commentaire" />
+          </td>
+          <td>
+            <div class="input-group">
+              <label>Montant TTC</label>
+              <input type="text" class="form-control input" />
+            </div>
+          </td>
+          <td style="vertical-align: bottom; text-align: right;">
+            <i class="icon-save primary-icon"></i>&nbsp;
+            <i class="icon-add primary-icon"></i>&nbsp;
+            <i class="icon-close danger-icon"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>
+
+          </td>
+          <td>
+            <div class="input-container check-box-btn">
+              <input type="checkbox"
+                     id="refacturable"
+                     [value]="false"
+                     [checked]="ischecked(true)"
+                     (change)="onCheckChange($event)"
+                     name="exceptionnel" >
+              <label for="refacturable" >Refacturable</label>
+            </div>
+          </td>
+          <td>
+            <ng-select class="select form-control"
+                       placeholder="Aucune type de frais"
+            >
+            </ng-select>
+          </td>
+          <td>
+            <div class="input-group">
+              <label>Dont TVA</label>
+              <input type="text" class="form-control input" />
+            </div>
+          </td>
+          <td style="vertical-align: bottom; text-align: right;">
+            Renseigner la TVA &nbsp;
+            <i class="icon-settings-outline primary-icon"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="collapse-horizontal">
+      &nbsp;<i class="icon-arrow-right"></i>
+      <div class="title">lun. 01</div>
+      <div class="description">C CADRE CEA DIMP-KKO</div>
+      <div class="value">38</div>
+    </div>
+    <div class="collapse-horizontal">
+      &nbsp;<i class="icon-arrow-right"></i>
+      <div class="title">lun. 01</div>
+      <div class="description">C CADRE CEA DIMP-KKO</div>
+      <div class="value">38</div>
+    </div>
+    <div class="collapse-horizontal">
+      &nbsp;<i class="icon-arrow-right"></i>
+      <div class="title">lun. 01</div>
+      <div class="description">C CADRE CEA DIMP-KKO</div>
+      <div class="value">38</div>
+    </div>
   </div>
 </div>
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'La note de frais n\'est pas diffusée' | translate )"
+                       [image]="'images/empty_state_doc.svg'"
+  ></app-centred-message>
+</ng-template>
