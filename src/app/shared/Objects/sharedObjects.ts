@@ -384,7 +384,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Saisir mon activité',
           type: 'link',
           icon: null,
-          link: 'activity/update',
+          link: 'activity/my_activities',
           opened: false,
         },
         {

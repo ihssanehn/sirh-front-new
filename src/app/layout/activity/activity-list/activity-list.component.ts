@@ -204,6 +204,10 @@ export class ActivityListComponent implements OnInit {
     }
   }
 
+  getMonth(activity){
+    return moment(activity.month).format('YYYY-MM-DD');
+  }
+
   print(){
 
   }

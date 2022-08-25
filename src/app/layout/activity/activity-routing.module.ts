@@ -33,7 +33,7 @@ const routes: Routes = [
         component: ActivityUpdateComponent
       },
       {
-        path: 'update',
+        path: 'my_activities',
         component: ActivityUpdateComponent
       },
       {

@@ -24,17 +24,14 @@
     </div>
   </div>
 
+  <div class="sub-header">
+    <h3 class="main-title top-title">
+      List des relevés
+    </h3>
+  </div>
   <div class="main-container">
     <div class="filter-container">
       <div class="container-fuil container-lg ">
-        <h3 class="main-title">
-          List des relevés
-<!--          <button-->
-<!--            (click)="showActivities()"-->
-<!--          >-->
-<!--            Show activities-->
-<!--          </button>-->
-        </h3>
         <div class="search  row">
           <div class="flex-column col-12 col-sm-6 col-lg-2">
             <div class="date-picker-group">
@@ -116,10 +113,12 @@
                 <th>Total</th>
               </tr>
               </thead>
-              <tr *ngFor="let type_activity of getRightLabels()"
+              <tr *ngFor="let type_activity of rightLabels"
                   [ngStyle]="{'background-color': type_activity.bg_color}">
                 <td class="row-title-cell" [ngClass]="{'bold-cell': !type_activity.bg_color}">
-                  <span>{{type_activity.label}}</span>
+                  <span>{{type_activity.label}}
+<!--                    {{type_activity.id}}-->
+                  </span>
                   <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused">
                     <i class="icon-arrow-right-double primary-icon pointer float-right"
                        (click)="fillLine(type_activity, false)"
@@ -147,7 +146,7 @@
                           [items]="data?.ratio"
                           [bindValue]="'code'"
                           [bindLabel]="'label'"
-                          [ngModel]="findRatioValue(getDataInCell(day, type_activity))"
+                          [ngModel]="findRatioValue(day[type_activity.code])"
                           (ngModelChange)="setDataCell(day, type_activity, $event)"
                           [searchable]="false"
                           dropdownPosition="bottom"
@@ -160,7 +159,7 @@
                           {{getWeekendDay(day)}}
                         </ng-container>
                         <ng-template #ratioTemplate>
-                          {{findRatioLabel(getDataInCell(day, type_activity))}}
+                          {{findRatioLabel(day[type_activity.code])}}
                         </ng-template>
                       </ng-template>
 <!--                    </ng-container>-->

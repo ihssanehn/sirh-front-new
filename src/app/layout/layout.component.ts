@@ -57,7 +57,7 @@ export class LayoutComponent implements OnInit{
 
                 $sidebarItems_activity.forEach(item => item.opened = false);
                 if(this.router.url.indexOf('activity/list') !== -1 ||
-                  this.router.url.indexOf('activity/update') !== -1 ||
+                  this.router.url.indexOf('activity/my_activities') !== -1 ||
                   this.router.url.indexOf('activity/history') !== -1
                 ){
                   $sidebarItems_activity[0].opened = true;

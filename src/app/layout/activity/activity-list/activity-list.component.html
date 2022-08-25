@@ -346,7 +346,9 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let activity of activities" >
                 <td>
-                  <i class="icon-search primary-icon" [routerLink]="['/activity/update/'+activity.id]"></i>
+                  <i class="icon-search primary-icon"
+                     [queryParams]="{personal_id: activity.personal_id, month: getMonth(activity.month)}"
+                     [routerLink]="['/activity/history']"></i>
                 </td>
                 <td style="width: 35px; padding: 0">
                   <div class="photo-cell">

@@ -1,9 +1,15 @@
 <div class="top-container">
-  <div class="main-container ">
-    <div class="header pointer" >
-      <div>
-        Suivi des relevés
-      </div>
+  <div class="sub-header">
+    <h3 class="main-title top-title">
+      Suivi des relevés
+    </h3>
+
+  </div>
+  <div class="main-container">
+    <div class="sub-header header" >
+      <h3 class="main-title">
+        &nbsp;
+      </h3>
       <div>
         <ng-select
           [items]="years"
@@ -11,6 +17,7 @@
           class="select form-control"
           [clearable]="false"
           (change)="getAll()"
+          [searchable]="false"
         ></ng-select>
       </div>
     </div>
@@ -69,7 +76,7 @@
                 </ng-template>
 
                 <span style="text-transform: capitalize;">
-                  {{item.month}}
+                  {{item.date | dateMessage: 'MMMM YYYY'}}
                 </span>
               </td>
               <td>
@@ -97,7 +104,9 @@
                 </i>
               </td>
               <td>
-                <i class="icon-search primary-icon pointer" [routerLink]="['/activity/update/'+item.id]"></i> {{item.id}}
+                <i class="icon-search primary-icon pointer"
+                   [queryParams]="{month: getMonth(item.date)}"
+                   [routerLink]="['/activity/my_activities']"></i> {{item.id}}
               </td>
             </tr>
             </tbody>

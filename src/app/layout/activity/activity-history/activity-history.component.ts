@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivitiesService} from "@services/activities.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-activity-history',
@@ -34,5 +35,9 @@ export class ActivityHistoryComponent implements OnInit {
     }finally {
       this.loadingData = false;
     }
+  }
+
+  getMonth(date){
+    return moment(date, 'YYYY-MM-DD').format('YYYY-MM-DD')
   }
 }
