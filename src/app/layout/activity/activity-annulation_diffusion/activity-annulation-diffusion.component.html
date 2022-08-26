@@ -1,0 +1,82 @@
+<div class="top-container">
+  <div class="sub-header container-fuil container-lg ">
+    <h3 class="main-title top-title">
+      Annulation des diffusions du mois : Aout 2022
+    </h3>
+  </div>
+
+  <form [formGroup]="myForm" *ngIf="myForm">
+    <div class="filter-container">
+      <div class="filtres row ">
+        <div class="flex-column  col-12 ">
+          <label>Type d'annulation {{isRequired(formInputs.type_cancelation)}}</label>
+          <div>
+            <div class="btn-group radio"
+                 ngbRadioGroup name="radioBasic"
+                 [formControl]="myForm.controls[formInputs.type_cancelation]"
+            >
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'all_statements'" id="all_statements">&nbsp;
+                <span class="radio-label"  >Tous les relevés</span>
+              </label>
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'only_fees'" id="only_fees">&nbsp;
+                <span class="radio-label" >Seulement les frais</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column  col-12">
+          <label>Choix du collaborateur {{isRequired(formInputs.personnal_id)}}</label>
+          <div>
+            <ng-select class="select form-control"
+                       [formControl]="myForm.controls[formInputs.personnal_id]"
+                       [multiple]="false"
+                       [items]="personnals"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column  col-12 ">
+          <label>Mail {{isRequired(formInputs.email)}}</label>
+          <div>
+         <textarea
+           rows="5"
+           [formControl]="myForm.controls[formInputs.email]"
+           [placeholder]="'Merci de ne Saisir ici que le message à destination des destinataires (les formules de politesse seront ajoutées automatiquement).'"
+           class="form-control input"
+         ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column  col-12 ">
+          <div class="input-container check-box-btn">
+            <input type="checkbox"
+                   id="notify_email"
+                   [checked]="ischecked(formInputs.notify_mail)"
+                   (change)="onCheckChange($event)"
+                   name="notify_email" >
+            <label for="notify_email" >Cochez si vous voulez avertir par mail l'utilisateur de l'annulation de la duffusion d'un relevé.</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-block" >
+      <app-button
+        [type]="'danger'"
+        [text]="'Annuler la diffusion'"
+        (onClick)="cancelDiffusion()"
+        [iconLeft]="'icon-close'"
+        [customStyle]="{'min-width': '130px'}"
+      >
+      </app-button>
+    </div>
+  </form>
+</div>

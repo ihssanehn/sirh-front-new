@@ -103,111 +103,114 @@
       </div>
     </div>
 
-    <div class="collapse-horizontal">
-      &nbsp;<i class="icon-arrow-right"></i>
-       <div class="title">lun. 01</div>
-       <div class="description">C CADRE CEA DIMP-KKO</div>
-       <div class="value">38</div>
-    </div>
-    <table class="table table-responsive">
-      <thead>
-        <tr>
-          <th>n°1</th>
-          <th>Exceptionnel</th>
-          <th>Hotel</th>
-          <th>Montant TTC 46.50</th>
-          <th style="text-align: right;">
-            <i class="icon-edit primary-icon"></i>&nbsp;
-            <i class="icon-file"></i>&nbsp;
-            <i class="icon-trash danger-icon"></i>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="no-borders">
-        <tr>
-          <td>
-            <ng-select class="select form-control"
-                       placeholder="Aucune demande"
-            >
-            </ng-select>
-          </td>
-          <td>
-            <div class="input-container check-box-btn">
-              <input type="checkbox"
-                     id="exceptionnel"
-                     [value]="false"
-                     [checked]="ischecked(true)"
-                     (change)="onCheckChange($event)"
-                     name="exceptionnel" >
-              <label for="exceptionnel" >Exceptionnel</label>
-            </div>
-          </td>
-          <td>
-            <input type="text" class="form-control input" placeholder="Commentaire" />
-          </td>
-          <td>
-            <div class="input-group">
-              <label>Montant TTC</label>
-              <input type="text" class="form-control input" />
-            </div>
-          </td>
-          <td style="vertical-align: bottom; text-align: right;">
-            <i class="icon-save primary-icon"></i>&nbsp;
-            <i class="icon-add primary-icon"></i>&nbsp;
-            <i class="icon-close danger-icon"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>
+    <ng-container *ngFor="let note of expense_reports">
+      <div class="collapse-horizontal" (click)="note.opened = !note.opened">
+        <i class="icon-arrow-right" [ngClass]="{'icon-arrow-up': note.opened, 'icon-arrow-down': !note.opened}"></i>
+        <div class="title">{{note.title}}</div>
+        <div class="description">{{note.description}}</div>
+        <div class="value">{{note.note}}</div>
+      </div>
+      <ng-container *ngIf="note.opened">
+        <ng-container *ngFor="let item of note.items">
+          <table class="table table-responsive">
+            <thead>
+            <tr>
+              <th>N°1</th>
+              <th>Exceptionnel</th>
+              <th>Hotel</th>
+              <th>Montant TTC 46.50</th>
+              <th style="text-align: right;">
+                <i class="fa fa-pencil-square-o primary-icon"></i>&nbsp;
+                <i class="fa fa-files-o"></i>&nbsp;
+                <i class="fa fa-trash danger-icon"></i>
+              </th>
+            </tr>
+            </thead>
+            <tbody class="no-borders">
+            <tr>
+              <td style="width: 25%;">
+                <ng-select class="select form-control"
+                           placeholder="Aucune demande"
+                >
+                </ng-select>
+              </td>
+              <td>
+                <div class="input-container check-box-btn">
+                  <input type="checkbox"
+                         id="exceptionnel"
+                         [value]="false"
+                         [checked]="ischecked(true)"
+                         (change)="onCheckChange($event)"
+                         name="exceptionnel" >
+                  <label for="exceptionnel" >Exceptionnel</label>
+                </div>
+              </td>
+              <td>
+                <input type="text" class="form-control input" placeholder="Commentaire" />
+              </td>
+              <td>
+                <div class="input-group">
+                  <label>Montant TTC</label>
+                  <input type="number" class="form-control input" />
+                </div>
+              </td>
+              <td style="vertical-align: bottom; text-align: right;">
+                <i class="icon-save primary-icon"></i>&nbsp;
+                <i class="icon-add primary-icon"></i>&nbsp;
+                <i class="icon-close danger-icon"></i>
+              </td>
+            </tr>
+            <tr>
+              <td>
 
-          </td>
-          <td>
-            <div class="input-container check-box-btn">
-              <input type="checkbox"
-                     id="refacturable"
-                     [value]="false"
-                     [checked]="ischecked(true)"
-                     (change)="onCheckChange($event)"
-                     name="exceptionnel" >
-              <label for="refacturable" >Refacturable</label>
-            </div>
-          </td>
-          <td>
-            <ng-select class="select form-control"
-                       placeholder="Aucune type de frais"
-            >
-            </ng-select>
-          </td>
-          <td>
-            <div class="input-group">
-              <label>Dont TVA</label>
-              <input type="text" class="form-control input" />
-            </div>
-          </td>
-          <td style="vertical-align: bottom; text-align: right;">
-            Renseigner la TVA &nbsp;
-            <i class="icon-settings-outline primary-icon"></i>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="collapse-horizontal">
-      &nbsp;<i class="icon-arrow-right"></i>
-      <div class="title">lun. 01</div>
-      <div class="description">C CADRE CEA DIMP-KKO</div>
-      <div class="value">38</div>
-    </div>
-    <div class="collapse-horizontal">
-      &nbsp;<i class="icon-arrow-right"></i>
-      <div class="title">lun. 01</div>
-      <div class="description">C CADRE CEA DIMP-KKO</div>
-      <div class="value">38</div>
-    </div>
-    <div class="collapse-horizontal">
-      &nbsp;<i class="icon-arrow-right"></i>
-      <div class="title">lun. 01</div>
-      <div class="description">C CADRE CEA DIMP-KKO</div>
-      <div class="value">38</div>
+              </td>
+              <td>
+                <div class="input-container check-box-btn">
+                  <input type="checkbox"
+                         id="refacturable"
+                         [value]="false"
+                         [checked]="ischecked(true)"
+                         (change)="onCheckChange($event)"
+                         name="exceptionnel" >
+                  <label for="refacturable" >Refacturable</label>
+                </div>
+              </td>
+              <td>
+                <ng-select [items]="type_frais"
+                           bindLabel="name"
+                           bindValue="id"
+                           groupBy="category"
+                           [searchable]="false"
+                           [(ngModel)]="selectedAccount"
+                           placeholder="Aucun type de frais"
+                           class="select form-control"
+                >
+                  <ng-template ng-optgroup-tmp let-item="item">
+                    {{item.category}}
+                  </ng-template>
+                </ng-select>
+              </td>
+              <td>
+                <div class="input-group">
+                  <label>Dont TVA</label>
+                  <input type="number" class="form-control input" />
+                </div>
+              </td>
+              <td style="vertical-align: bottom; text-align: right;">
+                Renseigner la TVA &nbsp;
+                <i class="icon-settings-outline primary-icon"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <div class="d-flex flex-column align-items-end">
+      <div>Total déclaré : 93:00 EUR</div>
+      <div>Total Validé : 93:00 EUR</div>
+      <div class="blue-text bold-text">Total à payer : 93.00 EUR</div>
     </div>
   </div>
 </div>

@@ -8,13 +8,17 @@ import {AvanceCreationComponent} from "@layout/activity/avance-creation/avance-c
 import {CongeDemandeComponent} from "@layout/activity/conge-demande/conge-demande.component";
 import {CongeHistoryComponent} from "@layout/activity/conge-history/conge-history.component";
 import {FraisSaisieComponent} from "@layout/activity/frais-saisie/frais-saisie.component";
+import {ActivityAnnulationDiffusionComponent} from "@layout/activity/activity-annulation_diffusion/activity-annulation-diffusion.component";
+import {ActivityImpressionComponent} from "@layout/activity/activity-impression/activity-impression.component";
+import {FraisListComponent} from "@layout/activity/frais-list/frais-list.component";
+import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
 
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'list'
+    redirectTo: 'my_activities' //list for admin
   },
   {
     path: '',
@@ -22,11 +26,19 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'list'
+        redirectTo: 'my_activities'  //list for admin
       },
       {
         path: 'list',
         component: ActivityListComponent
+      },
+      {
+        path: 'annulation_diffusion',
+        component: ActivityAnnulationDiffusionComponent
+      },
+      {
+        path: 'impression',
+        component: ActivityImpressionComponent
       },
       {
         path: 'update/:id',
@@ -79,7 +91,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'frais',
+    path: 'mes_frais',
     children: [
       {
         path: '',
@@ -93,6 +105,24 @@ const routes: Routes = [
       {
         path: 'history',
         component: ActivityHistoryComponent
+      },
+    ],
+  },
+  {
+    path: 'frais',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'list',
+      },
+      {
+        path: 'list',
+        component: FraisListComponent
+      },
+      {
+        path: 'ticket_restaurant',
+        component: FraisTicketRestaurantComponent
       },
     ],
   }

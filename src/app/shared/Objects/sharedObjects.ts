@@ -381,6 +381,14 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
         },
         {
           id: 3,
+          name: 'Annulation diffusion',
+          type: 'link',
+          icon: null,
+          link: 'activity/annulation_diffusion',
+          opened: false,
+        },
+        {
+          id: 3,
           name: 'Saisir mon activité',
           type: 'link',
           icon: null,
@@ -393,6 +401,41 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           type: 'link',
           icon: null,
           link: 'activity/history',
+          opened: false,
+        },
+        {
+          id: 4,
+          name: 'Impression',
+          type: 'link',
+          icon: null,
+          link: 'activity/impression',
+          opened: false,
+        },
+      ]
+    },
+    {
+      id: 2,
+      name: 'Frais',
+      type: 'sub',
+      icon: null,
+      link: 'activity/frais',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Liste',
+          type: 'link',
+          icon: null,
+          link: 'activity/frais/list',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Tickets Restaurant',
+          type: 'link',
+          icon: null,
+          link: 'activity/frais/ticket_restaurant',
           opened: false,
         }
       ]
@@ -456,7 +499,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     name: 'Mes frais',
     type: 'sub',
     icon: null,
-    link: 'activity/frais',
+    link: 'activity/mes_frais',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
     subMenu: [
@@ -465,7 +508,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
         name: 'saisie',
         type: 'link',
         icon: null,
-        link: 'activity/frais/saisie',
+        link: 'activity/mes_frais/saisie',
         opened: false,
       },
       {
@@ -473,7 +516,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
         name: 'Historique',
         type: 'link',
         icon: null,
-        link: 'activity/frais/history',
+        link: 'activity/mes_frais/history',
         opened: false,
       }
     ]

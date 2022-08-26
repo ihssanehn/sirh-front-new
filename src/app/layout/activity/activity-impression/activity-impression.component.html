@@ -1,0 +1,97 @@
+<div class="top-container">
+  <div class="sub-header container-fuil container-lg ">
+    <h3 class="main-title top-title">
+      File de recherche
+    </h3>
+  </div>
+
+  <form [formGroup]="myForm" *ngIf="myForm">
+    <div class="filter-container">
+      <div class="filtres row ">
+        <div class="flex-column  col-12 col-sm-6 col-lg-4">
+          <label>Période début {{isRequired(formInputs.starts_at)}}</label>
+          <div class="date-picker-group">
+              <dp-date-picker  [formControl]="myForm.controls[formInputs.starts_at]"
+                              [mode]="'month'"
+                              [placeholder]="'Sélectionner un mois'"
+                              (onChange)="chosenMonthHandler(formInputs.starts_at)"
+                              class="date-picker"
+                              #datepicker_1
+                              [config]="config"></dp-date-picker>
+
+              <div class="icons-container">
+                <i (click)="datepicker_1?.api?.open()" class="fa fa-calendar"></i>
+              </div>
+            </div>
+        </div>
+        <div class="flex-column  col-12 col-sm-6 col-lg-4">
+          <label>Période fin {{isRequired(formInputs.ends_at)}}</label>
+          <div class="date-picker-group">
+            <dp-date-picker  [formControl]="myForm.controls[formInputs.ends_at]"
+                             [mode]="'month'"
+                             [placeholder]="'Sélectionner un mois'"
+                             (onChange)="chosenMonthHandler(formInputs.ends_at)"
+                             class="date-picker"
+                             #datepicker_1
+                             [config]="config"></dp-date-picker>
+
+            <div class="icons-container">
+              <i (click)="datepicker_1?.api?.open()" class="fa fa-calendar"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filtres row ">
+        <div class="flex-column    col-12 col-sm-6 col-lg-4">
+          <label>Utilisateur {{isRequired(formInputs.personal_id)}}</label>
+          <div>
+            <ng-select class="select form-control"
+                       [formControl]="myForm.controls[formInputs.personal_id]"
+                       [multiple]="false"
+                       [items]="personnals"
+                       [bindLabel]="'full_name'"
+                       [bindValue]="'id'"
+                       [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="filtres row ">
+        <div class="align-items-center col-12 d-flex">
+          <label>Option d'impression</label>
+          <div class="input-container check-box-btn">
+            <input type="checkbox"
+                   id="releve_activite"
+                   [checked]="ischecked(formInputs.releve_activite)"
+                   (change)="onCheckChange($event)"
+                   name="releve_activite" >
+            <label for="releve_activite" style="font-weight: normal;margin-left: 1px;">
+              Relevé d'activité
+            </label>
+          </div>
+          <div class="input-container check-box-btn">
+            <input type="checkbox"
+                   id="fiche_frais"
+                   [checked]="ischecked(formInputs.fiche_frais)"
+                   (change)="onCheckChange($event)"
+                   name="fiche_frais" >
+            <label for="fiche_frais"  style="font-weight: normal; margin-left: 1px;">
+              Fiche de frais
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-block" >
+      <app-button
+        [type]="'primary'"
+        [text]="'Rechercher'"
+        (onClick)="search()"
+        [iconLeft]="'icon-search'"
+        [customStyle]="{'min-width': '130px'}"
+      >
+      </app-button>
+    </div>
+  </form>
+</div>

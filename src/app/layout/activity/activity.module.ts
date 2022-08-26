@@ -20,6 +20,10 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { DatepickerModule } from 'ng2-datepicker';
 import {DpDatePickerModule} from 'ng2-date-picker';
+import {ActivityAnnulationDiffusionComponent} from "@layout/activity/activity-annulation_diffusion/activity-annulation-diffusion.component";
+import {ActivityImpressionComponent} from "@layout/activity/activity-impression/activity-impression.component";
+import {FraisListComponent} from "@layout/activity/frais-list/frais-list.component";
+import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
 
 
 
@@ -33,7 +37,11 @@ import {DpDatePickerModule} from 'ng2-date-picker';
     CongeDemandeComponent,
     CongeHistoryComponent,
     FraisSaisieComponent,
-    FraisHistoryComponent
+    FraisHistoryComponent,
+    ActivityAnnulationDiffusionComponent,
+    ActivityImpressionComponent,
+    FraisListComponent,
+    FraisTicketRestaurantComponent,
   ],
   imports: [
     CommonModule,

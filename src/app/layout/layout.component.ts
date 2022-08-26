@@ -58,18 +58,24 @@ export class LayoutComponent implements OnInit{
                 $sidebarItems_activity.forEach(item => item.opened = false);
                 if(this.router.url.indexOf('activity/list') !== -1 ||
                   this.router.url.indexOf('activity/my_activities') !== -1 ||
+                  this.router.url.indexOf('activity/annulation_diffusion') !== -1 ||
+                  this.router.url.indexOf('activity/impression') !== -1 ||
                   this.router.url.indexOf('activity/history') !== -1
                 ){
                   $sidebarItems_activity[0].opened = true;
                 }
-                if(this.router.url.indexOf('activity/avance') !== -1){
+
+                if(this.router.url.indexOf('activity/frais') !== -1){
                   $sidebarItems_activity[1].opened = true;
                 }
-                if(this.router.url.indexOf('activity/conge') !== -1){
+                if(this.router.url.indexOf('activity/avance') !== -1){
                   $sidebarItems_activity[2].opened = true;
                 }
-                if(this.router.url.indexOf('activity/frais') !== -1){
+                if(this.router.url.indexOf('activity/conge') !== -1){
                   $sidebarItems_activity[3].opened = true;
+                }
+                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                  $sidebarItems_activity[4].opened = true;
                 }
 
                 break;

@@ -398,6 +398,10 @@
       //border-color: transparent transparent $primaryColor;
     }
   }
+  ::ng-deep .ng-optgroup{
+    color: $primaryColor;
+    //background: $lightPrimaryColor;
+  }
 }
 
 .foback-header{
