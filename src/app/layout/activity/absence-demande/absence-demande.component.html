@@ -1,0 +1,150 @@
+<div class="top-container">
+    <div class="filter-container">
+      <div class="header">
+        Création d'une demande d'absence
+      </div>
+      <form [formGroup]="myForm" *ngIf="myForm">
+        <div class="filtres row ">
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Choix du salarié</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="personels"
+                         [bindLabel]="'label'"
+                         [bindValue]="'id'"
+                         [placeholder]="'Sélectionner le salarié'"></ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="filtres row ">
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Type d'absence {{isRequired(formInputs.type_absence)}}</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="types"
+                         [bindLabel]="'label'"
+                         [bindValue]="'id'"
+                         [placeholder]="'Sélectionner le salarié'"
+                         [formControl]="myForm.controls[formInputs.type_absence]"
+              ></ng-select>
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Date de début {{isRequired(formInputs.starts_at)}}</label>
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt1"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt1"
+                     placeholder="Choisir la date ici"
+                     [formControl]="myForm.controls[formInputs.starts_at]"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="clearDateInput(formInputs.starts_at)"
+                   *ngIf="myForm.controls[formInputs.starts_at].value"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+              </div>
+            </div>
+            <div class="btn-group radio"
+                 ngbRadioGroup name="radioBasic"
+                 [formControl]="myForm.controls[formInputs.starts_at_am_pm]"
+            >
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'am'" id="starts_at_am">&nbsp;
+                <span class="radio-label" for="starts_at_am">Matin</span>
+              </label>
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
+                <span class="radio-label" for="starts_at_pm">Après-midi</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Date de fin {{isRequired(formInputs.ends_at)}}</label>
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt2"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt2"
+                     placeholder="Choisir la date ici"
+                     [formControl]="myForm.controls[formInputs.ends_at]"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="clearDateInput(formInputs.ends_at)"
+                   *ngIf="myForm.controls[formInputs.ends_at].value"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+              </div>
+            </div>
+            <div class="btn-group radio"
+                 [formControl]="myForm.controls[formInputs.ends_at_am_pm]"
+                 ngbRadioGroup name="radioBasic">
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" class="radio-button" [value]="'am'" id="ends_at_am">&nbsp;
+                <span class="radio-label" for="ends_at_am">Matin</span>
+              </label>
+              <label ngbButtonLabel >
+                <input ngbButton type="radio" class="radio-button" [value]="'pm'" id="ends_at_pm">&nbsp;
+                <span class="radio-label" for="ends_at_am">Après-midi</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Durée {{isRequired(formInputs.duration)}}</label>
+            <div>
+              <input type="number"
+                     class="form-control input"
+                     placeholder="Saisir la durée ici"
+                     [formControl]="myForm.controls[formInputs.duration]"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="filtres row ">
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Détails maladie</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="illness_details"
+                         [bindLabel]="'label'"
+                         [bindValue]="'id'"
+                         [placeholder]="'---'"></ng-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="filtres row ">
+          <div class="flex-column  col-12 ">
+            <label>Justification {{isRequired(formInputs.justification)}}</label>
+            <div>
+         <textarea
+           rows="5"
+           [placeholder]="'Saisir la justificcation'"
+           class="form-control input"
+         ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-block" >
+          <app-button
+            [type]="'secondary'"
+            [text]="'Diffuser'"
+            [isLoading]="submittingDiffuse"
+            [textLoading]="'Diffusion en cours..'"
+            [isDisabled]="submittingDiffuse"
+            (onClick)="diffuse()"
+            [iconLeft]="'icon-check'"
+            [customStyle]="{'min-width': '130px'}"
+          >
+          </app-button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>

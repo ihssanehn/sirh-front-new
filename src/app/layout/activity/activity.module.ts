@@ -24,6 +24,7 @@ import {ActivityAnnulationDiffusionComponent} from "@layout/activity/activity-an
 import {ActivityImpressionComponent} from "@layout/activity/activity-impression/activity-impression.component";
 import {FraisListComponent} from "@layout/activity/frais-list/frais-list.component";
 import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
+import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-demande.component";
 
 
 
@@ -42,6 +43,7 @@ import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-rest
     ActivityImpressionComponent,
     FraisListComponent,
     FraisTicketRestaurantComponent,
+    AbsenceDemandeComponent,
   ],
   imports: [
     CommonModule,

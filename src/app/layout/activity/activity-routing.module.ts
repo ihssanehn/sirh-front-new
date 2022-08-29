@@ -12,6 +12,7 @@ import {ActivityAnnulationDiffusionComponent} from "@layout/activity/activity-an
 import {ActivityImpressionComponent} from "@layout/activity/activity-impression/activity-impression.component";
 import {FraisListComponent} from "@layout/activity/frais-list/frais-list.component";
 import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
+import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-demande.component";
 
 
 const routes: Routes = [
@@ -105,6 +106,48 @@ const routes: Routes = [
       {
         path: 'history',
         component: ActivityHistoryComponent
+      },
+    ],
+  },
+  {
+    path: 'absence',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'list',
+      },
+      {
+        path: 'creation',
+        component: AbsenceDemandeComponent
+      },
+      {
+        path: 'list_visualisation',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'List_validation',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'list_visualisation',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'ticket_restaurant',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'import_soldes_abs',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'admin_soldes_abs',
+        component: FraisTicketRestaurantComponent
+      },
+      {
+        path: 'import_absences',
+        component: FraisTicketRestaurantComponent
       },
     ],
   },

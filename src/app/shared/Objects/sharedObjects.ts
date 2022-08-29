@@ -363,7 +363,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
 
 export const $sidebarItems_activity: Array<SidebarItem> = [
     {
-      id: 2,
+      id: 1,
       name: 'Activité',
       type: 'sub',
       icon: null,
@@ -441,7 +441,66 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       ]
     },
     {
-      id: 5,
+      id: 3,
+      name: 'Absences',
+      type: 'sub',
+      icon: null,
+      link: 'activity/absence',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Création',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/creation',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Liste visualisation',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/list_visualisation',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Liste validation',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/List_validation',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Import soldes abs.',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/import_soldes_abs',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Admin. soldes abs.',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/admin_soldes_abs',
+          opened: false,
+        },
+        {
+          id: 3,
+          name: 'Import absences',
+          type: 'link',
+          icon: null,
+          link: 'activity/absence/import_absences',
+          opened: false,
+        },
+      ]
+    },
+    {
+      id: 4,
       name: 'Avance de frais',
       type: 'sub',
       icon: null,
@@ -495,7 +554,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     ]
   },
     {
-    id: 5,
+    id: 6,
     name: 'Mes frais',
     type: 'sub',
     icon: null,

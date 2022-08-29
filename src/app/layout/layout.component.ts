@@ -64,18 +64,20 @@ export class LayoutComponent implements OnInit{
                 ){
                   $sidebarItems_activity[0].opened = true;
                 }
-
                 if(this.router.url.indexOf('activity/frais') !== -1){
                   $sidebarItems_activity[1].opened = true;
                 }
-                if(this.router.url.indexOf('activity/avance') !== -1){
+                if(this.router.url.indexOf('activity/absence') !== -1){
                   $sidebarItems_activity[2].opened = true;
                 }
-                if(this.router.url.indexOf('activity/conge') !== -1){
+                if(this.router.url.indexOf('activity/avance') !== -1){
                   $sidebarItems_activity[3].opened = true;
                 }
-                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                if(this.router.url.indexOf('activity/conge') !== -1){
                   $sidebarItems_activity[4].opened = true;
+                }
+                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                  $sidebarItems_activity[5].opened = true;
                 }
 
                 break;
