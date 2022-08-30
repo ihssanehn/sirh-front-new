@@ -50,15 +50,29 @@
       </div>
 
       <div class="flex-column  col-12 col-sm-4 ">
-        <label>Appartenance</label>
+        <label>Statut de la demande</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="member_ships"
+                     [items]="demand_status"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.member_ships"
+                     [(ngModel)]="filter.demand_status"
+                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+        </div>
+      </div>
+
+      <div class="flex-column  col-12 col-sm-4 ">
+        <label>Type d'absence</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="absence_types"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.absence_types"
                      [placeholder]="'Filtrer par appartenance'"></ng-select>
         </div>
       </div>
@@ -80,23 +94,6 @@
       </div>
       <div class=" flex-column  col-12 col-sm-4  ">
         <label>
-          Société d'origine
-          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
-        </label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="true"
-                     [items]="societe_origins"
-                     [disabled]="true"
-                     [bindLabel]="'label'"
-                     [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.societe_origins"
-                     [placeholder]="'Filtrer direction op'"></ng-select>
-        </div>
-      </div>
-      <div class=" flex-column  col-12 col-sm-4  ">
-        <label>
           Business line
           <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
         </label>
@@ -112,8 +109,6 @@
                      [placeholder]="'Filtrer par business lines'"></ng-select>
         </div>
       </div>
-    </div>
-    <div class="filtres row ">
       <div class=" flex-column  col-12 col-sm-4  ">
         <label>
           Direction OP
@@ -131,6 +126,8 @@
                      [placeholder]="'Filtrer direction op'"></ng-select>
         </div>
       </div>
+    </div>
+    <div class="filtres row ">
       <div class=" flex-column  col-12 col-sm-4  ">
         <label>
           Business unit
@@ -165,8 +162,6 @@
         </div>
 
       </div>
-    </div>
-    <div class="filtres row ">
       <div class="flex-column  col-12 col-sm-4">
         <label>Centre de profit</label>
         <div>
@@ -189,6 +184,9 @@
           <label for="with_inactive_cp" >Avec centres de profits inactifs</label>
         </div>
       </div>
+    </div>
+    <div class="filtres row ">
+
       <div class="flex-column col-12 col-sm-4 ">
         <label>Utilisateur</label>
         <div>
@@ -206,42 +204,8 @@
         </div>
       </div>
     </div>
-    <div class="filtres row ">
-      <div class=" flex-column  col-12 col-sm-4">
-        <label>
-          Uniquement les absences <span class="light-text">Modifiées/Créées/Supprimées</span>
-          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
-        </label>
-        <div>
-          <input type="text" class="form-control input" />
-        </div>
-        <div class="small-input">
-          <label>Date/heure au format jj/mm/aaa HH:MM à partir de laquelle les absences ont été modifiées</label>
-        </div>
-      </div>
 
-      <div class=" flex-column  col-12 col-sm-4">
-        <label>
-          Date de dernier export des absences
-        </label>
-        <div class="date-picker-group">
-          <dp-date-picker [(ngModel)]="dateValue"
-                          [mode]="'month'"
-                          [placeholder]="'Filtre du mois'"
-                          (onChange)="chosenMonthHandler()"
-                          class="date-picker"
-                          #datepicker
-                          [config]="config"></dp-date-picker>
 
-          <div class="icons-container">
-            <i class="icon-close"
-               (click)="filter.month = null; dateValue = null; filterChanged()"
-               *ngIf="filter.month"></i>&nbsp;
-            <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="submit-block">
       <app-button
         [type]="'primary'"
@@ -284,6 +248,14 @@
     </div>
     <div class="info">
       <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
+    </div>
+    <div class="cards-stats row" >
+      <div class="card col" *ngFor="let card of cards">
+        <div class="title">
+          {{card.title}}
+        </div>
+        <div class="state-value">{{card?.value }}</div>
+      </div>
     </div>
   </div>
 

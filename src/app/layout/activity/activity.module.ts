@@ -26,6 +26,8 @@ import {FraisListComponent} from "@layout/activity/frais-list/frais-list.compone
 import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
 import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-demande.component";
 import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-visualisation/absence-list-visualisation.component";
+import {AbsenceListValidationComponent} from "@layout/activity/absence-list-validation/absence-list-validation.component";
+import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-solds-abs.component";
 
 
 
@@ -45,7 +47,9 @@ import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-v
     FraisListComponent,
     FraisTicketRestaurantComponent,
     AbsenceDemandeComponent,
-    AbsenceListVisualisationComponent
+    AbsenceListVisualisationComponent,
+    AbsenceListValidationComponent,
+    ImportSoldsAbsComponent,
   ],
   imports: [
     CommonModule,

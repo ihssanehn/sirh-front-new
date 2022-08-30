@@ -14,6 +14,8 @@ import {FraisListComponent} from "@layout/activity/frais-list/frais-list.compone
 import {FraisTicketRestaurantComponent} from "@layout/activity/frais-ticket-restaurant/frais-ticket-restaurant.component";
 import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-demande.component";
 import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-visualisation/absence-list-visualisation.component";
+import {AbsenceListValidationComponent} from "@layout/activity/absence-list-validation/absence-list-validation.component";
+import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-solds-abs.component";
 
 
 const routes: Routes = [
@@ -128,19 +130,11 @@ const routes: Routes = [
       },
       {
         path: 'List_validation',
-        component: FraisTicketRestaurantComponent
-      },
-      {
-        path: 'list_visualisation',
-        component: FraisTicketRestaurantComponent
-      },
-      {
-        path: 'ticket_restaurant',
-        component: FraisTicketRestaurantComponent
+        component: AbsenceListValidationComponent
       },
       {
         path: 'import_soldes_abs',
-        component: FraisTicketRestaurantComponent
+        component: ImportSoldsAbsComponent
       },
       {
         path: 'admin_soldes_abs',

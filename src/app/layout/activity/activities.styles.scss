@@ -143,3 +143,21 @@ table{
     color: white;
   }
 }
+
+.cards-stats{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 5px;
+  .card{
+    padding: 3px 3px 5px 3px;
+    max-width: 105px;
+    min-width: 100px;
+    background: $lightergray;
+    border: 0;
+    color: $mainGray;
+    .state-value{
+      font-size: 16px;
+    }
+  }
+}

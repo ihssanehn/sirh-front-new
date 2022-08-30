@@ -11,11 +11,11 @@ import * as _moment from "moment";
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
 @Component({
-  selector: 'app-absence-list-visualisation',
-  templateUrl: './absence-list-visualisation.component.html',
-  styleUrls: ['./absence-list-visualisation.component.scss']
+  selector: 'app-absence-list-validation',
+  templateUrl: './absence-list-validation.component.html',
+  styleUrls: ['./absence-list-validation.component.scss']
 })
-export class AbsenceListVisualisationComponent implements OnInit {
+export class AbsenceListValidationComponent implements OnInit {
   showFilters = false;
   dateValue;
   config = {
@@ -35,7 +35,8 @@ export class AbsenceListVisualisationComponent implements OnInit {
   clients = [];
   departments = [];
   validation_stats = [];
-  societe_origins = [];
+  absence_types = [];
+  demand_status = [];
   // pagination: any = {
   //   page: 1,
   //   total: 10,
@@ -61,13 +62,14 @@ export class AbsenceListVisualisationComponent implements OnInit {
     adv_managers: [],
     direction_ops: [],
     clients: [],
+    demand_status: [],
+    absence_types: null,
     month: null,
     has_internal_billing_admin: null,
     in_out_office: null,
     with_inactive_cp: null,
     departments: [],
     validation_stats: null,
-    societe_origins: null,
     information_pending: null,
     comment: null,
     plage_starts_at: null,
@@ -93,7 +95,76 @@ export class AbsenceListVisualisationComponent implements OnInit {
   submittingExport = false;
   submittingDetailedExport = false;
   stats: any;
-
+  cards = [
+    {
+      title: 'Absence non rémunérée',
+      value: 0
+    },
+    {
+      title: 'Chômage technique',
+      value: 0
+    },
+    {
+      title: 'Congé parental',
+      value: 0
+    },
+    {
+      title: 'Congé ancienneté',
+      value: 0
+    },
+    {
+      title: 'Congé exceptionnels',
+      value: 0
+    },
+    {
+      title: 'Congé paternité',
+      value: 0
+    },
+    {
+      title: 'Congé payés',
+      value: 0
+    },
+    {
+      title: 'Congé sans solde',
+      value: 0
+    },
+    {
+      title: 'Exception Décès',
+      value: 0
+    },
+    {
+      title: 'Exception Mariage',
+      value: 0
+    },
+    {
+      title: 'Exception Naissance',
+      value: 0
+    },
+    {
+      title: 'Exception PACS',
+      value: 0
+    },
+    {
+      title: 'Maladie',
+      value: 0
+    },
+    {
+      title: 'Matenité',
+      value: 0
+    },
+    {
+      title: 'Récupération',
+      value: 0
+    },
+    {
+      title: 'RTT',
+      value: 0
+    },
+    {
+      title: 'Temps partiel',
+      value: 0
+    },
+  ];
 
   constructor(private listService: ListsService,
               private activitiesService: ActivitiesService,
@@ -115,12 +186,12 @@ export class AbsenceListVisualisationComponent implements OnInit {
       business_units: [],
       departments: [],
       validation_stats: [],
-      societe_origins: [],
       type_frais: [],
       business_lines: [],
       adv_managers: [],
       direction_ops: [],
       clients: [],
+      demand_status: [],
       month: null,
       information_pending: null,
       has_internal_billing_admin: null,
@@ -129,6 +200,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
       comment: null,
       plage_starts_at: null,
       plage_ends_at: null,
+      absence_types: null
     }
   }
 
@@ -148,7 +220,6 @@ export class AbsenceListVisualisationComponent implements OnInit {
       this.clients = this.personnalFilters.clients;
       this.departments = this.personnalFilters.departments;
       this.validation_stats = this.personnalFilters.validation_stats;
-      this.societe_origins = this.personnalFilters.societe_origins;
 
 
     } catch (e) {
