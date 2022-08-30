@@ -1,0 +1,90 @@
+<input type="file" style="display: none" id="uploadMoreFiles" accept="text/csv"
+       multiple (change)="uploadFile($event)"/>
+<div class="top-container list">
+
+
+  <div class="main-container">
+    <div class="sub-header">
+      <h3 class="main-title">Synthèse</h3>
+    </div>
+    <div style="margin-bottom: 20px">
+      <div class="info">
+        <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
+      </div>
+      <div class="info">
+        <span class="bold-text" style="font-weight: 400">Selection du fichier d'import (extension.csv) :</span>
+      </div>
+    </div>
+
+    <div class="row files-viewer">
+      <label class="col-12" for="uploadMoreFiles">
+        <i class="icon-attachment"></i>
+        &nbsp;Ajouter une pièce jointe
+      </label>
+      <div class="row" *ngIf="files?.length>0">
+        <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
+          <div class="close-icon" (click)="removeFile(item)">
+            <i class="icon-close"></i>
+          </div>
+          <div class="icon">
+            <i class="{{getIcon(item.name)}}"></i>
+          </div>
+          <div class="">
+            <div class="name">{{getFileName(item.name)}}</div>
+            <div class="size">{{getFileSize(item.size)}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="filesSizeErrorMessage?.length>0">
+      <div class="form-control-feedback errorMessage"  >
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <span [innerHtml]="filesSizeErrorMessage"></span>
+      </div>
+    </div>
+    <div class="row" *ngIf="emptyFilesErrorMessage?.length>0">
+      <div class="form-control-feedback errorMessage" >
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <span [innerHtml]="emptyFilesErrorMessage"></span>
+      </div>
+    </div>
+    <div class="progress" *ngIf="progress">
+      <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+    </div>
+
+    <div class="submit-block">
+      <app-button
+        [type]="'primary'"
+        [text]="'Exemple de fichier'"
+        [isLoading]="submittingFile"
+        (onClick)="submit()"
+        [iconLeft]="'icon-pdf'"
+      >
+      </app-button>&nbsp;&nbsp;
+      <app-button
+        [type]="'primary'"
+        [text]="'Importer les soldes'"
+        [isLoading]="submittingImport"
+        (onClick)="submit()"
+        [iconLeft]="'icon-excel'"
+      >
+      </app-button>
+    </div>
+
+  </div>
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

@@ -1,0 +1,38 @@
+@import "../activities.styles";
+
+.top-container{
+  padding: 15px 30px;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+.small-input{
+  label{
+    font-size: 11px !important;
+    font-weight: 300 !important;
+    margin-left: 5px;
+  }
+}
+
+table{
+  border-collapse: separate;
+  border-spacing: 5px;
+  margin: 0;
+  padding: 0;
+  td{
+    text-align: center;
+  }
+  .gray-cell{
+    background: $lightergray;
+    color: $mainGray;
+  }
+}
+
+.sub-table{
+  //background: red;
+  td{
+    padding: 8px 0;
+    font-size: 12px;
+  }
+}

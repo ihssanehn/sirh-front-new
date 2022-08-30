@@ -16,6 +16,7 @@ import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-
 import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-visualisation/absence-list-visualisation.component";
 import {AbsenceListValidationComponent} from "@layout/activity/absence-list-validation/absence-list-validation.component";
 import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-solds-abs.component";
+import {AdminSoldsAbsComponent} from "@layout/activity/admin-solds-abs/admin-solds-abs.component";
 
 
 const routes: Routes = [
@@ -138,7 +139,7 @@ const routes: Routes = [
       },
       {
         path: 'admin_soldes_abs',
-        component: FraisTicketRestaurantComponent
+        component: AdminSoldsAbsComponent
       },
       {
         path: 'import_absences',

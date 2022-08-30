@@ -1,0 +1,56 @@
+<div class="top-container list">
+
+
+  <div class="main-container filter-container">
+      <div class="sub-header">
+        <h3 class="main-title">
+          Libellés des soldes
+        </h3>
+      </div>
+
+    <table class="table table-responsive">
+<!--      colspan="100%"-->
+<ng-container *ngFor="let item of entities">
+  <tr>
+    <ng-container *ngIf="item.category">
+      <td class="gray-cell" [attr.rowspan]="entities.length">{{item.category}}</td>
+    </ng-container>
+    <td>{{item.entity}}</td>
+    <td>
+      <table class="table table-responsive sub-table">
+        <tr *ngFor="let child of item.children">
+          <td class="gray-cell">{{child.label}}</td>
+          <td>{{child.value}}</td>
+          <td>
+            <i class="icon-save primary-icon"></i>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+<!--  <tr *ngFor="let child of item.children">-->
+<!--&lt;!&ndash;    <td></td>&ndash;&gt;-->
+<!--    <td>{{child.label}}</td>-->
+<!--  </tr>-->
+</ng-container>
+
+    </table>
+
+
+  </div>
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

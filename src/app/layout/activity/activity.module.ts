@@ -28,6 +28,7 @@ import {AbsenceDemandeComponent} from "@layout/activity/absence-demande/absence-
 import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-visualisation/absence-list-visualisation.component";
 import {AbsenceListValidationComponent} from "@layout/activity/absence-list-validation/absence-list-validation.component";
 import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-solds-abs.component";
+import {AdminSoldsAbsComponent} from "@layout/activity/admin-solds-abs/admin-solds-abs.component";
 
 
 
@@ -50,6 +51,7 @@ import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-
     AbsenceListVisualisationComponent,
     AbsenceListValidationComponent,
     ImportSoldsAbsComponent,
+    AdminSoldsAbsComponent,
   ],
   imports: [
     CommonModule,
