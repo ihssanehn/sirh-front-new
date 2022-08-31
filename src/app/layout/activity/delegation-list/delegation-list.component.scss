@@ -1,0 +1,30 @@
+@import "../activities.styles";
+
+.top-container{
+  padding: 15px 30px;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+table{
+  border-collapse: collapse;
+  th{
+    text-align: left;
+  }
+  .actions{
+    i{
+      &:before{
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+.small-input{
+  label{
+    font-size: 11px !important;
+    font-weight: 300 !important;
+    margin-left: 5px;
+  }
+}

@@ -73,14 +73,17 @@ export class LayoutComponent implements OnInit{
                 if(this.router.url.indexOf('activity/cloture') !== -1){
                   $sidebarItems_activity[3].opened = true;
                 }
-                if(this.router.url.indexOf('activity/avance') !== -1){
+                if(this.router.url.indexOf('activity/delegation') !== -1){
                   $sidebarItems_activity[4].opened = true;
                 }
-                if(this.router.url.indexOf('activity/conge') !== -1){
+                if(this.router.url.indexOf('activity/avance') !== -1){
                   $sidebarItems_activity[5].opened = true;
                 }
-                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                if(this.router.url.indexOf('activity/conge') !== -1){
                   $sidebarItems_activity[6].opened = true;
+                }
+                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                  $sidebarItems_activity[7].opened = true;
                 }
 
                 break;

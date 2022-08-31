@@ -31,6 +31,7 @@ import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-
 import {AdminSoldsAbsComponent} from "@layout/activity/admin-solds-abs/admin-solds-abs.component";
 import {ImportAbsenceComponent} from "@layout/activity/import-absence/import-absence.component";
 import {ClotureMoisCourantComponent} from "@layout/activity/cloture-mois-courant/cloture-mois-courant.component";
+import {DelegationListComponent} from "@layout/activity/delegation-list/delegation-list.component";
 
 
 
@@ -56,6 +57,7 @@ import {ClotureMoisCourantComponent} from "@layout/activity/cloture-mois-courant
     AdminSoldsAbsComponent,
     ImportAbsenceComponent,
     ClotureMoisCourantComponent,
+    DelegationListComponent,
   ],
   imports: [
     CommonModule,

@@ -500,26 +500,53 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       ]
     },
     {
-    id: 3,
-    name: 'Clôture',
-    type: 'sub',
-    icon: null,
-    link: 'activity/cloture',
-    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
-    opened: false,
-    subMenu: [
-      {
-        id: 2,
-        name: 'Mois en cours',
-        type: 'link',
-        icon: null,
-        link: 'activity/cloture/courant',
-        opened: false,
-      }
-    ]
-  },
-    {
       id: 4,
+      name: 'Clôture',
+      type: 'sub',
+      icon: null,
+      link: 'activity/cloture',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Mois en cours',
+          type: 'link',
+          icon: null,
+          link: 'activity/cloture/courant',
+          opened: false,
+        }
+      ]
+    },
+    {
+      id: 5,
+      name: 'Délégation',
+      type: 'sub',
+      icon: null,
+      link: 'activity/delegation',
+      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      opened: false,
+      subMenu: [
+        {
+          id: 2,
+          name: 'Création',
+          type: 'link',
+          icon: null,
+          link: 'activity/delegation/creation',
+          opened: false,
+        },
+        {
+          id: 2,
+          name: 'List',
+          type: 'link',
+          icon: null,
+          link: 'activity/delegation/list',
+          opened: false,
+        },
+      ]
+    },
+    {
+      id: 5,
       name: 'Avance de frais',
       type: 'sub',
       icon: null,
@@ -546,7 +573,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       ]
     },
     {
-    id: 5,
+    id: 6,
     name: 'Mes congés',
     type: 'sub',
     icon: null,
@@ -573,7 +600,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     ]
   },
     {
-    id: 6,
+    id: 7,
     name: 'Mes frais',
     type: 'sub',
     icon: null,
