@@ -1,0 +1,20 @@
+@import "../activities.styles";
+
+.top-container{
+  padding: 15px 30px;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+.small-input{
+  label{
+    font-size: 11px !important;
+    font-weight: 300 !important;
+    margin-left: 5px;
+  }
+}
+
+.submit-block{
+  margin-top: 20px;
+}

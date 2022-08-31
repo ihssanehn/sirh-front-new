@@ -1,0 +1,25 @@
+@import "../activities.styles";
+
+.top-container{
+  padding: 15px 30px;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+.centered-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .form-group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    label{
+      margin-right: 5px;
+    }
+    .date-picker-group{
+      flex: 1;
+    }
+  }
+}

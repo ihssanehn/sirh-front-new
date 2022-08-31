@@ -1,0 +1,84 @@
+
+<div class="top-container list">
+
+
+  <div class="main-container">
+    <div class="sub-header">
+      <h3 class="main-title">Date limites de diffusion affichées en page d'accueil</h3>
+    </div>
+    <div style="margin-bottom: 20px" class="centered-form">
+      <div class="form-group col-sm-4 col-12">
+        <label>Date de début {{isRequired(formInputs.releve_activite)}}</label>
+        <div class="date-picker-group">
+          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+          <input [owlDateTime]="owl_dt1"
+                 class="form-control input date"
+                 [owlDateTimeTrigger]="owl_dt1"
+                 placeholder="Choisir la date ici"
+                 [formControl]="myForm.controls[formInputs.releve_activite]"
+          />
+          <div class="icons-container">
+            <i class="icon-close"
+               (click)="clearDateInput(formInputs.releve_activite)"
+               *ngIf="myForm.controls[formInputs.releve_activite].value"></i>&nbsp;
+            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group col-sm-4 col-12 ">
+        <label>Date de début {{isRequired(formInputs.fiche_frais)}}</label>
+        <div class="date-picker-group">
+          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+          <input [owlDateTime]="owl_dt1"
+                 class="form-control input date"
+                 [owlDateTimeTrigger]="owl_dt1"
+                 placeholder="Choisir la date ici"
+                 [formControl]="myForm.controls[formInputs.fiche_frais]"
+          />
+          <div class="icons-container">
+            <i class="icon-close"
+               (click)="clearDateInput(formInputs.fiche_frais)"
+               *ngIf="myForm.controls[formInputs.fiche_frais].value"></i>&nbsp;
+            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="submit-block">
+      <app-button
+        [type]="'primary'"
+        [text]="'Clôturer Août 2022'"
+        [isLoading]="submittingClose"
+        (onClick)="submit()"
+        [iconLeft]="'icon-pdf'"
+      >
+      </app-button>&nbsp;&nbsp;
+      <app-button
+        [type]="'secondary'"
+        [text]="'Enregistrer'"
+        [isLoading]="submittingSave"
+        (onClick)="submit()"
+        [iconLeft]="'icon-excel'"
+      >
+      </app-button>
+    </div>
+
+  </div>
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

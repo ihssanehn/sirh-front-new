@@ -1,0 +1,160 @@
+<input type="file" style="display: none" id="uploadMoreFiles" accept="text/csv"
+       multiple (change)="uploadFile($event)"/>
+<div class="top-container list">
+
+
+  <div class="main-container">
+    <div class="sub-header">
+      <h3 class="main-title">Import des absences</h3>
+    </div>
+    <div style="margin-bottom: 20px">
+      <div class="info">
+        <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
+      </div>
+      <div class="info">
+        <span class="bold-text" style="font-weight: 400">Selection du fichier d'import (extension.csv) :</span>
+      </div>
+    </div>
+
+    <div class="row files-viewer">
+      <label class="col-12" for="uploadMoreFiles">
+        <i class="icon-attachment"></i>
+        &nbsp;Ajouter une pièce jointe
+      </label>
+      <div class="row" *ngIf="files?.length>0">
+        <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
+          <div class="close-icon" (click)="removeFile(item)">
+            <i class="icon-close"></i>
+          </div>
+          <div class="icon">
+            <i class="{{getIcon(item.name)}}"></i>
+          </div>
+          <div class="">
+            <div class="name">{{getFileName(item.name)}}</div>
+            <div class="size">{{getFileSize(item.size)}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="filesSizeErrorMessage?.length>0">
+      <div class="form-control-feedback errorMessage"  >
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <span [innerHtml]="filesSizeErrorMessage"></span>
+      </div>
+    </div>
+    <div class="row" *ngIf="emptyFilesErrorMessage?.length>0">
+      <div class="form-control-feedback errorMessage" >
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <span [innerHtml]="emptyFilesErrorMessage"></span>
+      </div>
+    </div>
+    <div class="progress" *ngIf="progress">
+      <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+    </div>
+
+   <div style="margin-top: 30px">
+     <div class="sub-header">
+       <h3 class="main-title">Filtre Modèle de fichier</h3>
+     </div>
+     <div class="filtres row ">
+       <div class="flex-column  col-12 col-sm-3  ">
+         <label>Siège/Hors siège</label>
+         <div>
+           <ng-select class="select form-control"
+                      [multiple]="false"
+                      [items]="sieges"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      (change)="filterChanged()"
+                      [(ngModel)]="filter.in_out_office"
+                      [placeholder]="'Tous'"></ng-select>
+         </div>
+       </div>
+       <div class="flex-column  col-12 col-sm-3  ">
+         <label>Appartenance</label>
+         <div>
+           <ng-select class="select form-control"
+                      [multiple]="false"
+                      [items]="appartenances"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      (change)="filterChanged()"
+                      [(ngModel)]="filter.appartenance"
+                      [placeholder]="'Tous'"></ng-select>
+         </div>
+       </div>
+       <div class="flex-column  col-12 col-sm-3  ">
+         <label>Mois</label>
+         <div class="date-picker-group">
+           <dp-date-picker  [(ngModel)]="dateValue"
+                            [mode]="'month'"
+                            [placeholder]="'Sélectionner un mois'"
+                            (onChange)="chosenMonthHandler()"
+                            class="date-picker"
+                            #datepicker_1
+                            [config]="config"></dp-date-picker>
+
+           <div class="icons-container">
+             <i (click)="datepicker_1?.api?.open()" class="fa fa-calendar"></i>
+           </div>
+         </div>
+       </div>
+       <div class="flex-column  col-12 col-sm-3  ">
+         <label>Agence de rattachement</label>
+         <div>
+           <ng-select class="select form-control"
+                      [multiple]="false"
+                      [items]="sieges"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      (change)="filterChanged()"
+                      [(ngModel)]="filter.in_out_office"
+                      [placeholder]="'Tous'"></ng-select>
+         </div>
+       </div>
+     </div>
+   </div>
+    <div class="submit-block">
+      <app-button
+        [type]="'primary'"
+        [text]="'Modèle de fichier'"
+        [isLoading]="submittingFile"
+        (onClick)="submit()"
+        [iconLeft]="'icon-pdf'"
+      >
+      </app-button>&nbsp;&nbsp;
+      <app-button
+        [type]="'primary'"
+        [text]="'Importer les absences (Mode test)'"
+        [isLoading]="submittingImport"
+        (onClick)="submit()"
+        [iconLeft]="'fa fa-cog'"
+      >
+      </app-button>&nbsp;&nbsp;
+      <app-button
+        [type]="'secondary'"
+        [text]="'Importer les absences'"
+        [isLoading]="submittingImport"
+        (onClick)="submit()"
+        [iconLeft]="'icon-import'"
+      >
+      </app-button>
+    </div>
+
+  </div>
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

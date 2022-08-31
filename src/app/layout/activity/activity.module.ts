@@ -29,6 +29,8 @@ import {AbsenceListVisualisationComponent} from "@layout/activity/absence-list-v
 import {AbsenceListValidationComponent} from "@layout/activity/absence-list-validation/absence-list-validation.component";
 import {ImportSoldsAbsComponent} from "@layout/activity/import-solds-abs/import-solds-abs.component";
 import {AdminSoldsAbsComponent} from "@layout/activity/admin-solds-abs/admin-solds-abs.component";
+import {ImportAbsenceComponent} from "@layout/activity/import-absence/import-absence.component";
+import {ClotureMoisCourantComponent} from "@layout/activity/cloture-mois-courant/cloture-mois-courant.component";
 
 
 
@@ -52,6 +54,8 @@ import {AdminSoldsAbsComponent} from "@layout/activity/admin-solds-abs/admin-sol
     AbsenceListValidationComponent,
     ImportSoldsAbsComponent,
     AdminSoldsAbsComponent,
+    ImportAbsenceComponent,
+    ClotureMoisCourantComponent,
   ],
   imports: [
     CommonModule,

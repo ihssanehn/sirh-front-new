@@ -500,6 +500,25 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       ]
     },
     {
+    id: 3,
+    name: 'Clôture',
+    type: 'sub',
+    icon: null,
+    link: 'activity/cloture',
+    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    opened: false,
+    subMenu: [
+      {
+        id: 2,
+        name: 'Mois en cours',
+        type: 'link',
+        icon: null,
+        link: 'activity/cloture/courant',
+        opened: false,
+      }
+    ]
+  },
+    {
       id: 4,
       name: 'Avance de frais',
       type: 'sub',
