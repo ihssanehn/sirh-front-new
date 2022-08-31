@@ -711,6 +711,9 @@ a, .link{
 .date-picker-group{
   border: 1px solid $lightgray;
   border-radius: 5px;
+  input{
+    border: 0 !important;
+  }
 }
 
 ::ng-deep .dp-popup{
