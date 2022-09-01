@@ -5,9 +5,9 @@
     </h3>
   </div>
 
-  <div class="filter-container">
+  <div class="filter-container  main-container">
     <div class="sub-header container-fuil container-lg ">
-      <h3>
+      <h3 class="main-title">
          Filtres de recherche
       </h3>
     </div>
@@ -89,27 +89,114 @@
 
   <div class="main-container">
     <div class="sub-header container-fuil container-lg ">
-      <h3>
+      <h3 class="main-title">
         Tableau de synthèse
       </h3>
     </div>
     <div class="wrap">
-      <table class="table-responsive table">
+      <table class="small-table">
         <thead>
-          <tr>
-            <th>Test 1</th>
-            <th>Test 2</th>
-            <th>Test 3</th>
-            <th>Test 4</th>
+          <tr class="gray-category">
+            <th>Type</th>
+            <th>En attente</th>
+            <th>Refusée</th>
+            <th>Validée</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
+            <td>Avance de frais</td>
+            <td>5143.74 EUR</td>
+            <td>4110 EUR</td>
+            <td>24732.5 EUR</td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="sub-header container-fuil container-lg ">
+      <h3 class="main-title">
+        Liste des avances de frais
+      </h3>
+      <div class="btns right-btns">
+        <app-button
+          [text]="'Tout sélectionner'"
+          [type]="'secondary_2'"
+          [iconLeft]="'icon-arrow-left'"
+          [customStyle]="{'max-height': '34px'}"
+        ></app-button>&nbsp;&nbsp;
+        <app-button
+          [text]="'Désélectionner'"
+          [type]="'secondary_2'"
+          [iconRight]="'icon-arrow-right'"
+          [customStyle]="{'max-height': '34px'}"
+        ></app-button>
+      </div>
+    </div>
+    <div class="wrap">
+      <table class="table table-responsive">
+        <thead>
+        <tr class="gray-category">
+          <th>Responsable</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Type</th>
+          <th>Montant</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of avance_frais">
+            <tr>
+              <td>LENOIR Roméo</td>
+              <td>HABACHI</td>
+              <td>Mohamed Amine</td>
+              <td>Avance de frais</td>
+              <td>2000.00</td>
+              <td>04/07/2022</td>
+              <td>Payée</td>
+              <td>
+                <div class="actions">
+                  <i class="icon-search primary-icon"
+                     data-toggle="tooltip"
+                     data-placement="top"
+                     title="Détails"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="100%" style="padding: 0;">
+                <table class="table table-responsive sub-table">
+                  <tr>
+                    <th class="d-flex justify-content-end">Détails :</th>
+                    <td>Crée le 30/06/2022 17.26 par HABACHI Mohamed Amine</td>
+                  </tr>
+                  <tr>
+                    <th class="d-flex justify-content-end">Remarque demandeur :</th>
+                    <td>charges de déplacement</td>
+                  </tr>
+                  <tr>
+                    <th class="d-flex justify-content-end">Remarque admin :</th>
+                    <td>Bonjour une avance de frais de 2000e a ete faite ce jour, Bien cordialement Amandine</td>
+                  </tr>
+                  <tr>
+                    <th class="d-flex justify-content-end align-items-start">Workflow :</th>
+                    <td style="padding-top: 0;">
+                      <ul>
+                        <li class="green-text">Diffusé le 30/06/2022 17:26 par HABACHI Mohamed Amine</li>
+                        <li class="green-text">Validé le 05/07/2022 14:13 par LENOIR Roméo</li>
+                        <li class="green-text">Validé le 07/07/2022 09.21 par JACQUET Amandine</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

@@ -1,1 +1,12 @@
 @import "../activities.styles";
+
+table{
+  border-collapse: collapse;
+  th{
+    text-align: left;
+  }
+  td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}

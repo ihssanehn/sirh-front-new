@@ -24,16 +24,16 @@
     </div>
   </div>
 
-  <div class="sub-header">
-    <h3 class="main-title top-title">
-      List des relevés
-    </h3>
-  </div>
-  <div class="main-container">
-    <div class="filter-container">
-      <div class="container-fuil container-lg ">
-        <div class="search  row">
-          <div class="flex-column col-12 col-sm-6 col-lg-2">
+
+  <div class="filter-container main-container">
+    <div class="sub-header">
+      <h3 class="main-title top-title">
+        List des relevés
+      </h3>
+    </div>
+    <div class="container-fuild">
+        <div class="search row">
+          <div class="flex-column col-12 col-sm-6 col-lg-2 p-0">
               <div class="date-picker-group">
                 <dp-date-picker [(ngModel)]="dateValue"
                                 [mode]="'month'"
@@ -68,8 +68,7 @@
           </div>
         </div>
       </div>
-
-      <div style="overflow-x: auto; overflow-y: visible">
+    <div style="overflow-x: auto; overflow-y: visible">
         <div class="wrap">
           <ng-container *ngIf="!loadingCalendar; else loadingTemplate">
             <table class="table table-responsive" *ngIf="data; else emptyState">
@@ -237,10 +236,6 @@
           </ng-container>
         </div>
       </div>
-
-    </div>
-
-
   </div>
 </div>
 

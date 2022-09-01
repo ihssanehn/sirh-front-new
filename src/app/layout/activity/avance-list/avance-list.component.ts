@@ -10,6 +10,7 @@ export class AvanceListComponent implements OnInit {
   repayment_status = [];
   avance_types = [];
   status = [];
+  avance_frais = [1, 2, 3, 4];
   constructor() { }
 
   ngOnInit(): void {

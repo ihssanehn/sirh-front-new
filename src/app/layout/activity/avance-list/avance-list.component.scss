@@ -1,1 +1,46 @@
 @import "../activities.styles";
+
+table{
+  border-collapse: collapse;
+  td{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+}
+
+.small-table{
+  min-width: 70%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border: 1px solid $lightergray;
+  td, th{
+    text-align: center
+  }
+  th{
+    font-size: 12px;
+  }
+  td{
+    font-size: 11px;
+    font-weight: 300;
+    color: $lightgray;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+}
+
+.sub-table{
+  background: $lightergray;
+  width: 100%;
+  margin: 0;
+  th{
+    padding-top: 7px;
+    padding-right: 10px;
+  }
+  td{
+    border: 0;
+    padding: 8px 0;
+    font-size: 12px;
+    text-align: left;
+  }
+}

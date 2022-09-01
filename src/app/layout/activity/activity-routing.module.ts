@@ -123,7 +123,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'list',
+        redirectTo: 'list_visualisation',
       },
       {
         path: 'creation',

@@ -1,12 +1,12 @@
 <div class="top-container">
-  <div class="sub-header container-fuil container-lg ">
-    <h3 class="main-title top-title">
-      File de recherche
-    </h3>
-  </div>
 
   <form [formGroup]="myForm" *ngIf="myForm">
-    <div class="filter-container">
+    <div class="filter-container main-container">
+      <div class="sub-header">
+        <h3 class="main-title">
+          File de recherche
+        </h3>
+      </div>
       <div class="filtres row ">
         <div class="flex-column  col-12 col-sm-6 col-lg-4">
           <label>Période début {{isRequired(formInputs.starts_at)}}</label>
@@ -81,17 +81,65 @@
           </div>
         </div>
       </div>
+
+      <div class="submit-block" >
+        <app-button
+          [type]="'primary'"
+          [text]="'Rechercher'"
+          (onClick)="search()"
+          [iconLeft]="'icon-search'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>
+      </div>
     </div>
 
-    <div class="submit-block" >
-      <app-button
-        [type]="'primary'"
-        [text]="'Rechercher'"
-        (onClick)="search()"
-        [iconLeft]="'icon-search'"
-        [customStyle]="{'min-width': '130px'}"
-      >
-      </app-button>
+
+    <div class="main-container">
+      <div class="sub-header">
+        <h3 class="main-title">
+          Gestion des tickets restaurants : {{personals_tickets?.length}} salariés trouvés
+        </h3>
+      </div>
+      <div class="wrap">
+        <table class="table table-responsive">
+          <thead>
+          <tr class="">
+            <th>Matricule</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>CP</th>
+            <th>Société d'origine</th>
+            <th>TR acquis</th>
+            <th>TR ajustement</th>
+            <th>TR validé</th>
+            <th>TR donnés</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of personals_tickets">
+            <td>{{item.matricule}}</td>
+            <td>{{item.last_name}}</td>
+            <td>{{item.first_name}}</td>
+            <td>{{item.cp}}</td>
+            <td>{{item.company}}</td>
+            <td class="blue-text">{{item.tr_aquis}}</td>
+            <td>{{item.tr_ajustement}}</td>
+            <td>{{item.tr_valide}}</td>
+            <td>{{item.tr_donne}}</td>
+            <td>
+              <div class="actions">
+                <i class="icon-edit primary-icon"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Modifier"></i>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </form>
 </div>

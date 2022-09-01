@@ -5,4 +5,20 @@
   .main-container{
     padding: 10px 25px;
   }
+  .cards-stats{
+    .card{
+      background: white;
+      title{
+        flex: 1;
+      }
+      .state-value{
+        align-items: flex-end;
+        display: flex;
+        justify-content: center;
+        flex: unset;
+      }
+    }
+  }
 }
+
+

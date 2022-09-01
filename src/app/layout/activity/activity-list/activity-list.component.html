@@ -301,7 +301,6 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th></th>
                 <th colspan="2" class="category-cell">
                   Activité diffusée
                 </th>
@@ -310,11 +309,9 @@
                 </th>
                 <th></th>
                 <th></th>
+                <th class="p-0"></th>
               </tr>
               <tr>
-                <th>
-                  Action
-                </th>
                 <th></th>
                 <th>
                   Nom
@@ -340,16 +337,14 @@
                 <th>
                   Détails
                 </th>
+                <th class="p-0">
+                  Action
+                </th>
               </tr>
               </thead>
               <tbody>
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let activity of activities" >
-                <td>
-                  <i class="icon-search primary-icon"
-                     [queryParams]="{personal_id: activity.personal_id, month: getMonth(activity.month)}"
-                     [routerLink]="['/activity/history']"></i>
-                </td>
                 <td style="width: 35px; padding: 0">
                   <div class="photo-cell">
                     <div class="photo">
@@ -395,6 +390,11 @@
                 <td style="opacity: .7;">
                   {{activity.comment}}
                 </td>
+                <td class="p-0 text-center">
+                  <i class="icon-search primary-icon"
+                     [queryParams]="{personal_id: activity.personal_id, month: getMonth(activity.month)}"
+                     [routerLink]="['/activity/history']"></i>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -413,7 +413,7 @@
   </div>
 
   <div class="main-container export-bloc" *ngIf="activities?.length>0">
-      <div class="header">
+      <div class="sub-header">
         <h3 class="main-title">
           Impression/Export
           <i class="icon-info-cercle primary-icon" [matTooltip]="'Fonctionnel non opérationnelle pour le moment'"></i>
