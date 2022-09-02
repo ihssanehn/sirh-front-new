@@ -12,50 +12,104 @@
       </h3>
     </div>
     <div class="filtres row ">
-      <div class="flex-column  col-12 col-sm-3">
+      <div class="flex-column  col-12 col-sm-4">
         <label>Plage de visualisation</label>
-        <div>
-          <owl-date-time #owl_dt1
-                         [pickerType]="'calendar'"
-          ></owl-date-time>
-
-          <input [owlDateTime]="owl_dt1"
-                 class="form-control input date"
-                 [owlDateTimeTrigger]="owl_dt1"
-                 placeholder="Choisir la plage ici"
-                 [selectMode]="'range'"
-          />
+        <div class="d-flex justify-content-between row">
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt1"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt1"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.plage_starts_at"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.plage_starts_at = null"
+                   *ngIf="filter.plage_starts_at"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt2"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt2"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.plage_ends_at"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.plage_ends_at = null"
+                   *ngIf="filter.plage_ends_at"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="flex-column  col-12 col-sm-3">
+      <div class="flex-column  col-12 col-sm-4">
         <label>Statut</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
-                     [items]="status"
+                     [items]="avance_status"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
+                     [(ngModel)]="filter.status"
                      [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
         </div>
       </div>
-      <div class="flex-column  col-12 col-sm-3">
+      <div class="flex-column  col-12 col-sm-4">
         <label>Type d'avance</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
                      [items]="avance_types"
+                     [(ngModel)]="filter.type"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
         </div>
       </div>
-      <div class="flex-column  col-12 col-sm-3">
+    </div>
+    <div class="filtres row ">
+      <div class="flex-column  col-12 col-sm-4">
+        <label>Centre de profit</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="profit_centers"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.profit_centers"
+                     [placeholder]="'Filtrer par cenntre de profit'" ></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-4">
         <label>Etat de remboursement</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
-                     [items]="repayment_status"
+                     [items]="state_advance_costs"
+                     [(ngModel)]="filter.state_advance_cost"
                      [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Sélectionner l\'état de remboursement'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-4">
+        <label>Salarié</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="personals"
+                     [(ngModel)]="filter.user_id"
+                     [bindLabel]="'full_name'"
                      [bindValue]="'id'"
                      [placeholder]="'Sélectionner l\'état de remboursement'"></ng-select>
         </div>

@@ -1,5 +1,5 @@
 <div class="top-container">
-  <div class="filter-container  main-container">
+  <form class="filter-container  main-container" [formGroup]="myForm" *ngIf="myForm">
     <div class="filtres row ">
       <div class="sub-header container-fuil container-lg ">
         <h3 class="main-title top-title">
@@ -7,65 +7,100 @@
         </h3>
       </div>
       <div class="flex-column  col-12 col-sm-3">
-        <label>Choix du salarié</label>
+        <label>Choix du salarié {{isRequired(formInputs.personal_id)}}</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
-                     [items]="personnels"
-                     [bindLabel]="'label'"
+                     [items]="personals"
+                     [bindLabel]="'full_name'"
                      [bindValue]="'id'"
+                     [formControl]="myForm.controls[formInputs.personal_id]"
                      [placeholder]="'Sélectionner le salarié'"></ng-select>
         </div>
-      </div>
-      <div class="flex-column  col-12 col-sm-3">
-        <label>Type d'avance</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="false"
-                     [items]="avances"
-                     [bindLabel]="'label'"
-                     [bindValue]="'id'"
-                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+        <div class="form-control-feedback"
+             *ngIf="myForm.controls[formInputs.personal_id].hasError('required')
+                    && myForm.controls[formInputs.personal_id].dirty">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          Le personnel est obligatoire
         </div>
       </div>
       <div class="flex-column  col-12 col-sm-3">
-        <label>Date</label>
+        <label>Type d'avance {{isRequired(formInputs.type_id)}}</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="advance_cost"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [formControl]="myForm.controls[formInputs.type_id]"
+                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+        </div>
+        <div class="form-control-feedback"
+             *ngIf="myForm.controls[formInputs.type_id].hasError('required')
+                    && myForm.controls[formInputs.type_id].dirty">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          Le type est obligatoire
+        </div>
+      </div>
+      <div class="flex-column  col-12 col-sm-3">
+        <label>Date {{isRequired(formInputs.date)}}</label>
         <div>
           <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
           <input [owlDateTime]="owl_dt1"
                  class="form-control input date"
                  [owlDateTimeTrigger]="owl_dt1"
                  placeholder="Choisir la date ici"
+                 [formControl]="myForm.controls[formInputs.date]"
           />
+        </div>
+        <div class="form-control-feedback"
+             *ngIf="myForm.controls[formInputs.date].hasError('required')
+                    && myForm.controls[formInputs.date].dirty">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          La date est obligatoire
         </div>
       </div>
       <div class="flex-column  col-12 col-sm-3">
-        <label>Montant</label>
+        <label>Montant {{isRequired(formInputs.amount)}}</label>
         <div>
           <input type="number"
                  class="form-control input"
                  placeholder="Saisir le montant ici"
+                 [formControl]="myForm.controls[formInputs.amount]"
           />
+        </div>
+        <div class="form-control-feedback"
+             *ngIf="myForm.controls[formInputs.amount].hasError('required')
+                    && myForm.controls[formInputs.amount].dirty">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          Le montant est obligatoire
         </div>
       </div>
     </div>
     <div class="filtres row ">
       <div class="flex-column  col-12 ">
-        <label>Motif de l'avance</label>
+        <label>Motif de l'avance {{isRequired(formInputs.motif)}}</label>
         <div>
          <textarea
            rows="5"
            [placeholder]="'Saisir le motif de l\'avance..'"
            class="form-control input"
+           [formControl]="myForm.controls[formInputs.motif]"
          ></textarea>
+        </div>
+        <div class="form-control-feedback"
+             *ngIf="myForm.controls[formInputs.motif].hasError('required')
+                    && myForm.controls[formInputs.motif].dirty">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          Le motif est obligatoire
         </div>
       </div>
     </div>
-  </div>
+  </form>
 
   <div class="submit-block" >
     <app-button
-      [type]="'danger'"
+      [type]="'tertiary_inverse'"
       [text]="'Retour'"
       (onClick)="goback()"
       [iconLeft]="'fa fa-arrow-left'"
@@ -82,17 +117,17 @@
       [iconLeft]="'fa fa-save'"
       [customStyle]="{'min-width': '130px'}"
     >
-    </app-button>&nbsp;&nbsp;
-    <app-button
-      [type]="'secondary'"
-      [text]="'Diffuser'"
-      [isLoading]="submittingDiffuse"
-      [textLoading]="'Diffusion en cours..'"
-      [isDisabled]="submittingDiffuse || submittingCreate"
-      (onClick)="diffuse()"
-      [iconLeft]="'icon-check'"
-      [customStyle]="{'min-width': '130px'}"
-    >
     </app-button>
+<!--    <app-button-->
+<!--      [type]="'secondary'"-->
+<!--      [text]="'Diffuser'"-->
+<!--      [isLoading]="submittingDiffuse"-->
+<!--      [textLoading]="'Diffusion en cours..'"-->
+<!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
+<!--      (onClick)="diffuse()"-->
+<!--      [iconLeft]="'icon-check'"-->
+<!--      [customStyle]="{'min-width': '130px'}"-->
+<!--    >-->
+<!--    </app-button>-->
   </div>
 </div>

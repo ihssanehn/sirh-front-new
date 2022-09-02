@@ -28,7 +28,13 @@ export class ListsService {
     DOCUMENT_TYPE: 'document_type',
     SITUATION_ALERT: 'situation_alert',
     USERS: 'users',
+    ADVANCE_COST: 'advance_cost',
+    STATE_ADVANCE_COST: 'state_advance_cost'
+
   }
+
+  // Type d'avance GET: http://localhost:9073/filter/getFilter?model=advance_cost
+  // Status D'avance GET: http://localhost:9073/status/getStatusByModel?model=advance_cost
   constructor(private apiService: ApiService) {}
 
   getAll(entity, params = null) {
@@ -54,8 +60,8 @@ export class ListsService {
       .pipe(map(res => { return res?.result?.data || []}));
   }
 
-  getPersonalFilters(){
-    return this.apiService.get( 'filter/getPersonalFilters')
+  getPersonalFilters(params?){
+    return this.apiService.get( 'filter/getPersonalFilters', params)
       .pipe(map(res => { return res?.result?.data || []}));
   }
 
