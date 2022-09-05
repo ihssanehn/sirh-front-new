@@ -31,9 +31,9 @@
           color="primary"
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -51,9 +51,9 @@
           color="primary"
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -71,9 +71,9 @@
           color="primary"
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -90,9 +90,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -109,9 +109,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -128,9 +128,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -147,9 +147,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -166,9 +166,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -185,9 +185,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -204,9 +204,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -223,9 +223,9 @@
           mat-button
   >
     <ng-container *ngIf="!isLoading; else loading">
-      <i class="{{iconLeft}}"></i>
+      <i class="{{iconLeft}} left"></i>
       {{text}}
-      <i class="{{iconRight}}"></i>
+      <i class="{{iconRight}} right"></i>
     </ng-container>
     <ng-template #loading>
       <i class="fa fa-spinner fa-spin" style="font-size:14px"></i>&nbsp;
@@ -234,7 +234,7 @@
   </button>
 
   <button class="btn mybutton"
-          type="button"
+          type="button only-icon"
           [disabled]="isDisabled"
           [ngStyle]="customStyle"
           (click)="onbtnclick()"

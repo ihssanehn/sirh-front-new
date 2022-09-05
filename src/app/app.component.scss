@@ -408,6 +408,14 @@
     color: $primaryColor;
     //background: $lightPrimaryColor;
   }
+  ::ng-deep .flag{
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
 }
 
 .foback-header{

@@ -21,6 +21,7 @@ import {ImportAbsenceComponent} from "@layout/activity/import-absence/import-abs
 import {ClotureMoisCourantComponent} from "@layout/activity/cloture-mois-courant/cloture-mois-courant.component";
 import {DelegationListComponent} from "@layout/activity/delegation-list/delegation-list.component";
 import {DelegationCreationComponent} from "@layout/activity/delegation-creation/delegation-creation.component";
+import {AvanceModificationComponent} from "@layout/activity/avance-modification/avance-modification.component";
 
 
 const routes: Routes = [
@@ -78,6 +79,10 @@ const routes: Routes = [
       {
         path: 'creation',
         component: AvanceCreationComponent
+      },
+      {
+        path: 'modification/:id',
+        component: AvanceModificationComponent
       },
     ],
   },

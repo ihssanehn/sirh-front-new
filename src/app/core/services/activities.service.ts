@@ -68,25 +68,4 @@ export class ActivitiesService {
       .pipe(map(res => res.result  || []));
   }
 
-  // id
-
-  // ADD: {
-  //   "personal_id": 2,
-  //   "status_id": 15,
-  //   "type_id": 36,
-  //   "amount": 123,
-  //   "date": "2022-08-30",
-  //   "motif": "Motif Resto Facture 2"
-  // }
-  //
-  // Update: {
-  //   "id": 2,
-  //   "personal_id": 2,
-  //   "status_id": 15,
-  //   "type_id": 36,
-  //   "amount": 123,
-  //   "date": "2022-08-30",
-  //   "motif": "Motif Resto Facture 2"
-  // }
-
 }

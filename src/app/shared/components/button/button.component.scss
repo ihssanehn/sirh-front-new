@@ -1,6 +1,7 @@
 @import "~app/styles/custom.variables";
 
 $border-color: #707070;
+$icon-size: 13px;
 
 .mybutton{
   //min-height: 36px;
@@ -14,10 +15,16 @@ $border-color: #707070;
   padding: 8px 20px;
   white-space: nowrap;
   i{
-    margin-right: 5px;
+    vertical-align: inherit;
   }
   i:before{
-    font-size: 11px;
+    font-size: $icon-size;
+  }
+  .left{
+    margin-right: 5px;
+  }
+  .right{
+    margin-left: 5px;
   }
 
   &:focus {
@@ -51,7 +58,7 @@ $border-color: #707070;
   //border-radius: 0;
   i:before{
     color: white; //$primaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
 }
 
@@ -60,7 +67,7 @@ $border-color: #707070;
   color: white;
   i:before{
     color: white; //$primaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     background: $primaryColor;
@@ -72,7 +79,7 @@ $border-color: #707070;
   border: 1px solid $primaryColor;
   i:before{
     color: $primaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
 }
 
@@ -82,7 +89,7 @@ $border-color: #707070;
   border: 1px solid $tertiaryColor;
   i:before{
     color: white;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     color: $tertiaryColor;
@@ -90,7 +97,7 @@ $border-color: #707070;
     border: 1px solid $tertiaryColor;
     i:before{
       color: $tertiaryColor;
-      font-size: 11px;
+      font-size: $icon-size;
     }
   }
 }
@@ -100,7 +107,7 @@ $border-color: #707070;
   border: 1px solid $tertiaryColor;
   i:before{
     color: $tertiaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     background: $tertiaryColor;
@@ -108,7 +115,7 @@ $border-color: #707070;
     border: 1px solid $tertiaryColor;
     i:before{
       color: white;
-      font-size: 11px;
+      font-size: $icon-size;
     }
   }
 }
@@ -118,7 +125,7 @@ $border-color: #707070;
   color: $fontColor;
   i:before{
     color: $fontColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     color: white;
@@ -126,24 +133,24 @@ $border-color: #707070;
     //border: 1px solid $border-color;
     i:before{
       color: white;
-      font-size: 11px;
+      font-size: $icon-size;
     }
   }
 }
 
 .tertiary{
   color: $secondaryColor;
-  background: white;
+  background: unset;
   i:before{
     color: $secondaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     background: $secondaryColor;
     color: white;
     i:before{
       color: white;
-      font-size: 11px;
+      font-size: $icon-size;
     }
   }
 }
@@ -153,14 +160,14 @@ $border-color: #707070;
   //border: 1px solid $secondaryColor;
   i:before{
     color: white;
-    font-size: 11px;
+    font-size: $icon-size;
   }
   &:hover{
     color: $secondaryColor;
     background: white;
     i:before{
       color: $secondaryColor;
-      font-size: 11px;
+      font-size: $icon-size;
     }
   }
 }
@@ -170,7 +177,7 @@ $border-color: #707070;
   color: white;
   i:before{
     color: white;
-    font-size: 11px;
+    font-size: $icon-size;
   }
 }
 .danger_inverse{
@@ -179,7 +186,7 @@ $border-color: #707070;
   border: 1px solid $quaternaryColor;
   i:before{
     color: $quaternaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
 }
 .danger_inverse_2{
@@ -188,8 +195,13 @@ $border-color: #707070;
   border: 0;
   i:before{
     color: $quaternaryColor;
-    font-size: 11px;
+    font-size: $icon-size;
   }
+}
+
+.only-icon{
+  background: unset;
+  color: $primaryColor;
 }
 
 

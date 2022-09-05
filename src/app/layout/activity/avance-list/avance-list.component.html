@@ -59,8 +59,18 @@
                      [items]="avance_status"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
+                     [searchable]="false"
                      [(ngModel)]="filter.status"
-                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+                     [placeholder]="'Sélectionner le type d\'avance'">
+            <ng-template ng-label-tmp let-item="item">
+              <div class="flag" [ngStyle]="{'background-color': item.color}">&nbsp;</div>
+              <span>{{item.label}}</span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <div class="flag" [ngStyle]="{'background-color': item.color}">&nbsp;</div>
+              <span [ngOptionHighlight]="search">{{item.label}}</span>
+            </ng-template>
+          </ng-select>
         </div>
       </div>
       <div class="flex-column  col-12 col-sm-4">
@@ -68,6 +78,7 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
+                     [searchable]="false"
                      [items]="avance_types"
                      [(ngModel)]="filter.type"
                      [bindLabel]="'label'"
@@ -81,7 +92,8 @@
         <label>Centre de profit</label>
         <div>
           <ng-select class="select form-control"
-                     [multiple]="true"
+                     [multiple]="false"
+                     [searchable]="false"
                      [items]="profit_centers"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
@@ -95,6 +107,7 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
+                     [searchable]="false"
                      [items]="state_advance_costs"
                      [(ngModel)]="filter.state_advance_cost"
                      [bindLabel]="'label'"
@@ -107,6 +120,7 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
+                     [searchable]="false"
                      [items]="personals"
                      [(ngModel)]="filter.user_id"
                      [bindLabel]="'full_name'"
@@ -215,7 +229,7 @@
               <td>Payée</td>
               <td>
                 <div class="actions">
-                  <i class="icon-search primary-icon"
+                  <i class="icon-search primary-icon pointer d-inline-block"
                      data-toggle="tooltip"
                      data-placement="top"
                      title="Détails"></i>
