@@ -68,4 +68,23 @@ export class ActivitiesService {
       .pipe(map(res => res.result  || []));
   }
 
+
+  getSummaryAdvanceCosts(params) {
+    return this.apiService
+      .post('advance_cost/getSummaryAdvanceCosts', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  getAllAdvanceCosts(params) {
+    return this.apiService
+      .post('advance_cost/getAllAdvanceCosts', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  validateOrRefuseAdvanceCost(params) {
+    return this.apiService
+      .post('advance_cost/validateOrRefuseAdvanceCost', params)
+      .pipe(map(res => res.result  || []));
+  }
+
 }
