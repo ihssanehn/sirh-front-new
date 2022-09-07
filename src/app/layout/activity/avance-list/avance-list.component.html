@@ -293,22 +293,22 @@
                 </div>
                 <div class="filter-container">
                   <div class="filtres row">
-                    <div class="flex-column col-12 col-sm-4">
-                      <label>Date paiement</label>
+                    <div class="flex-column col-12 col-sm-3">
+                      <label>Montant payé (*)</label>
                       <div>
                         <input type="number"
                                placeholder="EUR"
+                               [(ngModel)]="item.amount_paid"
                                class="input form-control" />
                       </div>
                       <div class="flex-column col-12 block-check ">
                         <div class="check-box-btn small-input">
                           <input type="checkbox"
-                                 id="jamais_paye"
-                                 [checked]="filter.waiting_my_validating"
-                                 [(ngModel)]="filter.waiting_my_validating"
-                                 (change)="filterChanged()"
-                                 name="jamais_paye" >
-                          <label for="jamais_paye" >Jamais payé</label>
+                                 id="never_paid"
+                                 [checked]="item.never_paid"
+                                 [(ngModel)]="item.never_paid"
+                                 name="never_paid" >
+                          <label for="never_paid" >Jamais payé</label>
                         </div>
                       </div>
                     </div>
@@ -320,35 +320,28 @@
                                class="form-control input date"
                                [owlDateTimeTrigger]="owl_dt3"
                                placeholder="Choisir la date ici"
-                               [(ngModel)]="filter.date_start"
+                               [(ngModel)]="item.payment_date"
                         />
                         <div class="icons-container">
                           <i class="icon-close"
-                             (click)="filter.date_start = null"
-                             *ngIf="filter.date_start"></i>&nbsp;
+                             (click)="item.payment_date = null"
+                             *ngIf="item.payment_date"></i>&nbsp;
                           <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
                         </div>
                       </div>
                     </div>
-                    <div class="flex-column col-12 col-sm-4">
+                    <div class="flex-column col-12 col-sm-5">
                       <label>Type de paiement</label>
                       <div>
                         <ng-select
                           class="select form-control"
-                          placeholder="Sélectionner un type"
+                          [(ngModel)]="item.type_payment"
+                          placeholder="Selectionnner le type de payement"
+                          [items]="payment_types"
+                          [bindValue]="'code'"
+                          [bindLabel]="'label'"
                         >
                         </ng-select>
-                      </div>
-                      <div class="flex-column  col-12 block-check ">
-                        <div class="check-box-btn small-input">
-                          <input type="checkbox"
-                                 id="virement_manuel"
-                                 [checked]="filter.waiting_my_validating"
-                                 [(ngModel)]="filter.waiting_my_validating"
-                                 (change)="filterChanged()"
-                                 name="virement_manuel" >
-                          <label for="virement_manuel" >Virement manuel</label>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -357,8 +350,12 @@
                       <label>Banque</label>
                       <div>
                         <ng-select
-                          class="select"
+                          class="select form-control"
                           placeholder="Sélectionner une banque"
+                          [(ngModel)]="item.bank_id"
+                          [items]="item.banks"
+                          [bindLabel]="'rib'"
+                          [bindValue]="'id'"
                         >
                         </ng-select>
                       </div>
@@ -369,6 +366,7 @@
                       <label>Remarque</label>
                       <div>
                        <textarea
+                         [(ngModel)]="item.remark"
                         class="input form-control"
                         placeholder="Saisir une remarque"
                        ></textarea>
@@ -386,6 +384,7 @@
                       [type]="'secondary'"
                       [iconLeft]="'icon-check'"
                       [text]="'Créer le paiement'"
+                      (onClick)="createPayment(item, popOver)"
                     >
                     </app-button>
                   </div>
@@ -402,10 +401,10 @@
                     [popoverTitle]="popTitle"
                     #popOver="ngbPopover"
                     [autoClose]="false"
-                    class="pointer"
+                    class="pointer blue-text"
                   >
                     {{item.amount}}
-                    <i class="fa fa-eye"
+                    <i class="fa fa-eye primary-icon"
                     ></i>
                   </div>
                 </td>

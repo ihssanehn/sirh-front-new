@@ -47,7 +47,8 @@ table{
 
 
 ::ng-deep .popover{
-  min-width: 500px;
+  min-width: 550px;
+  z-index: 100;
   ::ng-deep .popover-title{
     color: $secondaryColor;
     font-size: 14px;

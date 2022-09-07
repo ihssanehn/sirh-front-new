@@ -62,6 +62,12 @@ export class ActivitiesService {
       .pipe(map(res => res.result  || []));
   }
 
+  addPayment(params) {
+    return this.apiService
+      .post('advance_cost/addPayment', params)
+      .pipe(map(res => res.result  || []));
+  }
+
   getAdvanceCost(params) {
     return this.apiService
       .get('advance_cost/getAdvanceCost', params)

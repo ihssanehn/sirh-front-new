@@ -39,6 +39,17 @@ export class AvanceListComponent implements OnInit {
   advanceCosts = [];
   submittingValidation: boolean;
   submittingRejection: boolean;
+  payment_types = [
+    {
+      code: 'manual_transfer',
+      label: 'Virement manuel'
+    },
+    {
+      code: 'interbank_transfer',
+      label: 'Virement interbancaire'
+    },
+  ];
+  submittingPayment = false;
 
   constructor(private listService: ListsService,
               public mainStore: MainStore,
@@ -180,6 +191,40 @@ export class AvanceListComponent implements OnInit {
     }finally {
       item.submittingValidation = false;
       item.submittingRejection = false;
+    }
+  }
+
+  async createPayment(item, popOver) {
+    if(!item.amount_paid){
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Le montant est obligatoire',  sticky: false});
+    return;
+    }
+    const params = {
+      advance_cost_id: item.id,
+      personal_id: item.personal_id,
+      bank_id: item.bank_id,
+      never_paid: item.never_paid ? 1: 0,
+      type: item.type_payment,
+      amount_paid: item.amount_paid,
+      payment_date: item.payment_date && isMoment(moment(item.payment_date)) ? moment(item.payment_date)?.format('YYYY-MM-DD'): null,
+      remark: item.remark,
+    }
+    console.log('createPayment', params);
+    try{
+      this.submittingPayment = true;
+      const res = await this.activitiesService.addPayment(params).toPromise();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Payment créé avec succès',
+        sticky: false,
+      });
+      popOver.close();
+    }catch (e){
+      console.log('err createDemand', e);
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la création du payment',  sticky: false});
+    }finally {
+      this.submittingPayment = false;
     }
   }
 }
