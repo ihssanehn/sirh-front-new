@@ -6,7 +6,7 @@
   </div>
 
   <div class="filter-container  main-container">
-    <div class="sub-header container-fuil container-lg ">
+    <div class="sub-header container-fuild container-lg ">
       <h3 class="main-title">
          Filtres de recherche
       </h3>
@@ -245,12 +245,162 @@
             </thead>
             <tbody>
             <ng-container *ngFor="let item of advanceCosts">
+              <ng-template #popTitle>
+                <div class="popover-title">
+                  Détail paiement avance
+                </div>
+                <i class="icon-close"></i>
+              </ng-template>
+              <ng-template #popContent>
+                <div class="bloc-title">
+                  Info avance
+                </div>
+                <div class="row">
+                  <div class="col-12 info">
+                    <div class="title">N° d'avance:</div>
+                    <div class="value">
+                       PUCULEK Robin
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 info">
+                    <div class="title">Libellé:</div>
+                    <div class="value">
+                      Avance de frais de PUCULEK Robin
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 info">
+                    <div class="title">Total TTC:</div>
+                    <div class="value">
+                      1 200.00 EUR
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 info">
+                    <div class="title">A payer TTC:</div>
+                    <div class="value">
+                      1 200.00 EUR
+                    </div>
+                  </div>
+                </div>
+                <div class="bloc-title" style="margin-top: 11px;">
+                  Saisie du paiement
+                </div>
+                <div class="filter-container">
+                  <div class="filtres row">
+                    <div class="flex-column col-12 col-sm-4">
+                      <label>Date paiement</label>
+                      <div>
+                        <input type="number"
+                               placeholder="EUR"
+                               class="input form-control" />
+                      </div>
+                      <div class="flex-column col-12 block-check ">
+                        <div class="check-box-btn small-input">
+                          <input type="checkbox"
+                                 id="jamais_paye"
+                                 [checked]="filter.waiting_my_validating"
+                                 [(ngModel)]="filter.waiting_my_validating"
+                                 (change)="filterChanged()"
+                                 name="jamais_paye" >
+                          <label for="jamais_paye" >Jamais payé</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-column  col-12 col-sm-4">
+                      <label>Date paiement</label>
+                      <div class="date-picker-group">
+                        <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt3"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt3"
+                               placeholder="Choisir la date ici"
+                               [(ngModel)]="filter.date_start"
+                        />
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="filter.date_start = null"
+                             *ngIf="filter.date_start"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-column col-12 col-sm-4">
+                      <label>Type de paiement</label>
+                      <div>
+                        <ng-select
+                          class="select form-control"
+                          placeholder="Sélectionner un type"
+                        >
+                        </ng-select>
+                      </div>
+                      <div class="flex-column  col-12 block-check ">
+                        <div class="check-box-btn small-input">
+                          <input type="checkbox"
+                                 id="virement_manuel"
+                                 [checked]="filter.waiting_my_validating"
+                                 [(ngModel)]="filter.waiting_my_validating"
+                                 (change)="filterChanged()"
+                                 name="virement_manuel" >
+                          <label for="virement_manuel" >Virement manuel</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filtres row">
+                    <div class="flex-column col-12">
+                      <label>Banque</label>
+                      <div>
+                        <ng-select
+                          class="select"
+                          placeholder="Sélectionner une banque"
+                        >
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filtres row">
+                    <div class="flex-column col-12">
+                      <label>Remarque</label>
+                      <div>
+                       <textarea
+                        class="input form-control"
+                        placeholder="Saisir une remarque"
+                       ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="submit-block">
+                    <app-button
+                      [type]="'secondary'"
+                      [iconLeft]="'icon-check'"
+                      [text]="'Créer le paiement'"
+                    >
+                    </app-button>
+                  </div>
+                </div>
+              </ng-template>
               <tr>
                 <td>{{item.manager_name}}</td>
                 <td>{{item.first_name}}</td>
                 <td>{{item.last_name}}</td>
                 <td>{{item.type_name}}</td>
-                <td>{{item.amount}}</td>
+                <td>
+                  <div
+                    [ngbPopover]="popContent"
+                    [popoverTitle]="popTitle"
+                    [autoClose]="false"
+                    class="pointer"
+                  >
+                    {{item.amount}}
+                    <i class="fa fa-eye"
+                    ></i>
+                  </div>
+                </td>
                 <td>{{item.date | dateMessage}}</td>
                 <td [ngStyle]="{'color': item.status_color}">
                   {{item.status_name}}

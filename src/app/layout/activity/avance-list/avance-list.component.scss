@@ -45,3 +45,38 @@ table{
   }
 }
 
+
+::ng-deep .popover{
+  min-width: 500px;
+  ::ng-deep .popover-title{
+    color: $secondaryColor;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 auto;
+  }
+  .bloc-title{
+    font-size: 15px;
+    font-weight: 500;
+    color: $mainGray;
+    margin-bottom: 5px;
+  }
+  .info{
+    display: flex;
+    line-height: 21px;
+    margin-bottom: 9px;
+    .title{
+      color: $secondaryColor;
+      min-width: 95px;
+    }
+    .value{
+      margin-left: 10px;
+      color: $mainGray;
+      font-weight: 300;
+    }
+  }
+  .filter-container{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
