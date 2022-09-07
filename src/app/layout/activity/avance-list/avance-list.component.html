@@ -245,11 +245,12 @@
             </thead>
             <tbody>
             <ng-container *ngFor="let item of advanceCosts">
-              <ng-template #popTitle>
+              <ng-template
+                #popTitle>
                 <div class="popover-title">
                   Détail paiement avance
                 </div>
-                <i class="icon-close"></i>
+                <i class="icon-close pointer" (click)="popOver.close()"></i>
               </ng-template>
               <ng-template #popContent>
                 <div class="bloc-title">
@@ -259,7 +260,7 @@
                   <div class="col-12 info">
                     <div class="title">N° d'avance:</div>
                     <div class="value">
-                       PUCULEK Robin
+                      {{item.id}}
                     </div>
                   </div>
                 </div>
@@ -267,7 +268,7 @@
                   <div class="col-12 info">
                     <div class="title">Libellé:</div>
                     <div class="value">
-                      Avance de frais de PUCULEK Robin
+                      {{item.type}}
                     </div>
                   </div>
                 </div>
@@ -275,7 +276,7 @@
                   <div class="col-12 info">
                     <div class="title">Total TTC:</div>
                     <div class="value">
-                      1 200.00 EUR
+                      {{item.amount}} EUR
                     </div>
                   </div>
                 </div>
@@ -283,7 +284,7 @@
                   <div class="col-12 info">
                     <div class="title">A payer TTC:</div>
                     <div class="value">
-                      1 200.00 EUR
+                      {{item.amount}} EUR
                     </div>
                   </div>
                 </div>
@@ -376,6 +377,12 @@
                   </div>
                   <div class="submit-block">
                     <app-button
+                      [type]="'tertiary'"
+                      [text]="'Annuler'"
+                      (onClick)="popOver.close()"
+                    >
+                    </app-button>&nbsp;
+                    <app-button
                       [type]="'secondary'"
                       [iconLeft]="'icon-check'"
                       [text]="'Créer le paiement'"
@@ -393,6 +400,7 @@
                   <div
                     [ngbPopover]="popContent"
                     [popoverTitle]="popTitle"
+                    #popOver="ngbPopover"
                     [autoClose]="false"
                     class="pointer"
                   >
