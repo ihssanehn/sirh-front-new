@@ -174,11 +174,12 @@ export class AvanceListComponent implements OnInit {
       }
 
       const res = await this.activitiesService.validateOrRefuseAdvanceCost(params).toPromise();
-      item.history_advance_cost = res.data?.history_advance_cost;
-      item.comment_manager = res.data?.comment_manager;
-      item.comment_admin = res.data?.comment_admin;
-      item.status_color = res.data?.status_color;
-      item.status_name = res.data?.status_name;
+      // item.history_advance_cost = res.data?.history_advance_cost;
+      // item.comment_manager = res.data?.comment_manager;
+      // item.comment_admin = res.data?.comment_admin;
+      // item.status_color = res.data?.status_color;
+      // item.status_name = res.data?.status_name;
+      this.getAllAdvanceCosts();
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -213,6 +214,7 @@ export class AvanceListComponent implements OnInit {
     try{
       this.submittingPayment = true;
       const res = await this.activitiesService.addPayment(params).toPromise();
+      this.getAllAdvanceCosts();
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -226,5 +228,24 @@ export class AvanceListComponent implements OnInit {
     }finally {
       this.submittingPayment = false;
     }
+  }
+
+  getPaymentType(type) {
+    const type_payment = this.payment_types.find(item => item === type);
+    return type_payment ? type_payment.label : null;
+  }
+
+  resetFilters() {
+    this.filter = {
+      date_start: null,
+      date_end: null,
+      personals: [],
+      statues: null,
+      cps: [],
+      types: [],
+      states: [],
+      waiting_my_validating: null
+    }
+    this.filterChanged();
   }
 }

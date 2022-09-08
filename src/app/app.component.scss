@@ -79,6 +79,18 @@
   //}
 }
 
+.reset-filters{
+  color: $primaryColor;
+  cursor: pointer;
+  font-size: 12px;
+  i:before{
+    font-size: 10px;
+  }
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
 .radio{
   //width: 100%;
   .btn{

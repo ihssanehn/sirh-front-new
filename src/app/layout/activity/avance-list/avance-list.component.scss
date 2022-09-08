@@ -3,9 +3,8 @@
 table{
   border-collapse: collapse;
   td{
-    padding-top: 10px;
-    padding-bottom: 10px;
     text-align: center;
+    padding: 12px 0;
   }
 }
 
@@ -51,14 +50,14 @@ table{
   z-index: 100;
   ::ng-deep .popover-title{
     color: $secondaryColor;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     margin: 0 auto;
   }
   .bloc-title{
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
-    color: $mainGray;
+    color: $primaryColor;
     margin-bottom: 5px;
   }
   .info{
@@ -68,6 +67,8 @@ table{
     .title{
       color: $secondaryColor;
       min-width: 95px;
+      font-size: 11px;
+      font-weight: 500;
     }
     .value{
       margin-left: 10px;
@@ -80,4 +81,8 @@ table{
     margin-bottom: 0;
     padding: 0;
   }
+}
+
+.green-row{
+  border-left: 4px solid $tertiaryColor;
 }
