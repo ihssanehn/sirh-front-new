@@ -93,4 +93,11 @@ export class ActivitiesService {
       .pipe(map(res => res.result  || []));
   }
 
+  exportAdvanceCost(params) {
+    return this.apiService
+      .post('advance_cost/exportAdvanceCost', params, true);
+  }
+
+
+
 }

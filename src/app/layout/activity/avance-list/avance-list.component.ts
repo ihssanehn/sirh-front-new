@@ -6,7 +6,7 @@ import {MessageService} from "primeng/api";
 import {isMoment} from "moment";
 import * as moment from "moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
-
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-avance-list',
   templateUrl: './avance-list.component.html',
@@ -70,8 +70,21 @@ export class AvanceListComponent implements OnInit {
     this.getSummaryAdvanceCosts();
   }
 
-  export() {
+  async  export() {
+    try{
+      // const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
+      let params = this.formatParams();
+      this.loadingSummaryAdvanceCosts = true;
+      const res = await this.activitiesService.exportAdvanceCost(params).toPromise();
+      const blob = new Blob([res.body]);
+      FileSaver.saveAs(blob, 'export_advance_cost.xlsx');
+    }catch (e) {
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération des données du tableau de synthèse',  sticky: false});
+
+    }finally {
+      this.loadingSummaryAdvanceCosts = false;
+    }
   }
 
   getAll() {
@@ -249,3 +262,15 @@ export class AvanceListComponent implements OnInit {
     this.filterChanged();
   }
 }
+/*
+La liste des utilisateurs
+   (avec les champs Nom, prénom, email, rôle, entité signataire, grade et administration module) ;
+
+
+La liste des « associé » (pour MAJ des listes déroulantes lettres de mission et rapport) ;
+
+
+La liste des « Responsable de mission » (pour MAJ des listes déroulantes lettres de mission et rapport) ;
+
+La liste des fichiers (nom, descriptions, créateur, date, type d’audience) intégrés dans les modules Tools,  tutos & présentations
+ */

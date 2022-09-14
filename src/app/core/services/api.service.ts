@@ -48,8 +48,18 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  post(path: string, body: any, option={}): Observable<any> {
-    return this.http.post(`${this.apiUrl}${path}`, body, option);
+  post(path: string, body: any, download=false): Observable<any> {
+    // return this.http.post(`${this.apiUrl}${path}`, body, option);
+    if (!download) {
+      return this.http.post(`${this.apiUrl}${path}`, body);
+    } else {
+      return this.http
+        .post(`${this.apiUrl}${path}`, body, {
+          responseType: 'blob',
+          params: body,
+          observe: 'response'
+        });
+    }
   }
 
   delete(path: string, body?: any): Observable<any> {
@@ -57,4 +67,5 @@ export class ApiService {
       body
     });
   }
+
 }
