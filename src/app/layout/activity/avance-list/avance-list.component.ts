@@ -244,7 +244,7 @@ export class AvanceListComponent implements OnInit {
   }
 
   getPaymentType(type) {
-    const type_payment = this.payment_types.find(item => item === type);
+    const type_payment = this.payment_types.find(item => item.code === type);
     return type_payment ? type_payment.label : null;
   }
 

@@ -8,6 +8,7 @@ import {markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {MessageService} from "primeng/api";
 import {isMoment} from "moment";
 import * as moment from "moment";
+import {UserStore} from "@store/user.store";
 
 @Component({
   selector: 'app-avance-creation',
@@ -32,6 +33,7 @@ export class AvanceCreationComponent implements OnInit {
               private fb: FormBuilder,
               private activitiesService: ActivitiesService,
               private messageService: MessageService,
+              public userStore: UserStore,
               private listService: ListsService, private mainStore: MainStore) {
     this.myForm = this.fb.group({
       personal_id: [],

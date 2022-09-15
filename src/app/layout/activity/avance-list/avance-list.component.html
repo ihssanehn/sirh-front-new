@@ -1,12 +1,12 @@
 <div class="top-container list">
-  <div class="sub-header container-fuil container-lg ">
+  <div class="sub-header container-fluid ">
     <h3 class="main-title top-title">
       Avance de frais
     </h3>
   </div>
 
   <div class="filter-container  main-container">
-    <div class="sub-header container-fuild container-lg ">
+    <div class="sub-header container-fluid ">
       <h3 class="main-title">
          Filtres de recherche
       </h3>
@@ -180,7 +180,7 @@
   </div>
 
   <div class="main-container">
-    <div class="sub-header container-fuil container-lg ">
+    <div class="sub-header container-fluid  ">
       <h3 class="main-title">
         Tableau de synthèse
       </h3>
@@ -215,7 +215,7 @@
   </div>
 
   <div class="main-container">
-    <div class="sub-header container-fuil container-lg ">
+    <div class="sub-header container-fluid ">
       <h3 class="main-title">
         Liste des avances de frais
       </h3>
@@ -278,7 +278,7 @@
                   <div class="col-12 info">
                     <div class="title">Libellé:</div>
                     <div class="value">
-                      {{item.type}}
+                      {{item.type_name}}
                     </div>
                   </div>
                 </div>
@@ -298,7 +298,7 @@
                     </div>
                   </div>
                 </div>
-                <ng-container *ngIf="item.payment else not_payed">
+                <ng-container *ngIf="item.payment?.id else not_payed">
                   <div class="bloc-title">
                     Info du paiement
                   </div>
@@ -314,7 +314,7 @@
                     <div class="col-12 info">
                       <div class="title">Date paiement:</div>
                       <div class="value">
-                        {{item.payment.payment_date}}
+                        {{item.payment.payment_date | dateMessage}}
                       </div>
                     </div>
                   </div>
@@ -344,7 +344,7 @@
                   </div>
                 </ng-container>
                 <ng-template #not_payed>
-                  <ng-container *ngIf="item.can_pay">
+                  <ng-container *ngIf="item.can_pay_admin">
                     <div class="bloc-title" style="margin-top: 11px;">
                       Saisie du paiement
                     </div>
@@ -462,7 +462,7 @@
                     (onClick)="popOver.close()"
                   >
                   </app-button>
-                  <ng-container   *ngIf="item.can_pay && !item.payment">
+                  <ng-container   *ngIf="item.can_pay_admin && !item.payment?.id">
                     &nbsp;<app-button
                     [type]="'secondary'"
                     [iconLeft]="'icon-check'"
@@ -473,7 +473,7 @@
                   </ng-container>
                 </div>
               </ng-template>
-              <tr [ngClass]="{'green-row': item.payment}">
+              <tr [ngClass]="{'green-row': item.payment?.id}">
                 <td>{{item.manager_name}}</td>
                 <td>{{item.first_name}}</td>
                 <td>{{item.last_name}}</td>
@@ -545,8 +545,8 @@
                           </li>
                           <ng-container *ngIf="item.history_advance_cost?.length === 1">
                             <li [ngStyle]="{'color': item.status_color}"
-                                *ngIf="!item.can_update; else validate_item">
-                              En attente de validation par le responsable
+                                *ngIf="!item.can_validate_manager; else validate_item">
+                              En attente de validation par le manager
                             </li>
                             <ng-template #validate_item>
                               <li [ngStyle]="{'color': item.status_color}">Validation au niveau Gestion avance</li>
@@ -593,6 +593,59 @@
                                 </app-button>
                               </div>
                             </ng-template>
+                          </ng-container>
+                          <ng-container *ngIf="item.history_advance_cost?.length === 2">
+                            <ng-container *ngIf="!item.is_refused">
+                              <li [ngStyle]="{'color': item.status_color}"
+                                  *ngIf="!item.can_validate_admin; else validate_item">
+                                En attente de validation par l'admin
+                              </li>
+                              <ng-template #validate_item>
+                                <li [ngStyle]="{'color': item.status_color}">Validation au niveau Gestion avance</li>
+                                <div class="row">
+                                  <div class="col-12 col-sm-8 flex-column" style="margin-top: 7px;">
+                                 <textarea class="input form-control"
+                                           [placeholder]="'Commentaire ..'"
+                                           [rows]="2"
+                                           [(ngModel)]="item.validation_comment"
+                                 ></textarea>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div class="col check-box-btn" style="padding-left: 0;">
+                                    <input type="checkbox"
+                                           [checked]="item.validation_send_email"
+                                           [(ngModel)]="item.validation_send_email"
+                                           [id]="'send_email'+item.id">
+                                    <label [for]="'send_email'+item.id"
+                                           style="font-size: 11px;margin-left: 3px;"
+                                           data-content="{{'send_email'+item.id}}">
+                                      <span class="name">Envoyer les informations par mail à l'utilisateur</span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div>
+                                  <app-button
+                                    [type]="'danger'"
+                                    [text]="'Refuser'"
+                                    [iconLeft]="'icon-close'"
+                                    [isDisabled]="item.submittingRejection || item.submittingValidation"
+                                    [isLoading]="item.submittingRejection"
+                                    (onClick)="validateOrRefuseAdvanceCost(item, false)"
+                                  >
+                                  </app-button>&nbsp;&nbsp;
+                                  <app-button
+                                    [type]="'secondary'"
+                                    [text]="'Valider'"
+                                    [iconLeft]="'icon-check'"
+                                    [isDisabled]="item.submittingRejection || item.submittingValidation"
+                                    [isLoading]="item.submittingValidation"
+                                    (onClick)="validateOrRefuseAdvanceCost(item, true)"
+                                  >
+                                  </app-button>
+                                </div>
+                              </ng-template>
+                            </ng-container>
                           </ng-container>
                         </ul>
                       </td>

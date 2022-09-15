@@ -1,12 +1,12 @@
 <div class="top-container">
   <form class="filter-container  main-container" [formGroup]="myForm" *ngIf="myForm">
     <div class="filtres row ">
-      <div class="sub-header container-fuil container-lg ">
+      <div class="sub-header container-fluid ">
         <h3 class="main-title top-title">
           Création d'une demande d'avance de frais
         </h3>
       </div>
-      <div class="flex-column  col-12 col-sm-3">
+      <div class="flex-column  col-12 col-sm-3" *ngIf="userStore.getAuthenticatedUser?.role_name !== 'user'">
         <label>Choix du salarié {{isRequired(formInputs.personal_id)}}</label>
         <div>
           <ng-select class="select form-control"
@@ -66,6 +66,8 @@
           <input type="number"
                  class="form-control input"
                  placeholder="Saisir le montant ici"
+                 [max]="99999"
+                 [min]="0"
                  [formControl]="myForm.controls[formInputs.amount]"
           />
         </div>
