@@ -900,3 +900,10 @@ a, .link{
     }
   }
 }
+
+::ng-deep .p-toast-message-warning{
+  border-bottom: 3px solid $warning !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  background: white;
+}

@@ -4,6 +4,7 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
 import {$headerSectionsMetaData, $sidebarItems_activity, $sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-layout',
@@ -21,6 +22,7 @@ export class LayoutComponent implements OnInit{
       // @Inject(APP_BASE_HREF) private baseHref:string,
               private userService: UserService,
               private router: Router,
+              private messageService: MessageService,
               private route: ActivatedRoute,
             public mainStore: MainStore
 
@@ -99,8 +101,18 @@ export class LayoutComponent implements OnInit{
       }
     });
     this.onResize();
+    // this.checkEntite();
   }
 
+  // checkEntite(){
+  //   if(!(this.mainStore.selectedEntities?.length>0)){
+  //     this.messageService.add({
+  //       severity: 'info',
+  //       summary: 'Info!',
+  //       detail: 'Veillez sélectioner une entité',
+  //       sticky: false});
+  //   }
+  // }
 
   ngOnInit(): void {
     // this.onResize(null);

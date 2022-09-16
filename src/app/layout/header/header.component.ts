@@ -2,10 +2,11 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {MainStore} from '@store/mainStore.store';
 import {UserStore} from '@store/user.store';
 import {$headerItems, $userRoles} from '@shared/Objects/sharedObjects';
-import {Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from '@angular/router';
 import {UserService} from '@app/core/services';
 import {ListsService} from "@services/lists.service";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-header',
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public userStore: UserStore,
     public userService: UserService,
     private fb: FormBuilder,
+    private messageService: MessageService,
     private router: Router,
     private listService: ListsService,
   ) {
@@ -133,7 +135,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     this.mainStore.selectedEntities = this.status.filter(element => formArray.value.includes(element.id));
     localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
+    this.checkEntities();
   }
 
+  checkEntities(){
+      if(!(this.mainStore.selectedEntities?.length>0)) {
+        this.router.navigate(['/accueil']).then(() => {
+          this.messageService.add({
+            severity: 'warning',
+            summary: 'Echec!',
+            detail: 'Veillez sélectioner une entité',
+            sticky: false
+          });
+        });
+      }
+  }
 
 }

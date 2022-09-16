@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {LayoutComponent} from '@layout/layout.component';
 import {AcceilComponent} from "@layout/acceil/acceil.component";
+import {AuthGuard} from "@app/core/guards/auth-guard.service";
+import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 
 const routes: Routes = [
   {
@@ -24,6 +26,7 @@ const routes: Routes = [
       {
         path: 'activity',
         loadChildren: () => import('./activity/activity.module').then(m => m.ActivityModule),
+        canActivate: [EntiteGuard]
       },
     ]
   }

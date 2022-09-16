@@ -31,6 +31,7 @@ import {MATERIAL_SANITY_CHECKS} from "@angular/material/core";
 import {ListsService} from "@services/lists.service";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {ActivitiesService} from "@services/activities.service";
+import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: HttpClient) {
     ActivitiesService,
     AuthGuard,
     AuthGuard2,
+    EntiteGuard,
     MainStore,
     {
       provide: HTTP_INTERCEPTORS,
