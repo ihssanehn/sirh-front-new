@@ -110,12 +110,12 @@
 
         <mat-menu #profileMenu="matMenu" [class]="'profile-menu'" >
 
-          <div class="connectedUSer name" >
-            {{userStore.getAuthenticatedUser?.nom}}
+          <div class="connectedUSer name text-capitalize" >
+            {{userStore.getAuthenticatedUser?.full_name}}
           </div>
 
-          <div class="connectedUSer"  *ngxPermissionsOnly="[$userRoles.SUPERADMIN, $userRoles.MANAGER]">
-            {{userStore.getAuthenticatedUser?.role}}
+          <div class="connectedUSer text-capitalize" >
+            {{userStore.getAuthenticatedUser?.profile_name}}
           </div>
 
 

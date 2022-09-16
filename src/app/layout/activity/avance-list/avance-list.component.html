@@ -186,7 +186,9 @@
       </h3>
     </div>
     <ng-container *ngIf="loadingSummaryAdvanceCosts; else loadedSummaryAdvanceCosts">
-
+      <div class="loading">
+        <img src="assets/images/loading_avance_frais_summary.svg" style="height: 100px; width: 100%; max-width: 651px;"/>
+      </div>
     </ng-container>
     <ng-template #loadedSummaryAdvanceCosts>
       <ng-container *ngIf="summaryAdvanceCosts?.length>0; else emptyState">
@@ -235,7 +237,9 @@
       </div>
     </div>
     <ng-container *ngIf="loadingAdvanceCosts; else loadedAdvanceCosts">
-
+      <div class="loading">
+        <img src="assets/images/loading_avance_frais_list.svg" style="width: 100%; height: unset"/>
+      </div>
     </ng-container>
     <ng-template #loadedAdvanceCosts>
       <ng-container *ngIf="advanceCosts?.length>0; else emptyStateList">
@@ -496,9 +500,11 @@
                 </td>
                 <td>
                   <div class="actions">
-                    <i class="icon-search primary-icon pointer d-inline-block"
+                    <i class="icon-edit primary-icon pointer d-inline-block"
                        data-toggle="tooltip"
                        data-placement="top"
+                       style="font-size: 16px;"
+                       *ngIf="item.history_advance_cost?.length === 1 && item.personal_id === userStore.getAuthenticatedUser?.id"
                        [routerLink]="['/activity/avance/modification/'+item.id]"
                        title="Détails"></i>
                   </div>
@@ -666,13 +672,13 @@
 
 <ng-template #emptyState>
   <app-centred-message [message]="( 'Impossible de récupérer les données pour le moment' )"
-                       [image]="'images/error.svg'"
+                       [image]="'images/empty_state_search.svg'"
   ></app-centred-message>
 </ng-template>
 
 <ng-template #emptyStateList>
   <app-centred-message [message]="( 'Aucun élément trouvé pour le moment' )"
-                       [image]="'images/error.svg'"
+                       [image]="'images/empty_state_search.svg'"
   ></app-centred-message>
 </ng-template>
 

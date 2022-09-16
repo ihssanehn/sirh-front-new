@@ -7,6 +7,7 @@ import {isMoment} from "moment";
 import * as moment from "moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 import * as FileSaver from 'file-saver';
+import {UserStore} from "@store/user.store";
 @Component({
   selector: 'app-avance-list',
   templateUrl: './avance-list.component.html',
@@ -55,6 +56,7 @@ export class AvanceListComponent implements OnInit {
               public mainStore: MainStore,
               private activitiesService: ActivitiesService,
               private messageService: MessageService,
+              public userStore: UserStore,
               ) { }
 
   async ngOnInit() {
@@ -106,27 +108,6 @@ export class AvanceListComponent implements OnInit {
     }
   }
 
-  //manager_name: "SIRH Manager-6"
-  //personal_name: "SIRH Consultant-18"
-  //type_name: "Avance De Frais"
-  // amount: 24
-  // date: "2022-09-01T23:00:00.000Z"
-  // status_color: "#ff8001"
-  // status_name: "En attente"
-
-
-  // comment_admin: null
-  // comment_manager: null
-  // created_at: "2022-09-05T10:10:37.000Z"
-  // history_advance_cost: [,…]
-  // id: 9
-  // manager_id: 6
-  // manager_name: "SIRH Manager-6"
-  // motif: "test 223"
-  // personal_id: 28
-  // type_id: 36
-  // updated_at: "2022-09-05T10:26:54.000Z"
-
   formatParams(){
     const params: any = {};
     Object.keys(this.filter).forEach(key => {
@@ -156,11 +137,14 @@ export class AvanceListComponent implements OnInit {
       this.loadingAdvanceCosts = true;
       const res = await this.activitiesService.getAllAdvanceCosts(params).toPromise();
       this.advanceCosts = res.data;
+      console.log('anass this.advanceCosts ', this.advanceCosts );
     }catch (e) {
       console.log('err getAllAdvanceCosts', e);
       this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération de la list des avances de frais',  sticky: false});
     }finally {
+      console.log('anass this.loadingAdvanceCosts ', this.loadingAdvanceCosts );
       this.loadingAdvanceCosts = false;
+      console.log('anass after this.loadingAdvanceCosts ', this.loadingAdvanceCosts );
     }
   }
 

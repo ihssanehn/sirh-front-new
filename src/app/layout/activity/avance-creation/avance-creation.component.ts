@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
@@ -6,9 +6,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivitiesService} from "@services/activities.service";
 import {markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {MessageService} from "primeng/api";
-import {isMoment} from "moment";
 import * as moment from "moment";
+import {isMoment} from "moment";
 import {UserStore} from "@store/user.store";
+import {$userRoles} from "@shared/Objects/sharedObjects";
 
 @Component({
   selector: 'app-avance-creation',
@@ -29,6 +30,9 @@ export class AvanceCreationComponent implements OnInit {
     date:  'date',
     motif:  'motif'
   }
+  roles_can_show_personals_input = [$userRoles.ADV, $userRoles.ACCOUNTING, $userRoles.GP];
+  loadingPersonals: boolean;
+
   constructor(private router: Router,
               private fb: FormBuilder,
               private activitiesService: ActivitiesService,
@@ -77,17 +81,33 @@ export class AvanceCreationComponent implements OnInit {
       });
     }catch (e){
       console.log('err createDemand', e);
-      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la création de la demande',  sticky: false});
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Echec!',
+          detail: 'Impossible de créer cette demande d\'avance de frais pour le moment',
+          sticky: false});
     }finally {
       this.submittingCreate = false;
     }
   }
 
-  diffuse() {
-
-  }
-
   isRequired(control) {
     return SharedClasses.isControlRequired(this.myForm.controls[control]) ? '(*)': '';
+  }
+
+  showPersonels() {
+    return this.roles_can_show_personals_input.includes(this.userStore.getAuthenticatedUser?.role_name);
+  }
+
+  async getPsersonals() {
+    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    try{
+      this.loadingPersonals = true;
+      this.personals = await this.listService.getPersonalsByCpId({entity_id: id_entite}).toPromise();
+    }
+    catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    finally {
+      this.loadingPersonals = false;
+    }
   }
 }

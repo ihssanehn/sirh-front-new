@@ -43,9 +43,12 @@ export enum $screenSize {
 
 
 export enum $userRoles {
-    SUPERADMIN = 'superadmin',
-    MANAGER = 'manager',
-    USER = 'user'
+  ADV = 'adv',
+  USER = 'user',
+  REPORTING = 'reporting',
+  ACCOUNTING = 'accounting',
+  GP = 'gp',
+  BM = 'business_manager',
 }
 
 export enum $userRolesIds {
@@ -53,7 +56,6 @@ export enum $userRolesIds {
     MANAGER = 2,
     USER = 3
 }
-
 
 export enum $userRolesLabels {
     SUPERADMIN = 'Super admin',

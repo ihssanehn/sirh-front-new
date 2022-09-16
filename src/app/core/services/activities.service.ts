@@ -99,5 +99,8 @@ export class ActivitiesService {
   }
 
 
-
+  cancelDiffusion(params: any) {
+    return this.apiService
+      .post('activity/cancelDiffusedActivity', params);
+  }
 }

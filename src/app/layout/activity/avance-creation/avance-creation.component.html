@@ -6,7 +6,7 @@
           Création d'une demande d'avance de frais
         </h3>
       </div>
-      <div class="flex-column  col-12 col-sm-3" *ngIf="userStore.getAuthenticatedUser?.role_name !== 'user'">
+      <div class="flex-column  col-12 col-sm-3" *ngIf="showPersonels()">
         <label>Choix du salarié {{isRequired(formInputs.personal_id)}}</label>
         <div>
           <ng-select class="select form-control"
@@ -15,6 +15,8 @@
                      [bindLabel]="'full_name'"
                      [bindValue]="'id'"
                      [formControl]="myForm.controls[formInputs.personal_id]"
+                     (open)="getPsersonals()"
+                     [loading]="loadingPersonals"
                      [placeholder]="'Sélectionner le salarié'"></ng-select>
         </div>
         <div class="form-control-feedback"

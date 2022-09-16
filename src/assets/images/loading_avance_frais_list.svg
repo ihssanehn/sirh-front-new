@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1096" height="947.5" viewBox="0 0 1096 947.5">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.119" y1="0.5" x2="-0.275" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0.153"/>
+      <stop offset="1" stop-color="#ededed"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect width="1096" height="899.5" fill="none"/>
+    </clipPath>
+    <linearGradient id="linear-gradient-2" x1="1.196" y1="0.204" x2="-0.356" y2="1.107" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed" stop-opacity="0.749"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="1.055" y1="1" x2="-0.413" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ededed" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ededed"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_5273" data-name="Group 5273" transform="translate(-232 -134)">
+    <path id="Rectangle_17742" data-name="Rectangle 17742" d="M8,0H1088a8,8,0,0,1,8,8V48a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(232 134)" fill="url(#linear-gradient)"/>
+    <g id="selec" transform="translate(248.5 150)">
+      <g id="titre" transform="translate(0 0)">
+        <line id="Line_17" data-name="Line 17" x2="1064.486" transform="translate(0 32)" fill="none" stroke="#ededed" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="Repeat_Grid_43" data-name="Repeat Grid 43" transform="translate(232 182)" clip-path="url(#clip-path)">
+      <g id="Group_5546" data-name="Group 5546" transform="translate(-232 -182)">
+        <g id="Group_5317" data-name="Group 5317" transform="translate(232 182)">
+          <g id="Group_5295" data-name="Group 5295" transform="translate(0 56)">
+            <rect id="Rectangle_17743" data-name="Rectangle 17743" width="1096" height="168" fill="url(#linear-gradient-2)"/>
+            <line id="Line_68" data-name="Line 68" x2="1071.405" transform="translate(12.5 168)" fill="none" stroke="#ededed" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_5296" data-name="Group 5296" transform="translate(232 182)">
+          <rect id="Rectangle_156" data-name="Rectangle 156" width="1096" height="56" fill="#fff"/>
+          <line id="Line_34" data-name="Line 34" x2="1071.405" transform="translate(12.5 56)" fill="none" stroke="#ededed" stroke-width="1"/>
+        </g>
+        <rect id="Rectangle_17769" data-name="Rectangle 17769" width="850" height="14" rx="4" transform="translate(355 203)" fill="url(#linear-gradient-3)"/>
+      </g>
+      <g id="Group_5546-2" data-name="Group 5546" transform="translate(-232 43)">
+        <g id="Group_5317-2" data-name="Group 5317" transform="translate(232 182)">
+          <g id="Group_5295-2" data-name="Group 5295" transform="translate(0 56)">
+            <rect id="Rectangle_17743-2" data-name="Rectangle 17743" width="1096" height="168" fill="url(#linear-gradient-2)"/>
+            <line id="Line_68-2" data-name="Line 68" x2="1071.405" transform="translate(12.5 168)" fill="none" stroke="#ededed" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_5296-2" data-name="Group 5296" transform="translate(232 182)">
+          <rect id="Rectangle_156-2" data-name="Rectangle 156" width="1096" height="56" fill="#fff"/>
+          <line id="Line_34-2" data-name="Line 34" x2="1071.405" transform="translate(12.5 56)" fill="none" stroke="#ededed" stroke-width="1"/>
+        </g>
+        <rect id="Rectangle_17769-2" data-name="Rectangle 17769" width="850" height="14" rx="4" transform="translate(355 203)" fill="url(#linear-gradient-3)"/>
+      </g>
+      <g id="Group_5546-3" data-name="Group 5546" transform="translate(-232 268)">
+        <g id="Group_5317-3" data-name="Group 5317" transform="translate(232 182)">
+          <g id="Group_5295-3" data-name="Group 5295" transform="translate(0 56)">
+            <rect id="Rectangle_17743-3" data-name="Rectangle 17743" width="1096" height="168" fill="url(#linear-gradient-2)"/>
+            <line id="Line_68-3" data-name="Line 68" x2="1071.405" transform="translate(12.5 168)" fill="none" stroke="#ededed" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_5296-3" data-name="Group 5296" transform="translate(232 182)">
+          <rect id="Rectangle_156-3" data-name="Rectangle 156" width="1096" height="56" fill="#fff"/>
+          <line id="Line_34-3" data-name="Line 34" x2="1071.405" transform="translate(12.5 56)" fill="none" stroke="#ededed" stroke-width="1"/>
+        </g>
+        <rect id="Rectangle_17769-3" data-name="Rectangle 17769" width="850" height="14" rx="4" transform="translate(355 203)" fill="url(#linear-gradient-3)"/>
+      </g>
+      <g id="Group_5546-4" data-name="Group 5546" transform="translate(-232 493)">
+        <g id="Group_5317-4" data-name="Group 5317" transform="translate(232 182)">
+          <g id="Group_5295-4" data-name="Group 5295" transform="translate(0 56)">
+            <rect id="Rectangle_17743-4" data-name="Rectangle 17743" width="1096" height="168" fill="url(#linear-gradient-2)"/>
+            <line id="Line_68-4" data-name="Line 68" x2="1071.405" transform="translate(12.5 168)" fill="none" stroke="#ededed" stroke-width="1"/>
+          </g>
+        </g>
+        <g id="Group_5296-4" data-name="Group 5296" transform="translate(232 182)">
+          <rect id="Rectangle_156-4" data-name="Rectangle 156" width="1096" height="56" fill="#fff"/>
+          <line id="Line_34-4" data-name="Line 34" x2="1071.405" transform="translate(12.5 56)" fill="none" stroke="#ededed" stroke-width="1"/>
+        </g>
+        <rect id="Rectangle_17769-4" data-name="Rectangle 17769" width="850" height="14" rx="4" transform="translate(355 203)" fill="url(#linear-gradient-3)"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -5,6 +5,11 @@
   transition: $hoverTransition;
 }
 
+.error-message{
+  font-size: 12px;
+  color: $danger;
+}
+
 .filter-container{
   background: white;
   border-radius: 5px;

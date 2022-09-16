@@ -9,6 +9,8 @@ import {MessageService} from "primeng/api";
 import {isMoment} from "moment";
 import * as moment from "moment";
 import {Subscription} from "rxjs";
+import {$userRoles} from "@shared/Objects/sharedObjects";
+import {UserStore} from "@store/user.store";
 
 @Component({
   selector: 'app-avance-modification',
@@ -32,11 +34,15 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
   loadingData: boolean;
   getDataSubscription: Subscription;
   errorLoadData: boolean;
+  loadingPersonals: boolean;
+  roles_can_show_personals_input = [$userRoles.ADV, $userRoles.ACCOUNTING, $userRoles.GP];
+  avanceToUpdate: any;
   constructor(private router: Router,
               private route: ActivatedRoute,
               private fb: FormBuilder,
               private activitiesService: ActivitiesService,
               private messageService: MessageService,
+              public userStore: UserStore,
               private listService: ListsService, private mainStore: MainStore) {
     this.myForm = this.fb.group({
       id: [null, Validators.compose([Validators.required])],
@@ -63,6 +69,7 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
       this.myForm.patchValue({
         ...res.data
       })
+      this.avanceToUpdate = res.data;
     }catch (e){
       console.log('error getAvance', e);
       this.errorLoadData = true;
@@ -73,9 +80,7 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
-    try{ this.personals = await this.listService.getPersonalsByCpId({entity_id: id_entite}).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    this.getPsersonals();
     try{ this.advance_cost = await this.listService.getFilter(this.listService.list.ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
   }
 
@@ -103,8 +108,11 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
       });
     }catch (e){
       console.log('err createDemand', e);
-      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la modification de la demande',  sticky: false});
-    }finally {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Echec!',
+        detail: 'Impossible de modifier cette demande d\'avance de frais pour le moment',
+        sticky: false});    }finally {
       this.submittingCreate = false;
     }
   }
@@ -120,6 +128,22 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if(this.getDataSubscription){
       this.getDataSubscription.unsubscribe();
+    }
+  }
+
+  showPersonels() {
+    return this.roles_can_show_personals_input.includes(this.userStore.getAuthenticatedUser?.role_name);
+  }
+
+  async getPsersonals() {
+    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    try{
+      this.loadingPersonals = true;
+      this.personals = await this.listService.getPersonalsByCpId({entity_id: id_entite}).toPromise();
+    }
+    catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    finally {
+      this.loadingPersonals = false;
     }
   }
 }
