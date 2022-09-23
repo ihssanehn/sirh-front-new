@@ -271,7 +271,7 @@ export class AvanceListComponent implements OnInit {
         advance_cost_id: item.id,
         personal_id: item.personal_id,
         bank_id: item.bank_id,
-        type: item.type_payment,
+        // type: item.type_payment,
         amount_paid: item.amount_paid,
         payment_date: item.payment_date && isMoment(moment(item.payment_date)) ? moment(item.payment_date)?.format('YYYY-MM-DD'): null,
         remark: item.remark,

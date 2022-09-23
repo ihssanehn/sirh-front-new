@@ -20,7 +20,7 @@ export class EntiteGuard implements CanActivate {
   }
 
   async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.mainStore.selectedEntities = JSON.parse(localStorage.getItem('selectedEntities'));
+    // this.mainStore.selectedEntities = JSON.parse(localStorage.getItem('selectedEntities'));
 
     console.log('canActivate this.mainStore.selectedEntities', this.mainStore.selectedEntities)
     if(!(this.mainStore.selectedEntities?.length>0)){

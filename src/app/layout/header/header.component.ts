@@ -28,8 +28,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private router: Router,
     private listService: ListsService,
   ) {
-    this.mainStore.selectedEntities = JSON.parse(localStorage.getItem('selectedEntities'));
-
     this.myForm = this.fb.group({
       status: new FormArray([]),
     });
@@ -106,7 +104,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     return this.myForm?.value?.status?.includes(id);
   }
 
-  onCheckChange(event, item) {
+  onCheckChange(event, item, statusMenu?) {
     const formArray: FormArray = this.myForm.get('status') as FormArray;
 
     console.log('event', event.target.checked, event);
@@ -132,7 +130,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         i++;
       });
     }
-
     this.mainStore.selectedEntities = this.status.filter(element => formArray.value.includes(element.id));
     localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
     this.checkEntities();

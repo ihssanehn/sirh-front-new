@@ -420,26 +420,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="filtres row">
-                        <div class="flex-column col-12">
-                          <div class="btn-group radio"
-                               ngbRadioGroup name="radioBasic"
-                               [(ngModel)]="item.type_payment"
-                               [disabled]="item.never_paid"
-                          >
-                            <label ngbButtonLabel>
-                              <input ngbButton type="radio" [value]="'manual_transfer'" id="manual_transfer">&nbsp;
-                              <span class="radio-label" for="manual_transfer">Virement manuel</span>
-                            </label>
-                            <label ngbButtonLabel>
-                              <input ngbButton type="radio"
-                                     checked="checked"
-                                     [value]="'interbank_transfer'" id="interbank_transfer">&nbsp;
-                              <span class="radio-label" for="interbank_transfer">Virement interbancaire</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
+
+
                       <div class="filtres row">
                         <div class="flex-column col-12">
                           <label>Banque</label>

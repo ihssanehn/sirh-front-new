@@ -1,17 +1,20 @@
-import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { UserStore } from '@store/user.store';
-import { JwtStore } from '@store/jwt.store';
-import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '@env/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { MainStore } from '@store/mainStore.store';
-import { DomSanitizer } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {ApiService} from './api.service';
+import {NgxPermissionsService} from 'ngx-permissions';
+import {UserStore} from '@store/user.store';
+import {JwtStore} from '@store/jwt.store';
+import {Observable, throwError} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {MainStore} from '@store/mainStore.store';
+import {DomSanitizer} from '@angular/platform-browser';
+import {map} from 'rxjs/operators';
+import {$userProfiles, $userRoles} from "@shared/Objects/sharedObjects";
 
 @Injectable()
 export class UserService {
+
+  $userRoles = $userRoles;
+  $userProfiles = $userProfiles;
   constructor(
     private apiService: ApiService,
     // private jwtService: JwtService,
@@ -63,6 +66,15 @@ export class UserService {
       this.jwtStore.saveToken(token);
     }
     this.userStore.setAuthenticatedUser(user);
+
+    if([$userRoles.GP, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.ADV].includes(this.userStore.getAuthenticatedUser.role_name) &&
+      this.userStore.getAuthenticatedUser.profile_name === $userProfiles.ASSISTANT){
+      this.userStore.getAuthenticatedUser.can_selectEntities = true;
+    }else{
+      this.mainStore.selectedEntities = [user.entity];
+      localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
+      this.userStore.getAuthenticatedUser.can_selectEntities = false;
+    }
   }
 
   purgeAuth() {
