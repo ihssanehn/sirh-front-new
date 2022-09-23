@@ -8,6 +8,8 @@ import * as moment from "moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 import * as FileSaver from 'file-saver';
 import {UserStore} from "@store/user.store";
+import Swal from "sweetalert2";
+import {$userProfiles} from "@shared/Objects/sharedObjects";
 @Component({
   selector: 'app-avance-list',
   templateUrl: './avance-list.component.html',
@@ -51,8 +53,13 @@ export class AvanceListComponent implements OnInit {
     },
   ];
   submittingPayment = false;
+  loadingSelect = {
 
-  constructor(private listService: ListsService,
+  };
+  id_entite;
+  $userProfiles = $userProfiles;
+
+  constructor(public listService: ListsService,
               public mainStore: MainStore,
               private activitiesService: ActivitiesService,
               private messageService: MessageService,
@@ -60,13 +67,13 @@ export class AvanceListComponent implements OnInit {
               ) { }
 
   async ngOnInit() {
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
-    try{ this.avance_types = await this.listService.getAll(this.listService.list.ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.avance_status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.state_advance_costs = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.STATE_ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.personals = await this.listService.getPersonalsByCpId({entity_id: id_entite}).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
-    try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id:  id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
+    // try{ this.avance_types = await this.listService.getAll(this.listService.list.ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    // try{ this.avance_status = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    // try{ this.state_advance_costs = await this.listService.getAll(this.listService.list.STATUS, this.listService.list.STATE_ADVANCE_COST).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    // try{ this.personals = await this.listService.getPersonalsByCpId({entity_id: id_entite}).toPromise();} catch (e) {console.log('error filter FAMILY_SITUATION', e);}
+    // try{ this.profit_centers = await this.listService.getAll(this.listService.list.PROFIT_CENTER, {id:  id_entite}).toPromise();} catch (e) {console.log('error filter PROFIT_CENTER', e);}
 
     this.getAllAdvanceCosts();
     this.getSummaryAdvanceCosts();
@@ -89,8 +96,26 @@ export class AvanceListComponent implements OnInit {
     }
   }
 
-  getAll() {
-
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
   }
 
   async getSummaryAdvanceCosts(){
@@ -192,38 +217,83 @@ export class AvanceListComponent implements OnInit {
     }
   }
 
-  async createPayment(item, popOver) {
-    if(!item.amount_paid){
-      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Le montant est obligatoire',  sticky: false});
-    return;
-    }
-    const params = {
-      advance_cost_id: item.id,
-      personal_id: item.personal_id,
-      bank_id: item.bank_id,
-      never_paid: item.never_paid ? 1: 0,
-      type: item.type_payment,
-      amount_paid: item.amount_paid,
-      payment_date: item.payment_date && isMoment(moment(item.payment_date)) ? moment(item.payment_date)?.format('YYYY-MM-DD'): null,
-      remark: item.remark,
-    }
-    console.log('createPayment', params);
-    try{
-      this.submittingPayment = true;
-      const res = await this.activitiesService.addPayment(params).toPromise();
-      this.getAllAdvanceCosts();
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Parfait!',
-        detail: 'Payment créé avec succès',
-        sticky: false,
+  async noPay(item, popOver) {
+      const params = {
+        never_paid:  1,
+        advance_cost_id: item.id,
+        personal_id: item.personal_id,
+      }
+      Swal.fire({
+        title: 'Êtes vous sûr?',
+        text: "Voulez-vous vraiment vraiment valider cette demande de paiement en tanq que 'Jamais payé'?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#59a6d4',
+        cancelButtonColor: '#f3533b',
+        confirmButtonText: 'Oui, ne pas payer',
+        cancelButtonText: 'Annuler',
+        heightAuto: false
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            const res = await this.activitiesService.addPayment(params).toPromise();
+            console.log('res', res);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Opération réussie',
+                detail: "Demande de paiement enregistré en tanq que 'Jamais payé' avec succès",
+                sticky: false,
+              });
+              popOver.close();
+              this.getAllAdvanceCosts();
+          } catch (error) {
+            console.log('errorMessage', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Echec!',
+              detail: "Impossible de valider cette demande de paiement en tanq que 'Jamais payé'",
+              sticky: false});
+          }
+        }
       });
-      popOver.close();
-    }catch (e){
-      console.log('err createDemand', e);
-      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la création du payment',  sticky: false});
-    }finally {
-      this.submittingPayment = false;
+  }
+
+
+  async createPayment(item, popOver) {
+    if(item.never_paid){
+      this.noPay(item, popOver);
+    }else{
+      if(!item.amount_paid){
+        this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Le montant est obligatoire',  sticky: false});
+        return;
+      }
+      const params = {
+        advance_cost_id: item.id,
+        personal_id: item.personal_id,
+        bank_id: item.bank_id,
+        type: item.type_payment,
+        amount_paid: item.amount_paid,
+        payment_date: item.payment_date && isMoment(moment(item.payment_date)) ? moment(item.payment_date)?.format('YYYY-MM-DD'): null,
+        remark: item.remark,
+      }
+      console.log('createPayment', params);
+      try{
+        this.submittingPayment = true;
+        const res = await this.activitiesService.addPayment(params).toPromise();
+        this.getAllAdvanceCosts();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Parfait!',
+          detail: 'Payment créé avec succès',
+          sticky: false,
+        });
+        popOver.close();
+      }catch (e){
+        console.log('err createDemand', e);
+        this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la création du payment',  sticky: false});
+      }finally {
+        this.submittingPayment = false;
+      }
     }
   }
 
@@ -244,6 +314,45 @@ export class AvanceListComponent implements OnInit {
       waiting_my_validating: null
     }
     this.filterChanged();
+  }
+
+  deleteAvanceFrais(id) {
+    Swal.fire({
+      title: 'Êtes vous sûr?',
+      text: 'Voulez-vous vraiment supprimer cette demande d\'avance de frais?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#59a6d4',
+      cancelButtonColor: '#f3533b',
+      confirmButtonText: 'Oui, supprimer',
+      cancelButtonText: 'Annuler',
+      heightAuto: false
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          const res = await this.activitiesService.deleteAvanceFrais({id}).toPromise();
+          console.log('res', res);
+          if ( res?.result?.data) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Opération réussie',
+              detail: 'Demande d\'avance de frais supprimé avec succès',
+              sticky: false,
+            });
+            this.getAllAdvanceCosts();
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          console.log('errorMessage', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Echec!',
+            detail: 'Impossible de supprimer cette demande d\'avance de frais pour le moment',
+            sticky: false});
+        }
+      }
+    });
   }
 }
 /*

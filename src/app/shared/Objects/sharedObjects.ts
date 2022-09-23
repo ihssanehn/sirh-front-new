@@ -51,6 +51,12 @@ export enum $userRoles {
   BM = 'business_manager',
 }
 
+export enum $userProfiles {
+  ASSISTANT = 'assistant',
+  USER = 'user',
+  BUSINESS_MANAGER = 'business_manager'
+}
+
 export enum $userRolesIds {
     SUPERADMIN = 1,
     MANAGER = 2,

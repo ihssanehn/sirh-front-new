@@ -98,9 +98,14 @@ export class ActivitiesService {
       .post('advance_cost/exportAdvanceCost', params, true);
   }
 
+  deleteAvanceFrais(params) {
+    return this.apiService
+      .post('advance_cost/deleteAdvanceCost ', params);
+  }
 
   cancelDiffusion(params: any) {
     return this.apiService
       .post('activity/cancelDiffusedActivity', params);
   }
+
 }
