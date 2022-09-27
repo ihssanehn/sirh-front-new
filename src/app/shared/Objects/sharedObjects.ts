@@ -652,7 +652,7 @@ export const $headerSectionsMetaData = {
   },
   activity: {
     name: 'activity',
-    multipleEntity: false
+    multipleEntity: true
   },
   conge: {
     name: 'conge',
@@ -660,7 +660,7 @@ export const $headerSectionsMetaData = {
   },
   frais: {
     name: 'frais',
-    multipleEntity: false
+    multipleEntity: true
   },
   utilisateur: {
     name: 'utilisateur',

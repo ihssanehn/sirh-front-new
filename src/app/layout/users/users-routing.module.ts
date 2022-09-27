@@ -5,6 +5,8 @@ import {TrombiComponent} from "@layout/users/trombi/trombi.component";
 import {SimpleAddStepperComponent} from "@layout/users/simple-add-stepper/simple-add-stepper.component";
 import {IndependentAddStepperComponent} from "@layout/users/independent-add-stepper/independent-add-stepper.component";
 import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
+import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
+import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 
 
 const routes: Routes = [
@@ -75,6 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'new',
+    canActivate: [UniqueEntiteGuard],
     children: [
       {
         path: '',

@@ -72,6 +72,7 @@ export class UserService {
       this.userStore.getAuthenticatedUser.can_selectEntities = true;
     }else{
       this.mainStore.selectedEntities = [user.entity];
+      console.log('localStorage.setItem(selectedEntities', this.mainStore.selectedEntities);
       localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
       this.userStore.getAuthenticatedUser.can_selectEntities = false;
     }

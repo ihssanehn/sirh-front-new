@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -84,7 +84,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     is_exclusion_reporting: "is_exclusion_reporting",
     creator_id: "creator_id",
     comment: "comment",
-    send_info_to_user: "send_info_to_user"
+    send_info_to_user: "send_info_to_user",
+    banks: "banks",
   }
   formLabels = {
     id: "id",
@@ -143,6 +144,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     // Commentaire
     comment: "Commentaire", // to be done
     send_info_to_user: "Envoyer les informations Sirh par mail à l'utilisateur", // to be done
+    banks: "Compte banquaire", // to be done
     creator_id: "creator_id", // to be done
   }
   // user: User;
@@ -173,6 +175,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   loadingCities: boolean;
   photoBase64 = null;
   validators_conge =  [];
+  bank_account_types =  [];
+  bank_account_types_tmp =  [];
   @Input() title = '';
   @Input() type = '';
   @Input()  idUser: any;
@@ -180,6 +184,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitUser: EventEmitter<any> = new EventEmitter();
+  loadingSelect = {};
   @Input()
   public set user(val: User) {
     console.log('Input()', val);
@@ -198,61 +203,18 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
               private messageService: MessageService,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
-              private listService: ListsService,
+              public listService: ListsService,
               public mainStore: MainStore,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
-    const userTest = {
-      id: null,
-        registration_number: 323232,
-      first_name:'Anass',
-      last_name:'CHBANI',
-      email:'a.chbani@piman-group.fr',
-      civility:'M',
-      fiche_to_be_completed:true,
-      birth_date: moment('1995-03-23').format('DD/MM/YYYY'),
-      // Validators.pattern(/^(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/[0-9]{4}$/)
-      number_security_social: 23223,
-      nationality_id: 4,
-      city_id: 227,
-      address: 'Test',
-      code_postal: '2020',
-      telephone_fix: '0330230',
-      telephone_bureau: '0330230',
-      telephone_portable: '0330230',
-      profile_id: 3,
-      role_id: 2,
-      member_ship_id: 2,
-      supplier_id: 13,
-      cp_id: 13,
-      original_company_id: 2,
-      attachment_agency_id: 2,
-      not_billable: true,
-      in_out_office: true,
-      is_part_time: true,
-      time_entry_id: 7,
-      calendar_id: 5,
-      emission_of_contract_date: moment('2017-01-21', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      signature_of_contract_date: moment('2018-02-09', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      group_start_date: moment('2016-11-03', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      is_group_mutation_entry: true,
-      entry_date: moment('2019-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      end_trial_period_date: null,
-      depart_mail_received_date: moment('20220-05-12', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      theory_end_date: moment('2025-02-19', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      end_date: moment('2028-03-23', MY_CUSTOM_DATETIME_FORMATS.backend_calendar_format).format('DD/MM/YYYY'),
-      could_be_manager: true,
-      manager_id: 6,
-      manage_holidays: true,
-      validator_absence_id: 7,
-      fiscal_car_power_id: 13,
-      complex_charge: true,
-      is_exclusion_etp: true,
-      is_exclusion_reporting: true,
-      comment: "More details",
-      send_info_to_user: true
-    };
+
+    const default_account = {
+      account_type_id: null,
+      rib_primary: null,
+      rib_secondary: null,
+      show_secondary_rib: false
+    }
     this.userFormGroup = this.formBuilder.group({
         id: [null],
         registration_number: [null,Validators.required], //Matricule *
@@ -304,6 +266,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         is_exclusion_reporting: [null],
         comment: [null],
         send_info_to_user: [null],
+        banks: this.formBuilder.array([...this.createItems( [default_account])]),
         // creator_id:[null]
       });
 
@@ -366,6 +329,121 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private createItems(items): FormGroup[] {
+    const arr = [];
+    items.forEach(item => {
+      arr.push(this.createItem(item));
+    })
+    return arr;
+  }
+
+  private createItem(item = null): FormGroup {
+    return this.formBuilder.group({
+      account_type_id: item ? item.account_type_id: null,
+      rib_primary: item ? item.rib_primary : null,
+      rib_secondary: item ? item.rib_secondary : null,
+      show_secondary_rib: item.show_secondary_rib
+    });
+  }
+
+  showSecondaryBankAccount(item){
+    item.patchValue({
+      rib_secondary: null,
+      show_secondary_rib: !item.value.show_secondary_rib,
+    })
+  }
+
+  removeAccount(index){
+    const array = this.userFormGroup.get(this.formInputs.banks) as FormArray;
+    array.removeAt(index-1);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  addAccount(){
+    const default_account = {
+      account_type_id: null,
+      rib_primary: null,
+      rib_secondary: null,
+      show_secondary_rib: false
+    }
+    const array = this.userFormGroup.get(this.formInputs.banks) as FormArray;
+    if(array.length === 1){
+      array.push(this.createItem(default_account));
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  getAccountTypes(){
+    // if(!(this.bank_account_types?.length>0)){
+    //   return [];
+    // }
+    const formArray = this.userFormGroup.get(this.formInputs.banks) as FormArray;
+
+    if(formArray.length > 0 && formArray.value[0].account_type_id){
+      return this.bank_account_types.filter(item => !formArray.value.find(already_selected_item => already_selected_item.account_type_id === item.id));
+    }
+    return this.bank_account_types;
+  }
+
+  showAddMoreAccounts(){
+    return this.bank_account_types?.length>0 && this.userFormGroup.controls[this.formInputs.banks]?.value?.length === 1 &&
+      this.userFormGroup.value.banks[0]['account_type_id'] &&
+      this.bank_account_types?.find(item => item.id === this.userFormGroup.value.banks[0]['account_type_id'])?.code !== 'account_both'
+  }
+
+  selectBankChanged($event: any, item: any) {
+    const formArray: FormArray = this.userFormGroup.get(this.formInputs.banks) as FormArray;
+    //TODO not the best way
+    if($event?.code === 'account_both' || formArray.value?.find(item => item.account_type_id === $event.id)) {
+      formArray.clear();
+      formArray.push(this.createItem(item.value));
+    }
+  }
+
+  // getBankTypesItems(){
+  //   if( !(this.bank_account_types?.length > 0)){
+  //     return [];
+  //   }
+  //   // if(this.userFormGroup.value.banks?.length === 1 && this.userFormGroup.value.banks[0]['account_type_id']){
+  //     const first_item: any = this.bank_account_types.find(item => item.id === this.userFormGroup.value.banks[0]['account_type_id']);//?.code !== 'account_both';
+  //     // if(first_item?.code === 'account_both'){
+  //     //   return [];
+  //     // }else {
+  //     //   return this.bank_account_types.filter(item =>  item.id !== first_item.id)
+  //     // }
+  //     // console.log('first_item', first_item);
+  //     // if(first_item){
+  //     //   return this.bank_account_types.filter(item =>  item.code !== 'account_both' && item.id !== first_item.id)
+  //     // }
+  //   }
+  //
+  //   return this.bank_account_types;
+  // }
+
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
+  }
+
+
   async getCities(id_country){
     try{
       this.loadingCities = true;
@@ -385,10 +463,28 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       is_part_time: user?.is_part_time ? true: false
     }
     this.mainStore.images = this.mainStore.images.filter(item => item.name !== user.photo_profile);
+    this.getFilterList('bank_account_types', this.listService?.list?.BANK_ACCOUNT);
 
      this.userFormGroup.patchValue({
-       ...user,
+       ...user
     });
+     this.changeDetectorRef.detectChanges();
+
+     if(user.banks?.length>0){
+       console.log('ayoub', user.banks);
+       const formarray = this.userFormGroup.get(this.formInputs.banks) as FormArray;
+       if(formarray){
+         formarray.clear();
+         user.banks.forEach(item => {
+           if(item.rib_secondary){
+             item.show_secondary_rib = true;
+           }
+           formarray.push(this.createItem(item));
+         })
+         // formarray.setValue([...this.createItems( user.banks)]);
+       }
+       console.log('ayoub', formarray);
+     }
     this.getCities(user.nationality_id);
   }
 
@@ -591,6 +687,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   }
 
   saveUser() {
+    console.log('this.userFormGroup', this.userFormGroup.value);
     this.error = '';
     markFormAsDirty(this.userFormGroup);
     if(!this.userFormGroup.valid ){
@@ -651,5 +748,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     });
     this.photoBase64 = null
   }
+
 }
 

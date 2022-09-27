@@ -6,6 +6,7 @@ export interface User {
   has_costs_billable_service_provider?: any;
   is_subject_to_vats?: any;
   tjm_service_provider?: any;
+  banks: Array<any>;
     tjm_client?: any;
     parameter: any;
     nationality_id?: number;

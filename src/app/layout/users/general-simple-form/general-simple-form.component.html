@@ -702,6 +702,86 @@
               </div>
             </div>
 
+            <div class="row form-box">
+              <div class="main-container col-12 form-column">
+                <div class="col-12 white-box">
+                  <h5>Compte bancaire</h5>
+                  <div style="margin-bottom: 20px;" class="form-bloc" formArrayName="{{formInputs.banks}}">
+                    <div class="row"
+                         *ngFor="let item of userFormGroup.controls[formInputs.banks]['controls']; let i = index"
+                         [formGroupName]="i"
+                    >
+                      <div class="col">
+                        <ng-select
+                          [items]="bank_account_types"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner type du compte ici (*)"
+                          [formControl]="item.controls['account_type_id']"
+                          [ngClass]="{'is-invalid error-input': item.controls['account_type_id'].hasError('required')
+                                  && item.controls['account_type_id'].dirty}"
+                          [multiple]="false"
+                          (open)="getFilterList('bank_account_types', listService?.list?.BANK_ACCOUNT); bank_account_types_tmp = bank_account_types"
+                          [loading]="loadingSelect[listService?.list?.BANK_ACCOUNT]"
+                          (change)="selectBankChanged($event, item)"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="item.controls['account_type_id'].hasError('required')  && item.controls['account_type_id'].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le type du compte est obligatoire
+                        </div>
+                      </div>
+                      <div class="col">
+                        <input type="text"
+                               [formControl]="item.controls['rib_primary']"
+                               class="form-control input"
+                               placeholder="Saisir le rib primaire ici (*)"
+                               [ngClass]="{'is-invalid error-input': item.controls['rib_primary'].hasError('required')
+                                  && item.controls['rib_primary'].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="item.controls['rib_primary'].hasError('required') && item.controls['rib_primary'].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le RIB est obligatoire
+                        </div>
+                      </div>
+                      <div class="col align-items-center d-flex" *ngIf="item.value.show_secondary_rib; else showSecondary">
+                        <input type="text"
+                               [formControl]="item.controls['rib_secondary']"
+                               class="form-control input"
+                               placeholder="Saisir le rib secondaire ici"
+                               [ngClass]="{'is-invalid error-input': item.controls['rib_secondary'].hasError('required')
+                                  && item.controls['rib_secondary'].dirty}"
+                        />&nbsp;&nbsp;
+                        <div class="d-inline-block pointer align-items-center d-flex" (click)="showSecondaryBankAccount(item)">
+                          <i class="icon-close danger-icon"></i>
+                        </div>
+                      </div>
+                      <ng-template #showSecondary>
+                        <div class="col">
+                          <div class="d-inline-block blue-text pointer" (click)="showSecondaryBankAccount(item)">
+                            <i class="icon-add primary-icon"></i>&nbsp;Compte secondaire
+                          </div>
+                        </div>
+                      </ng-template>
+                      <div class="col-1 d-flex justify-content-end" >
+                        <div *ngIf="i>0" class="danger-text btn pointer" (click)="removeAccount(i)">
+                          <i class="icon-trash danger-icon" title="Supprimer cette ligne"></i>&nbsp;Supprimer
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="showAddMoreAccounts()">
+                      <div class="col align-items-center d-flex justify-content-center blue-text pointer" (click)="addAccount()">
+                        <i class="icon-add primary-icon"></i>&nbsp;Ajouter une autre ligne
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="row white-box form-column">
               <h5 class="align-items-center d-flex justify-content-center col-12">Carrière</h5>
               <div class="d-flex form-box justify-content-between col-12">
@@ -953,6 +1033,7 @@
                 </div>
               </div>
             </div>
+
 
             <div class="row form-box">
               <div class="main-container  col-xl-6 col-12 form-column">

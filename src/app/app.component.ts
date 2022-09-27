@@ -13,6 +13,9 @@ export class AppComponent {
     this.translate.addLangs(['en', 'fr']);
     this.translate.setDefaultLang('fr');
     this.mainStore.selectedEntities = JSON.parse(localStorage.getItem('selectedEntities'));
+    console.log("app local", this.mainStore.selectedEntities  );
+    console.log("app local", JSON.parse(localStorage.getItem('selectedEntities') ));
+    console.log("app local", localStorage.getItem('selectedEntities') );
     // this.translate.use('fr');
     const localLang: string = localStorage.getItem('lang');
     // this.translate.use('en');

@@ -136,8 +136,13 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
             fd.append('delete_photo_profile', 'true');
           }
         }else{
-          if($event[key] != null){
-            fd.append(key, $event[key]);
+          //fiche_to_be_completed
+          if(key === 'banks' && Array.isArray($event[key])){
+            fd.append("banks", JSON.stringify($event[key]));
+          }else {
+            if($event[key] != null){
+              fd.append(key, $event[key]);
+            }
           }
         }
       });

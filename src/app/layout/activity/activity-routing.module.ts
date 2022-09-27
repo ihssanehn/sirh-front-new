@@ -23,15 +23,16 @@ import {DelegationListComponent} from "@layout/activity/delegation-list/delegati
 import {DelegationCreationComponent} from "@layout/activity/delegation-creation/delegation-creation.component";
 import {AvanceModificationComponent} from "@layout/activity/avance-modification/avance-modification.component";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
+import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'my_activities', //list for admin
-    canActivate: [EntiteGuard]
-  },
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'my_activities', //list for admin
+  //   canActivate: [EntiteGuard]
+  // },
   {
     path: '',
     canActivate: [EntiteGuard],
@@ -40,7 +41,7 @@ const routes: Routes = [
         path: '',
         canActivate: [EntiteGuard],
         pathMatch: 'full',
-        redirectTo: 'my_activities'  //list for admin
+        redirectTo: 'list'  //list for admin
       },
       {
         path: 'list',
@@ -49,27 +50,27 @@ const routes: Routes = [
       },
       {
         path: 'annulation_diffusion',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityAnnulationDiffusionComponent
       },
       {
         path: 'impression',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityImpressionComponent
       },
       {
         path: 'update/:id',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityUpdateComponent
       },
       {
         path: 'my_activities',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityUpdateComponent
       },
       {
         path: 'history',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityHistoryComponent
       },
     ],
@@ -91,12 +92,12 @@ const routes: Routes = [
       },
       {
         path: 'creation',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: AvanceCreationComponent
       },
       {
         path: 'modification/:id',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: AvanceModificationComponent
       },
     ],
@@ -113,12 +114,12 @@ const routes: Routes = [
       },
       {
         path: 'demande',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: CongeDemandeComponent
       },
       {
         path: 'history',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: CongeHistoryComponent
       },
     ],
@@ -135,12 +136,12 @@ const routes: Routes = [
       },
       {
         path: 'saisie',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: FraisSaisieComponent
       },
       {
         path: 'history',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ActivityHistoryComponent
       },
     ],
@@ -157,7 +158,7 @@ const routes: Routes = [
       },
       {
         path: 'creation',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: AbsenceDemandeComponent
       },
       {
@@ -172,17 +173,17 @@ const routes: Routes = [
       },
       {
         path: 'import_soldes_abs',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ImportSoldsAbsComponent
       },
       {
         path: 'admin_soldes_abs',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: AdminSoldsAbsComponent
       },
       {
         path: 'import_absences',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ImportAbsenceComponent
       },
     ],
@@ -199,7 +200,7 @@ const routes: Routes = [
       },
       {
         path: 'courant',
-        canActivate: [EntiteGuard],
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
         component: ClotureMoisCourantComponent
       }
     ]

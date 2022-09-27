@@ -29,8 +29,8 @@ export class ListsService {
     SITUATION_ALERT: 'situation_alert',
     USERS: 'users',
     ADVANCE_COST: 'advance_cost',
-    STATE_ADVANCE_COST: 'state_advance_cost'
-
+    STATE_ADVANCE_COST: 'state_advance_cost',
+    BANK_ACCOUNT: 'bank_account'
   }
 
   // Type d'avance GET: http://localhost:9073/filter/getFilter?model=advance_cost

@@ -32,13 +32,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       status: new FormArray([]),
     });
 
-    if(this.mainStore.selectedEntities && this.mainStore.selectedEntities?.length>0){
+    console.log("app local 2", this.mainStore.selectedEntities );
+    if(this.mainStore.selectedEntities?.length>0){
       const fa = this.myForm.get('status') as FormArray;
       this.mainStore.selectedEntities.forEach(item => {
         fa.push(new FormControl(item.id));
       })
     }
-
+    console.log("app local 3", this.myForm.value );
     this.getEntites();
   }
   ngOnInit(): void {
@@ -49,9 +50,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if(this.mainStore.selectedEntities && this.mainStore.selectedEntities?.length>0){
       if(this.mainStore.selectedEntities?.length>1){
         // Multiple items are already selected but section doees not support multiple select
-        if(!this.mainStore.currentHeaderSection?.multipleEntities){
-          this.clearEntities();
-        }
+        // if(!this.mainStore.currentHeaderSection?.multipleEntities){
+        //   this.clearEntities();
+        // }
       }
     }
   }
@@ -111,9 +112,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
-      if(!this.mainStore.currentHeaderSection?.multipleEntities){
-        this.clearEntities();
-      }
+      // if(!this.mainStore.currentHeaderSection?.multipleEntities){
+      //   this.clearEntities();
+      // }
       formArray.push(new FormControl(item.id));
     }
     /* unselected */
@@ -131,6 +132,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
     }
     this.mainStore.selectedEntities = this.status.filter(element => formArray.value.includes(element.id));
+    console.log('localStorage.setItem(selectedEntities 2', this.mainStore.selectedEntities);
     localStorage.setItem('selectedEntities', JSON.stringify(this.mainStore.selectedEntities));
     this.checkEntities();
   }
