@@ -702,7 +702,10 @@
               </div>
             </div>
 
-            <div class="row form-box">
+            <div class="row form-box"
+              *ngIf="userStore.getAuthenticatedUser.role_name === $userRoles.GP ||
+              userStore.getAuthenticatedUser.profile_name === $userProfiles.ASSISTANT"
+            >
               <div class="main-container col-12 form-column">
                 <div class="col-12 white-box">
                   <h5>Compte bancaire</h5>

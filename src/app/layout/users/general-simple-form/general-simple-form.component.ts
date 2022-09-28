@@ -6,7 +6,7 @@ import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
 import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
-import {$userRoles} from '@shared/Objects/sharedObjects';
+import {$userProfiles, $userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
 import * as moment from "moment";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -16,6 +16,7 @@ import {isMoment} from "moment";
 import {ModalPeriodeEssaiComponent} from "@layout/users/modal-periode-essai/modal-periode-essai.component";
 import {MainStore} from "@store/mainStore.store";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import {UserStore} from "@store/user.store";
 
 
 
@@ -28,7 +29,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   userFormGroup: FormGroup;
   passwordFormGroup: FormGroup;
   errors : Array<any> = [];
-  $userRoles = $userRoles;
   allRoles = [
       'manager', 'superadmin', 'user'
   ];
@@ -199,7 +199,8 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     rib_secondary: null,
     show_secondary_rib: false
   }
-
+  $userRoles = $userRoles;
+  $userProfiles = $userProfiles;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -210,6 +211,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
               public listService: ListsService,
+              public userStore: UserStore,
               public mainStore: MainStore,
               private userService : UserService) {
 
