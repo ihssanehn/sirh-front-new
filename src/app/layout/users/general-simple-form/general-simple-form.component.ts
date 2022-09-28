@@ -193,6 +193,12 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     }
   }
   id_entite = null;
+  empty_account = {
+    account_type_id: null,
+    rib_primary: null,
+    rib_secondary: null,
+    show_secondary_rib: false
+  }
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -209,12 +215,6 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
 
     this.noWhitespaceValidator.bind(this);
 
-    const default_account = {
-      account_type_id: null,
-      rib_primary: null,
-      rib_secondary: null,
-      show_secondary_rib: false
-    }
     this.userFormGroup = this.formBuilder.group({
         id: [null],
         registration_number: [null,Validators.required], //Matricule *
@@ -266,7 +266,7 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
         is_exclusion_reporting: [null],
         comment: [null],
         send_info_to_user: [null],
-        banks: this.formBuilder.array([...this.createItems( [default_account])]),
+        banks: this.formBuilder.array([...this.createItems( [this.empty_account])]),
         // creator_id:[null]
       });
 
@@ -354,8 +354,12 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   }
 
   removeAccount(index){
+    console.log('removing', index);
     const array = this.userFormGroup.get(this.formInputs.banks) as FormArray;
-    array.removeAt(index-1);
+    array.removeAt(index);
+    if(!(array.value.length > 0)){
+      array.push(this.createItem(this.empty_account));
+    }
     this.changeDetectorRef.detectChanges();
   }
 
@@ -394,9 +398,13 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
   selectBankChanged($event: any, item: any) {
     const formArray: FormArray = this.userFormGroup.get(this.formInputs.banks) as FormArray;
     //TODO not the best way
-    if($event?.code === 'account_both' || formArray.value?.find(item => item.account_type_id === $event.id)) {
+    if($event?.code === 'account_both') {
       formArray.clear();
       formArray.push(this.createItem(item.value));
+    }else {
+      if(formArray.value?.find(item => item.account_type_id === $event.id)){
+        return;
+      }
     }
   }
 
@@ -435,6 +443,10 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
       try{
         this.loadingSelect[list_name] = true;
         this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+        if('bank_account_types'){
+          this.bank_account_types_tmp =
+            this.bank_account_types.filter(item => !this.userFormGroup.get(this.formInputs.banks).value.find(el => el.account_type_id === item.id));
+        }
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -455,6 +467,20 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getBankAccountTypes(){
+    if(this.bank_account_types?.length>0){
+      this.bank_account_types.forEach(item => {
+        item.disabled = false;
+        const el = this.userFormGroup.get(this.formInputs.banks).value.find(el => el.account_type_id === item.id);
+        if(el){
+          item.disabled = true;
+        }
+      })
+    }
+    // this.bank_account_types[0].disabled = true;
+    return this.bank_account_types;//.filter(item => );
+  }
+
   initFormBuilder(user: User){
     console.log('initFormBuilder', user);
     user = {
@@ -464,8 +490,10 @@ export class GeneralSimpleFormComponent implements OnInit, AfterViewInit {
     }
     this.mainStore.images = this.mainStore.images.filter(item => item.name !== user.photo_profile);
     this.getFilterList('bank_account_types', this.listService?.list?.BANK_ACCOUNT);
+    this.bank_account_types_tmp =
+      this.bank_account_types.filter(item => !this.userFormGroup.get(this.formInputs.banks).value.find(el => el.account_type_id === item.id));
 
-     this.userFormGroup.patchValue({
+    this.userFormGroup.patchValue({
        ...user
     });
      this.changeDetectorRef.detectChanges();

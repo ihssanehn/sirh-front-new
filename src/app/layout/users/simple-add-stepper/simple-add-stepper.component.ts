@@ -138,6 +138,7 @@ export class SimpleAddStepperComponent implements OnInit, AfterViewInit {
         }else{
           //fiche_to_be_completed
           if(key === 'banks' && Array.isArray($event[key])){
+            $event[key] = $event[key].filter(item => item.account_type_id);
             fd.append("banks", JSON.stringify($event[key]));
           }else {
             if($event[key] != null){

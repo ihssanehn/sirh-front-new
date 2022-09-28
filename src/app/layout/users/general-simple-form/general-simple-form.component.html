@@ -713,7 +713,7 @@
                     >
                       <div class="col">
                         <ng-select
-                          [items]="bank_account_types"
+                          [items]="getBankAccountTypes()"
                           [bindLabel]="'label'"
                           [bindValue]="'id'"
                           class="form-control select"
@@ -722,7 +722,8 @@
                           [ngClass]="{'is-invalid error-input': item.controls['account_type_id'].hasError('required')
                                   && item.controls['account_type_id'].dirty}"
                           [multiple]="false"
-                          (open)="getFilterList('bank_account_types', listService?.list?.BANK_ACCOUNT); bank_account_types_tmp = bank_account_types"
+                          [clearable]="false"
+                          (open)="getFilterList('bank_account_types', listService?.list?.BANK_ACCOUNT);"
                           [loading]="loadingSelect[listService?.list?.BANK_ACCOUNT]"
                           (change)="selectBankChanged($event, item)"
                         >
@@ -747,16 +748,16 @@
                           Le RIB est obligatoire
                         </div>
                       </div>
-                      <div class="col align-items-center d-flex" *ngIf="item.value.show_secondary_rib; else showSecondary">
+                      <div class="col align-items-start d-flex flex-column" *ngIf="item.value.show_secondary_rib; else showSecondary">
                         <input type="text"
                                [formControl]="item.controls['rib_secondary']"
                                class="form-control input"
                                placeholder="Saisir le rib secondaire ici"
                                [ngClass]="{'is-invalid error-input': item.controls['rib_secondary'].hasError('required')
                                   && item.controls['rib_secondary'].dirty}"
-                        />&nbsp;&nbsp;
-                        <div class="d-inline-block pointer align-items-center d-flex" (click)="showSecondaryBankAccount(item)">
-                          <i class="icon-close danger-icon"></i>
+                        />
+                        <div (click)="showSecondaryBankAccount(item)" style="margin-top: 5px; font-size: 12px;" class="pointer danger-text">
+                          <i class="icon-close danger-icon"></i>&nbsp;Supprimer ce compte secondaire
                         </div>
                       </div>
                       <ng-template #showSecondary>
@@ -767,7 +768,11 @@
                         </div>
                       </ng-template>
                       <div class="col-1 d-flex justify-content-end" >
-                        <div *ngIf="i>0" class="danger-text btn pointer" (click)="removeAccount(i)">
+                        <div class="danger-text btn pointer"
+                             *ngIf="!(userFormGroup.controls[formInputs.banks].value?.length === 1 &&
+                             !userFormGroup.controls[formInputs.banks].value[0].account_type_id &&
+                             !userFormGroup.controls[formInputs.banks].value[0].rib_primary)"
+                             (click)="removeAccount(i)">
                           <i class="icon-trash danger-icon" title="Supprimer cette ligne"></i>&nbsp;Supprimer
                         </div>
                       </div>
