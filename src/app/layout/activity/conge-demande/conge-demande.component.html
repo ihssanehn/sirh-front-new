@@ -99,11 +99,13 @@
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
-                         [items]="types"
+                         [items]="absence_request"
                          [bindLabel]="'label'"
                          [bindValue]="'id'"
                          [placeholder]="'Sélectionner le salarié'"
-                         [formControl]="myForm.controls[formInputs.type_absence]"
+                         [formControl]="myForm.controls[formInputs.absence_request]"
+                         (open)="getFilterList('absence_request', listService?.list?.ABSENCE_REQUEST);"
+                         [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
               ></ng-select>
             </div>
           </div>

@@ -12,10 +12,13 @@
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
-                         [items]="personels"
-                         [bindLabel]="'label'"
+                         [items]="personals"
+                         [bindLabel]="'full_name'"
                          [bindValue]="'id'"
-                         [placeholder]="'Sélectionner le salarié'"></ng-select>
+                         [placeholder]="'Sélectionner le salarié'"
+                         (open)="getFilterList('personals', listService.list.PERSONAL)"
+                         [loading]="loadingSelect[listService.list.PERSONAL]"
+              ></ng-select>
             </div>
           </div>
         </div>
@@ -25,11 +28,13 @@
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
-                         [items]="types"
+                         [items]="absence_request"
                          [bindLabel]="'label'"
                          [bindValue]="'id'"
                          [placeholder]="'Sélectionner le salarié'"
                          [formControl]="myForm.controls[formInputs.type_absence]"
+                         (open)="getFilterList('absence_request', listService?.list?.ABSENCE_REQUEST);"
+                         [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
               ></ng-select>
             </div>
           </div>
@@ -111,9 +116,12 @@
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
-                         [items]="illness_details"
+                         [items]="disease_detail"
                          [bindLabel]="'label'"
                          [bindValue]="'id'"
+                         [formControl]="myForm.controls[formInputs.disease_detail]"
+                         (open)="getFilterList('disease_detail', listService?.list?.DISEASE_DETAIL);"
+                         [loading]="loadingSelect[listService?.list?.DISEASE_DETAIL]"
                          [placeholder]="'---'"></ng-select>
             </div>
           </div>
