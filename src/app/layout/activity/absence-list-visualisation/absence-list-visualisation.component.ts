@@ -7,6 +7,13 @@ import {Subscription} from "rxjs";
 import {ListsService} from "@services/lists.service";
 import {ActivitiesService} from "@services/activities.service";
 import * as _moment from "moment";
+import {isMoment} from "moment/moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import {MessageService} from "primeng/api";
+import {AnsenceRequest} from "@entities/ansenceRequest";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalSoldeAbsenceComponent} from "@layout/activity/modal-solde-absence/modal-solde-absence.component";
+import {MainStore} from "@store/mainStore.store";
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -36,27 +43,21 @@ export class AbsenceListVisualisationComponent implements OnInit {
   departments = [];
   validation_stats = [];
   societe_origins = [];
-  // pagination: any = {
-  //   page: 1,
-  //   total: 10,
-  //   limit: 10
-  // };
+  statues = [];
+  types = [];
 
   exportPrint = {
     activity_record: null,
     expense_sheet: null,
   }
-// is_virtual: null,
-  // page: 1,
-  // limit: 10,
+
   filter = {
-    keyword: '',
     personals: [],
     member_ships: [],
-    center_profits: [],
+    cps: [],
     sort_choices: [],
     business_units: [],
-    type_frais: [],
+    types: [],
     business_lines: [],
     adv_managers: [],
     direction_ops: [],
@@ -70,8 +71,9 @@ export class AbsenceListVisualisationComponent implements OnInit {
     societe_origins: null,
     information_pending: null,
     comment: null,
-    plage_starts_at: null,
-    plage_ends_at: null,
+    start_date: null,
+    end_date: null,
+    statues: null,
   }
   sieges = [
     {
@@ -83,40 +85,44 @@ export class AbsenceListVisualisationComponent implements OnInit {
       id: false
     }
   ];
-
   personnalFilters;
   loadingData = false;
-  activities: Array<Activity> = [];
   searchSubscription: Subscription;
 
   submittingPrint = false;
   submittingExport = false;
   submittingDetailedExport = false;
   stats: any;
+  absenceRequests: Array<AnsenceRequest> = [];
+  loadingSelect = {};
+  id_entite;
 
-
-  constructor(private listService: ListsService,
+  constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
-  ) { }
+              private messageService: MessageService,
+              private mainStore: MainStore,
+              private modalService: NgbModal
+  ) {
+
+  }
 
   ngOnInit(): void {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
     this.getFilters();
-    this.getActivities();
-    this.getStatsActivity();
+    this.getAll();
   }
 
   resetFilters() {
     this.filter = {
-      keyword:  this.filter.keyword,
       personals: [],
       member_ships: [],
-      center_profits: [],
+      cps: [],
       sort_choices: [],
       business_units: [],
       departments: [],
       validation_stats: [],
       societe_origins: [],
-      type_frais: [],
+      types: [],
       business_lines: [],
       adv_managers: [],
       direction_ops: [],
@@ -127,8 +133,9 @@ export class AbsenceListVisualisationComponent implements OnInit {
       in_out_office: null,
       with_inactive_cp: null,
       comment: null,
-      plage_starts_at: null,
-      plage_ends_at: null,
+      start_date: null,
+      end_date: null,
+      statues: [],
     }
   }
 
@@ -157,54 +164,68 @@ export class AbsenceListVisualisationComponent implements OnInit {
   }
 
   filterChanged() {
-    this.getActivities();
-    this.getStatsActivity();
+    this.getAll();
   }
 
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
 
-
-  getActivities(){
-    if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    const params = {
-      // type: this.type
-      month: this.filter.month,
-      personals: this.filter.personals
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
     }
-    if(this.showFilters){
-      Object.keys(this.filter).forEach(key => {
-        if(['has_internal_billing_admin', 'with_inactive_cp'].includes(key) ){ // checkboxes
-          if(this.filter[key]){
-            params[key] = this.filter[key];
-          }
-        }else{
-          if(this.filter[key] !== null  && this.filter[key] !== []){
+  }
+
+  async getAll(){
+    try{
+      let params = this.formatParams();
+      this.loadingData = true;
+      const res = await this.activitiesService.getAllAbsenceRequest(params).toPromise();
+      this.absenceRequests = res.data;
+      console.log('this.absenceRequests ', this.absenceRequests );
+      // this.openModal(this.absenceRequests[0]);
+    }catch (e) {
+      console.log('err getAllAbsenceRequest', e);
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération de la list des demandes d\absence',  sticky: false});
+    }finally {
+      console.log('this.getAllAbsenceRequest ', this.loadingData );
+      this.loadingData = false;
+      console.log('after this.getAllAbsenceRequest ', this.loadingData );
+    }
+  }
+
+  formatParams(){
+    const params: any = {};
+    Object.keys(this.filter).forEach(key => {
+      if(Array.isArray(this.filter[key])){
+        if(this.filter[key]?.length>0){
+          params[key] = this.filter[key];
+        }
+      } else{
+        if(this.filter[key] !== false && this.filter[key] !== null ){
+          if(['date_start', 'date_end'].includes(key)){
+            params[key] = this.filter[key] && isMoment(moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
+          }else{
             params[key] = this.filter[key];
           }
         }
-      })
-    }
-    this.loadingData = true;
-    this.searchSubscription = this.activitiesService.getAll(params).subscribe((res) => {
-      this.activities = res.data;
-      console.log('this.activities', this.activities);
-      // this.pagination = { ...this.pagination, total: result?.data?.total };
-    }, err =>{
-      console.log('err getActivities', err);
-    }, ()=>{
-      this.loadingData = false;
-    })
-  }
-
-  async getStatsActivity(){
-    try {
-      const personals = [1, 2, 3, 4] //TODO
-      const res = await this.activitiesService.getStatsActivity(personals).toPromise();
-      this.stats = res.data;
-    } catch (e){
-      console.log('error getStatsActivity', e)
-    } finally {
-
-    }
+      }
+    });
+    return params;
   }
 
   ischecked(id) {
@@ -241,5 +262,25 @@ export class AbsenceListVisualisationComponent implements OnInit {
 
   detailedExport(){
 
+  }
+
+  delete(id) {
+
+  }
+
+  openModal(absence_request) {
+    if(this.modalService.hasOpenModals()){
+      this.modalService.dismissAll();
+    }
+    let size = 'lg';
+
+
+    const modalRef = this.modalService.open(ModalSoldeAbsenceComponent, { size: size , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+    }, reason => {
+      console.log('closed');
+    });
+    modalRef.componentInstance.absenceRequest = absence_request;
   }
 }

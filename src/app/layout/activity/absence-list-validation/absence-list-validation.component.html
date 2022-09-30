@@ -19,12 +19,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt1"
                      placeholder="Choisir la date ici"
-                     [(ngModel)]="filter.plage_starts_at"
+                     [(ngModel)]="filter.start_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_starts_at = null"
-                   *ngIf="filter.plage_starts_at"></i>&nbsp;
+                   (click)="filter.start_date = null"
+                   *ngIf="filter.start_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -36,12 +36,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt2"
                      placeholder="Choisir la date ici"
-                     [(ngModel)]="filter.plage_ends_at"
+                     [(ngModel)]="filter.end_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_ends_at = null"
-                   *ngIf="filter.plage_ends_at"></i>&nbsp;
+                   (click)="filter.end_date = null"
+                   *ngIf="filter.end_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -54,12 +54,15 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="demand_status"
+                     [items]="statues"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.demand_status"
-                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+                     [(ngModel)]="filter.statues"
+                     [placeholder]="'Filtrer par appartenance'"
+                     (open)="getFilterList('statues', listService?.list?.STATUS, listService?.list?.ABSENCE_REQUEST)"
+                     [loading]="loadingSelect[listService?.list?.STATUS]"
+          ></ng-select>
         </div>
       </div>
 
@@ -68,12 +71,15 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="absence_types"
+                     [items]="types"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.absence_types"
-                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+                     [(ngModel)]="filter.types"
+                     [placeholder]="'Filtrer par type d\'absence'"
+                     (open)="getFilterList('types', listService?.list?.ABSENCE_REQUEST)"
+                     [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
+          ></ng-select>
         </div>
       </div>
     </div>
@@ -158,6 +164,7 @@
                      [(ngModel)]="filter.departments"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
+                     [disabled]="true"
                      [placeholder]="'Filtrer par département'" ></ng-select>
         </div>
 
@@ -171,7 +178,9 @@
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.center_profits"
+                     [(ngModel)]="filter.cps"
+                     (open)="getFilterList('center_profits', listService?.list?.PROFIT_CENTER)"
+                     [loading]="loadingSelect[listService?.list?.PROFIT_CENTER]"
                      [placeholder]="'Filtrer par centre de profit'" ></ng-select>
         </div>
         <div class="check-box-btn small-input">
@@ -185,8 +194,8 @@
         </div>
       </div>
     </div>
-    <div class="filtres row ">
 
+    <div class="filtres row ">
       <div class="flex-column col-12 col-sm-4 ">
         <label>Utilisateur</label>
         <div>
@@ -197,6 +206,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService?.list?.PERSONAL)"
+                     [loading]="loadingSelect[listService?.list?.PERSONAL]"
                      [placeholder]="'Sélectionner l\'utilisateur'"></ng-select>
         </div>
         <div class="small-input">
@@ -250,11 +261,11 @@
       <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
     </div>
     <div class="cards-stats row" >
-      <div class="card col" *ngFor="let card of cards">
+      <div class="card col" *ngFor="let card of summaryAbsenceRequests">
         <div class="title">
-          {{card.title}}
+          {{card.name}}
         </div>
-        <div class="state-value">{{card?.value }}</div>
+        <div class="state-value">{{card?.total }}</div>
       </div>
     </div>
   </div>

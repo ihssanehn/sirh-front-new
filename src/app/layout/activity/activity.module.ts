@@ -34,6 +34,7 @@ import {ClotureMoisCourantComponent} from "@layout/activity/cloture-mois-courant
 import {DelegationListComponent} from "@layout/activity/delegation-list/delegation-list.component";
 import {DelegationCreationComponent} from "@layout/activity/delegation-creation/delegation-creation.component";
 import {AvanceModificationComponent} from "@layout/activity/avance-modification/avance-modification.component";
+import {ModalSoldeAbsenceComponent} from "@layout/activity/modal-solde-absence/modal-solde-absence.component";
 
 
 
@@ -62,6 +63,7 @@ import {AvanceModificationComponent} from "@layout/activity/avance-modification/
     DelegationListComponent,
     DelegationCreationComponent,
     AvanceModificationComponent,
+    ModalSoldeAbsenceComponent
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,9 @@ import {AvanceModificationComponent} from "@layout/activity/avance-modification/
     MatTooltipModule,
     DatepickerModule,
     DpDatePickerModule
+  ],
+  entryComponents: [
+    ModalSoldeAbsenceComponent
   ]
 })
 export class ActivityModule { }

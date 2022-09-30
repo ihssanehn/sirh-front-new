@@ -123,4 +123,16 @@ export class ActivitiesService {
       .get('absence_request/getAbsenceRequestById', params)
       .pipe(map(res => res.result  || []));
   }
+
+  getAllAbsenceRequest(params) {
+    return this.apiService
+      .post('absence_request/getAllAbsenceRequest', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  getSummaryAbsenceRequest(params) {
+    return this.apiService
+      .post('absence_request/getSummaryAbsenceRequest', params)
+      .pipe(map(res => res.result  || []));
+  }
 }

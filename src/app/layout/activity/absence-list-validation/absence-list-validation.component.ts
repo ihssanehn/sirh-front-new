@@ -7,6 +7,10 @@ import {Subscription} from "rxjs";
 import {ListsService} from "@services/lists.service";
 import {ActivitiesService} from "@services/activities.service";
 import * as _moment from "moment";
+import {isMoment} from "moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import {MessageService} from "primeng/api";
+import {MainStore} from "@store/mainStore.store";
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -23,6 +27,8 @@ export class AbsenceListValidationComponent implements OnInit {
     locale: frLocale,
   }
 
+  types = [];
+  statues = [];
   personals = [];
   member_ships = [];
   center_profits = [];
@@ -34,7 +40,6 @@ export class AbsenceListValidationComponent implements OnInit {
   direction_ops = [];
   clients = [];
   departments = [];
-  validation_stats = [];
   absence_types = [];
   demand_status = [];
   // pagination: any = {
@@ -51,29 +56,26 @@ export class AbsenceListValidationComponent implements OnInit {
   // page: 1,
   // limit: 10,
   filter = {
-    keyword: '',
     personals: [],
     member_ships: [],
-    center_profits: [],
     sort_choices: [],
     business_units: [],
-    type_frais: [],
     business_lines: [],
     adv_managers: [],
     direction_ops: [],
     clients: [],
     demand_status: [],
     absence_types: null,
-    month: null,
-    has_internal_billing_admin: null,
     in_out_office: null,
     with_inactive_cp: null,
     departments: [],
-    validation_stats: null,
-    information_pending: null,
     comment: null,
-    plage_starts_at: null,
-    plage_ends_at: null,
+
+    start_date: null,
+    end_date: null,
+    statues: [],
+    types: [],
+    cps: [],
   }
   sieges = [
     {
@@ -95,112 +97,45 @@ export class AbsenceListValidationComponent implements OnInit {
   submittingExport = false;
   submittingDetailedExport = false;
   stats: any;
-  cards = [
-    {
-      title: 'Absence non rémunérée',
-      value: 0
-    },
-    {
-      title: 'Chômage technique',
-      value: 0
-    },
-    {
-      title: 'Congé parental',
-      value: 0
-    },
-    {
-      title: 'Congé ancienneté',
-      value: 0
-    },
-    {
-      title: 'Congé exceptionnels',
-      value: 0
-    },
-    {
-      title: 'Congé paternité',
-      value: 0
-    },
-    {
-      title: 'Congé payés',
-      value: 0
-    },
-    {
-      title: 'Congé sans solde',
-      value: 0
-    },
-    {
-      title: 'Exception Décès',
-      value: 0
-    },
-    {
-      title: 'Exception Mariage',
-      value: 0
-    },
-    {
-      title: 'Exception Naissance',
-      value: 0
-    },
-    {
-      title: 'Exception PACS',
-      value: 0
-    },
-    {
-      title: 'Maladie',
-      value: 0
-    },
-    {
-      title: 'Matenité',
-      value: 0
-    },
-    {
-      title: 'Récupération',
-      value: 0
-    },
-    {
-      title: 'RTT',
-      value: 0
-    },
-    {
-      title: 'Temps partiel',
-      value: 0
-    },
-  ];
+  summaryAbsenceRequests;
+  loadingSelect = {};
+  id_entite;
 
-  constructor(private listService: ListsService,
+
+  constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
+              private mainStore: MainStore,
+              private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
     this.getFilters();
-    this.getActivities();
-    this.getStatsActivity();
+    this.getAll();
   }
 
   resetFilters() {
     this.filter = {
-      keyword:  this.filter.keyword,
       personals: [],
       member_ships: [],
-      center_profits: [],
+      cps: [],
       sort_choices: [],
       business_units: [],
       departments: [],
-      validation_stats: [],
-      type_frais: [],
+      types: [],
       business_lines: [],
       adv_managers: [],
       direction_ops: [],
       clients: [],
       demand_status: [],
-      month: null,
-      information_pending: null,
-      has_internal_billing_admin: null,
       in_out_office: null,
       with_inactive_cp: null,
       comment: null,
-      plage_starts_at: null,
-      plage_ends_at: null,
-      absence_types: null
+      start_date: null,
+      end_date: null,
+      absence_types: null,
+      statues: []
     }
   }
 
@@ -219,7 +154,7 @@ export class AbsenceListValidationComponent implements OnInit {
       this.direction_ops = this.personnalFilters.op_directions;
       this.clients = this.personnalFilters.clients;
       this.departments = this.personnalFilters.departments;
-      this.validation_stats = this.personnalFilters.validation_stats;
+
 
 
     } catch (e) {
@@ -228,55 +163,33 @@ export class AbsenceListValidationComponent implements OnInit {
   }
 
   filterChanged() {
-    this.getActivities();
-    this.getStatsActivity();
+    this.getAll();
   }
 
 
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
 
-  getActivities(){
-    if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
-    const params = {
-      // type: this.type
-      month: this.filter.month,
-      personals: this.filter.personals
-    }
-    if(this.showFilters){
-      Object.keys(this.filter).forEach(key => {
-        if(['has_internal_billing_admin', 'with_inactive_cp'].includes(key) ){ // checkboxes
-          if(this.filter[key]){
-            params[key] = this.filter[key];
-          }
-        }else{
-          if(this.filter[key] !== null  && this.filter[key] !== []){
-            params[key] = this.filter[key];
-          }
-        }
-      })
-    }
-    this.loadingData = true;
-    this.searchSubscription = this.activitiesService.getAll(params).subscribe((res) => {
-      this.activities = res.data;
-      console.log('this.activities', this.activities);
-      // this.pagination = { ...this.pagination, total: result?.data?.total };
-    }, err =>{
-      console.log('err getActivities', err);
-    }, ()=>{
-      this.loadingData = false;
-    })
-  }
-
-  async getStatsActivity(){
-    try {
-      const personals = [1, 2, 3, 4] //TODO
-      const res = await this.activitiesService.getStatsActivity(personals).toPromise();
-      this.stats = res.data;
-    } catch (e){
-      console.log('error getStatsActivity', e)
-    } finally {
-
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
     }
   }
+
 
   ischecked(id) {
 
@@ -292,8 +205,6 @@ export class AbsenceListValidationComponent implements OnInit {
 
   chosenMonthHandler() {
     if(this.dateValue?.$d){
-      this.filter.month = moment(this.dateValue.$d)?.format('YYYY-MM-DD');
-
       this.filterChanged();
     }
   }
@@ -312,5 +223,42 @@ export class AbsenceListValidationComponent implements OnInit {
 
   detailedExport(){
 
+  }
+
+  async getAll(){
+    try{
+      let params = this.formatParams();
+      this.loadingData = true;
+      const res = await this.activitiesService.getSummaryAbsenceRequest(params).toPromise();
+      this.summaryAbsenceRequests = res.data;
+      console.log('this.absenceRequests ', this.summaryAbsenceRequests );
+    }catch (e) {
+      console.log('err getAllAbsenceRequest', e);
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération de données',  sticky: false});
+    }finally {
+      console.log('this.getSummaryAbsenceRequest ', this.loadingData );
+      this.loadingData = false;
+      console.log('after this.getSummaryAbsenceRequest ', this.loadingData );
+    }
+  }
+
+  formatParams(){
+    const params: any = {};
+    Object.keys(this.filter).forEach(key => {
+      if(Array.isArray(this.filter[key])){
+        if(this.filter[key]?.length>0){
+          params[key] = this.filter[key];
+        }
+      } else{
+        if(this.filter[key] !== false && this.filter[key] !== null ){
+          if(['date_start', 'date_end'].includes(key)){
+            params[key] = this.filter[key] && isMoment(moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
+          }else{
+            params[key] = this.filter[key];
+          }
+        }
+      }
+    });
+    return params;
   }
 }

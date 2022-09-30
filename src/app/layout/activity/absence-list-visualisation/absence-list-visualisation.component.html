@@ -7,7 +7,6 @@
           List des relevés
         </h3>
       </div>
-
     <div class="filtres row">
       <div class="flex-column col-12 col-sm-4 ">
         <label>Mois</label>
@@ -19,12 +18,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt1"
                      placeholder="Choisir la date ici"
-                     [(ngModel)]="filter.plage_starts_at"
+                     [(ngModel)]="filter.start_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_starts_at = null"
-                   *ngIf="filter.plage_starts_at"></i>&nbsp;
+                   (click)="filter.start_date = null"
+                   *ngIf="filter.start_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -36,12 +35,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt2"
                      placeholder="Choisir la date ici"
-                     [(ngModel)]="filter.plage_ends_at"
+                     [(ngModel)]="filter.end_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_ends_at = null"
-                   *ngIf="filter.plage_ends_at"></i>&nbsp;
+                   (click)="filter.end_date = null"
+                   *ngIf="filter.end_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -50,20 +49,39 @@
       </div>
 
       <div class="flex-column  col-12 col-sm-4 ">
-        <label>Appartenance</label>
+        <label>Statut de la demande</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="member_ships"
+                     [items]="statues"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.member_ships"
-                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+                     [(ngModel)]="filter.statues"
+                     [placeholder]="'Filtrer par appartenance'"
+                     (open)="getFilterList('statues', listService?.list?.STATUS, listService?.list?.ABSENCE_REQUEST)"
+                     [loading]="loadingSelect[listService?.list?.STATUS]"
+          ></ng-select>
+        </div>
+      </div>
+
+      <div class="flex-column  col-12 col-sm-4 ">
+        <label>Type d'absence</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="types"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.types"
+                     [placeholder]="'Filtrer par appartenance'"
+                     (open)="getFilterList('types', listService?.list?.ABSENCE_REQUEST)"
+                     [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
+          ></ng-select>
         </div>
       </div>
     </div>
-
     <div class="filtres row ">
       <div class="flex-column  col-12 col-sm-4  ">
         <label>Siège/Hors siège</label>
@@ -75,7 +93,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.in_out_office"
-                     [placeholder]="'Sélectionner si c\'est siège/hors siège'"></ng-select>
+                     [placeholder]="'Sélectionner si c\'est siège/hors siège'"
+          ></ng-select>
         </div>
       </div>
       <div class=" flex-column  col-12 col-sm-4  ">
@@ -176,7 +195,9 @@
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.center_profits"
+                     [(ngModel)]="filter.cps"
+                     (open)="getFilterList('center_profits', listService?.list?.PROFIT_CENTER)"
+                     [loading]="loadingSelect[listService?.list?.PROFIT_CENTER]"
                      [placeholder]="'Filtrer par centre de profit'" ></ng-select>
         </div>
         <div class="check-box-btn small-input">
@@ -199,6 +220,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService?.list?.PERSONAL)"
+                     [loading]="loadingSelect[listService?.list?.PERSONAL]"
                      [placeholder]="'Sélectionner l\'utilisateur'"></ng-select>
         </div>
         <div class="small-input">
@@ -255,27 +278,92 @@
   </div>
 
   <div class="main-container">
-    <div class="sub-header">
-      <h3 class="main-title">Exports</h3>
+    <div class="sub-header container-fluid ">
+      <h3 class="main-title">
+        Liste des avances de frais
+      </h3>
+      <div class="btns right-btns">
+        <app-button
+          [type]="'primary'"
+          [text]="'Export simple'"
+          [isLoading]="submittingPrint"
+          (onClick)="print()"
+          [iconLeft]="'icon-pdf'"
+        >
+        </app-button>&nbsp;&nbsp;
+        <app-button
+          [type]="'primary'"
+          [text]="'Soldes d\'absences'"
+          [isLoading]="submittingExport"
+          (onClick)="export()"
+          [iconLeft]="'icon-excel'"
+        >
+        </app-button>
+      </div>
     </div>
-    <div class="submit-block">
-      <app-button
-        [type]="'primary'"
-        [text]="'Export simple'"
-        [isLoading]="submittingPrint"
-        (onClick)="print()"
-        [iconLeft]="'icon-pdf'"
-      >
-      </app-button>&nbsp;&nbsp;
-      <app-button
-        [type]="'primary'"
-        [text]="'Soldes d\'absences'"
-        [isLoading]="submittingExport"
-        (onClick)="export()"
-        [iconLeft]="'icon-excel'"
-      >
-      </app-button>
-    </div>
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loading_avance_frais_list.svg" style="width: 100%; height: unset"/>
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+      <ng-container *ngIf="absenceRequests?.length>0; else emptyStateList">
+        <div class="wrap">
+          <table class="table table-responsive">
+            <thead>
+            <tr class="gray-category">
+              <th>&nbsp;</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Type</th>
+              <th>Début</th>
+              <th>Fin</th>
+              <th>Durée</th>
+              <th>Statut</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let item of absenceRequests">
+              <tr (click)="openModal(item)">
+                <td>--</td>
+                <td>{{item.first_name}}</td>
+                <td>{{item.last_name}}</td>
+                <td>{{item.type_name}}</td>
+                <td>
+                  {{item.start_date | dateMessage}}
+                </td>
+                <td>
+                  {{item.end_date | dateMessage}}
+                </td>
+                <td>{{item.duration}}</td>
+                <td [ngStyle]="{'color': item.status_color}">
+                  {{item.status_name}}
+                </td>
+                <td>
+                  <div class="actions">
+                    <i class="icon-edit primary-icon pointer d-inline-block"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       style="font-size: 16px;"
+                       [routerLink]="['/activity/absence/modification/'+item.id]"
+                       title="Modifier cette demande d'absence"></i>&nbsp;
+<!--                    <i class="icon-trash danger-icon pointer d-inline-block"-->
+<!--                       data-toggle="tooltip"-->
+<!--                       data-placement="top"-->
+<!--                       style="font-size: 16px;"-->
+<!--                       title="Suppimer cette demande d'absence"-->
+<!--                       (click)="delete(item.id)"-->
+<!--                    ></i>-->
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </ng-template>
   </div>
 
   <div class="main-container">
@@ -287,10 +375,9 @@
     </div>
   </div>
 
-  <ng-template #emptyState>
-    <app-centred-message
-      [image]="'images/user_empty_state.svg'"
-      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+  <ng-template #emptyStateList>
+    <app-centred-message [message]="( 'Aucun élément trouvé pour le moment' )"
+                         [image]="'images/empty_state_search.svg'"
     ></app-centred-message>
   </ng-template>
 

@@ -1,0 +1,95 @@
+<div class="container top-container ">
+<!--  <div class="header modal-header">-->
+<!--    <h1 class="main-title">{{absenceRequest?.first_name}}</h1>-->
+<!--    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
+<!--  </div>-->
+
+  <div class="main-container m-0">
+    <div class="sub-header container-fluid m-0">
+      <h3 class="main-title">
+        Soldes d'absences de Hajer BELHIBA
+      </h3>
+      <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="tabs ">
+      <div class="tab selected-tab">
+        Soldes d'absences issus de la paye
+      </div>
+      <div class="tab ">
+        Absences "non prises en compte" dans les soldes
+      </div>
+    </div>
+    <div class="main-container p-0">
+      <div class="wrap">
+        <table class="table">
+          <thead>
+          <tr>
+            <th colspan="100%" class="gray-category ">
+              Estimation soldes d’absences d’après les données de paye : Juillet 2022
+            </th>
+          </tr>
+          <tr>
+            <th colspan="2">
+              Congés payés à solder avant fin Mai 2024
+            </th>
+            <th colspan="2">
+              Congés payés à solder avant fin Mai 2023
+            </th>
+            <th colspan="2">
+              Congés à solder avant fin Mai 2023
+            </th>
+            <th colspan="2">
+              RTT à solder avant fin décembre 2022
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>CP1 acquis</td>
+            <td>CP1 restant</td>
+            <td>CP2 acquis</td>
+            <td>CP2 restant</td>
+            <td>CP ancienneté acquis</td>
+            <td>CP ancienneté acquis</td>
+            <td>RTT acquis</td>
+            <td>RTT restant</td>
+          </tr>
+          <tr>
+            <td>4.16</td>
+            <td>4.16</td>
+            <td>25.00</td>
+            <td>25.00</td>
+            <td>2.00</td>
+            <td>2.00</td>
+            <td>6.44</td>
+            <td>6.44</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info" >
+        <p class="danger-text">
+          <u>Attention :</u> Les informations ci-dessus sont données à titre indicatif. Les informations inscrites sur votre fiche de paye restent la reference.
+        </p>
+        <p>
+          Les absences sont intégrées avec un mois de décalage dans la paye.
+        </p>
+        <p>
+          Les soldes d'absences issus de la paye ne prennent donc pas en compte les absences du mois en cours.
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #emptyStateLeftList>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
