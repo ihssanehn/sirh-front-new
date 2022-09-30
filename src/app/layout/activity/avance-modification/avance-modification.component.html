@@ -6,146 +6,147 @@
     </div>
   </ng-container>
   <ng-template #loadedData>
-  </ng-template>
-</ng-container>
-<div class="top-container">
-  <form class="filter-container  main-container" [formGroup]="myForm" *ngIf="myForm">
-    <div class="filtres row ">
-      <div class="sub-header container-fluid ">
-        <h3 class="main-title top-title">
-          Modification de la demande d'avance de frais
-        </h3>
-      </div>
-      <div class="flex-column  col-12 col-sm-3" *ngIf="showPersonels()">
-        <label>Choix du salarié {{isRequired(formInputs.personal_id)}}</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="false"
-                     [items]="personals"
-                     [bindLabel]="'full_name'"
-                     [bindValue]="'id'"
-                     [formControl]="myForm.controls[formInputs.personal_id]"
-                     (open)="getPsersonals()"
-                     [loading]="loadingPersonals"
-                     [placeholder]="'Sélectionner le salarié'"></ng-select>
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls[formInputs.personal_id].hasError('required')
+    <div class="top-container">
+      <form class="filter-container  main-container" [formGroup]="myForm" *ngIf="myForm">
+        <div class="filtres row ">
+          <div class="sub-header container-fluid ">
+            <h3 class="main-title top-title">
+              Modification de la demande d'avance de frais
+            </h3>
+          </div>
+          <div class="flex-column  col-12 col-sm-3" *ngIf="showPersonels()">
+            <label>Choix du salarié {{isRequired(formInputs.personal_id)}}</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="personals"
+                         [bindLabel]="'full_name'"
+                         [bindValue]="'id'"
+                         [formControl]="myForm.controls[formInputs.personal_id]"
+                         (open)="getPsersonals()"
+                         [loading]="loadingPersonals"
+                         [placeholder]="'Sélectionner le salarié'"></ng-select>
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.personal_id].hasError('required')
                     && myForm.controls[formInputs.personal_id].dirty">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-          Le personnel est obligatoire
-        </div>
-      </div>
-      <div class="flex-column  col-12 col-sm-3">
-        <label>Type d'avance {{isRequired(formInputs.type_id)}}</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="false"
-                     [items]="advance_cost"
-                     [bindLabel]="'label'"
-                     [bindValue]="'id'"
-                     [formControl]="myForm.controls[formInputs.type_id]"
-                     [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls[formInputs.type_id].hasError('required')
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Le personnel est obligatoire
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Type d'avance {{isRequired(formInputs.type_id)}}</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="advance_cost"
+                         [bindLabel]="'label'"
+                         [bindValue]="'id'"
+                         [formControl]="myForm.controls[formInputs.type_id]"
+                         [placeholder]="'Sélectionner le type d\'avance'"></ng-select>
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.type_id].hasError('required')
                     && myForm.controls[formInputs.type_id].dirty">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-          Le type est obligatoire
-        </div>
-      </div>
-      <div class="flex-column  col-12 col-sm-3">
-        <label>Date {{isRequired(formInputs.date)}}</label>
-        <div>
-          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-          <input [owlDateTime]="owl_dt1"
-                 class="form-control input date"
-                 [owlDateTimeTrigger]="owl_dt1"
-                 placeholder="Choisir la date ici"
-                 [formControl]="myForm.controls[formInputs.date]"
-          />
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls[formInputs.date].hasError('required')
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Le type est obligatoire
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Date {{isRequired(formInputs.date)}}</label>
+            <div>
+              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt1"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt1"
+                     placeholder="Choisir la date ici"
+                     [formControl]="myForm.controls[formInputs.date]"
+              />
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.date].hasError('required')
                     && myForm.controls[formInputs.date].dirty">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-          La date est obligatoire
-        </div>
-      </div>
-      <div class="flex-column  col-12 col-sm-3">
-        <label>Montant {{isRequired(formInputs.amount)}}</label>
-        <div>
-          <input type="number"
-                 class="form-control input"
-                 placeholder="Saisir le montant ici"
-                 [formControl]="myForm.controls[formInputs.amount]"
-          />
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls[formInputs.amount].hasError('required')
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              La date est obligatoire
+            </div>
+          </div>
+          <div class="flex-column  col-12 col-sm-3">
+            <label>Montant {{isRequired(formInputs.amount)}}</label>
+            <div>
+              <input type="number"
+                     class="form-control input"
+                     placeholder="Saisir le montant ici"
+                     [formControl]="myForm.controls[formInputs.amount]"
+              />
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.amount].hasError('required')
                     && myForm.controls[formInputs.amount].dirty">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-          Le montant est obligatoire
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Le montant est obligatoire
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="filtres row ">
-      <div class="flex-column  col-12 ">
-        <label>Motif de l'avance {{isRequired(formInputs.motif)}}</label>
-        <div>
+        <div class="filtres row ">
+          <div class="flex-column  col-12 ">
+            <label>Motif de l'avance {{isRequired(formInputs.motif)}}</label>
+            <div>
          <textarea
            rows="5"
            [placeholder]="'Saisir le motif de l\'avance..'"
            class="form-control input"
            [formControl]="myForm.controls[formInputs.motif]"
          ></textarea>
-        </div>
-        <div class="form-control-feedback"
-             *ngIf="myForm.controls[formInputs.motif].hasError('required')
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.motif].hasError('required')
                     && myForm.controls[formInputs.motif].dirty">
-          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-          Le motif est obligatoire
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Le motif est obligatoire
+            </div>
+          </div>
         </div>
+      </form>
+
+      <div class="error-message">
+        Impossible de modifier les informations de cette demande avance de frais
+      </div>
+      <div class="submit-block" >
+        <app-button
+          [type]="'tertiary'"
+          [text]="'Retour'"
+          (onClick)="goback()"
+          [iconLeft]="'fa fa-arrow-left'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>&nbsp;&nbsp;
+        <app-button
+          [type]="'secondary'"
+          [text]="'Enregistrer les modifications'"
+          [isLoading]="submittingCreate"
+          [isDisabled]="submittingCreate || submittingDiffuse || avanceToUpdate?.history_advance_cost?.length > 1"
+          [textLoading]="'Sauvegarde en cours..'"
+          (onClick)="createDemand()"
+          [iconLeft]="'icon-save'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>
+        <!--    <app-button-->
+        <!--      [type]="'secondary'"-->
+        <!--      [text]="'Diffuser'"-->
+        <!--      [isLoading]="submittingDiffuse"-->
+        <!--      [textLoading]="'Diffusion en cours..'"-->
+        <!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
+        <!--      (onClick)="diffuse()"-->
+        <!--      [iconLeft]="'icon-check'"-->
+        <!--      [customStyle]="{'min-width': '130px'}"-->
+        <!--    >-->
+        <!--    </app-button>-->
       </div>
     </div>
-  </form>
+  </ng-template>
+</ng-container>
 
-  <div class="error-message">
-    Impossible de modifier les informations de cette demande avance de frais
-  </div>
-  <div class="submit-block" >
-    <app-button
-      [type]="'tertiary'"
-      [text]="'Retour'"
-      (onClick)="goback()"
-      [iconLeft]="'fa fa-arrow-left'"
-      [customStyle]="{'min-width': '130px'}"
-    >
-    </app-button>&nbsp;&nbsp;
-    <app-button
-      [type]="'secondary'"
-      [text]="'Enregistrer les modifications'"
-      [isLoading]="submittingCreate"
-      [isDisabled]="submittingCreate || submittingDiffuse || avanceToUpdate?.history_advance_cost?.length > 1"
-      [textLoading]="'Sauvegarde en cours..'"
-      (onClick)="createDemand()"
-      [iconLeft]="'icon-save'"
-      [customStyle]="{'min-width': '130px'}"
-    >
-    </app-button>
-<!--    <app-button-->
-<!--      [type]="'secondary'"-->
-<!--      [text]="'Diffuser'"-->
-<!--      [isLoading]="submittingDiffuse"-->
-<!--      [textLoading]="'Diffusion en cours..'"-->
-<!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
-<!--      (onClick)="diffuse()"-->
-<!--      [iconLeft]="'icon-check'"-->
-<!--      [customStyle]="{'min-width': '130px'}"-->
-<!--    >-->
-<!--    </app-button>-->
-  </div>
-</div>
 
 <ng-template #emptyState>
   <app-centred-message [message]="( 'Avance de frais introuvable pour le moment' )"

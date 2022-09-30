@@ -162,6 +162,11 @@ const routes: Routes = [
         component: AbsenceDemandeComponent
       },
       {
+        path: 'modification/:id',
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
+        component: AbsenceDemandeComponent
+      },
+      {
         path: 'list_visualisation',
         canActivate: [EntiteGuard],
         component: AbsenceListVisualisationComponent

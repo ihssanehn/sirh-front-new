@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ActivitiesService} from "@services/activities.service";
 import {isMoment} from "moment/moment";
 import * as moment from "moment/moment";
 import {MessageService} from "primeng/api";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-absence-demande',
   templateUrl: './absence-demande.component.html',
   styleUrls: ['./absence-demande.component.scss']
 })
-export class AbsenceDemandeComponent implements OnInit {
+export class AbsenceDemandeComponent implements OnInit, OnDestroy {
 
   absence_request = [];
   disease_detail = [];
@@ -44,12 +45,17 @@ export class AbsenceDemandeComponent implements OnInit {
     return day !== 0 && day !== 6;
   }
   errors = [];
+  errorLoadData: boolean;
+  loadingData: boolean;
+  absenceToUpdate: any;
+  private getDataSubscription: Subscription;
   constructor(private fb: FormBuilder,
               public listService: ListsService,
               private mainStore: MainStore,
               private activitiesService: ActivitiesService,
               private messageService: MessageService,
               private router: Router,
+              private route: ActivatedRoute,
               ) {
     this.dateValidator = this.dateValidator.bind(this);
     this.myForm = this.fb.group({
@@ -62,13 +68,17 @@ export class AbsenceDemandeComponent implements OnInit {
       personal_id: [null],
       id: [null],
       disease_detail_id: [null],
+      justification: [null],
     }, {validator: this.dateValidator});
-    // const durationParams = ['start_date', 'end_date', 'start_time', 'end_time'];
-    // durationParams.forEach(item => {
-    //   this.myForm.controls[this.formInputs[item]].valueChanges.subscribe(async value => {
-    //     await this.getDuration();
-    //   });
-    // })
+
+    this.getDataSubscription = this.route.params.subscribe(params => {
+      const id = Number(params.id);
+      if(id){
+        this.getAbsence(id);
+        this.getFilterList('disease_detail',  this.listService?.list?.DISEASE_DETAIL);
+        this.getFilterList('absence_request',  this.listService?.list?.ABSENCE_REQUEST);
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -84,26 +94,22 @@ export class AbsenceDemandeComponent implements OnInit {
   }
 
   dateValidator(control: AbstractControl){
-    console.log('dateValidator', control, this.formInputs.start_date, this.formInputs.end_date);
     let startDate = control.get(this.formInputs.start_date).value;
     let endDate = control.get(this.formInputs.end_date).value;
 
     let startTime = control.get(this.formInputs.start_time).value;
     let endTime = control.get(this.formInputs.end_time).value;
 
-    console.log('startDate1', startDate, 'endDate1', endDate);
     this.errors = [];
     if(!startDate || !endDate){
       return ;
     }
     if(!(startDate instanceof moment)){
-      startDate = moment(startDate);//.format(MY_CUSTOM_DATETIME_FORMATS.calendar);
+      startDate = moment(startDate);
     }
     if(!(endDate instanceof moment)){
-      endDate = moment(endDate);//.format(MY_CUSTOM_DATETIME_FORMATS.calendar);
+      endDate = moment(endDate);
     }
-    console.log('startDate.isAfter(endDate) ', startDate, endDate );
-
 
     if( startDate.isSame(endDate, 'date') && startTime === 'pm' && endTime === 'am') {
       this.errors.push({
@@ -200,12 +206,16 @@ export class AbsenceDemandeComponent implements OnInit {
       params.end_date = params.end_date && isMoment(moment(params.end_date)) ? moment(params.end_date)?.format('YYYY-MM-DD'): null;
 
       const res = await this.activitiesService.addOrUpdateAbsenceRequest(params).toPromise();
-      this.myForm.reset();
-      this.goback();
+      if(!this.myForm.value.id){
+        this.myForm.reset();
+        this.goback();
+      }else{
+        this.getAbsence(this.myForm.value.id);
+      }
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
-        detail: 'Demande créé avec succès',
+        detail: this.myForm.value.id ? 'Demande mise à jour avec succès': 'Demande créé avec succès',
         sticky: false,
       });
     }catch (e){
@@ -213,15 +223,40 @@ export class AbsenceDemandeComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Echec!',
-        detail: 'Impossible de créer cette demande d\'absence pour le moment',
+        detail: this.myForm.value.id ? 'Impossible de modifier cette demande d\'absence pour le moment':
+          'Impossible de créer cette demande d\'absence pour le moment',
         sticky: false});
     }finally {
       this.submittingCreate = false;
     }
   }
 
+  async getAbsence(id){
+    try{
+      this.errorLoadData = false;
+      this.loadingData = true;
+      const res = await this.activitiesService.getAbsenceRequestById({id}).toPromise();
+      this.myForm.patchValue({
+        ...res.data
+      });
+      this.getFilterList('personals',  this.listService.list.PERSONAL);
+      this.absenceToUpdate = res.data;
+    }catch (e){
+      console.log('error getAbsence', e);
+      this.errorLoadData = true;
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Impossible de récupérer cette demande d\'absence, veuillez réessayer plus tard',  sticky: false});
+    }finally {
+      this.loadingData = false;
+    }
+  }
 
   returnfalse(){
     return false;
+  }
+
+  ngOnDestroy() {
+    if(this.getDataSubscription){
+      this.getDataSubscription.unsubscribe();
+    }
   }
 }

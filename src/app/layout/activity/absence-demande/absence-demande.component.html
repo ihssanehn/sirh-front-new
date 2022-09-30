@@ -1,218 +1,239 @@
-<div class="top-container">
-    <div class="filter-container main-container">
-      <div class="sub-header">
-        <h3 class="main-title">
-          Création d'une demande d'absence {{errors.length}}
-        </h3>
-      </div>
-      <form [formGroup]="myForm" *ngIf="myForm">
-        <div class="filtres row ">
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Choix du salarié</label>
-            <div>
-              <ng-select class="select form-control"
-                         [multiple]="false"
-                         [items]="personals"
-                         [bindLabel]="'full_name'"
-                         [bindValue]="'id'"
-                         [placeholder]="'Sélectionner le salarié'"
-                         [formControl]="myForm.controls[formInputs.personal_id]"
-                         (open)="getFilterList('personals', listService.list.PERSONAL)"
-                         [loading]="loadingSelect[listService.list.PERSONAL]"
-              ></ng-select>
-            </div>
-          </div>
-        </div>
-        <div class="filtres row ">
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Type d'absence {{isRequired(formInputs.absence_type_id)}}</label>
-            <div>
-              <ng-select class="select form-control"
-                         [multiple]="false"
-                         [items]="absence_request"
-                         [bindLabel]="'label'"
-                         [bindValue]="'id'"
-                         [placeholder]="'Sélectionner le salarié'"
-                         [formControl]="myForm.controls[formInputs.absence_type_id]"
-                         (open)="getFilterList('absence_request', listService?.list?.ABSENCE_REQUEST);"
-                         [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
-              ></ng-select>
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.absence_type_id].hasError('required') && myForm.controls[formInputs.absence_type_id].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              Le type d'absence est obligatoire
-            </div>
-          </div>
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Date de début {{isRequired(formInputs.start_date)}}</label>
-            <div class="date-picker-group">
-              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-              <input [owlDateTime]="owl_dt1"
-                     class="form-control input date"
-                     [owlDateTimeTrigger]="owl_dt1"
-                     placeholder="Choisir la date ici"
-                     [owlDateTimeFilter]="disableWeekendsFilter"
-                     (ngModelChange)="getDuration()"
-                     [formControl]="myForm.controls[formInputs.start_date]"
-              />
-              <div class="icons-container">
-                <i class="icon-close"
-                   (click)="clearDateInput(formInputs.start_date)"
-                   *ngIf="myForm.controls[formInputs.start_date].value"></i>&nbsp;
-                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-              </div>
-            </div>
-            <div class="btn-group radio"
-                 ngbRadioGroup name="radioBasic"
-                 [formControl]="myForm.controls[formInputs.start_time]"
-                 (ngModelChange)="getDuration()"
-            >
-              <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'am'" id="starts_at_am">&nbsp;
-                <span class="radio-label" for="starts_at_am">Matin</span>
-              </label>
-              <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
-                <span class="radio-label" for="starts_at_pm">Après-midi</span>
-              </label>
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.start_date].hasError('required') && myForm.controls[formInputs.start_date].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              La date de début est obligatoire
-            </div>
-          </div>
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Date de fin {{isRequired(formInputs.end_date)}}</label>
-            <div class="date-picker-group">
-              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-              <input [owlDateTime]="owl_dt2"
-                     class="form-control input date"
-                     [owlDateTimeTrigger]="owl_dt2"
-                     [owlDateTimeFilter]="disableWeekendsFilter"
-                     placeholder="Choisir la date ici"
-                     (ngModelChange)="getDuration()"
-                     [formControl]="myForm.controls[formInputs.end_date]"
-              />
-              <div class="icons-container">
-                <i class="icon-close"
-                   (click)="clearDateInput(formInputs.end_date)"
-                   *ngIf="myForm.controls[formInputs.end_date].value"></i>&nbsp;
-                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-              </div>
-            </div>
-
-            <div class="btn-group radio"
-                 [formControl]="myForm.controls[formInputs.end_time]"
-                 (ngModelChange)="getDuration()"
-                 ngbRadioGroup name="radioBasic">
-              <label ngbButtonLabel>
-                <input ngbButton type="radio" class="radio-button" [value]="'am'" id="ends_at_am">&nbsp;
-                <span class="radio-label" for="ends_at_am">Matin</span>
-              </label>
-              <label ngbButtonLabel >
-                <input ngbButton type="radio" class="radio-button" [value]="'pm'" id="ends_at_pm">&nbsp;
-                <span class="radio-label" for="ends_at_am">Après-midi</span>
-              </label>
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.end_date].hasError('required') && myForm.controls[formInputs.end_date].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              La date de fin est obligatoire
-            </div>
-          </div>
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Durée {{isRequired(formInputs.duration)}} (Champ calculé automatiquement)</label>
-            <div class="align-items-center d-flex" style="font-size: 13px;">
-              <input type="number"
-                     [disabled]="true"
-                     class="form-control input"
-                     placeholder="Saisir la durée ici"
-                     (keydown)="returnfalse()"
-                     [formControl]="myForm.controls[formInputs.duration]"
-                     [readOnly]="true"
-              />
-              &nbsp;Jours
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.duration].hasError('required') && myForm.controls[formInputs.duration].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              La durée est obligatoire
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.duration].hasError('nonZero') && myForm.controls[formInputs.duration].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              La durée devrait être un nombre positive veillez vérifier les dates
-            </div>
-          </div>
-
-        </div>
-        <div class="filtres row ">
-          <div class="flex-column  col-12 col-sm-3">
-            <label>Détails maladie</label>
-            <div>
-              <ng-select class="select form-control"
-                         [multiple]="false"
-                         [items]="disease_detail"
-                         [bindLabel]="'label'"
-                         [bindValue]="'id'"
-                         [formControl]="myForm.controls[formInputs.disease_detail_id]"
-                         (open)="getFilterList('disease_detail', listService?.list?.DISEASE_DETAIL);"
-                         [loading]="loadingSelect[listService?.list?.DISEASE_DETAIL]"
-                         [placeholder]="'---'"></ng-select>
-            </div>
-            <div class="form-control-feedback"
-                 *ngIf="myForm.controls[formInputs.disease_detail_id].hasError('required') && myForm.controls[formInputs.disease_detail_id].dirty">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              La maladie est obligatoire
-            </div>
-          </div>
-        </div>
-
-        <div class="filtres row ">
-          <div class="flex-column  col-12 ">
-            <label>Justification {{isRequired(formInputs.justification)}}</label>
-            <div>
-         <textarea
-           rows="5"
-           [placeholder]="'Saisir la justificcation'"
-           class="form-control input"
-         ></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="errors && errors.length>0">
-          <div  class="form-control-feedback" *ngFor="let error of errors">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{error.message}}
-          </div>
-        </div>
-
-        <div class="submit-block" >
-          <app-button
-            [type]="'tertiary'"
-            [text]="'Retour'"
-            (onClick)="goback()"
-            [iconLeft]="'fa fa-arrow-left'"
-            [customStyle]="{'min-width': '130px'}"
-          >
-          </app-button>&nbsp;&nbsp;
-          <app-button
-            [type]="'secondary'"
-            [text]="'Diffuser'"
-            [isLoading]="submittingDiffuse"
-            [textLoading]="'Diffusion en cours..'"
-            [isDisabled]="submittingDiffuse"
-            (onClick)="createDemand()"
-            [iconLeft]="'icon-check'"
-            [customStyle]="{'min-width': '130px'}"
-          >
-          </app-button>
-        </div>
-      </form>
-
+<ng-container *ngIf="!errorLoadData; else dataNotFound">
+  <ng-container *ngIf="loadingData; else loadedData">
+    <div class="loading">
+      <img src="assets/images/loader.gif" />
     </div>
+  </ng-container>
+  <ng-template #loadedData>
+    <div class="top-container">
+      <div class="filter-container main-container">
+        <div class="sub-header">
+          <h3 class="main-title">
+            Création d'une demande d'absence {{errors.length}}
+          </h3>
+        </div>
+        <form [formGroup]="myForm" *ngIf="myForm">
+          <div class="filtres row ">
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Choix du salarié</label>
+              <div>
+                <ng-select class="select form-control"
+                           [multiple]="false"
+                           [items]="personals"
+                           [bindLabel]="'full_name'"
+                           [bindValue]="'id'"
+                           [placeholder]="'Sélectionner le salarié'"
+                           [formControl]="myForm.controls[formInputs.personal_id]"
+                           (open)="getFilterList('personals', listService.list.PERSONAL)"
+                           [loading]="loadingSelect[listService.list.PERSONAL]"
+                ></ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="filtres row ">
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Type d'absence {{isRequired(formInputs.absence_type_id)}}</label>
+              <div>
+                <ng-select class="select form-control"
+                           [multiple]="false"
+                           [items]="absence_request"
+                           [bindLabel]="'label'"
+                           [bindValue]="'id'"
+                           [placeholder]="'Sélectionner le salarié'"
+                           [formControl]="myForm.controls[formInputs.absence_type_id]"
+                           (open)="getFilterList('absence_request', listService?.list?.ABSENCE_REQUEST);"
+                           [loading]="loadingSelect[listService?.list?.ABSENCE_REQUEST]"
+                ></ng-select>
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.absence_type_id].hasError('required') && myForm.controls[formInputs.absence_type_id].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                Le type d'absence est obligatoire
+              </div>
+            </div>
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Date de début {{isRequired(formInputs.start_date)}}</label>
+              <div class="date-picker-group">
+                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                <input [owlDateTime]="owl_dt1"
+                       class="form-control input date"
+                       [owlDateTimeTrigger]="owl_dt1"
+                       placeholder="Choisir la date ici"
+                       [owlDateTimeFilter]="disableWeekendsFilter"
+                       (ngModelChange)="getDuration()"
+                       [formControl]="myForm.controls[formInputs.start_date]"
+                />
+                <div class="icons-container">
+                  <i class="icon-close"
+                     (click)="clearDateInput(formInputs.start_date)"
+                     *ngIf="myForm.controls[formInputs.start_date].value"></i>&nbsp;
+                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                </div>
+              </div>
+              <div class="btn-group radio"
+                   ngbRadioGroup name="radioBasic"
+                   [formControl]="myForm.controls[formInputs.start_time]"
+                   (ngModelChange)="getDuration()"
+              >
+                <label ngbButtonLabel>
+                  <input ngbButton type="radio" [value]="'am'" id="starts_at_am">&nbsp;
+                  <span class="radio-label" for="starts_at_am">Matin</span>
+                </label>
+                <label ngbButtonLabel>
+                  <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
+                  <span class="radio-label" for="starts_at_pm">Après-midi</span>
+                </label>
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.start_date].hasError('required') && myForm.controls[formInputs.start_date].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La date de début est obligatoire
+              </div>
+            </div>
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Date de fin {{isRequired(formInputs.end_date)}}</label>
+              <div class="date-picker-group">
+                <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                <input [owlDateTime]="owl_dt2"
+                       class="form-control input date"
+                       [owlDateTimeTrigger]="owl_dt2"
+                       [owlDateTimeFilter]="disableWeekendsFilter"
+                       placeholder="Choisir la date ici"
+                       (ngModelChange)="getDuration()"
+                       [formControl]="myForm.controls[formInputs.end_date]"
+                />
+                <div class="icons-container">
+                  <i class="icon-close"
+                     (click)="clearDateInput(formInputs.end_date)"
+                     *ngIf="myForm.controls[formInputs.end_date].value"></i>&nbsp;
+                  <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                </div>
+              </div>
 
-  </div>
+              <div class="btn-group radio"
+                   [formControl]="myForm.controls[formInputs.end_time]"
+                   (ngModelChange)="getDuration()"
+                   ngbRadioGroup name="radioBasic">
+                <label ngbButtonLabel>
+                  <input ngbButton type="radio" class="radio-button" [value]="'am'" id="ends_at_am">&nbsp;
+                  <span class="radio-label" for="ends_at_am">Matin</span>
+                </label>
+                <label ngbButtonLabel >
+                  <input ngbButton type="radio" class="radio-button" [value]="'pm'" id="ends_at_pm">&nbsp;
+                  <span class="radio-label" for="ends_at_am">Après-midi</span>
+                </label>
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.end_date].hasError('required') && myForm.controls[formInputs.end_date].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La date de fin est obligatoire
+              </div>
+            </div>
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Durée {{isRequired(formInputs.duration)}} (Champ calculé automatiquement)</label>
+              <div class="align-items-center d-flex" style="font-size: 13px;">
+                <input type="number"
+                       [disabled]="true"
+                       class="form-control input"
+                       placeholder="Saisir la durée ici"
+                       (keydown)="returnfalse()"
+                       [formControl]="myForm.controls[formInputs.duration]"
+                       [readOnly]="true"
+                />
+                &nbsp;Jours
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.duration].hasError('required') && myForm.controls[formInputs.duration].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La durée est obligatoire
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.duration].hasError('nonZero') && myForm.controls[formInputs.duration].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La durée devrait être un nombre positive veillez vérifier les dates
+              </div>
+            </div>
+
+          </div>
+          <div class="filtres row ">
+            <div class="flex-column  col-12 col-sm-3">
+              <label>Détails maladie</label>
+              <div>
+                <ng-select class="select form-control"
+                           [multiple]="false"
+                           [items]="disease_detail"
+                           [bindLabel]="'label'"
+                           [bindValue]="'id'"
+                           [formControl]="myForm.controls[formInputs.disease_detail_id]"
+                           (open)="getFilterList('disease_detail', listService?.list?.DISEASE_DETAIL)"
+                           [loading]="loadingSelect[listService?.list?.DISEASE_DETAIL]"
+                           [placeholder]="'---'"></ng-select>
+              </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.disease_detail_id].hasError('required') && myForm.controls[formInputs.disease_detail_id].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                La maladie est obligatoire
+              </div>
+            </div>
+          </div>
+
+          <div class="filtres row ">
+            <div class="flex-column  col-12 ">
+              <label>Justification {{isRequired(formInputs.justification)}}</label>
+              <div>
+               <textarea
+                 rows="5"
+                 [placeholder]="'Saisir la justificcation'"
+                 class="form-control input"
+                 [formControl]="myForm.controls[formInputs.justification]"
+               ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="errors && errors.length>0">
+            <div  class="form-control-feedback" *ngFor="let error of errors">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              {{error.message}}
+            </div>
+          </div>
+
+          <div class="submit-block" >
+            <app-button
+              [type]="'tertiary'"
+              [text]="'Retour'"
+              (onClick)="goback()"
+              [iconLeft]="'fa fa-arrow-left'"
+              [customStyle]="{'min-width': '130px'}"
+            >
+            </app-button>&nbsp;&nbsp;
+            <app-button
+              [type]="'secondary'"
+              [text]="this.myForm.value?.id ? 'Enregistrer les modifications': 'Créer la demande'"
+              [isLoading]="submittingDiffuse"
+              [textLoading]="'Diffusion en cours..'"
+              [isDisabled]="submittingDiffuse"
+              (onClick)="createDemand()"
+              [iconLeft]="'icon-check'"
+              [customStyle]="{'min-width': '130px'}"
+            >
+            </app-button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Demande d\'absence introuvable pour le moment' )"
+                       [image]="'images/error.svg'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="( 'Impossible de récupérer cette demande d\'absence, veuillez réessayer plus tard' )"
+                       [image]="'images/error.svg'">
+  </app-centred-message>
+</ng-template>

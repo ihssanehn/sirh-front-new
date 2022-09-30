@@ -118,4 +118,9 @@ export class ActivitiesService {
       .post('absence_request/addOrUpdateAbsenceRequest', params);
   }
 
+  getAbsenceRequestById(params) {
+    return this.apiService
+      .get('absence_request/getAbsenceRequestById', params)
+      .pipe(map(res => res.result  || []));
+  }
 }
