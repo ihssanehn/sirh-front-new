@@ -108,4 +108,14 @@ export class ActivitiesService {
       .post('activity/cancelDiffusedActivity', params);
   }
 
+  getDuration(params: any) {
+    return this.apiService
+      .post('absence_request/getDuration', params);
+  }
+
+  addOrUpdateAbsenceRequest(params: any) {
+    return this.apiService
+      .post('absence_request/addOrUpdateAbsenceRequest', params);
+  }
+
 }
