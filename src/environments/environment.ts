@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
 
-  apiUrl : ' http://localhost:9073/',
+  apiUrl : ' http://localhost:9074/',
   appBaseHref : './',
   logo: 'logo-pds.png',
   favicon: 'favicon.ico',
