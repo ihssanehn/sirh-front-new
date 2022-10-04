@@ -39,6 +39,8 @@ export class CongeHistoryComponent implements OnInit {
   types = [];
   loadingSelect = {};
   id_entite;
+  absenceRequests = []
+  submittingPrint: any;
   constructor(
     private activitiesService: ActivitiesService,
     private messageService: MessageService,
@@ -49,6 +51,7 @@ export class CongeHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
     this.getAll();
+    this.getAllConge();
   }
 
   export() {
@@ -99,8 +102,28 @@ export class CongeHistoryComponent implements OnInit {
     }
   }
 
+  async getAllConge(){
+    try{
+      let params = this.formatParams();
+      this.loadingData = true;
+      const res = await this.activitiesService.getAllAbsenceRequest(params).toPromise();
+      this.absenceRequests = res.data;
+      console.log('this.absenceRequests ', this.absenceRequests );
+      // this.openModal(this.absenceRequests[0]);
+    }catch (e) {
+      console.log('err getAllAbsenceRequest', e);
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération de la list des demandes d\absence',  sticky: false});
+    }finally {
+      console.log('this.getAllAbsenceRequest ', this.loadingData );
+      this.loadingData = false;
+      console.log('after this.getAllAbsenceRequest ', this.loadingData );
+    }
+  }
+
   formatParams(){
-    const params: any = {};
+    const params: any = {
+      list_type: 'my_history'
+    };//['general','validation','my_history']
     Object.keys(this.filter).forEach(key => {
       if(Array.isArray(this.filter[key])){
         if(this.filter[key]?.length>0){
@@ -121,5 +144,38 @@ export class CongeHistoryComponent implements OnInit {
 
   filterChanged() {
     this.getAll();
+    this.getAllConge();
+  }
+
+  print() {
+
+  }
+
+  async validateOrRefuseOrDemandChangeAbsenceRequest(item, status_name){
+    try{
+      // absence_request_id: required
+      // status_name: required IN ['validate','refused','demand_change']
+      // comment: optional
+      const params = {
+        absence_request_id: item.id,
+        status_name,
+        comment: status_name === 'demand_change' ? item.validation_comment: null
+      }
+      this.loadingData = true;
+      const res = await this.activitiesService.validateOrRefuseOrDemandChangeAbsenceRequest(params).toPromise();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Opération réussie',  sticky: false});
+      this.getAllConge();
+    }catch (e){
+      console.log('error getAbsence', e);
+      this.messageService.add({severity: 'error',
+        summary: 'Echec!',
+        detail: 'Impossible d\'effectuer cette opération',
+        sticky: false});
+    }finally {
+      this.loadingData = false;
+    }
   }
 }

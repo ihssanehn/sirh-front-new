@@ -283,7 +283,7 @@
   <div class="main-container">
     <div class="sub-header container-fluid ">
       <h3 class="main-title">
-        Liste des avances de frais
+        {{absenceRequests?.length>0 ? absenceRequests?.length+' demandes d’absence trouvées': 'Liste des demandes d\'absences'}}
       </h3>
       <div class="btns right-btns">
         <app-button
@@ -328,7 +328,7 @@
             </thead>
             <tbody>
             <ng-container *ngFor="let item of absenceRequests">
-              <tr (click)="openModal(item)">
+              <tr>
                 <td>--</td>
                 <td>{{item.first_name}}</td>
                 <td>{{item.last_name}}</td>
@@ -344,12 +344,14 @@
                   {{item.status_name}}
                 </td>
                 <td>
-                  <div class="actions">
+<!--                  *ngIf="item.status_code === 'en_attente'"-->
+                  <div class="actions" >
                     <i class="icon-edit-bold primary-icon pointer d-inline-block"
                        data-toggle="tooltip"
                        data-placement="top"
                        style="font-size: 16px;"
-                       [routerLink]="['/activity/absence/modification/'+item.id]"
+                       [ngClass]="{'disabled-icon': item.status_code !== 'en_attente'}"
+                       [routerLink]="item.status_code === 'en_attente' ? ['/activity/absence/modification/'+item.id]: null"
                        title="Modifier cette demande d'absence"></i>&nbsp;
 <!--                    <i class="icon-trash danger-icon pointer d-inline-block"-->
 <!--                       data-toggle="tooltip"-->
@@ -362,80 +364,107 @@
                 </td>
               </tr>
               <tr  style="background: #F7F7F7;" >
-                <td>
-                  <i class="icon-document-info primary-icon pointer" style="font-size: 20px;padding: 0 17px;"
+                <td style="padding-top: 25px;">
+                  <i class="icon-document-info primary-icon pointer" style="font-size: 24px;padding: 0 17px;"
                     (click)="openModal(item)"
                   ></i>
                 </td>
-                <td colspan="100%" style="padding: 0">
+                <td colspan="100%"  >
                   <table class="table table-responsive sub-table">
-                    <tr class="d-flex">
-                      <th class="">Détails :</th>
-                      <td> test
-<!--                        {{item.history_advance_cost[0].status_name +-->
-<!--                      ' le '+ (item.history_advance_cost[0].created_at | dateMessage) +-->
-<!--                      ' par '+ item.history_advance_cost[0].personal_name}}-->
-                      </td>
-                    </tr>
-                    <tr class="d-flex">
-                      <th>Jusitification :</th>
-                      <td>test
-<!--                          {{item.motif}}-->
-                      </td>
-                    </tr>
-
-                    <tr class="d-flex flex-column align-items-start">
-                      <div class="submit-block">
-                        <app-button
-                          [type]="'danger'"
-                          [text]="'Refuser'"
-                          (onClick)="reject()"
-                          [iconLeft]="'icon-close'"
-                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
-                        >
-                        </app-button>&nbsp;&nbsp;
-                        <app-button
-                          [type]="'secondary'"
-                          [text]="'Valider'"
-                          (onClick)="validate()"
-                          [iconLeft]="'icon-check'"
-                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
-                        >
-                        </app-button>&nbsp;&nbsp;
-                        <app-button
-                          [type]="'primary'"
-                          [text]="'Demander la modification'"
-                          (onClick)="item.show_createDemandForm = !item.show_createDemandForm"
-                          [iconLeft]="'icon-edit-bold'"
-                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
-                        >
-                        </app-button>
-                      </div>
-                      <div style="margin-top: 10px; width: 100%" *ngIf="item.show_createDemandForm">
+<!--                    <tr class="d-flex">-->
+<!--                      <th class="">Détails :</th>-->
+<!--                      <td> test-->
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                    <tr class="d-flex">-->
+<!--                      <th>Jusitification :</th>-->
+<!--                      <td>test-->
+<!--                      </td>-->
+<!--                    </tr>-->
+                    <ng-container *ngIf="item.history_absence_requests?.length > 0">
+                      <tr class="d-flex" *ngIf="item.justification">
+                        <th class="d-flex justify-content-end align-items-start">Justification :</th>
+                        <td>
+                          {{item.justification}}
+                        </td>
+                      </tr>
+                      <tr class="d-flex" >
+                        <th class="d-flex justify-content-end align-items-start">Workflow :</th>
+                        <td style="padding-top: 0;">
+                          <ul style="margin-bottom: 0;">
+                            <li *ngFor="let workflow of item.history_absence_requests; let _i=index"
+                                [ngStyle]="{'color': (_i+1) < item.history_absence_requests.length ? '#707070': workflow.status_color}" >
+                              {{workflow.status_name +
+                            ' le '+ (workflow.created_at | dateMessage) +
+                            ' par '+ workflow.full_name }}&nbsp;
+                              <span [ngbPopover]="workflow.comment" class="blue-text pointer text-decoration-underline" *ngIf="workflow?.comment?.length > 0">
+                                <i class="fa fa-eye"></i>
+                                Voir le commentaire
+                              </span>
+                            </li>
+<!--                            <ng-container *ngIf="item.status_code !== 'supprimee'">-->
+                              <ng-container *ngIf="item.status_code === 'en_attente'">
+                                <li class="orange-text" >
+                                  En attente de validation par le responsable
+                                </li>
+                              </ng-container>
+<!--                            </ng-container>-->
+                          </ul>
+                        </td>
+                      </tr>
+                      <tr class="d-flex flex-column align-items-start" *ngIf="item.status_code === 'en_attente' && item.can_validate_manager">
+                        <div class="submit-block">
+                          <app-button
+                            [type]="'danger'"
+                            [text]="'Refuser'"
+                            (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'refused')"
+                            [iconLeft]="'icon-close'"
+                            [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                          >
+                          </app-button>&nbsp;&nbsp;
+                          <app-button
+                            [type]="'secondary'"
+                            [text]="'Valider'"
+                            (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'validate')"
+                            [iconLeft]="'icon-check'"
+                            [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                          >
+                          </app-button>&nbsp;&nbsp;
+                          <app-button
+                            [type]="'primary'"
+                            [text]="'Demander la modification'"
+                            (onClick)="item.show_createDemandForm = !item.show_createDemandForm"
+                            [iconLeft]="'icon-edit-bold'"
+                            [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                          >
+                          </app-button>
+                        </div>
+                        <div style="margin-top: 10px; width: 100%" *ngIf="item.show_createDemandForm">
                           <textarea class="input form-control"
                                     style="background-color: white;"
                                     [placeholder]="'Commentaire ..'"
                                     [rows]="2"
                                     [(ngModel)]="item.validation_comment"
                           ></textarea>
-                        <div class="submit-block d-flex submit-block w-100">
-                          <app-button
-                            [text]="'Annuler'"
-                            [type]="'danger_inverse_2'"
-                            [iconLeft]="'icon-close'"
-                            (onClick)="item.show_createDemandForm = false"
-                          >
-                          </app-button>&nbsp;&nbsp;
-                          <app-button
-                            [text]="'Enregistrer'"
-                            [type]="'primary_inverse'"
-                            [iconLeft]="'icon-save'"
-                          >
-                          </app-button>
+                          <div class="submit-block d-flex submit-block w-100">
+                            <app-button
+                              [text]="'Annuler'"
+                              [type]="'danger_inverse_2'"
+                              [iconLeft]="'icon-close'"
+                              (onClick)="item.show_createDemandForm = false"
+                            >
+                            </app-button>&nbsp;&nbsp;
+                            <app-button
+                              [text]="'Enregistrer'"
+                              [type]="'primary_inverse'"
+                              [iconLeft]="'icon-save'"
+                              (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'demand_change')"
+                            >
+                            </app-button>
+                          </div>
                         </div>
-                      </div>
-                    </tr>
-
+                      </tr>
+                    </ng-container>
                   </table>
                 </td>
               </tr>

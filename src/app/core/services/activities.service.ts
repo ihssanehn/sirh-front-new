@@ -135,4 +135,10 @@ export class ActivitiesService {
       .post('absence_request/getSummaryAbsenceRequest', params)
       .pipe(map(res => res.result  || []));
   }
+
+  validateOrRefuseOrDemandChangeAbsenceRequest(params) {
+    return this.apiService
+      .post('absence_request/validateOrRefuseOrDemandChangeAbsenceRequest ', params)
+      .pipe(map(res => res.result  || []));
+  }
 }

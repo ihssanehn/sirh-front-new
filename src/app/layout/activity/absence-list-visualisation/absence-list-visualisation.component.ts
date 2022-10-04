@@ -93,7 +93,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
   submittingExport = false;
   submittingDetailedExport = false;
   stats: any;
-  absenceRequests: Array<AnsenceRequest> = [];
+  absenceRequests: Array<any> = [];
   loadingSelect = {};
   id_entite;
 
@@ -209,7 +209,9 @@ export class AbsenceListVisualisationComponent implements OnInit {
   }
 
   formatParams(){
-    const params: any = {};
+    const params: any = {
+      list_type: 'general'
+    };
     Object.keys(this.filter).forEach(key => {
       if(Array.isArray(this.filter[key])){
         if(this.filter[key]?.length>0){
@@ -294,5 +296,33 @@ export class AbsenceListVisualisationComponent implements OnInit {
 
   createDemand() {
 
+  }
+
+  async validateOrRefuseOrDemandChangeAbsenceRequest(item, status_name){
+    try{
+      // absence_request_id: required
+      // status_name: required IN ['validate','refused','demand_change']
+      // comment: optional
+      const params = {
+        absence_request_id: item.id,
+        status_name,
+        comment: status_name === 'demand_change' ? item.validation_comment: null
+      }
+      this.loadingData = true;
+      const res = await this.activitiesService.validateOrRefuseOrDemandChangeAbsenceRequest(params).toPromise();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Opération réussie',  sticky: false});
+      this.getAll();
+    }catch (e){
+      console.log('error getAbsence', e);
+      this.messageService.add({severity: 'error',
+        summary: 'Echec!',
+        detail: 'Impossible d\'effectuer cette opération',
+        sticky: false});
+    }finally {
+      this.loadingData = false;
+    }
   }
 }

@@ -28,6 +28,11 @@
                            [loading]="loadingSelect[listService.list.PERSONAL]"
                 ></ng-select>
               </div>
+              <div class="form-control-feedback"
+                   *ngIf="myForm.controls[formInputs.absence_type_id].hasError('required') && myForm.controls[formInputs.absence_type_id].dirty">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                Le personnel est obligatoire
+              </div>
             </div>
           </div>
           <div class="filtres row ">

@@ -65,7 +65,7 @@ export class AbsenceDemandeComponent implements OnInit, OnDestroy {
       end_date: [null, Validators.compose([Validators.required])],
       end_time: ['pm', Validators.compose([Validators.required])],
       duration: [null, Validators.compose([Validators.required, this.nonZero])],
-      personal_id: [null],
+      personal_id: [null, Validators.compose([Validators.required])],
       id: [null],
       disease_detail_id: [null],
       justification: [null],
