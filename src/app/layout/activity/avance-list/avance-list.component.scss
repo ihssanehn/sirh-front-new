@@ -1,5 +1,21 @@
 @import "../activities.styles";
 
+.top-container{
+  padding: 15px 30px;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+.small-input{
+  label{
+    font-size: 11px !important;
+    font-weight: 300 !important;
+    margin-left: 5px;
+  }
+}
+
+
 table{
   border-collapse: collapse;
   td{
@@ -27,6 +43,7 @@ table{
     padding-bottom: 7px;
   }
 }
+
 
 .sub-table{
   background: $lightergray;

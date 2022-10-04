@@ -283,4 +283,16 @@ export class AbsenceListVisualisationComponent implements OnInit {
     });
     modalRef.componentInstance.absenceRequest = absence_request;
   }
+
+  reject() {
+
+  }
+
+  validate() {
+
+  }
+
+  createDemand() {
+
+  }
 }

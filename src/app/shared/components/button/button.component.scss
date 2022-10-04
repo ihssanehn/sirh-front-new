@@ -75,8 +75,8 @@ $icon-size: 13px;
 }
 .primary_inverse{
   color: $primaryColor;
-  background: white;
-  border: 1px solid $primaryColor;
+  background: inherit;
+  //border: 1px solid $primaryColor;
   i:before{
     color: $primaryColor;
     font-size: $icon-size;
@@ -91,15 +91,15 @@ $icon-size: 13px;
     color: white;
     font-size: $icon-size;
   }
-  &:hover{
-    color: $tertiaryColor;
-    background: white;
-    border: 1px solid $tertiaryColor;
-    i:before{
-      color: $tertiaryColor;
-      font-size: $icon-size;
-    }
-  }
+  //&:hover{
+  //  color: $tertiaryColor;
+  //  background: white;
+  //  border: 1px solid $tertiaryColor;
+  //  i:before{
+  //    color: $tertiaryColor;
+  //    font-size: $icon-size;
+  //  }
+  //}
 }
 .secondary_inverse{
   color: $tertiaryColor;

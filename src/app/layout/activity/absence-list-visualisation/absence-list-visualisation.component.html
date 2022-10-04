@@ -247,20 +247,23 @@
         <label>
           Date de dernier export des absences
         </label>
-        <div class="date-picker-group">
-          <dp-date-picker [(ngModel)]="dateValue"
-                          [mode]="'month'"
-                          [placeholder]="'Filtre du mois'"
-                          (onChange)="chosenMonthHandler()"
-                          class="date-picker"
-                          #datepicker
-                          [config]="config"></dp-date-picker>
+        <div class="align-items-center d-flex">
+          <i class="icon-arrow-left-double primary-icon"></i> &nbsp;
+          <div class="date-picker-group" style="width: fill-available;">
+            <dp-date-picker [(ngModel)]="dateValue"
+                            [mode]="'month'"
+                            [placeholder]="'Filtre du mois'"
+                            (onChange)="chosenMonthHandler()"
+                            class="date-picker"
+                            #datepicker
+                            [config]="config"></dp-date-picker>
 
-          <div class="icons-container">
-            <i class="icon-close"
-               (click)="filter.month = null; dateValue = null; filterChanged()"
-               *ngIf="filter.month"></i>&nbsp;
-            <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+            <div class="icons-container">
+              <i class="icon-close"
+                 (click)="filter.month = null; dateValue = null; filterChanged()"
+                 *ngIf="filter.month"></i>&nbsp;
+              <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -342,7 +345,7 @@
                 </td>
                 <td>
                   <div class="actions">
-                    <i class="icon-edit primary-icon pointer d-inline-block"
+                    <i class="icon-edit-bold primary-icon pointer d-inline-block"
                        data-toggle="tooltip"
                        data-placement="top"
                        style="font-size: 16px;"
@@ -356,6 +359,84 @@
 <!--                       (click)="delete(item.id)"-->
 <!--                    ></i>-->
                   </div>
+                </td>
+              </tr>
+              <tr  style="background: #F7F7F7;" >
+                <td>
+                  <i class="icon-document-info primary-icon pointer" style="font-size: 20px;padding: 0 17px;"
+                    (click)="openModal(item)"
+                  ></i>
+                </td>
+                <td colspan="100%" style="padding: 0">
+                  <table class="table table-responsive sub-table">
+                    <tr class="d-flex">
+                      <th class="">Détails :</th>
+                      <td> test
+<!--                        {{item.history_advance_cost[0].status_name +-->
+<!--                      ' le '+ (item.history_advance_cost[0].created_at | dateMessage) +-->
+<!--                      ' par '+ item.history_advance_cost[0].personal_name}}-->
+                      </td>
+                    </tr>
+                    <tr class="d-flex">
+                      <th>Jusitification :</th>
+                      <td>test
+<!--                          {{item.motif}}-->
+                      </td>
+                    </tr>
+
+                    <tr class="d-flex flex-column align-items-start">
+                      <div class="submit-block">
+                        <app-button
+                          [type]="'danger'"
+                          [text]="'Refuser'"
+                          (onClick)="reject()"
+                          [iconLeft]="'icon-close'"
+                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                        >
+                        </app-button>&nbsp;&nbsp;
+                        <app-button
+                          [type]="'secondary'"
+                          [text]="'Valider'"
+                          (onClick)="validate()"
+                          [iconLeft]="'icon-check'"
+                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                        >
+                        </app-button>&nbsp;&nbsp;
+                        <app-button
+                          [type]="'primary'"
+                          [text]="'Demander la modification'"
+                          (onClick)="item.show_createDemandForm = !item.show_createDemandForm"
+                          [iconLeft]="'icon-edit-bold'"
+                          [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
+                        >
+                        </app-button>
+                      </div>
+                      <div style="margin-top: 10px; width: 100%" *ngIf="item.show_createDemandForm">
+                          <textarea class="input form-control"
+                                    style="background-color: white;"
+                                    [placeholder]="'Commentaire ..'"
+                                    [rows]="2"
+                                    [(ngModel)]="item.validation_comment"
+                          ></textarea>
+                        <div class="submit-block d-flex submit-block w-100">
+                          <app-button
+                            [text]="'Annuler'"
+                            [type]="'danger_inverse_2'"
+                            [iconLeft]="'icon-close'"
+                            (onClick)="item.show_createDemandForm = false"
+                          >
+                          </app-button>&nbsp;&nbsp;
+                          <app-button
+                            [text]="'Enregistrer'"
+                            [type]="'primary_inverse'"
+                            [iconLeft]="'icon-save'"
+                          >
+                          </app-button>
+                        </div>
+                      </div>
+                    </tr>
+
+                  </table>
                 </td>
               </tr>
             </ng-container>
