@@ -397,14 +397,20 @@
                               {{workflow.status_name +
                             ' le '+ (workflow.created_at | dateMessage) +
                             ' par '+ workflow.full_name }}&nbsp;
-                              <span [ngbPopover]="workflow.comment" class="blue-text pointer text-decoration-underline" *ngIf="workflow?.comment?.length > 0">
+                              <span [ngbPopover]="workflow.comment"
+                                    [ngStyle]="{'color': (_i+1) < item.history_absence_requests.length ? '#707070': workflow.status_color}"
+                                    class="pointer text-decoration-underline blue-text-hover" *ngIf="workflow?.comment?.length > 0">
                                 <i class="fa fa-eye"></i>
                                 Voir le commentaire
                               </span>
                             </li>
 <!--                            <ng-container *ngIf="item.status_code !== 'supprimee'">-->
-                              <ng-container *ngIf="item.status_code === 'en_attente'">
-                                <li class="orange-text" >
+                              <ng-container *ngIf="
+                              item.history_absence_requests[item.history_absence_requests.length-1].status_code === 'cree' ||
+                              item.history_absence_requests[item.history_absence_requests.length-1].status_code === 'modifiee'"
+
+                              >
+                                <li class="orange-text">
                                   En attente de validation par le responsable
                                 </li>
                               </ng-container>
