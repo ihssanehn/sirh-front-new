@@ -517,20 +517,20 @@
                 </td>
                 <td>
                   <div class="actions">
-                    <i class="icon-edit primary-icon pointer d-inline-block"
+                    <i class="icon-edit-bold primary-icon pointer d-inline-block"
                        data-toggle="tooltip"
                        data-placement="top"
                        style="font-size: 16px;"
-                       *ngIf="item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' && item.personal_id === userStore.getAuthenticatedUser?.id"
-                       [routerLink]="['/activity/avance/modification/'+item.id]"
-                       title="Modifier cette demande d'avance de frais"></i>&nbsp;
+                       [ngClass]="{'disabled-icon': !(item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' && item.personal_id === userStore.getAuthenticatedUser?.id)}"
+                       [routerLink]="item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' && item.personal_id === userStore.getAuthenticatedUser?.id ? ['/activites/avance/modification/'+item.id]: null"
+                       title="Modifier cette demande d'avance de frais"></i>&nbsp;&nbsp;
                     <i class="icon-trash danger-icon pointer d-inline-block"
                        data-toggle="tooltip"
                        data-placement="top"
                        style="font-size: 16px;"
                        title="Suppimer cette demande d'avance de frais"
-                       *ngIf="item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' &&  item.personal_id === userStore.getAuthenticatedUser?.id"
-                        (click)="deleteAvanceFrais(item.id)"
+                       [ngClass]="{'disabled-icon': !(item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' &&  item.personal_id === userStore.getAuthenticatedUser?.id)}"
+                        (click)="item.history_advance_cost?.length === 1 && item.status_code !== 'supprimee' &&  item.personal_id === userStore.getAuthenticatedUser?.id ? deleteAvanceFrais(item.id): null"
                      ></i>
                   </div>
                 </td>

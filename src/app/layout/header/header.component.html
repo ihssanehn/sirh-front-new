@@ -18,7 +18,7 @@
   </div>
   <div class="right-options">
     <div class="tabs">
-      <div class="tab"  [matMenuTriggerFor]="userStore.getAuthenticatedUser?.can_selectEntities ? statusMenu: null" >
+      <div class="tab"  [matMenuTriggerFor]="userStore.getAuthenticatedUser?.can_selectEntities ? statusMenu: placeholder" >
 <!--        <div class="profile">-->
           <div class="dropdown-profile-container">
             <div class="label">
@@ -56,6 +56,7 @@
                   </div>
                 </ng-container>
               </mat-menu>
+            <mat-menu #placeholder="matMenu" class="placeholder"></mat-menu>
           </div>
 <!--        </div>-->
       </div>

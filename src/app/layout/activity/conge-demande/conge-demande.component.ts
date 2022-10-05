@@ -175,7 +175,7 @@ export class CongeDemandeComponent implements OnInit {
   }
 
   goback() {
-    this.router.navigate(['/activity/conge/history']);
+    this.router.navigate(['/activites/conge/history']);
   }
 
   async createDemand() {

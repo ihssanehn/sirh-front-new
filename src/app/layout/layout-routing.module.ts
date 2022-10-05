@@ -25,7 +25,7 @@ const routes: Routes = [
         component: AcceilComponent,
       },
       {
-        path: 'activity',
+        path: 'activites',
         loadChildren: () => import('./activity/activity.module').then(m => m.ActivityModule),
         canActivate: [EntiteGuard]
       },

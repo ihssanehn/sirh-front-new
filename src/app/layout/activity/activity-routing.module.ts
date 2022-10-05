@@ -24,13 +24,15 @@ import {DelegationCreationComponent} from "@layout/activity/delegation-creation/
 import {AvanceModificationComponent} from "@layout/activity/avance-modification/avance-modification.component";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
+import {NgxPermissionsGuard} from "ngx-permissions";
+import {$userRoles} from "@shared/Objects/sharedObjects";
 
 
 const routes: Routes = [
   // {
   //   path: '',
   //   pathMatch: 'full',
-  //   redirectTo: 'my_activities', //list for admin
+  //   redirectTo: 'mes_activites', //list for admin
   //   canActivate: [EntiteGuard]
   // },
   {
@@ -41,37 +43,64 @@ const routes: Routes = [
         path: '',
         canActivate: [EntiteGuard],
         pathMatch: 'full',
-        redirectTo: 'list'  //list for admin
+        redirectTo: 'mes_activites',  //list for admin
       },
       {
         path: 'list',
-        canActivate: [EntiteGuard],
-        component: ActivityListComponent
+        canActivate: [EntiteGuard, NgxPermissionsGuard],
+        component: ActivityListComponent,
+        data: {
+          breadcrumb: null,
+          permissions: {
+            only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM],
+            redirectTo: 'mes_activites'
+          }
+        }
       },
       {
         path: 'annulation_diffusion',
-        canActivate: [EntiteGuard, UniqueEntiteGuard],
-        component: ActivityAnnulationDiffusionComponent
+        canActivate: [EntiteGuard, UniqueEntiteGuard, NgxPermissionsGuard],
+        component: ActivityAnnulationDiffusionComponent,
+        data: {
+          breadcrumb: null,
+          permissions: {
+            only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM],
+            redirectTo: 'mes_activites'
+          }
+        }
       },
       {
         path: 'impression',
-        canActivate: [EntiteGuard, UniqueEntiteGuard],
-        component: ActivityImpressionComponent
+        canActivate: [EntiteGuard, UniqueEntiteGuard, NgxPermissionsGuard],
+        component: ActivityImpressionComponent,
+        data: {
+          breadcrumb: null,
+          permissions: {
+            only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM],
+            redirectTo: 'mes_activites'
+          }
+        }
       },
       {
-        path: 'update/:id',
+        path: 'saisie/:id',
         canActivate: [EntiteGuard, UniqueEntiteGuard],
-        component: ActivityUpdateComponent
+        component: ActivityUpdateComponent,
       },
       {
-        path: 'my_activities',
+        path: 'mes_activites',
         canActivate: [EntiteGuard, UniqueEntiteGuard],
-        component: ActivityUpdateComponent
+        component: ActivityUpdateComponent,
+        data: {
+          breadcrumb: null,
+        }
       },
       {
         path: 'history',
         canActivate: [EntiteGuard, UniqueEntiteGuard],
-        component: ActivityHistoryComponent
+        component: ActivityHistoryComponent,
+        data: {
+          breadcrumb: null,
+        }
       },
     ],
   },

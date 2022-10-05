@@ -190,7 +190,7 @@ export class AbsenceDemandeComponent implements OnInit, OnDestroy {
   }
 
   goback() {
-    this.router.navigate(['/activity/absence/list_visualisation']);
+    this.router.navigate(['/activites/absence/list_visualisation']);
   }
 
   async createDemand() {

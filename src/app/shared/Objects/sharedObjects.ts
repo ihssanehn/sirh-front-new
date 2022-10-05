@@ -375,49 +375,64 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Activité',
       type: 'sub',
       icon: null,
-      link: 'activity/list',
+      link: 'activites',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
       subMenu: [
+        {
+          id: 1,
+          name: 'Saisir mon activité',
+          type: 'link',
+          icon: null,
+          link: 'activites/mes_activites',
+          opened: false,
+          onlyFor: [
+            $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+          ],
+        },
         {
           id: 2,
           name: 'Liste',
           type: 'link',
           icon: null,
-          link: 'activity/list',
+          link: 'activites/list',
           opened: false,
+          onlyFor: [
+            $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+          ],
         },
         {
           id: 3,
-          name: 'Annulation diffusion',
-          type: 'link',
-          icon: null,
-          link: 'activity/annulation_diffusion',
-          opened: false,
-        },
-        {
-          id: 3,
-          name: 'Saisir mon activité',
-          type: 'link',
-          icon: null,
-          link: 'activity/my_activities',
-          opened: false,
-        },
-        {
-          id: 4,
           name: 'Historique',
           type: 'link',
           icon: null,
-          link: 'activity/history',
+          link: 'activites/history',
           opened: false,
+          onlyFor: [
+            $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+          ],
         },
         {
           id: 4,
+          name: 'Annulation diffusion',
+          type: 'link',
+          icon: null,
+          link: 'activites/annulation_diffusion',
+          opened: false,
+          onlyFor: [
+            $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+          ],
+        },
+        {
+          id: 5,
           name: 'Impression',
           type: 'link',
           icon: null,
-          link: 'activity/impression',
+          link: 'activites/impression',
           opened: false,
+          onlyFor: [
+            $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+          ],
         },
       ]
     },
@@ -426,8 +441,10 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Frais',
       type: 'sub',
       icon: null,
-      link: 'activity/frais',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      link: 'activites/frais',
+      onlyFor: [
+        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+      ],
       opened: false,
       subMenu: [
         {
@@ -435,7 +452,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Liste',
           type: 'link',
           icon: null,
-          link: 'activity/frais/list',
+          link: 'activites/frais/list',
           opened: false,
         },
         {
@@ -443,7 +460,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Tickets Restaurant',
           type: 'link',
           icon: null,
-          link: 'activity/frais/ticket_restaurant',
+          link: 'activites/frais/ticket_restaurant',
           opened: false,
         }
       ]
@@ -453,8 +470,10 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Absences',
       type: 'sub',
       icon: null,
-      link: 'activity/absence',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      link: 'activites/absence',
+      onlyFor: [
+        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+      ],
       opened: false,
       subMenu: [
         {
@@ -462,7 +481,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Création',
           type: 'link',
           icon: null,
-          link: 'activity/absence/creation',
+          link: 'activites/absence/creation',
           opened: false,
         },
         {
@@ -470,7 +489,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Liste visualisation',
           type: 'link',
           icon: null,
-          link: 'activity/absence/list_visualisation',
+          link: 'activites/absence/list_visualisation',
           opened: false,
         },
         {
@@ -478,7 +497,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Liste validation',
           type: 'link',
           icon: null,
-          link: 'activity/absence/List_validation',
+          link: 'activites/absence/List_validation',
           opened: false,
         },
         {
@@ -486,7 +505,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Import soldes abs.',
           type: 'link',
           icon: null,
-          link: 'activity/absence/import_soldes_abs',
+          link: 'activites/absence/import_soldes_abs',
           opened: false,
         },
         {
@@ -494,7 +513,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Admin. soldes abs.',
           type: 'link',
           icon: null,
-          link: 'activity/absence/admin_soldes_abs',
+          link: 'activites/absence/admin_soldes_abs',
           opened: false,
         },
         {
@@ -502,7 +521,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Import absences',
           type: 'link',
           icon: null,
-          link: 'activity/absence/import_absences',
+          link: 'activites/absence/import_absences',
           opened: false,
         },
       ]
@@ -512,8 +531,10 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Clôture',
       type: 'sub',
       icon: null,
-      link: 'activity/cloture',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      link: 'activites/cloture',
+      onlyFor: [
+        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+      ],
       opened: false,
       subMenu: [
         {
@@ -521,7 +542,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Mois en cours',
           type: 'link',
           icon: null,
-          link: 'activity/cloture/courant',
+          link: 'activites/cloture/courant',
           opened: false,
         }
       ]
@@ -531,8 +552,10 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Délégation',
       type: 'sub',
       icon: null,
-      link: 'activity/delegation',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      link: 'activites/delegation',
+      onlyFor: [
+        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+      ],
       opened: false,
       subMenu: [
         {
@@ -540,7 +563,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Création',
           type: 'link',
           icon: null,
-          link: 'activity/delegation/creation',
+          link: 'activites/delegation/creation',
           opened: false,
         },
         {
@@ -548,7 +571,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'List',
           type: 'link',
           icon: null,
-          link: 'activity/delegation/list',
+          link: 'activites/delegation/list',
           opened: false,
         },
       ]
@@ -558,8 +581,10 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       name: 'Avance de frais',
       type: 'sub',
       icon: null,
-      link: 'activity/avance',
-      // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+      link: 'activites/avance',
+      onlyFor: [
+        $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+      ],
       opened: false,
       subMenu: [
         {
@@ -567,7 +592,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Liste',
           type: 'link',
           icon: null,
-          link: 'activity/avance/list',
+          link: 'activites/avance/list',
           opened: false,
         },
         {
@@ -575,7 +600,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           name: 'Création',
           type: 'link',
           icon: null,
-          link: 'activity/avance/creation',
+          link: 'activites/avance/creation',
           opened: false,
         },
       ]
@@ -585,26 +610,28 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     name: 'Mes congés',
     type: 'sub',
     icon: null,
-    link: 'activity/conge',
-    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    link: 'activites/conge',
+    onlyFor: [
+      $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+    ],
     opened: false,
     subMenu: [
-      {
-        id: 2,
-        name: 'Faire une demande',
-        type: 'link',
-        icon: null,
-        link: 'activity/conge/demande',
-        opened: false,
-      },
       {
         id: 3,
         name: 'Historique',
         type: 'link',
         icon: null,
-        link: 'activity/conge/history',
+        link: 'activites/conge/history',
         opened: false,
-      }
+      },
+      {
+        id: 2,
+        name: 'Faire une demande',
+        type: 'link',
+        icon: null,
+        link: 'activites/conge/demande',
+        opened: false,
+      },
     ]
   },
     {
@@ -612,24 +639,26 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
     name: 'Mes frais',
     type: 'sub',
     icon: null,
-    link: 'activity/mes_frais',
-    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    link: 'activites/mes_frais',
+    onlyFor: [
+      $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+    ],
     opened: false,
     subMenu: [
-      {
-        id: 2,
-        name: 'saisie',
-        type: 'link',
-        icon: null,
-        link: 'activity/mes_frais/saisie',
-        opened: false,
-      },
       {
         id: 3,
         name: 'Historique',
         type: 'link',
         icon: null,
-        link: 'activity/mes_frais/history',
+        link: 'activites/mes_frais/history',
+        opened: false,
+      },
+      {
+        id: 2,
+        name: 'Saisie',
+        type: 'link',
+        icon: null,
+        link: 'activites/mes_frais/saisie',
         opened: false,
       }
     ]
@@ -711,7 +740,7 @@ export const $headerItems = [
   {
     id: 1,
     name: 'Relevé d\'activité',
-    link: '/activity',
+    link: '/activites',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
     display: true

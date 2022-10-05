@@ -57,7 +57,7 @@ export class AvanceCreationComponent implements OnInit {
   }
 
   goback() {
-    this.router.navigate(['/activity/avance/list']);
+    this.router.navigate(['/activites/avance/list']);
   }
 
   async createDemand() {

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SharedClasses} from "@shared/Utils/SharedClasses";
 import frLocale from "date-fns/locale/fr";
-import {Activity} from "@app/core/entities";
 import {Subscription} from "rxjs";
 import {ListsService} from "@services/lists.service";
 import {ActivitiesService} from "@services/activities.service";

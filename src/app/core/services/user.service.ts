@@ -59,7 +59,7 @@ export class UserService {
 
   setAuth({ user, token }: any) {
     console.log('setAuth', user, token);
-    // if(user) this.permissionsService.loadPermissions([user.role]);
+    if(user) this.permissionsService.loadPermissions([user.role_name]);
 
     // Save JWT sent from server in localstorage
     if (token) {

@@ -54,37 +54,37 @@ export class LayoutComponent implements OnInit{
 
                 break;
               }
-              case 'activity': {
+              case 'activites': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.activity;
 
                 $sidebarItems_activity.forEach(item => item.opened = false);
-                if(this.router.url.indexOf('activity/list') !== -1 ||
-                  this.router.url.indexOf('activity/my_activities') !== -1 ||
-                  this.router.url.indexOf('activity/annulation_diffusion') !== -1 ||
-                  this.router.url.indexOf('activity/impression') !== -1 ||
-                  this.router.url.indexOf('activity/history') !== -1
+                if(this.router.url.indexOf('activites/list') !== -1 ||
+                  this.router.url.indexOf('activites/mes_activites') !== -1 ||
+                  this.router.url.indexOf('activites/annulation_diffusion') !== -1 ||
+                  this.router.url.indexOf('activites/impression') !== -1 ||
+                  this.router.url.indexOf('activites/history') !== -1
                 ){
                   $sidebarItems_activity[0].opened = true;
                 }
-                if(this.router.url.indexOf('activity/frais') !== -1){
+                if(this.router.url.indexOf('activites/frais') !== -1){
                   $sidebarItems_activity[1].opened = true;
                 }
-                if(this.router.url.indexOf('activity/absence') !== -1){
+                if(this.router.url.indexOf('activites/absence') !== -1){
                   $sidebarItems_activity[2].opened = true;
                 }
-                if(this.router.url.indexOf('activity/cloture') !== -1){
+                if(this.router.url.indexOf('activites/cloture') !== -1){
                   $sidebarItems_activity[3].opened = true;
                 }
-                if(this.router.url.indexOf('activity/delegation') !== -1){
+                if(this.router.url.indexOf('activites/delegation') !== -1){
                   $sidebarItems_activity[4].opened = true;
                 }
-                if(this.router.url.indexOf('activity/avance') !== -1){
+                if(this.router.url.indexOf('activites/avance') !== -1){
                   $sidebarItems_activity[5].opened = true;
                 }
-                if(this.router.url.indexOf('activity/conge') !== -1){
+                if(this.router.url.indexOf('activites/conge') !== -1){
                   $sidebarItems_activity[6].opened = true;
                 }
-                if(this.router.url.indexOf('activity/mes_frais') !== -1){
+                if(this.router.url.indexOf('activites/mes_frais') !== -1){
                   $sidebarItems_activity[7].opened = true;
                 }
 

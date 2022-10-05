@@ -85,7 +85,7 @@ export class AvanceModificationComponent implements OnInit, OnDestroy {
   }
 
   goback() {
-    this.router.navigate(['/activity/avance/list']);
+    this.router.navigate(['/activites/avance/list']);
   }
 
   async createDemand() {
