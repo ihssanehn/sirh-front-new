@@ -116,7 +116,7 @@
                   <span>{{type_activity.label}}
 <!--                    {{type_activity.id}}-->
                   </span>
-                  <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused">
+                  <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused && !type_activity.is_blocked">
                     <i class="icon-arrow-right-double primary-icon pointer float-right"
                        (click)="fillLine(type_activity, false)"
                        *ngIf="!hasAtLeastAFilledCell(type_activity); else unFillLineTemplate"
@@ -132,12 +132,11 @@
                   <!--                    *ngIf="!type_activity.bg_color"-->
                   <div
                        [ngClass]="{
-                           'gray-cell': type_activity.grayCell && !day.is_weekend,
                            'blue-cell': day.is_weekend
                        }"
                        class="cell-content" >
 <!--                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">-->
-                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused; else textCellTemplate">
+                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused && !type_activity.is_blocked; else textCellTemplate">
                         <ng-select
                           class="select"
                           [items]="data?.ratio"
@@ -163,7 +162,7 @@
                   </div>
                 </td>
                 <td>
-                  <div class="cell-content gray-cell primary-text" >
+                  <div class="cell-content gray-cell primary-text" *ngIf="!type_activity.bg_color && !type_activity.grayCell">
                     {{getTotalInLine(type_activity)}} J
                   </div>
                 </td>

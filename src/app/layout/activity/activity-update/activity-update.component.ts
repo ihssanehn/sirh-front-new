@@ -138,6 +138,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
                    type_id: day[type_activity.code]?.type_id,
                    category_id: day[type_activity?.code].category_id,
                    ratio: day[type_activity.code]?.ratio,
+                   code: type_activity.code,
                   date: moment(day[type_activity.code]?.date).format('YYYY-MM-DD')
             })
           }
@@ -323,6 +324,10 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
             subactivity.type_id = activity.id
             subactivity.category_id = subactivity.id
           }
+          if(activity.code === 'absences'){
+            subactivity.is_blocked = true
+          }
+          console.log('subactivity', activity, subactivity);
           labels.push(subactivity);
         })
       }
