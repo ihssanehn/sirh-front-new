@@ -37,6 +37,7 @@ export class DelegationCreationComponent implements OnInit {
     delegation_permanante: null,
   }
   personals = [];
+  submittingCreate: boolean;
   constructor(private fb: FormBuilder,
               private listsService: ListsService,
               private usersService: UserService,

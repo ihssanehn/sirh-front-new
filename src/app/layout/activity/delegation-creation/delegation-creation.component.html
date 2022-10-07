@@ -1,11 +1,16 @@
-<div class="container top-container">
+<div class="top-container">
+  <div class="sub-header container-fluid ">
+    <h2>
+      Délégation
+    </h2>
+  </div>
 
   <div class="main-container filter-container">
-    <div class="sub-header">
-      <h3 class="main-title">
-        Création d'une délégation de validation
-      </h3>
-    </div>
+      <div class="sub-header ">
+        <h3 class="main-title">
+          Création d'une délégation de validation
+        </h3>
+      </div>
 
     <div class="filtres row">
 
@@ -86,7 +91,7 @@
       </h3>
     </div>
 
-    <form (submit)="submit()"  autocomplete="off" class="container" novalidate>
+    <form (submit)="submit()"  autocomplete="off" novalidate>
 
       <div class="form-box">
         <div class="form-column row">
@@ -240,9 +245,12 @@
             </div>
           </div>
         </div>
-        <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
+        <div style="margin-top: 30px;" class="form-column row">
+          <div class="form-bloc col row" >
             <div class="check-box-btn text-center">
+              <label for="check_gestion_email" class="bold-text"
+                     style="min-width: 160px"
+              >Gestion e-mail</label>
               <div class="input-container">
                 <input type="checkbox"
                        id="check_gestion_email"
@@ -251,13 +259,18 @@
                        (change)="onCheckChange($event, 'gestion_email')"
                        name="check_gestion_email" >
               </div>
-              <label for="check_gestion_email">Gestion e-mail</label>
+              <label for="check_gestion_email" class="light-text">
+                Permet d'avertir de valideur délégué par mail lors d'une demande salarié
+              </label>
             </div>
           </div>
         </div>
         <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
+          <div class="form-bloc col row" >
             <div class="check-box-btn text-center">
+              <label for="check_delegation_permanante" class="bold-text"
+                     style="min-width: 160px"
+              >Delegation permanante</label>
               <div class="input-container">
                 <input type="checkbox"
                        id="check_delegation_permanante"
@@ -266,34 +279,46 @@
                        (change)="onCheckChange($event, 'delegation_permanante')"
                        name="check_delegation_permanante" >
               </div>
-              <label for="check_delegation_permanante">Delegation permanante</label>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="submit-block">
-        <app-button
-          [type]="'danger'"
-          [text]="'Retour'"
-          (onClick)="goback()"
-          [iconLeft]="'fa fa-arrow-left'"
-        >
-        </app-button>&nbsp;&nbsp;
-        <app-button
-          [type]="'primary'"
-          [text]="'Enregistrer'"
-          (onClick)="save()"
-          [iconLeft]="'icon-save'"
-          [isLoading]="submitting"
-          [isDisabled]="submitting"
-        >
-        </app-button>
-      </div>
     </form>
 
   </div>
 
-
+  <div class="submit-block" >
+    <app-button
+      [type]="'tertiary'"
+      [text]="'Retour'"
+      (onClick)="goback()"
+      [iconLeft]="'fa fa-arrow-left'"
+      [customStyle]="{'min-width': '130px'}"
+    >
+    </app-button>&nbsp;&nbsp;
+    <app-button
+      [type]="'secondary'"
+      [text]="'Créer'"
+      [isLoading]="submittingCreate"
+      [isDisabled]="submittingCreate"
+      [textLoading]="'Sauvegarde en cours..'"
+      (onClick)="save()"
+      [iconLeft]="'icon-save'"
+      [customStyle]="{'min-width': '130px'}"
+    >
+    </app-button>
+    <!--    <app-button-->
+    <!--      [type]="'secondary'"-->
+    <!--      [text]="'Diffuser'"-->
+    <!--      [isLoading]="submittingDiffuse"-->
+    <!--      [textLoading]="'Diffusion en cours..'"-->
+    <!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
+    <!--      (onClick)="diffuse()"-->
+    <!--      [iconLeft]="'icon-check'"-->
+    <!--      [customStyle]="{'min-width': '130px'}"-->
+    <!--    >-->
+    <!--    </app-button>-->
+  </div>
 
 </div>
