@@ -96,6 +96,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
   absenceRequests: Array<any> = [];
   loadingSelect = {};
   id_entite;
+  summaryAbsenceRequests;
 
   constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
@@ -109,7 +110,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
     this.getFilters();
-    this.getAll();
+    this.filterChanged();
   }
 
   resetFilters() {
@@ -165,6 +166,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
 
   filterChanged() {
     this.getAll();
+    this.getSummary();
   }
 
   async getFilterList(items, list_name, list_param?){
@@ -298,6 +300,23 @@ export class AbsenceListVisualisationComponent implements OnInit {
 
   }
 
+  async getSummary(){
+    try{
+      let params = this.formatParams();
+      this.loadingData = true;
+      const res = await this.activitiesService.getSummaryAbsenceRequest(params).toPromise();
+      this.summaryAbsenceRequests = res.data;
+      console.log('this.absenceRequests ', this.summaryAbsenceRequests );
+    }catch (e) {
+      console.log('err getAllAbsenceRequest', e);
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Une erreur est survenue lors de la récupération de données',  sticky: false});
+    }finally {
+      console.log('this.getSummaryAbsenceRequest ', this.loadingData );
+      this.loadingData = false;
+      console.log('after this.getSummaryAbsenceRequest ', this.loadingData );
+    }
+  }
+
   async validateOrRefuseOrDemandChangeAbsenceRequest(item, status_name){
     try{
       // absence_request_id: required
@@ -306,7 +325,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
       const params = {
         absence_request_id: item.id,
         status_name,
-        comment: status_name === 'demand_change' ? item.validation_comment: null
+        comment: item.show_createDemandForm   ? item.validation_comment: null
       }
       this.loadingData = true;
       const res = await this.activitiesService.validateOrRefuseOrDemandChangeAbsenceRequest(params).toPromise();
@@ -314,7 +333,7 @@ export class AbsenceListVisualisationComponent implements OnInit {
         severity: 'success',
         summary: 'Parfait!',
         detail: 'Opération réussie',  sticky: false});
-      this.getAll();
+      this.filterChanged();
     }catch (e){
       console.log('error getAbsence', e);
       this.messageService.add({severity: 'error',

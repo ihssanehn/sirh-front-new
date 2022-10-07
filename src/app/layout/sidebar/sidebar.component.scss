@@ -144,6 +144,11 @@
   transform-origin: bottom left !important;
 }
 
+@media (min-width: $LARGE_LAPTOP_SCREEN){
+  .sidebar{
+    width: $sidebar-large-width;
+  }
+}
 //@media (max-width: $MEDIUM_SCREEN) {
 //  .sidebar{
 //    //width: $sidebar-small-width;

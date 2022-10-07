@@ -420,7 +420,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           link: 'activites/annulation_diffusion',
           opened: false,
           onlyFor: [
-            $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+            $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP
           ],
         },
         {
@@ -492,14 +492,14 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
           link: 'activites/absence/list_visualisation',
           opened: false,
         },
-        {
-          id: 3,
-          name: 'Liste validation',
-          type: 'link',
-          icon: null,
-          link: 'activites/absence/List_validation',
-          opened: false,
-        },
+        // {
+        //   id: 3,
+        //   name: 'Liste validation',
+        //   type: 'link',
+        //   icon: null,
+        //   link: 'activites/absence/List_validation',
+        //   opened: false,
+        // },
         {
           id: 3,
           name: 'Import soldes abs.',
@@ -533,7 +533,7 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       icon: null,
       link: 'activites/cloture',
       onlyFor: [
-        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP
       ],
       opened: false,
       subMenu: [
@@ -553,9 +553,6 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
       type: 'sub',
       icon: null,
       link: 'activites/delegation',
-      onlyFor: [
-        $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
-      ],
       opened: false,
       subMenu: [
         {

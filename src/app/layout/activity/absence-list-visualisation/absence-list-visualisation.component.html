@@ -1,5 +1,9 @@
 <div class="top-container list">
-
+  <div class="sub-header container-fluid ">
+    <h2>
+      Absences
+    </h2>
+  </div>
 
   <div class="main-container filter-container">
       <div class="sub-header">
@@ -281,6 +285,23 @@
   </div>
 
   <div class="main-container">
+    <div class="sub-header">
+      <h3 class="main-title">Synthèse</h3>
+    </div>
+    <div class="info">
+      <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
+    </div>
+    <div class="cards-stats row" >
+      <div class="card col" *ngFor="let card of summaryAbsenceRequests">
+        <div class="title">
+          {{card.name}}
+        </div>
+        <div class="state-value">{{card?.total }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
     <div class="sub-header container-fluid ">
       <h3 class="main-title">
         {{absenceRequests?.length>0 ? absenceRequests?.length+' demandes d’absence trouvées': 'Liste des demandes d\'absences'}}
@@ -423,7 +444,7 @@
                           <app-button
                             [type]="'danger'"
                             [text]="'Refuser'"
-                            (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'refused')"
+                            (onClick)="item.show_createDemandForm = !item.show_createDemandForm"
                             [iconLeft]="'icon-close'"
                             [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
                           >
@@ -436,14 +457,14 @@
                             [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
                           >
                           </app-button>&nbsp;&nbsp;
-                          <app-button
-                            [type]="'primary'"
-                            [text]="'Demander la modification'"
-                            (onClick)="item.show_createDemandForm = !item.show_createDemandForm"
-                            [iconLeft]="'icon-edit-bold'"
-                            [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"
-                          >
-                          </app-button>
+<!--                          <app-button-->
+<!--                            [type]="'primary'"-->
+<!--                            [text]="'Demander la modification'"-->
+<!--                            (onClick)="item.show_createDemandForm = !item.show_createDemandForm"-->
+<!--                            [iconLeft]="'icon-edit-bold'"-->
+<!--                            [customStyle]="{'min-width': '130px', 'padding': '2px 15px'}"-->
+<!--                          >-->
+<!--                          </app-button>-->
                         </div>
                         <div style="margin-top: 10px; width: 100%" *ngIf="item.show_createDemandForm">
                           <textarea class="input form-control"
@@ -464,7 +485,7 @@
                               [text]="'Enregistrer'"
                               [type]="'primary_inverse'"
                               [iconLeft]="'icon-save'"
-                              (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'demand_change')"
+                              (onClick)="validateOrRefuseOrDemandChangeAbsenceRequest(item, 'refused')"
                             >
                             </app-button>
                           </div>
@@ -482,14 +503,7 @@
     </ng-template>
   </div>
 
-  <div class="main-container">
-    <div class="sub-header">
-      <h3 class="main-title">Synthèse</h3>
-    </div>
-    <div class="info">
-      <p>Cumuls des absences contenues dans la période allant de Aout 2022 à Novembre 2022</p>
-    </div>
-  </div>
+
 
   <ng-template #emptyStateList>
     <app-centred-message [message]="( 'Aucun élément trouvé pour le moment' )"

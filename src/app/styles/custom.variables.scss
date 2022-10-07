@@ -12,6 +12,7 @@ $MEDIUM_SCREEN: 375px;
 $LARGE_SCREEN: 425px;
 $TABLET_SCREEN: 768px;
 $LAPTOP_SCREEN: 1024px;
+$LARGE_LAPTOP_SCREEN: 1800px;
 
 //.card:first-child{
 //  //  background-color: $mainColor;
@@ -81,6 +82,7 @@ $btn-color: $primaryColor;
 
 $sidebar-width: 160px; ///200px;
 $sidebar-small-width: 220px;
+$sidebar-large-width: 220px;
 $header-height: 55px;
 $sidebar-background: #F7F7F7;//#f9f9f9;//#F7F7F7;//$primaryColor;
 $header-background: $mainColor;

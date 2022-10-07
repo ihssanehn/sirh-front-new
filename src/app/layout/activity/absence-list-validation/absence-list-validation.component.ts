@@ -243,7 +243,9 @@ export class AbsenceListValidationComponent implements OnInit {
   }
 
   formatParams(){
-    const params: any = {};
+    const params: any = {
+      list_type: 'validation' //['general','validation','my_history']
+    };
     Object.keys(this.filter).forEach(key => {
       if(Array.isArray(this.filter[key])){
         if(this.filter[key]?.length>0){

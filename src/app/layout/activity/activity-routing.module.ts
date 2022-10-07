@@ -64,7 +64,7 @@ const routes: Routes = [
         data: {
           breadcrumb: null,
           permissions: {
-            only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM],
+            only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP],
             redirectTo: 'mes_activites'
           }
         }
@@ -224,7 +224,14 @@ const routes: Routes = [
   },
   {
     path: 'cloture',
-    canActivate: [EntiteGuard],
+    canActivate: [EntiteGuard, NgxPermissionsGuard],
+    data: {
+      breadcrumb: null,
+      permissions: {
+        only: [$userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP],
+        redirectTo: 'mes_activites'
+      }
+    },
     children: [
       {
         path: '',

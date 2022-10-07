@@ -4,6 +4,7 @@ import {Subscription} from "rxjs";
 import {ListsService} from "@services/lists.service";
 import {ActivitiesService} from "@services/activities.service";
 import * as _moment from "moment";
+import {Router} from "@angular/router";
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -160,6 +161,7 @@ export class DelegationListComponent implements OnInit {
 
   constructor(private listService: ListsService,
               private activitiesService: ActivitiesService,
+              private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -216,6 +218,6 @@ export class DelegationListComponent implements OnInit {
   }
 
   goToCreate() {
-
+    this.router.navigate(['/activites/delegation/creation']);
   }
 }

@@ -57,5 +57,13 @@
 }
 
 ::ng-deep .ng-sidebar__content{
+  background: $septenaryColor;
+  padding: 0 0 0 calc(#{$sidebar-width} + 10px) !important;
+}
+
+@media (min-width: $LARGE_LAPTOP_SCREEN){
+  ::ng-deep .ng-sidebar__content{
     background: $septenaryColor;
+    padding: 0 0 0 calc(#{$sidebar-large-width} + 10px) !important;
+  }
 }
