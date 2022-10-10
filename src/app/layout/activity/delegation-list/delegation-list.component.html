@@ -22,7 +22,7 @@
               <input [owlDateTime]="owl_dt1"
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt1"
-                     placeholder="Choisir la date ici"
+                     placeholder="Choisir la date de début ici"
                      [(ngModel)]="filter.plage_starts_at"
               />
               <div class="icons-container">
@@ -39,7 +39,7 @@
               <input [owlDateTime]="owl_dt2"
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt2"
-                     placeholder="Choisir la date ici"
+                     placeholder="Choisir la date de fin ici"
                      [(ngModel)]="filter.plage_ends_at"
               />
               <div class="icons-container">
@@ -63,6 +63,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
                      [placeholder]="'Tous les utilisateurs'"></ng-select>
         </div>
       </div>

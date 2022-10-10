@@ -1,11 +1,20 @@
 <div class="top-container list">
 
+  <div class="sub-header container-fluid ">
+    <h2>
+      Frais
+    </h2>
+  </div>
 
   <div class="filter-container main-container">
-    <div class="sub-header">
+    <div class="sub-header container-fluid ">
       <h3 class="main-title">
-        File de recherche
+        Filtres de recherche
       </h3>
+      <span class="reset-filters" (click)=" resetFilters()">
+          <i class="icon-close"></i>&nbsp;
+          Réinitialiser les filtres
+        </span>
     </div>
     <div class="filtres row">
       <div class="flex-column col-12 col-sm-4 ">
@@ -45,12 +54,15 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="member_ships"
+                     [items]="appartenances"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.member_ships"
+                     [(ngModel)]="filter.appartenances"
+                     (open)="getFilterList('appartenances', listService.list.MEMBER_SHIP )"
+                     [loading]="loadingSelect[listService.list.STATUS]"
                      [placeholder]="'Filtrer par appartenance'"></ng-select>
+
         </div>
       </div>
     </div>
@@ -134,12 +146,23 @@
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
-                       [items]="type_frais"
+                       [items]="avance_status"
                        (change)="filterChanged()"
-                       [(ngModel)]="filter.type_frais"
+                       [(ngModel)]="filter.avance_status"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
-                       [placeholder]="'Filtrer par type de frais'" ></ng-select>
+                       (open)="getFilterList('avance_status', listService.list.STATUS, listService.list.ADVANCE_COST)"
+                       [loading]="loadingSelect[listService.list.STATUS]"
+                       [placeholder]="'Filtrer par type de frais'" >
+              <ng-template ng-label-tmp let-item="item">
+                <div class="flag" [ngStyle]="{'background-color': item.color}">&nbsp;</div>
+                <span>{{item.label}}</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <div class="flag" [ngStyle]="{'background-color': item.color}">&nbsp;</div>
+                <span [ngOptionHighlight]="search">{{item.label}}</span>
+              </ng-template>
+            </ng-select>
           </div>
 
         </div>
@@ -150,11 +173,13 @@
           <div>
             <ng-select class="select form-control"
                        [multiple]="true"
-                       [items]="center_profits"
+                       [items]="profit_centers"
                        [bindLabel]="'label'"
                        [bindValue]="'id'"
                        (change)="filterChanged()"
-                       [(ngModel)]="filter.center_profits"
+                       [(ngModel)]="filter.profit_centers"
+                       (open)="getFilterList('profit_centers', listService.list.PROFIT_CENTER, {id: id_entite})"
+                       [loading]="loadingSelect[listService.list.PROFIT_CENTER]"
                        [placeholder]="'Filtrer par centre de profit'" ></ng-select>
           </div>
           <div class="check-box-btn">
@@ -193,6 +218,8 @@
                        [bindValue]="'id'"
                        (change)="filterChanged()"
                        [(ngModel)]="filter.personals"
+                       (open)="getFilterList('personals', listService.list.PERSONAL)"
+                       [loading]="loadingSelect[listService.list.PERSONAL]"
                        [placeholder]="'Sélectionner l\'utilisateur'"></ng-select>
           </div>
         </div>

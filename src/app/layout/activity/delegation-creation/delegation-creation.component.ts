@@ -4,6 +4,7 @@ import {ListsService} from "@services/lists.service";
 import {markFormAsDirty} from "@shared/Utils/SharedClasses";
 import {UserService} from "@app/core/services";
 import {User} from "@app/core/entities";
+import {MainStore} from "@store/mainStore.store";
 
 @Component({
   selector: 'app-delegation-creation',
@@ -38,11 +39,15 @@ export class DelegationCreationComponent implements OnInit {
   }
   personals = [];
   submittingCreate: boolean;
+  id_entite;
+  loadingSelect = {};
   constructor(private fb: FormBuilder,
-              private listsService: ListsService,
               private usersService: UserService,
+              private mainStore: MainStore,
+              public listService: ListsService,
               private changeDetectorRef: ChangeDetectorRef
               ) {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
   }
 
@@ -52,6 +57,29 @@ export class DelegationCreationComponent implements OnInit {
   submit() {
 
   }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
+  }
+
 
   getPage(data) {
     if(!data) return;

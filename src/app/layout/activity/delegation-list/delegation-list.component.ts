@@ -157,9 +157,10 @@ export class DelegationListComponent implements OnInit {
     },
 
   ]
+  loadingSelect = {};
+  id_entite;
 
-
-  constructor(private listService: ListsService,
+  constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
               private router: Router,
   ) { }
@@ -176,6 +177,29 @@ export class DelegationListComponent implements OnInit {
       plage_ends_at: null
     }
   }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
+  }
+
 
   async getFilters(){
     try{

@@ -281,11 +281,11 @@
     background: white;
     padding: 15px 25px;
     margin-bottom: 15px;
-    .main-title{
-      font-size: 1.23em;
-      font-weight: 500;
-      color: $mainGray;
-    }
+    //.main-title{
+    //  font-size: 1.23em;
+    //  font-weight: 500;
+    //  color: $mainGray;
+    //}
   }
   .header{
     display: flex;
@@ -357,7 +357,13 @@
   margin-top: 0px;
   margin-bottom: 10px;
   .main-title{
-    font-size: 16px;
+    font-size: 1.43em;
+    font-weight: 400;
+    color: black;
+    padding-top: 5px;
+    padding-bottom: 10px;
+
+    //font-size: 16px;
     //min-height: 60px;
     //color: $mainGray;
     display: flex;
@@ -370,6 +376,7 @@
   }
   h2, h1{
     margin-bottom: 0;
+    font-size: 25px;
   }
   @media (min-width: $LARGE_SCREEN) {
     .search{

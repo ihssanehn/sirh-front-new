@@ -24,6 +24,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.validator_delegue"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
                      [placeholder]="'Tous les utilisateurs'"></ng-select>
         </div>
       </div>
@@ -38,6 +40,8 @@
                      [bindValue]="'id'"
                      (change)="filterChanged()"
                      [(ngModel)]="filter.validator_delegue"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
                      [placeholder]="'Tous les utilisateurs'"></ng-select>
         </div>
       </div>

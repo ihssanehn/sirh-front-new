@@ -6,6 +6,7 @@ import frLocale from 'date-fns/locale/fr';
 import {Subscription} from "rxjs";
 import {ActivitiesService} from "@services/activities.service";
 import {Activity} from "@app/core/entities";
+import {MainStore} from "@store/mainStore.store";
 
 const moment = (_moment as any).default ? (_moment as any).default : _moment;
 
@@ -23,11 +24,11 @@ export class FraisListComponent implements OnInit {
   }
 
   personals = [];
-  member_ships = [];
-  center_profits = [];
+  appartenances = [];
+  profit_centers = [];
   sort_choices = [];
   business_units = [];
-  type_frais = [];
+  avance_status = [];
   business_lines = [];
   adv_managers = [];
   direction_ops = [];
@@ -50,11 +51,11 @@ export class FraisListComponent implements OnInit {
   filter = {
     keyword: '',
     personals: [],
-    member_ships: [],
-    center_profits: [],
+    appartenances: [],
+    profit_centers: [],
     sort_choices: [],
     business_units: [],
-    type_frais: [],
+    avance_status: [],
     business_lines: [],
     adv_managers: [],
     direction_ops: [],
@@ -88,12 +89,16 @@ export class FraisListComponent implements OnInit {
   submittingExport = false;
   submittingDetailedExport = false;
   stats: any;
-
-  constructor(private listService: ListsService,
+  loadingSelect = {};
+  id_entite;
+  constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
+              private mainStore: MainStore,
               ) { }
 
   ngOnInit(): void {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
     this.getFilters();
     this.getActivities();
     this.getStatsActivity();
@@ -103,13 +108,13 @@ export class FraisListComponent implements OnInit {
     this.filter = {
       keyword:  this.filter.keyword,
       personals: [],
-      member_ships: [],
-      center_profits: [],
+      appartenances: [],
+      profit_centers: [],
       sort_choices: [],
       business_units: [],
       departments: [],
       validation_stats: [],
-      type_frais: [],
+      avance_status: [],
       business_lines: [],
       adv_managers: [],
       direction_ops: [],
@@ -123,16 +128,38 @@ export class FraisListComponent implements OnInit {
     }
   }
 
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
+  }
+
   async getFilters(){
     try{
       this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
       console.log('this.filters', this.personnalFilters);
       this.personals = this.personnalFilters.personals;
-      this.member_ships = this.personnalFilters.memberships;
-      this.center_profits = this.personnalFilters.profit_centers;
+      this.appartenances = this.personnalFilters.memberships;
+      this.profit_centers = this.personnalFilters.profit_centers;
       this.sort_choices = this.personnalFilters.sort_choices;
       this.business_units = this.personnalFilters.business_units;
-      this.type_frais = this.personnalFilters.type_frais;
+      this.avance_status = this.personnalFilters.avance_status;
       this.business_lines = this.personnalFilters.business_lines;
       this.adv_managers = this.personnalFilters.adv_managers;
       this.direction_ops = this.personnalFilters.op_directions;
