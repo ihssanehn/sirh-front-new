@@ -33,6 +33,7 @@ export class ListsService {
     BANK_ACCOUNT: 'bank_account',
     ABSENCE_REQUEST: 'absence_request',
     DISEASE_DETAIL: 'disease_detail',
+    DELEGATIONS: 'delegations',
   }
 
   // Type d'avance GET: http://localhost:9073/filter/getFilter?model=advance_cost

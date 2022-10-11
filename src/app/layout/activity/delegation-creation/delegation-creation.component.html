@@ -1,328 +1,218 @@
-<div class="top-container">
-  <div class="sub-header container-fluid ">
-    <h2>
-      Délégation
-    </h2>
-  </div>
-
-  <div class="main-container filter-container">
-      <div class="sub-header ">
-        <h3 class="main-title">
-          Création d'une délégation de validation
-        </h3>
-      </div>
-
-    <div class="filtres row">
-
-      <div class="flex-column col-12 col-sm-3">
-        <label>Validateur titulaire</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="true"
-                     [items]="personals"
-                     [bindLabel]="'full_name'"
-                     [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.validator_delegue"
-                     (open)="getFilterList('personals', listService.list.PERSONAL)"
-                     [loading]="loadingSelect[listService.list.PERSONAL]"
-                     [placeholder]="'Tous les utilisateurs'"></ng-select>
-        </div>
-      </div>
-
-      <div class="flex-column col-12 col-sm-3">
-        <label>Validateur délégué</label>
-        <div>
-          <ng-select class="select form-control"
-                     [multiple]="true"
-                     [items]="personals"
-                     [bindLabel]="'full_name'"
-                     [bindValue]="'id'"
-                     (change)="filterChanged()"
-                     [(ngModel)]="filter.validator_delegue"
-                     (open)="getFilterList('personals', listService.list.PERSONAL)"
-                     [loading]="loadingSelect[listService.list.PERSONAL]"
-                     [placeholder]="'Tous les utilisateurs'"></ng-select>
-        </div>
-      </div>
-
-      <div class="flex-column col-12 col-sm-3 ">
-        <label>Date début délégation</label>
-        <div class="col">
-          <div class="date-picker-group">
-            <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-            <input [owlDateTime]="owl_dt1"
-                   class="form-control input date"
-                   [owlDateTimeTrigger]="owl_dt1"
-                   placeholder="Choisir la date ici"
-                   [(ngModel)]="filter.starts_at_delegation"
-            />
-            <div class="icons-container">
-              <i class="icon-close"
-                 (click)="filter.starts_at_delegation = null"
-                 *ngIf="filter.starts_at_delegation"></i>&nbsp;
-              <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flex-column col-12 col-sm-3 ">
-        <label>Date fin délégation</label>
-        <div class="col">
-          <div class="date-picker-group">
-            <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-            <input [owlDateTime]="owl_dt2"
-                   class="form-control input date"
-                   [owlDateTimeTrigger]="owl_dt2"
-                   placeholder="Choisir la date ici"
-                   [(ngModel)]="filter.ends_at_delegation"
-            />
-            <div class="icons-container">
-              <i class="icon-close"
-                 (click)="filter.ends_at_delegation = null"
-                 *ngIf="filter.ends_at_delegation"></i>&nbsp;
-              <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-            </div>
-          </div>
-        </div>
-      </div>
+<ng-container *ngIf="!errorLoadData; else dataNotFound">
+  <ng-container *ngIf="loadingData; else loadedData">
+    <div class="loading">
+      <img src="assets/images/loader.gif" />
     </div>
-
-    <div class="sub-header">
-      <h3 class="main-title">
-        Admin Achat
-      </h3>
-    </div>
-
-    <form (submit)="submit()"  autocomplete="off" novalidate>
-
-      <div class="form-box">
-        <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_absences"
-                       [value]="filter.absences"
-                       [checked]="filter.absences"
-                       (change)="onCheckChange($event, 'absences')"
-                       name="check_absences" >
-              </div>
-              <label for="check_absences" >Absences</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_avances"
-                       [value]="filter.avances"
-                       [checked]="filter.avances"
-                       (change)="onCheckChange($event, 'avances')"
-                       name="check_avances" >
-              </div>
-              <label for="check_avances" >Avances</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_practice_mananger"
-                       [value]="filter.practice_mananger"
-                       [checked]="filter.practice_mananger"
-                       (change)="onCheckChange($event, 'practice_mananger')"
-                       name="check_practice_mananger" >
-              </div>
-              <label for="check_practice_mananger" >Avances</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_validation_devis_rentabilite_previsionnel"
-                       [value]="filter.validation_devis_rentabilite_previsionnel"
-                       [checked]="filter.validation_devis_rentabilite_previsionnel"
-                       (change)="onCheckChange($event, 'validation_devis_rentabilite_previsionnel')"
-                       name="check_validation_devis_rentabilite_previsionnel" >
-              </div>
-              <label for="check_validation_devis_rentabilite_previsionnel" >Validation Devis/rentabilité prévisonnelle</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_ordre_mission"
-                       [value]="filter.ordre_mission"
-                       [checked]="filter.ordre_mission"
-                       (change)="onCheckChange($event, 'ordre_mission')"
-                       name="check_ordre_mission" >
-              </div>
-              <label for="check_ordre_mission" >Ordre de mission</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_demande_teletravail"
-                       [value]="filter.demande_teletravail"
-                       [checked]="filter.demande_teletravail"
-                       (change)="onCheckChange($event, 'demande_teletravail')"
-                       name="check_demande_teletravail" >
-              </div>
-              <label for="check_demande_teletravail">Demande de télétravail</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_demande_deplacement"
-                       [value]="filter.demande_deplacement"
-                       [checked]="filter.demande_deplacement"
-                       (change)="onCheckChange($event, 'demande_deplacement')"
-                       name="check_demande_deplacement" >
-              </div>
-              <label for="check_demande_deplacement">Demande de dééplacement</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_validation_lignes_releve"
-                       [value]="filter.validation_lignes_releve"
-                       [checked]="filter.validation_lignes_releve"
-                       (change)="onCheckChange($event, 'validation_lignes_releve')"
-                       name="check_validation_lignes_releve" >
-              </div>
-              <label for="check_validation_lignes_releve">Validation des lignes de relevé</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_entretien"
-                       [value]="filter.entretien"
-                       [checked]="filter.entretien"
-                       (change)="onCheckChange($event, 'entretien')"
-                       name="check_entretien" >
-              </div>
-              <label for="check_entretien">Entretien</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-column row">
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_note_frais"
-                       [value]="filter.note_frais"
-                       [checked]="filter.note_frais"
-                       (change)="onCheckChange($event, 'note_frais')"
-                       name="check_note_frais" >
-              </div>
-              <label for="check_note_frais">Note de frais</label>
-            </div>
-          </div>
-          <div class="form-bloc col-sm-4 col row" >
-            <div class="check-box-btn text-center"  >
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_saisi_ra_frais"
-                       [value]="filter.saisi_ra_frais"
-                       [checked]="filter.saisi_ra_frais"
-                       (change)="onCheckChange($event, 'saisi_ra_frais')"
-                       name="check_saisi_ra_frais" >
-              </div>
-              <label for="check_saisi_ra_frais">Saisie RA et Frais</label>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top: 30px;" class="form-column row">
-          <div class="form-bloc col row" >
-            <div class="check-box-btn text-center">
-              <label for="check_gestion_email" class="bold-text"
-                     style="min-width: 160px"
-              >Gestion e-mail</label>
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_gestion_email"
-                       [value]="filter.gestion_email"
-                       [checked]="filter.gestion_email"
-                       (change)="onCheckChange($event, 'gestion_email')"
-                       name="check_gestion_email" >
-              </div>
-              <label for="check_gestion_email" class="light-text">
-                Permet d'avertir de valideur délégué par mail lors d'une demande salarié
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="form-column row">
-          <div class="form-bloc col row" >
-            <div class="check-box-btn text-center">
-              <label for="check_delegation_permanante" class="bold-text"
-                     style="min-width: 160px"
-              >Delegation permanante</label>
-              <div class="input-container">
-                <input type="checkbox"
-                       id="check_delegation_permanante"
-                       [value]="filter.delegation_permanante"
-                       [checked]="filter.delegation_permanante"
-                       (change)="onCheckChange($event, 'delegation_permanante')"
-                       name="check_delegation_permanante" >
-              </div>
-            </div>
-          </div>
-        </div>
+  </ng-container>
+  <ng-template #loadedData>
+    <div class="top-container">
+      <div class="sub-header container-fluid ">
+        <h2>
+          Délégation
+        </h2>
       </div>
 
-    </form>
+      <div class="main-container filter-container">
+        <div class="sub-header ">
+          <h3 class="main-title">
+            Création d'une délégation de validation
+          </h3>
+        </div>
 
-  </div>
+        <div class="filtres row">
 
-  <div class="submit-block" >
-    <app-button
-      [type]="'tertiary'"
-      [text]="'Retour'"
-      (onClick)="goback()"
-      [iconLeft]="'fa fa-arrow-left'"
-      [customStyle]="{'min-width': '130px'}"
-    >
-    </app-button>&nbsp;&nbsp;
-    <app-button
-      [type]="'secondary'"
-      [text]="'Créer'"
-      [isLoading]="submittingCreate"
-      [isDisabled]="submittingCreate"
-      [textLoading]="'Sauvegarde en cours..'"
-      (onClick)="save()"
-      [iconLeft]="'icon-save'"
-      [customStyle]="{'min-width': '130px'}"
-    >
-    </app-button>
-    <!--    <app-button-->
-    <!--      [type]="'secondary'"-->
-    <!--      [text]="'Diffuser'"-->
-    <!--      [isLoading]="submittingDiffuse"-->
-    <!--      [textLoading]="'Diffusion en cours..'"-->
-    <!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
-    <!--      (onClick)="diffuse()"-->
-    <!--      [iconLeft]="'icon-check'"-->
-    <!--      [customStyle]="{'min-width': '130px'}"-->
-    <!--    >-->
-    <!--    </app-button>-->
-  </div>
+          <div class="flex-column col-12 col-sm-3">
+            <label>Validateur titulaire{{isRequired(formInputs.end_date)}}</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="personals"
+                         [bindLabel]="'full_name'"
+                         [bindValue]="'id'"
+                         [formControl]="myForm.controls[formInputs.holder_validator_id]"
+                         (open)="getFilterList('personals', listService.list.PERSONAL)"
+                         [loading]="loadingSelect[listService.list.PERSONAL]"
+                         [placeholder]="'Sélectionner un validateur titulaire'"></ng-select>
+            </div>
+            <div class="form-control-feedback"
+                 *ngIf="myForm.controls[formInputs.holder_validator_id].hasError('required')
+                    && myForm.controls[formInputs.holder_validator_id].dirty">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              Le validateur titulaire est obligatoire
+            </div>
+          </div>
 
-</div>
+          <div class="flex-column col-12 col-sm-3">
+            <label>Validateur délégué</label>
+            <div>
+              <ng-select class="select form-control"
+                         [multiple]="false"
+                         [items]="personals"
+                         [bindLabel]="'full_name'"
+                         [bindValue]="'id'"
+                         [formControl]="myForm.controls[formInputs.delegate_validator_id]"
+                         (open)="getFilterList('personals', listService.list.PERSONAL)"
+                         [loading]="loadingSelect[listService.list.PERSONAL]"
+                         [placeholder]="'Sélectionner un validateur délégué'"></ng-select>
+            </div>
+          </div>
+
+          <div class="flex-column col-12 col-sm-3 ">
+            <label>Date début délégation</label>
+            <div class="col">
+              <div class="date-picker-group">
+                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                <input [owlDateTime]="owl_dt1"
+                       class="form-control input date"
+                       [owlDateTimeTrigger]="owl_dt1"
+                       placeholder="Choisir la date ici"
+                       [formControl]="myForm.controls[formInputs.start_date]"
+                />
+                <div class="icons-container">
+                  <i class="icon-close"></i>&nbsp;
+                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-column col-12 col-sm-3 ">
+            <label>Date fin délégation</label>
+            <div class="col">
+              <div class="date-picker-group">
+                <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                <input [owlDateTime]="owl_dt2"
+                       class="form-control input date"
+                       [owlDateTimeTrigger]="owl_dt2"
+                       placeholder="Choisir la date ici"
+                       [formControl]="myForm.controls[formInputs.end_date]"
+                />
+                <div class="icons-container">
+                  <i class="icon-close"></i>&nbsp;
+                  <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-header">
+          <h3 class="main-title">
+            Admin Achat
+          </h3>
+        </div>
+
+        <form (submit)="submit()"  autocomplete="off" novalidate>
+          <div class="form-box">
+            <div class="form-column row">
+              <ng-container *ngFor="let option of delegations; let _id=index">
+                <div
+                  class="col-4"
+                  [ngClass]="{'col-4': delegations.length>10,
+                    'col-12': delegations.length<=5
+                   }"
+                >
+                  <div class="check-box-btn text-center"  *ngIf="option.id" >
+                    <div class="input-container">
+                      <input type="checkbox"
+                             id="{{option.id}}"
+                             [value]="option.id"
+                             [checked]="ischecked(option.id)"
+                             (change)="onCheckChangeArray($event, option)"
+                             name="{{option.id}}" >
+                    </div>
+                    <label for="{{option.id}}" >{{option.label}}</label>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div style="margin-top: 30px;" class="form-column row">
+            <div class="form-bloc col row" >
+              <div class="check-box-btn text-center">
+                <label for="check_gestion_email" class="bold-text"
+                       style="min-width: 160px"
+                >Gestion e-mail</label>
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="check_gestion_email"
+                         [checked]="myForm.value.has_mail_notification"
+                         (change)="onCheckChange(formInputs.has_mail_notification, $event)"
+                         name="check_gestion_email" >
+                </div>
+                <label for="check_gestion_email" class="light-text">
+                  Permet d'avertir de valideur délégué par mail lors d'une demande salarié
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-column row">
+            <div class="form-bloc col row" >
+              <div class="check-box-btn text-center">
+                <label for="check_has_permanent_delegation" class="bold-text"
+                       style="min-width: 160px"
+                >Delegation permanante</label>
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="check_has_permanent_delegation"
+                         [checked]="myForm.value.has_permanent_delegation"
+                         (change)="onCheckChange(formInputs.has_permanent_delegation, $event)"
+                         name="check_has_permanent_delegation" >
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="submit-block" >
+        <app-button
+          [type]="'tertiary'"
+          [text]="'Retour'"
+          (onClick)="goback()"
+          [iconLeft]="'fa fa-arrow-left'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>&nbsp;&nbsp;
+        <app-button
+          [type]="'secondary'"
+          [text]="myForm?.value?.id ? 'Enregistrer les modifications': 'Créer'"
+          [isLoading]="submittingCreate"
+          [isDisabled]="submittingCreate"
+          [textLoading]="'Sauvegarde en cours..'"
+          (onClick)="submit()"
+          [iconLeft]="'icon-save'"
+          [customStyle]="{'min-width': '130px'}"
+        >
+        </app-button>
+        <!--    <app-button-->
+        <!--      [type]="'secondary'"-->
+        <!--      [text]="'Diffuser'"-->
+        <!--      [isLoading]="submittingDiffuse"-->
+        <!--      [textLoading]="'Diffusion en cours..'"-->
+        <!--      [isDisabled]="submittingDiffuse || submittingCreate"-->
+        <!--      (onClick)="diffuse()"-->
+        <!--      [iconLeft]="'icon-check'"-->
+        <!--      [customStyle]="{'min-width': '130px'}"-->
+        <!--    >-->
+        <!--    </app-button>-->
+      </div>
+
+    </div>
+  </ng-template>
+</ng-container>
+
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Demande d\'absence introuvable pour le moment' )"
+                       [image]="'images/error.svg'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="( 'Impossible de récupérer cette demande d\'absence, veuillez réessayer plus tard' )"
+                       [image]="'images/error.svg'">
+  </app-centred-message>
+</ng-template>

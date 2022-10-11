@@ -1,10 +1,16 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ListsService} from "@services/lists.service";
-import {markFormAsDirty} from "@shared/Utils/SharedClasses";
+import {markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {UserService} from "@app/core/services";
 import {User} from "@app/core/entities";
 import {MainStore} from "@store/mainStore.store";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActivitiesService} from "@services/activities.service";
+import {isMoment} from "moment";
+import * as moment from "moment";
+import {MessageService} from "primeng/api";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-delegation-creation',
@@ -14,48 +20,57 @@ import {MainStore} from "@store/mainStore.store";
 export class DelegationCreationComponent implements OnInit {
   myForm: FormGroup;
   formInputs = {
-    type:'type'
+    holder_validator_id: 'holder_validator_id',
+    delegate_validator_id: 'delegate_validator_id',
+    start_date: 'start_date',
+    end_date: 'end_date',
+    delegation_types: 'delegation_types',
+    has_mail_notification: 'has_mail_notification',
+    has_permanent_delegation: 'has_permanent_delegation',
+    id: 'id'
   };
   submitting = false;
-  filter = {
-    starts_at_delegation: false,
-    ends_at_delegation: false,
-    validator_titulaire: null,
-    validator_delegue: null,
-    absences: null,
-    avances: null,
-    practice_mananger: null,
-    validation_devis_rentabilite_previsionnel: null,
-    ordre_mission: null,
-    demande_teletravail: null,
-    demande_deplacement: null,
-    demande_lignes_releve: null,
-    validation_lignes_releve: null,
-    entretien: null,
-    note_frais: null,
-    saisi_ra_frais: null,
-    gestion_email: null,
-    delegation_permanante: null,
-  }
   personals = [];
   submittingCreate: boolean;
   id_entite;
   loadingSelect = {};
+  delegations = [];
+  errorLoadData: boolean;
+  loadingData: boolean;
+  delegationToUpdate: any;
+  private getDataSubscription: Subscription;
   constructor(private fb: FormBuilder,
               private usersService: UserService,
               private mainStore: MainStore,
               public listService: ListsService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public messageService: MessageService,
+              private activitiesService: ActivitiesService,
               private changeDetectorRef: ChangeDetectorRef
               ) {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
+    this.myForm = this.fb.group({
+      holder_validator_id: [null, Validators.compose([Validators.required])],
+      delegate_validator_id:  [null, Validators.compose([Validators.required])],
+      start_date:  [null, Validators.compose([Validators.required])],
+      end_date:  [null, Validators.compose([Validators.required])],
+      delegation_types: new FormArray([]),
+      has_mail_notification: [null],
+      has_permanent_delegation: [null],
+      id: [null]
+    });
+    this.getFilterList('delegations', this.listService.list.DELEGATIONS);
+    this.getDataSubscription = this.route.params.subscribe(params => {
+      const id = Number(params.id);
+      if(id){
+        this.getData(id);
+      }
+    })
   }
 
   ngOnInit(): void {
-  }
-
-  submit() {
-
   }
 
   async getFilterList(items, list_name, list_param?){
@@ -83,29 +98,128 @@ export class DelegationCreationComponent implements OnInit {
 
   getPage(data) {
     if(!data) return;
-
-      // while(data.length>0 && data?.length < 5){
-      //   data.push();
-      // }
     return data;
   }
 
-  filterChanged() {
-
-  }
-
-
-
-  onCheckChange($event, input) {
-    this.filter[input] = $event?.target?.checked;
-  }
-
   goback() {
+    this.router.navigate(['/activites/delegation/list']);
+  }
 
+  async submit() {
+    console.log('submtting', this.myForm.value);
+    markFormAsDirty(this.myForm);
+    if(!this.myForm.valid){
+      return;
+    }
+    try{
+      this.submittingCreate = true;
+      const params = this.myForm.getRawValue();
+      params.start_date = params.start_date && isMoment(moment(params.start_date)) ? moment(params.start_date)?.format('YYYY-MM-DD'): null;
+      params.end_date = params.end_date && isMoment(moment(params.end_date)) ? moment(params.end_date)?.format('YYYY-MM-DD'): null;
+      params.delegation_types = params.delegation_types.filter(item=>item);
+      const res = await this.activitiesService.addOrUpdateDelegation(params).toPromise();
+      if(!this.myForm.value.id){
+        this.myForm.reset();
+        this.goback();
+      }else{
+        this.getData(this.myForm.value.id);
+      }
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: this.myForm.value.id ? 'Délégation mise à jour avec succès': 'Délégation créée avec succès',
+        sticky: false,
+      });
+    }catch (e){
+      console.log('err createDemand', e);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Echec!',
+        detail: this.myForm.value.id ? 'Impossible de modifier cette délégation pour le moment':
+          'Impossible de créer cette délégation pour le moment',
+        sticky: false});
+    }finally {
+      this.submittingCreate = false;
+    }
+  }
+
+  async getData(id){
+    try{
+      this.errorLoadData = false;
+      this.loadingData = true;
+      const res = await this.activitiesService.getDelegationById({id}).toPromise();
+      if(res.data){
+        this.myForm.patchValue({
+          ...res.data
+        });
+        const formArray: FormArray = this.myForm.get('delegation_types') as FormArray;
+        formArray.reset();
+        res.data.delegation_types?.forEach(item => {
+          formArray.push(new FormControl(item.type_id))
+        });
+        this.getFilterList('personals',  this.listService.list.PERSONAL);
+        this.delegationToUpdate = res.data;
+        this.changeDetectorRef.detectChanges();
+      }
+      console.log('my form valu', this.myForm.value);
+    }catch (e){
+      console.log('error getAbsence', e);
+      this.errorLoadData = true;
+      this.messageService.add({severity: 'error', summary: 'Echec!', detail: 'Impossible de récupérer cette délégation, veuillez réessayer plus tard',  sticky: false});
+    }finally {
+      this.loadingData = false;
+    }
   }
 
   save() {
-    console.log('submit', this.filter);
+    console.log('submit', this.myForm.value);
+  }
+
+  ischecked(id) {
+    console.log('ischecked', id, this.myForm?.value?.delegation_types);
+    return this.myForm?.value?.delegation_types?.includes(id);
+  }
+
+  onCheckChange(input, $event) {
+    console.log('event', input, $event?.target?.checked);
+    this.myForm.patchValue({
+      [input]: $event?.target?.checked
+    });
+  }
+
+  onCheckChangeArray(event, option) {
+    const formArray: FormArray = this.myForm.get('delegation_types') as FormArray;
+
+    console.log('event', event.target.checked, event);
+    /* Selected */
+    if(event.target.checked){
+      // Add a new control in the arrayForm
+      formArray.push(new FormControl(option.id));
+    }
+    /* unselected */
+    else{
+      // find the unselected element
+      let i: number = 0;
+
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if(ctrl.value == option.id) {
+          // Remove the unselected element from the arrayForm
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  isRequired(control) {
+    return SharedClasses.isControlRequired(this.myForm.controls[control]) ? '(*)': '';
+  }
+
+  ngOnDestroy() {
+    if(this.getDataSubscription){
+      this.getDataSubscription.unsubscribe();
+    }
   }
 }
 

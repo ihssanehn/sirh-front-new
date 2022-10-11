@@ -46,7 +46,7 @@ export class AvanceCreationComponent implements OnInit {
       amount: [null, Validators.compose([Validators.required])],
       date:  [null, Validators.compose([Validators.required])],
       motif: [null, Validators.compose([Validators.required])]
-    })
+    });
   }
 
   async ngOnInit() {

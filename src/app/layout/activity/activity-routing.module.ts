@@ -265,7 +265,12 @@ const routes: Routes = [
         path: 'creation',
         canActivate: [EntiteGuard],
         component: DelegationCreationComponent
-      }
+      },
+      {
+        path: 'modification/:id',
+        canActivate: [EntiteGuard, UniqueEntiteGuard],
+        component: DelegationCreationComponent
+      },
     ]
   },
   {

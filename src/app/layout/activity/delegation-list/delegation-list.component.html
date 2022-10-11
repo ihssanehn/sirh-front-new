@@ -23,12 +23,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt1"
                      placeholder="Choisir la date de début ici"
-                     [(ngModel)]="filter.plage_starts_at"
+                     [(ngModel)]="filter.start_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_starts_at = null"
-                   *ngIf="filter.plage_starts_at"></i>&nbsp;
+                   (click)="filter.start_date = null"
+                   *ngIf="filter.start_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -40,12 +40,12 @@
                      class="form-control input date"
                      [owlDateTimeTrigger]="owl_dt2"
                      placeholder="Choisir la date de fin ici"
-                     [(ngModel)]="filter.plage_ends_at"
+                     [(ngModel)]="filter.end_date"
               />
               <div class="icons-container">
                 <i class="icon-close"
-                   (click)="filter.plage_ends_at = null"
-                   *ngIf="filter.plage_ends_at"></i>&nbsp;
+                   (click)="filter.end_date = null"
+                   *ngIf="filter.end_date"></i>&nbsp;
                 <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
               </div>
             </div>
@@ -57,12 +57,12 @@
         <label>Utilisateur</label>
         <div>
           <ng-select class="select form-control"
-                     [multiple]="true"
+                     [multiple]="false"
                      [items]="personals"
                      [bindLabel]="'full_name'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.personals"
+                     [(ngModel)]="filter.personal_id"
                      (open)="getFilterList('personals', listService.list.PERSONAL)"
                      [loading]="loadingSelect[listService.list.PERSONAL]"
                      [placeholder]="'Tous les utilisateurs'"></ng-select>
@@ -100,59 +100,68 @@
         ></app-button>
       </div>
     </div>
-    <div class="wrap">
-      <table class="table table-responsive">
-        <thead>
-          <tr class="gray-category">
-            <th>N°</th>
-            <th>Utilisateur valideur titulaire</th>
-            <th>Utilisateur valideur remplaçant</th>
-            <th>Date début</th>
-            <th>Date fin</th>
-            <th>Type</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of delegations">
-            <td>{{item.id}}</td>
-            <td>{{item.titulaire_full_name}}</td>
-            <td>{{item.validatur_full_name}}</td>
-            <td>{{item.starts_At}}</td>
-            <td>{{item.ends_at}}</td>
-            <td>
-              <ul class="m-0">
-                <li *ngFor="let type of item.types">
-                   {{type}}
-                </li>
-              </ul>
-            </td>
-            <td>
-              <div class="actions">
-                <i class="icon-edit-bold primary-icon"
-                   data-toggle="tooltip"
-                   data-placement="top"
-                   title="Modifier"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <ng-container *ngIf="loading; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loading_avance_frais_summary.svg" style="width: 100%;height: unset" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+        <ng-container *ngIf="delegations?.length>0; else emptyStateList">
+          <div class="wrap">
+            <table class="table table-responsive">
+              <thead>
+              <tr class="gray-category">
+                <th>N°</th>
+                <th>Utilisateur valideur titulaire</th>
+                <th>Utilisateur valideur remplaçant</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr *ngFor="let item of delegations">
+                <td>{{item.id}}</td>
+                <td>{{item.holder_validator_name}}</td>
+                <td>{{item.delegate_validator_name}}</td>
+                <td>{{item.start_date | dateMessage}}</td>
+                <td>{{item.start_date | dateMessage}}</td>
+                <td>
+                  <ul class="m-0">
+                    <li *ngFor="let type of item.delegation_types">
+                      {{type.label}}
+                    </li>
+                  </ul>
+                </td>
+                <td>
+                  <div class="actions">
+                    <!--                <i class="icon-edit-bold primary-icon"-->
+                    <!--                   data-toggle="tooltip"-->
+                    <!--                   data-placement="top"-->
+                    <!--                   title="Modifier"></i>-->
+                    <i class="icon-edit-bold primary-icon pointer d-inline-block"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       style="font-size: 16px;"
+                       [routerLink]="['/activites/delegation/modification/'+item.id]"
+                       title="Modifier cette délégation"></i>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </ng-template>
   </div>
 
-
-  <ng-template #emptyState>
-    <app-centred-message
-      [image]="'images/user_empty_state.svg'"
-      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
-    ></app-centred-message>
-  </ng-template>
-
-  <ng-template #loadingTemplate>
-    <div style="min-height: 290px;">
-      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
-    </div>
-  </ng-template>
-
 </div>
+
+
+<ng-template #emptyStateList>
+  <app-centred-message [message]="( 'Aucun élément trouvé pour le moment' )"
+                       [image]="'images/empty_state_search.svg'"
+  ></app-centred-message>
+</ng-template>

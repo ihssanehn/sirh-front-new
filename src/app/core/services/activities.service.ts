@@ -138,7 +138,25 @@ export class ActivitiesService {
 
   validateOrRefuseOrDemandChangeAbsenceRequest(params) {
     return this.apiService
-      .post('absence_request/validateOrRefuseOrDemandChangeAbsenceRequest ', params)
+      .post('absence_request/validateOrRefuseOrDemandChangeAbsenceRequest', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  getAllDelegation(params) {
+    return this.apiService
+      .post('delegation/getAllDelegation', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  addOrUpdateDelegation(params) {
+    return this.apiService
+      .post('delegation/addOrUpdateDelegation', params)
+      .pipe(map(res => res.result  || []));
+  }
+
+  getDelegationById(params) {
+    return this.apiService
+      .get('delegation/getDelegationById', params)
       .pipe(map(res => res.result  || []));
   }
 }
