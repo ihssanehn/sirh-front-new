@@ -228,17 +228,17 @@
       <div class=" flex-column  col-12 col-sm-4  ">
         <label>
           Choix du tri
-          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
         </label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="false"
-                     [items]="sort_choices"
-                     [disabled]="true"
+                     [items]="triCosts"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.sort_choices"
+                     [(ngModel)]="filter.tri_cost"
+                     (open)="getFilterList('triCosts', listService.list.TRI_COST)"
+                     [loading]="loadingSelect[listService.list.TRI_COST]"
                      [placeholder]="'Sélectionner le tri'"></ng-select>
         </div>
         <div class="check-box-btn">
@@ -256,11 +256,13 @@
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="validation_stats"
-                     [bindLabel]="'full_name'"
+                     [items]="validationCosts"
+                     [bindLabel]="'label'"
                      [bindValue]="'id'"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.validation_stats"
+                     (open)="getFilterList('validationCosts', listService.list.STATUS, listService.list.VALIDATION_COST )"
+                     [loading]="loadingSelect[listService.list.VALIDATION_COST]"
+                     [(ngModel)]="filter.validation_costs"
                      [placeholder]="'Sélectionner l\'état de validation'"></ng-select>
         </div>
       </div>

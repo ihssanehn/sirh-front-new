@@ -451,6 +451,10 @@
   align-items: center;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+
 .loading{
   width: 100%;
   min-height: 230px;
@@ -462,7 +466,9 @@
     width: 70px;
     height: 70px;
   }
+  animation: fadeIn .8s infinite alternate;
 }
+
 
 .pointer{
   cursor: pointer;

@@ -26,7 +26,7 @@ export class FraisListComponent implements OnInit {
   personals = [];
   appartenances = [];
   profit_centers = [];
-  sort_choices = [];
+  tri_cost = [];
   business_units = [];
   avance_status = [];
   business_lines = [];
@@ -34,7 +34,7 @@ export class FraisListComponent implements OnInit {
   direction_ops = [];
   clients = [];
   departments = [];
-  validation_stats = [];
+  validation_costs = [];
   // pagination: any = {
   //   page: 1,
   //   total: 10,
@@ -53,7 +53,7 @@ export class FraisListComponent implements OnInit {
     personals: [],
     appartenances: [],
     profit_centers: [],
-    sort_choices: [],
+    tri_cost: [],
     business_units: [],
     avance_status: [],
     business_lines: [],
@@ -65,7 +65,7 @@ export class FraisListComponent implements OnInit {
     in_out_office: null,
     with_inactive_cp: null,
     departments: [],
-    validation_stats: null,
+    validation_costs: null,
     information_pending: null,
     comment: null
   }
@@ -91,6 +91,8 @@ export class FraisListComponent implements OnInit {
   stats: any;
   loadingSelect = {};
   id_entite;
+  validationCosts = [];
+  triCosts = [];
   constructor(public listService: ListsService,
               private activitiesService: ActivitiesService,
               private mainStore: MainStore,
@@ -110,10 +112,10 @@ export class FraisListComponent implements OnInit {
       personals: [],
       appartenances: [],
       profit_centers: [],
-      sort_choices: [],
+      tri_cost: [],
       business_units: [],
       departments: [],
-      validation_stats: [],
+      validation_costs: [],
       avance_status: [],
       business_lines: [],
       adv_managers: [],
@@ -157,7 +159,7 @@ export class FraisListComponent implements OnInit {
       this.personals = this.personnalFilters.personals;
       this.appartenances = this.personnalFilters.memberships;
       this.profit_centers = this.personnalFilters.profit_centers;
-      this.sort_choices = this.personnalFilters.sort_choices;
+      this.tri_cost = this.personnalFilters.tri_cost;
       this.business_units = this.personnalFilters.business_units;
       this.avance_status = this.personnalFilters.avance_status;
       this.business_lines = this.personnalFilters.business_lines;
@@ -165,7 +167,7 @@ export class FraisListComponent implements OnInit {
       this.direction_ops = this.personnalFilters.op_directions;
       this.clients = this.personnalFilters.clients;
       this.departments = this.personnalFilters.departments;
-      this.validation_stats = this.personnalFilters.validation_stats;
+      this.validation_costs = this.personnalFilters.validation_costs;
 
 
      } catch (e) {

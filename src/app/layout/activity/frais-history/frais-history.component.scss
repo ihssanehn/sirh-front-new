@@ -1,0 +1,91 @@
+@import "../activities.styles";
+
+.wrap{
+  margin-top: 20px;
+  table{
+    table-layout: auto !important;
+    border-collapse: unset !important;
+    border-spacing: 0;
+    td, th{
+      text-align: center;
+      color: $mainGray;
+      font-size: 12px;
+      .cell-content{
+        border: 1px solid $lightgray;
+        border-radius: 3px;
+        padding: 0;
+        min-height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .top-th{
+      th{
+        border: 0;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        font-size: 13px;
+      }
+    }
+    th{
+      box-shadow: none;
+      padding-bottom: 3px;
+    }
+    td{
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    .row-title-cell{
+      width: 207px;
+      font-size: 11px;
+      padding: 4px 8px;
+      white-space: nowrap;
+      text-align: left;
+      span{
+        line-height: 27px;
+        padding: 0;
+      }
+      i:before{
+        font-size: 9px
+      }
+      .icon-info-cercle:before{
+        font-size: 11px
+      }
+    }
+
+    .bold-cell{
+      font-weight: 500;
+      color: #434343c2;
+    }
+
+    th{
+      font-size: 11px;
+    }
+
+    .blue-cell{
+      background: $lighterPrimaryColor;
+      color: $primaryColor !important;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .gray-cell{
+      background: $lightgray;
+    }
+
+    .primary-text{
+      color: $primaryColor;
+    }
+
+    .category-cell{
+      border-radius: 15px 15px 0 0;
+      border: 2px solid white !important;
+    }
+  }
+}
+
+.ng-select{
+  min-width: 100px !important;
+}
+

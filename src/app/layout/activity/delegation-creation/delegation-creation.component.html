@@ -22,7 +22,7 @@
         <div class="filtres row">
 
           <div class="flex-column col-12 col-sm-3">
-            <label>Validateur titulaire{{isRequired(formInputs.end_date)}}</label>
+            <label>Validateur titulaire{{isRequired(formInputs.holder_validator_id)}}</label>
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
@@ -43,7 +43,7 @@
           </div>
 
           <div class="flex-column col-12 col-sm-3">
-            <label>Validateur délégué</label>
+            <label>Validateur délégué{{isRequired(formInputs.delegate_validator_id)}}</label>
             <div>
               <ng-select class="select form-control"
                          [multiple]="false"
@@ -57,8 +57,8 @@
             </div>
           </div>
 
-          <div class="flex-column col-12 col-sm-3 ">
-            <label>Date début délégation</label>
+          <div class="flex-column col-12 col-sm-3 " *ngIf="!myForm.value.has_permanent_delegation">
+            <label>Date début délégation{{isRequired(formInputs.start_date)}}</label>
             <div class="col">
               <div class="date-picker-group">
                 <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
@@ -67,6 +67,7 @@
                        [owlDateTimeTrigger]="owl_dt1"
                        placeholder="Choisir la date ici"
                        [formControl]="myForm.controls[formInputs.start_date]"
+                       [disabled]="myForm.value.has_permanent_delegation"
                 />
                 <div class="icons-container">
                   <i class="icon-close"></i>&nbsp;
@@ -76,8 +77,8 @@
             </div>
           </div>
 
-          <div class="flex-column col-12 col-sm-3 ">
-            <label>Date fin délégation</label>
+          <div class="flex-column col-12 col-sm-3 " *ngIf="!myForm.value.has_permanent_delegation">
+            <label>Date fin délégation{{isRequired(formInputs.end_date)}}</label>
             <div class="col">
               <div class="date-picker-group">
                 <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
@@ -86,6 +87,7 @@
                        [owlDateTimeTrigger]="owl_dt2"
                        placeholder="Choisir la date ici"
                        [formControl]="myForm.controls[formInputs.end_date]"
+                       [disabled]="myForm.value.has_permanent_delegation"
                 />
                 <div class="icons-container">
                   <i class="icon-close"></i>&nbsp;
@@ -164,6 +166,13 @@
           </div>
         </form>
 
+      </div>
+
+      <div class="row" *ngIf="errors && errors.length>0">
+        <div  class="form-control-feedback" *ngFor="let error of errors">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{error.message}}
+        </div>
       </div>
 
       <div class="submit-block" >

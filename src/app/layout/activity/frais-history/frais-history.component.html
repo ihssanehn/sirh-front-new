@@ -1,1 +1,130 @@
-<p>frais-history works!</p>
+<div class="top-container">
+  <div class="sub-header container-fluid ">
+    <h2>
+      Mes frais
+    </h2>
+  </div>
+  <div class="main-container">
+    <div class="sub-header header" >
+      <h3 class="main-title">
+        Suivi des relevés
+      </h3>
+      <div class="p-0">
+        <ng-select
+          [items]="years"
+          [(ngModel)]="selectedYear"
+          class="select form-control"
+          [clearable]="false"
+          (change)="getAll()"
+          [searchable]="false"
+        ></ng-select>
+      </div>
+    </div>
+    <ng-container *ngIf="!loadingData; else loadingTemplate">
+      <ng-container  *ngIf="data?.length>0; else emptyState">
+        <div class="wrap">
+          <table class="table table-responsive">
+            <thead>
+            <tr class="top-th">
+              <th></th>
+              <th colspan="2" class="category-cell">
+                Diffusions du consultant
+              </th>
+              <th colspan="2" class="category-cell">
+                Validations équipe administrative
+              </th>
+            </tr>
+            <tr>
+              <th>Mois</th>
+              <th>Activité diffusée</th>
+              <th>Frais diffusés</th>
+              <th>Activité validée</th>
+              <th>Frais validés</th>
+              <th>Voir</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of data">
+              <td>
+                <ng-template #popTitle>
+                  <div class="title">
+                    Info complémentaires
+                  </div>
+                  <i class="icon-close"></i>
+                </ng-template>
+                <ng-template #popContent>
+                  <div class="row" *ngIf="item?.activity_diffused_by?.length>0; else no_info">
+                    <div class="col">
+                      <div class="title">Nom diffuseeur</div>
+                      <div class="value">
+                        {{item.activity_diffused_by[0].full_name}}
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="title">Date diffusion</div>
+                      <div class="value">
+                        {{item.activity_diffused_by[0].created_at | dateMessage: 'DD/MM/yyyy HH:mm'}}
+                      </div>
+                    </div>
+                  </div>
+                  <ng-template #no_info>
+                    <div class="light-message">
+                      Aucune information sur la diffusion pour le moment
+                    </div>
+                  </ng-template>
+                </ng-template>
+
+                <span style="text-transform: capitalize;">
+                  {{item.date | dateMessage: 'MMMM YYYY'}}
+                </span>
+              </td>
+              <td>
+                <i
+                  [ngbPopover]="item.has_activity_diffuse ? popContent: null"
+                  [popoverTitle]="item.has_activity_diffuse ? popTitle: null"
+                  [ngClass]="{'green-icon icon-check pointer': item.has_activity_diffuse,
+                     'danger-icon icon-nope': !item.has_activity_diffuse}">
+                </i>
+              </td>
+              <td>
+                <i
+                  [ngClass]="{'green-icon icon-check': item.has_costs_diffuse,
+                     'danger-icon icon-nope': !item.has_costs_diffuse}">
+                </i>
+              </td>
+              <td>
+                <i [ngClass]="{'green-icon icon-check': item.has_activity_valid,
+                     'danger-icon icon-nope': !item.has_activity_valid}">
+                </i>
+              </td>
+              <td>
+                <i [ngClass]="{'green-icon icon-check': item.has_costs_valid,
+                     'danger-icon icon-nope': !item.has_costs_valid}">
+                </i>
+              </td>
+              <td>
+                <i class="icon-search primary-icon pointer"
+                   [queryParams]="{month: getMonth(item.date)}"
+                   [routerLink]="['/activites/mes_activites']"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <img src="assets/images/loading.svg" style="height: 100px;" />
+  </div>
+</ng-template>

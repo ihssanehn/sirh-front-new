@@ -53,7 +53,6 @@ export class DelegationListComponent implements OnInit {
   // page: 1,
   // limit: 10,
   filter = {
-    keyword: '',
     personal_id: null,
     start_date: null,
     end_date: null
@@ -89,7 +88,6 @@ export class DelegationListComponent implements OnInit {
 
   resetFilters() {
     this.filter = {
-      keyword:  this.filter.keyword,
       personal_id: [],
       start_date: null,
       end_date: null
@@ -142,7 +140,7 @@ export class DelegationListComponent implements OnInit {
         }
       } else{
         if(this.filter[key] !== false && this.filter[key] !== null ){
-          if(['date_start', 'date_end'].includes(key)){
+          if(['start_date', 'end_date'].includes(key)){
             params[key] = this.filter[key] && isMoment(moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.filter[key], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
           }else{
             params[key] = this.filter[key];

@@ -176,17 +176,19 @@
                 </div>
               </td>
               <td>
-                <ng-select [items]="type_frais"
-                           bindLabel="name"
+                <ng-select [items]="costTypes"
+                           bindLabel="label"
                            bindValue="id"
-                           groupBy="category"
+                           groupBy="category_parent"
                            [searchable]="false"
                            [(ngModel)]="selectedAccount"
                            placeholder="Aucun type de frais"
                            class="select form-control"
+                           (open)="getFilterList('costTypes', listService.list.TYPE_OF_COST)"
+                           [loading]="loadingSelect[listService.list.TYPE_OF_COST]"
                 >
                   <ng-template ng-optgroup-tmp let-item="item">
-                    {{item.category}}
+                    {{item.category_parent}}
                   </ng-template>
                 </ng-select>
               </td>

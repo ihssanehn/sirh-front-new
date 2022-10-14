@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ListsService} from "@services/lists.service";
 import {markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {UserService} from "@app/core/services";
@@ -39,6 +39,7 @@ export class DelegationCreationComponent implements OnInit {
   loadingData: boolean;
   delegationToUpdate: any;
   private getDataSubscription: Subscription;
+  errors = [];
   constructor(private fb: FormBuilder,
               private usersService: UserService,
               private mainStore: MainStore,
@@ -50,17 +51,17 @@ export class DelegationCreationComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef
               ) {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
+    this.dateValidator = this.dateValidator.bind(this);
     this.myForm = this.fb.group({
       holder_validator_id: [null, Validators.compose([Validators.required])],
       delegate_validator_id:  [null, Validators.compose([Validators.required])],
-      start_date:  [null, Validators.compose([Validators.required])],
-      end_date:  [null, Validators.compose([Validators.required])],
+      start_date:  [null],
+      end_date:  [null],
       delegation_types: new FormArray([]),
       has_mail_notification: [null],
       has_permanent_delegation: [null],
       id: [null]
-    });
+    }, {validator: this.dateValidator});
     this.getFilterList('delegations', this.listService.list.DELEGATIONS);
     this.getDataSubscription = this.route.params.subscribe(params => {
       const id = Number(params.id);
@@ -71,6 +72,37 @@ export class DelegationCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  dateValidator(control: AbstractControl){
+    let startDate = control.get(this.formInputs.start_date).value;
+    let endDate = control.get(this.formInputs.end_date).value;
+    let has_permanent_delegation = control.get(this.formInputs.has_permanent_delegation).value;
+
+    if(has_permanent_delegation){
+      return null;
+    }
+
+    this.errors = [];
+    if(!startDate || !endDate){
+      return ;
+    }
+    if(!(startDate instanceof moment)){
+      startDate = moment(startDate);
+    }
+    if(!(endDate instanceof moment)){
+      endDate = moment(endDate);
+    }
+
+    if( startDate.isAfter(endDate) ) {
+      this.errors.push({
+        code: 1,
+        message: 'La date de début doit être avant la date de fin'
+      });
+      return {dateOrderError: true};
+    }else{
+      this.errors = this.errors.filter(error => error.code !== 1);
+    }
   }
 
   async getFilterList(items, list_name, list_param?){
@@ -114,8 +146,8 @@ export class DelegationCreationComponent implements OnInit {
     try{
       this.submittingCreate = true;
       const params = this.myForm.getRawValue();
-      params.start_date = params.start_date && isMoment(moment(params.start_date)) ? moment(params.start_date)?.format('YYYY-MM-DD'): null;
-      params.end_date = params.end_date && isMoment(moment(params.end_date)) ? moment(params.end_date)?.format('YYYY-MM-DD'): null;
+      params.start_date = params.start_date && isMoment(moment(params.start_date)) && !params.has_permanent_delegation ? moment(params.start_date)?.format('YYYY-MM-DD'): null;
+      params.end_date = params.end_date && isMoment(moment(params.end_date)) && !params.has_permanent_delegation ? moment(params.end_date)?.format('YYYY-MM-DD'): null;
       params.delegation_types = params.delegation_types.filter(item=>item);
       const res = await this.activitiesService.addOrUpdateDelegation(params).toPromise();
       if(!this.myForm.value.id){

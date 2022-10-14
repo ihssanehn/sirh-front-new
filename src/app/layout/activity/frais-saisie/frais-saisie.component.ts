@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ListsService} from "@services/lists.service";
+import {MainStore} from "@store/mainStore.store";
 
 @Component({
   selector: 'app-frais-saisie',
@@ -84,29 +86,38 @@ export class FraisSaisieComponent implements OnInit {
   ];
 
   selectedAccount = null;
-  type_frais = [
-    { id: 1, name: 'Aucun type de frais', category: 'Aucun type de frais'},
 
-    { id: 2, name: 'Forfait hébergement', category: 'Héberegement' },
-    { id: 3, name: 'Congés sans solde', category: 'Héberegement' },
+  costTypes = [];
+  loadingSelect = {};
+  id_entite;
+  constructor(public listService: ListsService, private mainStore: MainStore,) {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
-    { id: 4, name: 'Frais kms', category: 'Frais kilométriques' },
-    { id: 5, name: 'Frais km sur justificatif', category: 'Frais kilométriques' },
-
-    { id: 6, name: 'Abonnement Transport en commun', category: 'Transport en commun' },
-    { id: 7, name: 'Transport occasionnel', category: 'Transport en commun' },
-    { id: 8, name: 'Taxi', category: 'Transport en commun' },
-
-    { id: 9, name: 'Péages', category: 'Véhicule' },
-    { id: 10, name: 'Badge télépéage', category: 'Véhicule' },
-    { id: 11, name: 'Carburant', category: 'Véhicule' },
-    { id: 12, name: 'Parking', category: 'Véhicule' },
-    { id: 13, name: 'Voiture location/société', category: 'Véhicule' },
-
-  ];
-  constructor() { }
+  }
 
   ngOnInit(): void {
+  }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
   }
 
   ischecked(id) {

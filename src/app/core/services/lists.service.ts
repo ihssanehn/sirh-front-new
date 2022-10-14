@@ -34,6 +34,9 @@ export class ListsService {
     ABSENCE_REQUEST: 'absence_request',
     DISEASE_DETAIL: 'disease_detail',
     DELEGATIONS: 'delegations',
+    VALIDATION_COST: 'validation_cost',
+    TRI_COST: 'tri_cost',
+    TYPE_OF_COST: 'type_of_cost',
   }
 
   // Type d'avance GET: http://localhost:9073/filter/getFilter?model=advance_cost

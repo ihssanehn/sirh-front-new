@@ -14,7 +14,7 @@
 
     <div class="filtres row">
       <div class="flex-column col-12 col-sm-4 ">
-        <label>Mois</label>
+        <label>Période</label>
         <div class="d-flex justify-content-between row">
           <div class="col">
             <div class="date-picker-group">
@@ -24,6 +24,7 @@
                      [owlDateTimeTrigger]="owl_dt1"
                      placeholder="Choisir la date de début ici"
                      [(ngModel)]="filter.start_date"
+                     (ngModelChange)="filterChanged()"
               />
               <div class="icons-container">
                 <i class="icon-close"
@@ -41,6 +42,7 @@
                      [owlDateTimeTrigger]="owl_dt2"
                      placeholder="Choisir la date de fin ici"
                      [(ngModel)]="filter.end_date"
+                     (ngModelChange)="filterChanged()"
               />
               <div class="icons-container">
                 <i class="icon-close"
@@ -102,7 +104,7 @@
     </div>
     <ng-container *ngIf="loading; else loadedData">
       <div class="loading">
-        <img src="assets/images/loading_avance_frais_summary.svg" style="width: 100%;height: unset" />
+        <img src="assets/images/loading_list_delegations.svg" style="width: 100%;height: unset" />
       </div>
     </ng-container>
     <ng-template #loadedData>
@@ -114,7 +116,7 @@
                 <th>N°</th>
                 <th>Utilisateur valideur titulaire</th>
                 <th>Utilisateur valideur remplaçant</th>
-                <th>Date début</th>
+                <th >Date début</th>
                 <th>Date fin</th>
                 <th>Type</th>
                 <th>Action</th>
@@ -126,8 +128,13 @@
                 <td>{{item.id}}</td>
                 <td>{{item.holder_validator_name}}</td>
                 <td>{{item.delegate_validator_name}}</td>
-                <td>{{item.start_date | dateMessage}}</td>
-                <td>{{item.start_date | dateMessage}}</td>
+                <ng-container *ngIf="item.has_permanent_delegation; else show_dates">
+                  <td [colSpan]="2" class="text-center">Délégation permanante</td>
+                </ng-container>
+                <ng-template #show_dates>
+                  <td>{{item.start_date | dateMessage}}</td>
+                  <td>{{item.end_date | dateMessage}}</td>
+                </ng-template>
                 <td>
                   <ul class="m-0">
                     <li *ngFor="let type of item.delegation_types">
