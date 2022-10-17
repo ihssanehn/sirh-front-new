@@ -327,8 +327,18 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
           if(activity.code === 'absences'){
             subactivity.is_blocked = true
           }
-          console.log('subactivity', activity, subactivity);
+          if(activity.code === 'travail_normal'){
+            subactivity.code = 'travnormal_'+subactivity.id;
+          }
           labels.push(subactivity);
+          if(subactivity.name){
+            labels.push({
+              label: 'Astriente de nuit(Heures)',
+              is_extra: true,
+              code: 'extra_'+subactivity.code,
+              project_id: subactivity.id,
+            });
+          }
         })
       }
     });
@@ -412,9 +422,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
             activity_id: this.activities.id,
             category_id: type_activity.category_id,
             date: moment(day.date).format('YYYY-MM-DD'),
-            mission_id: null,
+            mission_id: type_activity.mission_id,
             personal_id: this.personal_id || this.userStore.getAuthenticatedUser?.id,
-            project_id: null,
+            project_id: type_activity.project_id,
             ratio: 1,
             type_id: type_activity.type_id
           }
@@ -474,6 +484,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
   }
 
   setDataCell(day, type_activity, $event: any) {
+    console.log('Setting data in cell', day, type_activity, $event);
     const start = new Date().getTime();  //Time in ms
     // const element = this.getDataInCell(day, type_activity);
     // if(element){
@@ -501,9 +512,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
              activity_id: this.activities.id,
              category_id: type_activity.category_id,
              date: moment(day.date).format('YYYY-MM-DD'),
-             mission_id: null,
+             mission_id: type_activity.mission_id,
              personal_id:  this.personal_id || this.userStore.getAuthenticatedUser?.id,
-             project_id: null,
+             project_id: type_activity.project_id,
              ratio: $event,
              type_id: type_activity.type_id
        }
@@ -535,6 +546,16 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     console.log('performance', this.performance, this.data.calendar);
   }
 
+  getTotalAstrienteInColumn(day){
+    let sum = 0;
+    this.rightLabels.forEach(type_activity => {
+      if(type_activity.is_extra){
+        sum += day[type_activity.code];
+      }
+    });
+    return sum;
+  }
+
   getTotalInColumn(day){
     const start = new Date().getTime();  //Time in ms
     // if(!this.activities.activity_details){
@@ -562,17 +583,31 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     })
   }
 
+  getTotalAstrientInLine(type_activity){
+    let sum = 0;
+    this.data.calendar.forEach(day => {
+        sum += day[type_activity.code];
+    });
+    return sum;
+  }
+
   getTotalInLine(type_activity){
     const start = new Date().getTime();  //Time in ms
     let sum = 0;
-    if(!this.activities.activity_details){
-      return 0;
-    }
-    this.activities.activity_details.forEach(cell =>{
-     if((cell.category_id ? (cell.category_id === type_activity.id): (cell.type_id === type_activity.id))){
-       sum += cell.ratio;
-     }
+    // console.log('getTotalInLine', this.activities);
+    // if(!this.activities.activity_details){
+    //   return 0;
+    // }
+    this.data?.calendar.forEach(day => {
+      if(day[type_activity.code]?.ratio){
+        sum += day[type_activity.code].ratio;
+      }
     });
+    // this.activities.activity_details.forEach(cell =>{
+    //  if((cell.category_id ? (cell.category_id === type_activity.id): (cell.type_id === type_activity.id))){
+    //    sum += cell.ratio;
+    //  }
+    // });
     const end = new Date().getTime();
     this.performance.getTotalInLine += (end-start);
     return sum;
@@ -598,5 +633,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     this.errorMessage = errorMessage;
     const end = new Date().getTime();
     this.performance.getTotalIssues += (end-start);
+  }
+
+  saveExtra(day: string, type_activity: any) {
+
   }
 }

@@ -100,6 +100,13 @@
   }
 }
 
+.btn-style{
+  cursor: pointer;
+  &:hover{
+    background: $lighterPrimaryColor;
+    border: 1px solid $lighterPrimaryColor;
+  }
+}
 .error-message{
   color: $danger;
   font-size: 12px;
@@ -114,6 +121,11 @@
 
 .main-container{
   overflow: visible;
+}
+
+.button-icon{
+  background: red;
+  border-radius: 50%;
 }
 
 .select{
