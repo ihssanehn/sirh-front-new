@@ -9,6 +9,7 @@ const moment = (_moment as any).default ? (_moment as any).default : _moment;
 import {IDatePickerConfig} from "ng2-date-picker/lib/date-picker/date-picker-config.model";
 import {DatePickerComponent} from "ng2-date-picker";
 import {UserStore} from "@store/user.store";
+import Swal from "sweetalert2";
 // import {DatePickerComponent} from "ng2-date-picker/lib/date-picker/date-picker.component";
 
 @Component({
@@ -26,7 +27,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     format: 'MM/YYYY',
   }
 
-  data;
+  data: any;
   activities;
 
   submittingCreate: boolean;
@@ -130,22 +131,61 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
   async addOrUpdateActivity(){
     try {
       const activities = [];
+      console.log('addOrUpdateActivity', this.data.calendar, this.rightLabels);
       this.data.calendar.forEach(day => {
         this.rightLabels.forEach(type_activity => {
-          if(day[type_activity.code] instanceof Object){
-            activities.push({
-                   personal_id: this.personal_id ||  this.personal_id || this.userStore.getAuthenticatedUser?.id,
-                   type_id: day[type_activity.code]?.type_id,
-                   category_id: day[type_activity?.code].category_id,
-                   ratio: day[type_activity.code]?.ratio,
-                   code: type_activity.code,
-                  date: moment(day[type_activity.code]?.date).format('YYYY-MM-DD')
-            })
+
+          //   "personal_id": 1,
+          //   "project_id": 3,
+          //   "is_extra": 1,
+          //   "type_extra": "night",
+          //   "type_id": 23,
+          //   "ratio": 3.000,
+          //   "date": "2022-10-07"
+
+          // 'night',
+          //   'sunday',
+          //   'saturday',
+          //   'holiday'
+
+          if(type_activity.is_extra && Number(day[type_activity.code]) > 0){
+            if(day[type_activity.code]){
+              let type_extra = null;
+              if(day.is_holidays){
+                type_extra = 'holiday';
+              }else if(day.is_weekend){
+                type_extra = 'saturday';
+              }else{
+                type_extra = 'night';
+              }
+              activities.push({
+                personal_id: this.personal_id ||  this.personal_id || this.userStore.getAuthenticatedUser?.id,
+                type_id: type_activity.type_id,
+                project_id: type_activity.project_id,
+                is_extra: 1,
+                type_extra: type_extra,
+                ratio: day[type_activity.code],
+                date: moment(day.date).format('YYYY-MM-DD')
+              })
+            }
+          }else{
+            if(day[type_activity.code] instanceof Object){
+              activities.push({
+                personal_id: this.personal_id ||  this.personal_id || this.userStore.getAuthenticatedUser?.id,
+                type_id: day[type_activity.code]?.type_id,
+                project_id: day[type_activity.code]?.project_id,
+                category_id: day[type_activity?.code].category_id,
+                ratio: day[type_activity.code]?.ratio,
+                code: type_activity.code,
+                date: moment(day[type_activity.code]?.date).format('YYYY-MM-DD')
+              });
+            }
           }
         })
       })
-      console.log('addOrUpdateActivity', activities);
+      console.log('addOrUpdateActivity after', activities);
 
+      // return;
       this.submittingCreate = true;
       const params = {
         personal_id:  this.personal_id || this.userStore.getAuthenticatedUser?.id,
@@ -187,33 +227,47 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
   }
 
   async diffuseActivity(){
-    try {
-      this.submittingDiffuse= true;
-      const params = {
-        id: this.activities.id
+    Swal.fire({
+      title: 'Êtes vous sûr?',
+      text: 'Voulez-vous vraiment diffuser l\'activité de ce mois?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#078aff',
+      cancelButtonColor: '#F54F4F',
+      confirmButtonText: 'Oui, diffuser',
+      cancelButtonText: 'Annuler',
+      heightAuto: false
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          this.submittingDiffuse= true;
+          const params = {
+            id: this.activities.id
+          }
+          await this.addOrUpdateActivity();
+          const res = await this.activitiesService.diffuseActivity(params).toPromise();
+          this.activities = res.data;
+          this.setColumnsTotals();
+          this.getTotalIssues();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Parfait!',
+            detail: 'Activités du mois diffusées avec succès',
+            sticky: false,
+          });
+        } catch (e){
+          console.log('error getActivityByid', e);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Echec!',
+            detail: 'Une erreur est survenue',
+            sticky: false,
+          });
+        } finally {
+          this.submittingDiffuse = false;
+        }
       }
-      await this.addOrUpdateActivity();
-      const res = await this.activitiesService.diffuseActivity(params).toPromise();
-      this.activities = res.data;
-      this.setColumnsTotals();
-      this.getTotalIssues();
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Parfait!',
-        detail: 'Activités du mois diffusées avec succès',
-        sticky: false,
-      });
-    } catch (e){
-      console.log('error getActivityByid', e);
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Echec!',
-        detail: 'Une erreur est survenue',
-        sticky: false,
-      });
-    } finally {
-      this.submittingDiffuse = false;
-    }
+    });
   }
 
   async getActivityById(id){
@@ -329,19 +383,27 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
           }
           if(activity.code === 'travail_normal'){
             subactivity.code = 'travnormal_'+subactivity.id;
+            subactivity.category_id =  null;
           }
           labels.push(subactivity);
           if(subactivity.name){
             labels.push({
-              label: 'Astriente de nuit(Heures)',
+              label: 'Astriente(Heures)',
               is_extra: true,
               code: 'extra_'+subactivity.code,
               project_id: subactivity.id,
+              category_id: subactivity.category_id,
+
+              end_date: subactivity.end_date,
+              start_date: subactivity.start_date,
+              type_id: subactivity.type_id
             });
+            console.log('labels', labels);
           }
         })
       }
     });
+    console.log('this.rightLabels', labels);
     this.rightLabels = labels;
     const end = new Date().getTime();
     this.performance.getRightLabels += (end-start);
@@ -351,26 +413,46 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
       return moment(day.date).local('fr').format('dd')[0];
   }
 
+  showContent(day, type_activity){
+    console.log('showContent', day, type_activity);
+  }
+
   getDataInCell(day, type) {
     const start = new Date().getTime();  //Time in ms
     if(!this.activities.activity_details){
       return null;
     }
-    if(day.is_weekend){
+
+    // if(type.is_extra){
+    //   return null
+    // }
+
+    if(day.is_weekend && !type.is_extra){
       const end = new Date().getTime();
       this.performance.getDataInCell += (end-start);
       return moment(day.date).local('fr').format('dd')[0];
     }
 
+    console.log('this.activities.activity_details', type, this.activities.activity_details);
     // TODO keep first element only
     let element = this.activities.activity_details?.find(activity => {
-      return moment(day.date).isSame(moment(activity.date), 'date')
-        &&
-        (activity.category_id ? (activity.category_id === type.id):  (activity.type_id === type.id) );
+        let testWichLine = false;
+        if(activity.is_extra){
+          testWichLine = activity.project_id === type.project_id;
+        }else
+          if(activity.project_id ){
+          testWichLine = activity.project_id === type.id;
+        }else if(activity.category_id ){
+          testWichLine = activity.category_id === type.id;
+        }else {
+          testWichLine = activity.type_id === type.id;
+        }
+
+        return moment(day.date).isSame(moment(activity.date), 'date') && testWichLine;
     });
-    // if(element?.length>1){
-    //   element = element[0];
-    // }
+    if(element && type.is_extra){
+      element = element.ratio;
+    }
     const end = new Date().getTime();
     this.performance.getDataInCell += (end-start);
     return element;
@@ -422,9 +504,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
             activity_id: this.activities.id,
             category_id: type_activity.category_id,
             date: moment(day.date).format('YYYY-MM-DD'),
-            mission_id: type_activity.mission_id,
+            mission_id:  type_activity.code?.indexOf('travnormal') >=0 ? type_activity.id : null,
             personal_id: this.personal_id || this.userStore.getAuthenticatedUser?.id,
-            project_id: type_activity.project_id,
+            project_id: type_activity.code?.indexOf('travnormal') >=0  ? type_activity.id : null,
             ratio: 1,
             type_id: type_activity.type_id
           }
@@ -512,9 +594,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
              activity_id: this.activities.id,
              category_id: type_activity.category_id,
              date: moment(day.date).format('YYYY-MM-DD'),
-             mission_id: type_activity.mission_id,
+             mission_id: type_activity.id,
              personal_id:  this.personal_id || this.userStore.getAuthenticatedUser?.id,
-             project_id: type_activity.project_id,
+             project_id: type_activity.id,
              ratio: $event,
              type_id: type_activity.type_id
        }
@@ -550,7 +632,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     let sum = 0;
     this.rightLabels.forEach(type_activity => {
       if(type_activity.is_extra){
-        sum += day[type_activity.code];
+        sum += Number(day[type_activity.code]) ? day[type_activity.code]: 0;
       }
     });
     return sum;
@@ -564,7 +646,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     let sum = 0;
     this.rightLabels.forEach(type_activity => {
       if(day[type_activity.code]?.ratio){
-        sum += day[type_activity.code].ratio;
+        sum += Number(day[type_activity.code].ratio) ? day[type_activity.code].ratio: 0;
       }
     });
     // this.activities.activity_details.forEach(activity => {
@@ -586,7 +668,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
   getTotalAstrientInLine(type_activity){
     let sum = 0;
     this.data.calendar.forEach(day => {
-        sum += day[type_activity.code];
+      sum += Number(day[type_activity.code]) ? day[type_activity.code]: 0;
     });
     return sum;
   }
@@ -600,7 +682,7 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
     // }
     this.data?.calendar.forEach(day => {
       if(day[type_activity.code]?.ratio){
-        sum += day[type_activity.code].ratio;
+        sum += Number(day[type_activity.code].ratio) ? day[type_activity.code].ratio: 0;
       }
     });
     // this.activities.activity_details.forEach(cell =>{
@@ -637,5 +719,9 @@ export class ActivityUpdateComponent implements OnInit , AfterViewInit{
 
   saveExtra(day: string, type_activity: any) {
 
+  }
+
+  showDay(day) {
+    console.log('showDay', day);
   }
 }

@@ -70,6 +70,9 @@
 
     td{
       height: 33px;
+      max-width: 40px;
+      text-overflow: ellipsis;
+      //overflow: hidden;
     }
 
     .blue-cell{
@@ -81,12 +84,23 @@
       width: 22px;
     }
 
+    .orange-cell{
+      background: #ffedb8;
+      color: #7e610b !important;
+      text-transform: uppercase;
+    }
+
     .gray-cell{
       background: $lightgray;
     }
 
     .primary-text{
       color: $primaryColor;
+    }
+
+    .total-cell{
+      font-weight: bold;
+      font-size: 12px;
     }
 
     .category-cell{
@@ -128,6 +142,15 @@
   border-radius: 50%;
 }
 
+::ng-deep ngb-popover-window {
+  ::ng-deep .popover-body {
+      padding-bottom: 5px;
+      ::ng-deep .mybutton{
+        min-height: 30px;
+        padding: 4px 15px;
+      }
+  }
+}
 .select{
   width: 100%;
   height: 100%;

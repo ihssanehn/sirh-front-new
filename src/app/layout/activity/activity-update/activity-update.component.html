@@ -135,15 +135,18 @@
                 </td>
                 <td *ngFor="let day of data?.calendar">
                   <ng-template #popTitle>
-                    <div class="title">
-                      Astreinte de nuit
+                    <div class="title" style="font-size: 16px;">
+                      <ng-container *ngIf="day.is_weekend && !day.is_holidays">Astreinte de weekend</ng-container>
+                      <ng-container *ngIf="day.is_holidays">Astreinte de jour férié</ng-container>
+                      <ng-container *ngIf="!day.is_holidays && !day.is_weekend">Astreinte de nuit</ng-container>
                     </div>
                     <i class="icon-close pointer" (click)="pop.close()"></i>
                   </ng-template>
                   <ng-template #popContent>
                     <div class="row" >
                       <div class="col">
-                        <div class="title bold-text">Nombre d'heures({{day | dateMessage: 'DD/MM'}})</div>
+                        <div class="title bold-text">Nombre d'heures ({{day.date | dateMessage: 'DD MMM'}})</div>
+<!--                        <button (click)="showDay(day)">show</button>-->
                         <div class="align-items-center d-flex value">
                           <input type="number"
                                  [min]="0"
@@ -157,26 +160,32 @@
 <!--                            (onClick)="setDataCell(day, type_activity, day[type_activity.code]); pop.close()"-->
 <!--                          ></app-button>-->
                         </div>
+                        <div class="submit-block" style="margin-top: 10px">
+                          <app-button
+                            [type]="'primary'"
+                            [text]="'Fermer'"
+                            (onClick)="pop.close()"
+                          ></app-button>
+                        </div>
                       </div>
                     </div>
                   </ng-template>
 
                   <div
                        [ngClass]="{
-                           'blue-cell': day.is_weekend && !type_activity.is_extra,
-                           'btn-style': type_activity.is_extra
+                           'blue-cell': day.is_weekend,
+                           'btn-style': type_activity.is_extra,
+                           'orange-cell': day.is_holidays
                        }"
                        class="cell-content"
-                       [ngbPopover]="type_activity.is_extra ? popContent: null"
-                       [popoverTitle]="type_activity.is_extra ? popTitle: null"
+                       [ngbPopover]="type_activity.is_extra && !activities?.has_been_diffused ? popContent: null"
+                       [popoverTitle]="type_activity.is_extra && !activities?.has_been_diffused ? popTitle: null"
                        [autoClose]="'outside'"
                        #pop="ngbPopover"
                   >
 <!--                    <ng-container *ngIf="!type_activity.bg_color && !type_activity.grayCell">-->
-                    <ng-container
-                      *ngIf="!type_activity.is_extra; else extra"
-                    >
-                      <ng-container *ngIf="!day.is_weekend && !type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused && !type_activity.is_blocked; else textCellTemplate">
+                    <ng-container *ngIf="!type_activity.is_extra; else extra">
+                      <ng-container *ngIf="!day.is_holidays && !day.is_weekend && !type_activity.bg_color && !type_activity.grayCell && !activities?.has_been_diffused && !type_activity.is_blocked; else textCellTemplate">
                         <ng-select
                           class="select"
                           [items]="data?.ratio"
@@ -191,16 +200,15 @@
                       </ng-container>
                       <ng-template #textCellTemplate>
                         <ng-container *ngIf="day.is_weekend; else ratioTemplate">
-                          <!--                          {{getDataInCell(day, type_activity)}}-->
-                          {{getWeekendDay(day)}}
+                          {{day.is_holidays ? 'F': getWeekendDay(day)}}
                         </ng-container>
                         <ng-template #ratioTemplate>
-                          {{findRatioLabel(day[type_activity.code])}}
+                          {{day.is_holidays ? 'F': findRatioLabel(day[type_activity.code])}}
                         </ng-template>
                       </ng-template>
                     </ng-container>
                     <ng-template #extra>
-                      <label class="pointer">
+                      <label class="pointer" (click)="showContent(day, type_activity)">
                         {{day[type_activity.code]}}
                       </label>
                     </ng-template>
@@ -208,7 +216,7 @@
 <!--                    </ng-container>-->
                   </div>
                 </td>
-                <td>
+                <td class="total-cell">
                   <ng-container *ngIf="type_activity.is_extra; else normalTotal">
                     {{getTotalAstrientInLine(type_activity)}} h
                   </ng-container>
@@ -225,13 +233,22 @@
                 </td>
                 <td *ngFor="let day of data?.calendar"  >
                   <div class="cell-content primary-text"
-                       [ngClass]="{'blue-cell': day.is_weekend, 'gray-cell': !day.is_weekend}">
-                    <ng-container *ngIf="day.is_weekend; else totalTemplate">
-                      {{getWeekendDay(day)}}
+                       [ngClass]="{
+                         'blue-cell': day.is_weekend && !day.is_holidays,
+                         'gray-cell': !day.is_weekend && !day.is_holidays,
+                         'orange-cell': day.is_holidays
+                         }">
+                    <ng-container *ngIf="day.is_weekend && !day.is_holidays; else totalHolidayTemplate">
+                        {{getWeekendDay(day)}}
                     </ng-container>
+                    <ng-template #totalHolidayTemplate>
+                      <ng-container *ngIf="day.is_holidays; else totalTemplate">
+                          F
+                      </ng-container>
+                    </ng-template>
                     <ng-template #totalTemplate>
                       <ng-container *ngVar="getTotalInColumn(day) as total">
-                        <div [ngClass]="{'danger-text':  total !== 1 }">
+                        <div [ngClass]="{'danger-text':  total !== 1}">
                           {{total}}
                         </div>
                       </ng-container>
@@ -248,7 +265,11 @@
                 </td>
                 <td *ngFor="let day of data?.calendar"  >
                   <div class="cell-content primary-text"
-                       [ngClass]="{'blue-cell': day.is_weekend, 'gray-cell': !day.is_weekend}">
+                       [ngClass]="{
+                        'blue-cell': day.is_weekend && !day.is_holidays,
+                        'gray-cell': !day.is_weekend && !day.is_holidays,
+                        'orange-cell': day.is_holidays
+                        }">
                       <ng-container *ngVar="getTotalAstrienteInColumn(day) as total">
                         <div class="bold-text">
                           {{total}}
