@@ -1,0 +1,55 @@
+<div class="container top-container">
+  <div class="header">
+    <div class="btns left-btns">
+      <app-button
+        [text]="'Annuler'"
+        [type]="'secondary_2'"
+        [routerLink]="['/users']"
+      ></app-button>
+    </div>
+    <h1 class="main-title">Sécurité</h1>
+    <div class="btns right-btns">
+      <app-button
+        [text]="'Précédent'"
+        [type]="'primary_inverse'"
+        [iconLeft]="'icon-arrow-left'"
+        (onClick)="move(-1)"
+      ></app-button>&nbsp;&nbsp;
+      <app-button
+        [text]="'Suivant'"
+        [type]="'primary'"
+        [iconRight]="'icon-arrow-right'"
+        (onClick)="save()"
+      ></app-button>
+    </div>
+  </div>
+
+  <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
+  <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
+  <ng-container *ngIf="!errorLoadData; else dataNotFound">
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+      <div class="container-fluid top-container p-0">
+
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>

@@ -3,7 +3,12 @@ import { UserService } from '@services/index';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {MainStore} from '@store/mainStore.store';
 import {Subscription} from 'rxjs';
-import {$headerSectionsMetaData, $sidebarItems_activity, $sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {
+  $headerSectionsMetaData,
+  $sidebarItems_activity,
+  $sidebarItems_project,
+  $sidebarItems_users
+} from "@shared/Objects/sharedObjects";
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -50,6 +55,20 @@ export class LayoutComponent implements OnInit{
                 if(this.router.url.indexOf('users/new') !== -1){
                   $sidebarItems_users[0].opened = false;
                   $sidebarItems_users[1].opened = true;
+                }
+
+                break;
+              }
+              case 'projets': {
+                this.mainStore.currentHeaderSection = $headerSectionsMetaData.projet;
+
+                if(this.router.url.indexOf('projets/list') !== -1){
+                  $sidebarItems_project[0].opened = true;
+                  $sidebarItems_project[1].opened = false;
+                }
+                if(this.router.url.indexOf('projets/creation') !== -1){
+                  $sidebarItems_project[0].opened = true;
+                  $sidebarItems_project[1].opened = false;
                 }
 
                 break;

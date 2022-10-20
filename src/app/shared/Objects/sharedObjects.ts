@@ -662,6 +662,85 @@ export const $sidebarItems_activity: Array<SidebarItem> = [
   },
 ];
 
+export const $sidebarItems_project: Array<SidebarItem> = [
+  {
+    id: 1,
+    name: 'Missions / Projets',
+    type: 'sub',
+    icon: null,
+    link: 'projets',
+    // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
+    opened: false,
+    subMenu: [
+      {
+        id: 1,
+        name: 'Création',
+        type: 'link',
+        icon: null,
+        link: 'projets/creation',
+        opened: false,
+        onlyFor: [
+          $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+        ],
+      },
+      {
+        id: 2,
+        name: 'Liste',
+        type: 'link',
+        icon: null,
+        link: 'projets/liste',
+        opened: false,
+        onlyFor: [
+          $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+        ],
+      },
+      {
+        id: 3,
+        name: 'Fins de mission',
+        type: 'link',
+        icon: null,
+        link: 'projets/fin_mission',
+        opened: false,
+        onlyFor: [
+          $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+        ],
+      },
+      {
+        id: 4,
+        name: 'Régularisation',
+        type: 'link',
+        icon: null,
+        link: 'projets/regularisation',
+        opened: false,
+        onlyFor: [
+          $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP
+        ],
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: 'Ordres de mission',
+    type: 'sub',
+    icon: null,
+    link: 'missions',
+    onlyFor: [
+      $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
+    ],
+    opened: false,
+    subMenu: [
+      {
+        id: 2,
+        name: 'Liste',
+        type: 'missions/link',
+        icon: null,
+        link: 'activites/frais/list',
+        opened: false,
+      }
+    ]
+  }
+];
+
 export const $headerSectionsMetaData = {
   acceuil: {
     name: 'acceuil',
@@ -672,8 +751,8 @@ export const $headerSectionsMetaData = {
     name: 'client',
     multipleEntity: false
   },
-  projets: {
-    name: 'projets',
+  projet: {
+    name: 'projet',
     multipleEntity: false
   },
   activity: {
@@ -729,10 +808,10 @@ export const $headerItems = [
   {
     id: 1,
     name: 'Projets',
-    link: '/users/info',
+    link: '/projets',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,

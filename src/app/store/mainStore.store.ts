@@ -1,7 +1,12 @@
 import { Injectable} from '@angular/core';
 import {computed, observable, observe, toJS} from 'mobx';
 import {UserStore} from '@store/user.store';
-import {$headerSectionsMetaData, $sidebarItems_activity, $sidebarItems_users} from "@shared/Objects/sharedObjects";
+import {
+  $headerSectionsMetaData,
+  $sidebarItems_activity,
+  $sidebarItems_project,
+  $sidebarItems_users
+} from "@shared/Objects/sharedObjects";
 import {Observable} from "rxjs";
 import Swal from "sweetalert2";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -41,6 +46,9 @@ export class MainStore {
       }
       case 'activity': {
         return $sidebarItems_activity;
+      }
+      case 'projet': {
+        return $sidebarItems_project;
       }
       case 'accueil': {
         break;

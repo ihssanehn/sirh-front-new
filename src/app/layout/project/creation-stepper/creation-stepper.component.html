@@ -1,0 +1,110 @@
+<mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
+  <!-- change default 'edit' icon -->
+  <ng-template #stepperIcon>
+    <i class="icon-general"></i>
+  </ng-template>
+  <mat-step label="Infos générales">
+    <app-creation-general
+      (submit)="submitProject($event)"
+      (next)="moveForward(1)"
+      [submitting]="submittingProject"
+    ></app-creation-general>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-user"></i>
+  </ng-template>
+  <mat-step label="Client">
+    <app-creation-client
+      (submit)="submitClient($event)"
+      (next)="moveForward(2)"
+      (preview)="moveForward(0)"
+      [submitting]="submittingClient"
+    ></app-creation-client>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-location"></i>
+  </ng-template>
+  <mat-step label="Lieu d'intervention">
+    <app-creation-lieu-intervention
+      (submit)="submitLieuIntervention($event)"
+      (next)="moveForward(3)"
+      (preview)="moveForward(1)"
+      [submitting]="submittingLieu"
+    ></app-creation-lieu-intervention>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-pointage"></i>
+  </ng-template>
+  <mat-step label="Pointage">
+    <app-creation-pointage
+      (submit)="submitPointage($event)"
+      (next)="moveForward(4)"
+      (preview)="moveForward(2)"
+      [submitting]="submittingPointage"
+    ></app-creation-pointage>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-cout"></i>
+  </ng-template>
+  <mat-step label="Frais">
+    <app-creation-frais
+      (submit)="submitFrais($event)"
+      (next)="moveForward(5)"
+      (preview)="moveForward(3)"
+      [submitting]="submittingFrais"
+    ></app-creation-frais>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-stats"></i>
+  </ng-template>
+  <mat-step label="Stats">
+    <app-creation-stats
+      (submit)="submitStats($event)"
+      (next)="moveForward(6)"
+      (preview)="moveForward(4)"
+      [submitting]="submittingStats"
+    ></app-creation-stats>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-security"></i>
+  </ng-template>
+  <mat-step label="Sécurité">
+    <app-creation-securite
+      (submit)="submitSecurite($event)"
+      (next)="moveForward(7)"
+      (preview)="moveForward(5)"
+      [submitting]="submittingSecurite"
+    ></app-creation-securite>
+  </mat-step>
+
+  <ng-template #stepperIcon>
+    <i class="icon-file"></i>
+  </ng-template>
+  <mat-step label="Pièces jointes">
+    <app-creation-pieces-jointes
+      (submit)="submitAttachments($event)"
+      (preview)="moveForward(6)"
+      [submitting]="submittingAttachments"
+    ></app-creation-pieces-jointes>
+  </mat-step>
+
+  <ng-template matStepperIcon="number" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="edit" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="done" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+</mat-stepper>
+
