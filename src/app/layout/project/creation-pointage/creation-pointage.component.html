@@ -34,7 +34,80 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-
+        <div class="wrap">
+          <div class="table-wrapper">
+            <table class="table-responsive w-100">
+              <thead>
+                <tr>
+                  <th>
+                    Type *
+                  </th>
+                  <th>
+                    Unité *
+                  </th>
+                  <th>
+                    Tarif *
+                  </th>
+                  <th>
+                    Date début
+                  </th>
+                  <th>
+                    Date fin
+                  </th>
+                  <th>
+                    Informations à destination du consultant <i class="icon-info primary-icon"></i>
+                  </th>
+                  <th>Action</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of pointages"  >
+                  <td>
+                    {{item.type}}
+                  </td>
+                  <td>
+                    <ng-select
+                      [items]="units"
+                      [clearable]="false"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="value"
+                      class="select form-control"
+                      placeholder="Séléctionner l'unité"
+                      [(ngModel)]="item.unit">
+                    </ng-select>
+                  </td>
+                  <td>
+                    <input type="number"
+                           [(ngModel)]="item.tariff"
+                           class="form-control input"
+                           placeholder="Saisir le tarif" />
+                  </td>
+                  <td>
+                    {{item.start_date | dateMessage:'DD MM yyyy'}}
+                  </td>
+                  <td>
+                    {{item.end_date | dateMessage:'DD MMM yyyy'}}
+                  </td>
+                  <td>
+                    <input type="text"
+                           [(ngModel)]="item.info"
+                           class="form-control input"
+                           placeholder="Saisir ici" />
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <i class="icon-info-cercle"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Modifier"></i>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ng-container>

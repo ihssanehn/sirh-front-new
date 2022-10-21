@@ -31,6 +31,17 @@ export class CreationPointageComponent implements OnInit {
   @Input()  submitting: boolean;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  pointages = [
+    {
+      type: 'Travail normal',
+      start_date: '2021-01-01',
+      end_date: '2021-01-01',
+      unit: null,
+      tariff: null,
+      info: null,
+    }
+  ];
+  units = [];
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
