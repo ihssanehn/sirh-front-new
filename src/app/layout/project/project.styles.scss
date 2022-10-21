@@ -474,7 +474,7 @@ button.btn {
 }
 .actions{
   display: flex;
-  justify-content: flex-end !important;
+  justify-content: center;
   align-items: center;
   span{
     font-weight: 500;
@@ -482,7 +482,7 @@ button.btn {
     margin-left: 5px;
   }
   i:before{
-    color: $primaryColor
+    color: $primaryColor;
   }
   img{
     width: 25px !important;
@@ -504,8 +504,7 @@ button.btn {
     margin-right: 10px;
     &:before{
       font-weight: 600;
-      //color: $primaryColor;
-      font-size: 12px;
+      font-size: 18px;
     }
   }
   .danger-action{

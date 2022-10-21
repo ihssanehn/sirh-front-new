@@ -31,6 +31,67 @@ export class CreationFraisComponent implements OnInit {
   @Input()  submitting: boolean;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  filter = {
+    frais_politique: null,
+  };
+  politique_frais: any;
+  types = [
+    {
+      id: 1,
+      label: 'Frais de déplacement',
+    },
+    {
+      id: 2,
+      label: 'Repas midi',
+    }
+  ];
+  frequences = [
+    {
+      id: 1,
+      label: 'Mensuel'
+    },
+    {
+      id: 2,
+      label: 'Journalier'
+    },
+    {
+      id: 3,
+      label: 'Annuel'
+    }
+  ];
+  refacturables = [
+    {
+      value: true,
+      label: 'Oui'
+    },
+    {
+      value: false,
+      label: 'Non'
+    },
+  ];
+  frais = [
+    {
+      type_id: null,
+      frequence_id: null,
+      amount: null,
+      max_amount: null,
+      is_refacturable: null,
+    },
+    {
+      type_id: null,
+      frequence_id: null,
+      amount: null,
+      max_amount: null,
+      is_refacturable: null,
+    },
+    {
+      type_id: null,
+      frequence_id: null,
+      amount: null,
+      max_amount: null,
+      is_refacturable: null,
+    }
+  ];
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
