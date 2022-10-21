@@ -23,7 +23,7 @@ export class CreationSecuriteComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    risk_level: 'risk_level'
   }
   @Input() title = '';
   @Input() type = '';

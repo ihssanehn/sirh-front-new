@@ -34,6 +34,30 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
+        <div class="align-items-start d-flex justify-content-center">
+          <div class="input-title">
+            Niveau de risque
+          </div>
+          <div >
+            <div class="btn-group align-items-start btn-group flex-column radio"
+                 ngbRadioGroup name="radioBasic"
+                 [formControl]="formGroup.controls[formInputs.risk_level]"
+            >
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'am'" id="starts_at_am">&nbsp;
+                <span class="radio-label" for="starts_at_am">1. Site piman OU site client, absence environnement / travaux dangereux et < 400h</span>
+              </label>
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
+                <span class="radio-label" for="starts_at_pm">2. Site client, absence environnement / travaux dangereux et > 400h</span>
+              </label>
+              <label ngbButtonLabel>
+                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
+                <span class="radio-label" for="starts_at_pm">3. Site client, environnement / travaux dangereux</span>
+              </label>
+            </div>
+          </div>
+        </div>
 
       </div>
     </ng-template>
