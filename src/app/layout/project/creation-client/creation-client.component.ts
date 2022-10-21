@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {SharedClasses} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-client',
@@ -23,7 +24,12 @@ export class CreationClientComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    client_id: 'client_id',
+    in_out_office: 'in_out_office',
+    technical_contact: 'technical_contact',
+    email: 'email',
+    proposal_reference: 'proposal_reference',
+    purchasing_contacts: 'purchasing_contacts',
   }
   @Input() title = '';
   @Input() type = '';
@@ -31,6 +37,19 @@ export class CreationClientComponent implements OnInit {
   @Input()  submitting: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  loadingSelect = {};
+  id_entite;
+  sieges = [
+    {
+      label: 'Siège',
+      id: true
+    },
+    {
+      label: 'Hors siège',
+      id: false
+    }
+  ];
+  clients = [];
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -43,7 +62,13 @@ export class CreationClientComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null]
+      id: [null],
+      client_id: [null],
+      in_out_office: [null],
+      technical_contact: [null],
+      email: [null],
+      proposal_reference: [null],
+      purchasing_contacts: [null]
     });
   }
 
@@ -59,6 +84,33 @@ export class CreationClientComponent implements OnInit {
       this.next.emit();
     }else{
       this.preview.emit();
+    }
+  }
+
+
+  isRequired(control) {
+    return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';
+  }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
     }
   }
 

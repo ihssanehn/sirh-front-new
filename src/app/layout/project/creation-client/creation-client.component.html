@@ -34,7 +34,128 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-
+        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="main-container p-0" novalidate>
+          <div class="row form-box">
+            <div class="main-container row form-column">
+              <div class="form-bloc form-box row">
+                <div class="col">
+                    <label class="col-2">Choix du client {{isRequired(formInputs.client_id)}}</label>
+                    <div class="col">
+                      <ng-select [items]="clients"
+                                 class="select form-control"
+                                 bindLabel="name"
+                                 bindValue="id"
+                                 [clearable]="false"
+                                 [searchable]="true"
+                                 [loading]="loadingSelect['clients']"
+                                 (open)="getFilterList('clients')"
+                                 placeholder="Séléctionner le consultant"
+                                 [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.client_id].hasError('required')
+                                      && formGroup.controls[formInputs.client_id].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.client_id]">
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="formGroup.controls[formInputs.client_id].hasError('required')
+                           && formGroup.controls[formInputs.client_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le client est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                <div class="col">
+                    <label class="col-2">Siège/hors siège {{isRequired(formInputs.in_out_office)}}</label>
+                    <div class="col">
+                      <ng-select [items]="sieges"
+                                 class="select form-control"
+                                 bindLabel="label"
+                                 bindValue="id"
+                                 [clearable]="false"
+                                 [searchable]="true"
+                                 placeholder="Séléctionner le consultant"
+                                 [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.in_out_office].hasError('required')
+                                      && formGroup.controls[formInputs.in_out_office].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.in_out_office]">
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="formGroup.controls[formInputs.in_out_office].hasError('required')
+                           && formGroup.controls[formInputs.in_out_office].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le siège est obligatoire
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-bloc form-box row">
+                <div class="col d-flex">
+                  <div class="col">
+                    <label class="col">Contact technique {{isRequired(formInputs.technical_contact)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             class="form-control input"
+                             placeholder="Saissir l'intitulé mission"
+                             [formControl]="formGroup.controls[formInputs.technical_contact]" />
+                      <div class="form-control-feedback"
+                           *ngIf="formGroup.controls[formInputs.technical_contact].hasError('required')
+                           && formGroup.controls[formInputs.technical_contact].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le contact technique est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="col">Mail {{isRequired(formInputs.email)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             class="form-control input"
+                             placeholder="Saissir l'intitulé mission"
+                             [formControl]="formGroup.controls[formInputs.email]" />
+                      <div class="form-control-feedback"
+                           *ngIf="formGroup.controls[formInputs.email].hasError('required')
+                           && formGroup.controls[formInputs.email].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'email est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <label class="col">Référence proposition{{isRequired(formInputs.proposal_reference)}}</label>
+                  <div class="col">
+                    <input type="text"
+                           class="form-control input"
+                           placeholder="Saissir l'intitulé mission"
+                           [formControl]="formGroup.controls[formInputs.proposal_reference]" />
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formInputs.proposal_reference].hasError('required')
+                           && formGroup.controls[formInputs.proposal_reference].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      La référence proposition est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-bloc form-box row">
+                <div class="col">
+                  <label class="col-2">Contact achat <i class="icon-info primary-icon"></i> {{isRequired(formInputs.purchasing_contacts)}}</label>
+                  <div class="col">
+                    <input type="text"
+                           class="form-control input"
+                           placeholder="Saisir le contact achat"
+                           [formControl]="formGroup.controls[formInputs.purchasing_contacts]" />
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formInputs.purchasing_contacts].hasError('required')
+                           && formGroup.controls[formInputs.purchasing_contacts].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      Le contact achat est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </ng-template>
   </ng-container>
