@@ -27,9 +27,9 @@ export class CreationClientComponent implements OnInit {
     client_id: 'client_id',
     in_out_office: 'in_out_office',
     technical_contact: 'technical_contact',
-    email: 'email',
+    client_email: 'client_email',
     proposal_reference: 'proposal_reference',
-    purchasing_contacts: 'purchasing_contacts',
+    purchasing_contact: 'purchasing_contact'
   }
   @Input() title = '';
   @Input() type = '';
@@ -66,9 +66,9 @@ export class CreationClientComponent implements OnInit {
       client_id: [null],
       in_out_office: [null],
       technical_contact: [null],
-      email: [null],
+      client_email: [null],
       proposal_reference: [null],
-      purchasing_contacts: [null]
+      purchasing_contact: [null]
     });
   }
 

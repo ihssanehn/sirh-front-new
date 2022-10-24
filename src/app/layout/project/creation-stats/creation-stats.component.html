@@ -34,17 +34,20 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-        <div class="main-container white-box">
+        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="main-container p-0" novalidate>
+           <div class="main-container white-box">
           <div class=" row">
             <div class="form-bloc col row" >
               <div class="check-box-btn text-center">
-                <label for="mission_active" class="bold-text" style="min-width: 160px">Exclusion TR</label>
+                <label for="mission_active" class="bold-text" style="min-width: 160px">Démarrage</label>
                 <div class="input-container">
                   <input type="checkbox"
-                         id="mission_active"
-                         name="mission_active" >
+                         id="demarrage"
+                         name="demarrage"
+                         [formControl]="formGroup.controls[formInputs.is_getting_started]"
+                  >
                 </div>
-                <label for="mail_to_manager" class="light-text">
+                <label for="demarrage" class="light-text">
                   A cocher pour une nouvelle prestation
                 </label>
               </div>
@@ -53,13 +56,15 @@
           <div class="row">
             <div class="form-bloc col row" >
               <div class="check-box-btn text-center align-items-start">
-                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Frais ok</label>
+                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Formation</label>
                 <div class="input-container">
                   <input type="checkbox"
-                         id="mail_to_manager"
-                         name="mail_to_manager" >
+                         id="formation"
+                         name="formation"
+                         [formControl]="formGroup.controls[formInputs.has_formation]"
+                  >
                 </div>
-                <label for="mail_to_manager" class="light-text">
+                <label for="formation" class="light-text">
                   A cocher pour une formation pour visualisation dans graphique activité et ETP
                 </label>
               </div>
@@ -68,11 +73,13 @@
           <div class="row">
             <div class="form-bloc col row" >
               <div class="check-box-btn text-center">
-                <label for="mission_active" class="bold-text" style="min-width: 160px">Exclusion TR</label>
+                <label for="mission_active" class="bold-text" style="min-width: 160px">Mission NON valorasée</label>
                 <div class="input-container">
                   <input type="checkbox"
                          id="mission_active"
-                         name="mission_active" >
+                         name="mission_active"
+                         [formControl]="formGroup.controls[formInputs.is_mission_not_valued]"
+                  >
                 </div>
               </div>
             </div>
@@ -80,11 +87,13 @@
           <div class="row">
             <div class="form-bloc col row" >
               <div class="check-box-btn text-center align-items-start">
-                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Frais ok</label>
+                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Mission NON facturable</label>
                 <div class="input-container">
                   <input type="checkbox"
                          id="mail_to_manager"
-                         name="mail_to_manager" >
+                         name="mail_to_manager"
+                         [formControl]="formGroup.controls[formInputs.is_mission_not_billable]"
+                  >
                 </div>
               </div>
             </div>
@@ -92,38 +101,46 @@
           <div class="row">
             <div class="form-bloc col row" >
               <div class="check-box-btn text-center">
-                <label for="mission_active" class="bold-text" style="min-width: 160px">Exclusion TR</label>
+                <label for="mission_active" class="bold-text" style="min-width: 160px">Mission en inter contrat</label>
                 <div class="input-container">
                   <input type="checkbox"
                          id="mission_active"
-                         name="mission_active" >
+                         name="mission_active"
+                         [formControl]="formGroup.controls[formInputs.is_mission_inter_contract]"
+                  >
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="form-bloc col row" >
-              <div class="check-box-btn text-center align-items-start">
-                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Frais ok</label>
+              <div class="check-box-btn text-center">
+                <label for="mission_active" class="bold-text" style="min-width: 160px">Télétravail</label>
                 <div class="input-container">
                   <input type="checkbox"
-                         id="mail_to_manager"
-                         name="mail_to_manager" >
+                         id="mission_active"
+                         name="mission_active"
+                         [formControl]="formGroup.controls[formInputs.is_remote_mission]"
+                  >
                 </div>
               </div>
             </div>
           </div>
-          <div class="filter-container">
+
+          <div class="filter-container p-0 row">
             <div class="filters col-md-4 col-12">
               <div class="input-group flex-column">
-                <label>Code spécifique mission</label>
+                <label class="bold-text">Code spécifique mission</label>
                 <input type="text"
                        class="form-control input"
-                       placeholder="Saisir le code">
+                       placeholder="Saisir le code"
+                       [formControl]="formGroup.controls[formInputs.mission_specific_code]"
+                >
               </div>
             </div>
           </div>
         </div>
+        </form>
       </div>
     </ng-template>
   </ng-container>

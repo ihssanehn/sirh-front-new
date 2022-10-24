@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ProjectRoutingModule } from './project-routing.module';
 import {CreationStepperComponent} from "@layout/project/creation-stepper/creation-stepper.component";
-import {UsersRoutingModule} from "@layout/users/users-routing.module";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {SharedModule} from "@shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -19,7 +17,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { CreationGeneralComponent } from './creation-general/creation-general.component';
 import { CreationClientComponent } from './creation-client/creation-client.component';
 import { CreationLieuInterventionComponent } from './creation-lieu-intervention/creation-lieu-intervention.component';
-import { PointageComponent } from './pointage/pointage.component';
 import { CreationPointageComponent } from './creation-pointage/creation-pointage.component';
 import { CreationFraisComponent } from './creation-frais/creation-frais.component';
 import { CreationStatsComponent } from './creation-stats/creation-stats.component';
@@ -33,7 +30,6 @@ import { CreationPiecesJointesComponent } from './creation-pieces-jointes/creati
     CreationGeneralComponent,
     CreationClientComponent,
     CreationLieuInterventionComponent,
-    PointageComponent,
     CreationPointageComponent,
     CreationFraisComponent,
     CreationStatsComponent,

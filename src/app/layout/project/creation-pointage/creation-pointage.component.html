@@ -64,6 +64,49 @@
               </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td>
+                    {{newItem.type}}
+                  </td>
+                  <td>
+                    <ng-select
+                      [items]="units"
+                      [clearable]="false"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="value"
+                      class="select form-control"
+                      placeholder="Séléctionner l'unité"
+                      [(ngModel)]="newItem.unit">
+                    </ng-select>
+                  </td>
+                  <td>
+                    <input type="number"
+                           [(ngModel)]="newItem.tariff"
+                           class="form-control input"
+                           placeholder="Saisir le tarif" />
+                  </td>
+                  <td>
+                    {{newItem.start_date | dateMessage:'DD MM yyyy'}}
+                  </td>
+                  <td>
+                    {{newItem.end_date | dateMessage:'DD MMM yyyy'}}
+                  </td>
+                  <td>
+                    <input type="text"
+                           [(ngModel)]="newItem.info"
+                           class="form-control input"
+                           placeholder="Saisir ici" />
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <i class="icon-info-cercle"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="Modifier"></i>
+                    </div>
+                  </td>
+                </tr>
                 <tr *ngFor="let item of pointages"  >
                   <td>
                     {{item.type}}

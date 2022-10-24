@@ -23,7 +23,13 @@ export class CreationStatsComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    is_getting_started: 'is_getting_started',
+    has_formation: 'has_formation',
+    is_mission_not_valued : 'is_mission_not_valued',
+    is_mission_not_billable: 'is_mission_not_billable',
+    is_mission_inter_contract: 'is_mission_inter_contract',
+    is_remote_mission: 'is_remote_mission',
+    mission_specific_code: 'mission_specific_code'
   }
   @Input() title = '';
   @Input() type = '';
@@ -43,7 +49,14 @@ export class CreationStatsComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null]
+      id: [null],
+      is_getting_started: [null],
+      has_formation: [null],
+      is_mission_not_valued : [null],
+      is_mission_not_billable: [null],
+      is_mission_inter_contract: [null],
+      is_remote_mission: [null],
+      mission_specific_code: [null]
     });
   }
 

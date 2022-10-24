@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {SharedClasses} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-pointage',
@@ -16,6 +17,7 @@ import {MainStore} from "@store/mainStore.store";
 })
 export class CreationPointageComponent implements OnInit {
 
+
   formGroup: FormGroup;
   errors = [];
   error = '';
@@ -23,25 +25,40 @@ export class CreationPointageComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    pointing_type_id: 'pointing_type_id',
+    pointing_unity_id: 'pointing_unity_id',
+    pointing_rate: 'pointing_rate',
+    information_for_consultant: 'information_for_consultant',
   }
   @Input() title = '';
   @Input() type = '';
-  @Input()  idProject: any;
-  @Input()  submitting: boolean;
+  @Input() idProject: any;
+  @Input() submitting: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-  pointages = [
+  loadingSelect = {};
+  id_entite;
+  sieges = [
     {
-      type: 'Travail normal',
-      start_date: '2021-01-01',
-      end_date: '2021-01-01',
-      unit: null,
-      tariff: null,
-      info: null,
+      label: 'Siège',
+      id: true
+    },
+    {
+      label: 'Hors siège',
+      id: false
     }
   ];
+  clients = [];
+  pointages = [];
   units = [];
+  newItem = {
+    type: 'Travail normal',
+    unit: '',
+    tariff: '',
+    start_date: '01/09/2022',
+    end_date: '01/09/2022',
+    info: '',
+  };
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -54,7 +71,11 @@ export class CreationPointageComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null]
+      id: [null],
+      pointing_type_id: [null],
+      pointing_unity_id: [null],
+      pointing_rate: [null],
+      information_for_consultant: [null]
     });
   }
 
@@ -70,6 +91,33 @@ export class CreationPointageComponent implements OnInit {
       this.next.emit();
     }else{
       this.preview.emit();
+    }
+  }
+
+
+  isRequired(control) {
+    return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';
+  }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
     }
   }
 
