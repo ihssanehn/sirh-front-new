@@ -26,17 +26,17 @@ export class CreationGeneralComponent implements OnInit {
   formInputs = {
     start_date: 'start_date',
     end_date: 'end_date',
-    nbr_initial_days: 'nbr_initial_days',
-    nbr_remaining_days: 'nbr_remaining_days',
+    initial_number_of_days: 'initial_number_of_days',
+    left_number_of_days: 'left_number_of_days',
     consultant_id: 'consultant_id',
-    short_title: 'short_title',
-    tariff_currency: 'tariff_currency',
-    mission_active: 'mission_active',
-    mail_to_manager: 'mail_to_manager',
-    estimated_end: 'estimated_end',
+    short_mission_title: 'short_mission_title',
+    devise_id: 'devise_id',
+    is_active: 'is_active',
+    has_mail_to_manager: 'has_mail_to_manager',
+    end_estimated_date: 'end_estimated_date',
     mission_title: 'mission_title',
     tariff: 'tariff',
-    cp: 'cp',
+    cp_id: 'cp_id'
   }
   @Input() title = '';
   @Input() type = '';
@@ -64,17 +64,17 @@ export class CreationGeneralComponent implements OnInit {
       id: [null],
       start_date: [null],
       end_date: [null],
-      nbr_initial_days: [null],
-      nbr_remaining_days: [null],
+      initial_number_of_days: [null],
+      left_number_of_days: [null],
       consultant_id: [null],
-      short_title: [null],
-      tariff_currency: [null],
-      mission_active: [null],
-      mail_to_manager: [null],
-      estimated_end: [null],
+      short_mission_title: [null],
+      devise_id: [null],
+      is_active: [null],
+      has_mail_to_manager: [null],
+      end_estimated_date: [null],
       mission_title: [null],
       tariff: [null],
-      cp: [null]
+      cp_id: [null]
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }

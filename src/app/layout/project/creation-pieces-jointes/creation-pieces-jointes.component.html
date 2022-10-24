@@ -1,3 +1,6 @@
+<input type="file" style="display: none" id="uploadMoreFiles"
+       multiple (change)="uploadFile($event)"/>
+
 <div class="container top-container">
   <div class="header">
     <div class="btns left-btns">
@@ -16,8 +19,9 @@
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
       <app-button
-        [text]="'Terminer'"
+        [text]="'Créer'"
         [type]="'secondary'"
+        [iconLeft]="'icon-check'"
         (onClick)="save()"
       ></app-button>
     </div>
@@ -33,7 +37,54 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
+        <div class="main-container">
+          <p class="paragraph">
+            Par défaut, les pièces jointes ne sont pas visibles sur l'ordre de mission, si vous voulez que votre pièce jointe sera visible sur l'ordre de mission, cochez la case ci-dessous.
+          </p>
+          <div class="align-items-center d-flex flex-column justify-content-center">
+            <div class="check-box-btn text-center">
+              <div class="d-flex input-container">
+                <label for="visibility_om">Visibilité sur OM</label>
+                <input type="checkbox"
+                       id="visibility_om"
+                       [value]="'visibility_om'"
+                       name="visibility_om" >
+              </div>
+            </div>
 
+            <div class="row files-viewer">
+              <label class="col-12  text-center" for="uploadMoreFiles">
+                <i class="icon-attachment"></i>
+                &nbsp;Ajouter une pièce jointe
+              </label>
+              <div class="row justify-content-center" *ngIf="files?.length>0">
+                <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
+                  <div class="close-icon" (click)="removeFile(item)">
+                    <i class="icon-close"></i>
+                  </div>
+                  <div class="icon">
+                    <i class="{{getIcon(item.name)}}"></i>
+                  </div>
+                  <div class="">
+                    <div class="name">{{getFileName(item.name)}}</div>
+                    <div class="size">{{getFileSize(item.size)}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="submit-block justify-content-center">
+          <app-button
+            [type]="'secondary'"
+            [text]="'Créer la mission'"
+            [isLoading]="submitting"
+            (onClick)="save()"
+            [iconLeft]="'icon-check'"
+          >
+          </app-button>
+        </div>
       </div>
     </ng-template>
   </ng-container>

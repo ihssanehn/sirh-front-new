@@ -202,11 +202,12 @@
 
 
 .submit-block{
-  padding-top: 30px;
+  //padding-top: 30px;
   padding-bottom: 0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding-top: 0;
   app-button:first-child{
     margin-right: 15px;
   }
