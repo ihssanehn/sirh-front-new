@@ -38,27 +38,149 @@
           <div class="input-title">
             Niveau de risque
           </div>
-          <div >
-            <div class="btn-group align-items-start btn-group flex-column radio"
+          <div>
+            <div class="btn-group align-items-start btn-group flex-column radio "
                  ngbRadioGroup name="radioBasic"
                  [formControl]="formGroup.controls[formInputs.risk_level]"
             >
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'am'" id="starts_at_am">&nbsp;
-                <span class="radio-label" for="starts_at_am">1. Site piman OU site client, absence environnement / travaux dangereux et < 400h</span>
+                <input ngbButton type="radio" [value]="'level_1'" id="level_1">&nbsp;
+                <span class="radio-label" for="level_1">1. Site piman OU site client, absence environnement / travaux dangereux et < 400h</span>
               </label>
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
-                <span class="radio-label" for="starts_at_pm">2. Site client, absence environnement / travaux dangereux et > 400h</span>
+                <input ngbButton type="radio" [value]="'level_2'" id="level_2">&nbsp;
+                <span class="radio-label" for="level_2">2. Site client, absence environnement / travaux dangereux et > 400h</span>
               </label>
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'pm'" id="starts_at_pm">&nbsp;
-                <span class="radio-label" for="starts_at_pm">3. Site client, environnement / travaux dangereux</span>
+                <input ngbButton type="radio" [value]="'level_3'" id="level_3">&nbsp;
+                <span class="radio-label" for="level_3">3. Site client, environnement / travaux dangereux</span>
               </label>
             </div>
           </div>
         </div>
 
+        <div class="main-container">
+          <div class="sub-header">
+            <h3 class="main-title">
+              Fiche analyse Risques Mission : Informations missions
+            </h3>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Entité</div>
+              <div class="value"></div>
+            </div>
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Date de l'analyse</div>
+              <div class="value"></div>
+            </div>
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Référence de la proposition</div>
+              <div class="value"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Manager:</div>
+              <div class="value">Piman</div>
+            </div>
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Client:</div>
+              <div class="value"></div>
+            </div>
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Date de l'intervention:</div>
+              <div class="value"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Consultant:</div>
+              <div class="value"></div>
+            </div>
+            <div class="col-12 col-sm-3 info-item">
+              <div class="label">Site d'intervention:</div>
+              <div class="value"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="main-container">
+          <div class="sub-header">
+            <h3 class="main-title">
+              Fiche analyse Risques Mission : Environnement de travail
+            </h3>
+          </div>
+          <div class="d-flex">
+            <div style="margin-right: 20px;" class="info-item">
+              <div class="check-box-btn text-center">
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="bureau"
+                         [value]="'bureau'"
+                         name="bureau" >
+                </div>
+                <label for="bureau" >Bureau</label>
+              </div>
+            </div>
+            <div style="margin-right: 20px;" class="info-item">
+              <div class="check-box-btn text-center">
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="chantier"
+                         [value]="'chantier'"
+                         name="chantier" >
+                </div>
+                <label for="chantier">Chantier</label>
+              </div>
+            </div>
+            <div style="margin-right: 20px;" class="info-item">
+              <div class="check-box-btn text-center">
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="production"
+                         [value]="'production'"
+                         name="production" >
+                </div>
+                <label for="production" >Production</label>
+              </div>
+            </div>
+            <div style="margin-right: 20px;" class="info-item">
+              <div class="check-box-btn text-center">
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="atelier"
+                         [value]="'atelier'"
+                         name="atelier" >
+                </div>
+                <label for="atelier">Atelier</label>
+              </div>
+            </div>
+            <div style="margin-right: 20px;" class="info-item">
+              <div class="check-box-btn text-center">
+                <div class="input-container">
+                  <input type="checkbox"
+                         id="teletravail"
+                         [value]="'teletravail'"
+                         name="teletravail" >
+                </div>
+                <label for="teletravail" >Télétravail</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-3 info-item">
+              <div class="form-bloc form-box">
+                <div class="col row">
+                  <label>Autre (préciser):</label>
+                  <div class="col">
+                    <textarea class="form-control input" placeholder="Saisir le descriptif de la mission"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ng-container>
