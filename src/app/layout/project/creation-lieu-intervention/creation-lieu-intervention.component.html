@@ -44,12 +44,12 @@
                     <div class="col">
                       <ng-select [items]="countries"
                                  class="select form-control"
-                                 bindLabel="name"
+                                 bindLabel="label"
                                  bindValue="id"
                                  [clearable]="false"
                                  [searchable]="true"
-                                 [loading]="loadingSelect['countries']"
-                                 (open)="getFilterList('countries')"
+                                 [loading]="loadingSelect[listService.list.COUNTRY]"
+                                 (open)="getFilterList('countries', listService.list.COUNTRY)"
                                  placeholder="Séléctionner le pays"
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.country_id].hasError('required')
@@ -65,41 +65,16 @@
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col-2">Calendrier {{isRequired(formInputs.calendar_id)}}</label>
-                    <div class="col">
-                      <ng-select [items]="calendars"
-                                 class="select form-control"
-                                 bindLabel="name"
-                                 bindValue="id"
-                                 [clearable]="false"
-                                 [searchable]="true"
-                                 [loading]="loadingSelect['calendars']"
-                                 (open)="getFilterList('calendars')"
-                                 placeholder="Séléctionner le calendrier"
-                                 [ngClass]="{'is-invalid error-input':
-                                   formGroup.controls[formInputs.calendar_id].hasError('required')
-                                      && formGroup.controls[formInputs.calendar_id].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.calendar_id]">
-                      </ng-select>
-                      <div class="form-control-feedback"
-                           *ngIf="formGroup.controls[formInputs.calendar_id].hasError('required')
-                           && formGroup.controls[formInputs.calendar_id].dirty">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        Le calendrier est obligatoire
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col">
                     <label class="col-2">Ville {{isRequired(formInputs.city_id)}}</label>
                     <div class="col">
                       <ng-select [items]="cities"
                                  class="select form-control"
-                                 bindLabel="name"
+                                 bindLabel="label"
                                  bindValue="id"
                                  [clearable]="false"
                                  [searchable]="true"
-                                 [loading]="loadingSelect['cities']"
-                                 (open)="getFilterList('cities')"
+                                 [loading]="loadingSelect[listService.list.CITY]"
+                                 (open)="getFilterList('cities', listService.list.CITY, {id: formGroup.controls[formInputs.country_id].value})"
                                  placeholder="Séléctionner la ville"
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.city_id].hasError('required')
@@ -115,22 +90,42 @@
                     </div>
                   </div>
                   <div class="col">
-                    <label class="col">Code postal {{isRequired(formInputs.postal_code)}}</label>
+                    <label class="col-2">Calendrier {{isRequired(formInputs.calendar_id)}}</label>
                     <div class="col">
-                      <ng-select [items]="postalCodes"
+                      <ng-select [items]="calendars"
                                  class="select form-control"
-                                 bindLabel="name"
+                                 bindLabel="label"
                                  bindValue="id"
                                  [clearable]="false"
                                  [searchable]="true"
-                                 [loading]="loadingSelect['postalCodes']"
-                                 (open)="getFilterList('postalCodes')"
-                                 placeholder="Séléctionner le pays"
+                                 [loading]="loadingSelect['calendars']"
+                                 (open)="getFilterList('calendars', listService.list.CALENDAR)"
+                                 placeholder="Séléctionner le calendrier"
                                  [ngClass]="{'is-invalid error-input':
-                                   formGroup.controls[formInputs.postal_code].hasError('required')
-                                      && formGroup.controls[formInputs.postal_code].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.postal_code]">
+                                   formGroup.controls[formInputs.calendar_id].hasError('required')
+                                      && formGroup.controls[formInputs.calendar_id].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.calendar_id]">
                       </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="formGroup.controls[formInputs.calendar_id].hasError('required')
+                           && formGroup.controls[formInputs.calendar_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le calendrier est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="col">Code postal {{isRequired(formInputs.postal_code)}}</label>
+                    <div class="col">
+                      <input
+                        type="text"
+                        class="form-control input"
+                        [ngClass]="{'is-invalid error-input':
+                          formGroup.controls[formInputs.postal_code].hasError('required')
+                          && formGroup.controls[formInputs.postal_code].dirty}"
+                        [formControl]="formGroup.controls[formInputs.postal_code]"
+                        placeholder="Code postal"
+                      />
                       <div class="form-control-feedback"
                            *ngIf="formGroup.controls[formInputs.postal_code].hasError('required')
                            && formGroup.controls[formInputs.postal_code].dirty">

@@ -129,14 +129,14 @@
                     <div class="col">
                       <label class="col-2">Consultant {{isRequired(formInputs.initial_number_of_days)}}</label>
                       <div class="col">
-                        <ng-select [items]="consultants"
+                        <ng-select [items]="personals"
                                    class="select form-control"
-                                   bindLabel="name"
+                                   bindLabel="full_name"
                                    bindValue="id"
                                    [clearable]="false"
                                    [searchable]="true"
-                                   [loading]="loadingSelect['consultants']"
-                                   (open)="getFilterList('consultants')"
+                                   [loading]="loadingSelect['personals']"
+                                   (open)="getFilterList('personals')"
                                    placeholder="Séléctionner le consultant"
                                    [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.consultant_id].hasError('required')

@@ -6,7 +6,7 @@
   padding-right: 20px;
   padding-bottom: 20px;
   font-weight: 500;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 .radio {
@@ -32,4 +32,30 @@
   .value{
     font-size: 13px;
   }
+}
+
+.input-group{
+  label{
+    margin-bottom: 7px;
+  }
+}
+
+.check-box-btn{
+  padding-left: 0;
+}
+
+.sub-bloc{
+  border: 1px solid lightgray;
+  //margin: 18px 0;
+  margin-bottom: 18px;
+  padding: 15px 15px;
+  margin-left: 0;
+  margin-right: 0;
+  h3{
+    //margin: 10px 0;
+  }
+}
+
+.sub-sub-bloc{
+  margin-bottom: 15px;
 }

@@ -52,13 +52,14 @@ export class CreationPointageComponent implements OnInit {
   pointages = [];
   units = [];
   newItem = {
-    type: 'Travail normal',
-    unit: '',
+    type: null,
+    unit: null,
     tariff: '',
     start_date: '01/09/2022',
     end_date: '01/09/2022',
     info: '',
   };
+  types = [];
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -68,7 +69,7 @@ export class CreationPointageComponent implements OnInit {
               private messageService: MessageService,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
-              private listService: ListsService,
+              public listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
       id: [null],

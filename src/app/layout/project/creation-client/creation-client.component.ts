@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ErrorService} from "@app/core/services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -63,8 +63,8 @@ export class CreationClientComponent implements OnInit {
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
       id: [null],
-      client_id: [null],
-      in_out_office: [null],
+      client_id: [null, Validators.compose([Validators.required])],
+      in_out_office: [null, Validators.compose([Validators.required])],
       technical_contact: [null],
       client_email: [null],
       proposal_reference: [null],
@@ -73,6 +73,7 @@ export class CreationClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
 
   save() {

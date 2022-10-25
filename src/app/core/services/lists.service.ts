@@ -37,7 +37,9 @@ export class ListsService {
     VALIDATION_COST: 'validation_cost',
     TRI_COST: 'tri_cost',
     TYPE_OF_COST: 'type_of_cost',
+    SECURITY: 'security'
   }
+
 
   // Type d'avance GET: http://localhost:9073/filter/getFilter?model=advance_cost
   // Status D'avance GET: http://localhost:9073/status/getStatusByModel?model=advance_cost

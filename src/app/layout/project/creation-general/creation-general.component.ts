@@ -44,7 +44,7 @@ export class CreationGeneralComponent implements OnInit {
   @Input()  submitting: boolean;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-  consultants = [];
+  personals = [];
   cps = [];
   loadingSelect = {};
   id_entite;
@@ -64,17 +64,17 @@ export class CreationGeneralComponent implements OnInit {
       id: [null],
       start_date: [null],
       end_date: [null],
-      initial_number_of_days: [null],
-      left_number_of_days: [null],
-      consultant_id: [null],
-      short_mission_title: [null],
-      devise_id: [null],
+      initial_number_of_days: [null,  Validators.compose([Validators.required])],
+      left_number_of_days: [null,  Validators.compose([Validators.required])],
+      consultant_id: [null,  Validators.compose([Validators.required])],
+      short_mission_title: [null,  Validators.compose([Validators.required])],
+      devise_id: [null, Validators.compose([Validators.required])],
       is_active: [null],
       has_mail_to_manager: [null],
-      end_estimated_date: [null],
-      mission_title: [null],
-      tariff: [null],
-      cp_id: [null]
+      end_estimated_date: [null,  Validators.compose([Validators.required])],
+      mission_title: [null,  Validators.compose([Validators.required])],
+      tariff: [null, Validators.compose([Validators.required])],
+      cp_id: [null,  Validators.compose([Validators.required])]
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }

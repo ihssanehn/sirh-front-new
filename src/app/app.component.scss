@@ -337,6 +337,7 @@
             padding: 12px 24px 10px 24px;
             font-size: 12px;
             color: #4D4D4D;
+            border-bottom: 1px solid lightgray;
             i {
               margin-right: 5px;
               &:before{
@@ -393,7 +394,7 @@
 
 .input{
   font-size: 12px;
-  border: 1px solid $mainGray;
+  border: 1px solid #c1c2c3;
   border-radius: 5px;
   min-height: 40px;
   box-shadow: none;
@@ -409,7 +410,7 @@
   //border-top: 0;
   //border-left: 0;
   //border-right: 0;
-  border: 1px solid $lightgray;
+  border: 1px solid #c1c2c3;
   //min-height: 40px;
   ::ng-deep .ng-value-container {
     ::ng-deep  .ng-value {

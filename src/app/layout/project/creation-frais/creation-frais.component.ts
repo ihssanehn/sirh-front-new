@@ -92,6 +92,8 @@ export class CreationFraisComponent implements OnInit {
       is_refacturable: null,
     }
   ];
+  loadingSelect = {};
+  id_entite;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -101,7 +103,7 @@ export class CreationFraisComponent implements OnInit {
               private messageService: MessageService,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
-              private listService: ListsService,
+              public listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
       id: [null]
@@ -109,6 +111,7 @@ export class CreationFraisComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
 
   save() {
@@ -120,6 +123,29 @@ export class CreationFraisComponent implements OnInit {
       this.next.emit();
     }else{
       this.preview.emit();
+    }
+  }
+
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
     }
   }
 }

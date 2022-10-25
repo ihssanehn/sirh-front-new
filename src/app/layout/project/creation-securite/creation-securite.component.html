@@ -34,7 +34,7 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-        <div class="align-items-start d-flex justify-content-center">
+        <div class="align-items-start d-flex justify-content-center main-container">
           <div class="input-title">
             Niveau de risque
           </div>
@@ -105,82 +105,174 @@
           </div>
         </div>
 
-        <div class="main-container">
-          <div class="sub-header">
-            <h3 class="main-title">
-              Fiche analyse Risques Mission : Environnement de travail
-            </h3>
-          </div>
-          <div class="d-flex">
-            <div style="margin-right: 20px;" class="info-item">
-              <div class="check-box-btn text-center">
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="bureau"
-                         [value]="'bureau'"
-                         name="bureau" >
-                </div>
-                <label for="bureau" >Bureau</label>
-              </div>
+
+        <ng-container *ngFor="let item of items">
+          <div class="main-container">
+            <div class="sub-header">
+              <h3 class="main-title">
+                {{item.title}}&nbsp;&nbsp;
+                <i *ngIf="item.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="item.info" triggers="mouseenter:mouseleave"></i>
+              </h3>
             </div>
-            <div style="margin-right: 20px;" class="info-item">
-              <div class="check-box-btn text-center">
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="chantier"
-                         [value]="'chantier'"
-                         name="chantier" >
-                </div>
-                <label for="chantier">Chantier</label>
-              </div>
-            </div>
-            <div style="margin-right: 20px;" class="info-item">
-              <div class="check-box-btn text-center">
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="production"
-                         [value]="'production'"
-                         name="production" >
-                </div>
-                <label for="production" >Production</label>
-              </div>
-            </div>
-            <div style="margin-right: 20px;" class="info-item">
-              <div class="check-box-btn text-center">
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="atelier"
-                         [value]="'atelier'"
-                         name="atelier" >
-                </div>
-                <label for="atelier">Atelier</label>
-              </div>
-            </div>
-            <div style="margin-right: 20px;" class="info-item">
-              <div class="check-box-btn text-center">
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="teletravail"
-                         [value]="'teletravail'"
-                         name="teletravail" >
-                </div>
-                <label for="teletravail" >Télétravail</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-sm-3 info-item">
-              <div class="form-bloc form-box">
-                <div class="col row">
-                  <label>Autre (préciser):</label>
-                  <div class="col">
-                    <textarea class="form-control input" placeholder="Saisir le descriptif de la mission"></textarea>
+            <div class="row gx-3 gy-3">
+              <ng-container *ngFor="let input of item.children; let _id=index">
+                <div
+                  class="col-4"
+                  [ngClass]="{'col-12': input.input_type === 'textarea'}">
+
+                  <ng-container *ngIf="input.input_type === 'textarea'">
+                    <div style="margin-top: 15px;" class="input-group d-flex flex-column">
+                          <label>
+                            {{input.title}}&nbsp;&nbsp;
+                            <i *ngIf="input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="input.info" triggers="mouseenter:mouseleave"></i>
+                          </label>
+                          <textarea rows="4"
+                                    placeholder="Saisir ici"
+                                    class="form-control input w-100"
+                          ></textarea>
+                        </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="input.input_type === 'text'">
+                    <div style="margin-top: 15px;" class="input-group d-flex flex-column">
+                      <label>
+                        {{input.title}}&nbsp;&nbsp;
+                        <i *ngIf="input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="input.info" triggers="mouseenter:mouseleave"></i>
+                      </label>
+                      <input type="text"
+                              placeholder="Saisir ici"
+                              class="form-control input w-100"
+                      />
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="input.input_type === 'checkbox'">
+                      <div class="check-box-btn text-center col"  *ngIf="input.id" >
+                        <div class="input-container">
+                          <input type="checkbox"
+                                 id="{{input.id}}"
+                                 [value]="input.value"
+                                 name="{{input.id}}" >
+                        </div>
+                        <!--                  [checked]="ischecked(access.id)"-->
+                        <!--                  (change)="onCheckChange($event, access)"-->
+                        <label for="{{input.id}}" >{{input.title}}</label>
+                      </div>
+                  </ng-container>
+
+<!--                  embeded form-->
+                  <div *ngIf="input.children?.length>0" class="sub-bloc col h-100">
+                    <div [ngClass]="{'row': input.children?.length>5}">
+                      <h3 *ngIf="input.input_type === 'bloc_title'" class="title">
+                        {{input.title}}&nbsp;&nbsp;
+                        <i *ngIf="input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="input.info" triggers="mouseenter:mouseleave"></i>
+                      </h3>
+
+                      <ng-container *ngFor="let sub_bloc_input of input.children; let _id=index">
+
+
+                        <div
+                          [ngClass]="{'col-12': sub_bloc_input.input_type === 'textarea', 'col-6': input.children.length>5, 'col': input.children.length<=5 }">
+
+                          <ng-container *ngIf="sub_bloc_input.input_type === 'bloc_title'">
+                            {{sub_bloc_input.title}}&nbsp;&nbsp;
+                            <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                          </ng-container>
+
+                          <ng-container *ngIf="sub_bloc_input.input_type === 'textarea'">
+                            <div style="margin-top: 15px;" class="input-group d-flex flex-column">
+                              <label>
+                                {{sub_bloc_input.title}}&nbsp;&nbsp;
+                                <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                              </label>
+                              <textarea rows="4"
+                                        placeholder="Saisir ici"
+                                        class="form-control input w-100"
+                              ></textarea>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="sub_bloc_input.input_type === 'checkbox'">
+                            <div class="check-box-btn text-center col"  *ngIf="sub_bloc_input.id" >
+                              <div class="input-container">
+                                <input type="checkbox"
+                                       id="{{sub_bloc_input.id}}"
+                                       [value]="sub_bloc_input.value"
+                                       name="{{sub_bloc_input.id}}" >
+                              </div>
+                              <!--                  [checked]="ischecked(access.id)"-->
+                              <!--                  (change)="onCheckChange($event, access)"-->
+                              <label for="{{sub_bloc_input.id}}" >{{sub_bloc_input.title}}</label>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="sub_bloc_input.input_type === 'text'">
+                            <div style="margin-top: 15px;" class="input-group d-flex flex-column">
+                              <label>
+                                {{sub_bloc_input.title}}&nbsp;&nbsp;
+                                <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                              </label>
+                              <input type="text"
+                                     placeholder="Saisir ici"
+                                     class="form-control input w-100"
+                              />
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="sub_bloc_input?.children?.length>0">
+                            <div class="sub-sub-bloc col h-100">
+                              <div [ngClass]="{'row': sub_bloc_input.children?.length>5}">
+                                <h3 *ngIf="sub_bloc_input.input_type === 'bloc_title'" class="title">
+                                  {{sub_bloc_input.title}}&nbsp;&nbsp;
+                                  <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                                </h3>
+
+                                <ng-container *ngFor="let sub_sub_bloc_input of sub_bloc_input.children; let _id=index">
+
+                                  <div
+                                    [ngClass]="{'col-12': sub_sub_bloc_input.input_type === 'textarea', 'col-6': sub_bloc_input.children.length>5, 'col': sub_bloc_input.children.length<=5 }">
+
+                                    <ng-container *ngIf="sub_sub_bloc_input.input_type === 'textarea'">
+                                      <div  class="input-group d-flex flex-column">
+                                        <label>
+                                          {{sub_sub_bloc_input.title}}&nbsp;&nbsp;
+                                          <i *ngIf="sub_sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                                        </label>
+                                        <textarea rows="4"
+                                                  placeholder="Saisir ici"
+                                                  class="form-control input w-100"
+                                        ></textarea>
+                                      </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="sub_sub_bloc_input.input_type === 'text'">
+                                      <div class="input-group d-flex flex-column">
+                                        <label>
+                                          {{sub_sub_bloc_input.title}}&nbsp;&nbsp;
+                                          <i *ngIf="sub_sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                                        </label>
+                                        <input type="text"
+                                               placeholder="Saisir ici"
+                                               class="form-control input w-100"
+                                        />
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                    </div>
                   </div>
+<!--                  embeded form-->
                 </div>
-              </div>
+              </ng-container>
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </ng-template>
   </ng-container>

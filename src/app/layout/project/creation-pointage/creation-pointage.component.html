@@ -66,7 +66,18 @@
               <tbody>
                 <tr>
                   <td>
-                    {{newItem.type}}
+                    <ng-select
+                      [items]="types"
+                      [clearable]="false"
+                      [searchable]="false"
+                      bindLabel="label"
+                      bindValue="value"
+                      class="select form-control"
+                      placeholder="Séléctionner l'unité"
+                      [loading]="loadingSelect[listService.list.TYPE_OF_COST]"
+                      (open)="getFilterList('types', listService.list.TYPE_OF_COST)"
+                      [(ngModel)]="newItem.type">
+                    </ng-select>
                   </td>
                   <td>
                     <ng-select

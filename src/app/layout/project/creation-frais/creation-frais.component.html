@@ -38,7 +38,7 @@
           <div class="filter-container">
             <div class="filters col-md-4 col-12">
               <div class="input-group flex-column">
-                <label>Type document</label>
+                <label>Choix d'une politique de frais d'une mission précédente:</label>
                 <ng-select class="select form-control"
                            [multiple]="false"
                            [items]="politique_frais"
@@ -91,6 +91,8 @@
                       bindValue="id"
                       class="select form-control"
                       placeholder="Séléctionner l'unité"
+                      [loading]="loadingSelect['types']"
+                      (open)="getFilterList('types', listService?.list?.TYPE_OF_COST)"
                       [(ngModel)]="item.type_id">
                     </ng-select>
                   </td>
@@ -162,33 +164,35 @@
             </div>
           </div>
 
-          <div style="margin-top: 30px;" class=" row">
-            <div class="form-bloc col row" >
-              <div class="check-box-btn text-center">
-                <label for="mission_active" class="bold-text" style="min-width: 160px">Exclusion TR</label>
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="mission_active"
-                         name="mission_active" >
+          <div  class="filter-container">
+            <div class="row">
+              <div class="form-bloc col row" >
+                <div class="check-box-btn text-center">
+                  <label for="mission_active" class="bold-text" style="min-width: 160px">Exclusion TR</label>
+                  <div class="input-container">
+                    <input type="checkbox"
+                           id="mission_active"
+                           name="mission_active" >
+                  </div>
+                  <label for="mail_to_manager" class="light-text">
+                    Cochez cette si les jours pointés sur cette mission ne donnent pas le droit à l'acquisition d'un Ticket Restaurant.
+                  </label>
                 </div>
-                <label for="mail_to_manager" class="light-text">
-                  Cochez cette si les jours pointés sur cette mission ne donnent pas le droit à l'acquisition d'un Ticket Restaurant.
-                </label>
               </div>
             </div>
-          </div>
-          <div class=" row">
-            <div class="form-bloc col row" >
-              <div class="check-box-btn text-center align-items-start">
-                <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Frais ok</label>
-                <div class="input-container">
-                  <input type="checkbox"
-                         id="mail_to_manager"
-                         name="mail_to_manager" >
+            <div class="row">
+              <div class="form-bloc col row" >
+                <div class="check-box-btn text-center align-items-start">
+                  <label for="mail_to_manager" class="bold-text" style="min-width: 160px">Frais ok</label>
+                  <div class="input-container">
+                    <input type="checkbox"
+                           id="mail_to_manager"
+                           name="mail_to_manager" >
+                  </div>
+                  <label for="mail_to_manager" class="light-text">
+                    Cochez cette si les frais de l'ordre de mission ont été saisis.
+                  </label>
                 </div>
-                <label for="mail_to_manager" class="light-text">
-                  Cochez cette si les frais de l'ordre de mission ont été saisis.
-                </label>
               </div>
             </div>
           </div>

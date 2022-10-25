@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ErrorService} from "@app/core/services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -52,13 +52,13 @@ export class CreationLieuInterventionComponent implements OnInit {
               private messageService: MessageService,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
-              private listService: ListsService,
+              public listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
       id: [null],
-      country_id: [null],
-      calendar_id: [null],
-      city_id: [null],
+      country_id: [null, Validators.compose([Validators.required])],
+      calendar_id: [null, Validators.compose([Validators.required])],
+      city_id: [null, Validators.compose([Validators.required])],
       postal_code: [null],
       address: [null],
       mission_description: [null]
