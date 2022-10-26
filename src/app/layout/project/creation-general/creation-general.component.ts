@@ -48,6 +48,7 @@ export class CreationGeneralComponent implements OnInit {
   cps = [];
   loadingSelect = {};
   id_entite;
+  devises = [];
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,

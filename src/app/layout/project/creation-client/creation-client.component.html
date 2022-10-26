@@ -48,7 +48,7 @@
                                  [clearable]="false"
                                  [searchable]="true"
                                  [loading]="loadingSelect['clients']"
-                                 (open)="getFilterList('clients')"
+                                 (open)="getFilterList('clients', null)"
                                  placeholder="Séléctionner le consultant"
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.client_id].hasError('required')
@@ -64,7 +64,7 @@
                     </div>
                   </div>
                 <div class="col">
-                    <label class="col-2">Siège/hors siège {{isRequired(formInputs.in_out_office)}}</label>
+                    <label class="col">Siège/hors siège {{isRequired(formInputs.in_out_office)}}</label>
                     <div class="col">
                       <ng-select [items]="sieges"
                                  class="select form-control"
@@ -88,8 +88,8 @@
                   </div>
               </div>
               <div class="form-bloc form-box row">
-                <div class="col d-flex">
-                  <div class="col">
+<!--                <div class="col d-flex">-->
+                  <div class="col-3">
                     <label class="col">Contact technique {{isRequired(formInputs.technical_contact)}}</label>
                     <div class="col">
                       <input type="text"
@@ -104,7 +104,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col">
+                  <div class="col-3">
                     <label class="col">Mail {{isRequired(formInputs.client_email)}}</label>
                     <div class="col">
                       <input type="text"
@@ -119,8 +119,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="col">
+<!--                </div>-->
+                <div class="col-6">
                   <label class="col">Référence proposition{{isRequired(formInputs.proposal_reference)}}</label>
                   <div class="col">
                     <input type="text"
@@ -138,7 +138,7 @@
               </div>
               <div class="form-bloc form-box row">
                 <div class="col">
-                  <label class="col-2">Contact achat <i class="icon-info primary-icon"></i> {{isRequired(formInputs.purchasing_contact)}}</label>
+                  <label class="col-2">Contact achat {{isRequired(formInputs.purchasing_contact)}} <i class="icon-info primary-icon"></i></label>
                   <div class="col">
                     <input type="text"
                            class="form-control input"

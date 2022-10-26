@@ -172,10 +172,23 @@
                     <div class="col">
                       <label class="col-2">Devise tarif {{isRequired(formInputs.devise_id)}}</label>
                       <div class="col">
-                        <input type="number"
-                               class="form-control input"
-                               placeholder="Saissir la devise tarif"
-                               [formControl]="formGroup.controls[formInputs.devise_id]" />
+                        <ng-select [items]="devises"
+                                   class="select form-control"
+                                   bindLabel="name"
+                                   bindValue="id"
+                                   [clearable]="false"
+                                   [searchable]="true"
+                                   [loading]="loadingSelect['devises']"
+                                   (open)="getFilterList('devises', listService.list.DEVISE)"
+                                   placeholder="Séléctionner la devise"
+                                   [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.devise_id].hasError('required')
+                                      && formGroup.controls[formInputs.devise_id].dirty}"
+                                   [formControl]="formGroup.controls[formInputs.devise_id]">
+                          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <span [ngOptionHighlight]="search">{{item.name}} ({{item.symbol}})</span>
+                          </ng-template>
+                        </ng-select>
                         <div class="form-control-feedback"
                              *ngIf="formGroup.controls[formInputs.devise_id].hasError('required')
                            && formGroup.controls[formInputs.devise_id].dirty">
@@ -247,7 +260,7 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <label class="col-2">Tarif <i class="icon-info primary-icon pointer"></i> {{isRequired(formInputs.tariff)}}</label>
+                      <label class="col-2">Tarif {{isRequired(formInputs.tariff)}} <i class="icon-info primary-icon pointer"></i></label>
                       <div class="col">
                         <input type="number"
                                class="form-control input"

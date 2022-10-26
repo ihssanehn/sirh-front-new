@@ -195,6 +195,11 @@
       transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   }
+
+  .secondary_label{
+    font-size: 12px !important;
+    font-weight: 400 !important;
+  }
 }
 
 .photo-cell{
@@ -772,10 +777,10 @@ a, .link{
 // date picker
 
 .date-picker-group{
-  border: 1px solid $lightgray;
+  //border: 1px solid $lightgray;
   border-radius: 5px;
   input{
-    border: 0 !important;
+    //border: 0 !important;
   }
 }
 

@@ -105,6 +105,8 @@
                       bindValue="id"
                       class="select form-control"
                       placeholder="Séléctionner l'unité"
+                      [loading]="loadingSelect['frequences']"
+                      (open)="getFilterList('frequences', listService?.list?.MISSION_COST_FREQUENCY)"
                       [(ngModel)]="item.frequence_id">
                     </ng-select>
                   </td>

@@ -37,7 +37,9 @@ export class ListsService {
     VALIDATION_COST: 'validation_cost',
     TRI_COST: 'tri_cost',
     TYPE_OF_COST: 'type_of_cost',
-    SECURITY: 'security'
+    SECURITY: 'security',
+    MISSION_COST_FREQUENCY: 'mission_cost_frequency',
+    DEVISE: 'devise',
   }
 
 
@@ -86,5 +88,10 @@ export class ListsService {
     return this.apiService.get( 'category/getParameters')
       .pipe(map(res => { return res?.result?.data || []}));
 
+  }
+
+  getClients() {
+    return this.apiService.get( 'client/getAllClients')
+      .pipe(map(res => { return res?.result?.data || []}));
   }
 }

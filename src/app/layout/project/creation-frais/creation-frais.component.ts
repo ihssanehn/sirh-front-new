@@ -45,20 +45,7 @@ export class CreationFraisComponent implements OnInit {
       label: 'Repas midi',
     }
   ];
-  frequences = [
-    {
-      id: 1,
-      label: 'Mensuel'
-    },
-    {
-      id: 2,
-      label: 'Journalier'
-    },
-    {
-      id: 3,
-      label: 'Annuel'
-    }
-  ];
+  frequences = [];
   refacturables = [
     {
       value: true,

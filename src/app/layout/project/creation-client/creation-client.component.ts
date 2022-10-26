@@ -103,16 +103,26 @@ export class CreationClientComponent implements OnInit {
       } finally {
         this.loadingSelect[list_name] = false;
       }
-    }else{
+    }else if(items === 'clients') {
       try{
         this.loadingSelect[list_name] = true;
-        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+        // {entity_id: this.id_entite}
+        this[items] = await this.listService.getClients().toPromise();
       } catch (e) {
         console.log('error filter', e);
       } finally {
         this.loadingSelect[list_name] = false;
       }
+    }else{
+        try{
+          this.loadingSelect[list_name] = true;
+          this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+        } catch (e) {
+          console.log('error filter', e);
+        } finally {
+          this.loadingSelect[list_name] = false;
+        }
+      }
     }
-  }
 
 }
