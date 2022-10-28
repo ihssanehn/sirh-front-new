@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorService} from "@app/core/services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {getFormValidationErrors, markFormAsDirty} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-frais',
@@ -23,12 +24,17 @@ export class CreationFraisComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    cost_remarks: 'cost_remarks',
+    distance_home_customer_site: 'distance_home_customer_site',
+    has_cost_ok: 'has_cost_ok',
+    has_exclusion_tr: 'has_exclusion_tr',
+    mission_costs: 'mission_costs',
   }
   @Input() title = '';
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   filter = {
@@ -81,6 +87,13 @@ export class CreationFraisComponent implements OnInit {
   ];
   loadingSelect = {};
   id_entite;
+  empty_mission_cost = {
+    is_billable: false,
+    amount_max: null,
+    amount: null,
+    frequency_id: null,
+    cost_type_id: null,
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -93,16 +106,60 @@ export class CreationFraisComponent implements OnInit {
               public listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null]
+      cost_remarks: [null],
+      distance_home_customer_site: [null, Validators.compose([Validators.required])],
+      has_exclusion_tr: [null],
+      has_cost_ok: [null],
+      mission_costs: this.formBuilder.array([...this.createItems( [this.empty_mission_cost])]),
     });
   }
 
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    this.fillForm();
+  }
+
+  fillForm() {
+    this.getFilterList('types', this.listService?.list?.TYPE_OF_COST);
+    this.getFilterList('frequences', this.listService?.list?.MISSION_COST_FREQUENCY)
+    this.formGroup.patchValue({
+      cost_remarks: 'test',
+      distance_home_customer_site: 4,
+      has_cost_ok: 1,
+      has_exclusion_tr: 1,
+    });
+
+    [
+      {
+        is_billable: false,
+        amount_max: false,
+        amount: 4,
+        frequency_id: 84,
+        cost_type_id: 105
+      },
+      {
+        is_billable: false,
+        amount_max: true,
+        amount: 3,
+        frequency_id: 85,
+        cost_type_id: 111
+      }
+    ].forEach(item => {
+      this.addNewLine(item);
+    });
   }
 
   save() {
-    this.move(1);
+    console.log('save client', this.formGroup.value);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+    this.submitStep.emit(this.formGroup.value);
   }
 
   move(to) {
@@ -134,5 +191,40 @@ export class CreationFraisComponent implements OnInit {
         this.loadingSelect[list_name] = false;
       }
     }
+  }
+
+  onCheckChange(input, $event) {
+    console.log('event', input, $event?.target?.checked);
+    this.formGroup.patchValue({
+      [input]: $event?.target?.checked
+    });
+  }
+
+  private createItems(items): FormGroup[] {
+    const arr = [];
+    items.forEach(item => {
+      arr.push(this.createItem(item));
+    })
+    return arr;
+  }
+
+  addNewLine(item?) {
+    const formArray: FormArray = this.formGroup.get(this.formInputs.mission_costs) as FormArray;
+    formArray.push(this.createItem(item || this.empty_mission_cost));
+  }
+
+  removeItem(i){
+    const formArray: FormArray = this.formGroup.get(this.formInputs.mission_costs) as FormArray;
+    formArray.removeAt(i);
+  }
+
+  private createItem(item = null): FormGroup {
+    return this.formBuilder.group({
+      is_billable: item?.is_billable,
+      amount_max: item?.amount_max,
+      amount: item?.amount,
+      frequency_id: item?.frequency_id,
+      cost_type_id: item?.cost_type_id
+    });
   }
 }

@@ -32,6 +32,7 @@ export class CreationPiecesJointesComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   show_loader: boolean;

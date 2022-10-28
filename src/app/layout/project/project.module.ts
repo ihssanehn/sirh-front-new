@@ -22,6 +22,8 @@ import { CreationFraisComponent } from './creation-frais/creation-frais.componen
 import { CreationStatsComponent } from './creation-stats/creation-stats.component';
 import { CreationSecuriteComponent } from './creation-securite/creation-securite.component';
 import { CreationPiecesJointesComponent } from './creation-pieces-jointes/creation-pieces-jointes.component';
+import {ProjectListComponent} from "@layout/project/project-list/project-list.component";
+import {DpDatePickerModule} from "ng2-date-picker";
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { CreationPiecesJointesComponent } from './creation-pieces-jointes/creati
     CreationFraisComponent,
     CreationStatsComponent,
     CreationSecuriteComponent,
-    CreationPiecesJointesComponent
+    CreationPiecesJointesComponent,
+    ProjectListComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +54,8 @@ import { CreationPiecesJointesComponent } from './creation-pieces-jointes/creati
     MatInputModule,
     MatButtonModule,
     InfiniteScrollModule,
-    MatTooltipModule
+    MatTooltipModule,
+    DpDatePickerModule
   ]
 })
 export class ProjectModule { }

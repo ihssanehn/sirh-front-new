@@ -34,6 +34,7 @@ export class CreationPointageComponent implements OnInit {
   @Input() type = '';
   @Input() idProject: any;
   @Input() submitting: any;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   loadingSelect = {};

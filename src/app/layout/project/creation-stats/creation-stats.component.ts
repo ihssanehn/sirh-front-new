@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {getFormValidationErrors, markFormAsDirty} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-stats',
@@ -35,6 +36,7 @@ export class CreationStatsComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   constructor(private formBuilder: FormBuilder,
@@ -61,10 +63,32 @@ export class CreationStatsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fillForm();
+  }
+
+  fillForm() {
+    this.formGroup.patchValue({
+      has_formation:true,
+      is_getting_started: true,
+      is_mission_inter_contract: true,
+      is_mission_not_billable: true,
+      is_mission_not_valued: true,
+      is_remote_mission: true,
+      mission_specific_code: "BSDVSDEGTG"
+    });
   }
 
   save() {
-    this.move(1);
+    console.log('save lieu intervention', this.formGroup.value);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+    this.submitStep.emit(this.formGroup.value);
   }
 
   move(to) {

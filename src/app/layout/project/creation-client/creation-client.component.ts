@@ -8,7 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
-import {SharedClasses} from "@shared/Utils/SharedClasses";
+import {getFormValidationErrors, markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-client',
@@ -35,6 +35,7 @@ export class CreationClientComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: any;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   loadingSelect = {};
@@ -74,10 +75,32 @@ export class CreationClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    this.fillForm();
+  }
+
+  fillForm() {
+    this.getFilterList('clients', null);
+    this.formGroup.patchValue({
+      client_email: "a.chbani@piman.fr",
+      client_id: 2,
+      in_out_office:  true,
+      proposal_reference: "Réfff",
+      purchasing_contact: "Contact Achat +212",
+      technical_contact:  "ContactTTECH",
+    })
   }
 
   save() {
-    this.move(1);
+    console.log('save client', this.formGroup.value);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+    this.submitStep.emit(this.formGroup.value);
   }
 
   move(to) {

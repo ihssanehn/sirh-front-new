@@ -33,7 +33,8 @@
       </div>
     </ng-container>
     <ng-template #loadedData>
-      <div class="container-fluid top-container p-0">
+      <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" novalidate>
+         <div class="container-fluid top-container p-0">
         <div class="align-items-start d-flex justify-content-center main-container">
           <div class="input-title">
             Niveau de risque
@@ -142,6 +143,7 @@
                       <input type="text"
                               placeholder="Saisir ici"
                               class="form-control input w-100"
+
                       />
                     </div>
                   </ng-container>
@@ -151,12 +153,13 @@
                         <div class="input-container">
                           <input type="checkbox"
                                  id="{{input.id}}"
-                                 [value]="input.value"
+                                 [checked]="ischecked(input.id)"
+                                 (change)="onCheckChange($event, input)"
                                  name="{{input.id}}" >
                         </div>
                         <!--                  [checked]="ischecked(access.id)"-->
                         <!--                  (change)="onCheckChange($event, access)"-->
-                        <label for="{{input.id}}" >{{input.title}}</label>
+                        <label for="{{input.id}}" >{{input.title}} - ({{input.id}})</label>
                       </div>
                   </ng-container>
 
@@ -197,12 +200,13 @@
                               <div class="input-container">
                                 <input type="checkbox"
                                        id="{{sub_bloc_input.id}}"
-                                       [value]="sub_bloc_input.value"
+                                       [checked]="ischecked(sub_bloc_input.id)"
+                                       (change)="onCheckChange($event, sub_bloc_input)"
                                        name="{{sub_bloc_input.id}}" >
                               </div>
                               <!--                  [checked]="ischecked(access.id)"-->
                               <!--                  (change)="onCheckChange($event, access)"-->
-                              <label for="{{sub_bloc_input.id}}" >{{sub_bloc_input.title}}</label>
+                              <label for="{{sub_bloc_input.id}}" >{{sub_bloc_input.title}} - ({{sub_bloc_input.id}})</label>
                             </div>
                           </ng-container>
 
@@ -274,6 +278,7 @@
           </div>
         </ng-container>
       </div>
+      </form>
     </ng-template>
   </ng-container>
 </div>

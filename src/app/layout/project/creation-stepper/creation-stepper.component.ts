@@ -33,6 +33,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   submittingStats: boolean;
   submittingSecurite: boolean;
   submittingAttachments: boolean;
+  projectToSubmit: any;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -131,41 +132,12 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   async submitProject($event: any) {
     try{
       this.submittingProject = true;
-      const fd = new FormData();
-      Object.keys($event).forEach(key => {
-        if(key === 'photo_profile'){
-          if($event[key] instanceof File){// Cas de Ajout ou modification de photo
-            fd.append(key, $event[key]);
-          }else if(!($event[key]?.length>0)){ // Cas de suppression de photo
-            fd.append('delete_photo_profile', 'true');
-          }
-        }else{
-          //fiche_to_be_completed
-          if(key === 'banks' && Array.isArray($event[key])){
-            $event[key] = $event[key].filter(item => item.account_type_id);
-            fd.append("banks", JSON.stringify($event[key]));
-          }else {
-            if($event[key] != null){
-              fd.append(key, $event[key]);
-            }
-          }
-        }
-      });
-      let res;
-      fd.append('type_account', 'simple');
-      if($event?.id){
-         res = await this.userService.submitUpdateUser(fd).toPromise();
-      }else{
-         res = await this.userService.submitUser(fd).toPromise();
-      }
-      if(res?.result?.data?.id){
-        this.moveForward(1, {project_id: res?.result?.data?.id});
-        this.user = res.result.data;
+      this.projectToSubmit = {
+        ...this.projectToSubmit,
+        ...$event
       }
     }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-      console.log('error submit user', e);
+      console.log('error submit step 1', e);
     }finally {
       this.submittingProject = false;
     }

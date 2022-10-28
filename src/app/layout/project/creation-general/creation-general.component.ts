@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorService, UserService} from "@app/core/services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
@@ -8,7 +8,10 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
-import {SharedClasses} from "@shared/Utils/SharedClasses";
+import {getFormValidationErrors, markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
+import {isMoment} from "moment/moment";
+import * as moment from "moment/moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 @Component({
   selector: 'app-creation-general',
@@ -42,6 +45,7 @@ export class CreationGeneralComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   personals = [];
@@ -61,6 +65,7 @@ export class CreationGeneralComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef,
               public listService: ListsService,
               private mainStore: MainStore) {
+    this.dateValidator = this.dateValidator.bind(this);
     this.formGroup = this.formBuilder.group({
       id: [null],
       start_date: [null],
@@ -76,15 +81,82 @@ export class CreationGeneralComponent implements OnInit {
       mission_title: [null,  Validators.compose([Validators.required])],
       tariff: [null, Validators.compose([Validators.required])],
       cp_id: [null,  Validators.compose([Validators.required])]
-    });
+    }, {validator: this.dateValidator});
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
 
   ngOnInit(): void {
+    this.fillToTest();
+  }
+
+  fillToTest(){
+    this.formGroup.patchValue({
+      consultant_id:20,
+      cp_id:12,
+      devise_id:1,
+      end_date: "2022-12-16",
+      end_estimated_date: "2022-10-11",
+      has_mail_to_manager:true,
+      id:null,
+      initial_number_of_days:34,
+      is_active:true,
+      left_number_of_days:19,
+      mission_title:  "SIRH",
+      short_mission_title:  "sirhshort",
+      start_date: "2022-10-05",
+      tariff:232398
+    })
+  }
+
+  dateValidator(control: AbstractControl){
+    let startDate = control.get(this.formInputs.start_date).value;
+    let endDate = control.get(this.formInputs.end_date).value;
+
+
+    this.errors = [];
+    if(!startDate || !endDate){
+      return ;
+    }
+    if(!(startDate instanceof moment)){
+      startDate = moment(startDate);
+    }
+    if(!(endDate instanceof moment)){
+      endDate = moment(endDate);
+    }
+
+    if( startDate.isAfter(endDate) ) {
+      this.errors.push({
+        code: 1,
+        message: 'La date de début doit être avant la date de fin'
+      });
+      return {dateOrderError: true};
+    }else{
+      this.errors = this.errors.filter(error => error.code !== 1);
+    }
   }
 
   save() {
-    this.move(1);
+    console.log('save 1', this.formGroup.value);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+    const date_inputs = [
+      'start_date',
+      'end_estimated_date',
+      'end_date'
+    ];
+    const submit = Object.assign(this.formGroup.value);
+    date_inputs.forEach(input => {
+      submit[input] = this.formGroup.value[input] && isMoment(moment(this.formGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.formGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
+    });
+    console.log('this.userFormGroup.value submit', submit);
+    // this.photoBase64 = null;
+    this.submitStep.emit(this.formGroup.value);
   }
 
   move(to) {

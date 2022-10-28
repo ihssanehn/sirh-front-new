@@ -33,7 +33,8 @@
       </div>
     </ng-container>
     <ng-template #loadedData>
-      <div class="container-fluid top-container p-0">
+      <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" novalidate>
+        <div class="container-fluid top-container p-0">
         <div class="main-container white-box">
           <div class="filter-container">
             <div class="filters col-md-4 col-12">
@@ -51,7 +52,7 @@
           </div>
           <div class="wrap">
             <div class="table-wrapper">
-              <table class="table-responsive w-100">
+              <table class="table-responsive w-100" formArrayName="{{formInputs.mission_costs}}">
                 <thead>
                 <tr>
                   <th></th>
@@ -76,73 +77,89 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of frais"  >
-                  <td>
-                    <div class="actions">
-                      <i class="icon-parametre primary-icon"></i>
-                    </div>
-                  </td>
-                  <td>
-                    <ng-select
-                      [items]="types"
-                      [clearable]="false"
-                      [searchable]="false"
-                      bindLabel="label"
-                      bindValue="id"
-                      class="select form-control"
-                      placeholder="Séléctionner l'unité"
-                      [loading]="loadingSelect['types']"
-                      (open)="getFilterList('types', listService?.list?.TYPE_OF_COST)"
-                      [(ngModel)]="item.type_id">
-                    </ng-select>
-                  </td>
-                  <td>
-                    <ng-select
-                      [items]="frequences"
-                      [clearable]="false"
-                      [searchable]="false"
-                      bindLabel="label"
-                      bindValue="id"
-                      class="select form-control"
-                      placeholder="Séléctionner l'unité"
-                      [loading]="loadingSelect['frequences']"
-                      (open)="getFilterList('frequences', listService?.list?.MISSION_COST_FREQUENCY)"
-                      [(ngModel)]="item.frequence_id">
-                    </ng-select>
-                  </td>
-                  <td>
-                    <input type="number"
-                           [(ngModel)]="item.amount"
-                           class="form-control input"
-                           placeholder="Montant" />
-                  </td>
-                  <td>
-                    <input type="number"
-                           [(ngModel)]="item.max_amount"
-                           class="form-control input"
-                           placeholder="Montant max" />
-                  </td>
-                  <td>
-                    <ng-select
-                      [items]="refacturables"
-                      [clearable]="false"
-                      [searchable]="false"
-                      bindLabel="label"
-                      bindValue="value"
-                      class="select form-control"
-                      placeholder="Séléctionner l'unité"
-                      [(ngModel)]="item.is_refacturable">
-                    </ng-select>
-                  </td>
-                  <td>
-                    <div class="actions">
-                      <i class="fa fa-trash danger-icon"
-                         data-toggle="tooltip"
-                         data-placement="top"
-                         title="Modifier"></i>
-                    </div>
-                  </td>
-                </tr>
+                  <tr *ngFor="let item of formGroup.controls[formInputs.mission_costs]['controls']; let i = index" >
+                    <td>
+                      <div class="actions">
+                        <i class="icon-parametre primary-icon"></i>
+                      </div>
+                    </td>
+                    <td>
+                      <ng-select
+                        [items]="types"
+                        [clearable]="false"
+                        [searchable]="false"
+                        bindLabel="label"
+                        bindValue="id"
+                        class="select form-control"
+                        placeholder="Séléctionner le type"
+                        [loading]="loadingSelect['types']"
+                        (open)="getFilterList('types', listService?.list?.TYPE_OF_COST)"
+                        [formControl]="item.controls['cost_type_id']"
+                        [ngClass]="{'is-invalid error-input': item.controls['cost_type_id'].hasError('required')
+                                  && item.controls['cost_type_id'].dirty}"
+                      >
+                      </ng-select>
+                    </td>
+                    <td>
+                      <ng-select
+                        [items]="frequences"
+                        [clearable]="false"
+                        [searchable]="false"
+                        bindLabel="label"
+                        bindValue="id"
+                        class="select form-control"
+                        placeholder="Séléctionner la fréquence"
+                        [loading]="loadingSelect['frequences']"
+                        (open)="getFilterList('frequences', listService?.list?.MISSION_COST_FREQUENCY)"
+                        [formControl]="item.controls['frequency_id']"
+                        [ngClass]="{'is-invalid error-input': item.controls['frequency_id'].hasError('required')
+                                  && item.controls['frequency_id'].dirty}"
+                      >
+                      </ng-select>
+                    </td>
+                    <td>
+                      <input type="number"
+                             class="form-control input"
+                             placeholder="Montant"
+                             [formControl]="item.controls['amount']"
+                             [ngClass]="{'is-invalid error-input': item.controls['amount'].hasError('required')
+                                  && item.controls['amount'].dirty}"
+                      />
+                    </td>
+                    <td>
+                      <input type="number"
+                             class="form-control input"
+                             placeholder="Montant max"
+                             [formControl]="item.controls['amount_max']"
+                             [ngClass]="{'is-invalid error-input': item.controls['amount_max'].hasError('required')
+                                  && item.controls['amount_max'].dirty}"
+                      />
+                    </td>
+                    <td>
+                      <ng-select
+                        [items]="refacturables"
+                        [clearable]="false"
+                        [searchable]="false"
+                        bindLabel="label"
+                        bindValue="value"
+                        class="select form-control"
+                        placeholder="Séléctionner si c'est réfacturable"
+                        [formControl]="item.controls['amount_max']"
+                        [ngClass]="{'is-invalid error-input': item.controls['is_billable'].hasError('required')
+                                  && item.controls['is_billable'].dirty}"
+                        >
+                      </ng-select>
+                    </td>
+                    <td>
+                      <div class="actions">
+                        <i class="fa fa-trash danger-icon"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           (click)="removeItem(i)"
+                           title="Modifier"></i>
+                      </div>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -151,6 +168,7 @@
             <app-button [type]="'primary_inverse'"
                         [text]="'Ajouter une ligne de frais'"
                         [iconLeft]="'icon-add'"
+                        (onClick)="addNewLine()"
             ></app-button>
           </div>
           <div class="filter-container">
@@ -161,7 +179,36 @@
                   class="input form-control"
                   placeholder="Saisir une remarque"
                   rows="3"
+                  [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.cost_remarks].hasError('required')
+                                  && formGroup.controls[formInputs.cost_remarks].dirty}"
+                  [formControl]="formGroup.controls[formInputs.cost_remarks]"
                 ></textarea>
+                <div class="form-control-feedback"
+                     *ngIf="formGroup.controls[formInputs.cost_remarks].hasError('required')
+                           && formGroup.controls[formInputs.cost_remarks].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La remarque est obligatoire
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-container">
+            <div class="filters col-md-3 col-12">
+              <div class="input-group flex-column">
+                <label>Distance domicile -> site cleint *</label>
+                <input type="number"
+                       class="input form-control"
+                       placeholder="Saisir la distance"
+                       [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.distance_home_customer_site].hasError('required')
+                                  && formGroup.controls[formInputs.distance_home_customer_site].dirty}"
+                       [formControl]="formGroup.controls[formInputs.distance_home_customer_site]" />
+                <div class="form-control-feedback"
+                     *ngIf="formGroup.controls[formInputs.distance_home_customer_site].hasError('required')
+                           && formGroup.controls[formInputs.distance_home_customer_site].dirty">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  La distance est obligatoire
+                </div>
               </div>
             </div>
           </div>
@@ -174,6 +221,8 @@
                   <div class="input-container">
                     <input type="checkbox"
                            id="mission_active"
+                           [checked]="formGroup.value[formInputs.has_exclusion_tr]"
+                           (change)="onCheckChange(formInputs.has_exclusion_tr, $event)"
                            name="mission_active" >
                   </div>
                   <label for="mail_to_manager" class="light-text">
@@ -189,6 +238,8 @@
                   <div class="input-container">
                     <input type="checkbox"
                            id="mail_to_manager"
+                           [checked]="formGroup.value[formInputs.has_cost_ok]"
+                           (change)="onCheckChange(formInputs.has_cost_ok, $event)"
                            name="mail_to_manager" >
                   </div>
                   <label for="mail_to_manager" class="light-text">
@@ -200,6 +251,7 @@
           </div>
         </div>
       </div>
+      </form>
     </ng-template>
   </ng-container>
 </div>

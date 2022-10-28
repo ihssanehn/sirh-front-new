@@ -8,7 +8,7 @@ import {MessageService} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
-import {SharedClasses} from "@shared/Utils/SharedClasses";
+import {getFormValidationErrors, markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 
 @Component({
   selector: 'app-creation-lieu-intervention',
@@ -35,6 +35,7 @@ export class CreationLieuInterventionComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: any;
+  @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
   loadingSelect = {};
@@ -66,10 +67,34 @@ export class CreationLieuInterventionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fillForm();
+  }
+
+  fillForm(){
+    this.getFilterList('countries', this.listService.list.COUNTRY);
+    this.getFilterList('cities', this.listService.list.CITY, {id: 149});
+    this.getFilterList('calendars', this.listService.list.CALENDAR);
+    this.formGroup.patchValue({
+      address:"test adresse",
+      calendar_id:4,
+      city_id:71307,
+      country_id:149,
+      mission_description:"descript mission",
+      postal_code:"212000"
+    });
   }
 
   save() {
-    this.move(1);
+    console.log('save lieu intervention', this.formGroup.value);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+    this.submitStep.emit(this.formGroup.value);
   }
 
   move(to) {
