@@ -37,6 +37,10 @@ export class CreationSecuriteComponent implements OnInit {
   loadingSelect = {};
   id_entite;
   items = [];
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -49,50 +53,24 @@ export class CreationSecuriteComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null],
+      risk_level: [null],
       mission_securities: this.formBuilder.array([]),
     });
 
     this.getFilterList('items', listService.list.SECURITY);
-    this.setItems([{id:3},
-          {id:6},
-          {id:10},
-          {id:13},
-          {id:16},
-          {id:19},
-          {id:22},
-          {id:25},
-          {id:28},
-          {id:31},
-          {id:34},
-          {id:131},
-          {id:50},
-          {id:51},
-          {id:52},
-          {id:66},
-          {id:67},
-          {id:68},
-          {id:88},
-          {id:90},
-          {id:92},
-          {id:94},
-          {id:96},
-          {id:110},
-          {id:112},
-          {id:114},
-          {id:116},
-          {id:125},
-          {id:126},
-          {id:128},
-          {id:129},
-    ]);
   }
 
+  fillForm(data){
+    this.formGroup.patchValue({
+      risk_level: data?.risk_level
+    });
+    this.setItems(data.mission_securities);
+  }
 
   // TODO
-  // Niveau de risque and comment (for text and textarea)
-  // pointage gathering data
-  // piece jointes gathering data
+  // Niveau de risque and comment (for text and textarea) => Done
+  // pointage gathering data => done
+  // piece jointes gathering data => done
   // Gather all data and submit add data
   // Get data and fill all forms for all steps
   // submit edit data => check id
@@ -144,7 +122,27 @@ export class CreationSecuriteComponent implements OnInit {
   }
 
   ischecked(id) {
-    return this.formGroup?.value[this.formInputs.mission_securities]?.includes(id);
+    return this.formGroup?.value[this.formInputs.mission_securities]?.find(item => item.id === id);
+  }
+
+  private createItem(item = null): FormGroup {
+    return this.formBuilder.group({
+      id: item?.id,
+      comment: item?.comment
+    });
+  }
+
+  inputValueChanged($event, input) {
+    console.log('inputValueChanged', $event.target.value, input);
+    const formArray: FormArray = this.formGroup.get(this.formInputs.mission_securities) as FormArray;
+    let i = 0;
+    const index = formArray.controls.findIndex((ctrl) => ctrl.value.id === input.id);
+    console.log('find index', index);
+    if(index > -1){
+      formArray.controls[index].get('comment').setValue($event.target.value);
+    }else{
+      formArray.push(this.createItem({id: input.id, comment: $event.target.value}));
+    }
   }
 
   onCheckChange(event, access) {
@@ -154,7 +152,7 @@ export class CreationSecuriteComponent implements OnInit {
     /* Selected */
     if(event.target.checked){
       // Add a new control in the arrayForm
-      formArray.push(new FormControl(access.id));
+      formArray.push(this.createItem(access));
     }
     /* unselected */
     else{
@@ -162,7 +160,7 @@ export class CreationSecuriteComponent implements OnInit {
       let i: number = 0;
 
       formArray.controls.forEach((ctrl: FormControl) => {
-        if(ctrl.value == access.id) {
+        if(ctrl.value.id == access.id) {
           // Remove the unselected element from the arrayForm
           formArray.removeAt(i);
           return;
@@ -174,9 +172,11 @@ export class CreationSecuriteComponent implements OnInit {
 
   setItems(items){
     const formArray: FormArray = this.formGroup.get(this.formInputs.mission_securities) as FormArray;
-    this.formGroup.reset();
+    while (formArray.length !== 0) {
+      formArray.removeAt(0);
+    }
     items?.forEach(item => {
-      formArray.push(new FormControl(item.id))
+      formArray.push(this.createItem(item));
     });
   }
 }

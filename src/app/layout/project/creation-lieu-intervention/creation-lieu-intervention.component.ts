@@ -44,6 +44,10 @@ export class CreationLieuInterventionComponent implements OnInit {
   calendars = [];
   cities = [];
   postalCodes = [];
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -56,7 +60,6 @@ export class CreationLieuInterventionComponent implements OnInit {
               public listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null],
       country_id: [null, Validators.compose([Validators.required])],
       calendar_id: [null, Validators.compose([Validators.required])],
       city_id: [null, Validators.compose([Validators.required])],
@@ -67,20 +70,19 @@ export class CreationLieuInterventionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fillForm();
   }
 
-  fillForm(){
+  fillForm(data){
     this.getFilterList('countries', this.listService.list.COUNTRY);
     this.getFilterList('cities', this.listService.list.CITY, {id: 149});
     this.getFilterList('calendars', this.listService.list.CALENDAR);
     this.formGroup.patchValue({
-      address:"test adresse",
-      calendar_id:4,
-      city_id:71307,
-      country_id:149,
-      mission_description:"descript mission",
-      postal_code:"212000"
+      address: data?.address,
+      calendar_id: data?.calendar_id,
+      city_id: data?.city_id,
+      country_id: data?.country_id,
+      mission_description: data?.mission_description,
+      postal_code: data?.postal_code
     });
   }
 

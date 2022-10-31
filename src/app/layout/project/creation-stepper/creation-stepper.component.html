@@ -5,9 +5,10 @@
   </ng-template>
   <mat-step label="Infos générales">
     <app-creation-general
-      (submitStep)="submitProject($event);  this.moveForward(1)"
+      (submitStep)="saveStep($event);  this.moveForward(1)"
       (next)="moveForward(1)"
       [submitting]="submittingProject"
+      [data]="projectToSubmit"
     ></app-creation-general>
   </mat-step>
 
@@ -16,10 +17,11 @@
   </ng-template>
   <mat-step label="Client">
     <app-creation-client
-      (submitStep)="submitProject($event);  this.moveForward(2)"
+      (submitStep)="saveStep($event);  this.moveForward(2)"
       (next)="moveForward(2)"
       (preview)="moveForward(0)"
       [submitting]="submittingClient"
+      [data]="projectToSubmit"
     ></app-creation-client>
   </mat-step>
 
@@ -28,10 +30,11 @@
   </ng-template>
   <mat-step label="Lieu d'intervention">
     <app-creation-lieu-intervention
-      (submitStep)="submitProject($event);  this.moveForward(3)"
+      (submitStep)="saveStep($event);  this.moveForward(3)"
       (next)="moveForward(3)"
       (preview)="moveForward(1)"
       [submitting]="submittingLieu"
+      [data]="projectToSubmit"
     ></app-creation-lieu-intervention>
   </mat-step>
 
@@ -40,10 +43,11 @@
   </ng-template>
   <mat-step label="Pointage">
     <app-creation-pointage
-      (submitStep)="submitProject($event);  this.moveForward(4)"
+      (submitStep)="saveStep($event);  this.moveForward(4)"
       (next)="moveForward(4)"
       (preview)="moveForward(2)"
       [submitting]="submittingPointage"
+      [data]="projectToSubmit"
     ></app-creation-pointage>
   </mat-step>
 
@@ -52,10 +56,11 @@
   </ng-template>
   <mat-step label="Frais">
     <app-creation-frais
-      (submitStep)="submitProject($event);  this.moveForward(5)"
+      (submitStep)="saveStep($event);  this.moveForward(5)"
       (next)="moveForward(5)"
       (preview)="moveForward(3)"
       [submitting]="submittingFrais"
+      [data]="projectToSubmit"
     ></app-creation-frais>
   </mat-step>
 
@@ -64,9 +69,10 @@
   </ng-template>
   <mat-step label="Stats">
     <app-creation-stats
-      (submitStep)="submitProject($event);  this.moveForward(6)"
+      (submitStep)="saveStep($event);  this.moveForward(6)"
       (next)="moveForward(6)"
       (preview)="moveForward(4)"
+      [data]="projectToSubmit"
       [submitting]="submittingStats"
     ></app-creation-stats>
   </mat-step>
@@ -76,10 +82,11 @@
   </ng-template>
   <mat-step label="Sécurité">
     <app-creation-securite
-      (submitStep)="submitProject($event);  this.moveForward(7)"
+      (submitStep)="saveStep($event);  this.moveForward(7)"
       (next)="moveForward(7)"
       (preview)="moveForward(5)"
       [submitting]="submittingSecurite"
+      [data]="projectToSubmit"
     ></app-creation-securite>
   </mat-step>
 
@@ -88,9 +95,10 @@
   </ng-template>
   <mat-step label="Pièces jointes">
     <app-creation-pieces-jointes
-      (submitStep)="submitProject($event)"
+      (submitStep)="saveStep($event); submit()"
       (preview)="moveForward(6)"
       [submitting]="submittingAttachments"
+      [data]="projectToSubmit"
     ></app-creation-pieces-jointes>
   </mat-step>
 

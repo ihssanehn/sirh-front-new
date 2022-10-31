@@ -9,7 +9,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
-import {SharedClasses} from "@shared/Utils/SharedClasses";
+import {getFormValidationErrors, markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -26,7 +26,7 @@ export class CreationPiecesJointesComponent implements OnInit {
   errorLoadData = false;
   loadingData = false;
   formInputs = {
-
+    is_pj_visible: 'is_pj_visible'
   }
   @Input() title = '';
   @Input() type = '';
@@ -45,6 +45,11 @@ export class CreationPiecesJointesComponent implements OnInit {
   dropping: boolean;
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
   ALL_FILES_SIZE_LIMIT = 10000; // Mb
+  progress: any;
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -57,15 +62,31 @@ export class CreationPiecesJointesComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null]
+      is_pj_visible: [null]
     });
   }
 
   ngOnInit(): void {
   }
 
+  fillForm(data){
+    this.formGroup.patchValue({
+      is_pj_visible: data?.is_pj_visible
+    });
+  }
+
   save() {
-    this.move(1);
+    console.log('save pieces jointes', this.formGroup.value, this.files);
+    this.error = '';
+    markFormAsDirty(this.formGroup);
+    if(!this.formGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      // console.log('getFormValidationErrors', );
+      getFormValidationErrors(this.formGroup);
+      return;
+    }
+
+    this.submitStep.emit({...this.formGroup.value, mission_files: this.files});
   }
 
   move(to) {
@@ -249,6 +270,14 @@ export class CreationPiecesJointesComponent implements OnInit {
       this.mainStore.showMessage(`Echec de téléchargement!`, `le document n'a pas pu être téléchargé`, 'error');
     }
 
+  }
+
+
+  onCheckChange(input, $event) {
+    console.log('event', input, $event?.target?.checked);
+    this.formGroup.patchValue({
+      [input]: $event?.target?.checked
+    });
   }
 
   getFileSize(size){

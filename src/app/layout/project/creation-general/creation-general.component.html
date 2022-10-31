@@ -190,16 +190,16 @@
                                    [clearable]="false"
                                    [searchable]="true"
                                    [loading]="loadingSelect['personals']"
-                                   (open)="getFilterList('personals')"
+                                   (open)="getFilterList('personals', null)"
                                    placeholder="Séléctionner le consultant"
                                    [ngClass]="{'is-invalid error-input':
-                                   formGroup.controls[formInputs.consultant_id].hasError('required')
-                                      && formGroup.controls[formInputs.consultant_id].dirty}"
-                                   [formControl]="formGroup.controls[formInputs.consultant_id]">
+                                   formGroup.controls[formInputs.personal_id].hasError('required')
+                                      && formGroup.controls[formInputs.personal_id].dirty}"
+                                   [formControl]="formGroup.controls[formInputs.personal_id]">
                         </ng-select>
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.consultant_id].hasError('required')
-                           && formGroup.controls[formInputs.consultant_id].dirty">
+                             *ngIf="formGroup.controls[formInputs.personal_id].hasError('required')
+                           && formGroup.controls[formInputs.personal_id].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           Le consultant est obligatoire
                         </div>

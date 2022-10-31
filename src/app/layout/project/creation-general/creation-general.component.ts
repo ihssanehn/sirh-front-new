@@ -31,7 +31,7 @@ export class CreationGeneralComponent implements OnInit {
     end_date: 'end_date',
     initial_number_of_days: 'initial_number_of_days',
     left_number_of_days: 'left_number_of_days',
-    consultant_id: 'consultant_id',
+    personal_id: 'personal_id',
     short_mission_title: 'short_mission_title',
     devise_id: 'devise_id',
     is_active: 'is_active',
@@ -40,6 +40,10 @@ export class CreationGeneralComponent implements OnInit {
     mission_title: 'mission_title',
     tariff: 'tariff',
     cp_id: 'cp_id'
+  }
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
   }
   @Input() title = '';
   @Input() type = '';
@@ -67,12 +71,11 @@ export class CreationGeneralComponent implements OnInit {
               private mainStore: MainStore) {
     this.dateValidator = this.dateValidator.bind(this);
     this.formGroup = this.formBuilder.group({
-      id: [null],
-      start_date: [null],
-      end_date: [null],
+      start_date: [null,  Validators.compose([Validators.required])],
+      end_date: [null,  Validators.compose([Validators.required])],
       initial_number_of_days: [null,  Validators.compose([Validators.required])],
       left_number_of_days: [null,  Validators.compose([Validators.required])],
-      consultant_id: [null,  Validators.compose([Validators.required])],
+      personal_id: [null,  Validators.compose([Validators.required])],
       short_mission_title: [null,  Validators.compose([Validators.required])],
       devise_id: [null, Validators.compose([Validators.required])],
       is_active: [null],
@@ -86,25 +89,26 @@ export class CreationGeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fillToTest();
   }
 
-  fillToTest(){
+  fillForm(data){
+    console.log('fillForm general', data);
+    this.getFilterList('personals', null);
+    this.getFilterList('devises', this.listService.list.DEVISE);
     this.formGroup.patchValue({
-      consultant_id:20,
-      cp_id:12,
-      devise_id:1,
-      end_date: "2022-12-16",
-      end_estimated_date: "2022-10-11",
-      has_mail_to_manager:true,
-      id:null,
-      initial_number_of_days:34,
-      is_active:true,
-      left_number_of_days:19,
-      mission_title:  "SIRH",
-      short_mission_title:  "sirhshort",
-      start_date: "2022-10-05",
-      tariff:232398
+      personal_id: data.personal_id,
+      cp_id: data.cp_id,
+      devise_id: data.devise_id,
+      end_date: data.end_date,
+      end_estimated_date: data.end_estimated_date,
+      has_mail_to_manager: data.has_mail_to_manager,
+      initial_number_of_days: data.initial_number_of_days,
+      is_active: data.is_active,
+      left_number_of_days: data.left_number_of_days,
+      mission_title:  data.mission_title,
+      short_mission_title:  data.short_mission_title,
+      start_date: data.start_date,
+      tariff: data.tariff
     })
   }
 

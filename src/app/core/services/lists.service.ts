@@ -40,6 +40,8 @@ export class ListsService {
     SECURITY: 'security',
     MISSION_COST_FREQUENCY: 'mission_cost_frequency',
     DEVISE: 'devise',
+    TEMPS_UNIT: 'temps',
+    TYPE_ACTIVITY: 'type_activity',
   }
 
 

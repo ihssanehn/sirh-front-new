@@ -19,6 +19,11 @@ const routes: Routes = [
     component: CreationStepperComponent,
     canActivate: [UniqueEntiteGuard]
   },
+  {
+    path: 'modification/:id',
+    component: CreationStepperComponent,
+    canActivate: [UniqueEntiteGuard]
+  },
 ];
 
 @NgModule({

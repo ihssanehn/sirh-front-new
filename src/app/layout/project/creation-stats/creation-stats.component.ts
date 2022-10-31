@@ -39,6 +39,10 @@ export class CreationStatsComponent implements OnInit {
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -51,7 +55,6 @@ export class CreationStatsComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null],
       is_getting_started: [null],
       has_formation: [null],
       is_mission_not_valued : [null],
@@ -63,18 +66,18 @@ export class CreationStatsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fillForm();
+
   }
 
-  fillForm() {
+  fillForm(data) {
     this.formGroup.patchValue({
-      has_formation:true,
-      is_getting_started: true,
-      is_mission_inter_contract: true,
-      is_mission_not_billable: true,
-      is_mission_not_valued: true,
-      is_remote_mission: true,
-      mission_specific_code: "BSDVSDEGTG"
+      has_formation: data?.has_formation,
+      is_getting_started: data?.is_getting_started,
+      is_mission_inter_contract: data?.is_mission_inter_contract,
+      is_mission_not_billable: data?.is_mission_not_billable,
+      is_mission_not_valued: data?.is_mission_not_valued,
+      is_remote_mission: data?.is_remote_mission,
+      mission_specific_code: data?.mission_specific_code
     });
   }
 

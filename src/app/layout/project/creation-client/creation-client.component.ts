@@ -51,6 +51,10 @@ export class CreationClientComponent implements OnInit {
     }
   ];
   clients = [];
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -63,7 +67,6 @@ export class CreationClientComponent implements OnInit {
               private listService: ListsService,
               private mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
-      id: [null],
       client_id: [null, Validators.compose([Validators.required])],
       in_out_office: [null, Validators.compose([Validators.required])],
       technical_contact: [null],
@@ -75,18 +78,17 @@ export class CreationClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-    this.fillForm();
   }
 
-  fillForm() {
+  fillForm(data) {
     this.getFilterList('clients', null);
     this.formGroup.patchValue({
-      client_email: "a.chbani@piman.fr",
-      client_id: 2,
-      in_out_office:  true,
-      proposal_reference: "Réfff",
-      purchasing_contact: "Contact Achat +212",
-      technical_contact:  "ContactTTECH",
+      client_email: data?.client_email,
+      client_id: data?.client_id,
+      in_out_office: data?.in_out_office,
+      proposal_reference: data?.proposal_reference,
+      purchasing_contact: data?.purchasing_contact,
+      technical_contact:  data?.technical_contact,
     })
   }
 

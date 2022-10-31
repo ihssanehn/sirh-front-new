@@ -45,16 +45,16 @@
                  [formControl]="formGroup.controls[formInputs.risk_level]"
             >
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'level_1'" id="level_1">&nbsp;
-                <span class="radio-label" for="level_1">1. Site piman OU site client, absence environnement / travaux dangereux et < 400h</span>
+                <input ngbButton type="radio" [value]="'piman_client_ae_td_inferior_400'" id="piman_client_ae_td_inferior_400">&nbsp;
+                <span class="radio-label" for="piman_client_ae_td_inferior_400">1. Site piman OU site client, absence environnement / travaux dangereux et < 400h</span>
               </label>
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'level_2'" id="level_2">&nbsp;
-                <span class="radio-label" for="level_2">2. Site client, absence environnement / travaux dangereux et > 400h</span>
+                <input ngbButton type="radio" [value]="'client_ae_td_greater_400'" id="client_ae_td_greater_400">&nbsp;
+                <span class="radio-label" for="client_ae_td_greater_400">2. Site client, absence environnement / travaux dangereux et > 400h</span>
               </label>
               <label ngbButtonLabel>
-                <input ngbButton type="radio" [value]="'level_3'" id="level_3">&nbsp;
-                <span class="radio-label" for="level_3">3. Site client, environnement / travaux dangereux</span>
+                <input ngbButton type="radio" [value]="'client_ae_td'" id="client_ae_td">&nbsp;
+                <span class="radio-label" for="client_ae_td">3. Site client, environnement / travaux dangereux</span>
               </label>
             </div>
           </div>
@@ -107,7 +107,7 @@
         </div>
 
 
-        <ng-container *ngFor="let item of items">
+        <ng-container *ngFor="let item of items;">
           <div class="main-container">
             <div class="sub-header">
               <h3 class="main-title">
@@ -121,19 +121,22 @@
                   class="col-4"
                   [ngClass]="{'col-12': input.input_type === 'textarea'}">
 
+                  <!-- textarea level 0-->
                   <ng-container *ngIf="input.input_type === 'textarea'">
                     <div style="margin-top: 15px;" class="input-group d-flex flex-column">
                           <label>
-                            {{input.title}}&nbsp;&nbsp;
+                            {{input.title}} - ({{input.id}})&nbsp;&nbsp;
                             <i *ngIf="input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="input.info" triggers="mouseenter:mouseleave"></i>
                           </label>
                           <textarea rows="4"
                                     placeholder="Saisir ici"
                                     class="form-control input w-100"
+                                    (input)="inputValueChanged($event, input)"
                           ></textarea>
                         </div>
                   </ng-container>
 
+                  <!-- text level 0-->
                   <ng-container *ngIf="input.input_type === 'text'">
                     <div style="margin-top: 15px;" class="input-group d-flex flex-column">
                       <label>
@@ -143,11 +146,12 @@
                       <input type="text"
                               placeholder="Saisir ici"
                               class="form-control input w-100"
-
+                             (input)="inputValueChanged($event, input)"
                       />
                     </div>
                   </ng-container>
 
+                  <!-- Checkbox level 0-->
                   <ng-container *ngIf="input.input_type === 'checkbox'">
                       <div class="check-box-btn text-center col"  *ngIf="input.id" >
                         <div class="input-container">
@@ -182,6 +186,20 @@
                             <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
                           </ng-container>
 
+                          <ng-container *ngIf="sub_bloc_input.input_type === 'text'">
+                            <div style="margin-top: 15px;" class="input-group d-flex flex-column">
+                              <label>
+                                {{sub_bloc_input.title}}&nbsp;&nbsp;
+                                <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
+                              </label>
+                              <input type="text"
+                                     placeholder="Saisir ici"
+                                     class="form-control input w-100"
+                                     (input)="inputValueChanged($event, sub_bloc_input)"
+                              />
+                            </div>
+                          </ng-container>
+
                           <ng-container *ngIf="sub_bloc_input.input_type === 'textarea'">
                             <div style="margin-top: 15px;" class="input-group d-flex flex-column">
                               <label>
@@ -191,6 +209,7 @@
                               <textarea rows="4"
                                         placeholder="Saisir ici"
                                         class="form-control input w-100"
+                                        (input)="inputValueChanged($event, sub_bloc_input)"
                               ></textarea>
                             </div>
                           </ng-container>
@@ -210,18 +229,6 @@
                             </div>
                           </ng-container>
 
-                          <ng-container *ngIf="sub_bloc_input.input_type === 'text'">
-                            <div style="margin-top: 15px;" class="input-group d-flex flex-column">
-                              <label>
-                                {{sub_bloc_input.title}}&nbsp;&nbsp;
-                                <i *ngIf="sub_bloc_input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="sub_bloc_input.info" triggers="mouseenter:mouseleave"></i>
-                              </label>
-                              <input type="text"
-                                     placeholder="Saisir ici"
-                                     class="form-control input w-100"
-                              />
-                            </div>
-                          </ng-container>
 
                           <ng-container *ngIf="sub_bloc_input?.children?.length>0">
                             <div class="sub-sub-bloc col h-100">
@@ -245,6 +252,7 @@
                                         <textarea rows="4"
                                                   placeholder="Saisir ici"
                                                   class="form-control input w-100"
+                                                  (input)="inputValueChanged($event, sub_sub_bloc_input)"
                                         ></textarea>
                                       </div>
                                     </ng-container>
@@ -258,6 +266,7 @@
                                         <input type="text"
                                                placeholder="Saisir ici"
                                                class="form-control input w-100"
+                                               (input)="inputValueChanged($event, sub_sub_bloc_input)"
                                         />
                                       </div>
                                     </ng-container>

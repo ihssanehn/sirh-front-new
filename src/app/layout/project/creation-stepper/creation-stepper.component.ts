@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { FormBuilder} from '@angular/forms';
-import {ErrorService, UserService} from '@app/core/services';
+import {ErrorService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
 import {User} from "@app/core/entities";
 import {MainStore} from "@store/mainStore.store";
+import {ProjectService} from "@services/project.service";
 
 
 @Component({
@@ -45,13 +46,115 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
     private mainStore: MainStore,
-    private userService : UserService
+    private projectService : ProjectService
   ) {
-
+    this.activatedRoute?.queryParams?.subscribe(async params => {
+      const project_id = Number(params.id);
+      this.getProject(project_id);
+    });
   }
 
   ngOnInit(): void {
+    this.projectToSubmit = {
+      personal_id:20,
+      cp_id:12,
+      devise_id:1,
+      end_date: "2022-12-16",
+      end_estimated_date: "2022-10-11",
+      has_mail_to_manager:true,
+      id:null,
+      initial_number_of_days:34,
+      is_active:true,
+      left_number_of_days:19,
+      mission_title:  "SIRH",
+      short_mission_title:  "sirhshort",
+      start_date: "2022-10-05",
+      tariff:232398,
 
+      client_email: "a.chbani@piman.fr",
+      client_id: 2,
+      in_out_office:  true,
+      proposal_reference: "Réfff",
+      purchasing_contact: "Contact Achat +212",
+      technical_contact:  "ContactTTECH",
+
+      address:"test adresse",
+      calendar_id:4,
+      city_id:71307,
+      country_id:149,
+      mission_description:"descript mission",
+      postal_code:"212000",
+
+      information_for_consultant:"zfeczs",
+      pointing_tariff:23,
+      pointing_type_id:106,
+      pointing_unity_id:8,
+
+      cost_remarks: 'test',
+      distance_home_customer_site: 4,
+      has_cost_ok: 1,
+      has_exclusion_tr: 1,
+      mission_costs:  [
+        {
+          is_billable: false,
+          amount_max: false,
+          amount: 4,
+          frequency_id: 84,
+          cost_type_id: 105
+        },
+        {
+          is_billable: false,
+          amount_max: true,
+          amount: 3,
+          frequency_id: 85,
+          cost_type_id: 111
+        }
+      ],
+
+      has_formation:true,
+      is_getting_started: true,
+      is_mission_inter_contract: true,
+      is_mission_not_billable: true,
+      is_mission_not_valued: true,
+      is_remote_mission: true,
+      mission_specific_code: "BSDVSDEGTG",
+
+      mission_securities:  [{id:3},
+        {id:6},
+        {id:10},
+        {id:13},
+        {id:16},
+        {id:19},
+        {id:22},
+        {id:25},
+        {id:28},
+        {id:31},
+        {id:34},
+        {id:131},
+        {id:50},
+        {id:51},
+        {id:52},
+        {id:66},
+        {id:67},
+        {id:68},
+        {id:88},
+        {id:90},
+        {id:92},
+        {id:94},
+        {id:96},
+        {id:110},
+        {id:112},
+        {id:114},
+        {id:116},
+        {id:125},
+        {id:126},
+        {id:128},
+        {id:129},
+      ],
+      risk_level: 'piman_client_ae_td_inferior_400',
+
+      is_pj_visible: true
+    };
   }
 
   async ngAfterViewInit() {
@@ -91,13 +194,10 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
 
   async getProject(id){
     try{
-      const res = await this.userService.getOne({id}).toPromise();
-      this.user = res.result?.data;
-      if(this.user?.type_account === 'independent'){
-        this.router.navigate(['users/new/'+this.user.type_account], {queryParams: {step: 0, project_id: this.user.id}});
-      }
+      const res = await this.projectService.getProjectById({id}).toPromise();
+      this.user = res.data;
     }catch (e) {
-      console.log('getUser error', e);
+      console.log('getProject error', e);
     }finally {
 
     }
@@ -129,7 +229,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async submitProject($event: any) {
+  async saveStep($event: any) {
     try{
       this.submittingProject = true;
       this.projectToSubmit = {
@@ -143,157 +243,43 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async submitClient($event: any) {
-    try{
-      this.submittingClient = true;
-      const res = await this.userService.submitParameters($event).toPromise();
-      if(res?.result?.data){
-        this.moveForward(2);
+  async submit() {
+    const fd = new FormData();
+    console.log('this.projectToSubmit', this.projectToSubmit);
+    Object.keys(this.projectToSubmit).forEach(key => {
+      if(Array.isArray(this.projectToSubmit[key])){
+        if(key === 'mission_files'){
+          this.projectToSubmit[key].forEach((file, index) => {
+            fd.append(`mission_files`, file);
+          })
+        }else{
+          fd.append(key, JSON.stringify(this.projectToSubmit[key]));
+        }
+      }else {
+        if(this.projectToSubmit[key] != null){
+          fd.append(key, this.projectToSubmit[key]);
+        }
       }
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-    }finally {
-      this.submittingClient= false;
-    }
-  }
-
-  async submitLieuIntervention($event: any) {
+    });
     try{
-      this.submittingLieu = true;
-      const params = {
-        personal_id: this.user.id,
-        personal_perimeter_ids: $event
-      }
-      const res = await this.userService.submitPerimeters(params).toPromise();
-      this.moveForward(4);
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+      this.submittingProject = true;
+      const res = await this.projectService.addOrUpdateMission(fd).toPromise();
+      console.log('res', res);
 
-    }finally {
-      this.submittingLieu = false;
-    }
-  }
-
-  async submitPointage($event: any) {
-    try{
-      this.submittingPointage = true;
-      const params = {
-        project_id: this.user?.id,
-        permission_ids: $event.permissions.filter(item => item != null)
-      }
-      const res = await this.userService.submitAccess(params).toPromise();
-      this.router.navigate(['/users']).then(()=>{
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Parfait!',
-          detail: 'Mise à jour réussie',
-          sticky: false,
-        });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Mise à jour réussie',
+        sticky: false,
       });
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
 
-    }finally {
-      this.submittingPointage = false;
+    } catch (e) {
+      console.log('error submit', e);
+      this.mainStore.showMessage(`Echec de l'opération!`, `Echec de l'opération`, 'error');
+
+    } finally {
+      this.submittingProject = false;
     }
   }
-
-  async submitFrais($event: any) {
-    try{
-      this.submittingFrais = true;
-      const params = {
-        project_id: this.user?.id,
-        permission_ids: $event.permissions.filter(item => item != null)
-      }
-      const res = await this.userService.submitAccess(params).toPromise();
-      this.router.navigate(['/users']).then(()=>{
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Parfait!',
-          detail: 'Mise à jour réussie',
-          sticky: false,
-        });
-      });
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-    }finally {
-      this.submittingFrais = false;
-    }
-  }
-
-  async submitStats($event: any) {
-    try{
-      this.submittingStats = true;
-      const params = {
-        project_id: this.user?.id,
-        permission_ids: $event.permissions.filter(item => item != null)
-      }
-      const res = await this.userService.submitAccess(params).toPromise();
-      this.router.navigate(['/users']).then(()=>{
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Parfait!',
-          detail: 'Mise à jour réussie',
-          sticky: false,
-        });
-      });
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-    }finally {
-      this.submittingStats = false;
-    }
-  }
-
-  async submitSecurite($event: any) {
-    try{
-      this.submittingSecurite = true;
-      const params = {
-        project_id: this.user?.id,
-        permission_ids: $event.permissions.filter(item => item != null)
-      }
-      const res = await this.userService.submitAccess(params).toPromise();
-      this.router.navigate(['/users']).then(()=>{
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Parfait!',
-          detail: 'Mise à jour réussie',
-          sticky: false,
-        });
-      });
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-    }finally {
-      this.submittingSecurite= false;
-    }
-  }
-
-  async submitAttachments($event: any) {
-    try{
-      this.submittingAttachments = true;
-      const params = {
-        project_id: this.user?.id,
-        permission_ids: $event.permissions.filter(item => item != null)
-      }
-      const res = await this.userService.submitAccess(params).toPromise();
-      this.router.navigate(['/users']).then(()=>{
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Parfait!',
-          detail: 'Mise à jour réussie',
-          sticky: false,
-        });
-      });
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-
-    }finally {
-      this.submittingAttachments = false;
-    }
-  }
-
 }
 

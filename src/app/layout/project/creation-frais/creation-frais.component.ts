@@ -94,6 +94,10 @@ export class CreationFraisComponent implements OnInit {
     frequency_id: null,
     cost_type_id: null,
   }
+  @Input()
+  public set data(obj){
+    this.fillForm(obj);
+  }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -116,35 +120,25 @@ export class CreationFraisComponent implements OnInit {
 
   ngOnInit(): void {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-    this.fillForm();
   }
 
-  fillForm() {
+  fillForm(data) {
     this.getFilterList('types', this.listService?.list?.TYPE_OF_COST);
     this.getFilterList('frequences', this.listService?.list?.MISSION_COST_FREQUENCY)
     this.formGroup.patchValue({
-      cost_remarks: 'test',
-      distance_home_customer_site: 4,
-      has_cost_ok: 1,
-      has_exclusion_tr: 1,
+      cost_remarks: data.cost_remarks,
+      distance_home_customer_site: data.distance_home_customer_site,
+      has_cost_ok: data.has_cost_ok,
+      has_exclusion_tr: data.has_exclusion_tr,
     });
 
-    [
-      {
-        is_billable: false,
-        amount_max: false,
-        amount: 4,
-        frequency_id: 84,
-        cost_type_id: 105
-      },
-      {
-        is_billable: false,
-        amount_max: true,
-        amount: 3,
-        frequency_id: 85,
-        cost_type_id: 111
-      }
-    ].forEach(item => {
+
+    const formArray: FormArray = this.formGroup.get(this.formInputs.mission_costs) as FormArray;
+
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+    data?.mission_costs?.forEach(item => {
       this.addNewLine(item);
     });
   }

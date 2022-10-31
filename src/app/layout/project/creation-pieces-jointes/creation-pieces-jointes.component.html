@@ -37,18 +37,20 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-        <div class="main-container">
+        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off"  novalidate>
+          <div class="main-container">
           <p class="paragraph">
             Par défaut, les pièces jointes ne sont pas visibles sur l'ordre de mission, si vous voulez que votre pièce jointe sera visible sur l'ordre de mission, cochez la case ci-dessous.
           </p>
           <div class="align-items-center d-flex flex-column justify-content-center">
             <div class="check-box-btn text-center">
               <div class="d-flex input-container">
-                <label for="visibility_om">Visibilité sur OM</label>
+                <label for="is_pj_visible">Visibilité sur OM</label>
                 <input type="checkbox"
-                       id="visibility_om"
-                       [value]="'visibility_om'"
-                       name="visibility_om" >
+                       id="is_pj_visible"
+                       [checked]="formGroup.value[formInputs.is_pj_visible]"
+                       (change)="onCheckChange(formInputs.is_pj_visible, $event)"
+                       name="is_pj_visible" >
               </div>
             </div>
 
@@ -73,9 +75,25 @@
               </div>
             </div>
 
+            <div class="row" *ngIf="filesSizeErrorMessage?.length>0">
+              <div class="form-control-feedback errorMessage"  >
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <span [innerHtml]="filesSizeErrorMessage"></span>
+              </div>
+            </div>
+            <div class="row" *ngIf="emptyFilesErrorMessage?.length>0">
+              <div class="form-control-feedback errorMessage" >
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <span [innerHtml]="emptyFilesErrorMessage"></span>
+              </div>
+            </div>
+            <div class="progress" *ngIf="progress">
+              <div class="progress-bar" [style.width]="progress + '%'">{{progress}}%</div>
+            </div>
+
           </div>
         </div>
-        <div class="submit-block justify-content-center">
+          <div class="submit-block justify-content-center">
           <app-button
             [type]="'secondary'"
             [text]="'Créer la mission'"
@@ -85,6 +103,7 @@
           >
           </app-button>
         </div>
+        </form>
       </div>
     </ng-template>
   </ng-container>

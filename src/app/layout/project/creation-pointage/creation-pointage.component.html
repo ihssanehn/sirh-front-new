@@ -37,7 +37,8 @@
         <p class="paragraph">
           Dans cet onglet, vous spécifiez les différents types de pointage qui seront disponibles au consultant lors de la saisie de son relevé d'activité.
         </p>
-        <div class="wrap">
+        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off"  novalidate>
+          <div class="wrap">
           <div class="table-wrapper">
             <table class="table-responsive w-100">
               <thead>
@@ -64,20 +65,90 @@
               </tr>
               </thead>
               <tbody>
+<!--              <tr *ngFor="let item of formGroup.controls[formInputs.pointings]['controls']; let i = index">-->
+<!--                <td>-->
+<!--                  <ng-select-->
+<!--                    [items]="types"-->
+<!--                    [clearable]="false"-->
+<!--                    [searchable]="false"-->
+<!--                    bindLabel="label"-->
+<!--                    bindValue="value"-->
+<!--                    class="select form-control"-->
+<!--                    placeholder="Séléctionner l'unité"-->
+<!--                    [loading]="loadingSelect[listService.list.TYPE_OF_COST]"-->
+<!--                    (open)="getFilterList('types', listService.list.TYPE_OF_COST)"-->
+<!--                    [formControl]="item.controls[formInputs.pointing_type_id]"-->
+<!--                    [ngClass]="{'is-invalid error-input': item.controls[formInputs.pointing_type_id].hasError('required')-->
+<!--                                  && item.controls[formInputs.pointing_type_id].dirty}"-->
+<!--                  >-->
+<!--                  </ng-select>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <ng-select-->
+<!--                    [items]="units"-->
+<!--                    [clearable]="false"-->
+<!--                    [searchable]="false"-->
+<!--                    bindLabel="label"-->
+<!--                    bindValue="value"-->
+<!--                    class="select form-control"-->
+<!--                    placeholder="Séléctionner l'unité"-->
+<!--                    [formControl]="item.controls[formInputs.pointing_unity_id]"-->
+<!--                    [ngClass]="{'is-invalid error-input': item.controls[formInputs.pointing_unity_id].hasError('required')-->
+<!--                                  && item.controls[formInputs.pointing_unity_id].dirty}"-->
+<!--                  >-->
+<!--                  </ng-select>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <input type="number"-->
+<!--                         class="form-control input"-->
+<!--                         placeholder="Saisir le tarif"-->
+<!--                         [formControl]="item.controls[formInputs.pointing_tariff]"-->
+<!--                         [ngClass]="{'is-invalid error-input': item.controls[formInputs.pointing_tariff].hasError('required')-->
+<!--                                  && item.controls[formInputs.pointing_tariff].dirty}"-->
+<!--                  />-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  &lt;!&ndash;                    {{ item.controls[formInputs.start_date].value | dateMessage:'DD MM yyyy'}}&ndash;&gt;-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  &lt;!&ndash;                    {{item.controls[formInputs.end_date].value | dateMessage:'DD MMM yyyy'}}&ndash;&gt;-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <input type="text"-->
+<!--                         class="form-control input"-->
+<!--                         placeholder="Saisir ici"-->
+<!--                         [formControl]="item.controls[formInputs.information_for_consultant]"-->
+<!--                         [ngClass]="{'is-invalid error-input': item.controls[formInputs.information_for_consultant].hasError('required')-->
+<!--                                  && item.controls[formInputs.information_for_consultant].dirty}"-->
+<!--                  />-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <div class="actions">-->
+<!--                    <i class="icon-info-cercle"-->
+<!--                       data-toggle="tooltip"-->
+<!--                       data-placement="top"-->
+<!--                       title="Modifier"></i>-->
+<!--                  </div>-->
+<!--                </td>-->
+<!--              </tr>-->
                 <tr>
                   <td>
-                    <ng-select
-                      [items]="types"
-                      [clearable]="false"
-                      [searchable]="false"
-                      bindLabel="label"
-                      bindValue="value"
-                      class="select form-control"
-                      placeholder="Séléctionner l'unité"
-                      [loading]="loadingSelect[listService.list.TYPE_OF_COST]"
-                      (open)="getFilterList('types', listService.list.TYPE_OF_COST)"
-                      [(ngModel)]="newItem.type">
-                    </ng-select>
+                    Travail normal
+<!--                    <ng-select-->
+<!--                      [items]="types"-->
+<!--                      [clearable]="false"-->
+<!--                      [searchable]="false"-->
+<!--                      bindLabel="label"-->
+<!--                      bindValue="id"-->
+<!--                      class="select form-control"-->
+<!--                      placeholder="Séléctionner le type"-->
+<!--                      [loading]="loadingSelect[listService.list.TYPE_ACTIVITY]"-->
+<!--                      (open)="getFilterList('types', listService.list.TYPE_ACTIVITY)"-->
+<!--                      [formControl]="formGroup.controls[formInputs.pointing_type_id]"-->
+<!--                      [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.pointing_type_id].hasError('required')-->
+<!--                                  && formGroup.controls[formInputs.pointing_type_id].dirty}"-->
+<!--                    >-->
+<!--                    </ng-select>-->
                   </td>
                   <td>
                     <ng-select
@@ -85,79 +156,47 @@
                       [clearable]="false"
                       [searchable]="false"
                       bindLabel="label"
-                      bindValue="value"
+                      bindValue="id"
                       class="select form-control"
                       placeholder="Séléctionner l'unité"
-                      [(ngModel)]="newItem.unit">
+                      [loading]="loadingSelect[listService.list.TEMPS_UNIT]"
+                      (open)="getFilterList('units', listService.list.TEMPS_UNIT)"
+                      [formControl]="formGroup.controls[formInputs.pointing_unity_id]"
+                      [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.pointing_unity_id].hasError('required')
+                                  && formGroup.controls[formInputs.pointing_unity_id].dirty}"
+                    >
                     </ng-select>
                   </td>
                   <td>
                     <input type="number"
-                           [(ngModel)]="newItem.tariff"
                            class="form-control input"
-                           placeholder="Saisir le tarif" />
+                           placeholder="Saisir le tarif"
+                           [formControl]="formGroup.controls[formInputs.pointing_tariff]"
+                           [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.pointing_tariff].hasError('required')
+                                  && formGroup.controls[formInputs.pointing_tariff].dirty}"
+                    />
                   </td>
                   <td>
-                    {{newItem.start_date | dateMessage:'DD MM yyyy'}}
+                    {{ formGroup.controls[formInputs.start_date]?.value | dateMessage:'DD MMM yyyy'}}
                   </td>
                   <td>
-                    {{newItem.end_date | dateMessage:'DD MMM yyyy'}}
+                    {{formGroup.controls[formInputs.end_date]?.value | dateMessage:'DD MMM yyyy'}}
                   </td>
                   <td>
                     <input type="text"
-                           [(ngModel)]="newItem.info"
                            class="form-control input"
-                           placeholder="Saisir ici" />
+                           placeholder="Saisir ici"
+                           [formControl]="formGroup.controls[formInputs.information_for_consultant]"
+                           [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.information_for_consultant].hasError('required')
+                                  && formGroup.controls[formInputs.information_for_consultant].dirty}"
+                    />
                   </td>
                   <td>
                     <div class="actions">
                       <i class="icon-info-cercle"
                          data-toggle="tooltip"
                          data-placement="top"
-                         title="Modifier"></i>
-                    </div>
-                  </td>
-                </tr>
-                <tr *ngFor="let item of pointages"  >
-                  <td>
-                    {{item.type}}
-                  </td>
-                  <td>
-                    <ng-select
-                      [items]="units"
-                      [clearable]="false"
-                      [searchable]="false"
-                      bindLabel="label"
-                      bindValue="value"
-                      class="select form-control"
-                      placeholder="Séléctionner l'unité"
-                      [(ngModel)]="item.unit">
-                    </ng-select>
-                  </td>
-                  <td>
-                    <input type="number"
-                           [(ngModel)]="item.tariff"
-                           class="form-control input"
-                           placeholder="Saisir le tarif" />
-                  </td>
-                  <td>
-                    {{item.start_date | dateMessage:'DD MM yyyy'}}
-                  </td>
-                  <td>
-                    {{item.end_date | dateMessage:'DD MMM yyyy'}}
-                  </td>
-                  <td>
-                    <input type="text"
-                           [(ngModel)]="item.info"
-                           class="form-control input"
-                           placeholder="Saisir ici" />
-                  </td>
-                  <td>
-                    <div class="actions">
-                      <i class="icon-info-cercle"
-                         data-toggle="tooltip"
-                         data-placement="top"
-                         title="Modifier"></i>
+                         title="info"></i>
                     </div>
                   </td>
                 </tr>
@@ -165,6 +204,7 @@
             </table>
           </div>
         </div>
+        </form>
       </div>
     </ng-template>
   </ng-container>
