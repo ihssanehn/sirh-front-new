@@ -97,7 +97,9 @@ export class CreationFraisComponent implements OnInit {
   }
   @Input()
   public set data(obj){
-    this.fillForm(obj);
+    if(obj){
+      this.fillForm(obj);
+    }
   }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -215,7 +217,7 @@ export class CreationFraisComponent implements OnInit {
 
   private createItem(item = null): FormGroup {
     return this.formBuilder.group({
-      is_billable: item?.is_billable,
+      is_billable: item?.is_billable ? true: false,
       amount_max: item?.amount_max,
       amount: item?.amount,
       frequency_id: item?.frequency_id,

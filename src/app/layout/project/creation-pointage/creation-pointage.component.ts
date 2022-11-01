@@ -39,7 +39,9 @@ export class CreationPointageComponent implements OnInit {
   @Input() submitting: any;
   @Input()
   public set data(obj){
-    this.fillForm(obj);
+    if(obj){
+      this.fillForm(obj);
+    }
   }
   @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();

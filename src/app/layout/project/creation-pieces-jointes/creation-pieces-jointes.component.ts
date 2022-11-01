@@ -47,6 +47,7 @@ export class CreationPiecesJointesComponent implements OnInit {
   emptyFilesErrorMessage: string;
   inputFile: any;
   files = [];
+  projectToEditFiles = [];
   edittingMode;
   dropping: boolean;
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
@@ -54,7 +55,9 @@ export class CreationPiecesJointesComponent implements OnInit {
   progress: any;
   @Input()
   public set data(obj){
-    this.fillForm(obj);
+    if(obj){
+      this.fillForm(obj);
+    }
   }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -79,6 +82,7 @@ export class CreationPiecesJointesComponent implements OnInit {
     this.formGroup.patchValue({
       is_pj_visible: data?.is_pj_visible
     });
+    this.projectToEditFiles = data.mission_files;
     this.files = data.mission_files?.map(el => {
       if(el.original_name){
         el.name = el.original_name;
@@ -91,6 +95,9 @@ export class CreationPiecesJointesComponent implements OnInit {
   save() {
     console.log('save pieces jointes', this.formGroup.value, this.files);
     this.error = '';
+    const saveData = {
+      ...this.formGroup.value
+    }
     markFormAsDirty(this.formGroup);
     if(!this.formGroup.valid ){
       this.error = 'Il y a des éléments qui nécessitent votre attention';
@@ -99,7 +106,29 @@ export class CreationPiecesJointesComponent implements OnInit {
       return;
     }
 
-    this.submitStep.emit({...this.formGroup.value, mission_files: this.files});
+
+    if(this.projectToEditFiles.length > 0){
+      const document_files_to_delete = [];
+      const document_files_to_add = [];
+      this.projectToEditFiles.forEach(att => {
+        if(!this.files.find(file => file.id === att.id)){
+          document_files_to_delete.push(att.id);
+        }
+      });
+      this.files.forEach(file => {
+        if(file instanceof File){
+          document_files_to_add.push(file);
+        }
+      });
+      saveData['mission_to_delete_files'] = document_files_to_delete;
+      saveData['mission_files'] = document_files_to_add;
+    }else{
+      saveData['mission_files'] = this.files;
+    }
+
+    console.log('saveData', saveData);
+
+    this.submitStep.emit(saveData);
   }
 
   move(to) {
@@ -115,13 +144,14 @@ export class CreationPiecesJointesComponent implements OnInit {
     this.show_loader = true;
     // this.component.files = [];
     if(e.target.files && e.target.files.length>0){
-      if(!this.edittingMode){
+      if(this.edittingMode){
         Array.prototype.forEach.call(e.target.files, file=>{
           if(!this.findFile(file)){
             this.files.push(file);
           }
         });
       }else{
+        console.log('pushiiing', this.files);
         this.files = [e.target.files[0]];
       }
     }
@@ -135,7 +165,7 @@ export class CreationPiecesJointesComponent implements OnInit {
       this.emptyFilesErrorMessage = '';
     }else{
       // this.error.files = 'Vous devez charger un docuemnt';
-      this.emptyFilesErrorMessage = 'Vous devez charger un docuemnt';
+      this.emptyFilesErrorMessage = 'Aucun document';
     }
 
     if(this.getAllFilesSize() > this.ALL_FILES_SIZE_LIMIT){
@@ -243,9 +273,8 @@ export class CreationPiecesJointesComponent implements OnInit {
       // this.error.files = '';
       this.emptyFilesErrorMessage = '';
     }else{
-      this.emptyFilesErrorMessage = 'Vous devez charger un docuemnt';
+      this.emptyFilesErrorMessage = 'Aucun document';
     }
-
   }
 
   getFileName (name) {

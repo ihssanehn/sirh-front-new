@@ -47,7 +47,9 @@ export class CreationLieuInterventionComponent implements OnInit {
   postalCodes = [];
   @Input()
   public set data(obj){
-    this.fillForm(obj);
+    if(obj){
+      this.fillForm(obj);
+    }
   }
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,

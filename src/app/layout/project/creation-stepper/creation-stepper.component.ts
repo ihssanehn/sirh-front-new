@@ -201,25 +201,29 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
     try{
       console.log('calling get project');
       const res = await this.projectService.getProjectById({id}).toPromise();
-      this.projectToSubmit = res.data;
-      if(this.projectToSubmit){
-        this.projectToSubmit.mission_securities = this.projectToSubmit.mission_securities.map((item) => {
-          return {id: item.security_id, comment: item.comment};
-        });
-        this.projectToSubmit.mission_costs = this.projectToSubmit.mission_costs.map((item) => {
-          return {
-            is_billable: item.is_billable,
-            amount_max: item.amount_max,
-            amount: item.amount,
-            frequency_id: item.frequency_id,
-            cost_type_id: item.cost_type_id
-          };
-        });
-      }
+      this.formatData(res.data);
     }catch (e) {
       console.log('getProject error', e);
     }finally {
 
+    }
+  }
+
+  formatData(data){
+    if(data){
+      this.projectToSubmit = data;
+      this.projectToSubmit.mission_securities = this.projectToSubmit.mission_securities.map((item) => {
+        return {id: item.security_id, comment: item.comment};
+      });
+      this.projectToSubmit.mission_costs = this.projectToSubmit.mission_costs.map((item) => {
+        return {
+          is_billable: item.is_billable,
+          amount_max: item.amount_max,
+          amount: item.amount,
+          frequency_id: item.frequency_id,
+          cost_type_id: item.cost_type_id
+        };
+      });
     }
   }
 
@@ -296,6 +300,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
       this.submittingProject = true;
       const res = await this.projectService.addOrUpdateMission(fd).toPromise();
       console.log('res', res);
+      this.formatData(res.data);
 
       this.messageService.add({
         severity: 'success',

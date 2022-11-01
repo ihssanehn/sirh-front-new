@@ -1,5 +1,6 @@
 <input type="file" style="display: none" id="uploadMoreFiles"
-       multiple (change)="uploadFile($event); inputChanged()"/>
+       #uploadMoreFiles
+       multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 
 <div class="container top-container">
   <div class="header">
@@ -82,8 +83,9 @@
               </div>
             </div>
             <div class="row" *ngIf="emptyFilesErrorMessage?.length>0">
-              <div class="form-control-feedback errorMessage" >
-                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              <div class="" >
+<!--                errorMessage-->
+<!--                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>-->
                 <span [innerHtml]="emptyFilesErrorMessage"></span>
               </div>
             </div>
@@ -93,16 +95,16 @@
 
           </div>
         </div>
-        <div class="submit-block justify-content-center">
-          <app-button
-            [type]="'secondary'"
-            [text]="edittingMode ? 'Enregistrer les modifications': 'Créer la mission'"
-            [isLoading]="submitting"
-            (onClick)="save()"
-            [iconLeft]="'icon-check'"
-          >
-          </app-button>
-        </div>
+<!--          <div class="submit-block justify-content-center">-->
+<!--            <app-button-->
+<!--              [type]="'secondary'"-->
+<!--              [text]="edittingMode ? 'Enregistrer les modifications': 'Créer la mission'"-->
+<!--              [isLoading]="submitting"-->
+<!--              (onClick)="save()"-->
+<!--              [iconLeft]="'icon-check'"-->
+<!--            >-->
+<!--            </app-button>-->
+<!--          </div>-->
         </form>
       </div>
     </ng-template>

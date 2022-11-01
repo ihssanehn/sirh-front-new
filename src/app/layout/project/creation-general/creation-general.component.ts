@@ -43,7 +43,9 @@ export class CreationGeneralComponent implements OnInit, OnDestroy {
   }
   @Input()
   public set data(obj){
-    this.fillForm(obj);
+    if(obj){
+      this.fillForm(obj);
+    }
   }
   @Input() title = '';
   @Input() type = '';
