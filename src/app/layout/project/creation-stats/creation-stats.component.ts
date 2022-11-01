@@ -36,6 +36,7 @@ export class CreationStatsComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -102,4 +103,7 @@ export class CreationStatsComponent implements OnInit {
     }
   }
 
+  inputChanged() {
+    this.refreshGlobalData.emit(this.formGroup.value);
+  }
 }

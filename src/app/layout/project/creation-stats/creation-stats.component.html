@@ -4,7 +4,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Statistiques</h1>
@@ -45,6 +45,7 @@
                          id="demarrage"
                          name="demarrage"
                          [formControl]="formGroup.controls[formInputs.is_getting_started]"
+                         (change)="inputChanged()"
                   >
                 </div>
                 <label for="demarrage" class="light-text">
@@ -62,6 +63,7 @@
                          id="formation"
                          name="formation"
                          [formControl]="formGroup.controls[formInputs.has_formation]"
+                         (change)="inputChanged()"
                   >
                 </div>
                 <label for="formation" class="light-text">
@@ -79,6 +81,7 @@
                          id="mission_active"
                          name="mission_active"
                          [formControl]="formGroup.controls[formInputs.is_mission_not_valued]"
+                         (change)="inputChanged()"
                   >
                 </div>
               </div>
@@ -93,6 +96,7 @@
                          id="mail_to_manager"
                          name="mail_to_manager"
                          [formControl]="formGroup.controls[formInputs.is_mission_not_billable]"
+                         (change)="inputChanged()"
                   >
                 </div>
               </div>
@@ -107,6 +111,7 @@
                          id="mission_active"
                          name="mission_active"
                          [formControl]="formGroup.controls[formInputs.is_mission_inter_contract]"
+                         (change)="inputChanged()"
                   >
                 </div>
               </div>
@@ -121,6 +126,7 @@
                          id="mission_active"
                          name="mission_active"
                          [formControl]="formGroup.controls[formInputs.is_remote_mission]"
+                         (change)="inputChanged()"
                   >
                 </div>
               </div>
@@ -135,6 +141,7 @@
                        class="form-control input"
                        placeholder="Saisir le code"
                        [formControl]="formGroup.controls[formInputs.mission_specific_code]"
+                       (change)="inputChanged()"
                 >
               </div>
             </div>

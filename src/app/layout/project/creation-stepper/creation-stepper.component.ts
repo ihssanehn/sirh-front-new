@@ -10,6 +10,9 @@ import {MatStepper} from "@angular/material/stepper";
 import {User} from "@app/core/entities";
 import {MainStore} from "@store/mainStore.store";
 import {ProjectService} from "@services/project.service";
+import {isMoment} from "moment";
+import * as moment from "moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 
 @Component({
@@ -55,106 +58,106 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.projectToSubmit = {
-      personal_id:20,
-      cp_id:12,
-      devise_id:1,
-      end_date: "2022-12-16",
-      end_estimated_date: "2022-10-11",
-      has_mail_to_manager:true,
-      id:null,
-      initial_number_of_days:34,
-      is_active:true,
-      left_number_of_days:19,
-      mission_title:  "SIRH",
-      short_mission_title:  "sirhshort",
-      start_date: "2022-10-05",
-      tariff:232398,
-
-      client_email: "a.chbani@piman.fr",
-      client_id: 2,
-      in_out_office:  true,
-      proposal_reference: "Réfff",
-      purchasing_contact: "Contact Achat +212",
-      technical_contact:  "ContactTTECH",
-
-      address:"test adresse",
-      calendar_id:4,
-      city_id:71307,
-      country_id:149,
-      mission_description:"descript mission",
-      postal_code:"212000",
-
-      information_for_consultant:"zfeczs",
-      pointing_tariff:23,
-      pointing_type_id:106,
-      pointing_unity_id:8,
-
-      cost_remarks: 'test',
-      distance_home_customer_site: 4,
-      has_cost_ok: 1,
-      has_exclusion_tr: 1,
-      mission_costs:  [
-        {
-          is_billable: false,
-          amount_max: false,
-          amount: 4,
-          frequency_id: 84,
-          cost_type_id: 105
-        },
-        {
-          is_billable: false,
-          amount_max: true,
-          amount: 3,
-          frequency_id: 85,
-          cost_type_id: 111
-        }
-      ],
-
-      has_formation:true,
-      is_getting_started: true,
-      is_mission_inter_contract: true,
-      is_mission_not_billable: true,
-      is_mission_not_valued: true,
-      is_remote_mission: true,
-      mission_specific_code: "BSDVSDEGTG",
-
-      mission_securities:  [{id:3},
-        {id:6},
-        {id:10},
-        {id:13},
-        {id:16},
-        {id:19},
-        {id:22},
-        {id:25},
-        {id:28},
-        {id:31},
-        {id:34},
-        {id:131},
-        {id:50},
-        {id:51},
-        {id:52},
-        {id:66},
-        {id:67},
-        {id:68},
-        {id:88},
-        {id:90},
-        {id:92},
-        {id:94},
-        {id:96},
-        {id:110},
-        {id:112},
-        {id:114},
-        {id:116},
-        {id:125},
-        {id:126},
-        {id:128},
-        {id:129},
-      ],
-      risk_level: 'piman_client_ae_td_inferior_400',
-
-      is_pj_visible: true
-    };
+    // this.projectToSubmit = {
+    //   personal_id:20,
+    //   cp_id:12,
+    //   devise_id:1,
+    //   end_date: "2022-12-16",
+    //   end_estimated_date: "2022-10-11",
+    //   has_mail_to_manager:true,
+    //   id:null,
+    //   initial_number_of_days:34,
+    //   is_active:true,
+    //   left_number_of_days:19,
+    //   mission_title:  "SIRH",
+    //   short_mission_title:  "sirhshort",
+    //   start_date: "2022-10-05",
+    //   tariff:232398,
+    //
+    //   client_email: "a.chbani@piman.fr",
+    //   client_id: 2,
+    //   in_out_office:  true,
+    //   proposal_reference: "Réfff",
+    //   purchasing_contact: "Contact Achat +212",
+    //   technical_contact:  "ContactTTECH",
+    //
+    //   address:"test adresse",
+    //   calendar_id:4,
+    //   city_id:71307,
+    //   country_id:149,
+    //   mission_description:"descript mission",
+    //   postal_code:"212000",
+    //
+    //   information_for_consultant:"zfeczs",
+    //   pointing_tariff:23,
+    //   pointing_type_id:106,
+    //   pointing_unity_id:8,
+    //
+    //   cost_remarks: 'test',
+    //   distance_home_customer_site: 4,
+    //   has_cost_ok: 1,
+    //   has_exclusion_tr: 1,
+    //   mission_costs:  [
+    //     {
+    //       is_billable: false,
+    //       amount_max: false,
+    //       amount: 4,
+    //       frequency_id: 84,
+    //       cost_type_id: 105
+    //     },
+    //     {
+    //       is_billable: false,
+    //       amount_max: true,
+    //       amount: 3,
+    //       frequency_id: 85,
+    //       cost_type_id: 111
+    //     }
+    //   ],
+    //
+    //   has_formation:true,
+    //   is_getting_started: true,
+    //   is_mission_inter_contract: true,
+    //   is_mission_not_billable: true,
+    //   is_mission_not_valued: true,
+    //   is_remote_mission: true,
+    //   mission_specific_code: "BSDVSDEGTG",
+    //
+    //   mission_securities:  [{id:3},
+    //     {id:6},
+    //     {id:10},
+    //     {id:13},
+    //     {id:16},
+    //     {id:19},
+    //     {id:22},
+    //     {id:25},
+    //     {id:28},
+    //     {id:31},
+    //     {id:34},
+    //     {id:131},
+    //     {id:50},
+    //     {id:51},
+    //     {id:52},
+    //     {id:66},
+    //     {id:67},
+    //     {id:68},
+    //     {id:88},
+    //     {id:90},
+    //     {id:92},
+    //     {id:94},
+    //     {id:96},
+    //     {id:110},
+    //     {id:112},
+    //     {id:114},
+    //     {id:116},
+    //     {id:125},
+    //     {id:126},
+    //     {id:128},
+    //     {id:129},
+    //   ],
+    //   risk_level: 'piman_client_ae_td_inferior_400',
+    //
+    //   is_pj_visible: true
+    // };
   }
 
   async ngAfterViewInit() {
@@ -182,7 +185,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
       }
       if(project_id){
         await this.getProject(project_id);
-        if(!this.user){
+        if(!this.projectToSubmit){
           this.moveForward(0);
         }
       }else {
@@ -195,7 +198,21 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   async getProject(id){
     try{
       const res = await this.projectService.getProjectById({id}).toPromise();
-      this.user = res.data;
+      this.projectToSubmit = res.data;
+      if(this.projectToSubmit){
+        this.projectToSubmit.mission_securities = this.projectToSubmit.mission_securities.map((item) => {
+          return {id: item.security_id, comment: item.comment};
+        });
+        this.projectToSubmit.mission_costs = this.projectToSubmit.mission_costs.map((item) => {
+          return {
+            is_billable: item.is_billable,
+            amount_max: item.amount_max,
+            amount: item.amount,
+            frequency_id: item.frequency_id,
+            cost_type_id: item.cost_type_id
+          };
+        });
+      }
     }catch (e) {
       console.log('getProject error', e);
     }finally {
@@ -230,7 +247,9 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   }
 
   async saveStep($event: any) {
+
     try{
+      console.log('saveStep', $event);
       this.submittingProject = true;
       this.projectToSubmit = {
         ...this.projectToSubmit,
@@ -246,6 +265,14 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   async submit() {
     const fd = new FormData();
     console.log('this.projectToSubmit', this.projectToSubmit);
+    const date_inputs = [
+      'start_date',
+      'end_estimated_date',
+      'end_date'
+    ];
+    date_inputs.forEach(input => {
+      this.projectToSubmit[input] = this.projectToSubmit[input] && isMoment(moment(this.projectToSubmit[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.projectToSubmit[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
+    });
     Object.keys(this.projectToSubmit).forEach(key => {
       if(Array.isArray(this.projectToSubmit[key])){
         if(key === 'mission_files'){
@@ -261,6 +288,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
     try{
       this.submittingProject = true;
       const res = await this.projectService.addOrUpdateMission(fd).toPromise();
@@ -280,6 +308,10 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
     } finally {
       this.submittingProject = false;
     }
+  }
+
+  refreshGlobalData(event) {
+    this.saveStep(event);
   }
 }
 

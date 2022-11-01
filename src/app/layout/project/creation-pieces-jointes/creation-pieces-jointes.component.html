@@ -1,5 +1,5 @@
 <input type="file" style="display: none" id="uploadMoreFiles"
-       multiple (change)="uploadFile($event)"/>
+       multiple (change)="uploadFile($event); inputChanged()"/>
 
 <div class="container top-container">
   <div class="header">
@@ -7,7 +7,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Pièces jointes</h1>
@@ -19,7 +19,7 @@
         (onClick)="move(-1)"
       ></app-button>&nbsp;&nbsp;
       <app-button
-        [text]="'Créer'"
+        [text]="edittingMode ? 'Enregistrer les modifications': 'Créer'"
         [type]="'secondary'"
         [iconLeft]="'icon-check'"
         (onClick)="save()"
@@ -49,7 +49,7 @@
                 <input type="checkbox"
                        id="is_pj_visible"
                        [checked]="formGroup.value[formInputs.is_pj_visible]"
-                       (change)="onCheckChange(formInputs.is_pj_visible, $event)"
+                       (change)="onCheckChange(formInputs.is_pj_visible, $event); inputChanged()"
                        name="is_pj_visible" >
               </div>
             </div>
@@ -93,10 +93,10 @@
 
           </div>
         </div>
-          <div class="submit-block justify-content-center">
+        <div class="submit-block justify-content-center">
           <app-button
             [type]="'secondary'"
-            [text]="'Créer la mission'"
+            [text]="edittingMode ? 'Enregistrer les modifications': 'Créer la mission'"
             [isLoading]="submitting"
             (onClick)="save()"
             [iconLeft]="'icon-check'"

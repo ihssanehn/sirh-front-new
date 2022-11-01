@@ -35,6 +35,7 @@ export class CreationLieuInterventionComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: any;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -133,5 +134,8 @@ export class CreationLieuInterventionComponent implements OnInit {
     }
   }
 
+  inputChanged() {
+    this.refreshGlobalData.emit(this.formGroup.value);
+  }
 
 }

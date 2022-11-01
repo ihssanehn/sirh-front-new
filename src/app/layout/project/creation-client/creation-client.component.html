@@ -4,7 +4,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Client</h1>
@@ -53,6 +53,7 @@
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.client_id].hasError('required')
                                       && formGroup.controls[formInputs.client_id].dirty}"
+                                 (change)="inputChanged()"
                                  [formControl]="formGroup.controls[formInputs.client_id]">
                       </ng-select>
                       <div class="form-control-feedback"
@@ -76,6 +77,7 @@
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.in_out_office].hasError('required')
                                       && formGroup.controls[formInputs.in_out_office].dirty}"
+                                 (change)="inputChanged()"
                                  [formControl]="formGroup.controls[formInputs.in_out_office]">
                       </ng-select>
                       <div class="form-control-feedback"
@@ -94,7 +96,8 @@
                     <div class="col">
                       <input type="text"
                              class="form-control input"
-                             placeholder="Saissir l'intitulé mission"
+                             placeholder="Saissir le contact technique"
+                             (change)="inputChanged()"
                              [formControl]="formGroup.controls[formInputs.technical_contact]" />
                       <div class="form-control-feedback"
                            *ngIf="formGroup.controls[formInputs.technical_contact].hasError('required')
@@ -109,7 +112,8 @@
                     <div class="col">
                       <input type="text"
                              class="form-control input"
-                             placeholder="Saissir l'intitulé mission"
+                             placeholder="Saissir l'email"
+                             (change)="inputChanged()"
                              [formControl]="formGroup.controls[formInputs.client_email]" />
                       <div class="form-control-feedback"
                            *ngIf="formGroup.controls[formInputs.client_email].hasError('required')
@@ -125,7 +129,8 @@
                   <div class="col">
                     <input type="text"
                            class="form-control input"
-                           placeholder="Saissir l'intitulé mission"
+                           placeholder="Saissir la référence de la proposition"
+                           (change)="inputChanged()"
                            [formControl]="formGroup.controls[formInputs.proposal_reference]" />
                     <div class="form-control-feedback"
                          *ngIf="formGroup.controls[formInputs.proposal_reference].hasError('required')
@@ -143,6 +148,7 @@
                     <input type="text"
                            class="form-control input"
                            placeholder="Saisir le contact achat"
+                           (change)="inputChanged()"
                            [formControl]="formGroup.controls[formInputs.purchasing_contact]" />
                     <div class="form-control-feedback"
                          *ngIf="formGroup.controls[formInputs.purchasing_contact].hasError('required')

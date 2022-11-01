@@ -34,6 +34,7 @@ export class CreationFraisComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -220,5 +221,10 @@ export class CreationFraisComponent implements OnInit {
       frequency_id: item?.frequency_id,
       cost_type_id: item?.cost_type_id
     });
+  }
+
+  inputChanged() {
+    console.log('input changed', this.formGroup.value);
+    this.refreshGlobalData.emit(this.formGroup.value);
   }
 }

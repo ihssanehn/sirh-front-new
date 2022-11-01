@@ -19,6 +19,11 @@ import * as FileSaver from 'file-saver';
 })
 export class CreationPiecesJointesComponent implements OnInit {
 
+  //TODO:
+  // check edit files
+  // check deleting files
+  // check frais array in edit state
+  // check securities in edit state
   formGroup: FormGroup;
   errors = [];
   error = '';
@@ -32,6 +37,7 @@ export class CreationPiecesJointesComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -73,6 +79,13 @@ export class CreationPiecesJointesComponent implements OnInit {
     this.formGroup.patchValue({
       is_pj_visible: data?.is_pj_visible
     });
+    this.files = data.mission_files?.map(el => {
+      if(el.original_name){
+        el.name = el.original_name;
+      }
+      return el;
+    });
+    this.edittingMode = data?.id;
   }
 
   save() {
@@ -285,5 +298,9 @@ export class CreationPiecesJointesComponent implements OnInit {
 
     if(fileSize.length < 7) return `${Math.round(+fileSize/1024).toFixed(2)} kb`
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
+  }
+
+  inputChanged() {
+    this.refreshGlobalData.emit(this.formGroup.value);
   }
 }

@@ -4,7 +4,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Frais</h1>
@@ -94,6 +94,7 @@
                         placeholder="Séléctionner le type"
                         [loading]="loadingSelect['types']"
                         (open)="getFilterList('types', listService?.list?.TYPE_OF_COST)"
+                        (change)="inputChanged()"
                         [formControl]="item.controls['cost_type_id']"
                         [ngClass]="{'is-invalid error-input': item.controls['cost_type_id'].hasError('required')
                                   && item.controls['cost_type_id'].dirty}"
@@ -111,6 +112,7 @@
                         placeholder="Séléctionner la fréquence"
                         [loading]="loadingSelect['frequences']"
                         (open)="getFilterList('frequences', listService?.list?.MISSION_COST_FREQUENCY)"
+                        (change)="inputChanged()"
                         [formControl]="item.controls['frequency_id']"
                         [ngClass]="{'is-invalid error-input': item.controls['frequency_id'].hasError('required')
                                   && item.controls['frequency_id'].dirty}"
@@ -120,7 +122,8 @@
                     <td>
                       <input type="number"
                              class="form-control input"
-                             placeholder="Montant"
+                             placeholder="Saisir le montant"
+                             (change)="inputChanged()"
                              [formControl]="item.controls['amount']"
                              [ngClass]="{'is-invalid error-input': item.controls['amount'].hasError('required')
                                   && item.controls['amount'].dirty}"
@@ -129,7 +132,8 @@
                     <td>
                       <input type="number"
                              class="form-control input"
-                             placeholder="Montant max"
+                             placeholder="Saisir le montant max"
+                             (change)="inputChanged()"
                              [formControl]="item.controls['amount_max']"
                              [ngClass]="{'is-invalid error-input': item.controls['amount_max'].hasError('required')
                                   && item.controls['amount_max'].dirty}"
@@ -144,7 +148,8 @@
                         bindValue="value"
                         class="select form-control"
                         placeholder="Séléctionner si c'est réfacturable"
-                        [formControl]="item.controls['amount_max']"
+                        (change)="inputChanged()"
+                        [formControl]="item.controls['is_billable']"
                         [ngClass]="{'is-invalid error-input': item.controls['is_billable'].hasError('required')
                                   && item.controls['is_billable'].dirty}"
                         >
@@ -181,6 +186,7 @@
                   rows="3"
                   [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.cost_remarks].hasError('required')
                                   && formGroup.controls[formInputs.cost_remarks].dirty}"
+                  (change)="inputChanged()"
                   [formControl]="formGroup.controls[formInputs.cost_remarks]"
                 ></textarea>
                 <div class="form-control-feedback"
@@ -202,6 +208,7 @@
                        placeholder="Saisir la distance"
                        [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.distance_home_customer_site].hasError('required')
                                   && formGroup.controls[formInputs.distance_home_customer_site].dirty}"
+                       (change)="inputChanged()"
                        [formControl]="formGroup.controls[formInputs.distance_home_customer_site]" />
                 <div class="form-control-feedback"
                      *ngIf="formGroup.controls[formInputs.distance_home_customer_site].hasError('required')

@@ -9,6 +9,7 @@
       (next)="moveForward(1)"
       [submitting]="submittingProject"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-general>
   </mat-step>
 
@@ -22,6 +23,7 @@
       (preview)="moveForward(0)"
       [submitting]="submittingClient"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-client>
   </mat-step>
 
@@ -35,6 +37,7 @@
       (preview)="moveForward(1)"
       [submitting]="submittingLieu"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-lieu-intervention>
   </mat-step>
 
@@ -48,6 +51,7 @@
       (preview)="moveForward(2)"
       [submitting]="submittingPointage"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-pointage>
   </mat-step>
 
@@ -61,6 +65,7 @@
       (preview)="moveForward(3)"
       [submitting]="submittingFrais"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-frais>
   </mat-step>
 
@@ -74,6 +79,7 @@
       (preview)="moveForward(4)"
       [data]="projectToSubmit"
       [submitting]="submittingStats"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-stats>
   </mat-step>
 
@@ -87,6 +93,7 @@
       (preview)="moveForward(5)"
       [submitting]="submittingSecurite"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-securite>
   </mat-step>
 
@@ -99,6 +106,7 @@
       (preview)="moveForward(6)"
       [submitting]="submittingAttachments"
       [data]="projectToSubmit"
+      (refreshGlobalData)="saveStep($event)"
     ></app-creation-pieces-jointes>
   </mat-step>
 

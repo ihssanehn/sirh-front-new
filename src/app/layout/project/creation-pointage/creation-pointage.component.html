@@ -4,7 +4,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Pointage</h1>
@@ -161,6 +161,7 @@
                       placeholder="Séléctionner l'unité"
                       [loading]="loadingSelect[listService.list.TEMPS_UNIT]"
                       (open)="getFilterList('units', listService.list.TEMPS_UNIT)"
+                      (change)="inputChanged()"
                       [formControl]="formGroup.controls[formInputs.pointing_unity_id]"
                       [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.pointing_unity_id].hasError('required')
                                   && formGroup.controls[formInputs.pointing_unity_id].dirty}"
@@ -171,6 +172,7 @@
                     <input type="number"
                            class="form-control input"
                            placeholder="Saisir le tarif"
+                           (change)="inputChanged()"
                            [formControl]="formGroup.controls[formInputs.pointing_tariff]"
                            [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.pointing_tariff].hasError('required')
                                   && formGroup.controls[formInputs.pointing_tariff].dirty}"
@@ -186,6 +188,7 @@
                     <input type="text"
                            class="form-control input"
                            placeholder="Saisir ici"
+                           (change)="inputChanged()"
                            [formControl]="formGroup.controls[formInputs.information_for_consultant]"
                            [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.information_for_consultant].hasError('required')
                                   && formGroup.controls[formInputs.information_for_consultant].dirty}"

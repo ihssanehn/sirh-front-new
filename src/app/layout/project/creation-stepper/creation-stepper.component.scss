@@ -76,3 +76,7 @@ mat-stepper{
 ::ng-deep .mat-horizontal-stepper-header {
   height: 79px !important;
 }
+
+//::ng-deep .mat-horizontal-stepper-header{
+//  pointer-events: none !important;
+//}

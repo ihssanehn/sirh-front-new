@@ -35,6 +35,7 @@ export class CreationClientComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: any;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -51,6 +52,7 @@ export class CreationClientComponent implements OnInit {
     }
   ];
   clients = [];
+
   @Input()
   public set data(obj){
     this.fillForm(obj);
@@ -85,7 +87,7 @@ export class CreationClientComponent implements OnInit {
     this.formGroup.patchValue({
       client_email: data?.client_email,
       client_id: data?.client_id,
-      in_out_office: data?.in_out_office,
+      in_out_office: data?.in_out_office ? true: false,
       proposal_reference: data?.proposal_reference,
       purchasing_contact: data?.purchasing_contact,
       technical_contact:  data?.technical_contact,
@@ -150,4 +152,7 @@ export class CreationClientComponent implements OnInit {
       }
     }
 
+  inputChanged() {
+    this.refreshGlobalData.emit(this.formGroup.value);
+  }
 }

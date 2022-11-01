@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ErrorService, UserService} from "@app/core/services";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -11,14 +11,14 @@ import {MainStore} from "@store/mainStore.store";
 import {getFormValidationErrors, markFormAsDirty, SharedClasses} from "@shared/Utils/SharedClasses";
 import {isMoment} from "moment/moment";
 import * as moment from "moment/moment";
-import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+
 
 @Component({
   selector: 'app-creation-general',
   templateUrl: './creation-general.component.html',
   styleUrls: ['./creation-general.component.scss']
 })
-export class CreationGeneralComponent implements OnInit {
+export class CreationGeneralComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
   errors = [];
@@ -49,6 +49,7 @@ export class CreationGeneralComponent implements OnInit {
   @Input() type = '';
   @Input()  idProject: any;
   @Input()  submitting: boolean;
+  @Output() refreshGlobalData: EventEmitter<any> = new EventEmitter();
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -57,6 +58,8 @@ export class CreationGeneralComponent implements OnInit {
   loadingSelect = {};
   id_entite;
   devises = [];
+  edittingMode: any;
+
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -86,6 +89,11 @@ export class CreationGeneralComponent implements OnInit {
       cp_id: [null,  Validators.compose([Validators.required])]
     }, {validator: this.dateValidator});
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
+    // this.formGroup.valueChanges.subscribe(val => {
+    //   console.log('formGroup.valueChanges', val);
+    //   this.refreshGlobalData.emit(val);
+    // });
   }
 
   ngOnInit(): void {
@@ -95,6 +103,7 @@ export class CreationGeneralComponent implements OnInit {
     console.log('fillForm general', data);
     this.getFilterList('personals', null);
     this.getFilterList('devises', this.listService.list.DEVISE);
+    this.getFilterList('cps', this.listService.list.PROFIT_CENTER, {id: this.id_entite})
     this.formGroup.patchValue({
       personal_id: data.personal_id,
       cp_id: data.cp_id,
@@ -110,6 +119,7 @@ export class CreationGeneralComponent implements OnInit {
       start_date: data.start_date,
       tariff: data.tariff
     })
+    this.edittingMode = data.id;
   }
 
   dateValidator(control: AbstractControl){
@@ -149,16 +159,7 @@ export class CreationGeneralComponent implements OnInit {
       getFormValidationErrors(this.formGroup);
       return;
     }
-    const date_inputs = [
-      'start_date',
-      'end_estimated_date',
-      'end_date'
-    ];
-    const submit = Object.assign(this.formGroup.value);
-    date_inputs.forEach(input => {
-      submit[input] = this.formGroup.value[input] && isMoment(moment(this.formGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)) ? moment(this.formGroup.value[input], MY_CUSTOM_DATETIME_FORMATS.supportedFormats)?.format('YYYY-MM-DD'): null;
-    });
-    console.log('this.userFormGroup.value submit', submit);
+
     // this.photoBase64 = null;
     this.submitStep.emit(this.formGroup.value);
   }
@@ -208,5 +209,13 @@ export class CreationGeneralComponent implements OnInit {
     this.formGroup.patchValue({
       [date]: null
     });
+  }
+
+  inputChanged() {
+    this.refreshGlobalData.emit(this.formGroup.value);
+  }
+
+  ngOnDestroy() {
+    console.log('firing ngOnDestroy' );
   }
 }

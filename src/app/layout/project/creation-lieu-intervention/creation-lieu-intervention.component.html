@@ -4,7 +4,7 @@
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
-        [routerLink]="['/users']"
+        [routerLink]="['/projets']"
       ></app-button>
     </div>
     <h1 class="main-title">Lieu d'intervention</h1>
@@ -54,6 +54,7 @@
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.country_id].hasError('required')
                                       && formGroup.controls[formInputs.country_id].dirty}"
+                                 (change)="inputChanged()"
                                  [formControl]="formGroup.controls[formInputs.country_id]">
                       </ng-select>
                       <div class="form-control-feedback"
@@ -79,6 +80,7 @@
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.city_id].hasError('required')
                                       && formGroup.controls[formInputs.city_id].dirty}"
+                                 (change)="inputChanged()"
                                  [formControl]="formGroup.controls[formInputs.city_id]">
                       </ng-select>
                       <div class="form-control-feedback"
@@ -104,6 +106,7 @@
                                  [ngClass]="{'is-invalid error-input':
                                    formGroup.controls[formInputs.calendar_id].hasError('required')
                                       && formGroup.controls[formInputs.calendar_id].dirty}"
+                                 (change)="inputChanged()"
                                  [formControl]="formGroup.controls[formInputs.calendar_id]">
                       </ng-select>
                       <div class="form-control-feedback"
@@ -123,6 +126,7 @@
                         [ngClass]="{'is-invalid error-input':
                           formGroup.controls[formInputs.postal_code].hasError('required')
                           && formGroup.controls[formInputs.postal_code].dirty}"
+                        (change)="inputChanged()"
                         [formControl]="formGroup.controls[formInputs.postal_code]"
                         placeholder="Code postal"
                       />
@@ -145,6 +149,7 @@
                               [ngClass]="{'is-invalid error-input':
                                   formGroup.controls[formInputs.address].hasError('required')
                                      && formGroup.controls[formInputs.address].dirty}"
+                              (change)="inputChanged()"
                               [formControl]="formGroup.controls[formInputs.address]"></textarea>
                     <div class="form-control-feedback"
                          *ngIf="formGroup.controls[formInputs.address].hasError('required')
@@ -164,6 +169,7 @@
                               [ngClass]="{'is-invalid error-input':
                                   formGroup.controls[formInputs.mission_description].hasError('required')
                                      && formGroup.controls[formInputs.mission_description].dirty}"
+                              (change)="inputChanged()"
                               [formControl]="formGroup.controls[formInputs.mission_description]"></textarea>
                     <div class="form-control-feedback"
                          *ngIf="formGroup.controls[formInputs.mission_description].hasError('required')
