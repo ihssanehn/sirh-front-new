@@ -42,7 +42,7 @@
     "ng-sidebar": "^9.4.3",
     "ng2-date-picker": "^13.0.0",
     "ng2-datepicker": "^12.0.0",
-    "ngx-file-drop": "^14.0.1",
+    "ngx-file-drop": "^13.0.0",
     "ngx-image-compress": "^13.1.10",
     "ngx-image-cropper": "^6.1.0",
     "ngx-infinite-scroll": "^13.0.2",

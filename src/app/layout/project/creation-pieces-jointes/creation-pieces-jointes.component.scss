@@ -18,3 +18,19 @@
     margin-bottom: 15px;
   }
 }
+
+.dropping{
+  ::ng-deep .ngx-file-drop__drop-zone{
+    border: 0 !important;
+    background: unset !important;
+  }
+  ::ng-deep .main-container{
+    background: #078aff17 !important;
+  }
+
+}
+
+::ng-deep .ngx-file-drop__drop-zone{
+  height: unset !important;
+  border: 0 !important;
+}

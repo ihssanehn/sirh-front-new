@@ -37,7 +37,15 @@
       </div>
     </ng-container>
     <ng-template #loadedData>
-      <div class="container-fluid top-container p-0">
+
+      <ngx-file-drop (onFileDrop)="dropFile($event)"
+                     (onFileOver)="dropping = true "
+                     (onFileLeave)="dropping = false "
+                     [contentClassName]="'droppable'"
+                     [ngClass]="{'files-list': files && files.length>0, 'dropping': dropping  }"
+      >
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+          <div class="container-fluid top-container p-0">
         <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off"  novalidate>
           <div class="main-container">
           <p class="paragraph">
@@ -54,6 +62,7 @@
                        name="is_pj_visible" >
               </div>
             </div>
+
 
             <div class="row files-viewer">
               <label class="col-12  text-center" for="uploadMoreFiles">
@@ -107,6 +116,8 @@
 <!--          </div>-->
         </form>
       </div>
+        </ng-template>
+      </ngx-file-drop>
     </ng-template>
   </ng-container>
 </div>

@@ -193,8 +193,8 @@ export class CreationPiecesJointesComponent implements OnInit {
   }
 
   async dropFile(files: NgxFileDropEntry[]){
-    this.files = [];
-    if(!this.edittingMode){
+    // this.files = [];
+    // if(!this.edittingMode){
       this.dropping = false;
       this.show_loader = true;
       for (const droppedFile of files) {
@@ -207,7 +207,7 @@ export class CreationPiecesJointesComponent implements OnInit {
         }
       }
       this.show_loader = false;
-    }
+    // }
 
     if(this.getAllFilesSize() > this.ALL_FILES_SIZE_LIMIT){
       this.filesSizeErrorMessage = 'Vous avez dépassé la taille limite d\'importation de fichiers ('+this.ALL_FILES_SIZE_LIMIT+' Mb)';

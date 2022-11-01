@@ -24,6 +24,7 @@ import { CreationSecuriteComponent } from './creation-securite/creation-securite
 import { CreationPiecesJointesComponent } from './creation-pieces-jointes/creation-pieces-jointes.component';
 import {ProjectListComponent} from "@layout/project/project-list/project-list.component";
 import {DpDatePickerModule} from "ng2-date-picker";
+import {NgxFileDropModule} from "ngx-file-drop";
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import {DpDatePickerModule} from "ng2-date-picker";
     MatButtonModule,
     InfiniteScrollModule,
     MatTooltipModule,
-    DpDatePickerModule
+    DpDatePickerModule,
+    NgxFileDropModule
   ]
 })
 export class ProjectModule { }
