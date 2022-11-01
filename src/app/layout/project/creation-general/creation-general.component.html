@@ -128,7 +128,7 @@
                             <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
                           </div>
                         </div>
-                        <div class="link-light blue-text link">Recopier la date d'entrée groupe</div>
+                        <div class="link-light blue-text link" (click)="setValueToAnother(formInputs.end_date, formInputs.end_estimated_date)">Recopier la date de fin</div>
                         <div class="form-control-feedback"
                              *ngIf="formGroup.controls[formInputs.end_estimated_date].hasError('required')
                            && formGroup.controls[formInputs.end_estimated_date].dirty">

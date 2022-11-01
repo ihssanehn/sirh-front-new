@@ -126,12 +126,13 @@
                   <ng-container *ngIf="input.input_type === 'textarea'">
                     <div style="margin-top: 15px;" class="input-group d-flex flex-column">
                           <label>
-                            {{input.title}} - ({{input.id}})&nbsp;&nbsp;
+                            {{input.title}}
                             <i *ngIf="input.info?.length>0" class="icon-info-cercle primary-icon pointer" aria-hidden="true" [ngbPopover]="input.info" triggers="mouseenter:mouseleave"></i>
                           </label>
                           <textarea rows="4"
                                     placeholder="Saisir ici"
                                     class="form-control input w-100"
+                                    [value]="getValue(input.id)"
                                     (input)="inputValueChanged($event, input); inputChanged()"
                           ></textarea>
                         </div>
@@ -147,6 +148,7 @@
                       <input type="text"
                               placeholder="Saisir ici"
                               class="form-control input w-100"
+                             [value]="getValue(input.id)"
                              (input)="inputValueChanged($event, input); inputChanged()"
                       />
                     </div>
@@ -164,7 +166,7 @@
                         </div>
                         <!--                  [checked]="ischecked(access.id)"-->
                         <!--                  (change)="onCheckChange($event, access)"-->
-                        <label for="{{input.id}}" >{{input.title}} - ({{input.id}})</label>
+                        <label for="{{input.id}}" >{{input.title}}</label>
                       </div>
                   </ng-container>
 
@@ -196,6 +198,7 @@
                               <input type="text"
                                      placeholder="Saisir ici"
                                      class="form-control input w-100"
+                                     [value]="getValue(sub_bloc_input.id)"
                                      (input)="inputValueChanged($event, sub_bloc_input); inputChanged()"
                               />
                             </div>
@@ -210,6 +213,7 @@
                               <textarea rows="4"
                                         placeholder="Saisir ici"
                                         class="form-control input w-100"
+                                        [value]="getValue(sub_bloc_input.id)"
                                         (input)="inputValueChanged($event, sub_bloc_input); inputChanged()"
                               ></textarea>
                             </div>
@@ -226,7 +230,7 @@
                               </div>
                               <!--                  [checked]="ischecked(access.id)"-->
                               <!--                  (change)="onCheckChange($event, access)"-->
-                              <label for="{{sub_bloc_input.id}}" >{{sub_bloc_input.title}} - ({{sub_bloc_input.id}})</label>
+                              <label for="{{sub_bloc_input.id}}" >{{sub_bloc_input.title}}</label>
                             </div>
                           </ng-container>
 
@@ -253,6 +257,7 @@
                                         <textarea rows="4"
                                                   placeholder="Saisir ici"
                                                   class="form-control input w-100"
+                                                  [value]="getValue(sub_sub_bloc_input.id)"
                                                   (input)="inputValueChanged($event, sub_sub_bloc_input); inputChanged()"
                                         ></textarea>
                                       </div>
@@ -267,6 +272,7 @@
                                         <input type="text"
                                                placeholder="Saisir ici"
                                                class="form-control input w-100"
+                                               [value]="getValue(sub_sub_bloc_input.id)"
                                                (input)="inputValueChanged($event, sub_sub_bloc_input); inputChanged()"
                                         />
                                       </div>

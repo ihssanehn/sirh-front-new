@@ -64,6 +64,7 @@ export class CreationSecuriteComponent implements OnInit {
   }
 
   fillForm(data){
+    console.log('fillForm securite', data);
     this.formGroup.patchValue({
       risk_level: data?.risk_level
     });
@@ -126,6 +127,10 @@ export class CreationSecuriteComponent implements OnInit {
 
   ischecked(id) {
     return this.formGroup?.value[this.formInputs.mission_securities]?.find(item => item.id === id);
+  }
+
+  getValue(id) {
+    return this.formGroup?.value[this.formInputs.mission_securities]?.find(item => item.id === id)?.comment;
   }
 
   private createItem(item = null): FormGroup {

@@ -220,4 +220,10 @@ export class CreationGeneralComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     console.log('firing ngOnDestroy' );
   }
+
+  setValueToAnother(end_date: string, end_estimated_date: string) {
+    this.formGroup.patchValue({
+      [end_estimated_date]: this.formGroup.value[end_date]
+    })
+  }
 }
