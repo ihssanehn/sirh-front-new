@@ -53,7 +53,9 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   ) {
     this.activatedRoute?.queryParams?.subscribe(async params => {
       const project_id = Number(params.id);
-      this.getProject(project_id);
+      if(project_id && !this.projectToSubmit?.id) {
+        this.getProject(project_id);
+      }
     });
   }
 
@@ -197,6 +199,7 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
 
   async getProject(id){
     try{
+      console.log('calling get project');
       const res = await this.projectService.getProjectById({id}).toPromise();
       this.projectToSubmit = res.data;
       if(this.projectToSubmit){
@@ -247,14 +250,14 @@ export class CreationStepperComponent implements OnInit, AfterViewInit {
   }
 
   async saveStep($event: any) {
-
     try{
-      console.log('saveStep', $event);
       this.submittingProject = true;
       this.projectToSubmit = {
         ...this.projectToSubmit,
         ...$event
       }
+      this.changeDetectorRef.detectChanges();
+      console.log('saveStep', this.projectToSubmit);
     }catch (e){
       console.log('error submit step 1', e);
     }finally {

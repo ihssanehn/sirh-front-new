@@ -261,7 +261,6 @@ export class CreationPiecesJointesComponent implements OnInit {
 
   getIcon(filename) {
     const file_ex = filename.split('.').pop();
-    console.log('getIcon', filename, file_ex);
     return 'icon-file-' + SharedClasses.getFileType(file_ex);
   }
 
