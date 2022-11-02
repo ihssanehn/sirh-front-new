@@ -38,12 +38,19 @@ export class CreationSecuriteComponent implements OnInit {
   loadingSelect = {};
   id_entite;
   items = [];
+  mission;
+  clients = [];
+  personals = [];
   @Input()
   public set data(obj){
     if(obj){
       this.fillForm(obj);
+      this.mission = obj;
     }
   }
+
+
+
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -54,13 +61,15 @@ export class CreationSecuriteComponent implements OnInit {
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
-              private mainStore: MainStore) {
+              public mainStore: MainStore) {
     this.formGroup = this.formBuilder.group({
       risk_level: [null],
       mission_securities: this.formBuilder.array([]),
     });
 
     this.getFilterList('items', listService.list.SECURITY);
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
   }
 
   fillForm(data){
@@ -69,6 +78,10 @@ export class CreationSecuriteComponent implements OnInit {
       risk_level: data?.risk_level
     });
     this.setItems(data.mission_securities);
+    this.getFilterList('personals', 'personals', {entity_id: this.id_entite});
+    // this.getFilterList('entites', this.listService.list.ENTITY);
+    this.getFilterList('clients', null);
+
   }
 
   // TODO
@@ -108,6 +121,19 @@ export class CreationSecuriteComponent implements OnInit {
       try{
         this.loadingSelect[list_name] = true;
         this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+        this.mission.consultant = this.personals.find(item => item.id === this.mission.personal_id);
+
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else if(items === 'clients') {
+      try{
+        this.loadingSelect[list_name] = true;
+        // {entity_id: this.id_entite}
+        this[items] = await this.listService.getClients().toPromise();
+        this.mission.client = this.clients.find(item => item.id === this.mission.client_id);
       } catch (e) {
         console.log('error filter', e);
       } finally {

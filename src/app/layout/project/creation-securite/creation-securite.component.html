@@ -70,7 +70,7 @@
           <div class="row">
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Entité</div>
-              <div class="value"></div>
+              <div class="value">{{mainStore.selectedEntities[0]?.label}}</div>
             </div>
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Date de l'analyse</div>
@@ -78,7 +78,7 @@
             </div>
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Référence de la proposition</div>
-              <div class="value"></div>
+              <div class="value">{{mission?.proposal_reference}}</div>
             </div>
           </div>
           <div class="row">
@@ -88,7 +88,7 @@
             </div>
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Client:</div>
-              <div class="value"></div>
+              <div class="value">{{mission?.client?.name}}</div>
             </div>
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Date de l'intervention:</div>
@@ -98,7 +98,7 @@
           <div class="row">
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Consultant:</div>
-              <div class="value"></div>
+              <div class="value">{{mission?.consultant?.full_name}}</div>
             </div>
             <div class="col-12 col-sm-3 info-item">
               <div class="label">Site d'intervention:</div>
