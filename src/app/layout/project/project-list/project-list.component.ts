@@ -78,7 +78,60 @@ export class ProjectListComponent implements OnInit {
   personals = [];
   projects = [
     {
-
+      name: 'Project 1',
+      start_date: '01/01/2021',
+      end_date: '01/01/2021',
+      reference: 'ref1',
+      client_name: 'client1',
+      missions: [{
+        name: 'Mission 1',
+        reference: 'ref1',
+        start_date: '01/01/2021',
+        end_date: '01/01/2021',
+        consultant_name: 'consultant1'
+      }]
+    },
+    {
+      name: 'Project 1',
+      start_date: '01/01/2021',
+      end_date: '01/01/2021',
+      reference: 'ref1',
+      client_name: 'client1',
+      missions: [{
+        name: 'Mission 1',
+        reference: 'ref1',
+        start_date: '01/01/2021',
+        end_date: '01/01/2021',
+        consultant_name: 'consultant1'
+      }]
+    },
+    {
+      name: 'Project 1',
+      start_date: '01/01/2021',
+      end_date: '01/01/2021',
+      reference: 'ref1',
+      client_name: 'client1',
+      missions: [{
+        name: 'Mission 1',
+        reference: 'ref1',
+        start_date: '01/01/2021',
+        end_date: '01/01/2021',
+        consultant_name: 'consultant1'
+      }]
+    },
+    {
+      name: 'Project 1',
+      start_date: '01/01/2021',
+      end_date: '01/01/2021',
+      reference: 'ref1',
+      client_name: 'client1',
+      missions: [{
+        name: 'Mission 1',
+        reference: 'ref1',
+        start_date: '01/01/2021',
+        end_date: '01/01/2021',
+        consultant_name: 'consultant1'
+      }]
     }
   ];
   constructor(public listService: ListsService,

@@ -267,7 +267,7 @@
 
   <div class="main-container filter-container">
     <ng-container *ngIf="!loadingData; else loadingTemplate">
-      <ng-container  *ngIf="activities?.length>0; else emptyState">
+      <ng-container  *ngIf="projects?.length>0; else emptyState">
         <div class="sub-header header">
           <h3 class="main-title">
             Export
@@ -278,83 +278,34 @@
             <table class="table-responsive w-100">
               <thead>
               <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th colspan="2" class="category-cell">
-                  Activité diffusée
+                <th rowspan="2">
+                  <i class="icon-arrow-up"></i>
                 </th>
-                <th colspan="2" class="category-cell">
-                  Activité validée
-                </th>
-                <th></th>
-                <th></th>
-                <th class="p-0"></th>
+                <th rowspan="2">PIM-00001730</th>
+                <th colspan="3" class="text-center category-cell" >ALSTOM GRID ()</th>
+                <th rowspan="2" >19/07/2021</th>
+                <th rowspan="2">30/12/2021</th>
+                <th rowspan="2">LEP-38</th>
+                <th rowspan="2"><i class="icon-edit-bold"></i></th>
               </tr>
               <tr>
-                <th></th>
-                <th>
-                  Nom
-                </th>
-                <th>
-                  Prénom
-                </th>
-                <th>
-                  CP
-                </th>
-                <th>
-                  Activité diffusée
-                </th>
-                <th>
-                  Frais diffusés
-                </th>
-                <th>
-                  Activité validée
-                </th>
-                <th>
-                  Frais validés
-                </th>
-                <th>
-                  Détails
-                </th>
-                <th class="p-0">
-                  Action
-                </th>
+                <th>GE GRID - BELHIBA HAJER A compléter</th>
+                <th colspan="2">2021-0001728</th>
               </tr>
               </thead>
               <tbody>
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let project of projects" >
-                <td style="width: 35px; padding: 0">
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td  style="opacity: .7;">
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td style="opacity: .7;">
-
-                </td>
-                <td class="p-0 text-center">
-
+                <td class="text-center"><i class="icon-copy primary-icon"></i></td>
+                <td>test 1</td>
+                <td>test 2</td>
+                <td>test 3</td>
+                <td>BC</td>
+                <td>test 4</td>
+                <td>test 5</td>
+                <td class="text-center"><i class="icon-timer green-icon"></i></td>
+                <td class="text-center">
+                  <i class="icon-edit-bold primary-icon"></i>
                 </td>
               </tr>
               </tbody>
