@@ -66,6 +66,10 @@ export class LayoutComponent implements OnInit{
                   $sidebarItems_project[0].opened = true;
                   $sidebarItems_project[1].opened = false;
                 }
+                if(this.router.url.indexOf('projets/fin_mission') !== -1){
+                  $sidebarItems_project[0].opened = true;
+                  $sidebarItems_project[1].opened = false;
+                }
                 if(this.router.url.indexOf('projets/creation') !== -1){
                   $sidebarItems_project[0].opened = true;
                   $sidebarItems_project[1].opened = false;
