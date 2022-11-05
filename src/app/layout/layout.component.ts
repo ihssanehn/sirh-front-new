@@ -74,7 +74,8 @@ export class LayoutComponent implements OnInit{
                   $sidebarItems_project[0].opened = true;
                   $sidebarItems_project[1].opened = false;
                 }
-
+                // store.upwebapp.com/wordpress
+                // UPDATE wp_posts SET guid = REPLACE(guid, 'store.upwebapp.com/wordpress', 'store.upwebapp.com');
                 break;
               }
               case 'activites': {
