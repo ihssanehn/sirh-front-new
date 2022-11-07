@@ -713,7 +713,8 @@ export const $sidebarItems_project: Array<SidebarItem> = [
         link: 'projets/regularisation',
         opened: false,
         onlyFor: [
-          $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP
+          // $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP,
+          $userRoles.USER, $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
         ],
       }
     ]

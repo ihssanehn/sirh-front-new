@@ -1,0 +1,285 @@
+<div class="top-container list">
+
+  <div class="sub-header container-fluid ">
+    <h2>
+      Régularisations
+    </h2>
+  </div>
+
+  <div class="filter-container main-container">
+    <div class="sub-header container-fluid ">
+      <h3 class="main-title">
+        Filtres de recherche
+      </h3>
+      <span class="reset-filters" (click)="resetFilters()">
+          <i class="icon-close"></i>&nbsp;
+          Réinitialiser les filtres
+        </span>
+    </div>
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Plage de visualisation</label>
+        <div class="d-flex justify-content-between row">
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt1"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt1"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.startDate"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.startDate = null"
+                   *ngIf="filter.startDate"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt2"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt2"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.endDate"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.endDate = null"
+                   *ngIf="filter.endDate"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Type date
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="clients"
+                     [bindLabel]="'name'"
+                     [bindValue]="'id'"
+                     [disabled]="true"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.clients"
+                     (open)="getFilterList('clients', null)"
+                     [loading]="loadingSelect['clients']"
+                     [placeholder]="'Date prise en compte'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Client
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="clients"
+                     [bindLabel]="'name'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.clients"
+                     (open)="getFilterList('clients', null)"
+                     [loading]="loadingSelect['clients']"
+                     [placeholder]="'Filtrer par client'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Projet
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="filterProjects"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.projects"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [disabled]="true"
+                     (open)="getFilterList('filterProjects', listService.list.STATUS, listService.list.ADVANCE_COST)"
+                     [loading]="loadingSelect[listService.list.STATUS]"
+                     [placeholder]="'Filtrer par projets'" >
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Consultant</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="personals"
+                     [bindLabel]="'full_name'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
+                     [placeholder]="'Sélectionner le consultant'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Gestionnaire ADV
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="adv_managers"
+                     [disabled]="true"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.adv_managers"
+                     [loading]="loadingSelect[listService.list.TRI_COST]"
+                     [placeholder]="'Sélectionner le tri'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row filtres">
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Type de facturation
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="personals"
+                     [disabled]="true"
+                     [bindLabel]="'full_name'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
+                     [placeholder]="'Sélectionner le consultant'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-container justify-content-center submit-block">
+      <app-button
+        [type]="'primary'"
+        [text]="'Rechercher'"
+        [isLoading]="submittingDetailedExport"
+        (onClick)="detailedExport()"
+        [iconLeft]="'icon-search'"
+        style="margin: 0"
+      >
+      </app-button>
+    </div>
+  </div>
+
+  <div class="main-container filter-container">
+    <ng-container *ngIf="!loadingData; else loadingTemplate">
+      <ng-container  *ngIf="list_regularisation?.length>0; else emptyState">
+        <div class="sub-header">
+          <h3 class="main-title">
+            {{list_regularisation?.length || 0}} régularisation{{list_regularisation?.length>1? 's': ''}} trouvée{{list_regularisation?.length>1? 's': ''}}
+          </h3>
+          <div>
+            <app-button
+              [type]="'primary'"
+              [text]="'Exporter'"
+              [isLoading]="submittingExport"
+              (onClick)="export()"
+              [iconLeft]="'icon-excel'"
+              style="margin: 0"
+            >
+            </app-button>&nbsp;&nbsp;
+            <app-button
+              [type]="'secondary'"
+              [text]="'Ajouter une nouvelle régularisation'"
+              [isLoading]="submittingExport"
+              (onClick)="export()"
+              [iconLeft]="'icon-add'"
+              style="margin: 0"
+            >
+            </app-button>
+          </div>
+        </div>
+        <div class="wrap" style="margin-top: 20px">
+          <div class="table-wrapper">
+             <table class="table-responsive w-100">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Type</th>
+                      <th>Détail Origine</th>
+                      <th>Détail Destination</th>
+                      <th>Commentaire</th>
+                      <th>Visu</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of list_regularisation" >
+                    <td>{{item.date | dateMessage}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.original_details}}</td>
+                    <td>
+                      <div class="bold-text">{{item.destination_details.type}}</div>
+                      <div class="green-text">{{item.destination_details.client_name}}</div>
+                      <div class="blue-text bold-text">{{item.destination_details.personal_name}}</div>
+                      <div class="light-text">{{item.destination_details.label1}}</div>
+                      <div class="light-text">{{item.destination_details.label2}}</div>
+                      <div class="light-text">{{item.destination_details.quantity}}</div>
+                      <div class="light-text">{{item.destination_details.tarif}}</div>
+                      <div class="light-text">{{item.destination_details.total}}</div>
+                    </td>
+                    <td>
+                      <div class="bold-text">{{item.comment.primary}}</div>
+                      <div class="light-text">{{item.comment.secondary}}</div>
+                    </td>
+                    <td class="text-center">
+                      <i class="icon-search primary-icon"></i>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+          </div>
+          <!--        <div class="footer w-100" >-->
+          <!--          <div></div>-->
+          <!--          <app-pagination name="pagination"-->
+          <!--                          (change)="changePagination()"-->
+          <!--                          [(ngModel)]="pagination"-->
+          <!--                          ngDefaultControl>-->
+          <!--          </app-pagination>-->
+          <!--        </div>-->
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

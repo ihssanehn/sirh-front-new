@@ -4,6 +4,7 @@ import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 import {CreationStepperComponent} from "@layout/project/creation-stepper/creation-stepper.component";
 import {ProjectListComponent} from "@layout/project/project-list/project-list.component";
 import {FinMissionListComponent} from "@layout/project/fin-mission-list/fin-mission-list.component";
+import {RegularisationListComponent} from "@layout/project/regularisation-list/regularisation-list.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'fin_mission',
     component: FinMissionListComponent,
+  },
+  {
+    path: 'regularisation',
+    component: RegularisationListComponent,
   },
   {
     path: 'creation',
