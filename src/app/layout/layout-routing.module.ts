@@ -21,6 +21,11 @@ const routes: Routes = [
         canActivate: [EntiteGuard]
       },
       {
+        path: 'missions',
+         loadChildren: () => import('./project/project.module').then(m => m.ProjectModule),
+        canActivate: [EntiteGuard]
+      },
+      {
         path: 'users',
          loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
         canActivate: [EntiteGuard]

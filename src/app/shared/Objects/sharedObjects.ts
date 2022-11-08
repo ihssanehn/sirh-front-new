@@ -724,7 +724,7 @@ export const $sidebarItems_project: Array<SidebarItem> = [
     name: 'Ordres de mission',
     type: 'sub',
     icon: null,
-    link: 'missions',
+    link: 'missions/ordre_mission',
     onlyFor: [
       $userRoles.ADV, $userRoles.REPORTING, $userRoles.ACCOUNTING, $userRoles.GP, $userRoles.BM
     ],
@@ -733,9 +733,9 @@ export const $sidebarItems_project: Array<SidebarItem> = [
       {
         id: 2,
         name: 'Liste',
-        type: 'missions/link',
+        type: 'link',
         icon: null,
-        link: 'activites/frais/list',
+        link: 'missions/ordre_mission/list',
         opened: false,
       }
     ]

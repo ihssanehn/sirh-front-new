@@ -59,6 +59,15 @@ export class LayoutComponent implements OnInit{
 
                 break;
               }
+              case 'missions': {
+                this.mainStore.currentHeaderSection = $headerSectionsMetaData.projet;
+
+                if(this.router.url.indexOf('missions/ordre_mission') !== -1){
+                  $sidebarItems_project[0].opened = false;
+                  $sidebarItems_project[1].opened = true;
+                }
+                break;
+              }
               case 'projets': {
                 this.mainStore.currentHeaderSection = $headerSectionsMetaData.projet;
 

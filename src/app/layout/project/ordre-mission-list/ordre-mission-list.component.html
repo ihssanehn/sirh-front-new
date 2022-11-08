@@ -1,0 +1,371 @@
+<div class="top-container list">
+
+  <div class="sub-header container-fluid ">
+    <h2>
+      Ordres de missions
+    </h2>
+  </div>
+
+  <div class="filter-container main-container">
+    <div class="sub-header container-fluid ">
+      <h3 class="main-title">
+        Filtres de recherche
+      </h3>
+      <span class="reset-filters" (click)="resetFilters()">
+          <i class="icon-close"></i>&nbsp;
+          Réinitialiser les filtres
+        </span>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Plage de visualisation</label>
+        <div class="d-flex justify-content-between row">
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt1"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt1"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.startDate"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.startDate = null"
+                   *ngIf="filter.startDate"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="date-picker-group">
+              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+              <input [owlDateTime]="owl_dt2"
+                     class="form-control input date"
+                     [owlDateTimeTrigger]="owl_dt2"
+                     placeholder="Choisir la date ici"
+                     [(ngModel)]="filter.endDate"
+              />
+              <div class="icons-container">
+                <i class="icon-close"
+                   (click)="filter.endDate = null"
+                   *ngIf="filter.endDate"></i>&nbsp;
+                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Statut demande</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="memberShips"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.memberShips"
+                     (open)="getFilterList('memberShips', listService.list.MEMBER_SHIP )"
+                     [loading]="loadingSelect[listService.list.STATUS]"
+                     [placeholder]="'Tous les ordres de missions'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>Salarié</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="false"
+                     [items]="personals"
+                     [bindLabel]="'full_name'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.personals"
+                     (open)="getFilterList('personals', listService.list.PERSONAL)"
+                     [loading]="loadingSelect[listService.list.PERSONAL]"
+                     [placeholder]="'Tous les utilisateurs'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Appartenance</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="memberShips"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.memberShips"
+                     (open)="getFilterList('memberShips', listService.list.MEMBER_SHIP )"
+                     [loading]="loadingSelect[listService.list.STATUS]"
+                     [placeholder]="'Filtrer par appartenance'"></ng-select>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Business line
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="business_lines"
+                     [disabled]="true"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.business_lines"
+                     [placeholder]="'Filtrer par business lines'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row ">
+      <div class="flex-column col-12 col-sm-6">
+      <label>
+        Direction OP
+        <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+      </label>
+      <div>
+        <ng-select class="select form-control"
+                   [multiple]="true"
+                   [items]="direction_ops"
+                   [disabled]="true"
+                   [bindLabel]="'label'"
+                   [bindValue]="'id'"
+                   (change)="filterChanged()"
+                   [(ngModel)]="filter.direction_ops"
+                   [placeholder]="'Filtrer direction op'"></ng-select>
+      </div>
+    </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Business unit
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="business_units"
+                     [disabled]="true"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.business_units"
+                     [placeholder]="'Filtrer par business units'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Département</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="departments"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.departments"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par département'" ></ng-select>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Client <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [disabled]="true"
+                     [items]="clients"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.clients"
+                     [placeholder]="'Filtrer par client'"></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filtres row">
+      <div class="flex-column col-12 col-sm-6">
+        <label>Centre de profit</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="profit_centers"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.profitCenters"
+                     (open)="getFilterList('profit_centers', listService.list.PROFIT_CENTER, {id: id_entite})"
+                     [loading]="loadingSelect[listService.list.PROFIT_CENTER]"
+                     [placeholder]="'Filtrer par centre de profit'" ></ng-select>
+        </div>
+        <div class="check-box-btn">
+          <input type="checkbox"
+                 id="with_inactive_cp"
+                 [checked]="filter.withInactiveCp"
+                 [(ngModel)]="filter.withInactiveCp"
+                 (change)="filterChanged()"
+                 name="with_inactive_cp" >
+          <label for="with_inactive_cp" class="secondary_label">Avec centres de profits inactifs</label>
+        </div>
+      </div>
+      <div class="flex-column col-12 col-sm-6">
+        <label>
+          Geestionnaire (ADV)
+          <i class="icon-info-cercle primary-icon" [matTooltip]="'Filtre non fonctionnel pour le moment'"></i>
+        </label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="adv_managers"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.adv_managers"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par gestionnaire ADV'" ></ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-container justify-content-center submit-block">
+      <app-button
+        [type]="'primary'"
+        [text]="'Rechercher'"
+        [isLoading]="submittingDetailedExport"
+        (onClick)="detailedExport()"
+        [iconLeft]="'icon-search'"
+        style="margin: 0"
+      >
+      </app-button>
+    </div>
+  </div>
+
+  <div class="main-container filter-container">
+    <ng-container *ngIf="!loadingData; else loadingTemplate">
+      <ng-container  *ngIf="list_mission_orders?.length>0; else emptyState">
+        <div class="sub-header">
+          <h3 class="main-title">
+            {{list_mission_orders?.length || 0}} ordre{{list_mission_orders?.length>1? 's': ''}} de mission trouvé{{list_mission_orders?.length>1? 's': ''}}
+          </h3>
+        </div>
+        <div class="sub-header">
+          <div class="btns">
+            <app-button
+              [text]="'Tout sélectionner'"
+              [type]="'secondary_2'"
+              [customStyle]="{'max-height': '34px'}"
+            ></app-button>&nbsp;&nbsp;
+            <app-button
+              [text]="'Désélectionner'"
+              [type]="'secondary_2'"
+              [customStyle]="{'max-height': '34px'}"
+            ></app-button>
+          </div>
+          <div>
+            <app-button
+              [type]="'primary'"
+              [text]="'Imprimer les OM cochés'"
+              [isLoading]="submittingExport"
+              (onClick)="export()"
+              [iconLeft]="'icon-pdf'"
+              style="margin: 0"
+            >
+            </app-button>&nbsp;&nbsp;
+            <app-button
+              [type]="'secondary'"
+              [text]="'Valider les frais des OM cochés'"
+              [isLoading]="submittingExport"
+              (onClick)="export()"
+              [iconLeft]="'icon-check'"
+              style="margin: 0"
+            >
+            </app-button>
+          </div>
+        </div>
+        <div class="wrap" style="margin-top: 20px">
+          <div class="table-wrapper">
+             <table class="table-responsive w-100">
+                  <thead>
+                    <tr>
+                      <th>Action</th>
+                      <th>Num mission</th>
+                      <th>Nom</th>
+                      <th>Prénom</th>
+                      <th>Libellé</th>
+                      <th>Centre de profit</th>
+                      <th>Date de début</th>
+                      <th>Date de fin</th>
+                      <th class="text-center">Cmde reçue</th>
+                      <th class="text-center">Saisie frais admin</th>
+                      <th class="text-center">Valid. BM</th>
+                      <th class="text-center">Valid. Cslt</th>
+                      <th class="text-center">Voir</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of list_mission_orders" >
+                    <td>
+                      <div class="check-box-btn text-center" >
+                        <div class="input-container">
+                          <input type="checkbox" [checked]="item.checked" (change)="checkItem(item)">
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{item.num}}</td>
+                    <td>{{item.last_name}}</td>
+                    <td>{{item.first_name}}</td>
+                    <td>{{item.libelle}}</td>
+                    <td>{{item.profit_center}}</td>
+                    <td>{{item.start_date | dateMessage}}</td>
+                    <td>{{item.end_date | dateMessage}}</td>
+                    <td class="text-center"> <i class="icon-check green-icon"></i> </td>
+                    <td class="text-center"> <i class="icon-check green-icon"></i> </td>
+                    <td class="text-center"> <i class="icon-bloc danger-icon"></i> </td>
+                    <td class="text-center"> <i class="icon-bloc danger-icon"></i> </td>
+                    <td class="text-center">
+                      <i class="icon-search primary-icon"></i>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+          </div>
+          <!--        <div class="footer w-100" >-->
+          <!--          <div></div>-->
+          <!--          <app-pagination name="pagination"-->
+          <!--                          (change)="changePagination()"-->
+          <!--                          [(ngModel)]="pagination"-->
+          <!--                          ngDefaultControl>-->
+          <!--          </app-pagination>-->
+          <!--        </div>-->
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+
+  <ng-template #emptyState>
+    <app-centred-message
+      [image]="'images/user_empty_state.svg'"
+      [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+    ></app-centred-message>
+  </ng-template>
+
+  <ng-template #loadingTemplate>
+    <div style="min-height: 290px;">
+      <img src="assets/images/loading_activities.svg" style="width: 100%;" />
+    </div>
+  </ng-template>
+
+</div>

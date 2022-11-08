@@ -1,0 +1,27 @@
+@import "../project.styles";
+
+.top-container{
+  height: unset !important;
+  .main-container{
+    padding: 10px 25px;
+  }
+}
+
+th{
+  background: $lightgray;
+  border-radius: 3px;
+  border-bottom: 0 !important;
+}
+
+
+table{
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin-bottom: 20px;
+  i {
+    cursor: pointer;
+    &:before {
+      font-size: 18px;
+    }
+  }
+}

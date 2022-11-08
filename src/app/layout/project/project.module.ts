@@ -27,6 +27,7 @@ import {DpDatePickerModule} from "ng2-date-picker";
 import {NgxFileDropModule} from "ngx-file-drop";
 import {FinMissionListComponent} from "@layout/project/fin-mission-list/fin-mission-list.component";
 import {RegularisationListComponent} from "@layout/project/regularisation-list/regularisation-list.component";
+import {OrdreMissionListComponent} from "@layout/project/ordre-mission-list/ordre-mission-list.component";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {RegularisationListComponent} from "@layout/project/regularisation-list/r
     CreationPiecesJointesComponent,
     ProjectListComponent,
     FinMissionListComponent,
-    RegularisationListComponent
+    RegularisationListComponent,
+    OrdreMissionListComponent
   ],
   imports: [
     CommonModule,

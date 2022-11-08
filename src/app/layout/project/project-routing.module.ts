@@ -5,6 +5,7 @@ import {CreationStepperComponent} from "@layout/project/creation-stepper/creatio
 import {ProjectListComponent} from "@layout/project/project-list/project-list.component";
 import {FinMissionListComponent} from "@layout/project/fin-mission-list/fin-mission-list.component";
 import {RegularisationListComponent} from "@layout/project/regularisation-list/regularisation-list.component";
+import {OrdreMissionListComponent} from "@layout/project/ordre-mission-list/ordre-mission-list.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,20 @@ const routes: Routes = [
   {
     path: 'regularisation',
     component: RegularisationListComponent,
+  },
+  {
+    path: 'ordre_mission',
+    children: [
+      {
+        path: 'list',
+        component: OrdreMissionListComponent,
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'list',
+      }
+    ]
   },
   {
     path: 'creation',
