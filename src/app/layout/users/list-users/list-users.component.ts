@@ -157,6 +157,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
           this.type = 'period_essai';
           break;
         }
+        case 'entree': {
+          this.type = 'entree';
+          break;
+        }
+        case 'sortie': {
+          this.type = 'sortie';
+          break;
+        }
         case 'entretien': {
           this.type = 'entretien';
           break;
@@ -208,7 +216,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type
+      type: this.type === 'entree' || this.type === 'sortie' ? 'general' : this.type,
     }
     Object.keys(this.filter).forEach(key => {
       if(this.filter[key] !== null && this.filter[key] !== []){

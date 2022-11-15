@@ -1,5 +1,6 @@
 
 export interface User {
+  full_name?: string;
   type_account?: string;
   comment_service_provider?: any;
   vat_rate?: any;

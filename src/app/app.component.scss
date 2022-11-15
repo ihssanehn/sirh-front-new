@@ -66,8 +66,13 @@
         border: 1px solid $lightgray;
         border-radius: 10px;
         font-size: 12px;
+        label{
+          font-weight: 300 !important;
+          font-size: 12px;
+        }
         .btn-primary{
           background-color: $mainColor;
+          color: white;
         }
       }
     }
@@ -201,6 +206,9 @@
     font-weight: 400 !important;
   }
 }
+
+
+
 
 .photo-cell{
   display: flex;
@@ -342,7 +350,7 @@
             padding: 12px 24px 10px 24px;
             font-size: 12px;
             color: #4D4D4D;
-            border-bottom: 1px solid lightgray;
+            //border-bottom: 1px solid lightgray;
             i {
               margin-right: 5px;
               &:before{
@@ -415,7 +423,8 @@
   //border-top: 0;
   //border-left: 0;
   //border-right: 0;
-  border: 1px solid #c1c2c3;
+  //border: 1px solid #c1c2c3;
+  border: 1px solid lightgray;
   //min-height: 40px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -946,4 +955,17 @@ a, .link{
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   background: white;
+}
+
+.small-checkbox{
+  padding: 8px !important;
+  border-radius: 3px !important;
+  border-color: lightgray !important;
+  &::before{
+    top: 0 !important;
+    left: 5px !important;
+    width: 6px !important;
+    height: 14px !important;
+    border-width: 0 2px 2px 0 !important;
+  }
 }

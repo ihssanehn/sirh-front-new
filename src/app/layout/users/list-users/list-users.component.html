@@ -300,7 +300,7 @@
                   Salarié
                 </th>
                 <th>
-                  N°
+                  Matricule
                 </th>
                 <th>
                   Profil
@@ -385,10 +385,7 @@
                   Matricule
                 </th>
                 <th>
-                  Date naissance
-                </th>
-                <th>
-                  Position
+                  Statut salarié
                 </th>
                 <th>
                   Date entrée
@@ -400,7 +397,10 @@
                   Ancienneté
                 </th>
                 <th>
-                  Action
+                  Décision
+                </th>
+                <th>
+                  Date de fin de renouvellement
                 </th>
                 <th>
                   Suivi evolution période d'essai
@@ -410,6 +410,9 @@
                 </th>
                 <th>
                   Gestion courrier GP
+                </th>
+                 <th>
+                  Réception bilan PE
                 </th>
                </tr>
               </thead>
@@ -431,18 +434,38 @@
                 </td>
                 <td data-title="Ceentre de profit" class="tel">{{user?.cp_name}}</td>
                 <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
-                <td data-title="Numéro de registration" >{{user?.birth_date | dateMessage}}</td>
-                <td data-title="Profile" >{{user?.position_name}}</td>
+                <td data-title="Numéro de registration" >Statut_test</td>
                 <td data-title="Entrée" class="tel">{{user?.entry_date | dateMessage}}</td>
                 <td data-title="Sortie" class="tel">{{user?.end_date | dateMessage}}</td>
                 <td data-title="Rôle" >{{user?.seniority}}</td>
-                <td data-title="Appartenance" class="tel">
-                  <i class="icon-parametre primary-icon"></i>
+                <td data-title="Rôle" >decision_test</td>
+                <td data-title="Sortie" >date_test</td>
+                <td data-title="Appartenance" >
+                  Terminé
                 </td>
-                <td data-title="Telephone portable">--</td>
-                <td data-title="Email">--</td>
-                <td>--</td>
-
+                <td>
+                  fin periode
+                </td>
+                <td>
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="gestion_courrier_gp"
+                           [checked]="user.gestion_courrier_gp"
+                           [(ngModel)]="user.gestion_courrier_gp"
+                           name="gestion_courrier_gp" />
+                  </div>
+                </td>
+                <td>
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="reception_bilan_pe"
+                           [checked]="user.reception_bilan_pe"
+                           [(ngModel)]="user.reception_bilan_pe"
+                           name="reception_bilan_pe" />
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>
@@ -453,15 +476,15 @@
               <tr>
                 <th>Salarié</th>
                 <th>Matricule</th>
+                <th>Société</th>
                 <th>Date entrée</th>
                 <th>Centre de profit</th>
                 <th>Type entretien</th>
                 <th>Date théorique</th>
-                <th>Date planifié</th>
                 <th>Date effective</th>
                 <th>Etat</th>
                 <th>Pièces jointes</th>
-                <th>Actions</th>
+                <th style="text-align: right">Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -480,15 +503,15 @@
                     <div class="name">{{user?.full_name}} </div>
                   </div>
                 </td>
-                  <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
-                  <td data-title="Entrée" class="tel">{{user?.entry_date | dateMessage}}</td>
-                  <td data-title="Ceentre de profit" class="tel">{{user?.cp_name}}</td>
-                  <td data-title="Ceentre de profit" class="tel">--</td>
-                  <td data-title="Ceentre de profit" class="tel">--</td>
-                  <td data-title="Ceentre de profit" class="tel">--</td>
-                  <td data-title="Ceentre de profit" class="tel">--</td>
-                  <td data-title="Etat">--</td>
-                  <td data-title="Etat">
+                  <td>{{user?.registration_number}}</td>
+                  <td>{{user?.entity_name || 'entity_name_test'}}</td>
+                  <td>{{user?.entry_date | dateMessage}}</td>
+                  <td>{{user?.cp_name}}</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td >
                     <i class="icon-attachment"></i>
                   </td>
                   <td  >
@@ -512,7 +535,7 @@
               <thead>
               <tr>
                 <th>Nom</th>
-                <th>Matricules</th>
+                <th>Matricule</th>
                 <th>Profil</th>
                 <th>Centre de profit</th>
                 <th>Email</th>
@@ -585,36 +608,29 @@
               <thead>
               <tr>
                 <th>
-                  <!--                          <i class="icon-username"></i>-->
-                  Nom
-                </th>
-                <!--                        <th>-->
-                <!--&lt;!&ndash;                          <i class="icon-username"></i>&ndash;&gt;-->
-                <!--                          Prénom-->
-                <!--                        </th>-->
-                <th>
-                  <!--                          <i class="icon-email"></i>-->
-                  N°
+                  Salarié
                 </th>
                 <th>
-                  <!--                           <i class="icon-phone"></i>-->
-                  Profil
+                  Matricule
                 </th>
                 <th>
-                  <!--                          <i class="icon-manager"></i>-->
-                  Centre de profit
+                  Société
                 </th>
                 <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Email
+                  Siège
                 </th>
                 <th>
-                  <!--                            <i class="icon-manager"></i>-->
-                  Tel
+                  Centre médical
                 </th>
-                <!--                        <th class="text-center">Date de création</th>-->
-                <!--                        <th>Dernière activité</th>-->
-                <th class="icon-cell"></th>
+                <th>
+                  Date dernière visite médicale
+                </th>
+                <th>
+                  Date prochaine visite médicale
+                </th>
+                <th>
+                  Convocation envoyée
+                </th>
               </tr>
               </thead>
               <tbody>
@@ -635,21 +651,152 @@
                   </div>
                 </td>
                 <td>{{user?.registration_number}}</td>
-                <td data-title="Email" >{{user?.profile_name}}</td>
-                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
-                <td data-title="Profil">{{user?.email_professional}}</td>
-                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
+                <td>{{user?.entity_name || 'entity_name'}}</td>
+                <td>{{user?.siege || 'siege_name'}}</td>
+                <td>{{user?.medical_center || 'medical_center'}} &nbsp;<i class="icon-edit-bold"></i></td>
+                <td></td>
+                <td>
+                  <span class="link">Ajouter une date</span>
+                </td>
+                <td>
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="invitation_sent"
+                           [checked]="user.invitation_sent"
+                           [(ngModel)]="user.invitation_sent"
+                           name="invitation_sent" >
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'entree'">
+            <table class="table-responsive card-list-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th colspan="2" class="category-cell">Salarié étranger</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <th>
+                    Salarié
+                  </th>
+                  <th>
+                    Matricules
+                  </th>
+                  <th>
+                    Société
+                  </th>
+                  <th>
+                    Siège
+                  </th>
+                  <th>
+                    Date d'entrée
+                  </th>
+                  <th>
+                    Centre de profit
+                  </th>
+                  <th>
+                    Type de contrat
+                  </th>
+                  <th>
+                    Statut
+                  </th>
+                  <th>
+                    Vérification TS préfecture
+                  </th>
+                  <th>
+                    Demande d'authorisation de travail
+                  </th>
+                  <th class="text-center">
+                    Contrat signé
+                  </th>
+                  <th class="text-center">
+                    Annulé?
+                  </th>
+                  <th style="text-align: right">
+                    <i class="primary-icon icon-add"></i>
+                  </th>
+                  <th class="icon-cell text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
+              <tr *ngFor="let user of users"  >
+                <td>
+                  <div class="photo-cell">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [attr.src]="user?.photo_profile ? (user.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                    <div class="name">{{user?.full_name}} </div>
+                  </div>
+                </td>
+                <td>{{user?.registration_number}}</td>
+                <td data-title="Entité" >{{user?.entity_name || 'test'}}</td>
+                <td data-title="Siege">{{user?.siege_name || 'test'}}</td>
+                <td data-title="date d'entrée">{{(user?.start_date | dateMessage) || 'test'}}</td>
+                <td data-title="Centre d'interêt">{{user?.cp_name}}</td>
+                <td data-title="Type de contrat">{{user?.contract_type_name || 'test'}}</td>
+                <td data-title="Type de contrat">{{user?.statut || 'test'}}</td>
+                <td data-title="Type de contrat">
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="with_inactive_cp"
+                           [checked]="user.verification_ts_prefecture"
+                           [(ngModel)]="user.verification_ts_prefecture"
+                           name="verification_ts_prefecture" >
+                  </div>
+                </td>
+                <td data-title="Type de contrat">
+                  &nbsp;
+                </td>
+                <td data-title="Type de contrat">
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="is_signed_contract"
+                           [checked]="user.is_signed_contract"
+                           [(ngModel)]="user.is_signed_contract"
+                           name="is_signed_contract" >
+                  </div>
+                </td>
+                <td data-title="Type de contrat">
+                  <div class="check-box-btn">
+                    <input type="checkbox"
+                           class="small-checkbox"
+                           id="is_canceled"
+                           [checked]="user.is_canceled"
+                           [(ngModel)]="user.is_canceled"
+                           name="is_canceled" >
+                  </div>
+                </td>
 
                 <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
                 <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
                 <td >
                   <!--                            appStopPropagation-->
                   <div class="actions">
-                    <i class="icon-eye"
-                       data-toggle="tooltip"
-                       data-placement="top"
-                       (click)="goToUpdateUser(user)"
-                       title="Détails"></i>
+
                     <!--                              <span class="d-none d-lg-flex">Détails</span>-->
 
                     <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
@@ -674,6 +821,210 @@
                   </div>
                 </td>
               </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'sortie'">
+            <table class="table-responsive card-list-table">
+              <thead>
+                <tr>
+                <th>
+                  Salarié
+                </th>
+                <th>
+                  Matricules
+                </th>
+                <th>
+                  Société
+                </th>
+                <th>
+                  Siège
+                </th>
+                <th>
+                  Date d'entrée
+                </th>
+                <th>
+                  Centre de profit
+                </th>
+                <th>
+                  Date de reception du courier
+                </th>
+                <th>
+                  Motif
+                </th>
+                <th>
+                  Fin normal préavis
+                </th>
+                <th>
+                  Date limite de réponse
+                </th>
+                <th>
+                  Date de sortie
+                </th>
+                <th>
+                  Mail direction + BM
+                </th>
+                <th>
+                  Mail admin
+                </th>
+                <th>
+                  Courrier réponse
+                </th>
+                <th>
+                  Radiation ATS
+                </th>
+                <th>
+                  Date d'envoi STC
+                </th>
+                <th>
+                  Envoi recommandé N°
+                </th>
+                <th>
+                  Sortie SIRH
+                </th>
+                <th>
+                  Radiation APICIL
+                </th>
+                <th>
+                  Virement Amandine
+                </th>
+                <th>
+                  Scan docs
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users" >
+                  <td>
+                    <div class="photo-cell">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [attr.src]="user?.photo_profile ? (user.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          />
+                        </div>
+                      </div>
+                      <div class="name">{{user?.full_name}} </div>
+                    </div>
+                  </td>
+                  <td>{{user?.registration_number}}</td>
+                  <td data-title="Entité" >{{user?.entity_name || 'test'}}</td>
+                  <td data-title="Siege">{{user?.siege_name || 'test'}}</td>
+                  <td data-title="date d'entrée">{{(user?.start_date | dateMessage) || 'test'}}</td>
+                  <td data-title="Centre d'interêt">{{user?.cp_name}}</td>
+                  <td>
+                   date_test
+                  </td>
+                  <td>
+                    <div class="blue-text">
+                      Demission <i class="icon-arrow-down primary-icon"></i>
+                    </div>
+                  </td>
+                  <td>
+                    date_test
+                  </td>
+                  <td>
+                    date_test
+                  </td>
+                  <td>
+                    date_test
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="mail_direction_bm"
+                             [checked]="user.mail_direction_bm"
+                             [(ngModel)]="user.mail_direction_bm"
+                             name="mail_direction_bm" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="mail_admin"
+                             [checked]="user.mail_admin"
+                             [(ngModel)]="user.mail_admin"
+                             name="mail_admin" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="courrier_response"
+                             [checked]="user.courrier_response"
+                             [(ngModel)]="user.courrier_response"
+                             name="courrier_response" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="radiation_ats"
+                             [checked]="user.radiation_ats"
+                             [(ngModel)]="user.radiation_ats"
+                             name="radiation_ats" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="date_envoie_stc"
+                             [checked]="user.date_envoie_stc"
+                             [(ngModel)]="user.date_envoie_stc"
+                             name="date_envoie_stc" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="envoi_recommande_number"
+                             [checked]="user.envoi_recommande_number"
+                             [(ngModel)]="user.envoi_recommande_number"
+                             name="envoi_recommande_number" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="sortie_sirh"
+                             [checked]="user.sortie_sirh"
+                             [(ngModel)]="user.sortie_sirh"
+                             name="sortie_sirh" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="radiation_apicil"
+                             [checked]="user.radiation_apicil"
+                             [(ngModel)]="user.radiation_apicil"
+                             name="radiation_apicil" >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             class="small-checkbox"
+                             id="virement_amandine"
+                             [checked]="user.virement_amandine"
+                             [(ngModel)]="user.virement_amandine"
+                             name="virement_amandine" >
+                    </div>
+                  </td>
+                  <th>
+                    <i class="icon-attachment primary-icon"></i>
+                  </th>
+                </tr>
               </tbody>
             </table>
           </ng-container>

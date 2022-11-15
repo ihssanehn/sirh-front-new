@@ -210,6 +210,14 @@ export const $sidebarItems_users: Array<SidebarItem> = [
         },
         {
           id: 2,
+          name: 'Entrée',
+          type: 'link',
+          icon: null,
+          link: 'users/list/entree',
+          opened: false,
+        },
+        {
+          id: 2,
           name: 'Périodes d’essais',
           type: 'link',
           icon: null,
@@ -238,6 +246,14 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           type: 'link',
           icon: null,
           link: 'users/list/visite_medicale',
+          opened: false,
+        },
+        {
+          id: 2,
+          name: 'Sortie',
+          type: 'link',
+          icon: null,
+          link: 'users/list/sortie',
           opened: false,
         },
       ]
