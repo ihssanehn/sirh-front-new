@@ -7,6 +7,7 @@ import {IndependentAddStepperComponent} from "@layout/users/independent-add-step
 import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-add-stepper.component";
 import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
+import {AdvancedAddStepperComponent} from "@layout/users/advanced-add-stepper/advanced-add-stepper.component";
 
 
 const routes: Routes = [
@@ -95,6 +96,10 @@ const routes: Routes = [
       {
         path: 'group',
         component: GroupAddStepperComponent,
+      },
+      {
+        path: 'avance',
+        component: AdvancedAddStepperComponent,
       },
     ]
     // canActivate: [NgxPermissionsGuard],

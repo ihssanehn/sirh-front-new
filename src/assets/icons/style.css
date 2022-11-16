@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?fff6d8');
-  src:  url('fonts/icomoon.eot?fff6d8#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?fff6d8') format('truetype'),
-    url('fonts/icomoon.woff?fff6d8') format('woff'),
-    url('fonts/icomoon.svg?fff6d8#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?ym74vp');
+  src:  url('fonts/icomoon.eot?ym74vp#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ym74vp') format('truetype'),
+    url('fonts/icomoon.woff?ym74vp') format('woff'),
+    url('fonts/icomoon.svg?ym74vp#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-sortie:before {
+  content: "\e954";
+}
+.icon-visite-medical:before {
+  content: "\e955";
+}
+.icon-entretien:before {
+  content: "\e956";
+}
+.icon-period-essai:before {
+  content: "\e957";
+}
+.icon-entree:before {
+  content: "\e958";
+}
 .icon-bloc:before {
   content: "\e953";
 }

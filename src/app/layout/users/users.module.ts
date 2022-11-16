@@ -33,6 +33,16 @@ import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-file
 import {GeneralIndependantFormComponent} from "@layout/users/general-independant-form/general-independant-form.component";
 import {CoutIndependantFormComponent} from "@layout/users/cout-independant-form/cout-independant-form.component";
 import {ParametreIndependantFormComponent} from "@layout/users/parametre-independant-form/parametre-independant-form.component";
+import {AdvancedAddStepperComponent} from "@layout/users/advanced-add-stepper/advanced-add-stepper.component";
+import {EntreAdvancedFormComponent} from "@layout/users/entre-advanced-form/entre-advanced-form.component";
+import {
+  PeriodEssaiAdvancedFormComponent
+} from "@layout/users/period-essai-advanced-form/period-essai-advanced-form.component";
+import {EntretienAdvancedFormComponent} from "@layout/users/entretien-advanced-form/entretien-advanced-form.component";
+import {
+  VisiteMedicalAdvancedFormComponent
+} from "@layout/users/visite-medical-advanced-form/visite-medical-advanced-form.component";
+import {SortieAdvancedFormComponent} from "@layout/users/sortie-advanced-form/sortie-advanced-form.component";
 
 
 @NgModule({
@@ -73,7 +83,13 @@ import {ParametreIndependantFormComponent} from "@layout/users/parametre-indepen
     ModalDocumentrhFilesComponent,
     GeneralIndependantFormComponent,
     CoutIndependantFormComponent,
-    ParametreIndependantFormComponent
+    ParametreIndependantFormComponent,
+    AdvancedAddStepperComponent,
+    EntreAdvancedFormComponent,
+    PeriodEssaiAdvancedFormComponent,
+    EntretienAdvancedFormComponent,
+    VisiteMedicalAdvancedFormComponent,
+    SortieAdvancedFormComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,

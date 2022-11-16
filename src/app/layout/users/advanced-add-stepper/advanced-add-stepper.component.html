@@ -1,0 +1,49 @@
+<mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
+  <!-- change default 'edit' icon -->
+  <ng-template #stepperIcon>
+    <i class="icon-entree"></i>
+  </ng-template>
+  <mat-step label="Entrée">
+     <app-entre-advanced-form
+        (submitEntree)="submitEntree($event)"
+     ></app-entre-advanced-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-period-essai"></i>
+  </ng-template>
+  <mat-step label="Période d'essai">
+    <app-period-essai-advanced-form></app-period-essai-advanced-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-entretien"></i>
+  </ng-template>
+  <mat-step label="Entretien">
+    <app-entretien-advanced-form></app-entretien-advanced-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-visite-medical"></i>
+  </ng-template>
+  <mat-step label="Visites médicales">
+    <app-visite-medical-advanced-form></app-visite-medical-advanced-form>
+  </mat-step>
+  <ng-template #stepperIcon>
+    <i class="icon-sortie"></i>
+  </ng-template>
+  <mat-step label="Sortie">
+    <app-sortie-advanced-form></app-sortie-advanced-form>
+  </mat-step>
+
+  <ng-template matStepperIcon="number" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="edit" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="done" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+  <ng-template matStepperIcon="error" let-index="index">
+    <ng-container [ngTemplateOutlet]="matStepperIcons && matStepperIcons[index]"></ng-container>
+  </ng-template>
+</mat-stepper>
+

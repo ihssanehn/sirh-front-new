@@ -238,16 +238,23 @@
                     <div class="col">
                       <label class="col-2">Date de naissance {{isRequired(formInputs.birthday)}}</label>
                       <div class="col">
-                        <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt3"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt3"
-                               placeholder="Choisir la date d'entée ici"
-                               [ngClass]="{'is-invalid error-input':
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt3"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dt3"
+                                 placeholder="Choisir la date d'entée ici"
+                                 [ngClass]="{'is-invalid error-input':
                                userFormGroup.controls[formInputs.birthday].hasError('required')
                                   && userFormGroup.controls[formInputs.birthday].dirty}"
-                               [formControl]="userFormGroup.controls[formInputs.birthday]"
-                        />
+                                 [formControl]="userFormGroup.controls[formInputs.birthday]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               *ngIf="filter.start_date"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
                         <div class="form-control-feedback"
                              *ngIf="userFormGroup.controls[formInputs.birthday].hasError('required')
                     && userFormGroup.controls[formInputs.birthday].dirty">

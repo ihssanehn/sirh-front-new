@@ -291,6 +291,14 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           link: 'users/new/group',
           opened: false,
         },
+        {
+          id: 2,
+          name: 'Création avancée',
+          type: 'link',
+          icon: null,
+          link: 'users/new/avance',
+          opened: false,
+        },
       ]
     },
     // {
