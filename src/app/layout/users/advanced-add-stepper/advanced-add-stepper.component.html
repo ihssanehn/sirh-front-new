@@ -12,25 +12,33 @@
     <i class="icon-period-essai"></i>
   </ng-template>
   <mat-step label="Période d'essai">
-    <app-period-essai-advanced-form></app-period-essai-advanced-form>
+    <app-period-essai-advanced-form
+      (submitPeriodEssai)="submitPE($event)"
+    ></app-period-essai-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>
     <i class="icon-entretien"></i>
   </ng-template>
   <mat-step label="Entretien">
-    <app-entretien-advanced-form></app-entretien-advanced-form>
+    <app-entretien-advanced-form
+      (submitEntretien)="submitEntretien($event)"
+    ></app-entretien-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>
     <i class="icon-visite-medical"></i>
   </ng-template>
   <mat-step label="Visites médicales">
-    <app-visite-medical-advanced-form></app-visite-medical-advanced-form>
+    <app-visite-medical-advanced-form
+      (submitvm)="submitVM($event)"
+    ></app-visite-medical-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>
     <i class="icon-sortie"></i>
   </ng-template>
   <mat-step label="Sortie">
-    <app-sortie-advanced-form></app-sortie-advanced-form>
+    <app-sortie-advanced-form
+      (submitSortie)="submitSortie($event)"
+    ></app-sortie-advanced-form>
   </mat-step>
 
   <ng-template matStepperIcon="number" let-index="index">

@@ -137,5 +137,53 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     }
   }
 
+  async submitPE($event: any) {
+    try{
+      this.submittingEntree = true;
+        this.moveForward(2, null);
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+      console.log('error submit PE', e);
+    }finally {
+      this.submittingEntree = false;
+    }
+  }
+
+  async submitEntretien($event: any) {
+    try{
+      this.submittingEntree = true;
+        this.moveForward(3, null);
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+      console.log('error submit Entretien', e);
+    }finally {
+      this.submittingEntree = false;
+    }
+  }
+
+  async submitVM($event: any) {
+    try{
+      this.submittingEntree = true;
+        this.moveForward(4, null);
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+      console.log('error submit vm', e);
+    }finally {
+      this.submittingEntree = false;
+    }
+  }
+
+  async submitSortie($event: any) {
+    try{
+      this.submittingEntree = true;
+        this.moveForward(5, null);
+    }catch (e){
+      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+      console.log('error submit sortie', e);
+    }finally {
+      this.submittingEntree = false;
+    }
+  }
+
 }
 

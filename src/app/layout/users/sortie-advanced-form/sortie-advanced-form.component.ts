@@ -76,7 +76,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
-  @Output() submitvm: EventEmitter<any> = new EventEmitter();
+  @Output() submitSortie: EventEmitter<any> = new EventEmitter();
   showHistory = false;
   medicalCenters = [];
   @Input()
@@ -115,11 +115,13 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
 
   mockupData(){
     const data = {
-      personal_id: 11,
-      type_vm: null,
-      etat: null,
-      date_effective: null,
-      date_theorique: null,
+      personal_id: null,
+      date_entree: null,
+      date_sortie:  null,
+      date_reception_courrier:  null,
+      motif:  null,
+      fin_normal_preavis:  null,
+      date_limit_reponse:  null
     };
     this.formGroup.patchValue(data);
   }
@@ -204,7 +206,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
         this.formGroup.value[key] = false;
       }
     });
-    this.submitvm.emit(this.formGroup.value);
+    this.submitSortie.emit(this.formGroup.value);
   }
 
   clearDateInput(input: string) {

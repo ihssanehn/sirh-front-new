@@ -147,8 +147,8 @@
     //width: 20px;
     //height: 20px;
     padding: 9px 9px;
-    color: $fontColor;
-    border: 1px solid $mainGray;
+    color: #c1c2c375;
+    border: 1px solid #c1c2c375;
     border-radius: 4px;
     appearance: none;
     outline: 0;
@@ -170,8 +170,8 @@
     }
     &:checked {
       color: white;
-      border-color: $tertiaryColor;
-      background: $tertiaryColor;
+      border-color: $primaryColor;
+      background: $primaryColor;
       &::before {
         opacity: 1;
       }
@@ -277,7 +277,7 @@
     top: 28%;
     right: 12px;
     i{
-      color: $lightgray;
+      color: #b9b6b6;
       cursor: pointer;
     }
     .fa-calendar:hover{
@@ -407,7 +407,7 @@
 
 .input{
   font-size: 12px;
-  border: 1px solid #c1c2c3;
+  border: 1px solid #c1c2c375;
   border-radius: 5px;
   min-height: 40px;
   box-shadow: none;
@@ -424,7 +424,7 @@
   //border-left: 0;
   //border-right: 0;
   //border: 1px solid #c1c2c3;
-  border: 1px solid lightgray;
+  border: 1px solid #c1c2c375;
   //min-height: 40px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -969,3 +969,6 @@ a, .link{
     border-width: 0 2px 2px 0 !important;
   }
 }
+
+
+

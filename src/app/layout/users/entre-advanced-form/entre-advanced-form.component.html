@@ -55,6 +55,7 @@
                         <label for="{{formLabels.verification_ts_prefacture}}"
                                data-content="{{formLabels.verification_ts_prefacture}}">
                           <span class="name">{{formLabels.verification_ts_prefacture}}</span>
+                          <div class="link">Ajouter un commentaire</div>
                         </label>
                       </div>
                     </div>
@@ -67,6 +68,7 @@
                         <label for="{{formLabels.identity_card}}"
                              data-content="{{formLabels.identity_card}}">
                         <span class="name">{{formLabels.identity_card}}</span>
+                        <div class="link">Ajouter un commentaire</div>
                       </label>
                       </div>
                     </div>
@@ -78,8 +80,9 @@
                         >
                         <label for="{{formLabels.info_mail}}"
                              data-content="{{formLabels.info_mail}}">
-                        <span class="name">{{formLabels.info_mail}}</span>
-                      </label>
+                          <span class="name">{{formLabels.info_mail}}</span>
+                          <div class="link">Ajouter un commentaire</div>
+                        </label>
                       </div>
                     </div>
                     <div class="col">
@@ -90,8 +93,9 @@
                         >
                         <label for="{{formLabels.bilan_integration}}"
                              data-content="{{formLabels.bilan_integration}}">
-                        <span class="name">{{formLabels.bilan_integration}}</span>
-                      </label>
+                          <span class="name">{{formLabels.bilan_integration}}</span>
+                          <div class="link">Ajouter un commentaire</div>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -104,7 +108,8 @@
                       >
                       <label for="{{formLabels.demande_autorisation_travail}}"
                            data-content="{{formLabels.demande_autorisation_travail}}">
-                      <span class="name">{{formLabels.demande_autorisation_travail}}</span>
+                        <span class="name">{{formLabels.demande_autorisation_travail}}</span>
+                        <div class="link">Ajouter un commentaire</div>
                     </label>
                     </div>
                   </div>
@@ -116,8 +121,9 @@
                       >
                       <label for="{{formLabels.attestation_CPAM}}"
                            data-content="{{formLabels.attestation_CPAM}}">
-                      <span class="name">{{formLabels.attestation_CPAM}}</span>
-                    </label>
+                        <span class="name">{{formLabels.attestation_CPAM}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
                     </div>
                   </div>
                   <div class="col">
@@ -128,7 +134,8 @@
                       >
                       <label for="{{formLabels.mail_embauche}}"
                            data-content="{{formLabels.mail_embauche}}">
-                      <span class="name">{{formLabels.mail_embauche}}</span>
+                        <span class="name">{{formLabels.mail_embauche}}</span>
+                        <div class="link">Ajouter un commentaire</div>
                     </label>
                     </div>
                   </div>
@@ -140,10 +147,191 @@
                       >
                       <label for="{{formLabels.journee_integration_remise_kit}}"
                            data-content="{{formLabels.journee_integration_remise_kit}}">
-                      <span class="name">{{formLabels.journee_integration_remise_kit}}</span>
+                        <span class="name">{{formLabels.journee_integration_remise_kit}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                    </label>
+                  </div>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.contrat_signe}}"
+                             [formControl]="formGroup.controls[formInputs.contrat_signe]"
+                      >
+                      <label for="{{formLabels.contrat_signe}}"
+                             data-content="{{formLabels.contrat_signe}}">
+                        <span class="name">{{formLabels.contrat_signe}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.rib}}"
+                             [formControl]="formGroup.controls[formInputs.rib]"
+                      >
+                      <label for="{{formLabels.rib}}"
+                             data-content="{{formLabels.rib}}">
+                        <span class="name">{{formLabels.rib}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.envoi_code_sirh}}"
+                             [formControl]="formGroup.controls[formInputs.envoi_code_sirh]"
+                      >
+                      <label for="{{formLabels.envoi_code_sirh}}"
+                           data-content="{{formLabels.envoi_code_sirh}}">
+                        <span class="name">{{formLabels.envoi_code_sirh}}</span>
+                        <div class="link">Ajouter un commentaire</div>
                     </label>
                     </div>
                   </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.bouteille_champagne}}"
+                             [formControl]="formGroup.controls[formInputs.bouteille_champagne]"
+                      >
+                      <label for="{{formLabels.bouteille_champagne}}"
+                             data-content="{{formLabels.bouteille_champagne}}">
+                        <span class="name">{{formLabels.bouteille_champagne}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.dpae}}"
+                             [formControl]="formGroup.controls[formInputs.dpae]"
+                      >
+                      <label for="{{formLabels.dpae}}"
+                             data-content="{{formLabels.dpae}}">
+                        <span class="name">{{formLabels.dpae}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.relance_mail_doc}}"
+                             [formControl]="formGroup.controls[formInputs.relance_mail_doc]"
+                      >
+                      <label for="{{formLabels.relance_mail_doc}}"
+                             data-content="{{formLabels.relance_mail_doc}}">
+                        <span class="name">{{formLabels.relance_mail_doc}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col ">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.saisi_adp}}"
+                             [formControl]="formGroup.controls[formInputs.saisi_adp]"
+                      >
+                      <label for="{{formLabels.saisi_adp}}"
+                           data-content="{{formLabels.saisi_adp}}">
+                        <span class="name">{{formLabels.saisi_adp}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col check-box-btn"></div>
+                </div>
+                <div class="row">
+                  <div class="col ">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                                                       id="{{formLabels.apicil_doc}}"
+                                                       [formControl]="formGroup.controls[formInputs.apicil_doc]"
+                    >
+                      <label for="{{formLabels.apicil_doc}}"
+                             data-content="{{formLabels.apicil_doc}}">
+                        <span class="name">{{formLabels.apicil_doc}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col ">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                                                      id="{{formLabels.inscription_ast}}"
+                                                      [formControl]="formGroup.controls[formInputs.inscription_ast]"
+                    >
+                      <label for="{{formLabels.inscription_ast}}"
+                             data-content="{{formLabels.inscription_ast}}">
+                        <span class="name">{{formLabels.inscription_ast}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.maj_tableau_primes}}"
+                             [formControl]="formGroup.controls[formInputs.maj_tableau_primes]"
+                      >
+                      <label for="{{formLabels.maj_tableau_primes}}"
+                             data-content="{{formLabels.maj_tableau_primes}}">
+                        <span class="name">{{formLabels.maj_tableau_primes}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col check-box-btn"></div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.apicil_affiliation}}"
+                             [formControl]="formGroup.controls[formInputs.apicil_affiliation]"
+                      >
+                      <label for="{{formLabels.apicil_affiliation}}"
+                             data-content="{{formLabels.apicil_affiliation}}">
+                        <span class="name">{{formLabels.apicil_affiliation}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.creation_sirh}}"
+                             [formControl]="formGroup.controls[formInputs.creation_sirh]"
+                      >
+                      <label for="{{formLabels.creation_sirh}}"
+                             data-content="{{formLabels.creation_sirh}}">
+                        <span class="name">{{formLabels.creation_sirh}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="check-box-btn">
+                      <input type="checkbox"
+                             id="{{formLabels.modif_matricule_sirh}}"
+                             [formControl]="formGroup.controls[formInputs.modif_matricule_sirh]"
+                      >
+                      <label for="{{formLabels.modif_matricule_sirh}}"
+                             data-content="{{formLabels.modif_matricule_sirh}}">
+                        <span class="name">{{formLabels.modif_matricule_sirh}}</span>
+                        <div class="link">Ajouter un commentaire</div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col check-box-btn"></div>
                 </div>
               </div>
             </div>
