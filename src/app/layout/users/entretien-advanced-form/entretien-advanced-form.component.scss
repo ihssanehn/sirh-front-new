@@ -39,6 +39,7 @@
 .gray-box{
   background: $lightgray;
   border-radius: 5px;
+  padding: 5px 10px;
   .title{
     font-weight: 500;
     font-size: 14px;
@@ -46,5 +47,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    line-height: 33px;
+  }
+  .item{
+    font-size: 12px;
+    line-height: 30px;
   }
 }

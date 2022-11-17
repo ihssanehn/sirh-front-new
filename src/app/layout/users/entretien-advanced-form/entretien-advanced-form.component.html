@@ -8,7 +8,7 @@
         [isDisabled]="submitting"
       ></app-button>
     </div>
-    <h1 class="main-title">Informations du profil</h1>
+    <h1 class="main-title">Entretien</h1>
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
@@ -164,26 +164,29 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col">
+                    <div class="col-1">
                       Pièces jointes
                     </div>
+                    <div class="col">
+                      <div class="link">Choisir un fichier</div>
+                    </div>
                   </div>
-                  <div class="row gray-box">
+                  <div class="gray-box">
                     <div class="title pointer" (click)="showHistory = !showHistory">
                       <span>Historique entretiens</span>
-                      <i [ngClass]="{'icon-arrow-down': !showHistory, 'icon-arrow-up': showHistory}" ></i>
+                      <i [ngClass]="{'icon-arrow-right': !showHistory, 'icon-arrow-down': showHistory}" ></i>
                     </div>
                     <ng-container *ngIf="showHistory">
-                      <div>
+                      <div class="item">
                         <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
                       </div>
-                      <div>
+                      <div class="item">
                         <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
                       </div>
-                      <div>
+                      <div class="item">
                         <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
                       </div>
-                      <div>
+                      <div class="item">
                         <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
                       </div>
                     </ng-container>
