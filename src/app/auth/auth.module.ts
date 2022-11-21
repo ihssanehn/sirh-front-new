@@ -10,6 +10,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthLayoutComponent } from './layout/layout.component';
 import { SharedModule } from '@app/shared/shared.module';
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
     imports: [
@@ -19,12 +20,13 @@ import { SharedModule } from '@app/shared/shared.module';
         ReactiveFormsModule,
         TranslateModule,
         MatButtonModule,
-        SharedModule
+        SharedModule,
+        ToastModule
     ],
   declarations: [
-    LoginComponent, 
+    LoginComponent,
     AuthLayoutComponent,
-    ForgotPasswordComponent, 
+    ForgotPasswordComponent,
     ResetPasswordComponent,
   ]
 })

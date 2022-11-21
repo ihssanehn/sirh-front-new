@@ -38,30 +38,30 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.myForm.markAllAsTouched();
     if(!this.myForm.valid) return;
-    this.loading = true;
+
     const credentials = this.myForm.value;
-    this.userService
-      .signin(credentials)
-      .toPromise()
-      .then((user) => {
-        console.log('user', user);
-        this.router.navigate(['/']);
-        this.loading = false;
-      })
-      .catch((err) => {
-        console.log('user', err);
-        this.loading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: "Erreur d'authentification",
-          detail:
-            'Utilisateur non reconnu. Veuillez vérifier votre adresse mail et mot de passe et prendre contact avec le support technique si besoin.',
-          sticky: false,
-        });
+    try{
+      this.loading = true;
+      const res = await this.userService.signin(credentials).toPromise();
+      console.log('user', res);
+      this.router.navigate(['/']);
+    }catch (err){
+      console.log('err login', err);
+      this.loading = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: "Erreur d'authentification",
+        detail:
+          'Utilisateur non reconnu. Veuillez vérifier votre adresse mail et mot de passe et prendre contact avec le support technique si besoin.',
+        sticky: false,
       });
+    }finally {
+      this.loading = false;
+    }
+
   }
 
   get email() {

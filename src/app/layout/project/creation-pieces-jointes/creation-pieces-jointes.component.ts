@@ -25,7 +25,6 @@ export class CreationPiecesJointesComponent implements OnInit {
   // check frais array in edit state
   // check securities in edit state
   formGroup: FormGroup;
-  errors = [];
   error = '';
   warning = '';
   errorLoadData = false;
@@ -41,14 +40,16 @@ export class CreationPiecesJointesComponent implements OnInit {
   @Output() submitStep: EventEmitter<any> = new EventEmitter();
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
+
+  files = [];
+  projectToEditFiles = [];
+  edittingMode;
+  errors = [];
   show_loader: boolean;
   forbiddenExtesionsErrorMessage: string;
   filesSizeErrorMessage: string;
   emptyFilesErrorMessage: string;
   inputFile: any;
-  files = [];
-  projectToEditFiles = [];
-  edittingMode;
   dropping: boolean;
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
   ALL_FILES_SIZE_LIMIT = 10000; // Mb
@@ -139,6 +140,9 @@ export class CreationPiecesJointesComponent implements OnInit {
     }
   }
 
+
+
+  // ABOUT FILE UPLOAD
   uploadFile(e){
     console.log('uploadFile', e);
     this.show_loader = true;
@@ -313,19 +317,19 @@ export class CreationPiecesJointesComponent implements OnInit {
 
   }
 
+  getFileSize(size){
+    let fileSize = size.toString();
+
+    if(fileSize.length < 7) return `${Math.round(+fileSize/1024).toFixed(2)} kb`
+    return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
+  }
+  // ABOUT FILE UPLOAD END
 
   onCheckChange(input, $event) {
     console.log('event', input, $event?.target?.checked);
     this.formGroup.patchValue({
       [input]: $event?.target?.checked
     });
-  }
-
-  getFileSize(size){
-    let fileSize = size.toString();
-
-    if(fileSize.length < 7) return `${Math.round(+fileSize/1024).toFixed(2)} kb`
-    return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
   }
 
   inputChanged() {
