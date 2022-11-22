@@ -1,3 +1,6 @@
+<input type="file" style="display: none" id="uploadMoreFiles"
+       #uploadMoreFiles
+       multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 <div class="container top-container">
   <div class="header">
     <div class="btns left-btns">
@@ -164,13 +167,37 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-1">
-                      Pièces jointes
+                      <div class="col-1">
+                        Pièces jointes
+                      </div>
+                      <div class="col">
+                        <div class="row files-viewer">
+                          <label class="col-12  text-center" for="uploadMoreFiles">
+                            <i class="icon-attachment"></i>
+                            &nbsp;Ajouter une pièce jointe
+                          </label>
+                          <div class="row justify-content-center" *ngIf="files?.length>0; else noFileEmptyState">
+                            <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
+                              <div class="close-icon" (click)="removeFile(item)">
+                                <i class="icon-close"></i>
+                              </div>
+                              <div class="icon">
+                                <i class="{{getIcon(item.name)}}"></i>
+                              </div>
+                              <div class="">
+                                <div class="name">{{getFileName(item.name)}}</div>
+                                <div class="size">{{getFileSize(item.size)}}</div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-template #noFileEmptyState>
+                            <div class="col-12 emptyStateFiles">
+                              Aucune pièce jointe
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col">
-                      <div class="link">Choisir un fichier</div>
-                    </div>
-                  </div>
                   <div class="gray-box">
                     <div class="title pointer" (click)="showHistory = !showHistory">
                       <span>Historique entretiens</span>
