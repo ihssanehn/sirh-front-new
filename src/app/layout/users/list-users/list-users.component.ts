@@ -137,6 +137,96 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   loadingData: boolean;
   type;
   personnalFilters;
+  columns_entree = [
+    {
+      id: 1,
+      label: 'DPAE',
+      checked: false
+    },
+    {
+      id: 2,
+      label: 'APICIL',
+      checked: false
+    },
+    {
+      id: 3,
+      label: 'Carte D\'identité',
+      checked: false
+    },
+    {
+      id: 4,
+      label: 'RIB',
+      checked: false
+    },
+    {
+      id: 5,
+      label: 'Relance Mail Documents',
+      checked: false
+    },
+    {
+      id: 5,
+      label: 'Inscription AST',
+      checked: false
+    },
+    {
+      id: 6,
+      label: 'Création SIRH',
+      checked: false
+    },
+    {
+      id: 7,
+      label: 'Mail Informatique',
+      checked: false
+    },
+    {
+      id: 8,
+      label: 'Mail Embauche',
+      checked: false
+    },
+    {
+      id: 9,
+      label: 'Envoi Matricule DIGIPOSTE',
+      checked: false
+    },
+    {
+      id: 10,
+      label: 'Envoi Code SIMUS',
+      checked: false
+    },
+    {
+      id: 11,
+      label: 'Saisie ADP',
+      checked: false
+    },
+    {
+      id: 12,
+      label: 'MAJ Tableau Primes',
+      checked: false
+    },
+    {
+      id: 13,
+      label: 'Modif Matricule SIRH',
+      checked: false
+    },
+    {
+      id: 14,
+      label: 'Bilan D\'intégration',
+      checked: false
+    },
+    {
+      id: 15,
+      label: 'Journée D\'intégration + Remise Du Kit',
+      checked: false
+    },
+    {
+      id: 16,
+      label: 'Bouteille De Champagne',
+      checked: false
+    }
+  ];
+  columns_sortie = [
+
+  ];
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
@@ -182,6 +272,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         }
       }
     });
+    const localstorage_entree = JSON.parse(localStorage.getItem("columns_entree") || "[]");
+    if(localstorage_entree?.length > 0){
+      this.columns_entree = localstorage_entree;
+    }
   }
 
   ngOnInit() {
@@ -318,5 +412,29 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   filterChanged() {
     this.getUsers();
+  }
+
+  onCheckChange($event) {
+    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+  }
+
+  ischecked(id) {
+    return this.columns_entree.find(item => item.id === id)?.checked;
+  }
+
+  selectAllColumns() {
+    let select = false;
+    if(this.columns_entree.find(item => item.checked === false)){
+      select = true
+    }
+
+    this.columns_entree.forEach((column) => {
+      column.checked = select;
+    });
+    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+  }
+
+  getActiveColumns(column) {
+    return this[column].filter((column) => column.checked);
   }
 }

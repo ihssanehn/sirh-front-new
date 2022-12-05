@@ -335,7 +335,7 @@
               <tbody>
                 <tr *ngFor="let user of users"  >
                   <td>
-                    <div class="photo-cell">
+                    <div class="photo-cell" [routerLink]="['/users/details/'+user.id]">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -419,7 +419,7 @@
               <tbody>
               <tr *ngFor="let user of users"  >
                 <td>
-                  <div class="photo-cell">
+                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -490,19 +490,19 @@
               <tbody>
                 <tr *ngFor="let user of users"  >
                   <td>
-                  <div class="photo-cell">
-                    <div class="photo">
-                      <div class="img-container">
-                        <img
-                          [attr.src]="user?.photo_profile ? (user.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                        async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
-                        />
+                    <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [attr.src]="user?.photo_profile ? (user.photo_profile |
+                          getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                          async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          />
+                        </div>
                       </div>
+                      <div class="name">{{user?.full_name}} </div>
                     </div>
-                    <div class="name">{{user?.full_name}} </div>
-                  </div>
-                </td>
+                  </td>
                   <td>{{user?.registration_number}}</td>
                   <td>{{user?.entity_name || 'entity_name_test'}}</td>
                   <td>{{user?.entry_date | dateMessage}}</td>
@@ -514,7 +514,7 @@
                   <td >
                     <i class="icon-attachment"></i>
                   </td>
-                  <td  >
+                  <td style="padding-right: 0;">
                     <div class="actions">
                       <i class="icon-edit"
                          data-toggle="tooltip"
@@ -547,7 +547,7 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let user of users"  >
                 <td>
-                  <div class="photo-cell">
+                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -637,7 +637,7 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let user of users"  >
                 <td>
-                  <div class="photo-cell">
+                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -688,7 +688,10 @@
                   <th></th>
                   <th></th>
                   <th></th>
-                  <th></th>
+                  <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
+                    <th>
+                    </th>
+                  </ng-container>
                 </tr>
                 <tr>
                   <th>
@@ -721,23 +724,50 @@
                   <th>
                     Demande d'authorisation de travail
                   </th>
-                  <th class="text-center">
+                  <th>
                     Contrat signé
                   </th>
-                  <th class="text-center">
+                  <th>
                     Annulé?
                   </th>
-                  <th style="text-align: right">
-                    <i class="primary-icon icon-add"></i>
+                  <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
+                      <th>
+                        {{extraColumn.label}}
+                      </th>
+                  </ng-container>
+                  <th style="text-align: right" class="sticky">
+                    <i class="primary-icon icon-add pointer" [matMenuTriggerFor]="statusMenu"></i>
                   </th>
-                  <th class="icon-cell text-center"></th>
+                  <mat-menu #statusMenu="matMenu" [class]="'profile-menu'">
+                    <div mat-menu-item class="dropdown-item" *ngFor="let item of columns_entree" (click)="$event.stopPropagation()">
+                      <div class="check-box-btn">
+                        <input type="checkbox"
+                               id="{{item.id}}"
+                               [(ngModel)]="item.checked"
+                               (change)="onCheckChange($event, item, statusMenu)"
+                               name="{{item.id}}" >
+                        <label for="{{item.id}}" >{{item.label}}</label>
+                      </div>
+                    </div>
+                    <div mat-menu-item class="dropdown-item" (click)="$event.stopPropagation();">
+                      <div class="check-box-btn" >
+                        <input type="checkbox"
+                               id="select_all"
+                               [value]="'select_all'"
+                               (change)="selectAllColumns()"
+                               name="select_all" >
+                        <label for="select_all" class="blue-text">Tout séléctionner</label>
+                      </div>
+                    </div>
+                  </mat-menu>
+                  <mat-menu #placeholder="matMenu" class="placeholder"></mat-menu>
                 </tr>
               </thead>
               <tbody>
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let user of users"  >
+              <tr *ngFor="let user of users">
                 <td>
-                  <div class="photo-cell">
+                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -791,8 +821,11 @@
                   </div>
                 </td>
 
-                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
-                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
+                <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
+                    <td>
+                      {{extraColumn.label+'_value'}}
+                    </td>
+                </ng-container>
                 <td >
                   <!--                            appStopPropagation-->
                   <div class="actions">
@@ -891,12 +924,43 @@
                 <th>
                   Scan docs
                 </th>
+<!--                <ng-container *ngFor="let extraColumn of getActiveColumns('columns_sortie')">-->
+<!--                  <th>-->
+<!--                    {{extraColumn.label}}-->
+<!--                  </th>-->
+<!--                </ng-container>-->
+<!--                <th style="text-align: right" class="sticky">-->
+<!--                  <i class="primary-icon icon-add pointer" [matMenuTriggerFor]="statusMenu"></i>-->
+<!--                </th>-->
+<!--                <mat-menu #statusMenu="matMenu" [class]="'profile-menu'">-->
+<!--                  <div mat-menu-item class="dropdown-item" *ngFor="let item of columns_sortie" (click)="$event.stopPropagation()">-->
+<!--                    <div class="check-box-btn">-->
+<!--                      <input type="checkbox"-->
+<!--                             id="{{item.id}}"-->
+<!--                             [(ngModel)]="item.checked"-->
+<!--                             (change)="onCheckChange($event, item, statusMenu)"-->
+<!--                             name="{{item.id}}" >-->
+<!--                      <label for="{{item.id}}" >{{item.label}}</label>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div mat-menu-item class="dropdown-item" (click)="$event.stopPropagation();">-->
+<!--                    <div class="check-box-btn" >-->
+<!--                      <input type="checkbox"-->
+<!--                             id="select_all"-->
+<!--                             [value]="'select_all'"-->
+<!--                             (change)="selectAllColumns()"-->
+<!--                             name="select_all" >-->
+<!--                      <label for="select_all" class="blue-text">Tout séléctionner</label>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </mat-menu>-->
+<!--                <mat-menu #placeholder="matMenu" class="placeholder"></mat-menu>-->
               </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let user of users" >
                   <td>
-                    <div class="photo-cell">
+                    <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -1024,6 +1088,11 @@
                   <th>
                     <i class="icon-attachment primary-icon"></i>
                   </th>
+<!--                  <ng-container *ngFor="let extraColumn of getActiveColumns('columns_sortie')">-->
+<!--                    <td>-->
+<!--                      {{extraColumn.label+'_value'}}-->
+<!--                    </td>-->
+<!--                  </ng-container>-->
                 </tr>
               </tbody>
             </table>

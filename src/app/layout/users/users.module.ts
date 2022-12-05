@@ -43,26 +43,28 @@ import {
   VisiteMedicalAdvancedFormComponent
 } from "@layout/users/visite-medical-advanced-form/visite-medical-advanced-form.component";
 import {SortieAdvancedFormComponent} from "@layout/users/sortie-advanced-form/sortie-advanced-form.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UsersRoutingModule,
-    NgbModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    NgSelectModule,
-    OwlDateTimeModule,
-    MatStepperModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    InfiniteScrollModule,
-    MatTooltipModule
-  ],
+    imports: [
+        CommonModule,
+        UsersRoutingModule,
+        NgbModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        NgSelectModule,
+        OwlDateTimeModule,
+        MatStepperModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        InfiniteScrollModule,
+        MatTooltipModule,
+        MatMenuModule
+    ],
   declarations: [
     ListUsersComponent,
     AddUserComponent,

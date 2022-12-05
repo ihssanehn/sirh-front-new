@@ -97,10 +97,10 @@ const routes: Routes = [
         path: 'group',
         component: GroupAddStepperComponent,
       },
-      {
-        path: 'avance',
-        component: AdvancedAddStepperComponent,
-      },
+      // {
+      //   path: 'avance',
+      //   component: AdvancedAddStepperComponent,
+      // },
     ]
     // canActivate: [NgxPermissionsGuard],
     // data: {
@@ -109,6 +109,11 @@ const routes: Routes = [
     //     redirectTo: '/'
     //   }
     // }
+  },
+  {
+    path: 'details/:id',
+    canActivate: [UniqueEntiteGuard],
+    component: AdvancedAddStepperComponent
   },
   // {
   //   path: 'add_collab',
