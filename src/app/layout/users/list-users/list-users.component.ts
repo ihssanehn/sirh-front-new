@@ -227,6 +227,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   columns_sortie = [
 
   ];
+
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,

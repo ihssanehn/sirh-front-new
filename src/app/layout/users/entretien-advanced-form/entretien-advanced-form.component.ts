@@ -30,21 +30,21 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   error = '';
   warning = '';
   @Input() submitting: boolean;
+
   formInputs = {
     personal_id: 'personal_id',
-    type_entretien: 'type_entretien',
-    etat: 'etat',
-    date_effective: 'date_effective',
-    date_theorique: 'date_theorique',
+    type_id: 'type_id',
+    effective_date: 'effective_date',
+    theoretical_date: 'theoretical_date',
   }
+
   formLabels =  {
     personal_id: 'personal_id',
-    type_entretien: 'Type entretien',
-    etat: 'Etat',
-    date_effective: 'Date effective',
-    date_theorique: 'Date théorique',
+    type_id: 'Type entretien',
+    effective_date: 'Date effective',
+    theoretical_date: 'Date théorique',
   }
-  etats = [];
+
   entretien_types = [];
   errorLoadData: boolean;
   loadingData: boolean;
@@ -57,6 +57,8 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   @Output() preview: EventEmitter<any> = new EventEmitter();
   @Output() submitEntretien: EventEmitter<any> = new EventEmitter();
   showHistory = false;
+  loadingSelect = {};
+  id_entite = null;
   @Input()
   public set user(val: User) {
     if(val){
@@ -87,17 +89,16 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
               private messageService: MessageService,
               private translate: TranslateService,
               private changeDetectorRef: ChangeDetectorRef,
-              private listService: ListsService,
+              public listService: ListsService,
               private mainStore: MainStore,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
       personal_id: [null],
-      type_entretien: [null],
-      etat: [null],
-      date_effective: [null],
-      date_theorique: [null],
+      type_id: [null, Validators.compose([Validators.required])],
+      effective_date: [null],
+      theoretical_date: [null],
     });
 
     this.modalService.dismissAll();
@@ -106,10 +107,9 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   mockupData(){
     const data = {
       personal_id: 11,
-      type_entretien: null,
-      etat: null,
-      date_effective: null,
-      date_theorique: null,
+      type_id: null,
+      effective_date: null,
+      theoretical_date: null,
     };
     this.formGroup.patchValue(data);
   }
@@ -122,10 +122,33 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     if(this.activatedRoute.snapshot.params.id){
       // this.getUser(this.activatedRoute.snapshot.params.id);
     }
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
     this.getParametersLists();
     // this.mockupData();
     this.changeDetectorRef.detectChanges();
+  }
+
+  async getFilterList(items, list_name, list_param?){
+    if(items === 'personals'){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }else{
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    }
   }
 
   async getParametersLists(){
@@ -189,12 +212,40 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       getFormValidationErrors(this.formGroup);
       return;
     }
+
     Object.keys(this.formGroup.value).forEach(key => {
       if(this.formGroup.value[key] === 'false'){
         this.formGroup.value[key] = false;
       }
     });
-    this.submitEntretien.emit(this.formGroup.value);
+
+    const saveData = {
+      ...this.formGroup.value
+    }
+
+    if(this.projectToEditFiles.length > 0){
+      const document_files_to_delete = [];
+      const document_files_to_add = [];
+      this.projectToEditFiles.forEach(att => {
+        if(!this.files.find(file => file.id === att.id)){
+          document_files_to_delete.push(att.id);
+        }
+      });
+      this.files.forEach(file => {
+        if(file instanceof File){
+          document_files_to_add.push(file);
+        }
+      });
+      saveData['document_to_delete_files'] = document_files_to_delete;
+      saveData['document_files'] = document_files_to_add;
+    }else{
+      saveData['document_files'] = this.files;
+    }
+
+    console.log('saveData', saveData);
+
+
+    this.submitEntretien.emit(saveData);
   }
 
   clearDateInput(input: string) {
@@ -386,5 +437,6 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
   }
   // ABOUT FILE UPLOAD END
+
 }
 

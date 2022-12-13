@@ -40,17 +40,11 @@
     </ng-container>
     <ng-template #loadedData>
       <div class="container-fluid top-container p-0">
-        <!--    <div class="goback col-12"-->
-        <!--         (click)="goback()"-->
-        <!--          style="margin-bottom: 10px">-->
-        <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
-        <!--    </div>-->
         <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container p-0"
               novalidate>
           <h5 *ngIf="title">
             <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
             Ajouter un {{title}}
-            <!--          <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>-->
           </h5>
           <div class="form-box">
             <div class="main-container form-column">
@@ -58,8 +52,8 @@
                 <div class="form-bloc">
                   <div class="row">
                     <div class="col">
-                      <label class="col-12">{{formLabels.type_entretien}}
-                        {{isRequired(formInputs.type_entretien)}}</label>
+                      <label class="col-12">{{formLabels.type_id}}
+                        {{isRequired(formInputs.type_id)}}</label>
                       <div class="col">
                         <ng-select
                           [items]="entretien_types"
@@ -67,46 +61,48 @@
                           [bindValue]="'id'"
                           class="form-control select"
                           placeholder="Sélectionner le type d'entretien ici"
-                          [formControl]="formGroup.controls[formInputs.type_entretien]"
-                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.type_entretien].hasError('required')
-                                  && formGroup.controls[formInputs.type_entretien].dirty}"
+                          [formControl]="formGroup.controls[formInputs.type_id]"
+                          (open)="getFilterList('entretien_types', listService.list.INTERVIEW_TYPE)"
+                          [loading]="loadingSelect[listService.list.INTERVIEW_TYPE]"
+                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.type_id].hasError('required')
+                                  && formGroup.controls[formInputs.type_id].dirty}"
                           [multiple]="false"
                         >
                         </ng-select>
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.type_entretien].hasError('required')
-                  && formGroup.controls[formInputs.type_entretien].dirty">
+                             *ngIf="formGroup.controls[formInputs.type_id].hasError('required')
+                  && formGroup.controls[formInputs.type_id].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           Le type d'entretien est obligatoire
                         </div>
                       </div>
                     </div>
+<!--                    <div class="col">-->
+<!--                      <label class="col-12">{{formLabels.etat}}-->
+<!--                        {{isRequired(formInputs.etat)}}</label>-->
+<!--                      <div class="col">-->
+<!--                        <ng-select-->
+<!--                          [items]="etats"-->
+<!--                          [bindLabel]="'label'"-->
+<!--                          [bindValue]="'id'"-->
+<!--                          class="form-control select"-->
+<!--                          placeholder="Sélectionner l'état ici"-->
+<!--                          [formControl]="formGroup.controls[formInputs.etat]"-->
+<!--                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.etat].hasError('required')-->
+<!--                                  && formGroup.controls[formInputs.etat].dirty}"-->
+<!--                          [multiple]="false"-->
+<!--                        >-->
+<!--                        </ng-select>-->
+<!--                        <div class="form-control-feedback"-->
+<!--                             *ngIf="formGroup.controls[formInputs.etat].hasError('required')-->
+<!--                  && formGroup.controls[formInputs.etat].dirty">-->
+<!--                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>-->
+<!--                          L'état est obligatoire-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div class="col">
-                      <label class="col-12">{{formLabels.etat}}
-                        {{isRequired(formInputs.etat)}}</label>
-                      <div class="col">
-                        <ng-select
-                          [items]="etats"
-                          [bindLabel]="'label'"
-                          [bindValue]="'id'"
-                          class="form-control select"
-                          placeholder="Sélectionner l'état ici"
-                          [formControl]="formGroup.controls[formInputs.etat]"
-                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.etat].hasError('required')
-                                  && formGroup.controls[formInputs.etat].dirty}"
-                          [multiple]="false"
-                        >
-                        </ng-select>
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.etat].hasError('required')
-                  && formGroup.controls[formInputs.etat].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          L'état est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <label class="col-2">{{formLabels.date_effective}} {{isRequired(formInputs.date_effective)}}</label>
+                      <label class="col-2">{{formLabels.effective_date}} {{isRequired(formInputs.effective_date)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
                           <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
@@ -115,28 +111,28 @@
                                  [owlDateTimeTrigger]="owl_dt1"
                                  placeholder="Choisir la date effective ici"
                                  [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_effective].hasError('required')
-                                  && formGroup.controls[formInputs.date_effective].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_effective]"
+                               formGroup.controls[formInputs.effective_date].hasError('required')
+                                  && formGroup.controls[formInputs.effective_date].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.effective_date]"
                           />
                           <div class="icons-container">
                             <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_effective)"
-                               *ngIf="formGroup.controls[formInputs.date_effective].value"></i>&nbsp;
+                               (click)="clearDateInput(formInputs.effective_date)"
+                               *ngIf="formGroup.controls[formInputs.effective_date].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_effective].hasError('required')
-                    && formGroup.controls[formInputs.date_effective].dirty">
+                             *ngIf="formGroup.controls[formInputs.effective_date].hasError('required')
+                    && formGroup.controls[formInputs.effective_date].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date effective est obligatoire
                         </div>
                       </div>
                     </div>
                     <div class="col">
-                      <label class="col-2">{{formLabels.date_theorique}} {{isRequired(formInputs.date_theorique)}}</label>
+                      <label class="col-2">{{formLabels.theoretical_date}} {{isRequired(formInputs.theoretical_date)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
                           <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
@@ -145,26 +141,27 @@
                                  [owlDateTimeTrigger]="owl_dt2"
                                  placeholder="Choisir la date théorique ici"
                                  [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_theorique].hasError('required')
-                                  && formGroup.controls[formInputs.date_theorique].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_theorique]"
+                               formGroup.controls[formInputs.theoretical_date].hasError('required')
+                                  && formGroup.controls[formInputs.theoretical_date].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.theoretical_date]"
                           />
                           <div class="icons-container">
                             <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_theorique)"
-                               *ngIf="formGroup.controls[formInputs.date_theorique].value"></i>&nbsp;
+                               (click)="clearDateInput(formInputs.theoretical_date)"
+                               *ngIf="formGroup.controls[formInputs.theoretical_date].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_theorique].hasError('required')
-                    && formGroup.controls[formInputs.date_theorique].dirty">
+                             *ngIf="formGroup.controls[formInputs.theoretical_date].hasError('required')
+                    && formGroup.controls[formInputs.theoretical_date].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date théorique est obligatoire
                         </div>
                       </div>
                     </div>
+                    <div class="col"></div>
                   </div>
                   <div class="row">
                       <div class="col-1">
@@ -221,6 +218,16 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="row text-center">
+            <app-button
+              [type]="'primary'"
+              [text]="'Enregistrer'"
+              [isLoading]="submitting"
+              (onClick)="save()"
+            >
+            </app-button>
           </div>
         </form>
       </div>

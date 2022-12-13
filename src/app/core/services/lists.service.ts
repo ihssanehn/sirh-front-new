@@ -42,6 +42,7 @@ export class ListsService {
     DEVISE: 'devise',
     TEMPS_UNIT: 'temps',
     TYPE_ACTIVITY: 'type_activity',
+    INTERVIEW_TYPE: 'interview_type',
   }
 
 
