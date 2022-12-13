@@ -261,4 +261,8 @@ export class UserService {
   addInterview(params) {
     return this.apiService.post('personal/interview/add', params);
   }
+
+  addVM(params) {
+    return this.apiService.post('personal/medical_visit/add', params);
+  }
 }

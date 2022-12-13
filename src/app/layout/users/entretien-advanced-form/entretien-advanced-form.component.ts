@@ -247,9 +247,6 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-    console.log('saveData', saveData);
-
-
     this.submitEntretien.emit(fd);
   }
 

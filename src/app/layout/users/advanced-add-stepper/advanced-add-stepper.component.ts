@@ -166,7 +166,8 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   async submitVM($event: any) {
     try{
       this.submittingEntree = true;
-        this.moveForward(4, null);
+      const res = await this.userService.addVM($event).toPromise();
+      // this.moveForward(4, null);
     }catch (e){
       this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
       console.log('error submit vm', e);

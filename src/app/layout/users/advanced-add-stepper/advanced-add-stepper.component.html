@@ -32,6 +32,8 @@
   <mat-step label="Visites médicales">
     <app-visite-medical-advanced-form
       (submitvm)="submitVM($event)"
+      (next)="this.moveForward(4, null)"
+      [user]="user"
     ></app-visite-medical-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>

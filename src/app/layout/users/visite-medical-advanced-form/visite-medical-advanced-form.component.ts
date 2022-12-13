@@ -11,6 +11,8 @@ import {User} from "@app/core/entities";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {isMoment} from "moment";
+import * as moment from "moment";
 
 
 
@@ -31,17 +33,17 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
   @Input() submitting: boolean;
   formInputs = {
     personal_id: 'personal_id',
-    medical_center: 'medical_center',
+    centre: 'centre',
     date_last_vm: 'date_last_vm',
-    date_next_vm: 'date_next_vm',
-    sent_invit: 'sent_invit'
+    scheduled_date: 'scheduled_date',
+    sent_convocation: 'sent_convocation'
   }
   formLabels =  {
     personal_id: 'personal_id',
-    medical_center: 'Centre médical',
+    centre: 'Centre médical',
     date_last_vm: 'Date dernière visite médicale',
-    date_next_vm: 'Date prochaine visite médicale',
-    sent_invit: 'Convocation envoyée'
+    scheduled_date: 'Date prochaine visite médicale',
+    sent_convocation: 'Convocation envoyée'
   }
   etats = [];
   errorLoadData: boolean;
@@ -79,10 +81,10 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
       personal_id: [null],
-      medical_center: [null],
+      centre: [null],
       date_last_vm: [null],
-      date_next_vm: [null],
-      sent_invit: [null]
+      scheduled_date: [null],
+      sent_convocation: [null]
     });
 
     this.modalService.dismissAll();
@@ -174,12 +176,23 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       getFormValidationErrors(this.formGroup);
       return;
     }
+
     Object.keys(this.formGroup.value).forEach(key => {
       if(this.formGroup.value[key] === 'false'){
         this.formGroup.value[key] = false;
       }
     });
-    this.submitvm.emit(this.formGroup.value);
+
+    const dates = ['date_last_vm', 'scheduled_date'];
+    const saveData = {
+      ...this.formGroup.value
+    }
+    dates.forEach(date => {
+      saveData[date] = saveData[date] && isMoment(moment(date)) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+    });
+
+
+    this.submitvm.emit(saveData);
   }
 
   clearDateInput(input: string) {
