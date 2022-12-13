@@ -22,6 +22,8 @@
   <mat-step label="Entretien">
     <app-entretien-advanced-form
       (submitEntretien)="submitEntretien($event)"
+      (next)="this.moveForward(3, null)"
+      [user]="user"
     ></app-entretien-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>

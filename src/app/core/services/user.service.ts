@@ -257,4 +257,8 @@ export class UserService {
   submitUserGroup(params) {
     return this.apiService.post('personal/addUserGroup', params);
   }
+
+  addInterview(params) {
+    return this.apiService.post('personal/interview/add', params);
+  }
 }

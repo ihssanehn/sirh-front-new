@@ -55,6 +55,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     this.activatedRoute?.queryParams?.subscribe(async params => {
       const step = Number(params.step);
       const user_id = Number(params.user_id);
+      console.log('params', params);
       if(this.myStepper){
         if([0, 1, 2, 3, 4].includes(step)){
           console.log('moved', step);
@@ -72,14 +73,15 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
           this.moveForward(0);
         }
       }
-      // if(user_id){
-      //   await this.getUser(user_id);
-      //   if(!this.user){
-      //     this.moveForward(0);
-      //   }
-      // }else {
-      //   this.moveForward(0);
-      // }
+      console.log('user_id', user_id);
+      if(user_id){
+        await this.getUser(user_id);
+        if(!this.user){
+          this.moveForward(0);
+        }
+      }else {
+        this.moveForward(0);
+      }
       this.changeDetectorRef.detectChanges();
     })
   }
@@ -152,7 +154,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   async submitEntretien($event: any) {
     try{
       this.submittingEntree = true;
-        this.moveForward(3, null);
+        const res = await this.userService.addInterview($event).toPromise();
     }catch (e){
       this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
       console.log('error submit Entretien', e);

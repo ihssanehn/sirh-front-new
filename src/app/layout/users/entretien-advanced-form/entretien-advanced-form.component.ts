@@ -12,6 +12,9 @@ import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
+import {isMoment} from "moment/moment";
+import * as moment from "moment/moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 
 
@@ -172,7 +175,6 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     if(user){
       this.formGroup.patchValue({
         personal_id: user.id,
-        ...user.parameter
       });
     }
   }
@@ -219,33 +221,36 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       }
     });
 
+    const dates = ['effective_date', 'theoretical_date'];
     const saveData = {
-      ...this.formGroup.value
+      ...this.formGroup.value,
+      document_files: this.files,
     }
+    dates.forEach(date => {
+      saveData[date] = saveData[date] && isMoment(moment(date)) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+    });
+    const fd = new FormData();
 
-    if(this.projectToEditFiles.length > 0){
-      const document_files_to_delete = [];
-      const document_files_to_add = [];
-      this.projectToEditFiles.forEach(att => {
-        if(!this.files.find(file => file.id === att.id)){
-          document_files_to_delete.push(att.id);
+    Object.keys(saveData).forEach(key => {
+      if(Array.isArray(saveData[key])){
+        if(key === 'document_files'){
+          saveData[key].forEach((file, index) => {
+            fd.append(`document_files`, file);
+          })
+        }else{
+          fd.append(key, JSON.stringify(saveData[key]));
         }
-      });
-      this.files.forEach(file => {
-        if(file instanceof File){
-          document_files_to_add.push(file);
+      }else {
+        if(saveData[key] != null){
+          fd.append(key, saveData[key]);
         }
-      });
-      saveData['document_to_delete_files'] = document_files_to_delete;
-      saveData['document_files'] = document_files_to_add;
-    }else{
-      saveData['document_files'] = this.files;
-    }
+      }
+    });
 
     console.log('saveData', saveData);
 
 
-    this.submitEntretien.emit(saveData);
+    this.submitEntretien.emit(fd);
   }
 
   clearDateInput(input: string) {

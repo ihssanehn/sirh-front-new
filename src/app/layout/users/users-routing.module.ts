@@ -111,7 +111,7 @@ const routes: Routes = [
     // }
   },
   {
-    path: 'details/:id',
+    path: 'details',
     canActivate: [UniqueEntiteGuard],
     component: AdvancedAddStepperComponent
   },

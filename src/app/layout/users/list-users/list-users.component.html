@@ -419,7 +419,7 @@
               <tbody>
               <tr *ngFor="let user of users"  >
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]" [queryParams]="{step: 1}">
+                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 1, user_id: user.id}">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -490,7 +490,7 @@
               <tbody>
                 <tr *ngFor="let user of users"  >
                   <td>
-                    <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]" [queryParams]="{step: 2}">
+                    <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 2, user_id: user.id}">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -637,7 +637,7 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let user of users"  >
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]" [queryParams]="{step: 3}">
+                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 3, user_id: user.id}">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -767,7 +767,7 @@
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
               <tr *ngFor="let user of users">
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]" [queryParams]="{step: 0}">
+                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 0, user_id: user.id}">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -960,7 +960,7 @@
               <tbody>
                 <tr *ngFor="let user of users" >
                   <td>
-                    <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]" [queryParams]="{step: 4}">
+                    <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 4, user_id: user.id}">
                       <div class="photo">
                         <div class="img-container">
                           <img

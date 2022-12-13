@@ -449,9 +449,9 @@ export class UserInfoFormComponent implements OnInit, AfterViewInit {
     const submit = Object.assign(this.userFormGroup.value,
       {
         profile_id: this.profile_id,
-        start_date: start_date && isMoment(moment(start_date)) ? moment(start_date)?.format(' YYYY-MM-DD'): null,
-        end_date: end_date && isMoment(moment(end_date)) ? moment(end_date)?.format(' YYYY-MM-DD'): null,
-        birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format(' YYYY-MM-DD'): null,
+        start_date: start_date && isMoment(moment(start_date)) ? moment(start_date)?.format('YYYY-MM-DD'): null,
+        end_date: end_date && isMoment(moment(end_date)) ? moment(end_date)?.format('YYYY-MM-DD'): null,
+        birthday: birthday && isMoment(moment(birthday)) ? moment(birthday)?.format('YYYY-MM-DD'): null,
       })
     this.submitUser.emit(this.userFormGroup.value);
   }
