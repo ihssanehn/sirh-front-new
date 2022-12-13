@@ -266,6 +266,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       link: 'users/new',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
+      is_locked: true,
       subMenu: [
         {
           id: 2,
@@ -298,6 +299,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           icon: null,
           link: 'users/new/avance',
           opened: false,
+          is_locked: true,
         },
       ]
     },
@@ -836,7 +838,7 @@ export const $headerItems = [
     link: '/projets',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,
@@ -844,7 +846,7 @@ export const $headerItems = [
     link: '/activites',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,

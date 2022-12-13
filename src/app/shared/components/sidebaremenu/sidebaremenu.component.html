@@ -1,6 +1,6 @@
 <div class="nav-content">
   <ng-container *ngFor="let item of items">
-    <ng-container *ngIf="item.type === 'link'">
+    <ng-container *ngIf="item.type === 'link' && !item.is_locked">
       <a
          *ngxPermissionsOnly="item.onlyFor"
          [@slideInOut]
@@ -17,7 +17,7 @@
       </a>
     </ng-container>
 
-    <ng-container *ngIf="item.type === 'sub'">
+    <ng-container *ngIf="item.type === 'sub' && !item.is_locked">
       <a
         [routerLinkActive]="'activeTopMenu'"
         *ngxPermissionsOnly="item.onlyFor"
@@ -37,7 +37,7 @@
            [@slideInOut]
       >
         <div *ngFor="let subItem_1 of item.subMenu" >
-          <ng-container *ngIf="subItem_1.type === 'link'">
+          <ng-container *ngIf="subItem_1.type === 'link' && !subItem_1.is_locked">
             <a
               [routerLinkActive]="'activeMenu'"
               *ngxPermissionsOnly="subItem_1.onlyFor"
@@ -53,7 +53,7 @@
           </ng-container>
 
 
-          <ng-container *ngIf="subItem_1.type === 'sub'">
+          <ng-container *ngIf="subItem_1.type === 'sub' && !subItem_1.is_locked">
             <a
               [routerLinkActive]="'activeMenu'"
               *ngxPermissionsOnly="subItem_1.onlyFor"

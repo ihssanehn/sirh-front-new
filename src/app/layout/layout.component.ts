@@ -53,7 +53,7 @@ export class LayoutComponent implements OnInit{
                   $sidebarItems_users[1].opened = false;
                 }
                 if(this.router.url.indexOf('users/new') !== -1){
-                  $sidebarItems_users[0].opened = false;
+                  $sidebarItems_users[0].opened = true; // todo make it false (true only on Lot 1)
                   $sidebarItems_users[1].opened = true;
                 }
 
