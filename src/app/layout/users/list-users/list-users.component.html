@@ -30,7 +30,7 @@
 <!--    </div>-->
     <div class="sub-header ">
       <h1 class="main-title">
-        Utilisateurs
+       {{sectionName}} 
       </h1>
 
       <div class="search d-flex">
@@ -673,7 +673,7 @@
             </table>
           </ng-container>
           <ng-container *ngSwitchCase="'entree'">
-            <table class="table-responsive card-list-table">
+            <table class="table-responsive card-list-table table_entree">
               <thead>
                 <tr>
                   <th></th>
@@ -684,7 +684,7 @@
                   <th></th>
                   <th></th>
                   <th></th>
-                  <th colspan="2" class="category-cell">Salarié étranger</th>
+                  <!-- <th colspan="2" class="category-cell">Salarié étranger</th> -->
                   <th></th>
                   <th></th>
                   <th></th>
@@ -718,7 +718,7 @@
                   <th>
                     Statut
                   </th>
-                  <th>
+                  <!-- <th>
                     Vérification TS préfecture
                   </th>
                   <th>
@@ -729,14 +729,14 @@
                   </th>
                   <th>
                     Annulé?
-                  </th>
+                  </th> -->
                   <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <th>
                         {{extraColumn.label}}
                       </th>
                   </ng-container>
-                  <th style="text-align: right" class="sticky">
-                    <i class="primary-icon icon-add pointer" [matMenuTriggerFor]="statusMenu"></i>
+                  <th style="text-align: center" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" class="sticky th-btn" width="2%" style="position: sticky;right:-80px;" [matMenuTriggerFor]="statusMenu">
+                    <i class="fa fa-filter" ></i>
                   </th>
                   <mat-menu #statusMenu="matMenu" [class]="'profile-menu'">
                     <div mat-menu-item class="dropdown-item" *ngFor="let item of columns_entree" (click)="$event.stopPropagation()">
@@ -765,65 +765,46 @@
               </thead>
               <tbody>
               <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let user of users">
+              <tr *ngFor="let entrance of users">
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 0, user_id: user.id}">
+                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 0, user_id: entrance.personal.id}">
                     <div class="photo">
                       <div class="img-container">
                         <img
-                          [attr.src]="user?.photo_profile ? (user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          [attr.src]="entrance?.photo_profile ? (user.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(entrance?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(entrance?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                         />
                       </div>
                     </div>
-                    <div class="name">{{user?.full_name}} </div>
+                    <div class="name">
+                        {{entrance?.personal?.civility || 'N.R'}}
+                        {{entrance?.personal?.nom || 'N.R'}}
+                        {{entrance?.personal?.prenom || 'N.R'}}
+                    </div>
                   </div>
                 </td>
-                <td>{{user?.registration_number}}</td>
-                <td data-title="Entité" >{{user?.entity_name || 'test'}}</td>
-                <td data-title="Siege">{{user?.siege_name || 'test'}}</td>
-                <td data-title="date d'entrée">{{(user?.start_date | dateMessage) || 'test'}}</td>
-                <td data-title="Centre d'interêt">{{user?.cp_name}}</td>
-                <td data-title="Type de contrat">{{user?.contract_type_name || 'test'}}</td>
-                <td data-title="Type de contrat">{{user?.statut || 'test'}}</td>
-                <td data-title="Type de contrat">
-                  <div class="check-box-btn">
-                    <input type="checkbox"
-                           class="small-checkbox"
-                           id="with_inactive_cp"
-                           [checked]="user.verification_ts_prefecture"
-                           [(ngModel)]="user.verification_ts_prefecture"
-                           name="verification_ts_prefecture" >
-                  </div>
-                </td>
-                <td data-title="Type de contrat">
-                  &nbsp;
-                </td>
-                <td data-title="Type de contrat">
-                  <div class="check-box-btn">
-                    <input type="checkbox"
-                           class="small-checkbox"
-                           id="is_signed_contract"
-                           [checked]="user.is_signed_contract"
-                           [(ngModel)]="user.is_signed_contract"
-                           name="is_signed_contract" >
-                  </div>
-                </td>
-                <td data-title="Type de contrat">
-                  <div class="check-box-btn">
-                    <input type="checkbox"
-                           class="small-checkbox"
-                           id="is_canceled"
-                           [checked]="user.is_canceled"
-                           [(ngModel)]="user.is_canceled"
-                           name="is_canceled" >
-                  </div>
-                </td>
-
+                <td data-title="Matricule" >{{entrance?.personal?.registration_number || 'N.R'}}</td>
+                <td data-title="Entité" >{{entrance?.personal?.entity_name || 'Piman Consultants'}}</td>
+                <td data-title="Entité" >{{entrance?.personal?.structure || 'Structure'}}</td>
+                <td data-title="Entité" >{{ (entrance?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
+                <td data-title="Entité" >{{entrance?.personal?.manager_name || 'NSI'}}</td>
+                <td data-title="Entité" >{{entrance?.personal?.contrat_name || 'CDI'}}</td>
+                <td data-title="Entité" >{{entrance?.personal?.status_name || 'Cadre'}}</td>
                 <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                     <td>
-                      {{extraColumn.label+'_value'}}
+                      <div class="check-box-btn"  [matTooltip]="entrance?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +entrance?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + entrance?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (entrance?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
+                        <input type="checkbox"
+                               class="small-checkbox"
+                               *ngIf="entrance.slug_actions[extraColumn.slug]"
+                               [disabled]="entrance?.slug_actions?.[extraColumn.slug]?.checked" 
+                               [ngClass]="{'disabled': entrance?.slug_actions?.[extraColumn.slug]?.checked}"
+                               id="with_inactive_cp"
+                               (change)="markActionAsDone(entrance.slug_actions[extraColumn.slug].id,entrance.slug_actions[extraColumn.slug].checked)"
+                               [checked]="entrance?.slug_actions?.[extraColumn.slug]?.checked"
+                               [(ngModel)]="entrance.slug_actions[extraColumn.slug].checked"
+                               name="checbox_" >
+                      </div>
                     </td>
                 </ng-container>
                 <td >

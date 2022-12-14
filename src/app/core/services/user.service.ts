@@ -87,6 +87,11 @@ export class UserService {
 
 
     getUsers(params): any {
+      if(params?.type == 'entree') //temp condition before merging mouhad and nawel stuff
+        return this.apiService
+        .post('personal_a/entrances/all', params)
+        .pipe(map(result => result.result  || []));
+      else
         return this.apiService
           .post('personal/getAllPersonalsPost', params)
           .pipe(map(result => result.result  || []));
@@ -265,4 +270,16 @@ export class UserService {
   addVM(params) {
     return this.apiService.post('personal/medical_visit/add', params);
   }
+
+  listActions(params) {
+    return this.apiService.post('action/list', params)
+    .pipe(map(res => { return res?.result?.data || []}));;
+  }
+
+  markActionAsDone(params) {
+    return this.apiService.post('action/markAsDone', params)
+    .pipe(map(res => { return res?.result?.data || []}));;
+  }
+
+  
 }

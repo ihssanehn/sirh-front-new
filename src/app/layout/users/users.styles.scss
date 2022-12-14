@@ -343,7 +343,7 @@
 table {
   td{
     border-bottom: 1px solid #dfdfdf57;
-    cursor: pointer;
+    cursor: initial!important;
     display: table-cell;
     padding: 10px 24px;
     transition: background .2s ease-out;
