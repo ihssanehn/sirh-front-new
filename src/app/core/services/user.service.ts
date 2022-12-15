@@ -87,9 +87,13 @@ export class UserService {
 
 
     getUsers(params): any {
-      if(params?.type == 'entree') //temp condition before merging mouhad and nawel stuff
+      if(params?.type == 'entree') //temp condition before merging mouad and nawel stuff
         return this.apiService
         .post('personal_a/entrances/all', params)
+        .pipe(map(result => result.result  || []));
+      else if(params?.type == 'sortie') //temp condition before merging mouad and nawel stuff
+        return this.apiService
+        .post('personal_a/sorties/all', params)
         .pipe(map(result => result.result  || []));
       else
         return this.apiService

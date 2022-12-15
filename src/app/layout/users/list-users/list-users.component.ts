@@ -141,6 +141,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   sectionName;
   personnalFilters;
   actions;
+  model_type;
   
   //   {
   //     id: 1,
@@ -263,11 +264,13 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         case 'entree': {
           this.type = 'entree';
           this.sectionName = 'Suivi salariés - Entrées'
+          this.model_type ='entrance';
           break;
         }
         case 'sortie': {
           this.type = 'sortie';
           this.sectionName = 'Suivi salariés - Sorties'
+          this.model_type ='sortie';
           break;
         }
         case 'entretien': {
@@ -289,7 +292,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         }
       }
       this.getUsers();
-      if(type == 'entree')
+      if(type == 'entree' || type == 'sortie')
         this.getAction();
 
     });
@@ -326,9 +329,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   async getAction(){
-    this._allActions = await this.userService.listActions({model_type:'entrance'}).toPromise();
+    this._allActions = await this.userService.listActions({model_type:this.model_type}).toPromise();
 
-    const localstorage_entree = JSON.parse(localStorage.getItem("columns_entree") || "[]");
+    const localstorage_entree = JSON.parse(localStorage.getItem("columns_"+this.model_type) || "[]");
 
     if(localstorage_entree?.length > 0){
       console.log('localstorage_entree :::',localstorage_entree)
@@ -387,7 +390,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type === '_entree' || this.type === 'sortie' ? 'general' : this.type,
+      type: this.type
     }
     Object.keys(this.filter).forEach(key => {
       if(this.filter[key] !== null && this.filter[key] !== []){
@@ -495,7 +498,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   onCheckChange($event) {
-    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+    localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
   }
 
   ischecked(id) {
@@ -511,7 +514,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.columns_entree.forEach((column) => {
       column.checked = select;
     });
-    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+    localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
   }
 
   getActiveColumns(column) {
