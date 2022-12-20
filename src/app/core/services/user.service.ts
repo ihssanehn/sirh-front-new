@@ -95,6 +95,19 @@ export class UserService {
         return this.apiService
         .post('personal_a/sorties/all', params)
         .pipe(map(result => result.result  || []));
+      else if(params?.type == 'visite_medicale') //temp condition before merging mouad and nawel stuff
+        return this.apiService
+          .post('personal/medical_visit/all', params)
+          .pipe(map(result => result.result  || []));
+      else if(params?.type == 'entretien') //temp condition before merging mouad and nawel stuff
+          return this.apiService
+            .post('personal/interview/all', params)
+            .pipe(map(result => result.result  || []));
+      else if(params?.type == 'period_essai') //temp condition before merging mouad and nawel stuff
+            return this.apiService
+              .post('personal/personal_trial_period/all', params)
+              .pipe(map(result => result.result  || []));
+            
       else
         return this.apiService
           .post('personal/getAllPersonalsPost', params)
@@ -198,6 +211,11 @@ export class UserService {
         return this.apiService.get('personal/getPersonal?personal_id='+ params.id);
     }
 
+    getDetailed(params){
+      return this.apiService.get('personal_a/get/'+ params.id);
+    }
+
+
   setProfilePicture(params: any) {
     return this.apiService.post('user/personnel/photo-profil', params);
   }
@@ -282,6 +300,11 @@ export class UserService {
 
   markActionAsDone(params) {
     return this.apiService.post('action/markAsDone', params)
+    .pipe(map(res => { return res?.result?.data || []}));;
+  }
+
+  getTypesByModel(model) {
+    return this.apiService.get('personal_a/types/'+ model)
     .pipe(map(res => { return res?.result?.data || []}));;
   }
 

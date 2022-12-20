@@ -12,6 +12,9 @@ import {ListsService} from "@services/lists.service";
 import {Validators} from "@angular/forms";
 import {MainStore} from "@store/mainStore.store";
 import {MessageService} from "primeng/api";
+import {ModalAddSortieComponent} from "@layout/users/modal-add-sortie/modal-add-sortie.component";
+import {ModalAddEntreeComponent} from "@layout/users/modal-add-entree/modal-add-entree.component";
+
 
 
 @Component({
@@ -413,16 +416,16 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   openSelectRole(){
-    this.router.navigate(['users/new']);
-    // if(this.modalService.hasOpenModals()){
-    //   return;
-    // }
-    // const modalRef = this.modalService.open(SelectRoleComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
-    // modalRef.result.then(result=>{
-    //   console.log('closed', result);
-    // }, reason => {
-    //   console.log('closed');
-    // });
+    // this.router.navigate(['users/new']);
+    if(this.modalService.hasOpenModals()){
+      return;
+    }
+    const modalRef = this.modalService.open(ModalAddEntreeComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+    }, reason => {
+      console.log('closed');
+    });
     // modalRef.componentInstance.idUser = item.id;
   }
 
