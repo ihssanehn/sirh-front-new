@@ -31,22 +31,22 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       placeholder: 'Selectionner le personnel',
       errorRequired: 'Le personnel est obligatoire'
     },
-    type_id: {
-      input: 'type_id',
-      label: 'Type d\'entretien',
-      placeholder: 'Selectionner le type d\'entretien',
-      errorRequired: 'Le type d\'entretien est obligatoire'
+    centre: {
+      input: 'centre',
+      label: 'Centre medical',
+      placeholder: 'Selectionner le centre medical',
+      errorRequired: 'Le centre medical est obligatoire'
     },
-    theoretical_date: {
-      input: 'theoretical_date',
-      label: 'Date théorique',
-      placeholder: 'La date théorique',
-      errorRequired: 'La date théorique est obligatoire'
+    date: {
+      input: 'date',
+      label: 'Date de la visite',
+      placeholder: 'Sélectionner la date de la visite',
+      errorRequired: 'La date est obligatoire'
     }
   }
 
   personals = [];
-  entretien_types = [];
+  medical_centers = [];
   loadingSelect = {};
   id_entite = null;
   @Input() idItem = null;
@@ -71,9 +71,8 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       id: [this.idItem, Validators.compose([Validators.required])],
       personal_id: [null, Validators.compose([Validators.required])],
-      type_id: [null, Validators.compose([Validators.required])],
-      theoretical_date: [null, Validators.compose([Validators.required])],
-      effective_date: [null],
+      centre: [null, Validators.compose([Validators.required])],
+      date: [null, Validators.compose([Validators.required])]
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
@@ -90,7 +89,14 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     if(items === 'personals'){
       try{
         this.loadingSelect[list_name] = true;
-        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+        this[items] = await this.personalService.getPersonnelAnnex().toPromise();
+        console.log('this.item this.personals', this.personals);
+        if(this[items]?.length>0){
+          this[items] = this[items].map((item) => {
+            item.label = item.nom+ ' ' + item.prenom+ ' ('+item.registration_number+')';
+            return item;
+          })
+        }
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -116,40 +122,35 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     }
     try{
       this.submitting = true;
-      const params = {
-        ...this.formGroup.getRawValue(),
-        [this.formMetaData.theoretical_date.input]:  formatDateForBackend(this.formGroup.value[this.formMetaData.theoretical_date.input])
+      const params: any = {
+        personal_id: this.formGroup.getRawValue().personal_id,
+        centre: this.formGroup.getRawValue().centre,
+        date: formatDateForBackend(this.formGroup.getRawValue().date),
       }
-      const res = await this.personalService.addEntretien(params).toPromise();
-      console.log('res addEntretien', res);
-      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien ajouté avec succès'});
+
+      let res;
+      if(this.idItem){
+        params.id = this.idItem;
+        res = await this.personalService.updateVM(params).toPromise();
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Visite medicale modifié avec succès'});
+      }else{
+        res = await this.personalService.addVM(params).toPromise();
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Visite medicale ajouté avec succès'});
+      }
+
+      console.log('res add/update medical visite', res);
       this.modal.close(res);
     }catch (e){
-      this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de l\'entretien'});
+      if(this.idItem){
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de la visite médicale'});
+      }else{
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de la visite médicale'});
+      }
     }finally {
       this.submitting = false;
     }
   }
 
-  async getTheoricalDateCalulation() {
-    const {personal_id, type_id} = this.formGroup.getRawValue();
-    if(!personal_id || !type_id){
-      return;
-    }
-    try {
-      const params = {
-        personal_id,
-        type_id,
-      }
-      const res = await this.personalService.getTheoricalDateCalulation(params).toPromise();
-      console.log('res getTheoricalDateCalulation', res);
-      this.formGroup.patchValue({theoretical_date: res.theoretical_date});
-    }catch (e) {
-      console.log('error getTheoricalDateCalulation', e);
-    }finally {
-
-    }
-  }
 
   clearDateInput(input: string) {
     this.formGroup.patchValue({

@@ -231,6 +231,11 @@
   color: $danger;
 }
 
+.modal-header{
+  .main-title{
+    margin-bottom: 0;
+  }
+}
 
 .top-container{
   padding: 25px 0 8px 0;

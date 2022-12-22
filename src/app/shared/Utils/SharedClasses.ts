@@ -99,7 +99,7 @@ export function markFormAsDirty(control){
 }
 
 export function formatDateForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD') : null;
+  return date && isMoment(moment(date)) ? moment(date).set({hours: 8}).format('YYYY-MM-DD') : null;
 }
 
 export function getFormValidationErrors(form) {

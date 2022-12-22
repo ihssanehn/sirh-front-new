@@ -31,14 +31,26 @@ export class PersonalService {
   }
 
   getTheoricalDateCalulation(param) {
-    return this.apiService.post('personal_a/getTheoricalDateCalulation', param);
+    return this.apiService.post('personal/interview/calculation-theoretical', param).pipe(map(result => result?.result?.data || []));
+  }
+
+  getPersonnelAnnex() {
+    return this.apiService.get('personal_a/mini').pipe(map(result => result?.result?.data || []));
   }
 
   addEntretien(params: any) {
-    return this.apiService.post('personal_a/interview/add', params);
+    return this.apiService.post('personal/interview/add', params);
   }
 
   updateEntretien(params) {
-    return this.apiService.post('personal_a/interview/update', params);
+    return this.apiService.post('personal/interview/update', params);
+  }
+
+  addVM(params: any) {
+    return this.apiService.post('personal/medical_visit/add', params);
+  }
+
+  updateVM(params: any) {
+    return this.apiService.post('personal/medical_visit/update', params);
   }
 }

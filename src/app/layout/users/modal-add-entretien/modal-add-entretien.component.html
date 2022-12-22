@@ -1,12 +1,12 @@
 <div class="container">
 
          <div class="header modal-header">
-            <h1 class="main-title">Ajouter une entrée</h1>
+            <h1 class="main-title">{{item?.id ? 'Modifier l\'entretien': 'Ajouter un entretien'}}</h1>
             <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
         </div>
 
         <div class="modal-body">
-          <form  autocomplete="off" class="container p-0" novalidate (submit)="submit()">
+          <form  [formGroup]="formGroup" autocomplete="off" class="container p-0" novalidate (submit)="submit()">
             <div class="form-box">
               <div class="main-container form-column">
                 <div class="white-box">
@@ -18,7 +18,7 @@
                         <div class="col">
                           <ng-select
                             [items]="personals"
-                            [bindLabel]="'full_name'"
+                            [bindLabel]="'label'"
                             [bindValue]="'id'"
                             class="form-control select"
                             [placeholder]="formMetaData.personal_id.placeholder"
@@ -118,7 +118,7 @@
                               </div>
                             </div>
                         </div>
-                      <ng-container *ngIf="idItem">
+                      <ng-container *ngIf="item?.id">
                         <div class="col">
                           <label class="col-12">{{formMetaData.effective_date.label}}
                             {{isRequired(formMetaData.effective_date.input)}}
@@ -174,7 +174,7 @@
                       </app-button>&nbsp;&nbsp;
                       <app-button
                         [type]="'secondary'"
-                        [text]="'Créer'"
+                        [text]="item?.id ? 'Enregistrer les modifications': 'Créer'"
                         [isLoading]="submitting"
                         [isDisabled]="submitting"
                         [textLoading]="'Sauvegarde en cours..'"

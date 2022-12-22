@@ -26,6 +26,8 @@ export class DateMessagePipe implements PipeTransform {
 
     }
 
-    return (timestamp) ? moment(timestamp, MY_CUSTOM_DATETIME_FORMATS.backend_format).locale('fr').format(format) : '';
+    // console.log('mouad', timestamp, moment(timestamp).format(format));
+    return (timestamp) ? moment(timestamp).locale('fr').format(format) : '';
+  // , MY_CUSTOM_DATETIME_FORMATS.backend_format
   }
 }

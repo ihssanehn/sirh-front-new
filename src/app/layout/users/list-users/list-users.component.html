@@ -498,39 +498,26 @@
                   <td>{{ (interview?.personal?.entry_date | dateMessage )|| 'date entree'}}</td>
                   <td>{{interview?.personal?.manager?.nom}} {{interview?.personal?.manager?.prenom}}</td>
                   <td>{{interview?.type?.label || 'entretien_type'}}</td>
-                  <td>{{interview?.theoretical_date | dateMessage}}</td>
                   <td>
-                    <span *ngIf="interview.effective_date; else no_effective_date">
-                      {{interview?.effective_date | dateMessage}}
-                    </span>
-                    <ng-template #no_effective_date>
-                      <span class="link"
-                            [ngbPopover]="updateDate"
-                            triggers="click"
-                            placement="right"
-                            container="body"
-                            [autoClose]="true">
-                        <i class="fa fa-calendar"></i>&nbsp;Ajouter une date
-                      </span>
-                    </ng-template>
-                    <ng-template #updateDate>
-                      <div class="date-picker-group">
-                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                        <input [owlDateTime]="owl_dt1"
-                               class="form-control input date"
-                               [owlDateTimeTrigger]="owl_dt1"
-                               [placeholder]="'Sélectionner une date'"
-                                [(ngModel)]="interview.effective_date"
-                               (ngModelChange)="updateDateInterview(interview.id, interview.effective_date)"
-                        />
-                        <div class="icons-container">
-                          <i class="icon-close"
-                             (click)="interview.effective_date = null"
-                             *ngIf="interview.effective_date"></i>&nbsp;
-                          <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                        </div>
-                      </div>
-                    </ng-template>
+                    {{interview?.theoretical_date | dateMessage}}
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <owl-date-time #owl_dt1 [pickerType]="'calendar'"
+                      ></owl-date-time>
+                      <input [owlDateTime]="owl_dt1"
+                             class="form-control input date"
+                             [owlDateTimeTrigger]="owl_dt1"
+                             [placeholder]="'Sélectionner une date'"
+                             [(ngModel)]="interview.effective_date"
+                             style="width: 0;margin: 0; padding: 0;visibility: hidden"
+                             #effective_date_input
+                             (ngModelChange)="updateDateInterview(interview.id, interview.effective_date)"
+                      />
+                      <span class="pointer" [ngClass]="{'link': !interview?.effective_date}" (click)="effective_date_input.click()">
+                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{interview?.effective_date ? (interview?.effective_date | dateMessage): 'Ajouter une date'}}
+                        </span>
+                    </div>
                   </td>
                   <td>{{interview.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
                   <td >
@@ -542,6 +529,7 @@
                       <i class="icon-edit"
                          data-toggle="tooltip"
                          data-placement="top"
+                         (click)="openSelectRole('entretien', interview)"
                          title="Modifier"></i>&nbsp;&nbsp;
                       <i class="icon-close danger-icon"
                          data-toggle="tooltip"

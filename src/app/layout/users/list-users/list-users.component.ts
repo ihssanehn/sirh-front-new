@@ -420,7 +420,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   }
 
-  openSelectRole(type, idItem = null){
+  openSelectRole(type, item = null){
     if(this.modalService.hasOpenModals()){
       return;
     }
@@ -456,11 +456,12 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(dynamicModal, { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
+      this.getUsers();
     }, reason => {
       console.log('closed');
     });
-    if(idItem){
-      modalRef.componentInstance.idItem = idItem;
+    if(item){
+      modalRef.componentInstance.data = item;
     }
   }
 

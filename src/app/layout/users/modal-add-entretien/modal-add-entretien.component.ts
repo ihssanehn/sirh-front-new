@@ -7,6 +7,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
 import {User} from "@app/core/entities";
+import * as moment from "moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 @Component({
   selector: 'app-modal-add-entretien',
@@ -55,14 +57,22 @@ export class ModalAddEntretienComponent implements OnInit {
   entretien_types = [];
   loadingSelect = {};
   id_entite = null;
-  @Input() idItem = null;
-  @Input()
-  public set setIdItem(id) {
-    if(id && this.formGroup){
-      this.formGroup.patchValue({
-        id: id
+  item = null;
+  @Input() set data(val){
+    this.item = val;
+    if(this.formGroup){
+      // theoretical_date: val.theoretical_date ? moment(val.theoretical_date, 'America/New_York').subtract(5, 'hours').format('DD/MM/YYYY') : null,
+      // effective_date: val.effective_date ? moment(val.effective_date).set({hours: 8}).format('DD/MM/YYYY') : null,
+
+        this.formGroup.patchValue({
+        ...val,
+        theoretical_date: moment(val.theoretical_date).format('YYYY-MM-DD'),
+        effective_date: moment(val.effective_date).format('YYYY-MM-DD'),
       });
     }
+    this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE);
+    this.getFilterList('personals', this.listService.list.PERSONAL);
+    console.log('this.item', this.formGroup.value.effective_date, val.effective_date, moment(val.effective_date, MY_CUSTOM_DATETIME_FORMATS.backend_format).format('DD/MM/YYYY'));
   }
 
   constructor(
@@ -75,11 +85,11 @@ export class ModalAddEntretienComponent implements OnInit {
   ) {
 
     this.formGroup = this.formBuilder.group({
-      id: [this.idItem, Validators.compose([Validators.required])],
-      personal_id: [null, Validators.compose([Validators.required])],
-      type_id: [null, Validators.compose([Validators.required])],
-      theoretical_date: [null, Validators.compose([Validators.required])],
-      effective_date: [null],
+      id: [this.item?.id || null],
+      personal_id: [this.item?.personal_id || null, Validators.compose([Validators.required])],
+      type_id: [this.item?.type_id || null, Validators.compose([Validators.required])],
+      theoretical_date: [this.item ? moment(this.item.theoretical_date).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
+      effective_date: [this.item ? moment(this.item.effective_date).format('YYYY-MM-DD') : null],
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
@@ -96,7 +106,8 @@ export class ModalAddEntretienComponent implements OnInit {
     if(items === 'personals'){
       try{
         this.loadingSelect[list_name] = true;
-        this[items] = await this.listService.getPersonalsByCpId({entity_id: this.id_entite}).toPromise();
+        this[items] = await this.personalService.getPersonnelAnnex().toPromise();
+        console.log('this.item this.personals', this.personals);
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -130,10 +141,10 @@ export class ModalAddEntretienComponent implements OnInit {
       if(this.formGroup.getRawValue().effective_date){
         params.effective_date = formatDateForBackend(this.formGroup.getRawValue().effective_date);
       }
-
+      console.log('params', params);
       let res;
-      if(this.idItem){
-        params.id = this.idItem;
+      if(this.item?.id){
+        params.id = this.item.id;
         res = await this.personalService.updateEntretien(params).toPromise();
         this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
       }else{
@@ -144,7 +155,7 @@ export class ModalAddEntretienComponent implements OnInit {
       console.log('res add/update Entretien', res);
       this.modal.close(res);
     }catch (e){
-      if(this.idItem){
+      if(this.item?.id){
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de l\'entretien'});
       }else{
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de l\'entretien'});
@@ -166,7 +177,7 @@ export class ModalAddEntretienComponent implements OnInit {
       }
       const res = await this.personalService.getTheoricalDateCalulation(params).toPromise();
       console.log('res getTheoricalDateCalulation', res);
-      this.formGroup.patchValue({theoretical_date: res.theoretical_date});
+      this.formGroup.patchValue({theoretical_date: res.calculatedDate});
     }catch (e) {
       console.log('error getTheoricalDateCalulation', e);
     }finally {

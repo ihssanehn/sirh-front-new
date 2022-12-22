@@ -28,7 +28,6 @@
                             [multiple]="false"
                             (open)="getFilterList('personals', listService.list.PERSONAL)"
                             [loading]="loadingSelect[listService.list.PERSONAL]"
-                            (change)="getTheoricalDateCalulation()"
                           >
                           </ng-select>
                            <div class="form-control-feedback"
@@ -40,30 +39,27 @@
                         </div>
                       </div>
                       <div class="col">
-                        <label class="col-12">{{formMetaData.type_id.label}}
-                          {{isRequired(formMetaData.type_id.input)}}</label>
+                        <label class="col-12">{{formMetaData.centre.label}}
+                          {{isRequired(formMetaData.centre.input)}}</label>
                         <div class="col">
                           <ng-select
-                            [items]="entretien_types"
-                            [bindLabel]="'label'"
-                            [bindValue]="'id'"
+                            [items]="medical_centers"
                             class="form-control select"
-                            [placeholder]="formMetaData.type_id.placeholder"
-                            [formControlName]="formMetaData.type_id.input"
-                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.type_id.input].hasError('required')
-                                    && formGroup.controls[formMetaData.type_id.input].dirty}"
+                            [placeholder]="formMetaData.centre.placeholder"
+                            [formControlName]="formMetaData.centre.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.centre.input].hasError('required')
+                                    && formGroup.controls[formMetaData.centre.input].dirty}"
                             [multiple]="false"
-                            (open)="getFilterList('entretien_types', listService.list.INTERVIEW_TYPE)"
-                            [loading]="loadingSelect[listService.list.INTERVIEW_TYPE]"
-                            (change)="getTheoricalDateCalulation()"
+                            (open)="getFilterList('medical_centers', listService.list.MEDICAL_CENTER)"
+                            [loading]="loadingSelect[listService.list.MEDICAL_CENTER]"
                           >
                           </ng-select>
 
                           <div class="form-control-feedback"
-                               *ngIf="formGroup.controls[formMetaData.type_id.input].hasError('required')
-                    && formGroup.controls[formMetaData.type_id.input].dirty">
+                               *ngIf="formGroup.controls[formMetaData.centre.input].hasError('required')
+                    && formGroup.controls[formMetaData.centre.input].dirty">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {{formMetaData.type_id.errorRequired}}
+                            {{formMetaData.centre.errorRequired}}
                           </div>
                         </div>
                       </div>
@@ -71,21 +67,8 @@
 
                     <div class="row">
                       <div class="col">
-                            <label class="col-12">{{formMetaData.theoretical_date.label}}
-                              {{isRequired(formMetaData.theoretical_date.input)}}
-                              <i class="icon-info-cercle pointer"
-                                  [ngbPopover]="theoricalDatePopover"
-                                  triggers="mouseenter:mouseleave"
-                                  placement="right"
-                                  container="body"
-                                  [autoClose]="true"
-                                  [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
-                                      && formGroup.controls[formMetaData.theoretical_date.input].dirty}"
-                              ></i>
-                              <ng-template #theoricalDatePopover>
-                                Ce champ est calculé automatiquement en fonction de la date d'entrée du personnel et du type d'entretien,
-                                Sauf si vous le modifiez manuellement.
-                              </ng-template>
+                            <label class="col-12">{{formMetaData.date.label}}
+                              {{isRequired(formMetaData.date.input)}}
                             </label>
                             <div class="col">
 
@@ -94,71 +77,29 @@
                                 <input [owlDateTime]="owl_dt1"
                                        class="form-control input date"
                                        [owlDateTimeTrigger]="owl_dt1"
-                                       [placeholder]="formMetaData.theoretical_date.placeholder"
+                                       [placeholder]="formMetaData.date.placeholder"
                                        [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
-                                  && formGroup.controls[formMetaData.theoretical_date.input].dirty}"
-                                       [formControlName]="formMetaData.theoretical_date.input"
+                               formGroup.controls[formMetaData.date.input].hasError('required')
+                                  && formGroup.controls[formMetaData.date.input].dirty}"
+                                       [formControlName]="formMetaData.date.input"
                                 />
                                 <div class="icons-container">
                                   <i class="icon-close"
-                                     (click)="clearDateInput(formMetaData.theoretical_date.input)"
-                                     *ngIf="formGroup.controls[formMetaData.theoretical_date.input].value"></i>&nbsp;
+                                     (click)="clearDateInput(formMetaData.date.input)"
+                                     *ngIf="formGroup.controls[formMetaData.date.input].value"></i>&nbsp;
                                   <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                                 </div>
                               </div>
 
-
-
                               <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
-                        && formGroup.controls[formMetaData.theoretical_date.input].dirty">
+                                   *ngIf="formGroup.controls[formMetaData.date.input].hasError('required')
+                        && formGroup.controls[formMetaData.date.input].dirty">
                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                {{formMetaData.theoretical_date.errorRequired}}
+                                {{formMetaData.date.errorRequired}}
                               </div>
                             </div>
                         </div>
-                      <ng-container *ngIf="idItem">
-                        <div class="col">
-                          <label class="col-12">{{formMetaData.effective_date.label}}
-                            {{isRequired(formMetaData.effective_date.input)}}
-                          </label>
-                          <div class="col">
-
-                            <div class="date-picker-group">
-                              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-                              <input [owlDateTime]="owl_dt2"
-                                     class="form-control input date"
-                                     [owlDateTimeTrigger]="owl_dt2"
-                                     [placeholder]="formMetaData.effective_date.placeholder"
-                                     [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formMetaData.effective_date.input].hasError('required')
-                                  && formGroup.controls[formMetaData.effective_date.input].dirty}"
-                                     [formControlName]="formMetaData.effective_date.input"
-                              />
-                              <div class="icons-container">
-                                <i class="icon-close"
-                                   (click)="clearDateInput(formMetaData.effective_date.input)"
-                                   *ngIf="formGroup.controls[formMetaData.effective_date.input].value"></i>&nbsp;
-                                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-                              </div>
-                            </div>
-
-
-                            <div class="form-control-feedback"
-                                 *ngIf="formGroup.controls[formMetaData.effective_date.input].hasError('required')
-                        && formGroup.controls[formMetaData.effective_date.input].dirty">
-                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                              {{formMetaData.effective_date.errorRequired}}
-                            </div>
-                          </div>
-                        </div>
-                      </ng-container>
                     </div>
-
-
-
-
 
 
                     <div class="justify-content-center submit-block">
