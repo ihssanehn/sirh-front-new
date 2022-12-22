@@ -46,7 +46,7 @@
         <!--          style="margin-bottom: 10px">-->
         <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
         <!--    </div>-->
-        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container p-0"
+        <form autocomplete="off" class="container p-0"
               novalidate>
           <h5 *ngIf="title">
             <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
@@ -65,11 +65,11 @@
                           <input [owlDateTime]="owl_dt1"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt1"
-                                 placeholder="Choisir la date d'entrée vm ici"
+                                 placeholder="Choisir la date d'entrée"
+                                 name="date_entree"
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.date_entree].hasError('required')
                                   && formGroup.controls[formInputs.date_entree].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_entree]"
                           />
                           <div class="icons-container">
                             <i class="icon-close"
@@ -95,11 +95,13 @@
                           <input [owlDateTime]="owl_dt2"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt2"
-                                 placeholder="Choisir la date sortie vm ici"
+                                 placeholder="Choisir la date sortie"
+                                 name="date_end"
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.date_sortie].hasError('required')
                                   && formGroup.controls[formInputs.date_sortie].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_sortie]"
+                                  [(ngModel)]="sortie.end_date"
+
                           />
                           <div class="icons-container">
                             <i class="icon-close"
@@ -125,11 +127,12 @@
                           <input [owlDateTime]="owl_dt3"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt3"
+                                 name="date_courrier"
                                  placeholder="Choisir la date de la reception du courrier ici"
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.date_reception_courrier].hasError('required')
                                   && formGroup.controls[formInputs.date_reception_courrier].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_reception_courrier]"
+                                  [(ngModel)]="sortie.requested_at"
                           />
                           <div class="icons-container">
                             <i class="icon-close"
@@ -148,9 +151,40 @@
                       </div>
                     </div>
                     <div class="col">
+                      <label class="col-2">{{formLabels.motif}} {{isRequired(formInputs.motif)}}</label>
+                      <div class="col">
+                        
+                        <ng-select
+                                [items]="motifs"
+                                [bindLabel]="'label'"
+                                [bindValue]="'id'"
+                                class="form-control select"
+                                placeholder="Sélectionner le type d'entretien ici"
+                                [formControl]="formGroup.controls[formInputs.motif]"
+                                (open)="getFilterList('motifs', listService.list.EXIT_MOTIF)"
+                                [loading]="loadingSelect[listService.list.EXIT_MOTIF]"
+                                [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.motif].hasError('required')
+                                        && formGroup.controls[formInputs.motif].dirty}"
+                                [multiple]="false"
+                              >
+                        </ng-select>
+
+                              <!-- <ng-select class="select form-control"
+                                          [multiple]="false"
+                                          [items]="motifs"
+                                          [bindLabel]="'label'"
+                                          [bindValue]="'id'"
+                                          name="motif"
+                                          [placeholder]="'Sélectionner le motif'"
+                                          [(ngModel)]="sortie.motif_id"
+                              ></ng-select> -->
+                      </div>
+                    </div>
+                    <div class="col">
                       <label class="col-2">{{formLabels.date_limit_reponse}} {{isRequired(formInputs.date_limit_reponse)}}</label>
                       <div class="col">
-                        <div class="date-picker-group">
+                        {{(sortie?.date_limite_reponse | dateMessage) || 'N.R'}}
+                        <!-- <div class="date-picker-group">
                           <owl-date-time #owl_dt4 [pickerType]="'calendar'" ></owl-date-time>
                           <input [owlDateTime]="owl_dt4"
                                  class="form-control input date"
@@ -174,121 +208,29 @@
                     && formGroup.controls[formInputs.date_limit_reponse].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date limite de réponse est obligatoire
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-3 col-12">
+
+                    <div class="col-3" *ngFor="let histo of sortie.histos; "
+                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <div class="check-box-btn">
                         <input type="checkbox"
-                               id="{{formLabels.mail_direction_bm}}"
-                               [formControl]="formGroup.controls[formInputs.mail_direction_bm]"
+                               id="{{formLabels.verification_ts_prefacture}}"
+                               [checked]="histo.checked"
+                               name="check_{{histo.action.slug}}"
+                               [(ngModel)]="histo.checked"
+                               [ngClass]="{'disabled': histo.done_at}"
+                               (change)="markActionAsDone(histo.id,histo.checked) "
+                               [disabled]="histo.done_at"
                         >
-                        <label for="{{formLabels.mail_direction_bm}}"
-                               data-content="{{formLabels.mail_direction_bm}}">
-                          <span class="name">{{formLabels.mail_direction_bm}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.mail_admin}}"
-                               [formControl]="formGroup.controls[formInputs.mail_admin]"
-                        >
-                        <label for="{{formLabels.mail_admin}}"
-                               data-content="{{formLabels.mail_admin}}">
-                          <span class="name">{{formLabels.mail_admin}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.courrier_reponse}}"
-                               [formControl]="formGroup.controls[formInputs.courrier_reponse]"
-                        >
-                        <label for="{{formLabels.courrier_reponse}}"
-                               data-content="{{formLabels.courrier_reponse}}">
-                          <span class="name">{{formLabels.courrier_reponse}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.radiation_ats}}"
-                               [formControl]="formGroup.controls[formInputs.radiation_ats]"
-                        >
-                        <label for="{{formLabels.radiation_ats}}"
-                               data-content="{{formLabels.radiation_ats}}">
-                          <span class="name">{{formLabels.radiation_ats}}</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.date_envoi_stc}}"
-                               [formControl]="formGroup.controls[formInputs.date_envoi_stc]"
-                        >
-                        <label for="{{formLabels.date_envoi_stc}}"
-                               data-content="{{formLabels.date_envoi_stc}}">
-                          <span class="name">{{formLabels.date_envoi_stc}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.envoi_recommande_number}}"
-                               [formControl]="formGroup.controls[formInputs.envoi_recommande_number]"
-                        >
-                        <label for="{{formLabels.envoi_recommande_number}}"
-                               data-content="{{formLabels.envoi_recommande_number}}">
-                          <span class="name">{{formLabels.envoi_recommande_number}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.sortie_sirh}}"
-                               [formControl]="formGroup.controls[formInputs.sortie_sirh]"
-                        >
-                        <label for="{{formLabels.sortie_sirh}}"
-                               data-content="{{formLabels.sortie_sirh}}">
-                          <span class="name">{{formLabels.sortie_sirh}}</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-12">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.radiation_apicil}}"
-                               [formControl]="formGroup.controls[formInputs.radiation_apicil]"
-                        >
-                        <label for="{{formLabels.radiation_apicil}}"
-                               data-content="{{formLabels.radiation_apicil}}">
-                          <span class="name">{{formLabels.radiation_apicil}}</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-3 col-3">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               id="{{formLabels.virement_amandine}}"
-                               [formControl]="formGroup.controls[formInputs.virement_amandine]"
-                        >
-                        <label for="{{formLabels.virement_amandine}}"
-                               data-content="{{formLabels.virement_amandine}}">
-                          <span class="name">{{formLabels.virement_amandine}}</span>
+                        <label for="{{formLabels.verification_ts_prefacture}}"
+                               data-content="{{formLabels.verification_ts_prefacture}}">
+                          <span class="name">{{histo.action.label}}</span>
+                          <!-- <div class="link">Ajouter un commentaire</div> -->
                         </label>
                       </div>
                     </div>

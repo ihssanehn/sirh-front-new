@@ -1,3 +1,5 @@
+<p class="head-title"> Suivi salarié: {{user?.nom || ''}} {{user?.prenom || ''}} - {{user?.registration_number || ''}}</p>
+
 <mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
   <!-- change default 'edit' icon -->
   <ng-template #stepperIcon>
@@ -5,7 +7,9 @@
   </ng-template>
   <mat-step label="Entrée">
      <app-entre-advanced-form
+        *ngIf="user"
         (submitEntree)="submitEntree($event)"
+        [entrance]="user.last_entrance"
      ></app-entre-advanced-form>
   </mat-step>
   <ng-template #stepperIcon>
@@ -13,6 +17,8 @@
   </ng-template>
   <mat-step label="Période d'essai">
     <app-period-essai-advanced-form
+      *ngIf="user"
+      [trial_periods]="user.trial_periods"
       (submitPeriodEssai)="submitPE($event)"
     ></app-period-essai-advanced-form>
   </mat-step>
@@ -22,6 +28,8 @@
   <mat-step label="Entretien">
     <app-entretien-advanced-form
       (submitEntretien)="submitEntretien($event)"
+      *ngIf="user"
+      [interviews]="user?.interviews"
       (next)="this.moveForward(3, null)"
       [user]="user"
     ></app-entretien-advanced-form>
@@ -31,6 +39,8 @@
   </ng-template>
   <mat-step label="Visites médicales">
     <app-visite-medical-advanced-form
+      *ngIf="user"
+      [medical_visits]="user?.medical_visits"
       (submitvm)="submitVM($event)"
       (next)="this.moveForward(4, null)"
       [user]="user"
@@ -41,6 +51,8 @@
   </ng-template>
   <mat-step label="Sortie">
     <app-sortie-advanced-form
+    *ngIf="user"
+    [sortie]="user.last_sortie"
       (submitSortie)="submitSortie($event)"
     ></app-sortie-advanced-form>
   </mat-step>

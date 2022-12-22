@@ -44,6 +44,9 @@ import {
 } from "@layout/users/visite-medical-advanced-form/visite-medical-advanced-form.component";
 import {SortieAdvancedFormComponent} from "@layout/users/sortie-advanced-form/sortie-advanced-form.component";
 import {MatMenuModule} from "@angular/material/menu";
+import { DateMessagePipe } from '@app/shared/pipes/dateMessage.pipe';
+import { ModalAddSortieComponent } from './modal-add-sortie/modal-add-sortie.component';
+import { ModalAddEntreeComponent } from './modal-add-entree/modal-add-entree.component';
 
 
 @NgModule({
@@ -91,7 +94,9 @@ import {MatMenuModule} from "@angular/material/menu";
     PeriodEssaiAdvancedFormComponent,
     EntretienAdvancedFormComponent,
     VisiteMedicalAdvancedFormComponent,
-    SortieAdvancedFormComponent
+    SortieAdvancedFormComponent,
+    ModalAddSortieComponent,
+    ModalAddEntreeComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,
@@ -101,6 +106,9 @@ import {MatMenuModule} from "@angular/material/menu";
     GeneralIndependantFormComponent,
     CoutIndependantFormComponent,
     ParametreIndependantFormComponent
+  ],
+  providers: [
+    DateMessagePipe
   ]
 })
 export class UsersModule { }

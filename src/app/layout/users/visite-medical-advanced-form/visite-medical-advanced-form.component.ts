@@ -13,6 +13,7 @@ import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
 import {isMoment} from "moment";
 import * as moment from "moment";
+import { DateMessagePipe } from '@app/shared/pipes/dateMessage.pipe';
 
 
 
@@ -42,7 +43,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     personal_id: 'personal_id',
     centre: 'Centre médical',
     date_last_vm: 'Date dernière visite médicale',
-    scheduled_date: 'Date prochaine visite médicale',
+    scheduled_date: 'Date de la visite médicale',
     sent_convocation: 'Convocation envoyée'
   }
   etats = [];
@@ -58,12 +59,23 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
   @Output() submitvm: EventEmitter<any> = new EventEmitter();
   showHistory = false;
   medicalCenters = [];
+  last_vm;
+  _medical_visits;
   @Input()
   public set user(val: User) {
     if(val){
-      this.initFormBuilder(val);
+      // this.initFormBuilder(val);
     }
   }
+  @Input()
+  public set medical_visits(val: any) {
+    if(val){
+      this.last_vm = val[0]
+      this._medical_visits =val;
+      this.initFormBuilder(val[0]);
+    }
+  }
+
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -76,6 +88,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
               private mainStore: MainStore,
+              private dateMessagePipe:DateMessagePipe,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
@@ -86,6 +99,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       scheduled_date: [null],
       sent_convocation: [null]
     });
+    console.clear()
 
     this.modalService.dismissAll();
   }
@@ -132,11 +146,24 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     }
   }
 
-  initFormBuilder(user: User){
-    if(user){
+  initFormBuilder(vm){
+    if(vm){
+      console.log('initFormBuilder :::',vm.histos)
+      const _convoc_sent = vm.histos.filter(histo => {
+          return histo.action.slug == 'CONVOCATION_SENT';
+      });
+      console.log('is sent convicaion ??',_convoc_sent)
+      let is_checked_convoc = false;
+      if(_convoc_sent && _convoc_sent.length > 0){
+        is_checked_convoc = _convoc_sent[0].done_at?true:false;
+        this.last_vm.tooltip_msg= 'le '+this.dateMessagePipe.transform(_convoc_sent[0].done_at)+' par '+(_convoc_sent[0].user?(_convoc_sent[0].user.prenom +' '+_convoc_sent[0].user.nom):'N.R');
+      }
+
       this.formGroup.patchValue({
-        personal_id: user.id,
-        ...user.parameter
+        personal_id: vm.personal_id,
+        scheduled_date:vm.scheduled_date,
+        centre: vm.centre,
+        sent_convocation:is_checked_convoc
       });
     }
   }

@@ -37,7 +37,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'general'
+        redirectTo: 'entree'
       },
       {
         path: ':type',

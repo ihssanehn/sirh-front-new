@@ -95,3 +95,11 @@ export interface Activity {
   created_at?: string;
   updated_at?: string;
 }
+
+export interface PersonalAnnex {
+  registration_number?: string;
+  nom?: string;
+  prenom?: any;
+  created_at?: Date;
+  updated_at?: Date;
+  }

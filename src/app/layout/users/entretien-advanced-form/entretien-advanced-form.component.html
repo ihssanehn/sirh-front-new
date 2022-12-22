@@ -200,19 +200,15 @@
                       <span>Historique entretiens</span>
                       <i [ngClass]="{'icon-arrow-right': !showHistory, 'icon-arrow-down': showHistory}" ></i>
                     </div>
-                    <ng-container *ngIf="showHistory">
-                      <div class="item">
-                        <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
-                      </div>
-                      <div class="item">
-                        <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
-                      </div>
-                      <div class="item">
-                        <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
-                      </div>
-                      <div class="item">
-                        <span class="light-text">01/03/21</span>&nbsp;&nbsp;<span>entretien annuel</span>
-                      </div>
+                    <ng-container *ngIf="!showHistory" >
+                        <div class="item col-3" *ngFor="let item of interviews" >
+
+                          <span class="light-text">
+                            {{item.effective_date | dateMessage}}
+                          </span>&nbsp;&nbsp;
+                          <span>{{item.type.label}}</span>
+                        </div>
+                    
                     </ng-container>
                   </div>
                 </div>

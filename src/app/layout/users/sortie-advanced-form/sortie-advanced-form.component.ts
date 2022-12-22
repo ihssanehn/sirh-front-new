@@ -30,6 +30,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   error = '';
   warning = '';
   @Input() submitting: boolean;
+  loadingSelect = {};
   formInputs = {
     personal_id: 'personal_id',
     date_entree: 'date_entree',
@@ -86,6 +87,8 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       this.initFormBuilder(val);
     }
   }
+  @Input() sortie: any;
+
 
 
   files = [];
@@ -100,6 +103,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   blackListesExtensions = ['exe', 'com', 'dll', 'bat', 'sh'];
   ALL_FILES_SIZE_LIMIT = 10000; // Mb
   progress: any;
+  motifs:any;
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -155,6 +159,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
 
   }
 
+
   async ngOnInit(){
     if(this.activatedRoute.snapshot.params.id){
       // this.getUser(this.activatedRoute.snapshot.params.id);
@@ -163,6 +168,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     this.getParametersLists();
     // this.mockupData();
     this.changeDetectorRef.detectChanges();
+    // this.getMotifs()
   }
 
   async getParametersLists(){
@@ -190,6 +196,37 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  async getFilterList(items, list_name, list_param?){
+    
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+    
+  }
+
+  async markActionAsDone(id, is_done){
+    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+    if(marked)
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'L\'action a bien été marquée comme réalisée',
+        sticky: false,
+      });
+  }
+
+  async getMotifs(){
+   this.motifs = await this.userService.getTypesByModel('exit_type').toPromise();
+  }
+
+  
 
 
   isRequired(control) {

@@ -41,6 +41,13 @@ mat-stepper{
   margin-bottom: 0 !important;
 }
 
+.head-title{
+  color: $primaryColor;
+  text-align: center;
+  font-size: 2em;
+  margin-top: 2em;
+}
+
 ::ng-deep .mat-horizontal-stepper-header-container{
   width: 45%;
   margin: 0 auto;

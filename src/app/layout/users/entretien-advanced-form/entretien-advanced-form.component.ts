@@ -68,6 +68,8 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       this.initFormBuilder(val);
     }
   }
+  @Input() interviews: any;
+
 
   files = [];
   projectToEditFiles = [];

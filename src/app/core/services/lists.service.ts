@@ -43,6 +43,8 @@ export class ListsService {
     TEMPS_UNIT: 'temps',
     TYPE_ACTIVITY: 'type_activity',
     INTERVIEW_TYPE: 'interview_type',
+    CONTRAT_TYPE:'contrat_type',
+    EXIT_MOTIF: 'exit_type',
   }
 
 

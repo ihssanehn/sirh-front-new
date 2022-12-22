@@ -34,6 +34,7 @@ import {ActivitiesService} from "@services/activities.service";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 import {ProjectService} from "@services/project.service";
+import { PersonalService } from './core/services/personal.service';
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -78,11 +79,13 @@ export function createTranslateLoader(http: HttpClient) {
     UserService,
     ActivitiesService,
     ProjectService,
+    PersonalService,
     AuthGuard,
     AuthGuard2,
     EntiteGuard,
     UniqueEntiteGuard,
     MainStore,
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
