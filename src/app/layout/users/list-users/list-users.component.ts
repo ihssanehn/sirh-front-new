@@ -19,6 +19,7 @@ import {
   ModalAddVisiteMedicalComponent
 } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
 import {PersonalService} from "@services/personal.service";
+import {formatDateForBackend} from "@shared/Utils/SharedClasses";
 
 
 
@@ -560,7 +561,8 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   async updateDateInterview(id, effective_date: any) {
     const params = {
-      id, effective_date
+      id,
+      effective_date: formatDateForBackend(effective_date)
     }
     try{
       const result = await this.personalService.updateEntretien(params).toPromise();

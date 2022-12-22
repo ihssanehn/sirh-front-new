@@ -42,6 +42,12 @@ export class ModalAddEntretienComponent implements OnInit {
       label: 'Date théorique',
       placeholder: 'La date théorique',
       errorRequired: 'La date théorique est obligatoire'
+    },
+    effective_date: {
+      input: 'effective_date',
+      label: 'Date effective',
+      placeholder: 'La date effective',
+      errorRequired: 'La date effective est obligatoire'
     }
   }
 
@@ -116,16 +122,33 @@ export class ModalAddEntretienComponent implements OnInit {
     }
     try{
       this.submitting = true;
-      const params = {
-        ...this.formGroup.getRawValue(),
-        [this.formMetaData.theoretical_date.input]:  formatDateForBackend(this.formGroup.value[this.formMetaData.theoretical_date.input])
+      const params: any = {
+        personal_id: this.formGroup.getRawValue().personal_id,
+        type_id: this.formGroup.getRawValue().type_id,
+        theoretical_date: formatDateForBackend(this.formGroup.getRawValue().theoretical_date),
       }
-      const res = await this.personalService.addEntretien(params).toPromise();
-      console.log('res addEntretien', res);
-      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien ajouté avec succès'});
+      if(this.formGroup.getRawValue().effective_date){
+        params.effective_date = formatDateForBackend(this.formGroup.getRawValue().effective_date);
+      }
+
+      let res;
+      if(this.idItem){
+        params.id = this.idItem;
+        res = await this.personalService.updateEntretien(params).toPromise();
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
+      }else{
+        res = await this.personalService.addEntretien(params).toPromise();
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien ajouté avec succès'});
+      }
+
+      console.log('res add/update Entretien', res);
       this.modal.close(res);
     }catch (e){
-      this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de l\'entretien'});
+      if(this.idItem){
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de l\'entretien'});
+      }else{
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de l\'entretien'});
+      }
     }finally {
       this.submitting = false;
     }
