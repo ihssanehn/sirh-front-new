@@ -1,6 +1,7 @@
 import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import * as moment from 'moment';
+import {isMoment} from "moment";
 
 
 export class SharedClasses {
@@ -95,6 +96,10 @@ export function markFormAsDirty(control){
     control.get(key).markAsDirty();
   });
   control.markAsDirty();
+}
+
+export function formatDateForBackend(date){
+  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD') : null;
 }
 
 export function getFormValidationErrors(form) {

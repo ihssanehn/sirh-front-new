@@ -47,6 +47,10 @@ import {MatMenuModule} from "@angular/material/menu";
 import { DateMessagePipe } from '@app/shared/pipes/dateMessage.pipe';
 import { ModalAddSortieComponent } from './modal-add-sortie/modal-add-sortie.component';
 import { ModalAddEntreeComponent } from './modal-add-entree/modal-add-entree.component';
+import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/modal-add-entretien.component";
+import {
+  ModalAddVisiteMedicalComponent
+} from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
 
 
 @NgModule({
@@ -96,7 +100,9 @@ import { ModalAddEntreeComponent } from './modal-add-entree/modal-add-entree.com
     VisiteMedicalAdvancedFormComponent,
     SortieAdvancedFormComponent,
     ModalAddSortieComponent,
-    ModalAddEntreeComponent
+    ModalAddEntreeComponent,
+    ModalAddEntretienComponent,
+    ModalAddVisiteMedicalComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,
@@ -105,7 +111,10 @@ import { ModalAddEntreeComponent } from './modal-add-entree/modal-add-entree.com
     ModalDocumentrhFilesComponent,
     GeneralIndependantFormComponent,
     CoutIndependantFormComponent,
-    ParametreIndependantFormComponent
+    ParametreIndependantFormComponent,
+    ModalAddEntreeComponent,
+    ModalAddEntretienComponent,
+    ModalAddVisiteMedicalComponent
   ],
   providers: [
     DateMessagePipe

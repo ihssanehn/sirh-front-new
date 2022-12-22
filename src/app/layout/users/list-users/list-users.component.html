@@ -30,7 +30,7 @@
 <!--    </div>-->
     <div class="sub-header ">
       <h1 class="main-title">
-       {{sectionName}} 
+       {{sectionName}}
       </h1>
 
       <div class="search d-flex">
@@ -65,7 +65,7 @@
           [text]="'Ajouter ' + type"
           [type]="'secondary'"
           [iconRight]="'icon-add'"
-          (onClick)="openSelectRole()"
+          (onClick)="openSelectRole(type)"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>
@@ -445,7 +445,7 @@
                     <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <input type="checkbox"
                              class="small-checkbox"
-                             [disabled]="histo?.checked" 
+                             [disabled]="histo?.checked"
                              [ngClass]="{'disabled': histo?.checked}"
                              id="with_inactive_cp"
                              (change)="markActionAsDone(histo.id, histo.checked)"
@@ -455,7 +455,7 @@
                     </div>
                   </td>
               </ng-container>
-        
+
               </tr>
               </tbody>
             </table>
@@ -500,12 +500,37 @@
                   <td>{{interview?.type?.label || 'entretien_type'}}</td>
                   <td>{{interview?.theoretical_date | dateMessage}}</td>
                   <td>
-                    <span *ngIf="interview.effective_date">
+                    <span *ngIf="interview.effective_date; else no_effective_date">
                       {{interview?.effective_date | dateMessage}}
                     </span>
-                    <span *ngIf="!interview.effective_date">
-                      <span class="link">Ajouter une date</span>
-                    </span>
+                    <ng-template #no_effective_date>
+                      <span class="link"
+                            [ngbPopover]="updateDate"
+                            triggers="click"
+                            placement="right"
+                            container="body"
+                            [autoClose]="true">
+                        <i class="fa fa-calendar"></i>&nbsp;Ajouter une date
+                      </span>
+                    </ng-template>
+                    <ng-template #updateDate>
+                      <div class="date-picker-group">
+                        <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                        <input [owlDateTime]="owl_dt1"
+                               class="form-control input date"
+                               [owlDateTimeTrigger]="owl_dt1"
+                               [placeholder]="'Sélectionner une date'"
+                                [(ngModel)]="interview.effective_date"
+                               (ngModelChange)="updateDateInterview(interview.id, interview.effective_date)"
+                        />
+                        <div class="icons-container">
+                          <i class="icon-close"
+                             (click)="interview.effective_date = null"
+                             *ngIf="interview.effective_date"></i>&nbsp;
+                          <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                        </div>
+                      </div>
+                    </ng-template>
                   </td>
                   <td>{{interview.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
                   <td >
@@ -661,7 +686,7 @@
                     <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <input type="checkbox"
                              class="small-checkbox"
-                             [disabled]="histo?.checked" 
+                             [disabled]="histo?.checked"
                              [ngClass]="{'disabled': histo?.checked}"
                              id="with_inactive_cp"
                              (change)="markActionAsDone(histo.id, histo.checked)"
@@ -809,7 +834,7 @@
                         <input type="checkbox"
                                class="small-checkbox"
                                *ngIf="entrance.slug_actions[extraColumn.slug]"
-                               [disabled]="entrance?.slug_actions?.[extraColumn.slug]?.checked" 
+                               [disabled]="entrance?.slug_actions?.[extraColumn.slug]?.checked"
                                [ngClass]="{'disabled': entrance?.slug_actions?.[extraColumn.slug]?.checked}"
                                id="with_inactive_cp"
                                (change)="markActionAsDone(entrance.slug_actions[extraColumn.slug].id,entrance.slug_actions[extraColumn.slug].checked)"
@@ -921,7 +946,7 @@
                 </div>
               </mat-menu>
               <mat-menu #placeholder="matMenu" class="placeholder"></mat-menu>
-            
+
               </tr>
               </thead>
               <tbody>
@@ -962,7 +987,7 @@
                         <input type="checkbox"
                                class="small-checkbox"
                                *ngIf="sortie.slug_actions[extraColumn.slug]"
-                               [disabled]="sortie?.slug_actions?.[extraColumn.slug]?.checked" 
+                               [disabled]="sortie?.slug_actions?.[extraColumn.slug]?.checked"
                                [ngClass]="{'disabled': sortie?.slug_actions?.[extraColumn.slug]?.checked}"
                                id="with_inactive_cp"
                                (change)="markActionAsDone(sortie.slug_actions[extraColumn.slug].id,sortie.slug_actions[extraColumn.slug].checked)"

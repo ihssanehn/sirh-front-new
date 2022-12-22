@@ -30,5 +30,15 @@ export class PersonalService {
     return this.apiService.post('personal_a/create', params);
   }
 
-  
+  getTheoricalDateCalulation(param) {
+    return this.apiService.post('personal_a/getTheoricalDateCalulation', param);
+  }
+
+  addEntretien(params: any) {
+    return this.apiService.post('personal_a/interview/add', params);
+  }
+
+  updateEntretien(params) {
+    return this.apiService.post('personal_a/interview/update', params);
+  }
 }

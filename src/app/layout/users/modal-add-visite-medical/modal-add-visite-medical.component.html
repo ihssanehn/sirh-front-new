@@ -1,0 +1,196 @@
+<div class="container">
+
+         <div class="header modal-header">
+            <h1 class="main-title">Ajouter une entrée</h1>
+            <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+        </div>
+
+        <div class="modal-body">
+          <form  autocomplete="off" class="container p-0" novalidate (submit)="submit()">
+            <div class="form-box">
+              <div class="main-container form-column">
+                <div class="white-box">
+                  <div class="form-bloc">
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.personal_id.label}}
+                          {{isRequired(formMetaData.personal_id.input)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="personals"
+                            [bindLabel]="'full_name'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            [placeholder]="formMetaData.personal_id.placeholder"
+                            [formControlName]="formMetaData.personal_id.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.personal_id.input].hasError('required')
+                                    && formGroup.controls[formMetaData.personal_id.input].dirty}"
+                            [multiple]="false"
+                            (open)="getFilterList('personals', listService.list.PERSONAL)"
+                            [loading]="loadingSelect[listService.list.PERSONAL]"
+                            (change)="getTheoricalDateCalulation()"
+                          >
+                          </ng-select>
+                           <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.personal_id.input].hasError('required')
+                        && formGroup.controls[formMetaData.personal_id.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                             {{formMetaData.personal_id.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.type_id.label}}
+                          {{isRequired(formMetaData.type_id.input)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="entretien_types"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            [placeholder]="formMetaData.type_id.placeholder"
+                            [formControlName]="formMetaData.type_id.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.type_id.input].hasError('required')
+                                    && formGroup.controls[formMetaData.type_id.input].dirty}"
+                            [multiple]="false"
+                            (open)="getFilterList('entretien_types', listService.list.INTERVIEW_TYPE)"
+                            [loading]="loadingSelect[listService.list.INTERVIEW_TYPE]"
+                            (change)="getTheoricalDateCalulation()"
+                          >
+                          </ng-select>
+
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.type_id.input].hasError('required')
+                    && formGroup.controls[formMetaData.type_id.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{formMetaData.type_id.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col">
+                            <label class="col-12">{{formMetaData.theoretical_date.label}}
+                              {{isRequired(formMetaData.theoretical_date.input)}}
+                              <i class="icon-info-cercle pointer"
+                                  [ngbPopover]="theoricalDatePopover"
+                                  triggers="mouseenter:mouseleave"
+                                  placement="right"
+                                  container="body"
+                                  [autoClose]="true"
+                                  [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
+                                      && formGroup.controls[formMetaData.theoretical_date.input].dirty}"
+                              ></i>
+                              <ng-template #theoricalDatePopover>
+                                Ce champ est calculé automatiquement en fonction de la date d'entrée du personnel et du type d'entretien,
+                                Sauf si vous le modifiez manuellement.
+                              </ng-template>
+                            </label>
+                            <div class="col">
+
+                              <div class="date-picker-group">
+                                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                                <input [owlDateTime]="owl_dt1"
+                                       class="form-control input date"
+                                       [owlDateTimeTrigger]="owl_dt1"
+                                       [placeholder]="formMetaData.theoretical_date.placeholder"
+                                       [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
+                                  && formGroup.controls[formMetaData.theoretical_date.input].dirty}"
+                                       [formControlName]="formMetaData.theoretical_date.input"
+                                />
+                                <div class="icons-container">
+                                  <i class="icon-close"
+                                     (click)="clearDateInput(formMetaData.theoretical_date.input)"
+                                     *ngIf="formGroup.controls[formMetaData.theoretical_date.input].value"></i>&nbsp;
+                                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                                </div>
+                              </div>
+
+
+
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formMetaData.theoretical_date.input].hasError('required')
+                        && formGroup.controls[formMetaData.theoretical_date.input].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                {{formMetaData.theoretical_date.errorRequired}}
+                              </div>
+                            </div>
+                        </div>
+                      <ng-container *ngIf="idItem">
+                        <div class="col">
+                          <label class="col-12">{{formMetaData.effective_date.label}}
+                            {{isRequired(formMetaData.effective_date.input)}}
+                          </label>
+                          <div class="col">
+
+                            <div class="date-picker-group">
+                              <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                              <input [owlDateTime]="owl_dt2"
+                                     class="form-control input date"
+                                     [owlDateTimeTrigger]="owl_dt2"
+                                     [placeholder]="formMetaData.effective_date.placeholder"
+                                     [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formMetaData.effective_date.input].hasError('required')
+                                  && formGroup.controls[formMetaData.effective_date.input].dirty}"
+                                     [formControlName]="formMetaData.effective_date.input"
+                              />
+                              <div class="icons-container">
+                                <i class="icon-close"
+                                   (click)="clearDateInput(formMetaData.effective_date.input)"
+                                   *ngIf="formGroup.controls[formMetaData.effective_date.input].value"></i>&nbsp;
+                                <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                              </div>
+                            </div>
+
+
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formMetaData.effective_date.input].hasError('required')
+                        && formGroup.controls[formMetaData.effective_date.input].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              {{formMetaData.effective_date.errorRequired}}
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+
+
+
+
+
+
+                    <div class="justify-content-center submit-block">
+                      <app-button
+                        [type]="'tertiary'"
+                        [text]="'Annuler'"
+                        [isLoading]="submitting"
+                        [isDisabled]="submitting"
+                        (onClick)="modal.close()"
+                        [iconLeft]="'icon-close'"
+                        [customStyle]="{'min-width': '130px'}"
+                      >
+                      </app-button>&nbsp;&nbsp;
+                      <app-button
+                        [type]="'secondary'"
+                        [text]="'Créer'"
+                        [isLoading]="submitting"
+                        [isDisabled]="submitting"
+                        [textLoading]="'Sauvegarde en cours..'"
+                        (onClick)="submit()"
+                        [iconLeft]="'icon-check'"
+                        [customStyle]="{'min-width': '130px'}">
+                    </app-button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </form>
+        </div>
+</div>
+

@@ -215,7 +215,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       ...this.formGroup.value
     }
     dates.forEach(date => {
-      saveData[date] = saveData[date] && isMoment(moment(date)) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+      saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
     });
 
 

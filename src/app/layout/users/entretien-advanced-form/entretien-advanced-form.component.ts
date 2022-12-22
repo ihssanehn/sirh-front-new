@@ -4,7 +4,12 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {
+  formatDateForBackend,
+  getFormValidationErrors,
+  markFormAsDirty,
+  SharedClasses
+} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
@@ -229,7 +234,7 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       document_files: this.files,
     }
     dates.forEach(date => {
-      saveData[date] = saveData[date] && isMoment(moment(date)) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+      saveData[date] = formatDateForBackend(saveData[date]);
     });
     const fd = new FormData();
 

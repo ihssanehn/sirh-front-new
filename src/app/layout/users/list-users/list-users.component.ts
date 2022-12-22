@@ -14,6 +14,11 @@ import {MainStore} from "@store/mainStore.store";
 import {MessageService} from "primeng/api";
 import {ModalAddSortieComponent} from "@layout/users/modal-add-sortie/modal-add-sortie.component";
 import {ModalAddEntreeComponent} from "@layout/users/modal-add-entree/modal-add-entree.component";
+import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/modal-add-entretien.component";
+import {
+  ModalAddVisiteMedicalComponent
+} from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
+import {PersonalService} from "@services/personal.service";
 
 
 
@@ -24,7 +29,7 @@ import {ModalAddEntreeComponent} from "@layout/users/modal-add-entree/modal-add-
 })
 export class ListUsersComponent implements OnInit, OnDestroy {
 
-  users: User[] = [];
+  users = [];
   keyword = '';
   searchSubscription: Subscription;
   $roles = $userRoles;
@@ -145,7 +150,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   personnalFilters;
   actions;
   model_type;
-  
+
   //   {
   //     id: 1,
   //     label: 'DPAE',
@@ -242,6 +247,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   _allActions;
 
   constructor(private userService : UserService,
+              private personalService : PersonalService,
               private translate: TranslateService,
               private modalService: NgbModal,
               private messageService: MessageService,
@@ -299,7 +305,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         this.getAction();
 
     });
-   
+
   }
 
   ngOnInit() {
@@ -348,11 +354,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       _founded_new_column.forEach( (diff) => {
           diff.checked = true; //force display new colomn
       });
-      const up_to_date_localstorage = [...localstorage_entree, ..._founded_new_column]; 
+      const up_to_date_localstorage = [...localstorage_entree, ..._founded_new_column];
       console.log('diff::::',_founded_new_column)
 
 
-      //check if there are an extra action which is deleted from DB and persists on localstorage 
+      //check if there are an extra action which is deleted from DB and persists on localstorage
       const _overflowed_column = up_to_date_localstorage.filter(object1 => {
         return !this._allActions.some(object2 => {
           return object1.slug === object2.slug;
@@ -411,22 +417,50 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       this.loadingData = false;
     })
 
-
-
   }
 
-  openSelectRole(){
-    // this.router.navigate(['users/new']);
+  openSelectRole(type, idItem = null){
     if(this.modalService.hasOpenModals()){
       return;
     }
-    const modalRef = this.modalService.open(ModalAddEntreeComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    let dynamicModal = null;
+    switch (type){
+      case 'general': {
+        break;
+      }
+      case 'period_essai': {
+        break;
+      }
+      case 'entree': {
+        dynamicModal = ModalAddEntreeComponent;
+        break;
+      }
+      case 'sortie': {
+        dynamicModal = ModalAddSortieComponent;
+        break;
+      }
+      case 'entretien': {
+        dynamicModal = ModalAddEntretienComponent;
+        break;
+      }
+      case 'formation': {
+        // dynamicModal = ModalAddFormationComponent;
+        break;
+      }
+      case 'visite_medicale': {
+        dynamicModal = ModalAddVisiteMedicalComponent;
+        break;
+      }
+    }
+    const modalRef = this.modalService.open(dynamicModal, { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
     }, reason => {
       console.log('closed');
     });
-    // modalRef.componentInstance.idUser = item.id;
+    if(idItem){
+      modalRef.componentInstance.idItem = idItem;
+    }
   }
 
   gotoAddUser(){
@@ -522,5 +556,31 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getActiveColumns(column) {
     return this[column].filter((column) => column.checked);
+  }
+
+  async updateDateInterview(id, effective_date: any) {
+    const params = {
+      id, effective_date
+    }
+    try{
+      const result = await this.personalService.updateEntretien(params).toPromise();
+      if(result){
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Parfait!',
+          detail: 'La date a bien été modifiée',
+          sticky: false,
+        });
+      }
+    }catch (err){
+      console.log('err updateDateInterview', err);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur!',
+        detail: 'Une erreur est survenue, veillez réessayer plus tard',
+        sticky: false,
+      })
+    }
+
   }
 }
