@@ -42,7 +42,8 @@
         <!--          style="margin-bottom: 10px">-->
         <!--        <i class="fa fa-arrow-left"></i> &nbsp;{{'GO BACK' | translate}}-->
         <!--    </div>-->
-        <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container p-0"
+        <!-- <form (submit)="save()" *ngIf="formGroup" [formGroup]="formGroup" autocomplete="off" class="container p-0" -->
+        <form  autocomplete="off" class="container p-0"
               novalidate>
           <h5 *ngIf="title">
             <i [ngClass]="{'icon-user-profil-2': type === 'collab', 'icon-user-profil-3': type === 'collab-user' }"></i>&nbsp;
@@ -246,30 +247,47 @@
                   </div>
 
                   <div class="row">
-                    <div class="col check-box-btn">
+                    <div class="col-3"  style="display: flex;align-items: center;" *ngFor="let histo of current_pe.histos; "
+                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
+                    <label for="{{formLabels.verification_ts_prefacture}}"
+                            data-content="{{formLabels.verification_ts_prefacture}}">
+                      <span class="name">{{histo.action.label}}</span>
+                      <!-- <div class="link">Ajouter une note</div> -->
+                      <br>
+                    </label>
+                      <div class="check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.verification_ts_prefacture}}"
+                               [checked]="histo.checked"
+                               name="check_{{histo.action.slug}}"
+                               [(ngModel)]="histo.checked"
+                               [ngClass]="{'disabled': histo.done_at}"
+                               (change)="markActionAsDone(histo.id,histo.checked) "
+                               [disabled]="histo.done_at"
+                        >
+                   
+                      </div>
+                    </div>
+ 
+                  <div class="col check-box-btn"></div>
+                </div>
+
+                  <!-- <div class="row" formArrayName="histos" >
+                    <div class="col check-box-btn" *ngFor="let order of histosFromArray.controls; let i = index">
                       <input type="checkbox"
                              id="{{formLabels.gestion_courrier_gp}}"
-                             [formControl]="formGroup.controls[formInputs.gestion_courrier_gp]"
+                             formControlName="checked"
+                             (change)="test()"
                       >
                       <label for="{{formLabels.gestion_courrier_gp}}"
                              data-content="{{formLabels.gestion_courrier_gp}}">
-                        <span class="name">{{formLabels.gestion_courrier_gp}}</span>
+                        <span class="name">
+                          {{order.value|json}}
+                          {{formLabels.gestion_courrier_gp}}
+                        </span>
                       </label>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col check-box-btn">
-                      <input type="checkbox"
-                             id="{{formLabels.reception_bilan_pe}}"
-                             [formControl]="formGroup.controls[formInputs.reception_bilan_pe]"
-                      >
-                      <label for="{{formLabels.reception_bilan_pe}}"
-                             data-content="{{formLabels.reception_bilan_pe}}">
-                        <span class="name">{{formLabels.reception_bilan_pe}}</span>
-                      </label>
-                    </div>
-                  </div>
-
+                  </div> -->
                 </div>
               </div>
             </div>

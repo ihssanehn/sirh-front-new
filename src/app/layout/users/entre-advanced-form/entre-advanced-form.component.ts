@@ -7,7 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
-import {User} from "@app/core/entities";
+import {PersonalAnnex, User} from "@app/core/entities";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
@@ -23,6 +23,7 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
   formGroup: FormGroup;
   errors : Array<any> = [];
   $userRoles = $userRoles;
+  _allActions:any;
   allRoles = [
       'manager', 'superadmin', 'user'
   ];
@@ -89,10 +90,13 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
   @Output() submitEntree: EventEmitter<any> = new EventEmitter();
   @Input()
   public set user(val: User) {
+    console.log('set user val input ::',val)
     if(val){
       this.initFormBuilder(val);
     }
   }
+  @Input() entrance: any;
+
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -192,6 +196,7 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
 
   async ngOnInit(){
     // const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+    console.log("ngon init entrances =====", this.entrance)
   }
 
   initFormBuilder(user: User){
@@ -201,6 +206,19 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  async markActionAsDone(id, is_done){
+    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+    if(marked)
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'L\'action a bien été marquée comme réalisée',
+        sticky: false,
+      });
+  }
+
+  
 
   isRequired(control) {
     return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';

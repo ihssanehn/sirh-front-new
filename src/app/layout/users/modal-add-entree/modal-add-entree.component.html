@@ -1,0 +1,307 @@
+<div class="container">
+
+         <div class="header modal-header">
+            <h1 class="main-title">Ajouter une entrée</h1>
+            <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+        </div>
+  
+        <div class="modal-body">
+          <form  autocomplete="off" class="container p-0" novalidate (submit)="submitUser()">
+            <div class="form-box">
+              <div class="main-container form-column">
+                <div class="white-box">
+                  <div class="form-bloc">
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.civility}}
+                          {{isRequired(formInputs.civility)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="civilities"
+                            [bindLabel]="'label'"
+                            [bindValue]="'label'"
+                            class="form-control select"
+                            placeholder="Sélectionner la civilité"
+                            [formControl]="formGroup.controls[formInputs.civility]"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.civility].hasError('required')
+                                    && formGroup.controls[formInputs.civility].dirty}"
+                            [multiple]="false"
+                          >
+                          </ng-select>
+                           <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.civility].hasError('required')
+                        && formGroup.controls[formInputs.civility].dirty"> 
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            La civilité est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label class="col-12">{{formLabels.matricule}}
+                          {{isRequired(formInputs.matricule)}}</label>
+                        <div class="col">
+                          <input type="text" class="form-control input"
+                                 [ngClass]="{'is-invalid error-input':
+                                 formGroup.controls[formInputs.matricule].hasError('required')
+                                    && formGroup.controls[formInputs.matricule].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.matricule]"
+                                 placeholder="Saisir le matricule du salarié" />
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.matricule].hasError('required')
+                    && formGroup.controls[formInputs.matricule].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Saisir le matricule du salarié
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label class="col-12">{{formLabels.last_name}}
+                              {{isRequired(formInputs.last_name)}}</label>
+                            <div class="col">
+                              <input type="text" class="form-control input"
+                                     [ngClass]="{'is-invalid error-input':
+                                     formGroup.controls[formInputs.last_name].hasError('required')
+                                        && formGroup.controls[formInputs.last_name].dirty}"
+                                     [formControl]="formGroup.controls[formInputs.last_name]"
+                                     placeholder="Saisir le nom du salarié" />
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formInputs.last_name].hasError('required')
+                        && formGroup.controls[formInputs.last_name].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Saisir le nom du salarié
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <label class="col-12">{{formLabels.first_name}}
+                            {{isRequired(formInputs.first_name)}}</label>
+                          <div class="col">
+                            <input type="text" class="form-control input"
+                                   [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.first_name].hasError('required')
+                                      && formGroup.controls[formInputs.first_name].dirty}"
+                                   [formControl]="formGroup.controls[formInputs.first_name]"
+                                   placeholder="Saisir le prénom du salarié" />
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.first_name].hasError('required')
+                      && formGroup.controls[formInputs.first_name].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le prénom du salarié
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label class="col-12">{{formLabels.email}}
+                              {{isRequired(formInputs.email)}}</label>
+                            <div class="col">
+                                <input type="text" class="form-control input"
+                                   [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.contrat].hasError('required')
+                                      && formGroup.controls[formInputs.contrat].dirty}"
+                                   [formControl]="formGroup.controls[formInputs.email]"
+                                   placeholder="Saisir l'email du salarié" />
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formInputs.email].hasError('required')
+                        && formGroup.controls[formInputs.email].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Saisir l'email du salarié
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <label class="col-12">{{formLabels.contrat}}
+                            {{isRequired(formInputs.contrat)}}</label>
+                          <div class="col">
+                            <ng-select
+                                    [items]="contrats"
+                                    [bindLabel]="'label'"
+                                    [bindValue]="'id'"
+                                    class="form-control select"
+                                    placeholder="Sélectionner le type de contrat"
+                                    [formControl]="formGroup.controls[formInputs.contrat]"
+                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.contrat].hasError('required')
+                                            && formGroup.controls[formInputs.contrat].dirty}"
+                                    [multiple]="false"
+                                >
+                            </ng-select>
+                          
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.contrat].hasError('required')
+                      && formGroup.controls[formInputs.contrat].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le contrat du salarié
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label class="col-12">{{formLabels.status}}
+                              {{isRequired(formInputs.status)}}</label>
+                            <div class="col">
+                                <ng-select
+                                    [items]="status"
+                                    [bindLabel]="'label'"
+                                    [bindValue]="'id'"
+                                    class="form-control select"
+                                    placeholder="Sélectionner le statut"
+                                    [formControl]="formGroup.controls[formInputs.status]"
+                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.status].hasError('required')
+                                            && formGroup.controls[formInputs.status].dirty}"
+                                    [multiple]="false"
+                                >
+                            </ng-select>
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formInputs.status].hasError('required')
+                        && formGroup.controls[formInputs.status].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Saisir le statut du salarié
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <label class="col-12">{{formLabels.centre_profit}}
+                            {{isRequired(formInputs.centre_profit)}}</label>
+                          <div class="col">
+                            <ng-select
+                                    [items]="managers"
+                                    [bindLabel]="'full_name'"
+                                    [bindValue]="'id'"
+                                    class="form-control select"
+                                    placeholder="Sélectionner le centre de profit"
+                                    [formControl]="formGroup.controls[formInputs.centre_profit]"
+                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre_profit].hasError('required')
+                                            && formGroup.controls[formInputs.centre_profit].dirty}"
+                                    [multiple]="false"
+                                >
+                            </ng-select>
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.centre_profit].hasError('required')
+                      && formGroup.controls[formInputs.centre_profit].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le contrat du salarié
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col">
+                            <label class="col-12">{{formLabels.entity}}
+                              {{isRequired(formInputs.entity)}}</label>
+                            <div class="col">
+                                <ng-select
+                                        [items]="entities"
+                                        [bindLabel]="'label'"
+                                        [bindValue]="'id'"
+                                        class="form-control select"
+                                        placeholder="Sélectionner l'entitié"
+                                        [formControl]="formGroup.controls[formInputs.entity]"
+                                        [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.entity].hasError('required')
+                                                && formGroup.controls[formInputs.entity].dirty}"
+                                        [multiple]="false"
+                                    >
+                                </ng-select>
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formInputs.entity].hasError('required')
+                        && formGroup.controls[formInputs.entity].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Saisir le statut du salarié
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <label class="col-12">{{formLabels.date_entree}}
+                            {{isRequired(formInputs.date_entree)}}</label>
+                          <div class="col">
+                            <div class="date-picker-group">
+                                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                                <input [owlDateTime]="owl_dt1"
+                                       class="form-control input date"
+                                       [owlDateTimeTrigger]="owl_dt1"
+                                       placeholder="Choisir la date d'entée"
+                                       [ngClass]="{'is-invalid error-input':
+                                     formGroup.controls[formInputs.date_entree].hasError('required')
+                                        && formGroup.controls[formInputs.date_entree].dirty}"
+                                       [formControl]="formGroup.controls[formInputs.date_entree]"
+                                />
+                                <div class="icons-container">
+                                  <i class="icon-close"
+                                     (click)="clearDateInput(formInputs.date_entree)"
+                                     *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
+                                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                                </div>
+                              </div>
+      
+                              <div class="form-control-feedback"
+                                   *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
+                          && formGroup.controls[formInputs.date_entree].dirty">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                La date d'entrée est obligatoire
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="{{formLabels.is_externe}}">
+                                <span class="name">
+                                    {{formLabels.is_externe}}
+                                </span>
+                                <!-- <br> -->
+                            </label>
+                            <div class="check-box-btn">
+                                <input type="checkbox"
+                                    id="{{formLabels.is_externe}}"
+                                    [formControl]="formGroup.controls[formInputs.is_externe]"
+                                    name="check_"/>
+                        
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="{{formLabels.is_pe}}">
+                                <span class="name">
+                                    {{formLabels.is_pe}}
+                                </span>
+                                </label>
+                                <div class="check-box-btn">
+                                    <input type="checkbox"
+                                        id="{{formLabels.is_pe}}"
+                                        [formControl]="formGroup.controls[formInputs.is_pe]"
+                                        name="check_"/>
+                                </div>
+                        </div>
+        
+                    </div>
+
+                    <div class="row">
+                      <app-button
+                      [type]="'secondary'"
+                      [text]="'Créer'"
+                      [isLoading]="submittingCreate"
+                      [isDisabled]="submittingCreate"
+                      [textLoading]="'Sauvegarde en cours..'"
+                      (onClick)="submitUser()"
+                      [iconLeft]="'icon-save'"
+                      [customStyle]="{'min-width': '130px'}">
+                    </app-button>
+                    </div>
+  
+                  </div>
+                </div>
+              </div>
+  
+  
+            </div>
+          </form>
+        </div>
+</div>
+  

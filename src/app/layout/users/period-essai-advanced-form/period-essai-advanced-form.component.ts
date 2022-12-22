@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray,} from '@angular/forms';
 import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -60,6 +60,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
   loadingData: boolean;
   validators_conge =  [];
   loadingLists: boolean;
+  current_pe;
   @Input() title = '';
   @Input() type = '';
   @Input()  idUser: any;
@@ -70,9 +71,18 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
   @Input()
   public set user(val: User) {
     if(val){
-      this.initFormBuilder(val);
+      // this.initFormBuilder(val);
     }
   }
+  @Input()
+  public set trial_periods(val:any) {
+    if(val){
+      this.current_pe = val[0]
+      this.initFormBuilder(this.current_pe);
+
+    }
+  }
+
 
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
@@ -98,7 +108,8 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
       date_fin_period_essai: [null],
       suivi_evolution_perido_essai: [null],
       gestion_courrier_gp: [null],
-      reception_bilan_pe: [null]
+      reception_bilan_pe: [null],
+      histos: new FormArray([])
     });
 
     this.modalService.dismissAll();
@@ -124,6 +135,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     this.getParametersLists();
     // this.mockupData();
     this.changeDetectorRef.detectChanges();
+    this.getDecisions()
   }
 
   async getParametersLists(){
@@ -143,12 +155,44 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  initFormBuilder(user: User){
-    if(user){
-      this.formGroup.patchValue({
-        personal_id: user.id,
-        ...user.parameter
+  async markActionAsDone(id, is_done){
+    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+    if(marked)
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'L\'action a bien été marquée comme réalisée',
+        sticky: false,
       });
+  }
+
+  async getDecisions(){
+    this.decisions = await this.listService.getAll('status','decision_trail_period').toPromise();
+   }
+
+   get histosFromArray() {
+    return this.formGroup.controls.histos as FormArray;
+  }
+  test(){
+    console.log(this.formGroup)
+  }
+
+  initFormBuilder(pe: any){
+    if(pe){
+      if(pe.histos){
+        pe.histos.forEach((_histo) => this.histosFromArray.push((new FormControl({checked:_histo?.done_at?true:false}))));
+      }
+      this.formGroup.patchValue({
+        decision:pe.decision.id,
+        date_entree: [null],
+        date_sortie: [null],
+        date_fin_renouvelement: pe?.renewal_date?pe.renewal_date:null,
+        date_fin_period_essai: pe.end_date,
+        suivi_evolution_perido_essai: [null],
+        gestion_courrier_gp: [null],
+        reception_bilan_pe: [null],
+      });
+      console.log(this.formGroup)
     }
   }
 

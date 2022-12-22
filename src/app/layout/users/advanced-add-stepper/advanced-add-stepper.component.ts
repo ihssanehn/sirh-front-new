@@ -7,7 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
-import {User} from "@app/core/entities";
+import {User, PersonalAnnex} from "@app/core/entities";
 import {MainStore} from "@store/mainStore.store";
 
 
@@ -21,7 +21,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') private myStepper: MatStepper;
   isEditable = true;
   profile_id: number;
-  user: User;
+  user: PersonalAnnex;
 
   @ViewChildren('stepperIcon') private matStepperIconViewChildren;
   matStepperIcons: any[];
@@ -46,10 +46,11 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    console.clear()
   }
 
   async ngAfterViewInit() {
+    console.log('my stepper :::',this.myStepper)
     this.matStepperIcons = this.matStepperIconViewChildren.toArray();
     this.myStepper.selectedIndex = 0;
     this.activatedRoute?.queryParams?.subscribe(async params => {
@@ -88,11 +89,11 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
 
   async getUser(id){
     try{
-      const res = await this.userService.getOne({id}).toPromise();
+      const res = await this.userService.getDetailed({id}).toPromise();
       this.user = res.result?.data;
-      if(this.user?.type_account === 'independent'){
-        this.router.navigate(['users/new/'+this.user.type_account], {queryParams: {step: 0, user_id: this.user.id}});
-      }
+      // if(this.user?.type_account === 'independent'){
+      //   this.router.navigate(['users/new/'+this.user.type_account], {queryParams: {step: 0, user_id: this.user.id}});
+      // }
     }catch (e) {
       console.log('getUser error', e);
     }finally {
@@ -106,6 +107,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   }
 
   selectionChange($event) {
+    console.log('on selection change',$event)
     const snapshot = this.activatedRoute.snapshot;
     let params = { ...snapshot.queryParams, step: $event.selectedIndex};
     this.router.navigate(['.'],
@@ -125,6 +127,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
         { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
+  
 
   async submitEntree($event: any) {
     try{
