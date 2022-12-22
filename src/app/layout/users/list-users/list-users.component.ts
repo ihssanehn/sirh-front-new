@@ -11,6 +11,11 @@ import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form
 import {ListsService} from "@services/lists.service";
 import {Validators} from "@angular/forms";
 import {MainStore} from "@store/mainStore.store";
+import {MessageService} from "primeng/api";
+import {ModalAddSortieComponent} from "@layout/users/modal-add-sortie/modal-add-sortie.component";
+import {ModalAddEntreeComponent} from "@layout/users/modal-add-entree/modal-add-entree.component";
+
+
 
 @Component({
   selector: 'app-list-users',
@@ -136,101 +141,110 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
   loadingData: boolean;
   type;
+  sectionName;
   personnalFilters;
-  columns_entree = [
-    {
-      id: 1,
-      label: 'DPAE',
-      checked: false
-    },
-    {
-      id: 2,
-      label: 'APICIL',
-      checked: false
-    },
-    {
-      id: 3,
-      label: 'Carte D\'identité',
-      checked: false
-    },
-    {
-      id: 4,
-      label: 'RIB',
-      checked: false
-    },
-    {
-      id: 5,
-      label: 'Relance Mail Documents',
-      checked: false
-    },
-    {
-      id: 5,
-      label: 'Inscription AST',
-      checked: false
-    },
-    {
-      id: 6,
-      label: 'Création SIRH',
-      checked: false
-    },
-    {
-      id: 7,
-      label: 'Mail Informatique',
-      checked: false
-    },
-    {
-      id: 8,
-      label: 'Mail Embauche',
-      checked: false
-    },
-    {
-      id: 9,
-      label: 'Envoi Matricule DIGIPOSTE',
-      checked: false
-    },
-    {
-      id: 10,
-      label: 'Envoi Code SIMUS',
-      checked: false
-    },
-    {
-      id: 11,
-      label: 'Saisie ADP',
-      checked: false
-    },
-    {
-      id: 12,
-      label: 'MAJ Tableau Primes',
-      checked: false
-    },
-    {
-      id: 13,
-      label: 'Modif Matricule SIRH',
-      checked: false
-    },
-    {
-      id: 14,
-      label: 'Bilan D\'intégration',
-      checked: false
-    },
-    {
-      id: 15,
-      label: 'Journée D\'intégration + Remise Du Kit',
-      checked: false
-    },
-    {
-      id: 16,
-      label: 'Bouteille De Champagne',
-      checked: false
-    }
-  ];
+  actions;
+  model_type;
+  
+  //   {
+  //     id: 1,
+  //     label: 'DPAE',
+  //     checked: false,
+  //     slug:'DPAE'
+  //   },
+  //   {
+  //     id: 2,
+  //     label: 'APICIL',
+  //     checked: false,
+  //     slug:'APICIL'
+  //   },
+  //   {
+  //     id: 3,
+  //     label: 'Carte D\'identité',
+  //     checked: false,
+  //     slug:'ID_CARD'
+  //   },
+  //   // {
+  //   //   id: 4,
+  //   //   label: 'RIB',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 5,
+  //   //   label: 'Relance Mail Documents',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 5,
+  //   //   label: 'Inscription AST',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 6,
+  //   //   label: 'Création SIRH',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 7,
+  //   //   label: 'Mail Informatique',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 8,
+  //   //   label: 'Mail Embauche',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 9,
+  //   //   label: 'Envoi Matricule DIGIPOSTE',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 10,
+  //   //   label: 'Envoi Code SIMUS',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 11,
+  //   //   label: 'Saisie ADP',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 12,
+  //   //   label: 'MAJ Tableau Primes',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 13,
+  //   //   label: 'Modif Matricule SIRH',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 14,
+  //   //   label: 'Bilan D\'intégration',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 15,
+  //   //   label: 'Journée D\'intégration + Remise Du Kit',
+  //   //   checked: false
+  //   // },
+  //   // {
+  //   //   id: 16,
+  //   //   label: 'Bouteille De Champagne',
+  //   //   checked: false
+  //   // }
+  // ];
   columns_sortie = [
 
   ];
+  columns_entree;
+  _allActions;
 
   constructor(private userService : UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
+              private messageService: MessageService,
               public mainStore: MainStore,
               private listService: ListsService,
               private route: ActivatedRoute,
@@ -242,22 +256,29 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       switch (type){
         case 'general': {
           this.type = 'general';
+          this.sectionName = 'Salariés'
           break;
         }
         case 'period_essai': {
           this.type = 'period_essai';
+          this.sectionName = 'Suivi salariés - Périodes d\'essais'
           break;
         }
         case 'entree': {
           this.type = 'entree';
+          this.sectionName = 'Suivi salariés - Entrées'
+          this.model_type ='entrance';
           break;
         }
         case 'sortie': {
           this.type = 'sortie';
+          this.sectionName = 'Suivi salariés - Sorties'
+          this.model_type ='sortie';
           break;
         }
         case 'entretien': {
           this.type = 'entretien';
+          this.sectionName = 'Suivi salariés - Entretiens'
           break;
         }
         case 'formation': {
@@ -266,17 +287,19 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         }
         case 'visite_medicale': {
           this.type = 'visite_medicale';
+          this.sectionName = 'Suivi salariés - Visites médicales'
           break;
         }
         default: {
           this.type = 'general';
         }
       }
+      this.getUsers();
+      if(type == 'entree' || type == 'sortie')
+        this.getAction();
+
     });
-    const localstorage_entree = JSON.parse(localStorage.getItem("columns_entree") || "[]");
-    if(localstorage_entree?.length > 0){
-      this.columns_entree = localstorage_entree;
-    }
+   
   }
 
   ngOnInit() {
@@ -308,10 +331,69 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }
   }
 
+  async getAction(){
+    this._allActions = await this.userService.listActions({model_type:this.model_type}).toPromise();
+
+    const localstorage_entree = JSON.parse(localStorage.getItem("columns_"+this.model_type) || "[]");
+
+    if(localstorage_entree?.length > 0){
+      console.log('localstorage_entree :::',localstorage_entree)
+
+      // check if localstorage's list is up to date to DB
+      const _founded_new_column = this._allActions.filter(object1 => {
+        return !localstorage_entree.some(object2 => {
+          return object1.slug === object2.slug;
+        });
+      });
+      _founded_new_column.forEach( (diff) => {
+          diff.checked = true; //force display new colomn
+      });
+      const up_to_date_localstorage = [...localstorage_entree, ..._founded_new_column]; 
+      console.log('diff::::',_founded_new_column)
+
+
+      //check if there are an extra action which is deleted from DB and persists on localstorage 
+      const _overflowed_column = up_to_date_localstorage.filter(object1 => {
+        return !this._allActions.some(object2 => {
+          return object1.slug === object2.slug;
+        });
+      });
+      //remove overflowed column from column's array
+      for (let i = 0; i < up_to_date_localstorage.length; i++) {
+        _overflowed_column.forEach( (column_to_supp) => {
+          if(up_to_date_localstorage[i].id === column_to_supp.id){
+            up_to_date_localstorage.splice(i,1);
+          }
+        });
+      }
+      this.columns_entree = up_to_date_localstorage;
+    }else{
+
+      // initialize columns from DB when no localstorage preferences
+      this._allActions.forEach( (action) => {
+          action.checked = true;
+      });
+      this.columns_entree = this._allActions;
+
+    }
+
+  }
+
+  async markActionAsDone(id, is_done){
+    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+    if(marked)
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'L\'action a bien été marquée comme réalisée',
+        sticky: false,
+      });
+  }
+
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type === 'entree' || this.type === 'sortie' ? 'general' : this.type,
+      type: this.type
     }
     Object.keys(this.filter).forEach(key => {
       if(this.filter[key] !== null && this.filter[key] !== []){
@@ -328,19 +410,22 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }, ()=>{
       this.loadingData = false;
     })
+
+
+
   }
 
   openSelectRole(){
-    this.router.navigate(['users/new']);
-    // if(this.modalService.hasOpenModals()){
-    //   return;
-    // }
-    // const modalRef = this.modalService.open(SelectRoleComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
-    // modalRef.result.then(result=>{
-    //   console.log('closed', result);
-    // }, reason => {
-    //   console.log('closed');
-    // });
+    // this.router.navigate(['users/new']);
+    if(this.modalService.hasOpenModals()){
+      return;
+    }
+    const modalRef = this.modalService.open(ModalAddEntreeComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed', result);
+    }, reason => {
+      console.log('closed');
+    });
     // modalRef.componentInstance.idUser = item.id;
   }
 
@@ -416,7 +501,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   onCheckChange($event) {
-    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+    localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
   }
 
   ischecked(id) {
@@ -432,7 +517,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.columns_entree.forEach((column) => {
       column.checked = select;
     });
-    localStorage.setItem("columns_entree", JSON.stringify(this.columns_entree));
+    localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
   }
 
   getActiveColumns(column) {

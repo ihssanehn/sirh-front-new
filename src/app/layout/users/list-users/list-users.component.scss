@@ -115,6 +115,7 @@
 }
 
 table{
+  
   thead{
     th{
       //white-space: nowrap!important;
@@ -123,6 +124,20 @@ table{
       padding-left: 0 !important;
       vertical-align: bottom;
       min-width: 120px;
+    }
+  }
+  &.table_entree{
+    thead{
+      th{
+        padding: 0px 20px 0px 0px!important; //for column entree long name
+        &.th-btn{
+          background-color: $primaryColor;
+          cursor: pointer;
+          i{
+            &::before{color:white!important}
+          }
+        }
+      }
     }
   }
   tbody{
