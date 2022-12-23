@@ -442,7 +442,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   getActiveColumns(column) {
-    return this[column].filter((column) => column.checked);
+    return this[column]?.filter((column) => column.checked);
   }
 
   async updateDateInterview(id, effective_date: any) {

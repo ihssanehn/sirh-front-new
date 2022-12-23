@@ -6,9 +6,7 @@ import {formatDateForBackend, markFormAsDirty, SharedClasses} from '@app/shared/
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
-import {User} from "@app/core/entities";
 import * as moment from "moment";
-import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 
 @Component({
   selector: 'app-modal-add-entretien',

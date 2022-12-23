@@ -1,8 +1,9 @@
 // custom-date-time-adapter.class.ts
 import { Injectable } from '@angular/core';
-import {OwlDateTimeIntl} from 'ng-pick-datetime';
+import {OWL_DATE_TIME_FORMATS, OwlDateTimeIntl} from 'ng-pick-datetime';
 
 export const MY_CUSTOM_DATETIME_FORMATS = {
+
   parseInput: 'DD-MM-YYYY HH:mm',
   fullPickerInput: 'DD-MM-YYYY HH:mm:ss',
   supportedFormats: ['DD-MM-YYYY HH:mm:ss', 'YYYY-MM-DD HH:mm:ss'],
@@ -14,6 +15,9 @@ export const MY_CUSTOM_DATETIME_FORMATS = {
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
   monthYearA11yLabel: 'MMMM YYYY',
+  OWL_DATE_TIME_FORMATS: 'DD-MM-YYYY HH:mm:ss',
+
+
 };
 
 @Injectable()

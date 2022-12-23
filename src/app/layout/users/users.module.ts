@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { UsersRoutingModule } from './users-routing.module';
@@ -7,8 +7,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgSelectModule} from '@ng-select/ng-select';
-import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {OwlDateTimeModule} from "ng-pick-datetime";
+import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl, OwlDateTimeModule} from "ng-pick-datetime";
 import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
 import {PerimetreComponent} from "@layout/users/perimetre/perimetre.component";
 import {AccessComponent} from "@layout/users/access/access.component";
@@ -51,27 +51,32 @@ import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/moda
 import {
   ModalAddVisiteMedicalComponent
 } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
+import {CustomDateTimeIntl, MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import {CustomAdapter, CustomDateParserFormatter} from "@shared/classes/dateAdapter";
+ import {DpDatePickerModule} from "ng2-date-picker";
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        UsersRoutingModule,
-        NgbModule,
-        SharedModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        NgSelectModule,
-        OwlDateTimeModule,
-        MatStepperModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        InfiniteScrollModule,
-        MatTooltipModule,
-        MatMenuModule
-    ],
+  imports: [
+    CommonModule,
+    UsersRoutingModule,
+    NgbModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgSelectModule,
+    OwlDateTimeModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    InfiniteScrollModule,
+    MatTooltipModule,
+    MatMenuModule,
+
+    DpDatePickerModule
+   ],
   declarations: [
     ListUsersComponent,
     AddUserComponent,
@@ -117,7 +122,8 @@ import {
     ModalAddVisiteMedicalComponent
   ],
   providers: [
-    DateMessagePipe
+    DateMessagePipe,
+
   ]
 })
 export class UsersModule { }

@@ -1,1 +1,213 @@
-<p>modal-add-sortie works!</p>
+<div class="container">
+
+  <div class="header modal-header">
+    <h1 class="main-title">{{item?.id ? 'Modifier la sortie': 'Ajouter une sortie'}}</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
+  </div>
+
+  <div class="modal-body">
+    <form  [formGroup]="formGroup" autocomplete="off" class="container p-0" novalidate (submit)="submit()">
+      <div class="form-box">
+        <div class="main-container form-column">
+          <div class="white-box">
+            <div class="form-bloc">
+              <div class="row">
+                <div class="col">
+                  <label class="col-12">{{formMetaData.personal_id.label}}
+                    {{isRequired(formMetaData.personal_id.input)}}</label>
+                  <div class="col">
+                    <ng-select
+                      [items]="personals"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      class="form-control select"
+                      [placeholder]="formMetaData.personal_id.placeholder"
+                      [formControlName]="formMetaData.personal_id.input"
+                      [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.personal_id.input].hasError('required')
+                                    && formGroup.controls[formMetaData.personal_id.input].dirty}"
+                      [multiple]="false"
+                      (open)="getFilterList('personals', listService.list.PERSONAL)"
+                      [loading]="loadingSelect[listService.list.PERSONAL]"
+                      (change)="getPreavisCalculation()"
+                    >
+                    </ng-select>
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formMetaData.personal_id.input].hasError('required')
+                        && formGroup.controls[formMetaData.personal_id.input].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.personal_id.errorRequired}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <label class="col-12">{{formMetaData.motif_id.label}}
+                    {{isRequired(formMetaData.motif_id.input)}}</label>
+                  <div class="col">
+                    <ng-select
+                      [items]="motifs"
+                      [bindLabel]="'label'"
+                      [bindValue]="'id'"
+                      class="form-control select"
+                      [placeholder]="formMetaData.motif_id.placeholder"
+                      [formControlName]="formMetaData.motif_id.input"
+                      [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.motif_id.input].hasError('required')
+                                    && formGroup.controls[formMetaData.motif_id.input].dirty}"
+                      [multiple]="false"
+                      (open)="getFilterList('motifs', listService.list.EXIT_TYPE)"
+                      [loading]="loadingSelect[listService.list.EXIT_TYPE]"
+                      (change)="getPreavisCalculation()"
+                    >
+                    </ng-select>
+
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formMetaData.motif_id.input].hasError('required')
+                    && formGroup.controls[formMetaData.motif_id.input].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.motif_id.errorRequired}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <label class="col-12">{{formMetaData.requested_at.label}}
+                    {{isRequired(formMetaData.requested_at.input)}}
+                  </label>
+                  <div class="col">
+
+                    <div class="date-picker-group">
+                      <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                      <input [owlDateTime]="owl_dt2"
+                             class="form-control input date"
+                             [owlDateTimeTrigger]="owl_dt2"
+                             [placeholder]="formMetaData.requested_at.placeholder"
+                             [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formMetaData.requested_at.input].hasError('required')
+                                  && formGroup.controls[formMetaData.requested_at.input].dirty}"
+                             [formControlName]="formMetaData.requested_at.input"
+                             (dateTimeChange)="getPreavisCalculation()"
+                      />
+                      <div class="icons-container">
+                        <i class="icon-close"
+                           (click)="clearDateInput(formMetaData.requested_at.input)"
+                           *ngIf="formGroup.controls[formMetaData.requested_at.input].value"></i>&nbsp;
+                        <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+
+
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formMetaData.requested_at.input].hasError('required')
+                        && formGroup.controls[formMetaData.requested_at.input].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.requested_at.errorRequired}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <label class="col-12">{{formMetaData.end_date_preavis.label}}
+                    {{isRequired(formMetaData.end_date_preavis.input)}}
+                    <i class="icon-info-cercle pointer"
+                       [ngbPopover]="endPreavisDatePopover"
+                       triggers="mouseenter:mouseleave"
+                       placement="right"
+                       container="body"
+                       [autoClose]="true"
+                       [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.end_date_preavis.input].hasError('required')
+                                      && formGroup.controls[formMetaData.end_date_preavis.input].dirty}"
+                    ></i>
+                    <ng-template #endPreavisDatePopover>
+                      Ce champ est calculé automatiquement en fonction de la date d'entrée du personnel, le motif et la date de réception du courrier.
+                      Sauf si vous le modifiez manuellement.
+                    </ng-template>
+                  </label>
+                  <div class="col">
+
+<!--                    <div class="date-picker-group">-->
+<!--                      <owl-date-time #owl_dt1 [pickerType]="'timer'" ></owl-date-time>-->
+<!--                      <input [owlDateTime]="owl_dt1"-->
+<!--                             class="form-control input date"-->
+<!--                             [owlDateTimeTrigger]="owl_dt1"-->
+<!--                             [placeholder]="formMetaData.end_date_preavis.placeholder"-->
+<!--                             [ngClass]="{'is-invalid error-input':-->
+<!--                               formGroup.controls[formMetaData.end_date_preavis.input].hasError('required')-->
+<!--                                  && formGroup.controls[formMetaData.end_date_preavis.input].dirty}"-->
+<!--                             [formControlName]="formMetaData.end_date_preavis.input"-->
+<!--                      />-->
+<!--                      <div class="icons-container">-->
+<!--                        <i class="icon-close"-->
+<!--                           (click)="clearDateInput(formMetaData.end_date_preavis.input)"-->
+<!--                           *ngIf="formGroup.controls[formMetaData.end_date_preavis.input].value"></i>&nbsp;-->
+<!--                        <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+
+                    <div class="date-picker-group">
+                      <dp-date-picker
+                                      [mode]="'daytime'"
+                                      [placeholder]="formMetaData.end_date_preavis.placeholder"
+                                      [config]="config"
+                                      class="date-picker"
+                                      theme="dp-material"
+                                      #datepicker
+                                      [ngClass]="{'is-invalid error-input':
+                                      formGroup.controls[formMetaData.end_date_preavis.input].hasError('required')
+                                        && formGroup.controls[formMetaData.end_date_preavis.input].dirty}"
+                                                     [formControlName]="formMetaData.end_date_preavis.input"
+                                   ></dp-date-picker>
+
+                      <div class="icons-container">
+                        <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+
+                    <div class="form-control-feedback"
+                         *ngIf="formGroup.controls[formMetaData.end_date_preavis.input].hasError('required')
+                        && formGroup.controls[formMetaData.end_date_preavis.input].dirty">
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                      {{formMetaData.end_date_preavis.errorRequired}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="justify-content-center submit-block">
+                <app-button
+                  [type]="'tertiary'"
+                  [text]="'Annuler'"
+                  [isLoading]="submitting"
+                  [isDisabled]="submitting"
+                  (onClick)="modal.close()"
+                  [iconLeft]="'icon-close'"
+                  [customStyle]="{'min-width': '130px'}"
+                >
+                </app-button>&nbsp;&nbsp;
+                <app-button
+                  [type]="'secondary'"
+                  [text]="item?.id ? 'Enregistrer les modifications': 'Créer'"
+                  [isLoading]="submitting"
+                  [isDisabled]="submitting"
+                  [textLoading]="'Sauvegarde en cours..'"
+                  (onClick)="submit()"
+                  [iconLeft]="'icon-check'"
+                  [customStyle]="{'min-width': '130px'}">
+                </app-button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+</div>
+

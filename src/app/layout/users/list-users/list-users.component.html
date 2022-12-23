@@ -956,9 +956,14 @@
                     {{extraColumn.label}}
                   </th>
               </ng-container>
-              <th style="text-align: center" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" class="sticky th-btn" width="2%" style="position: sticky;right:-80px;" [matMenuTriggerFor]="statusMenu">
-                <i class="fa fa-filter" ></i>
-              </th>
+<!--              <th style="text-align: center" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" class="sticky th-btn" width="2%" style="position: sticky;right:-80px;" [matMenuTriggerFor]="statusMenu">-->
+<!--                <i class="fa fa-filter" ></i>-->
+<!--              </th>-->
+                <th  style="width:2%"  class="sticky">
+                  <div style="text-align: center;position: sticky;right:-80px;" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" [matMenuTriggerFor]="statusMenu">
+                    <i class="fa fa-filter primary-icon pointer" ></i><span class="link">Personnaliser</span>
+                  </div>
+                </th>
               <mat-menu #statusMenu="matMenu" [class]="'profile-menu'">
                 <div mat-menu-item class="dropdown-item" *ngFor="let item of columns_entree" (click)="$event.stopPropagation()">
                   <div class="check-box-btn">
@@ -987,9 +992,40 @@
               </thead>
               <tbody>
                 <tr *ngFor="let sortie of users" >
-                  <td data-title="Matricule" >{{sortie?.personal?.registration_number || 'N.R'}}</td>
                   <td>
-                    <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 0, user_id: sortie.personal.id}">
+                    <ng-template #infopopover>
+                      <div class="title">
+                        {{sortie?.personal?.nom}} {{sortie?.personal?.prenom}}
+                        <span class="light-text">{{sortie?.personal?.registration_number}}</span>
+                      </div>
+                      <div class="light-text">{{sortie.personal.prenom}}</div>
+                      <div class="row">
+                        <div class="col-12 info">
+                          <div class="title">Date d'entrée</div>
+                          <div class="value">
+                            {{sortie?.personal?.entry_date | date:'dd/MM/yyyy'}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 info">
+                          <div class="title">Date de sortie</div>
+                          <div class="value">
+                            {{sortie?.personal?.sortie_date | date:'dd/MM/yyyy'}}
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+
+                    <div class="photo-cell pointer"
+                         [routerLink]="['/users/details']"
+                         [queryParams]="{step: 0, user_id: sortie.personal.id}"
+                       [ngbPopover]="infopopover"
+                        triggers="mouseenter:mouseleave"
+                        placement="right"
+                         container="body"
+                         [autoClose]="true"
+                    >
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -1000,10 +1036,13 @@
                         </div>
                       </div>
                       <div class="name">
-                          {{sortie?.personal?.nom || 'N.R'}}
-                          {{sortie?.personal?.prenom || 'N.R'}}
+                        {{sortie?.personal?.nom || 'N.R'}}
+                        {{sortie?.personal?.prenom || 'N.R'}}
                       </div>
                     </div>
+                  </td>
+                  <td data-title="Matricule" >
+                    {{sortie?.personal?.registration_number || 'N.R'}}
                   </td>
                   <td data-title="Entité" >{{sortie?.personal?.entity_name || 'Piman Consultants'}}</td>
                   <td data-title="Entité" >{{sortie?.personal?.structure || 'Structure'}}</td>
@@ -1033,6 +1072,11 @@
                       </div>
                     </td>
                 </ng-container>
+                  <td>
+                    <div class="actions">
+                      <i class="icon-edit primary-icon pointer" (click)="openSelectRole('sortie', sortie)"></i>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>

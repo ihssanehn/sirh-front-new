@@ -34,7 +34,7 @@ import {ActivitiesService} from "@services/activities.service";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 import {ProjectService} from "@services/project.service";
-import { PersonalService } from './core/services/personal.service';
+import {PersonalService} from "@services/personal.service";
 // import {OwlMomentDateTimeModule} from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-format.class";
 // import { OwlMomentDateTimeModule } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
@@ -97,10 +97,11 @@ export function createTranslateLoader(http: HttpClient) {
     ListsService,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr-FR'},
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_DATETIME_FORMATS},
     {provide: OwlDateTimeIntl, useClass: CustomDateTimeIntl},
     {provide: NgbDateAdapter, useClass: CustomAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter},
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_DATETIME_FORMATS},
+
     {
       provide: MATERIAL_SANITY_CHECKS,
       useValue: false

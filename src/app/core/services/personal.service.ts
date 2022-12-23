@@ -53,4 +53,16 @@ export class PersonalService {
   updateVM(params: any) {
     return this.apiService.post('personal/medical_visit/update', params);
   }
+
+  updateSortie(params: any) {
+    return this.apiService.post('personal/exit/update', params);
+  }
+
+  addSortie(params: any) {
+    return this.apiService.post('personal/exit/add', params);
+  }
+
+  getPreavisCalculation(params) {
+    return this.apiService.post('personal/exit/calculate-preavis', params).pipe(map(result => result?.result?.data || []));;
+  }
 }

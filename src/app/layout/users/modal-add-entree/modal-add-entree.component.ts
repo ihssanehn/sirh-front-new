@@ -56,9 +56,9 @@ export class ModalAddEntreeComponent implements OnInit {
     is_externe:  'Externe',
     is_pe:'Période d\'essai ?'
   }
-    
+
     constructor(
-      private formBuilder: FormBuilder, 
+      private formBuilder: FormBuilder,
       public modal: NgbActiveModal,
       private listService: ListsService,
       private personalService: PersonalService,
@@ -95,14 +95,14 @@ export class ModalAddEntreeComponent implements OnInit {
     this.civilities =[
       {id:1, label:'M.'},
       {id:2, label:'Mme.'}
-    ]    
+    ]
     this.submittingCreate = false;
 
   }
 
   ngOnInit(): void {
     this.initLists()
-    
+
 
 
   }
@@ -140,7 +140,7 @@ export class ModalAddEntreeComponent implements OnInit {
         });
         this.submittingCreate = false;
       })
-     
+
     }catch (e){
 
     }finally {
@@ -148,4 +148,7 @@ export class ModalAddEntreeComponent implements OnInit {
     }
   }
 
+  clearDateInput(input: string) {
+    this.formGroup.controls[input].setValue(null);
+  }
 }

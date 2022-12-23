@@ -45,8 +45,8 @@ export class ListsService {
     INTERVIEW_TYPE: 'interview_type',
     CONTRAT_TYPE:'contrat_type',
     EXIT_MOTIF: 'exit_type',
-    MEDICAL_CENTER: 'medical_center'
-
+    MEDICAL_CENTER: 'medical_center',
+    EXIT_TYPE: 'exit_type'
   }
 
 
