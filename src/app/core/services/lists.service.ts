@@ -61,7 +61,13 @@ export class ListsService {
     } else if(entity === this.list.PERMISSIONS_BY_ELEMENT){
       return this.apiService.get( this.list.PERMISSIONS_BY_ELEMENT)
         .pipe(map(res => { return res?.result?.data || []}));
-    } else {
+    } else if(entity === this.list.MEDICAL_CENTER){
+      const getparams = {
+        ...params
+      }
+      return this.apiService.post( 'personal/medical_visit/centre/get', getparams)
+        .pipe(map(res => { return res?.result?.data || []}));
+    }else {
       const getparams = {
         model: entity,
         ...params

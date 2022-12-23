@@ -642,6 +642,7 @@
                 <th>
                   Convocation envoyée
                 </th>
+                <th style="text-align: right">Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -694,6 +695,16 @@
                            name="invitation_sent" >
                   </div>
                 </td> -->
+                <td></td>
+                <td>
+                  <div class="actions">
+                    <i class="icon-edit"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       (click)="openSelectRole('visite_medicale', vm)"
+                       title="Modifier"></i>
+                  </div>
+                </td>
               </tr>
               </tbody>
             </table>

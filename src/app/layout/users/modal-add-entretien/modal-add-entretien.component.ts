@@ -61,9 +61,6 @@ export class ModalAddEntretienComponent implements OnInit {
   @Input() set data(val){
     this.item = val;
     if(this.formGroup){
-      // theoretical_date: val.theoretical_date ? moment(val.theoretical_date, 'America/New_York').subtract(5, 'hours').format('DD/MM/YYYY') : null,
-      // effective_date: val.effective_date ? moment(val.effective_date).set({hours: 8}).format('DD/MM/YYYY') : null,
-
         this.formGroup.patchValue({
         ...val,
         theoretical_date: moment(val.theoretical_date).format('YYYY-MM-DD'),
@@ -72,7 +69,6 @@ export class ModalAddEntretienComponent implements OnInit {
     }
     this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE);
     this.getFilterList('personals', this.listService.list.PERSONAL);
-    console.log('this.item', this.formGroup.value.effective_date, val.effective_date, moment(val.effective_date, MY_CUSTOM_DATETIME_FORMATS.backend_format).format('DD/MM/YYYY'));
   }
 
   constructor(

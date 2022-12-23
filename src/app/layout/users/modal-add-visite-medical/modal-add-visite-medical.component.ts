@@ -7,6 +7,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
 import {User} from "@app/core/entities";
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, OperatorFunction } from 'rxjs';
+import * as moment from "moment/moment";
+import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-modal-add-visite-medical',
@@ -37,8 +43,8 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       placeholder: 'Selectionner le centre medical',
       errorRequired: 'Le centre medical est obligatoire'
     },
-    date: {
-      input: 'date',
+    scheduled_date: {
+      input: 'scheduled_date',
       label: 'Date de la visite',
       placeholder: 'Sélectionner la date de la visite',
       errorRequired: 'La date est obligatoire'
@@ -49,7 +55,18 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
   medical_centers = [];
   loadingSelect = {};
   id_entite = null;
-  @Input() idItem = null;
+  item = null;
+  @Input() set data(val){
+    this.item = val;
+    if(this.formGroup){
+      this.formGroup.patchValue({
+        ...val,
+        scheduled_date: moment(val.scheduled_date).format('YYYY-MM-DD')
+      });
+    }
+    this.getFilterList('personals', this.listService.list.PERSONAL);
+  }
+
   @Input()
   public set setIdItem(id) {
     if(id && this.formGroup){
@@ -58,6 +75,21 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       });
     }
   }
+
+  searching = false;
+
+  medical_center_search =  (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => (this.searching = true)),
+      switchMap( (term) => {
+          return this.listService.getAll(this.listService.list.MEDICAL_CENTER, {keyword: term});
+        }
+      ),
+      tap(() => (this.searching = false)),
+    );
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,12 +101,14 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
   ) {
 
     this.formGroup = this.formBuilder.group({
-      id: [this.idItem, Validators.compose([Validators.required])],
-      personal_id: [null, Validators.compose([Validators.required])],
-      centre: [null, Validators.compose([Validators.required])],
-      date: [null, Validators.compose([Validators.required])]
+      id: [this.item?.id || null],
+      personal_id: [this.item?.type_id || null, Validators.compose([Validators.required])],
+      centre: [this.item?.type_id || null, Validators.compose([Validators.required])],
+      scheduled_date: [this.item ? moment(this.item.effective_date).format('YYYY-MM-DD') : null]
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
+
+    // this.getFilterList('medical_centers', this.listService.list.MEDICAL_CENTER);
   }
 
   ngOnInit(): void {
@@ -91,12 +125,6 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
         this.loadingSelect[list_name] = true;
         this[items] = await this.personalService.getPersonnelAnnex().toPromise();
         console.log('this.item this.personals', this.personals);
-        if(this[items]?.length>0){
-          this[items] = this[items].map((item) => {
-            item.label = item.nom+ ' ' + item.prenom+ ' ('+item.registration_number+')';
-            return item;
-          })
-        }
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -106,7 +134,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       try{
         this.loadingSelect[list_name] = true;
         this[items] = await this.listService.getAll(list_name, list_param).toPromise();
-
+console.log('this.item this.medical_centers', this.medical_centers);
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -125,12 +153,12 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       const params: any = {
         personal_id: this.formGroup.getRawValue().personal_id,
         centre: this.formGroup.getRawValue().centre,
-        date: formatDateForBackend(this.formGroup.getRawValue().date),
+        scheduled_date: formatDateForBackend(this.formGroup.getRawValue().scheduled_date),
       }
 
       let res;
-      if(this.idItem){
-        params.id = this.idItem;
+      if(this.item?.id){
+        params.id = this.item?.id;
         res = await this.personalService.updateVM(params).toPromise();
         this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Visite medicale modifié avec succès'});
       }else{
@@ -141,7 +169,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       console.log('res add/update medical visite', res);
       this.modal.close(res);
     }catch (e){
-      if(this.idItem){
+      if(this.item?.id){
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de la visite médicale'});
       }else{
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de l\'ajout de la visite médicale'});
