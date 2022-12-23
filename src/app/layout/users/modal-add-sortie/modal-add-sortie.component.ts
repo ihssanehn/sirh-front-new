@@ -45,7 +45,8 @@ export class ModalAddSortieComponent implements OnInit {
   formGroup: FormGroup;
 
   config: IDatePickerConfig = {
-    format: 'DD/MM/YYYY hh:mm',
+    format: 'DD/MM/YYYY HH:mm',
+    showTwentyFourHours: true,
   }
 
   // personal_id
@@ -91,7 +92,7 @@ export class ModalAddSortieComponent implements OnInit {
       this.formGroup.patchValue({
         ...val,
         requested_at: moment(val.requested_at).format('YYYY-MM-DD'),
-        end_date_preavis: moment(val.end_date_preavis).format('DD/MM/YYYY hh:mm'),
+        end_date_preavis: moment(val.end_date_preavis).format('DD/MM/YYYY HH:mm'),
       });
     }
     this.getFilterList('motifs', this.listService.list.EXIT_TYPE);
@@ -161,7 +162,7 @@ export class ModalAddSortieComponent implements OnInit {
         personal_id: this.formGroup.getRawValue().personal_id,
         motif_id: this.formGroup.getRawValue().motif_id,
         requested_at: formatDateForBackend(this.formGroup.getRawValue().requested_at),
-        end_date_preavis: formatDateTimeForBackend(moment(this.formGroup.getRawValue().end_date_preavis, 'DD/MM/YYYY hh:mm'))
+        end_date_preavis: formatDateTimeForBackend(moment(this.formGroup.getRawValue().end_date_preavis, 'DD/MM/YYYY HH:mm'))
       }
       console.log('params', params);
       let res;
@@ -202,7 +203,7 @@ export class ModalAddSortieComponent implements OnInit {
 
       const res = await this.personalService.getPreavisCalculation(params).toPromise();
       console.log('res getPreavisCalculation', res);
-      this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).format('DD/MM/YYYY hh:mm')});
+      this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).format('DD/MM/YYYY HH:mm')});
     }catch (e) {
       console.log('error getPreavisCalculation', e);
     }finally {

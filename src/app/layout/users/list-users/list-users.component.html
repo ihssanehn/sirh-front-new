@@ -1050,7 +1050,7 @@
                   <td data-title="Entité" >{{sortie?.personal?.manager_name || 'NSI'}}</td>
                   <td data-title="Entité" >{{ (sortie?.requested_at | dateMessage) || 'N.R'}}</td>
                   <td data-title="Entité" >{{sortie?.motif?.label || 'N.R'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.end_date_preavis | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{ (sortie?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (sortie?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (sortie?.end_date | dateMessage) || 'N.R'}}</td>
                   <td data-title="Entité" >

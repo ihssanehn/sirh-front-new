@@ -103,7 +103,7 @@ export function formatDateForBackend(date){
 }
 
 export function formatDateTimeForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD hh:mm:ss') : null;
+  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD HH:mm:ss') : null;
 }
 
 export function getFormValidationErrors(form) {
