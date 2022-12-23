@@ -98,12 +98,13 @@
 .icon-cell{
   width: 70px;
 }
-.table-wrapper{
-  overflow: auto;
-}
+
 .wrap{
   justify-content: flex-start !important;
-  overflow: auto;
+  overflow: visible;
+  .table-wrapper{
+    overflow: visible;
+  }
 }
 
 .wrap table {
@@ -115,7 +116,7 @@
 }
 
 table{
-  
+
   thead{
     th{
       //white-space: nowrap!important;

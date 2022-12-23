@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import Swal from 'sweetalert2';
@@ -20,6 +20,7 @@ import {
 } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
 import {PersonalService} from "@services/personal.service";
 import {formatDateForBackend} from "@shared/Utils/SharedClasses";
+import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 
 
 
@@ -81,9 +82,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     member_ships: [],
     profiles: [],
     profit_centers: [],
-    // managers: [],
-    // status: [],
-    // type: [],
+
 
     business_lines: [],
     op_directions: [],
@@ -110,40 +109,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     email_professional: false;
     birthday: false;
 
-
-    // parameter: any;
-    // nationality_id: number;
-    // permissions: Array<any>;
-    // perimeters: Array<any>;
-    // email_personal: string;
-    // civility: string;
-    // birth_place: string;
-    // nationality: string;
-    // address: string;
-    // code_postal: string;
-    // city: string;
-    // creator_id: number;
-    // manager_id: number;
-    // kids_number: number;
-    // number_security_social: number;
-    // number_carte_vitale: any;
-    // urgency_name_1: string;
-    // urgency_telephone_1: string;
-    // family_link_1: string;
-    // urgency_name_2: any;
-    // urgency_telephone_2: any;
-    // family_link_2: any;
-    // telephone_professional: string;
-    // family_situation_id: number;
-    // validator_absence_id: any;
-    // status_id: number;
-    // cp_id: number;
-    // is_head_office: any;
-    // is_part_time: any;
-    // first_annual_salary: string;
-    // benefits: string;
-    // created_at: Date;
-    // updated_at: Date;
   }
   loadingData: boolean;
   type;
@@ -152,101 +117,21 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   actions;
   model_type;
 
-  //   {
-  //     id: 1,
-  //     label: 'DPAE',
-  //     checked: false,
-  //     slug:'DPAE'
-  //   },
-  //   {
-  //     id: 2,
-  //     label: 'APICIL',
-  //     checked: false,
-  //     slug:'APICIL'
-  //   },
-  //   {
-  //     id: 3,
-  //     label: 'Carte D\'identité',
-  //     checked: false,
-  //     slug:'ID_CARD'
-  //   },
-  //   // {
-  //   //   id: 4,
-  //   //   label: 'RIB',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 5,
-  //   //   label: 'Relance Mail Documents',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 5,
-  //   //   label: 'Inscription AST',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 6,
-  //   //   label: 'Création SIRH',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 7,
-  //   //   label: 'Mail Informatique',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 8,
-  //   //   label: 'Mail Embauche',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 9,
-  //   //   label: 'Envoi Matricule DIGIPOSTE',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 10,
-  //   //   label: 'Envoi Code SIMUS',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 11,
-  //   //   label: 'Saisie ADP',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 12,
-  //   //   label: 'MAJ Tableau Primes',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 13,
-  //   //   label: 'Modif Matricule SIRH',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 14,
-  //   //   label: 'Bilan D\'intégration',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 15,
-  //   //   label: 'Journée D\'intégration + Remise Du Kit',
-  //   //   checked: false
-  //   // },
-  //   // {
-  //   //   id: 16,
-  //   //   label: 'Bouteille De Champagne',
-  //   //   checked: false
-  //   // }
-  // ];
   columns_sortie = [
 
   ];
   columns_entree;
   _allActions;
 
+  medical_center_search =  (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap( (term) => {
+          return this.listService.getAll(this.listService.list.MEDICAL_CENTER, {keyword: term});
+        }
+      )
+    );
   constructor(private userService : UserService,
               private personalService : PersonalService,
               private translate: TranslateService,
@@ -567,6 +452,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }
     try{
       const result = await this.personalService.updateEntretien(params).toPromise();
+      this.getUsers();
       if(result){
         this.messageService.add({
           severity: 'success',
@@ -586,4 +472,40 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  async updateVM(input_name: string, id, value) {
+    const params = {
+      id,
+      [input_name]: input_name === 'scheduled_date' ? formatDateForBackend(value): value
+    }
+    try{
+      const result = await this.personalService.updateVM(params).toPromise();
+      this.getUsers();
+      if(result){
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Parfait!',
+          detail: 'La date a bien été modifiée',
+          sticky: false,
+        });
+      }
+    }catch (err){
+      console.log('err updateDateInterview', err);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur!',
+        detail: 'Une erreur est survenue, veillez réessayer plus tard',
+        sticky: false,
+      })
+    }finally {
+    }
+  }
+
+  openVmForEditting(input: string, vm) {
+    if(input === 'centre'){
+      vm.tmp_medical_centre = vm.centre;
+      vm.is_editting_mc = true
+    }
+  }
+
 }

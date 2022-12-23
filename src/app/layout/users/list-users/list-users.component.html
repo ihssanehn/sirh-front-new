@@ -665,10 +665,47 @@
                 </td>
                 <td>{{vm?.personal?.entity?.label || 'entity_name'}}</td>
                 <td>{{vm?.personal?.siege?.label || 'siege_name'}}</td>
-                <td>{{vm?.centre || 'medical_center'}} &nbsp;<i class="icon-edit-bold"></i></td>
-                <td>{{vm?.scheduled_date | dateMessage}}</td>
                 <td>
-                  <span class="link">Ajouter une date</span>
+                  <ng-container *ngIf="vm.is_editting_mc; else mc_label_temp">
+                    <div class="d-flex align-items-center">
+                      <input id="typeahead-basic"
+                             type="text"
+                             class="form-control input"
+                             [placeholder]="'Saisir le nom du centre médical'"
+                             [(ngModel)]="vm.tmp_medical_centre"
+                             [ngbTypeahead]="medical_center_search"
+                      />
+                      <div class="text-center d-flex text-nowrap">
+                        &nbsp;&nbsp;<i class="icon-check primary-icon pointer" (click)="updateVM('centre', vm.id, vm.tmp_medical_centre)"></i>
+                        &nbsp;&nbsp;<i class="icon-close danger-icon pointer" (click)="vm.is_editting_mc = false"></i>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #mc_label_temp>
+                    {{vm?.centre || 'Ajouter un centre médical'}}
+                    &nbsp;<i class="icon-edit-bold primary-icon pointer" (click)="openVmForEditting('centre', vm)"></i>
+                  </ng-template>
+                </td>
+                <td>
+                  <span>--</span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <owl-date-time #owl_dt2 [pickerType]="'calendar'"
+                    ></owl-date-time>
+                    <input [owlDateTime]="owl_dt2"
+                           class="form-control input date"
+                           [owlDateTimeTrigger]="owl_dt2"
+                           [placeholder]="'Sélectionner une date'"
+                           [(ngModel)]="vm.scheduled_date"
+                           style="width: 0;margin: 0; padding: 0;visibility: hidden"
+                           #scheduled_date_input
+                           (ngModelChange)="updateVM('scheduled_date', vm.id, vm.scheduled_date)"
+                    />
+                    <span class="pointer" [ngClass]="{'link': !vm?.scheduled_date}" (click)="scheduled_date_input.click()">
+                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{vm?.scheduled_date ? (vm?.scheduled_date | dateMessage): 'Ajouter une date'}}
+                        </span>
+                  </div>
                 </td>
                 <ng-container *ngFor="let histo of vm?.historiques_actions">
                   <td>
