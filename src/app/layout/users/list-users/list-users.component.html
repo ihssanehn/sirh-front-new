@@ -632,7 +632,7 @@
                   <td>{{item?.personal?.registration_number}}</td>
                   <td>{{item?.personal?.entity?.label || 'entity_name'}}</td>
                   <td>{{ (item?.personal?.entry_date | dateMessage )|| 'date entree'}}</td>
-                  <td>{{item?.personal?.manager?.nom}} {{item?.personal?.manager?.prenom}}</td>
+                  <td>{{item?.personal?.manager?.full_name}}</td>
                   <td>{{item?.type?.label || 'entretien_type'}}</td>
                   <td>
                     {{item?.theoretical_date | dateMessage}}
@@ -1420,20 +1420,21 @@
                       [(ngModel)]="pagination"
                       ngDefaultControl>
       </app-pagination>
-      <!-- <div class="right-buttons flex-end">
-        <app-button
-          [text]="'Importer'"
-          [type]="'tertiary_inverse'"
-          [iconLeft]="'icon-file'"
-          [customStyle]="{'white-space': 'nowrap'}"
-        ></app-button>&nbsp;
+      <div class="right-buttons flex-end">
+<!--        <app-button-->
+<!--          [text]="'Importer'"-->
+<!--          [type]="'tertiary_inverse'"-->
+<!--          [iconLeft]="'icon-file'"-->
+<!--          [customStyle]="{'white-space': 'nowrap'}"-->
+<!--        ></app-button>&nbsp;-->
         <app-button
           [text]="'Exporter'"
           [type]="'tertiary_inverse'"
           [iconLeft]="'icon-file'"
           [customStyle]="{'white-space': 'nowrap'}"
+          (onClick)="export()"
         ></app-button>
-      </div> -->
+      </div>
     </div>
   </ng-container>
 </div>

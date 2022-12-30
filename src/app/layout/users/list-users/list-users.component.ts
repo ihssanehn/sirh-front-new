@@ -4,8 +4,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
-import Swal from 'sweetalert2';
-import {User} from "@app/core/entities";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
@@ -21,7 +19,7 @@ import {
 import {PersonalService} from "@services/personal.service";
 import {formatDateForBackend} from "@shared/Utils/SharedClasses";
 import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
-
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -489,4 +487,53 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     }
   }
 
+  async export(){
+    try{
+      const params = {
+        type: this.type
+      }
+      Object.keys(this.filter).forEach(key => {
+        if(this.filter[key] !== null && this.filter[key] !== []){
+          params[key] = this.filter[key];
+        }
+      })
+      let entity = null;
+      switch (this.type){
+        case 'period_essai': {
+          entity = 'personal_trial_period';
+          break;
+        }
+        case 'entree': {
+          entity = 'entrances';
+          break;
+        }
+        case 'sortie': {
+          entity = 'exit';
+          break;
+        }
+        case 'entretien': {
+          entity = 'interview';
+          break;
+        }
+        case 'formation': {
+          entity = 'personal_formation';
+          break;
+        }
+        case 'visite_medicale': {
+          entity = 'medical_visit';
+          break;
+        }
+      }
+      if(!entity){
+        return;
+      }
+      const res = await this.personalService.export(params, entity).toPromise();
+      console.log('res export', res);
+      saveAs(res.body, `export_${entity}.xlsx`);
+    }catch (e){
+
+    }finally {
+
+    }
+  }
 }

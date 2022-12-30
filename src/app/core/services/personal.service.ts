@@ -69,4 +69,8 @@ export class PersonalService {
   getPersonalExtraInfo() {
     return this.apiService.get('personal_a/get/info').pipe(map(result => result?.result?.data || []));
   }
+
+  export(params, entity) {
+    return this.apiService.post('personal/'+entity+'/export', params, true);
+  }
 }
