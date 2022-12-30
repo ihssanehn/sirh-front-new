@@ -1,4 +1,4 @@
-<input type="file" style="display: none" id="uploadMoreFiles"
+<input type="file" style="display: none" id="uploadInterviewFiles"
        #uploadMoreFiles
        multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 <div class="container top-container">
@@ -169,7 +169,7 @@
                       </div>
                       <div class="col">
                         <div class="row files-viewer">
-                          <label class="col-12  text-center" for="uploadMoreFiles">
+                          <label class="col-12  text-center" for="uploadInterviewFiles">
                             <i class="icon-attachment"></i>
                             &nbsp;Ajouter une pièce jointe
                           </label>
@@ -208,7 +208,7 @@
                           </span>&nbsp;&nbsp;
                           <span>{{item.type.label}}</span>
                         </div>
-                    
+
                     </ng-container>
                   </div>
                 </div>

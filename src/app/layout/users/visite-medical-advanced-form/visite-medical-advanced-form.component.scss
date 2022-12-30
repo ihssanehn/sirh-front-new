@@ -55,3 +55,16 @@
     line-height: 30px;
   }
 }
+
+.files-viewer{
+  background: #068aff0a;
+  min-height: 50px
+}
+.emptyStateFiles{
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $mainGray;
+}
+

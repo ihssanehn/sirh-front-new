@@ -169,10 +169,25 @@ table{
   padding: 0 !important;
 }
 
+.name{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .category-cell{
   background: $lighterPrimaryColor;
   color: $primaryColor !important;
   text-align: center;
   padding: 0 !important;
   border-radius: 8px 8px 0 0;
+}
+
+::ng-deep .small-table{
+  margin-bottom: 10px;
+  td{
+    //padding-left: 0 !important;
+    //padding-right: 0 !important;
+    border: 0 !important;
+    padding: 4px 5px !important;
+  }
 }

@@ -289,7 +289,7 @@
       </h2>
     </div>
   <ng-container *ngIf="!loadingData; else loadingTemplate">
-    <div class="wrap" *ngIf="users?.length>0; else emptyState" >
+    <div class="wrap" *ngIf="listItems?.length>0; else emptyState" >
       <div class="table-wrapper">
         <ng-container [ngSwitch]="type">
           <ng-container *ngSwitchCase="'general'">
@@ -333,37 +333,37 @@
               </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of users"  >
-                  <td data-title="Numéro de registration" >{{user?.registration_number}}</td>
+                <tr *ngFor="let item of listItems"  >
+                  <td data-title="Numéro de registration" >{{item?.registration_number}}</td>
                   <td>
-                    <div class="photo-cell" [routerLink]="['/users/details/'+user.id]">
+                    <div class="photo-cell" [routerLink]="['/users/details/'+item.id]">
                       <div class="photo">
                         <div class="img-container">
                           <img
-                            [attr.src]="user?.photo_profile ? (user.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                        async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                            [attr.src]="item?.photo_profile ? (item.photo_profile |
+                        getPhotoFromBackend: ('assets/images/'+(item?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(item?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                           />
                         </div>
                       </div>
-                      <div class="name">{{user?.full_name}} </div>
+                      <div class="name">{{item?.full_name}} </div>
                     </div>
                   </td>
-                  <td data-title="Profile" >{{user?.profile_name}}</td>
-                  <td data-title="Rôle" >{{user?.role_name}}</td>
-                  <td data-title="Ceentre de profit"  >{{user?.cp_name}}</td>
-                  <td data-title="Appartenance" >{{user?.member_ship_name}}</td>
-                  <td data-title="Entrée"  >{{user?.entry_date | dateMessage}}</td>
-                  <td data-title="Sortie"  >{{user?.end_date | dateMessage}}</td>
-                  <td data-title="Telephone portable">{{user?.telephone_portable}}</td>
-                  <td data-title="Email">{{user?.email}}</td>
-                  <td>{{user?.last_login | timeAgo}} </td>
+                  <td data-title="Profile" >{{item?.profile_name}}</td>
+                  <td data-title="Rôle" >{{item?.role_name}}</td>
+                  <td data-title="Ceentre de profit"  >{{item?.cp_name}}</td>
+                  <td data-title="Appartenance" >{{item?.member_ship_name}}</td>
+                  <td data-title="Entrée"  >{{item?.entry_date | dateMessage}}</td>
+                  <td data-title="Sortie"  >{{item?.end_date | dateMessage}}</td>
+                  <td data-title="Telephone portable">{{item?.telephone_portable}}</td>
+                  <td data-title="Email">{{item?.email}}</td>
+                  <td>{{item?.last_login | timeAgo}} </td>
                   <td style="text-align: right;padding-right: 0;">
                     <div class="actions">
                       <i class="icon-eye"
                          data-toggle="tooltip"
                          data-placement="top"
-                         (click)="goToUpdateUser(user)"
+                         (click)="goToUpdateUser(item)"
                          title="Détails"></i>
                     </div>
                   </td>
@@ -417,89 +417,225 @@
                </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let pe of users"  >
-                <td data-title="Numéro de registration" >{{pe?.personal?.registration_number}}</td>
-                <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 1, user_id: pe.personal_id}">
-                    <div class="photo">
-                      <div class="img-container">
-                        <img
-                          [attr.src]="user?.photo_profile ? (user.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(pe?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                        async) : ('assets/images/'+(pe?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
-                        />
-                      </div>
+                <tr *ngFor="let item of listItems"  >
+                  <td data-title="Numéro de registration" >{{item?.personal?.registration_number}}</td>
+                    <ng-template #infopopover>
+                    <div class="title">
+                      {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                      <span class="light-text">({{item?.personal?.registration_number}})</span>
                     </div>
-                    <div class="name">{{pe?.personal?.nom}} {{pe?.personal?.prenom}} </div>
-                  </div>
-                </td>
-                <td data-title="Centre de profit" class="tel">{{pe?.personal?.manager?.nom}} {{pe?.personal?.manager?.nom}}</td>
-                <td data-title="Rôle" >{{pe?.personal?.status?.label || 'status_personal'}}</td>
-                <td data-title="Entrée" class="tel">{{ (pe?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                <td data-title="Numéro de registration" >{{pe?.decision?.label || 'à confirmer' }}</td>
-                <td data-title="Sortie" class="tel">{{(pe?.renewal_date | dateMessage) || 'N.R'}}</td>
-                <td data-title="Sortie" class="tel">{{(pe?.end_date | dateMessage) || 'N.R'}}</td>
-                <td data-title="Sortie" class="tel">{{(pe?.personal?.end_date | dateMessage) || 'N.R'}}</td>
-                <ng-container *ngFor="let histo of pe?.historiques_actions">
+                    <table class="small-table">
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Date d'entrée</div>
+                        </td>
+                        <td>
+                          <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Société</div>
+                        </td>
+                        <td>
+                          <div class="value" >Private discuss</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Centre de profit</div>
+                        </td>
+                        <td>
+                          <div class="value" >CDP 8</div>
+                        </td>
+                      </tr>
+                    </table>
+                    <ng-container
+                        *ngIf="item?.has_interview_to_validate ||  item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                        <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                        <table class="small-table">
+                          <tr *ngIf="item?.has_trial_period_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_interview_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                            <td>
+                              <div class="item danger-text" >
+                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </ng-container>
+                  </ng-template>
                   <td>
-                    <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
-                      <input type="checkbox"
-                             class="small-checkbox"
-                             [disabled]="histo?.checked"
-                             [ngClass]="{'disabled': histo?.checked}"
-                             id="with_inactive_cp"
-                             (change)="markActionAsDone(histo.id, histo.checked)"
-                             [checked]="histo?.checked"
-                             [(ngModel)]="histo.checked"
-                             name="checbox_" >
+                    <div class="photo-cell">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [ngbPopover]="infopopover"
+                            placement="right"
+                            container="body"
+                            [autoClose]="true"
+                            [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
+                          getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                          async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                          />
+                          <i class="fa fa-exclamation-triangle danger-icon"
+                             *ngIf="item?.has_interview_to_validate ||  item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate"
+                          ></i>
+                        </div>
+                      </div>
+                      <div class="name"
+                           [routerLink]="['/users/details']" [queryParams]="{step: STEPS.periode_essai, user_id: item.personal_id}"
+                      >{{item?.personal?.nom}} {{item?.personal?.prenom}} </div>
                     </div>
                   </td>
-              </ng-container>
-
-              </tr>
+                  <td data-title="Centre de profit" class="tel">{{item?.personal?.manager?.nom}} {{item?.personal?.manager?.nom}}</td>
+                  <td data-title="Rôle" >{{item?.personal?.status?.label || 'status_personal'}}</td>
+                  <td data-title="Entrée" class="tel">{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Numéro de registration" >{{item?.decision?.label || 'à confirmer' }}</td>
+                  <td data-title="Sortie" class="tel">{{(item?.renewal_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Sortie" class="tel">{{(item?.end_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Sortie" class="tel">{{(item?.personal?.end_date | dateMessage) || 'N.R'}}</td>
+                  <ng-container *ngFor="let histo of item?.historiques_actions">
+                    <td>
+                      <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
+                        <input type="checkbox"
+                               class="small-checkbox"
+                               [disabled]="histo?.checked"
+                               [ngClass]="{'disabled': histo?.checked}"
+                               id="with_inactive_cp"
+                               (change)="markActionAsDone(histo.id, histo.checked)"
+                               [checked]="histo?.checked"
+                               [(ngModel)]="histo.checked"
+                               name="checbox_" >
+                      </div>
+                    </td>
+                </ng-container>
+                </tr>
               </tbody>
             </table>
           </ng-container>
           <ng-container *ngSwitchCase="'entretien'">
             <table class="table-responsive card-list-table">
               <thead>
-              <tr>
-                <th>Matricule</th>
-                <th>Salarié</th>
-                <th>Société</th>
-                <th>Date entrée</th>
-                <th>Centre de profit</th>
-                <th>Type entretien</th>
-                <th>Date théorique</th>
-                <th>Date effective</th>
-                <th>Etat</th>
-                <th>Pièces jointes</th>
-                <th style="text-align: right">Actions</th>
-              </tr>
+                 <tr>
+                   <th>Salarié</th>
+                    <th>Matricule</th>
+                    <th>Société</th>
+                    <th>Date entrée</th>
+                    <th>Centre de profit</th>
+                    <th>Type entretien</th>
+                    <th>Date théorique</th>
+                    <th>Date effective</th>
+                    <th>Etat</th>
+                    <th>Pièces jointes</th>
+                    <th style="text-align: right">Actions</th>
+                  </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let interview of users"  >
-                  <td>{{interview?.personal?.registration_number}}</td>
+                <tr *ngFor="let item of listItems"  >
+                  <ng-template #infopopover>
+                    <div class="title">
+                      {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                      <span class="light-text">({{item?.personal?.registration_number}})</span>
+                    </div>
+                    <table class="small-table">
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Date d'entrée</div>
+                        </td>
+                        <td>
+                          <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Société</div>
+                        </td>
+                        <td>
+                          <div class="value" >Private discuss</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Centre de profit</div>
+                        </td>
+                        <td>
+                          <div class="value" >CDP 8</div>
+                        </td>
+                      </tr>
+                    </table>
+                    <ng-container
+                        *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate"
+                      >
+                        <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                        <table class="small-table">
+                          <tr *ngIf="item?.has_trial_period_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_interview_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                            <td>
+                              <div class="item danger-text" >
+                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </ng-container>
+                  </ng-template>
                   <td>
-                    <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 2, user_id: interview?.personal_id}">
+                    <div class="photo-cell">
                       <div class="photo">
                         <div class="img-container">
                           <img
-                            [attr.src]="entrance?.photo_profile ? (user.photo_profile |
-                          getPhotoFromBackend: ('assets/images/'+(interview?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
-                          async) : ('assets/images/'+(interview?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
-                            />
+                            [ngbPopover]="infopopover"
+                            placement="right"
+                            container="body"
+                            [autoClose]="true"
+                            [attr.src]="item?.photo_profile ? (item?.personal?.photo_profile |
+                          getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
+                          async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                          />
+                          <i class="fa fa-exclamation-triangle danger-icon"
+                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                            ></i>
                         </div>
                       </div>
-                      <div class="name">{{interview?.personal?.nom}} {{interview?.personal?.prenom}} </div>
+                      <div class="name"
+                           [routerLink]="['/users/details']" [queryParams]="{step: STEPS.entretien, user_id: item?.personal_id}"
+                      >{{item?.personal?.nom}} {{item?.personal?.prenom}} </div>
                     </div>
                   </td>
-                  <td>{{interview?.personal?.entity?.label || 'entity_name'}}</td>
-                  <td>{{ (interview?.personal?.entry_date | dateMessage )|| 'date entree'}}</td>
-                  <td>{{interview?.personal?.manager?.nom}} {{interview?.personal?.manager?.prenom}}</td>
-                  <td>{{interview?.type?.label || 'entretien_type'}}</td>
+                  <td>{{item?.personal?.registration_number}}</td>
+                  <td>{{item?.personal?.entity?.label || 'entity_name'}}</td>
+                  <td>{{ (item?.personal?.entry_date | dateMessage )|| 'date entree'}}</td>
+                  <td>{{item?.personal?.manager?.nom}} {{item?.personal?.manager?.prenom}}</td>
+                  <td>{{item?.type?.label || 'entretien_type'}}</td>
                   <td>
-                    {{interview?.theoretical_date | dateMessage}}
+                    {{item?.theoretical_date | dateMessage}}
                   </td>
                   <td>
                     <div class="d-flex align-items-center">
@@ -509,17 +645,17 @@
                              class="form-control input date"
                              [owlDateTimeTrigger]="owl_dt1"
                              [placeholder]="'Sélectionner une date'"
-                             [(ngModel)]="interview.effective_date"
+                             [(ngModel)]="item.effective_date"
                              style="width: 0;margin: 0; padding: 0;visibility: hidden"
                              #effective_date_input
-                             (ngModelChange)="updateDateInterview(interview.id, interview.effective_date)"
+                             (ngModelChange)="updateDateInterview(item.id, item.effective_date)"
                       />
-                      <span class="pointer" [ngClass]="{'link': !interview?.effective_date}" (click)="effective_date_input.click()">
-                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{interview?.effective_date ? (interview?.effective_date | dateMessage): 'Ajouter une date'}}
+                      <span class="pointer" [ngClass]="{'link': !item?.effective_date}" (click)="effective_date_input.click()">
+                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{item?.effective_date ? (item?.effective_date | dateMessage): 'Ajouter une date'}}
                         </span>
                     </div>
                   </td>
-                  <td>{{interview.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
+                  <td>{{item.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
                   <td >
                     <!-- <span class="link">Attacher un document</span> &nbsp; -->
                     <i class="icon-attachment"></i>
@@ -544,70 +680,110 @@
           <ng-container *ngSwitchCase="'formation'">
             <table class="table-responsive card-list-table">
               <thead>
-              <tr>
-                <th>Matricule</th>
-                <th>Nom</th>
-                <th>Profil</th>
-                <th>Centre de profit</th>
-                <th>Email</th>
-                <th>Tel</th>
-                <th class="icon-cell"></th>
-              </tr>
+                <tr>
+                  <th>Nom</th>
+                  <th>Matricule</th>
+                  <th>Profil</th>
+                  <th>Centre de profit</th>
+                  <th>Email</th>
+                  <th>Tel</th>
+                  <th class="icon-cell"></th>
+                </tr>
               </thead>
               <tbody>
-              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let user of users"  >
-                <td>{{user?.registration_number}}</td>
+                <tr *ngFor="let item of listItems"  >
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details/'+user.id]">
+                  <ng-template #infopopover>
+                    <div class="title">
+                      {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                      <span class="light-text">({{item?.personal?.registration_number}})</span>
+                    </div>
+                    <table class="small-table">
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Date d'entrée</div>
+                        </td>
+                        <td>
+                          <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Société</div>
+                        </td>
+                        <td>
+                          <div class="value" >Private discuss</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Centre de profit</div>
+                        </td>
+                        <td>
+                          <div class="value" >CDP 8</div>
+                        </td>
+                      </tr>
+                    </table>
+                    <ng-container
+                        *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate" >
+                        <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                        <table class="small-table">
+                          <tr *ngIf="item?.has_trial_period_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_interview_to_validate">
+                            <td>
+                              <div class="item danger-text">
+                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                            <td>
+                              <div class="item danger-text" >
+                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </ng-container>
+                  </ng-template>
+
+                  <div class="photo-cell">
                     <div class="photo">
                       <div class="img-container">
                         <img
-                          [attr.src]="user?.photo_profile ? (user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(user?.civility === 'Mme' ? 'woman.png': 'man.png'))"
+                          [ngbPopover]="infopopover"
+                          placement="right"
+                          container="body"
+                          [autoClose]="true"
+                          [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png'))"
                         />
                       </div>
                     </div>
-                    <div class="name">{{user?.full_name}} </div>
+                    <div class="name"
+                         [routerLink]="['/users/details']" [queryParams]="{step: STEPS.formation, user_id: item?.personal_id}"
+                    >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                   </div>
                 </td>
-                <td data-title="Email" >{{user?.profile_name}}</td>
-                <td data-title="Téléphonne" class="tel">{{user?.cp_name}}</td>
-                <td data-title="Profil">{{user?.email_professional}}</td>
-                <td data-title="Centre d'interêt">{{user?.telephone_professional}}</td>
-
-                <!--                        <td data-title="Date de création" class="text-center">{{user?.created_at | defaultFormat }}</td>-->
-                <!--                        <td data-title="Dernière activité" class="lightcell">{{user?.last_activity | timeAgo }}</td>-->
+                <td>{{item?.registration_number}}</td>
+                <td data-title="Email" >{{item?.profile_name}}</td>
+                <td data-title="Téléphonne" class="tel">{{item?.cp_name}}</td>
+                <td data-title="Profil">{{item?.email_professional}}</td>
+                <td data-title="Centre d'interêt">{{item?.telephone_professional}}</td>
                 <td >
-                  <!--                            appStopPropagation-->
                   <div class="actions">
                     <i class="icon-eye"
                        data-toggle="tooltip"
                        data-placement="top"
-                       (click)="goToUpdateUser(user)"
+                       (click)="goToUpdateUser(item)"
                        title="Détails"></i>
-                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
-
-                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
-                    <!--                                    <i class="fa fa-lock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askBlockUser(user.id)"-->
-                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-container>-->
-                    <!--                                <ng-template #unlock>-->
-                    <!--                                    <i class="fa fa-unlock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askUnBlockUser(user.id)"-->
-                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-template>-->
-                    <!--                                <i class="fa fa-trash"-->
-                    <!--                                   (click)="archive(user.id)"-->
-                    <!--                                   data-toggle="tooltip"-->
-                    <!--                                   data-placement="top"-->
-                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
                   </div>
                 </td>
               </tr>
@@ -619,10 +795,10 @@
               <thead>
               <tr>
                 <th>
-                  Matricule
+                  Salarié
                 </th>
                 <th>
-                  Salarié
+                  Matricule
                 </th>
                 <th>
                   Société
@@ -646,44 +822,113 @@
               </tr>
               </thead>
               <tbody>
-              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let vm of users"  >
-                <td>{{vm?.personal?.registration_number}}</td>
+              <tr *ngFor="let item of listItems"  >
                 <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 3, user_id: vm.personal_id}">
+                  <ng-template #infopopover>
+                    <div class="title">
+                      {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                      <span class="light-text">({{item?.personal?.registration_number}})</span>
+                    </div>
+                    <table class="small-table">
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Date d'entrée</div>
+                        </td>
+                        <td>
+                          <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Société</div>
+                        </td>
+                        <td>
+                          <div class="value" >Private discuss</div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="label blue-text" >Centre de profit</div>
+                        </td>
+                        <td>
+                          <div class="value" >CDP 8</div>
+                        </td>
+                      </tr>
+                    </table>
+                    <ng-container
+                      *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate ||  item?.has_trial_period_to_validate"
+                    >
+                      <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                      <table class="small-table">
+                        <tr *ngIf="item?.has_trial_period_to_validate">
+                          <td>
+                            <div class="item danger-text">
+                              Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr *ngIf="item?.has_interview_to_validate">
+                          <td>
+                            <div class="item danger-text">
+                              Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr *ngIf="item?.has_medical_visit_to_validate">
+                          <td>
+                            <div class="item danger-text" >
+                              Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </ng-container>
+                  </ng-template>
+
+                  <div class="photo-cell">
                     <div class="photo">
                       <div class="img-container">
                         <img
-                          [attr.src]="user?.photo_profile ? (user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(vm?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(vm?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                          [ngbPopover]="infopopover"
+                          placement="right"
+                          container="body"
+                          [autoClose]="false"
+                          [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                         />
+                        <i class="fa fa-exclamation-triangle danger-icon"
+                           *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                          ></i>
                       </div>
                     </div>
-                    <div class="name">{{vm?.personal?.nom}} {{vm?.personal?.prenom}}</div>
+                    <div class="name"
+                         [routerLink]="['/users/details']" [queryParams]="{step: STEPS.visite_medicale, user_id: item?.personal_id}"
+                    >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                   </div>
                 </td>
-                <td>{{vm?.personal?.entity?.label || 'entity_name'}}</td>
-                <td>{{vm?.personal?.siege?.label || 'siege_name'}}</td>
+                <td>{{item?.personal?.registration_number}}</td>
+                <td>{{item?.personal?.entity?.label || 'entity_name'}}</td>
+                <td>{{item?.personal?.siege?.label || 'siege_name'}}</td>
                 <td>
-                  <ng-container *ngIf="vm.is_editting_mc; else mc_label_temp">
+                  <ng-container *ngIf="item.is_editting_mc; else mc_label_temp">
                     <div class="d-flex align-items-center">
                       <input id="typeahead-basic"
                              type="text"
                              class="form-control input"
                              [placeholder]="'Saisir le nom du centre médical'"
-                             [(ngModel)]="vm.tmp_medical_centre"
+                             [(ngModel)]="item.tmp_medical_centre"
                              [ngbTypeahead]="medical_center_search"
                       />
                       <div class="text-center d-flex text-nowrap">
-                        &nbsp;&nbsp;<i class="icon-check primary-icon pointer" (click)="updateVM('centre', vm.id, vm.tmp_medical_centre)"></i>
-                        &nbsp;&nbsp;<i class="icon-close danger-icon pointer" (click)="vm.is_editting_mc = false"></i>
+                        &nbsp;&nbsp;<i class="icon-check primary-icon pointer" (click)="updateVM('centre', item.id, item.tmp_medical_centre)"></i>
+                        &nbsp;&nbsp;<i class="icon-close danger-icon pointer" (click)="item.is_editting_mc = false"></i>
                       </div>
                     </div>
                   </ng-container>
                   <ng-template #mc_label_temp>
-                    {{vm?.centre || 'Ajouter un centre médical'}}
-                    &nbsp;<i class="icon-edit-bold primary-icon pointer" (click)="openVmForEditting('centre', vm)"></i>
+                    {{item?.centre || 'Ajouter un centre médical'}}
+                    &nbsp;<i class="icon-edit-bold primary-icon pointer" (click)="openVmForEditting('centre', item)"></i>
                   </ng-template>
                 </td>
                 <td>
@@ -697,17 +942,17 @@
                            class="form-control input date"
                            [owlDateTimeTrigger]="owl_dt2"
                            [placeholder]="'Sélectionner une date'"
-                           [(ngModel)]="vm.scheduled_date"
+                           [(ngModel)]="item.scheduled_date"
                            style="width: 0;margin: 0; padding: 0;visibility: hidden"
                            #scheduled_date_input
-                           (ngModelChange)="updateVM('scheduled_date', vm.id, vm.scheduled_date)"
+                           (ngModelChange)="updateVM('scheduled_date', item.id, item.scheduled_date)"
                     />
-                    <span class="pointer" [ngClass]="{'link': !vm?.scheduled_date}" (click)="scheduled_date_input.click()">
-                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{vm?.scheduled_date ? (vm?.scheduled_date | dateMessage): 'Ajouter une date'}}
+                    <span class="pointer" [ngClass]="{'link': !item?.scheduled_date}" (click)="scheduled_date_input.click()">
+                         <i class="fa fa-calendar primary-icon"></i>&nbsp; {{item?.scheduled_date ? (item?.scheduled_date | dateMessage): 'Ajouter une date'}}
                         </span>
                   </div>
                 </td>
-                <ng-container *ngFor="let histo of vm?.historiques_actions">
+                <ng-container *ngFor="let histo of item?.historiques_actions">
                   <td>
                     <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <input type="checkbox"
@@ -722,23 +967,13 @@
                     </div>
                   </td>
               </ng-container>
-                <!-- <td>
-                  <div class="check-box-btn">
-                    <input type="checkbox"
-                           class="small-checkbox"
-                           id="invitation_sent"
-                           [checked]="vm.invitation_sent"
-                           [(ngModel)]="vm.invitation_sent"
-                           name="invitation_sent" >
-                  </div>
-                </td> -->
                 <td></td>
                 <td>
                   <div class="actions">
                     <i class="icon-edit"
                        data-toggle="tooltip"
                        data-placement="top"
-                       (click)="openSelectRole('visite_medicale', vm)"
+                       (click)="openSelectRole('visite_medicale', item)"
                        title="Modifier"></i>
                   </div>
                 </td>
@@ -758,7 +993,6 @@
                   <th></th>
                   <th></th>
                   <th></th>
-                  <!-- <th colspan="2" class="category-cell">Salarié étranger</th> -->
                   <th></th>
                   <th></th>
                   <th></th>
@@ -769,10 +1003,10 @@
                 </tr>
                 <tr>
                   <th>
-                    Matricule
+                    Salarié
                   </th>
                   <th>
-                    Salarié
+                    Matricule
                   </th>
                   <th>
                     Société
@@ -792,18 +1026,6 @@
                   <th>
                     Statut
                   </th>
-                  <!-- <th>
-                    Vérification TS préfecture
-                  </th>
-                  <th>
-                    Demande d'authorisation de travail
-                  </th>
-                  <th>
-                    Contrat signé
-                  </th>
-                  <th>
-                    Annulé?
-                  </th> -->
                   <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <th>
                         {{extraColumn.label}}
@@ -838,76 +1060,143 @@
                 </tr>
               </thead>
               <tbody>
-              <!--                [routerLink]="['/users/info/'+user.id]"  (click)="openModal()"-->
-              <tr *ngFor="let entrance of users">
-                <td data-title="Matricule" >{{entrance?.personal?.registration_number || 'N.R'}}</td>
-                <td>
-                  <div class="photo-cell"  [routerLink]="['/users/details']" [queryParams]="{step: 0, user_id: entrance.personal.id}">
-                    <div class="photo">
-                      <div class="img-container">
-                        <img
-                          [attr.src]="entrance?.photo_profile ? (user.photo_profile |
-                      getPhotoFromBackend: ('assets/images/'+(entrance?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
-                      async) : ('assets/images/'+(entrance?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
-                        />
+                <tr *ngFor="let item of listItems">
+                  <td>
+                    <ng-template #infopopover>
+                      <div class="title">
+                        {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                        <span class="light-text">({{item?.personal?.registration_number}})</span>
                       </div>
-                    </div>
-                    <div class="name pointer">
-                        {{entrance?.personal?.nom || 'N.R'}}
-                        {{entrance?.personal?.prenom || 'N.R'}}
-                    </div>
-                  </div>
-                </td>
-                <td data-title="Entité" >{{entrance?.personal?.entity.label || 'Piman Consultants'}}</td>
-                <td data-title="Entité" >{{entrance?.personal?.siege?.label || 'N.R'}}</td>
-                <td data-title="Entité" >{{ (entrance?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                <td data-title="Entité" >{{entrance?.personal?.manager?.prenom + ' ' + entrance?.personal?.manager?.nom  || 'NSI'}}</td>
-                <td data-title="Entité" >{{entrance?.personal?.contrat.label || 'N.R'}}</td>
-                <td data-title="Entité" >{{entrance?.personal?.status?.label || 'Cadre'}}</td>
-                <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
-                    <td>
-                      <div class="check-box-btn"  [matTooltip]="entrance?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +entrance?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + entrance?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (entrance?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
-                        <input type="checkbox"
-                               class="small-checkbox"
-                               *ngIf="entrance.slug_actions[extraColumn.slug]"
-                               [disabled]="entrance?.slug_actions?.[extraColumn.slug]?.checked"
-                               [ngClass]="{'disabled': entrance?.slug_actions?.[extraColumn.slug]?.checked}"
-                               id="with_inactive_cp"
-                               (change)="markActionAsDone(entrance.slug_actions[extraColumn.slug].id,entrance.slug_actions[extraColumn.slug].checked)"
-                               [checked]="entrance?.slug_actions?.[extraColumn.slug]?.checked"
-                               [(ngModel)]="entrance.slug_actions[extraColumn.slug].checked"
-                               name="checbox_" >
+                      <table class="small-table">
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Date d'entrée</div>
+                          </td>
+                          <td>
+                            <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Société</div>
+                          </td>
+                          <td>
+                            <div class="value" >Private discuss</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Centre de profit</div>
+                          </td>
+                          <td>
+                            <div class="value" >CDP 8</div>
+                          </td>
+                        </tr>
+                      </table>
+                      <ng-container
+                          *ngIf="item?.has_interview_to_validate ||
+                             item?.has_medical_visit_to_validate ||
+                             item?.has_trial_period_to_validate"
+                        >
+                          <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                          <table class="small-table">
+                            <tr *ngIf="item?.has_trial_period_to_validate">
+                              <td>
+                                <div class="item danger-text">
+                                  Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr *ngIf="item?.has_interview_to_validate">
+                              <td>
+                                <div class="item danger-text">
+                                  Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr *ngIf="item?.has_medical_visit_to_validate">
+                              <td>
+                                <div class="item danger-text" >
+                                  Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </ng-container>
+                    </ng-template>
+                    <div class="photo-cell">
+                      <div class="photo">
+                        <div class="img-container">
+                          <img
+                            [ngbPopover]="infopopover"
+                            placement="right"
+                            container="body"
+                            [autoClose]="true"
+                            [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
+                      getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                      async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                          />
+                          <i class="fa fa-exclamation-triangle danger-icon"
+                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                            ></i>
+                        </div>
                       </div>
-                    </td>
-                </ng-container>
-                <td >
-                  <!--                            appStopPropagation-->
-                  <div class="actions">
+                      <div class="name"
+                           [routerLink]="['/users/details']" [queryParams]="{step: STEPS.entree, user_id: item?.personal_id}"
+                      >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
+                    </div>
+                  </td>
+                  <td data-title="Matricule" >{{item?.personal?.registration_number || 'N.R'}}</td>
 
-                    <!--                              <span class="d-none d-lg-flex">Détails</span>-->
+                  <td data-title="Entité" >{{item?.personal?.entity.label || 'Piman Consultants'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.siege?.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.manager?.prenom + ' ' + item?.personal?.manager?.nom  || 'NSI'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.contrat.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.status?.label || 'Cadre'}}</td>
+                  <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
+                      <td>
+                        <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
+                          <input type="checkbox"
+                                 class="small-checkbox"
+                                 *ngIf="item.slug_actions[extraColumn.slug]"
+                                 [disabled]="item?.slug_actions?.[extraColumn.slug]?.checked"
+                                 [ngClass]="{'disabled': item?.slug_actions?.[extraColumn.slug]?.checked}"
+                                 id="with_inactive_cp"
+                                 (change)="markActionAsDone(item.slug_actions[extraColumn.slug].id,item.slug_actions[extraColumn.slug].checked)"
+                                 [checked]="item?.slug_actions?.[extraColumn.slug]?.checked"
+                                 [(ngModel)]="item.slug_actions[extraColumn.slug].checked"
+                                 name="checbox_" >
+                        </div>
+                      </td>
+                  </ng-container>
+                  <td>
+                    <div class="actions">
 
-                    <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
-                    <!--                                    <i class="fa fa-lock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askBlockUser(user.id)"-->
-                    <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-container>-->
-                    <!--                                <ng-template #unlock>-->
-                    <!--                                    <i class="fa fa-unlock"-->
-                    <!--                                       data-toggle="tooltip"-->
-                    <!--                                       data-placement="top"-->
-                    <!--                                       (click)="askUnBlockUser(user.id)"-->
-                    <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
-                    <!--                                </ng-template>-->
-                    <!--                                <i class="fa fa-trash"-->
-                    <!--                                   (click)="archive(user.id)"-->
-                    <!--                                   data-toggle="tooltip"-->
-                    <!--                                   data-placement="top"-->
-                    <!--                                   title="{{'DELETE' | translate}}"></i>-->
-                  </div>
-                </td>
-              </tr>
+                      <!--                              <span class="d-none d-lg-flex">Détails</span>-->
+
+                      <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
+                      <!--                                    <i class="fa fa-lock"-->
+                      <!--                                       data-toggle="tooltip"-->
+                      <!--                                       data-placement="top"-->
+                      <!--                                       (click)="askBlockUser(user.id)"-->
+                      <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
+                      <!--                                </ng-container>-->
+                      <!--                                <ng-template #unlock>-->
+                      <!--                                    <i class="fa fa-unlock"-->
+                      <!--                                       data-toggle="tooltip"-->
+                      <!--                                       data-placement="top"-->
+                      <!--                                       (click)="askUnBlockUser(user.id)"-->
+                      <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
+                      <!--                                </ng-template>-->
+                      <!--                                <i class="fa fa-trash"-->
+                      <!--                                   (click)="archive(user.id)"-->
+                      <!--                                   data-toggle="tooltip"-->
+                      <!--                                   data-placement="top"-->
+                      <!--                                   title="{{'DELETE' | translate}}"></i>-->
+                    </div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </ng-container>
@@ -991,75 +1280,127 @@
               </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let sortie of users" >
+                <tr *ngFor="let item of listItems" >
                   <td>
                     <ng-template #infopopover>
                       <div class="title">
-                        {{sortie?.personal?.nom}} {{sortie?.personal?.prenom}}
-                        <span class="light-text">{{sortie?.personal?.registration_number}}</span>
+                        {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                        <span class="light-text">({{item?.personal?.registration_number}})</span>
                       </div>
-
-                      <div class="light-text">Développement en cours..</div>
+                      <table class="small-table">
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Date d'entrée</div>
+                          </td>
+                          <td>
+                            <div class="value" >{{item?.personal?.entry_date | dateMessage}}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Société</div>
+                          </td>
+                          <td>
+                            <div class="value" >Private discuss</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="label blue-text" >Centre de profit</div>
+                          </td>
+                          <td>
+                            <div class="value" >CDP 8</div>
+                          </td>
+                        </tr>
+                      </table>
+                      <ng-container
+                          *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate ||  item?.has_trial_period_to_validate">
+                          <div class="item danger-text text-decoration-underline">Informations manquantes</div>
+                          <table class="small-table">
+                            <tr *ngIf="item?.has_trial_period_to_validate">
+                              <td>
+                                <div class="item danger-text">
+                                  Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr *ngIf="item?.has_interview_to_validate">
+                              <td>
+                                <div class="item danger-text">
+                                  Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr *ngIf="item?.has_medical_visit_to_validate">
+                              <td>
+                                <div class="item danger-text" >
+                                  Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </ng-container>
                     </ng-template>
 
-                    <div class="photo-cell pointer"
-                         [routerLink]="['/users/details']"
-                         [queryParams]="{step: 0, user_id: sortie.personal.id}"
-                       [ngbPopover]="infopopover"
-                        triggers="mouseenter:mouseleave"
-                        placement="right"
-                         container="body"
-                         [autoClose]="true"
-                    >
+                    <div class="photo-cell pointer">
                       <div class="photo">
                         <div class="img-container">
                           <img
-                            [attr.src]="sortie?.photo_profile ? (user.photo_profile |
-                        getPhotoFromBackend: ('assets/images/'+(sortie?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
-                        async) : ('assets/images/'+(sortie?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                            [ngbPopover]="infopopover"
+                            placement="right"
+                            container="body"
+                            [autoClose]="true"
+                            [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
+                        getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                           />
+                          <i class="fa fa-exclamation-triangle danger-icon"
+                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                          ></i>
                         </div>
                       </div>
-                      <div class="name">
-                        {{sortie?.personal?.nom || 'N.R'}}
-                        {{sortie?.personal?.prenom || 'N.R'}}
+                      <div class="name"
+                           [routerLink]="['/users/details']" [queryParams]="{step: STEPS.sortie, user_id: item?.personal_id}"
+                      >
+                        {{item?.personal?.nom || 'N.R'}}
+                        {{item?.personal?.prenom || 'N.R'}}
                       </div>
                     </div>
                   </td>
                   <td data-title="Matricule" >
-                    {{sortie?.personal?.registration_number || 'N.R'}}
+                    {{item?.personal?.registration_number || 'N.R'}}
                   </td>
-                  <td data-title="Entité" >{{sortie?.personal?.entity_name || 'Piman Consultants'}}</td>
-                  <td data-title="Entité" >{{sortie?.personal?.structure || 'Structure'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{sortie?.personal?.manager_name || 'NSI'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.requested_at | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{sortie?.motif?.label || 'N.R'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{ (sortie?.end_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.entity_name || 'Piman Consultants'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.structure || 'Structure'}}</td>
+                  <td data-title="Entité" >{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.manager_name || 'NSI'}}</td>
+                  <td data-title="Entité" >{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.motif?.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
+                  <td data-title="Entité" >{{ (item?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{ (item?.end_date | dateMessage) || 'N.R'}}</td>
                   <td data-title="Entité" >
                       <i class="icon-attachment primary-icon"></i>
                   </td>
                   <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                     <td>
-                      <div class="check-box-btn"  [matTooltip]="sortie?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +sortie?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + sortie?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (sortie?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
+                      <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
                         <input type="checkbox"
                                class="small-checkbox"
-                               *ngIf="sortie.slug_actions[extraColumn.slug]"
-                               [disabled]="sortie?.slug_actions?.[extraColumn.slug]?.checked"
-                               [ngClass]="{'disabled': sortie?.slug_actions?.[extraColumn.slug]?.checked}"
+                               *ngIf="item.slug_actions[extraColumn.slug]"
+                               [disabled]="item?.slug_actions?.[extraColumn.slug]?.checked"
+                               [ngClass]="{'disabled': item?.slug_actions?.[extraColumn.slug]?.checked}"
                                id="with_inactive_cp"
-                               (change)="markActionAsDone(sortie.slug_actions[extraColumn.slug].id,sortie.slug_actions[extraColumn.slug].checked)"
-                               [checked]="sortie?.slug_actions?.[extraColumn.slug]?.checked"
-                               [(ngModel)]="sortie.slug_actions[extraColumn.slug].checked"
+                               (change)="markActionAsDone(item.slug_actions[extraColumn.slug].id,item.slug_actions[extraColumn.slug].checked)"
+                               [checked]="item?.slug_actions?.[extraColumn.slug]?.checked"
+                               [(ngModel)]="item.slug_actions[extraColumn.slug].checked"
                                name="checbox_" >
                       </div>
                     </td>
                 </ng-container>
                   <td>
                     <div class="actions">
-                      <i class="icon-edit primary-icon pointer" (click)="openSelectRole('sortie', sortie)"></i>
+                      <i class="icon-edit primary-icon pointer" (click)="openSelectRole('sortie', item)"></i>
                     </div>
                   </td>
                 </tr>
@@ -1072,7 +1413,7 @@
         </ng-container>
       </div>
     </div>
-    <div class="footer" *ngIf="users?.length>0">
+    <div class="footer" *ngIf="listItems?.length>0">
 
       <app-pagination name="pagination"
                       (change)="changePagination()"
@@ -1100,7 +1441,7 @@
 <ng-template #emptyState>
   <app-centred-message
     [image]="'images/user_empty_state.svg'"
-    [message]="( 'Aucun utilisateur trouvé pour le moment' | translate )"
+    [message]="( 'Aucun élément trouvé pour le moment' | translate )"
   ></app-centred-message>
 </ng-template>
 

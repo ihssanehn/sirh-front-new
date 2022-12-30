@@ -107,7 +107,11 @@ export class UserService {
             return this.apiService
               .post('personal/personal_trial_period/all', params)
               .pipe(map(result => result.result  || []));
-            
+      else if(params?.type == 'formation')
+            return this.apiService
+              .post('personal/personal_formation/all', params)
+              .pipe(map(result => result.result  || []));
+
       else
         return this.apiService
           .post('personal/getAllPersonalsPost', params)
@@ -308,5 +312,5 @@ export class UserService {
     .pipe(map(res => { return res?.result?.data || []}));;
   }
 
-  
+
 }

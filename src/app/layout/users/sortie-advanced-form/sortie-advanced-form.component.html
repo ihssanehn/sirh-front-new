@@ -1,4 +1,4 @@
-<input type="file" style="display: none" id="uploadMoreFiles"
+<input type="file" style="display: none" id="uploadSortieFiles"
        #uploadMoreFiles
        multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 
@@ -100,9 +100,8 @@
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.date_sortie].hasError('required')
                                   && formGroup.controls[formInputs.date_sortie].dirty}"
-                                  [(ngModel)]="sortie.end_date"
-
                           />
+<!--                          [(ngModel)]="sortie.end_date"-->
                           <div class="icons-container">
                             <i class="icon-close"
                                (click)="clearDateInput(formInputs.date_sortie)"
@@ -132,8 +131,8 @@
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.date_reception_courrier].hasError('required')
                                   && formGroup.controls[formInputs.date_reception_courrier].dirty}"
-                                  [(ngModel)]="sortie.requested_at"
                           />
+<!--                          [(ngModel)]="sortie.requested_at"-->
                           <div class="icons-container">
                             <i class="icon-close"
                                (click)="clearDateInput(formInputs.date_reception_courrier)"
@@ -153,7 +152,7 @@
                     <div class="col">
                       <label class="col-2">{{formLabels.motif}} {{isRequired(formInputs.motif)}}</label>
                       <div class="col">
-                        
+
                         <ng-select
                                 [items]="motifs"
                                 [bindLabel]="'label'"
@@ -215,20 +214,19 @@
 
                   <div class="row">
 
-                    <div class="col-3" *ngFor="let histo of sortie.histos; "
+                    <div class="col-3" *ngFor="let histo of sortie?.histos; "
                     [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <div class="check-box-btn">
                         <input type="checkbox"
-                               id="{{formLabels.verification_ts_prefacture}}"
                                [checked]="histo.checked"
                                name="check_{{histo.action.slug}}"
-                               [(ngModel)]="histo.checked"
                                [ngClass]="{'disabled': histo.done_at}"
                                (change)="markActionAsDone(histo.id,histo.checked) "
                                [disabled]="histo.done_at"
+                               [id]="histo.id"
                         >
-                        <label for="{{formLabels.verification_ts_prefacture}}"
-                               data-content="{{formLabels.verification_ts_prefacture}}">
+<!--                        [(ngModel)]="histo.checked"-->
+                        <label [for]="histo.id">
                           <span class="name">{{histo.action.label}}</span>
                           <!-- <div class="link">Ajouter un commentaire</div> -->
                         </label>
@@ -242,7 +240,7 @@
                     </div>
                     <div class="col">
                       <div class="row files-viewer">
-                        <label class="col-12  text-center" for="uploadMoreFiles">
+                        <label class="col-12  text-center" for="uploadSortieFiles">
                           <i class="icon-attachment"></i>
                           &nbsp;Ajouter une pièce jointe
                         </label>

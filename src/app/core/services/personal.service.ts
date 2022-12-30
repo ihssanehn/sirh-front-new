@@ -65,4 +65,8 @@ export class PersonalService {
   getPreavisCalculation(params) {
     return this.apiService.post('personal/exit/calculate-preavis', params).pipe(map(result => result?.result?.data || []));;
   }
+
+  getPersonalExtraInfo() {
+    return this.apiService.get('personal_a/get/info').pipe(map(result => result?.result?.data || []));
+  }
 }

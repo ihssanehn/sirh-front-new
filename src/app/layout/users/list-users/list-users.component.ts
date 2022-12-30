@@ -31,7 +31,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators
 })
 export class ListUsersComponent implements OnInit, OnDestroy {
 
-  users = [];
+  listItems = [];
   keyword = '';
   searchSubscription: Subscription;
   $roles = $userRoles;
@@ -41,19 +41,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     total: 10,
     limit: 10
   };
-  // contracts = [];
-  // managers = [];
-  // functions = [];
-  // family_situations = [];
-  // profiles = []; //oui
-  // status = [];
-  // entities = [];
-  // profit_centers = [];
-
-  // roles = [];
-  // member_ships = [];
-  // types = [];
-
 
   profiles
   business_lines
@@ -69,6 +56,13 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   user_stats
   personals
 
+  STEPS = {
+    entree: 0,
+    periode_essai: 1,
+    entretien: 2,
+    visite_medicale: 3,
+    sortie: 4,
+  }
 
   filter = {
     keyword: '',
@@ -93,22 +87,6 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     matricule_stats: [],
     user_stats: null,
     personals: []
-  }
-  shownItems: {
-    photo_profile: false;
-    registration_number: false;
-    first_name: false;
-    last_name: false;
-    function_id: false;
-    function_name: false;
-    profile_name: false;
-    cp_name: false;
-    start_date: false;
-    end_date: false;
-    telephone_personal: false;
-    email_professional: false;
-    birthday: false;
-
   }
   loadingData: boolean;
   type;
@@ -175,6 +153,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
         }
         case 'formation': {
           this.type = 'formation';
+          this.sectionName = 'Suivi salariés - Formations'
           break;
         }
         case 'visite_medicale': {
@@ -294,11 +273,13 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     })
     this.loadingData = true;
     this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
-      this.users = result.data.data;
-      console.log('this.users', this.users);
+      this.listItems = result.data.data;
+      console.log('this.listItems', this.listItems);
       this.pagination = { ...this.pagination, total: result?.data?.total };
     }, err =>{
       console.log('err getUsers', err);
+      this.listItems = [];
+      this.loadingData = false;
     }, ()=>{
       this.loadingData = false;
     })

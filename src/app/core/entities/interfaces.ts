@@ -102,4 +102,5 @@ export interface PersonalAnnex {
   prenom?: any;
   created_at?: Date;
   updated_at?: Date;
+  id?: number;
   }

@@ -46,7 +46,7 @@
             <div class="main-container col-12 form-column">
               <div class="form-bloc">
                 <div class="row">
-                    <div class="col-3"  style="display: flex;align-items: flex-start;" *ngFor="let histo of entrance.histos; "
+                    <div class="col-3"  style="display: flex;align-items: flex-start;" *ngFor="let histo of entrance?.histos; "
                     [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                     <label for="{{formLabels.verification_ts_prefacture}}"
                             data-content="{{formLabels.verification_ts_prefacture}}">
@@ -64,10 +64,10 @@
                                (change)="markActionAsDone(histo.id,histo.checked) "
                                [disabled]="histo.done_at"
                         >
-                   
+
                       </div>
                     </div>
- 
+
                   <div class="col check-box-btn"></div>
                 </div>
               </div>
