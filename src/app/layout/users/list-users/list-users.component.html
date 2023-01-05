@@ -818,6 +818,7 @@
                 <th>
                   Convocation envoyée
                 </th>
+                <th>Pièces jointes</th>
                 <th style="text-align: right">Actions</th>
               </tr>
               </thead>
@@ -967,7 +968,10 @@
                     </div>
                   </td>
               </ng-container>
-                <td></td>
+
+                <td>
+                  <i class="icon-attachment"></i> {{item?.document_files?.length || 0}} Documents
+                </td>
                 <td>
                   <div class="actions">
                     <i class="icon-edit"
