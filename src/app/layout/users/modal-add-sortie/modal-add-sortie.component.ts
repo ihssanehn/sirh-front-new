@@ -15,6 +15,7 @@ import {
 import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl} from "ng-pick-datetime";
 import {CustomDateTimeIntl, MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 import {IDatePickerConfig} from "ng2-date-picker/lib/date-picker/date-picker-config.model";
+import {isMoment} from "moment/moment";
 
 // import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 // import { MomentDateTimeAdapter, OWL_MOMENT_DATE_TIME_FORMATS } from 'ng-pick-datetime-moment';
@@ -113,7 +114,7 @@ export class ModalAddSortieComponent implements OnInit {
       personal_id: [this.item?.personal_id || null, Validators.compose([Validators.required])],
       motif_id: [this.item?.motif_id || null, Validators.compose([Validators.required])],
       requested_at: [this.item ? moment(this.item.requested_at).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
-      end_date_preavis: [this.item ? moment(this.item.end_date_preavis).format('YYYY-MM-DD') : null],
+      end_date_preavis: [this.item ? moment(this.item.end_date_preavis).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
@@ -203,7 +204,9 @@ export class ModalAddSortieComponent implements OnInit {
 
       const res = await this.personalService.getPreavisCalculation(params).toPromise();
       console.log('res getPreavisCalculation', res);
-      this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).format('DD/MM/YYYY HH:mm')});
+      if(moment(res.calculated_date)?.isValid()) {
+        this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).format('DD/MM/YYYY HH:mm')});
+      }
     }catch (e) {
       console.log('error getPreavisCalculation', e);
     }finally {

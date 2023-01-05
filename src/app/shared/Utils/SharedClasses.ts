@@ -99,11 +99,11 @@ export function markFormAsDirty(control){
 }
 
 export function formatDateForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD') : null;
+  return date && moment(date)?.isValid() ? moment(date).format('YYYY-MM-DD') : null;
 }
 
 export function formatDateTimeForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD HH:mm:ss') : null;
+  return date && moment(date)?.isValid() ? moment(date).format('YYYY-MM-DD HH:mm:ss') : null;
 }
 
 export function getFormValidationErrors(form) {
