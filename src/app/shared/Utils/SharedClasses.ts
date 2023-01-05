@@ -99,11 +99,41 @@ export function markFormAsDirty(control){
 }
 
 export function formatDateForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD') : null;
+  return date && moment(date)?.isValid() ? moment(date).format('YYYY-MM-DD') : null;
+}
+
+export function paramsToFormData(params, input_names_for_files, input_names_for_dates){
+  const fd = new FormData();
+
+
+  input_names_for_dates.forEach(date => {
+    if(params.hasOwnProperty(date)){
+      params[date] = formatDateForBackend(params[date]);
+    }
+  });
+
+  Object.keys(params).forEach(key => {
+    if(params.hasOwnProperty(key)){
+      if(Array.isArray(params[key])){
+        if(input_names_for_files?.includes(key)){
+          params[key].forEach((file, index) => {
+            fd.append(key, file);
+          })
+        }else{
+          fd.append(key, JSON.stringify(params[key]));
+        }
+      }else {
+        if(params[key] != null){
+          fd.append(key, params[key]);
+        }
+      }
+    }
+  });
+  return fd;
 }
 
 export function formatDateTimeForBackend(date){
-  return date && isMoment(moment(date)) ? moment(date).format('YYYY-MM-DD HH:mm:ss') : null;
+  return date && moment(date)?.isValid() ? moment(date).format('YYYY-MM-DD HH:mm:ss') : null;
 }
 
 export function getFormValidationErrors(form) {
