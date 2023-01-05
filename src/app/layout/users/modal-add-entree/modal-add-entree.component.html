@@ -218,39 +218,65 @@
                             </div>
                         </div>
                         <div class="col">
-                          <label class="col-12">{{formLabels.date_entree}}
-                            {{isRequired(formInputs.date_entree)}}</label>
+                          <label class="col-12">{{formLabels.siege}}
+                            {{isRequired(formInputs.siege)}}</label>
                           <div class="col">
-                            <div class="date-picker-group">
-                                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                                <input [owlDateTime]="owl_dt1"
-                                       class="form-control input date"
-                                       [owlDateTimeTrigger]="owl_dt1"
-                                       placeholder="Choisir la date d'entée"
-                                       [ngClass]="{'is-invalid error-input':
-                                     formGroup.controls[formInputs.date_entree].hasError('required')
-                                        && formGroup.controls[formInputs.date_entree].dirty}"
-                                       [formControl]="formGroup.controls[formInputs.date_entree]"
-                                />
-                                <div class="icons-container">
-                                  <i class="icon-close"
-                                     (click)="clearDateInput(formInputs.date_entree)"
-                                     *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
-                                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                                </div>
-                              </div>
-      
-                              <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
-                          && formGroup.controls[formInputs.date_entree].dirty">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                La date d'entrée est obligatoire
-                              </div>
+                              <ng-select
+                                      [items]="sieges"
+                                      [bindLabel]="'label'"
+                                      [bindValue]="'id'"
+                                      class="form-control select"
+                                      placeholder="Sélectionner le siège"
+                                      [formControl]="formGroup.controls[formInputs.siege]"
+                                      [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.siege].hasError('required')
+                                              && formGroup.controls[formInputs.siege].dirty}"
+                                      [multiple]="false"
+                                  >
+                              </ng-select>
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.siege].hasError('required')
+                      && formGroup.controls[formInputs.siege].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le siège du salarié
+                            </div>
                           </div>
-                        </div>
+                      </div>
+                       
                     </div>
-
-                      <div class="row">
+                    <div class="row">
+                      <div class="col-6">
+                        <label class="col-12">{{formLabels.date_entree}}
+                          {{isRequired(formInputs.date_entree)}}</label>
+                        <div class="col">
+                          <div class="date-picker-group">
+                              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                              <input [owlDateTime]="owl_dt1"
+                                     class="form-control input date"
+                                     [owlDateTimeTrigger]="owl_dt1"
+                                     placeholder="Choisir la date d'entée"
+                                     [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.date_entree].hasError('required')
+                                      && formGroup.controls[formInputs.date_entree].dirty}"
+                                     [formControl]="formGroup.controls[formInputs.date_entree]"
+                              />
+                              <div class="icons-container">
+                                <i class="icon-close"
+                                   (click)="clearDateInput(formInputs.date_entree)"
+                                   *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
+                                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                              </div>
+                            </div>
+    
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
+                        && formGroup.controls[formInputs.date_entree].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              La date d'entrée est obligatoire
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="row">
                           <div class="col" style="padding-left: 0px;">
 
                               <div class="check-box-btn">
@@ -283,7 +309,11 @@
 
                       
         
+                      </div>
+                      </div>
                     </div>
+
+                   
 
                     <div class="row">
                       <div class="btn-div">

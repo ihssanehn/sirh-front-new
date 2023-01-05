@@ -1003,10 +1003,10 @@
                 </tr>
                 <tr>
                   <th>
-                    Salarié
+                    Matricule
                   </th>
                   <th>
-                    Matricule
+                    Salarié
                   </th>
                   <th>
                     Société
@@ -1061,6 +1061,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of listItems">
+                  <td data-title="Matricule" >{{item?.personal?.registration_number || 'N.R'}}</td>
+
                   <td>
                     <ng-template #infopopover>
                       <div class="title">
@@ -1146,14 +1148,13 @@
                       >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                     </div>
                   </td>
-                  <td data-title="Matricule" >{{item?.personal?.registration_number || 'N.R'}}</td>
 
-                  <td data-title="Entité" >{{item?.personal?.entity.label || 'Piman Consultants'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.siege?.label || 'N.R'}}</td>
-                  <td data-title="Entité" >{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.manager?.prenom + ' ' + item?.personal?.manager?.nom  || 'NSI'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.contrat.label || 'N.R'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.status?.label || 'Cadre'}}</td>
+                  <td data-title="Entité" >{{item?.entity.label || 'Piman Consultants'}}</td>
+                  <td data-title="Entité" >{{item?.siege?.label || 'N.Ro'}}</td>
+                  <td data-title="Entité" >{{ (item?.entry_date | dateMessage) || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.manager?.prenom + ' ' + item?.manager?.nom  || 'NSI'}}</td>
+                  <td data-title="Entité" >{{item?.contrat.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.status?.label || 'Cadre'}}</td>
                   <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <td>
                         <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
