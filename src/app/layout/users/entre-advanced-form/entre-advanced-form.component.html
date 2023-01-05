@@ -47,22 +47,39 @@
               <div class="form-bloc">
                 <div class="row">
                     <div class="col-3"  style="display: flex;align-items: flex-start;" *ngFor="let histo of entrance?.histos; "
-                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
-                    <label for="{{formLabels.verification_ts_prefacture}}"
+                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage) + (histo.comment? ' Note: '+ histo.comment:'')):''">
+                    <label for="{{formLabels.verification_ts_prefacture}}bak" class="label-action"
                             data-content="{{formLabels.verification_ts_prefacture}}">
                       <span class="name">{{histo.action.label}}</span>
-                      <div class="link">Ajouter une note</div>
-                      <br>
+                      <div class="comment" *ngIf="histo.comment">{{histo.comment}}</div>
+                      <div class="link" (click)="_addComment(histo)" *ngIf="!histo.comment && !histo.adding_comment"  [ngClass]="{'forbidden': histo.user_id != userId}">Ajouter une note</div>
+                        <ng-container *ngIf="histo.adding_comment;">
+                          <div class="d-flex align-items-center">
+                            <input type="text"
+                                   class="form-control input"
+                                   name="comment"
+                                   (keyup.enter)="addComment(histo)"
+                                   (keyup.esc)="histo.adding_comment = false;histo.comment=null;"
+                                   [placeholder]="'Saisir un commentaire'"
+                                   [(ngModel)]="histo._comment"
+                            />
+                            <div class="text-center d-flex text-nowrap">
+                              &nbsp;&nbsp;<i class="icon-check primary-icon pointer" (click)="addComment(histo)"></i>
+                              &nbsp;&nbsp;<i class="icon-close danger-icon pointer" (click)="histo.adding_comment = false;histo.comment=null;"></i>
+                            </div>
+                          </div>
+                        </ng-container>
                     </label>
+                      <br>
                       <div class="check-box-btn">
                         <input type="checkbox"
                                id="{{formLabels.verification_ts_prefacture}}"
                                [checked]="histo.checked"
                                name="check_{{histo.action.slug}}"
                                [(ngModel)]="histo.checked"
-                               [ngClass]="{'disabled': histo.done_at}"
-                               (change)="markActionAsDone(histo.id,histo.checked) "
-                               [disabled]="histo.done_at"
+                               [ngClass]="{'disabled': histo.done_atbak}"
+                               (change)="markActionAsDone(histo) "
+                               [disabled]="histo.done_atbak"
                         >
 
                       </div>

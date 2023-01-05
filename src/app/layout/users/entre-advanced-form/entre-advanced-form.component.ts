@@ -11,6 +11,7 @@ import {PersonalAnnex, User} from "@app/core/entities";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import {UserStore} from "@store/user.store";
 
 
 
@@ -24,6 +25,7 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
   errors : Array<any> = [];
   $userRoles = $userRoles;
   _allActions:any;
+  userId:number;
   allRoles = [
       'manager', 'superadmin', 'user'
   ];
@@ -109,6 +111,7 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
               private mainStore: MainStore,
+              private userStore: UserStore,
               private userService : UserService) {
 
     this.formGroup = this.formBuilder.group({
@@ -137,6 +140,10 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
     });
 
     this.modalService.dismissAll();
+
+    this.userId = this.userStore.getAuthenticatedUser?.id;
+    console.log('userId :::: ',this.userId)
+
   }
 
   mockupData(){
@@ -207,9 +214,12 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async markActionAsDone(id, is_done){
-    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+  async markActionAsDone(histo){
+    let marked = await this.userService.markActionAsDone({id:histo.id}).toPromise();
     if(marked)
+      histo.user = marked.user;
+      histo.user_id = marked.user.id;
+      histo.done_at = marked.done_at;
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -218,7 +228,18 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
       });
   }
 
-  
+  async addComment(histo){
+    let commented = await this.userService.addComment({id:histo.id, comment:histo._comment}).toPromise();
+    if(commented)
+      histo.comment = commented.comment;
+      histo.adding_comment = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Le commentaire a bien été ajouté',
+        sticky: false,
+      });
+  }
 
   isRequired(control) {
     return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';
@@ -238,6 +259,19 @@ export class EntreAdvancedFormComponent implements OnInit, AfterViewInit {
     }else{
       this.preview.emit();
     }
+  }
+
+  _addComment(histo) {
+    if(histo.user_id == this.userId)
+      histo.adding_comment = true
+    else
+    this.messageService.add({
+      severity: 'warning',
+      summary: 'Attention!',
+      detail: 'Vous ne pouvez ajouter de commentaires que sur les actions que vous avez validées',
+      sticky: false,
+    });
+
   }
 
   save() {
