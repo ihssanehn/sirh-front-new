@@ -12,7 +12,14 @@
         [isDisabled]="submitting"
       ></app-button>
     </div>
-    <h1 class="main-title">Visites médicales</h1>
+    <h1 class="main-title">
+      <span *ngIf="!formGroup.controls.id.value">
+        Ajouter une visite médicale
+      </span>
+      <span *ngIf="formGroup.controls.id.value" style="color: #ffa307; text-transform: uppercase;">
+        Modification de la visite médicale prévue le {{ (formGroup.controls[formInputs.scheduled_date].value) | dateMessage}}
+      </span>
+    </h1>
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
@@ -62,26 +69,23 @@
                       <label class="col-12">{{formLabels.centre}}
                         {{isRequired(formInputs.centre)}}</label>
                       <div class="col">
-                        <input type="text"
+                        <!-- <input type="text"
                                placeholder="Saisir le centre médical"
                                class="form-control input"
                                [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre].hasError('required')
                                   && formGroup.controls[formInputs.centre].dirty}"
                                [formControl]="formGroup.controls[formInputs.centre]"
-                        />
+                        /> -->
 
-<!--                        <ng-select-->
-<!--                          [items]="medicalCenters"-->
-<!--                          [bindLabel]="'label'"-->
-<!--                          [bindValue]="'id'"-->
-<!--                          class="form-control select"-->
-<!--                          placeholder="Sélectionner le centre médicale"-->
-<!--                          [formControl]="formGroup.controls[formInputs.centre]"-->
-<!--                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre].hasError('required')-->
-<!--                                  && formGroup.controls[formInputs.centre].dirty}"-->
-<!--                          [multiple]="false"-->
-<!--                        >-->
-<!--                        </ng-select>-->
+                          <input id="typeahead-basic"
+                                  type="text"
+                                  class="form-control input"
+                                  placeholder="Saisir le centre médical"
+                                  [formControl]="formGroup.controls[formInputs.centre]"
+                                  [ngbTypeahead]="medical_center_search"
+                          />
+                          <label class="light-text" *ngIf="searching">Recherche...</label>
+
                         <div class="form-control-feedback"
                              *ngIf="formGroup.controls[formInputs.centre].hasError('required')
                   && formGroup.controls[formInputs.centre].dirty">
@@ -99,7 +103,7 @@
                           <input [owlDateTime]="owl_dt2"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt2"
-                                 placeholder="Renseignez la date de la visite médicale"
+                                 placeholder="Renseignez la date visite médicale"
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.scheduled_date].hasError('required')
                                   && formGroup.controls[formInputs.scheduled_date].dirty}"
@@ -122,16 +126,16 @@
                       </div>
                     </div>
                     <div class="col">
-                      <label class="col-2">{{formLabels.sent_convocation}} {{isRequired(formInputs.sent_convocation)}}</label>
+                      <label class="col-2">{{formLabels.send_convocation}} {{isRequired(formInputs.send_convocation)}}</label>
                       <div class="col" [matTooltip]="last_vm?.tooltip_msg">
                         <div class="check-box-btn">
                           <input type="checkbox"
-                                 id="{{formLabels.sent_convocation}}"
-                                 [formControl]="formGroup.controls[formInputs.sent_convocation]"
+                                 id="{{formLabels.send_convocation}}"
+                                 [formControl]="formGroup.controls[formInputs.send_convocation]"
                           >
-                          <label for="{{formLabels.sent_convocation}}"
-                                 data-content="{{formLabels.sent_convocation}}">
-                            <span class="name">{{formLabels.sent_convocation}}</span>
+                          <label for="{{formLabels.send_convocation}}"
+                                 data-content="{{formLabels.send_convocation}}">
+                            <span class="name">{{formLabels.send_convocation}}</span>
                           </label>
                         </div>
                       </div>
@@ -173,18 +177,22 @@
 
                   <div class="gray-box">
                     <div class="title pointer" (click)="showHistory = !showHistory">
-                      <span>Historique visites médicales</span>
+                      <span>Historique visites médicales</span><br>
                       <i [ngClass]="{'icon-arrow-right': !showHistory, 'icon-arrow-down': showHistory}" ></i>
                     </div>
                     <ng-container *ngIf="!showHistory">
                       <div class="row">
 
                         <div class="item col-3" *ngFor="let vm of _medical_visits" >
+                          <span class="fa fa-exclamation-triangle danger-icon" title="convocation non envoyée" *ngIf="!vm.send_convocation"></span>
+                          <span class="fa fa-check" *ngIf="vm.send_convocation"></span>
+
                           <span class="light-text">
                             {{vm.scheduled_date | dateMessage}}
                           </span>&nbsp;&nbsp;<span>
                             {{vm.centre}}
                           </span>
+                            &nbsp;&nbsp;<i class="icon-edit-bold primary-icon pointer d-inline-block" (click)="initFormBuilder(vm)"></i>
                         </div>
                       </div>
                     </ng-container>
@@ -193,7 +201,27 @@
               </div>
             </div>
           </div>
-          <div class="row text-center">
+          <div class="justify-content-center submit-block">
+
+                <app-button
+                [type]="'tertiary'"
+                [text]="'Effacer'"
+                (onClick)="reset()"
+                [iconLeft]="'icon-close'"
+                [customStyle]="{'min-width': '130px'}"
+              >
+              </app-button>
+              <app-button
+                [type]="'secondary'"
+                [text]="'Enregistrer'"
+                [isLoading]="submitting"
+                [textLoading]="'Sauvegarde en cours..'"
+                [iconLeft]="'icon-check'"
+                (onClick)="save()"
+              >
+              </app-button>
+          </div>
+          <!-- <div class="row text-center">
             <app-button
               [type]="'primary'"
               [text]="'Enregistrer'"
@@ -201,7 +229,7 @@
               (onClick)="save()"
             >
             </app-button>
-          </div>
+          </div> -->
         </form>
       </div>
     </ng-template>
