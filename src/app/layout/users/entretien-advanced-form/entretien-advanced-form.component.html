@@ -15,7 +15,7 @@
       <span *ngIf="!formGroup.controls.id.value">
         Ajouter un entretien
       </span>
-      <span *ngIf="formGroup.controls.id.value">
+      <span *ngIf="formGroup.controls.id.value" style="color: #ffa307; text-transform: uppercase;">
         Modification de l'entretien prévu le {{ (formGroup.controls[formInputs.theoretical_date].value) | dateMessage}}
       </span>
     </h1>
@@ -209,6 +209,8 @@
                       <i [ngClass]="{'icon-arrow-right': !showHistory, 'icon-arrow-down': showHistory}" ></i>
                     </div>
                     <ng-container *ngIf="!showHistory" >
+                      <div class="row">
+
                         <div class="item " *ngFor="let item of interviews" >
 
                           <span *ngIf="item.effective_date">
@@ -221,15 +223,19 @@
                             </span>
                           </span>
                           <span *ngIf="!item.effective_date" title="date de réalisation manquante">
-                            <span class="fa fa-exclamation-triangle danger-icon ng-star-inserted"></span>
-                          &nbsp;
+                            <span class="fa fa-exclamation-triangle danger-icon"></span>
+                            &nbsp;
                             <span>{{item.type.label}}</span>
                             &nbsp;&nbsp;
-                            <span class="light-text link" (click)="editInterview(item)">
-                              Renseigner la date de réalisation
+                            <span class="light-text">
+                              non réalisé
                             </span>
+                            
                           </span>
+                          &nbsp;&nbsp;<i class="icon-edit-bold primary-icon pointer d-inline-block" (click)="editInterview(item)"></i>
                         </div>
+                      </div>
+
 
                     </ng-container>
                   </div>
