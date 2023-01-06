@@ -501,7 +501,7 @@
                       >{{item?.personal?.nom}} {{item?.personal?.prenom}} </div>
                     </div>
                   </td>
-                  <td data-title="Centre de profit" class="tel">{{item?.personal?.manager?.nom}} {{item?.personal?.manager?.nom}}</td>
+                  <td data-title="Centre de profit" class="tel">{{item?.personal?.manager?.full_name}}</td>
                   <td data-title="Rôle" >{{item?.personal?.status?.label || 'status_personal'}}</td>
                   <td data-title="Entrée" class="tel">{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
                   <td data-title="Numéro de registration" >{{item?.decision?.label || 'à confirmer' }}</td>
@@ -909,8 +909,8 @@
                   </div>
                 </td>
                 <td>{{item?.personal?.registration_number}}</td>
-                <td>{{item?.personal?.entity?.label || 'entity_name'}}</td>
-                <td>{{item?.personal?.siege?.label || 'siege_name'}}</td>
+                <td>{{item?.personal?.entity?.label || 'N.R'}}</td>
+                <td>{{item?.personal?.siege?.label || 'N.R'}}</td>
                 <td>
                   <ng-container *ngIf="item.is_editting_mc; else mc_label_temp">
                     <div class="d-flex align-items-center">
@@ -1153,12 +1153,12 @@
                     </div>
                   </td>
 
-                  <td data-title="Entité" >{{item?.entity.label || 'Piman Consultants'}}</td>
-                  <td data-title="Entité" >{{item?.siege?.label || 'N.Ro'}}</td>
+                  <td data-title="Entité" >{{item?.entity.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.siege?.label || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (item?.entry_date | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{item?.manager?.prenom + ' ' + item?.manager?.nom  || 'NSI'}}</td>
+                  <td data-title="Entité" >{{item?.manager?.full_name || 'N.R'}}</td>
                   <td data-title="Entité" >{{item?.contrat.label || 'N.R'}}</td>
-                  <td data-title="Entité" >{{item?.status?.label || 'Cadre'}}</td>
+                  <td data-title="Entité" >{{item?.status?.label || 'N.R'}}</td>
                   <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <td>
                         <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
@@ -1375,10 +1375,10 @@
                   <td data-title="Matricule" >
                     {{item?.personal?.registration_number || 'N.R'}}
                   </td>
-                  <td data-title="Entité" >{{item?.personal?.entity_name || 'Piman Consultants'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.structure || 'Structure'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.entity?.label || 'N.R'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.siege?.label || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                  <td data-title="Entité" >{{item?.personal?.manager_name || 'NSI'}}</td>
+                  <td data-title="Entité" >{{item?.personal?.manager?.full_name  || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                   <td data-title="Entité" >{{item?.motif?.label || 'N.R'}}</td>
                   <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
