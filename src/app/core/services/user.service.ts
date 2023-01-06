@@ -307,6 +307,11 @@ export class UserService {
     .pipe(map(res => { return res?.result?.data || []}));;
   }
 
+  addComment(params) {
+    return this.apiService.post('action/addComment', params)
+    .pipe(map(res => { return res?.result?.data || []}));;
+  }
+
   getTypesByModel(model) {
     return this.apiService.get('personal_a/types/'+ model)
     .pipe(map(res => { return res?.result?.data || []}));;

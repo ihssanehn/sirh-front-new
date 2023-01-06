@@ -193,7 +193,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     // },
     {
       id: 2,
-      name: 'Liste',
+      name: 'Suivi salarié',
       type: 'sub',
       icon: null,
       link: 'users/list',
@@ -232,14 +232,14 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           link: 'users/list/entretien',
           opened: false,
         },
-        {
-          id: 3,
-          name: 'Formations',
-          type: 'link',
-          icon: null,
-          link: 'users/list/formation',
-          opened: false,
-        },
+        // {
+        //   id: 3,
+        //   name: 'Formations',
+        //   type: 'link',
+        //   icon: null,
+        //   link: 'users/list/formation',
+        //   opened: false,
+        // },
         {
           id: 4,
           name: 'Visites Médicales',
@@ -866,7 +866,7 @@ export const $headerItems = [
   },
   {
     id: 1,
-    name: 'Utilisateurs',
+    name: 'Suivi du salarié',
     link: '/users',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,

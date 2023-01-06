@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListsService } from '@app/core/services/lists.service';
 import { PersonalService } from '@app/core/services/personal.service';
-import { SharedClasses } from '@app/shared/Utils/SharedClasses';
+import { SharedClasses, markFormAsDirty } from '@app/shared/Utils/SharedClasses';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-modal-add-entree',
@@ -19,6 +20,7 @@ export class ModalAddEntreeComponent implements OnInit {
   entities = [];
   contrats = [];
   status = [];
+  sieges = [];
   managers = [];
   @Input() submitting: boolean;
   errorLoadData: boolean;
@@ -41,6 +43,7 @@ export class ModalAddEntreeComponent implements OnInit {
     date_entree: 'entry_date',
     is_externe:'is_externe',
     is_pe:'is_pe',
+    siege:'siege_id'
   }
   formLabels =  {
     civility: 'Civilité',
@@ -54,7 +57,8 @@ export class ModalAddEntreeComponent implements OnInit {
     entity:  'Entité',
     date_entree: 'Date d\'entrée',
     is_externe:  'Externe',
-    is_pe:'Période d\'essai ?'
+    is_pe:'Période d\'essai ?',
+    siege:'Siège'
   }
 
     constructor(
@@ -66,28 +70,17 @@ export class ModalAddEntreeComponent implements OnInit {
 ) {
 
     this.formGroup = this.formBuilder.group({
-      // civility: [null],
-      // registration_number: [null],
-      // last_name: [null],
-      // first_name: [null],
-      // email: [null],
-      // contrat_id: [null],
-      // manager_id: [null],
-      // status_id: [null],
-      // entity_id: [null],
-      // entry_date: [null],
-      // is_externe: [false],
-      // is_pe: [true],
-      civility: ['Mme.'],
-      registration_number: [1234567890965432],
-      last_name: ['CHARLIST'],
-      first_name: ['John'],
-      email: ['user@123.mail.fr'],
-      contrat_id: [95],
-      manager_id: [3],
-      status_id: [4],
-      entity_id: [6],
-      entry_date: [null],
+      civility: [null, Validators.compose([Validators.required])],
+      registration_number: [null],
+      last_name: [null, Validators.compose([Validators.required])],
+      first_name: [null, Validators.compose([Validators.required])],
+      email: [null, Validators.compose([Validators.required])],
+      contrat_id: [null, Validators.compose([Validators.required])],
+      manager_id: [null, Validators.compose([Validators.required])],
+      status_id: [null, Validators.compose([Validators.required])],
+      entity_id: [null, Validators.compose([Validators.required])],
+      entry_date: [null, Validators.compose([Validators.required])],
+      siege_id: [null, Validators.compose([Validators.required])],
       is_externe: [false],
       is_pe: [true],
     });
@@ -114,19 +107,21 @@ export class ModalAddEntreeComponent implements OnInit {
   async initLists(){
     this.status = await this.listService.getAll('status','PERSONAL').toPromise();
     this.contrats = await this.listService.getAll('contrat_type').toPromise();
+    this.sieges = await this.listService.getAll('siege_type').toPromise();
     this.entities = await this.listService.getAll('entity').toPromise();
     this.managers = await this.listService.getAll('manager').toPromise();
    }
 
 
   async submitUser() {
+    markFormAsDirty(this.formGroup);
+    if (!this.formGroup.valid) {
+      return;
+    }
     try{
       this.submittingCreate = true;
       const params = this.formGroup.getRawValue();
-      console.log('reactive form params ::::',params)
       this.personalService.submitEntree(params).toPromise().then( val => {
-        this.submittingCreate = false;
-        console.log(val)
         this.messageService.add({severity:'success', summary: 'Succès',   detail: val.result.message, sticky: false});
         this.modal.close();
 
@@ -134,7 +129,6 @@ export class ModalAddEntreeComponent implements OnInit {
         const errors = [];
         console.log('errors::::',err)
         Object.keys(err.error.errors).map((key: any) => {
-          console.log('key',key)
             errors.push(key + ' : ' + err.error.errors[key]);
           this.messageService.add({severity:'error', summary: 'Echec', detail:  err.error.errors[key].message, sticky: false});
         });
@@ -144,7 +138,7 @@ export class ModalAddEntreeComponent implements OnInit {
     }catch (e){
 
     }finally {
-
+      this.submittingCreate = false;
     }
   }
 

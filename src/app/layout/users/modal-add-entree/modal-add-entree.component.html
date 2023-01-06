@@ -1,7 +1,7 @@
 <div class="container">
 
          <div class="header modal-header">
-            <h1 class="main-title">Ajouter une entrée</h1>
+            <h1 class="modal-title">Saisir une entrée</h1>
             <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
         </div>
   
@@ -218,81 +218,117 @@
                             </div>
                         </div>
                         <div class="col">
-                          <label class="col-12">{{formLabels.date_entree}}
-                            {{isRequired(formInputs.date_entree)}}</label>
+                          <label class="col-12">{{formLabels.siege}}
+                            {{isRequired(formInputs.siege)}}</label>
                           <div class="col">
-                            <div class="date-picker-group">
-                                <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                                <input [owlDateTime]="owl_dt1"
-                                       class="form-control input date"
-                                       [owlDateTimeTrigger]="owl_dt1"
-                                       placeholder="Choisir la date d'entée"
-                                       [ngClass]="{'is-invalid error-input':
-                                     formGroup.controls[formInputs.date_entree].hasError('required')
-                                        && formGroup.controls[formInputs.date_entree].dirty}"
-                                       [formControl]="formGroup.controls[formInputs.date_entree]"
-                                />
-                                <div class="icons-container">
-                                  <i class="icon-close"
-                                     (click)="clearDateInput(formInputs.date_entree)"
-                                     *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
-                                  <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                                </div>
-                              </div>
-      
-                              <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
-                          && formGroup.controls[formInputs.date_entree].dirty">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                La date d'entrée est obligatoire
-                              </div>
+                              <ng-select
+                                      [items]="sieges"
+                                      [bindLabel]="'label'"
+                                      [bindValue]="'id'"
+                                      class="form-control select"
+                                      placeholder="Sélectionner le siège"
+                                      [formControl]="formGroup.controls[formInputs.siege]"
+                                      [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.siege].hasError('required')
+                                              && formGroup.controls[formInputs.siege].dirty}"
+                                      [multiple]="false"
+                                  >
+                              </ng-select>
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.siege].hasError('required')
+                      && formGroup.controls[formInputs.siege].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le siège du salarié
+                            </div>
                           </div>
-                        </div>
+                      </div>
+                       
                     </div>
-
                     <div class="row">
+                      <div class="col-6">
+                        <label class="col-12">{{formLabels.date_entree}}
+                          {{isRequired(formInputs.date_entree)}}</label>
                         <div class="col">
-                            <label for="{{formLabels.is_externe}}">
-                                <span class="name">
-                                    {{formLabels.is_externe}}
-                                </span>
-                                <!-- <br> -->
-                            </label>
-                            <div class="check-box-btn">
-                                <input type="checkbox"
-                                    id="{{formLabels.is_externe}}"
-                                    [formControl]="formGroup.controls[formInputs.is_externe]"
-                                    name="check_"/>
-                        
+                          <div class="date-picker-group">
+                              <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                              <input [owlDateTime]="owl_dt1"
+                                     class="form-control input date"
+                                     [owlDateTimeTrigger]="owl_dt1"
+                                     placeholder="Choisir la date d'entée"
+                                     [ngClass]="{'is-invalid error-input':
+                                   formGroup.controls[formInputs.date_entree].hasError('required')
+                                      && formGroup.controls[formInputs.date_entree].dirty}"
+                                     [formControl]="formGroup.controls[formInputs.date_entree]"
+                              />
+                              <div class="icons-container">
+                                <i class="icon-close"
+                                   (click)="clearDateInput(formInputs.date_entree)"
+                                   *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
+                                <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                              </div>
+                            </div>
+    
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
+                        && formGroup.controls[formInputs.date_entree].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              La date d'entrée est obligatoire
                             </div>
                         </div>
-                        <div class="col">
-                            <label for="{{formLabels.is_pe}}">
-                                <span class="name">
-                                    {{formLabels.is_pe}}
-                                </span>
-                                </label>
-                                <div class="check-box-btn">
-                                    <input type="checkbox"
-                                        id="{{formLabels.is_pe}}"
-                                        [formControl]="formGroup.controls[formInputs.is_pe]"
-                                        name="check_"/>
-                                </div>
-                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col" style="padding-left: 0px;">
+
+                              <div class="check-box-btn">
+                                <label for="{{formLabels.is_pe}}">
+                                    <span class="name">
+                                        {{formLabels.is_pe}}
+                                    </span>
+                                  </label>
+                                  <input type="checkbox"
+                                      id="{{formLabels.is_pe}}"
+                                      [formControl]="formGroup.controls[formInputs.is_pe]"
+                                      name="check_"/>
+                            </div>
+                          </div>
+                          <div class="col" style="padding-left: 0px;">
+
+                            <div class="check-box-btn">
+                                  <label class="secondary_label" for="{{formLabels.is_externe}}">
+                                      <span class="name">
+                                          {{formLabels.is_externe}}
+                                      </span>
+                                  </label>
+                                      <input type="checkbox"
+                                          id="{{formLabels.is_externe}}"
+                                          [formControl]="formGroup.controls[formInputs.is_externe]"
+                                          name="check_"/>
+                              
+                            </div>
+                          </div>
+
+                      
         
+                      </div>
+                      </div>
                     </div>
 
+                   
+
                     <div class="row">
-                      <app-button
-                      [type]="'secondary'"
-                      [text]="'Créer'"
-                      [isLoading]="submittingCreate"
-                      [isDisabled]="submittingCreate"
-                      [textLoading]="'Sauvegarde en cours..'"
-                      (onClick)="submitUser()"
-                      [iconLeft]="'icon-save'"
-                      [customStyle]="{'min-width': '130px'}">
-                    </app-button>
+                      <div class="btn-div">
+
+                        <app-button
+                        [type]="'secondary'"
+                        [text]="'Enregistrer'"
+                        [isLoading]="submittingCreate"
+                        [isDisabled]="submittingCreate"
+                        [textLoading]="'Sauvegarde en cours..'"
+                        (onClick)="submitUser()"
+                        [iconLeft]="'icon-save'"
+                        [customStyle]="{'min-width': '130px'}">
+                      </app-button>
+                      </div>
                     </div>
   
                   </div>
