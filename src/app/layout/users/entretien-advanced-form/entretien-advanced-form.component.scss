@@ -68,3 +68,13 @@
   justify-content: center;
   color: $mainGray;
 }
+
+.fa-check:before{
+  color: green;
+  font-size: 15px;
+}
+
+.fa-times:before{
+  color: orange;
+  font-size: 15px;
+}

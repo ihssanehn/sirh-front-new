@@ -20,6 +20,7 @@ import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {isMoment} from "moment/moment";
 import * as moment from "moment/moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
+import { PersonalService } from '@app/core/services/personal.service';
 
 
 
@@ -49,7 +50,7 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   formLabels =  {
     personal_id: 'personal_id',
     type_id: 'Type entretien',
-    effective_date: 'Date effective',
+    effective_date: 'Date de réalisation',
     theoretical_date: 'Date théorique',
   }
 
@@ -59,7 +60,7 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   loadingLists: boolean;
   @Input() title = '';
   @Input() type = '';
-  @Input()  idUser: any;
+  // @Input()  idUser: any;
   @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -67,10 +68,12 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
   showHistory = false;
   loadingSelect = {};
   id_entite = null;
+  idUser:number;
   @Input()
   public set user(val: User) {
     if(val){
       this.initFormBuilder(val);
+      this.idUser = val.id;
     }
   }
   @Input() interviews: any;
@@ -101,14 +104,16 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
               private changeDetectorRef: ChangeDetectorRef,
               public listService: ListsService,
               private mainStore: MainStore,
+              private personalService: PersonalService,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
-      personal_id: [null],
+      personal_id: [null, Validators.compose([Validators.required])],
       type_id: [null, Validators.compose([Validators.required])],
       effective_date: [null],
-      theoretical_date: [null],
+      theoretical_date: [null, Validators.compose([Validators.required])],
+      id:[null]
     });
 
     this.modalService.dismissAll();
@@ -186,6 +191,28 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
+  editInterview(item){
+    if(item){
+      this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE)
+      this.formGroup.patchValue({
+        type_id: item.type_id,
+        theoretical_date: item.theoretical_date,
+        effective_date: item.effective_date,
+        id:item.id
+      });
+    }
+  }
+
+  reset(){
+    this.formGroup.reset()
+    this.formGroup.patchValue({
+      personal_id: this.idUser,
+      type_id:null,
+      effective_date:null,
+      theoretical_date:null
+    });
+  }
+
 
   isRequired(control) {
     return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';
@@ -213,11 +240,12 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  save() {
+  async save() {
     this.error = '';
+    this.submitting = true;
     markFormAsDirty(this.formGroup);
     if(!this.formGroup.valid ){
-      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      this.error = 'Des éléments bloquants nécessitent votre attention';
       getFormValidationErrors(this.formGroup);
       return;
     }
@@ -254,7 +282,29 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.submitEntretien.emit(fd);
+    // this.submitEntretien.emit(fd);
+    console.log(saveData)
+    let res = null;
+    if(saveData?.id){
+      fd.append('id', saveData.id);
+      res = await this.personalService.updateEntretien(saveData).toPromise();
+      if(res.result && res.result.data){
+        let index = this.interviews.findIndex((_item) => _item["id"] == saveData.id);
+        this.interviews.splice(index,1, res.result.data);
+        this.submitting = false;
+        this.reset()
+      }
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
+    }else{
+      res = await this.personalService.addEntretien(saveData).toPromise();
+      if(res.result && res.result.data){
+        this.interviews.unshift(res.result.data)
+        this.submitting = false;
+        this.reset()
+      }
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien ajouté avec succès'});
+    }
+
   }
 
   clearDateInput(input: string) {
