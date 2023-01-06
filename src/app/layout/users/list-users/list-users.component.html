@@ -451,24 +451,24 @@
                       </tr>
                     </table>
                     <ng-container
-                        *ngIf="item?.has_interview_to_validate ||  item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                        *ngIf="item?.personal?.has_interview_to_validate ||  item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
                         <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                         <table class="small-table">
-                          <tr *ngIf="item?.has_trial_period_to_validate">
+                          <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_interview_to_validate">
+                          <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                          <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
                                 Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
@@ -492,7 +492,7 @@
                           async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                           />
                           <i class="fa fa-exclamation-triangle danger-icon"
-                             *ngIf="item?.has_interview_to_validate ||  item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate"
+                             *ngIf="item?.personal?.has_interview_to_validate ||  item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate"
                           ></i>
                         </div>
                       </div>
@@ -578,25 +578,25 @@
                       </tr>
                     </table>
                     <ng-container
-                        *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate"
+                        *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate"
                       >
                         <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                         <table class="small-table">
-                          <tr *ngIf="item?.has_trial_period_to_validate">
+                          <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_interview_to_validate">
+                          <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                          <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
                                 Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
@@ -620,7 +620,7 @@
                           async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                           />
                           <i class="fa fa-exclamation-triangle danger-icon"
-                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                             *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
                             ></i>
                         </div>
                       </div>
@@ -725,24 +725,24 @@
                       </tr>
                     </table>
                     <ng-container
-                        *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate" >
+                        *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate" >
                         <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                         <table class="small-table">
-                          <tr *ngIf="item?.has_trial_period_to_validate">
+                          <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_interview_to_validate">
+                          <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
                                 Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                               </div>
                             </td>
                           </tr>
-                          <tr *ngIf="item?.has_medical_visit_to_validate">
+                          <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
                                 Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
@@ -857,25 +857,25 @@
                       </tr>
                     </table>
                     <ng-container
-                      *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate ||  item?.has_trial_period_to_validate"
+                      *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate ||  item?.personal?.has_trial_period_to_validate"
                     >
                       <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                       <table class="small-table">
-                        <tr *ngIf="item?.has_trial_period_to_validate">
+                        <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                           <td>
                             <div class="item danger-text">
                               Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                             </div>
                           </td>
                         </tr>
-                        <tr *ngIf="item?.has_interview_to_validate">
+                        <tr *ngIf="item?.personal?.has_interview_to_validate">
                           <td>
                             <div class="item danger-text">
                               Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                             </div>
                           </td>
                         </tr>
-                        <tr *ngIf="item?.has_medical_visit_to_validate">
+                        <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                           <td>
                             <div class="item danger-text" >
                               Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
@@ -899,7 +899,7 @@
                       async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                         />
                         <i class="fa fa-exclamation-triangle danger-icon"
-                           *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                           *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
                           ></i>
                       </div>
                     </div>
@@ -1098,27 +1098,27 @@
                         </tr>
                       </table>
                       <ng-container
-                          *ngIf="item?.has_interview_to_validate ||
-                             item?.has_medical_visit_to_validate ||
-                             item?.has_trial_period_to_validate"
+                          *ngIf="item?.personal?.has_interview_to_validate ||
+                             item?.personal?.has_medical_visit_to_validate ||
+                             item?.personal?.has_trial_period_to_validate"
                         >
                           <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                           <table class="small-table">
-                            <tr *ngIf="item?.has_trial_period_to_validate">
+                            <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                               <td>
                                 <div class="item danger-text">
                                   Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                                 </div>
                               </td>
                             </tr>
-                            <tr *ngIf="item?.has_interview_to_validate">
+                            <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
                                   Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                                 </div>
                               </td>
                             </tr>
-                            <tr *ngIf="item?.has_medical_visit_to_validate">
+                            <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                               <td>
                                 <div class="item danger-text" >
                                   Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
@@ -1141,7 +1141,7 @@
                       async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                           />
                           <i class="fa fa-exclamation-triangle danger-icon"
-                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                             *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
                             ></i>
                         </div>
                       </div>
@@ -1318,24 +1318,24 @@
                         </tr>
                       </table>
                       <ng-container
-                          *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate ||  item?.has_trial_period_to_validate">
+                          *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate ||  item?.personal?.has_trial_period_to_validate">
                           <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                           <table class="small-table">
-                            <tr *ngIf="item?.has_trial_period_to_validate">
+                            <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                               <td>
                                 <div class="item danger-text">
                                   Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                                 </div>
                               </td>
                             </tr>
-                            <tr *ngIf="item?.has_interview_to_validate">
+                            <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
                                   Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
                                 </div>
                               </td>
                             </tr>
-                            <tr *ngIf="item?.has_medical_visit_to_validate">
+                            <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                               <td>
                                 <div class="item danger-text" >
                                   Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
@@ -1359,7 +1359,7 @@
                         async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                           />
                           <i class="fa fa-exclamation-triangle danger-icon"
-                             *ngIf="item?.has_interview_to_validate || item?.has_medical_visit_to_validate || item?.has_trial_period_to_validate">
+                             *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
                           ></i>
                         </div>
                       </div>
