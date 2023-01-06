@@ -1,15 +1,15 @@
 <div class="container top-container">
-  <!-- <div class="header">
-    <div class="btns left-btns">
+  <div class="header centered">
+    <!-- <div class="btns left-btns">
       <app-button
         [text]="'Annuler'"
         [type]="'secondary_2'"
         [routerLink]="['/users']"
         [isDisabled]="submitting"
       ></app-button>
-    </div>
+    </div> -->
     <h1 class="main-title">Entrée</h1>
-    <div class="btns right-btns">
+    <!-- <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
         [type]="'primary_inverse'"
@@ -24,8 +24,8 @@
         (onClick)="save()"
         [isLoading]="submitting"
       ></app-button>
-    </div>
-  </div> -->
+    </div> -->
+  </div>
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
   <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
@@ -77,9 +77,9 @@
                                [checked]="histo.checked"
                                name="check_{{histo.action.slug}}"
                                [(ngModel)]="histo.checked"
-                               [ngClass]="{'disabled': histo.done_atbak}"
+                               [ngClass]="{'disabled': histo.done_at}"
                                (change)="markActionAsDone(histo) "
-                               [disabled]="histo.done_atbak"
+                               [disabled]="histo.done_at"
                         >
 
                       </div>
