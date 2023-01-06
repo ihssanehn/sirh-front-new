@@ -62,9 +62,10 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     if(this.formGroup){
       this.formGroup.patchValue({
         ...val,
-        scheduled_date: moment(val.scheduled_date).format('YYYY-MM-DD')
+        scheduled_date: val.scheduled_date ? moment(val.scheduled_date).format('YYYY-MM-DD') : null
       });
     }
+    this.projectToEditFiles = val.document_files;
     this.getFilterList('personals', this.listService.list.PERSONAL);
   }
 
@@ -149,7 +150,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       try{
         this.loadingSelect[list_name] = true;
         this[items] = await this.listService.getAll(list_name, list_param).toPromise();
-console.log('this.item this.medical_centers', this.medical_centers);
+
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -169,8 +170,27 @@ console.log('this.item this.medical_centers', this.medical_centers);
         personal_id: this.formGroup.getRawValue().personal_id,
         centre: this.formGroup.getRawValue().centre,
         scheduled_date: this.formGroup.getRawValue().scheduled_date,
-        document_files: this.files,
       }
+
+      if(this.projectToEditFiles.length > 0){ // Edit state
+        const document_files_to_delete = [];
+        const document_files_to_add = [];
+        this.projectToEditFiles.forEach(att => {
+          if(!this.files.find(file => file.id === att.id)){
+            document_files_to_delete.push(att.id);
+          }
+        });
+        this.files.forEach(file => {
+          if(file instanceof File){
+            document_files_to_add.push(file);
+          }
+        });
+        params['document_files_to_delete'] = document_files_to_delete;
+        params['document_files'] = document_files_to_add;
+      }else{ // add state
+        params['document_files'] = this.files;
+      }
+
 
       const fd = paramsToFormData(params, ['document_files'], ['scheduled_date']);
 

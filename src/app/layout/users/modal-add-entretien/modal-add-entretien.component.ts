@@ -2,7 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ListsService } from '@app/core/services/lists.service';
 import { PersonalService } from '@app/core/services/personal.service';
-import {formatDateForBackend, markFormAsDirty, paramsToFormData, SharedClasses} from '@app/shared/Utils/SharedClasses';
+import {
+  formatDateForBackend,
+  getFormValidationErrors,
+  markFormAsDirty,
+  paramsToFormData,
+  SharedClasses
+} from '@app/shared/Utils/SharedClasses';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
@@ -62,10 +68,11 @@ export class ModalAddEntretienComponent implements OnInit {
     if(this.formGroup){
         this.formGroup.patchValue({
         ...val,
-        theoretical_date: moment(val.theoretical_date).format('YYYY-MM-DD'),
-        effective_date: moment(val.effective_date).format('YYYY-MM-DD'),
+        theoretical_date: val.theoretical_date ? moment(val.theoretical_date).format('YYYY-MM-DD'): null,
+        effective_date: val.effective_date ? moment(val.effective_date).format('YYYY-MM-DD'): null,
       });
     }
+    this.projectToEditFiles = val.document_files;
     this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE);
     this.getFilterList('personals', this.listService.list.PERSONAL);
   }
@@ -137,6 +144,7 @@ export class ModalAddEntretienComponent implements OnInit {
 
   async submit() {
     markFormAsDirty(this.formGroup);
+    getFormValidationErrors(this.formGroup);
     if (!this.formGroup.valid) {
       return;
     }
@@ -145,12 +153,32 @@ export class ModalAddEntretienComponent implements OnInit {
       const params: any = {
         personal_id: this.formGroup.getRawValue().personal_id,
         type_id: this.formGroup.getRawValue().type_id,
-        document_files: this.files,
-        theoretical_date: this.formGroup.getRawValue().theoretical_date
+        theoretical_date: this.formGroup.getRawValue().theoretical_date,
+        effective_date: this.formGroup.getRawValue().effective_date
       }
-      if(this.formGroup.getRawValue().effective_date){
-        params.effective_date = this.formGroup.getRawValue().effective_date
+      // if(this.formGroup.getRawValue().effective_date){
+      //   params.effective_date = this.formGroup.getRawValue().effective_date
+      // }
+
+      if(this.projectToEditFiles?.length > 0){ // Edit state
+        const document_files_to_delete = [];
+        const document_files_to_add = [];
+        this.projectToEditFiles.forEach(att => {
+          if(!this.files.find(file => file.id === att.id)){
+            document_files_to_delete.push(att.id);
+          }
+        });
+        this.files.forEach(file => {
+          if(file instanceof File){
+            document_files_to_add.push(file);
+          }
+        });
+        params['document_files_to_delete'] = document_files_to_delete;
+        params['document_files'] = document_files_to_add;
+      }else{ // add state
+        params['document_files'] = this.files;
       }
+
       const fd = paramsToFormData(params, ['document_files'], ['effective_date', 'theoretical_date']);
 
       let res;
@@ -166,6 +194,7 @@ export class ModalAddEntretienComponent implements OnInit {
       console.log('res add/update Entretien', res);
       this.modal.close(res);
     }catch (e){
+      console.log('error add/update Entretien', e);
       if(this.item?.id){
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de l\'entretien'});
       }else{
@@ -188,7 +217,9 @@ export class ModalAddEntretienComponent implements OnInit {
       }
       const res = await this.personalService.getTheoricalDateCalulation(params).toPromise();
       console.log('res getTheoricalDateCalulation', res);
-      this.formGroup.patchValue({theoretical_date: res.calculatedDate});
+      if(moment(res.calculatedDate)?.isValid()) {
+        this.formGroup.patchValue({theoretical_date: res.calculatedDate});
+      }
     }catch (e) {
       console.log('error getTheoricalDateCalulation', e);
     }finally {

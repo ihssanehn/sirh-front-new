@@ -92,8 +92,8 @@ export class ModalAddSortieComponent implements OnInit {
     if(this.formGroup){
       this.formGroup.patchValue({
         ...val,
-        requested_at: moment(val.requested_at).format('YYYY-MM-DD'),
-        end_date_preavis: moment(val.end_date_preavis).format('DD/MM/YYYY HH:mm'),
+        requested_at: val.requested_at ? moment(val.requested_at).format('YYYY-MM-DD'): null,
+        end_date_preavis: val.end_date_preavis ? moment(val.end_date_preavis).format('DD/MM/YYYY HH:mm'): null,
       });
     }
     this.getFilterList('motifs', this.listService.list.EXIT_TYPE);
