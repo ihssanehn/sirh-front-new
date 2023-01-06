@@ -29,7 +29,7 @@
     <app-entretien-advanced-form
       (submitEntretien)="submitEntretien($event)"
       *ngIf="user"
-      [interviews]="user?.interviews"
+      [interviews]="user.interviews"
       (next)="this.moveForward(3, null)"
       [user]="user"
     ></app-entretien-advanced-form>

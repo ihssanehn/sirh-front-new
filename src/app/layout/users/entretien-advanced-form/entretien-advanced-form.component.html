@@ -11,7 +11,14 @@
         [isDisabled]="submitting"
       ></app-button>
     </div>
-    <h1 class="main-title">Entretien</h1>
+    <h1 class="main-title">
+      <span *ngIf="!formGroup.controls.id.value">
+        Ajouter un entretien
+      </span>
+      <span *ngIf="formGroup.controls.id.value">
+        Modification de l'entretien prévu le {{ (formGroup.controls[formInputs.theoretical_date].value) | dateMessage}}
+      </span>
+    </h1>
     <div class="btns right-btns">
       <app-button
         [text]="'Précédent'"
@@ -60,7 +67,7 @@
                           [bindLabel]="'label'"
                           [bindValue]="'id'"
                           class="form-control select"
-                          placeholder="Sélectionner le type d'entretien ici"
+                          placeholder="Sélectionner le type d'entretien"
                           [formControl]="formGroup.controls[formInputs.type_id]"
                           (open)="getFilterList('entretien_types', listService.list.INTERVIEW_TYPE)"
                           [loading]="loadingSelect[listService.list.INTERVIEW_TYPE]"
@@ -102,6 +109,36 @@
 <!--                      </div>-->
 <!--                    </div>-->
                     <div class="col">
+                      <label class="col-2">{{formLabels.theoretical_date}} {{isRequired(formInputs.theoretical_date)}}</label>
+                      <div class="col">
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dt2"
+                                class="form-control input date"
+                                [owlDateTimeTrigger]="owl_dt2"
+                                placeholder="Renseigner la date théorique"
+                                [ngClass]="{'is-invalid error-input':
+                              formGroup.controls[formInputs.theoretical_date].hasError('required')
+                                  && formGroup.controls[formInputs.theoretical_date].dirty}"
+                                [formControl]="formGroup.controls[formInputs.theoretical_date]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                              (click)="clearDateInput(formInputs.theoretical_date)"
+                              *ngIf="formGroup.controls[formInputs.theoretical_date].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+
+                        <div class="form-control-feedback"
+                            *ngIf="formGroup.controls[formInputs.theoretical_date].hasError('required')
+                    && formGroup.controls[formInputs.theoretical_date].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date théorique est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
                       <label class="col-2">{{formLabels.effective_date}} {{isRequired(formInputs.effective_date)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
@@ -109,7 +146,7 @@
                           <input [owlDateTime]="owl_dt1"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt1"
-                                 placeholder="Choisir la date effective ici"
+                                 placeholder="Renseigner la date de réalisation"
                                  [ngClass]="{'is-invalid error-input':
                                formGroup.controls[formInputs.effective_date].hasError('required')
                                   && formGroup.controls[formInputs.effective_date].dirty}"
@@ -131,36 +168,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col">
-                      <label class="col-2">{{formLabels.theoretical_date}} {{isRequired(formInputs.theoretical_date)}}</label>
-                      <div class="col">
-                        <div class="date-picker-group">
-                          <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-                          <input [owlDateTime]="owl_dt2"
-                                 class="form-control input date"
-                                 [owlDateTimeTrigger]="owl_dt2"
-                                 placeholder="Choisir la date théorique ici"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.theoretical_date].hasError('required')
-                                  && formGroup.controls[formInputs.theoretical_date].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.theoretical_date]"
-                          />
-                          <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.theoretical_date)"
-                               *ngIf="formGroup.controls[formInputs.theoretical_date].value"></i>&nbsp;
-                            <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-                          </div>
-                        </div>
-
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.theoretical_date].hasError('required')
-                    && formGroup.controls[formInputs.theoretical_date].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date théorique est obligatoire
-                        </div>
-                      </div>
-                    </div>
+                 
                     <div class="col"></div>
                   </div>
                   <div class="row">
@@ -197,16 +205,30 @@
                     </div>
                   <div class="gray-box">
                     <div class="title pointer" (click)="showHistory = !showHistory">
-                      <span>Historique entretiens</span>
+                      <span>Historique des entretiens</span>
                       <i [ngClass]="{'icon-arrow-right': !showHistory, 'icon-arrow-down': showHistory}" ></i>
                     </div>
                     <ng-container *ngIf="!showHistory" >
-                        <div class="item col-3" *ngFor="let item of interviews" >
+                        <div class="item " *ngFor="let item of interviews" >
 
-                          <span class="light-text">
-                            {{item.effective_date | dateMessage}}
-                          </span>&nbsp;&nbsp;
-                          <span>{{item.type.label}}</span>
+                          <span *ngIf="item.effective_date">
+                            <span class="fa fa-check"></span>
+                            &nbsp;
+                            <span>{{item.type.label}}</span>
+
+                            <span class="light-text">
+                              {{ (item.effective_date | dateMessage)}}
+                            </span>
+                          </span>
+                          <span *ngIf="!item.effective_date" title="date de réalisation manquante">
+                            <span class="fa fa-exclamation-triangle danger-icon ng-star-inserted"></span>
+                          &nbsp;
+                            <span>{{item.type.label}}</span>
+                            &nbsp;&nbsp;
+                            <span class="light-text link" (click)="editInterview(item)">
+                              Renseigner la date de réalisation
+                            </span>
+                          </span>
                         </div>
 
                     </ng-container>
@@ -216,14 +238,25 @@
             </div>
           </div>
 
-          <div class="row text-center">
-            <app-button
-              [type]="'primary'"
-              [text]="'Enregistrer'"
-              [isLoading]="submitting"
-              (onClick)="save()"
-            >
-            </app-button>
+          <div class="justify-content-center submit-block">
+
+                <app-button
+                [type]="'tertiary'"
+                [text]="'Effacer'"
+                (onClick)="reset()"
+                [iconLeft]="'icon-close'"
+                [customStyle]="{'min-width': '130px'}"
+              >
+              </app-button>
+              <app-button
+                [type]="'secondary'"
+                [text]="'Enregistrer'"
+                [isLoading]="submitting"
+                [textLoading]="'Sauvegarde en cours..'"
+                [iconLeft]="'icon-check'"
+                (onClick)="save()"
+              >
+              </app-button>
           </div>
         </form>
       </div>

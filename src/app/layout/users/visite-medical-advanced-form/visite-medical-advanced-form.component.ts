@@ -62,12 +62,12 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
   medicalCenters = [];
   last_vm;
   _medical_visits;
-  @Input()
-  public set user(val: User) {
-    if(val){
-      this.initFormBuilder(val);
-    }
-  }
+  // @Input()
+  // public set user(val: User) {
+  //   if(val){
+  //     this.initFormBuilder(val);
+  //   }
+  // }
   @Input()
   public set medical_visits(val: any) {
     if(val){
@@ -104,7 +104,6 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
               private mainStore: MainStore,
               private dateMessagePipe:DateMessagePipe,
               private userService : UserService) {
-
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
       personal_id: [null],
@@ -113,7 +112,6 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       scheduled_date: [null],
       sent_convocation: [null]
     });
-    console.clear()
 
     this.modalService.dismissAll();
   }
@@ -162,7 +160,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
 
   initFormBuilder(vm){
     if(vm){
-      console.log('initFormBuilder :::',vm.histos)
+      console.log('initFormBuilder VM :::',vm)
       const _convoc_sent = vm.histos.filter(histo => {
           return histo.action.slug == 'CONVOCATION_SENT';
       });
