@@ -953,9 +953,10 @@
                         </span>
                   </div>
                 </td>
-                <ng-container *ngFor="let histo of item?.historiques_actions">
+
                   <td>
-                    <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
+                    <ng-container *ngFor="let histo of item?.historiques_actions">
+                      <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
                       <input type="checkbox"
                              class="small-checkbox"
                              [disabled]="histo?.checked"
@@ -966,8 +967,8 @@
                              [(ngModel)]="histo.checked"
                              name="checbox_" >
                     </div>
+                    </ng-container>
                   </td>
-              </ng-container>
 
                 <td>
                   <i class="icon-attachment"></i> {{item?.document_files?.length || 0}} Documents

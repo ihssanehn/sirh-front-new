@@ -2,7 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ListsService } from '@app/core/services/lists.service';
 import { PersonalService } from '@app/core/services/personal.service';
-import {formatDateForBackend, markFormAsDirty, paramsToFormData, SharedClasses} from '@app/shared/Utils/SharedClasses';
+import {
+  formatDateForBackend,
+  getFormValidationErrors,
+  markFormAsDirty,
+  paramsToFormData,
+  SharedClasses
+} from '@app/shared/Utils/SharedClasses';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
@@ -161,6 +167,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
 
   async submit() {
     markFormAsDirty(this.formGroup);
+    getFormValidationErrors(this.formGroup);
     if (!this.formGroup.valid) {
       return;
     }
@@ -172,7 +179,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
         scheduled_date: this.formGroup.getRawValue().scheduled_date,
       }
 
-      if(this.projectToEditFiles.length > 0){ // Edit state
+      if(this.projectToEditFiles?.length > 0){ // Edit state
         const document_files_to_delete = [];
         const document_files_to_add = [];
         this.projectToEditFiles.forEach(att => {
@@ -207,6 +214,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       console.log('res add/update medical visite', res);
       this.modal.close(res);
     }catch (e){
+      console.log('error add/update medical visite', e);
       if(this.item?.id){
         this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification de la visite médicale'});
       }else{
