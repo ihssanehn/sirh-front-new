@@ -4,7 +4,7 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {formatDateForBackend, getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
@@ -12,6 +12,11 @@ import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
+import {UserStore} from "@store/user.store";
+import {PersonalService} from "@services/personal.service";
+import * as moment from "moment/moment";
+import {IDatePickerConfig} from "ng2-date-picker/lib/date-picker/date-picker-config.model";
+import { isMoment } from 'moment/moment';
 
 
 
@@ -27,17 +32,22 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   allRoles = [
     'manager', 'superadmin', 'user'
   ];
+  userId:number;
   error = '';
   warning = '';
+  config: IDatePickerConfig = {
+    format: 'DD/MM/YYYY',
+    showTwentyFourHours: true,
+  }
   @Input() submitting: boolean;
   loadingSelect = {};
   formInputs = {
     personal_id: 'personal_id',
     date_entree: 'date_entree',
     date_sortie: 'date_sortie',
-    date_reception_courrier: 'date_reception_courrier',
-    motif: 'motif',
-    fin_normal_preavis: 'fin_normal_preavis',
+    requested_at: 'requested_at',
+    motif_id: 'motif_id',
+    end_date_preavis: 'end_date_preavis',
     date_limit_reponse: 'date_limit_reponse',
 
     mail_direction_bm: 'mail_direction_bm',
@@ -54,9 +64,9 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     personal_id: 'personal_id',
     date_entree: 'Date d\'entrée',
     date_sortie: 'Date de sortie',
-    date_reception_courrier: 'Date reception courrier',
-    motif: 'Motif',
-    fin_normal_preavis: 'Fin normal preavis',
+    requested_at: 'Date réception courrier',
+    motif_id: 'Motif',
+    end_date_preavis: 'Fin normal préavis',
     date_limit_reponse: 'Date limite de réponse',
     mail_direction_bm: 'Mail Direction + BM',
     mail_admin: 'Mail Admin',
@@ -81,10 +91,14 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   @Output() submitSortie: EventEmitter<any> = new EventEmitter();
   showHistory = false;
   medicalCenters = [];
+  personal;
   @Input()
-  public set user(val: User) {
+  public set user(val) {
+    console.log('set user val input ::',val)
     if(val){
-      this.initFormBuilder(val);
+      this.personal = val;
+      this.idUser = val.id;
+      this.initFormBuilder();
     }
   }
   @Input() sortie: any;
@@ -116,30 +130,26 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
               private mainStore: MainStore,
+              private userStore: UserStore,
+              private personalService: PersonalService,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
-      personal_id: [null],
+      personal_id: [null, Validators.compose([Validators.required])],
+      entrance_id: [null, Validators.compose([Validators.required])],
+      requested_at: [null, Validators.compose([Validators.required])],
+      motif_id: [null, Validators.compose([Validators.required])],
+      end_date_preavis: [null, Validators.compose([Validators.required])],
+      date_limit_reponse: [null, Validators.compose([Validators.required])],
       date_entree: [null],
       date_sortie: [null],
-      date_reception_courrier: [null],
-      motif: [null],
-      fin_normal_preavis: [null],
-      date_limit_reponse: [null],
-
-      mail_direction_bm: [null],
-      mail_admin: [null],
-      courrier_reponse: [null],
-      radiation_ats: [null],
-      date_envoi_stc: [null],
-      envoi_recommande_number: [null],
-      sortie_sirh: [null],
-      radiation_apicil: [null],
-      virement_amandine: [null],
+      id: [null],
     });
 
     this.modalService.dismissAll();
+    this.userId = this.userStore.getAuthenticatedUser?.id;
+
   }
 
   mockupData(){
@@ -147,9 +157,9 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       personal_id: null,
       date_entree: null,
       date_sortie:  null,
-      date_reception_courrier:  null,
-      motif:  null,
-      fin_normal_preavis:  null,
+      requested_at:  null,
+      motif_id:  null,
+      end_date_preavis:  null,
       date_limit_reponse:  null
     };
     this.formGroup.patchValue(data);
@@ -168,7 +178,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     this.getParametersLists();
     // this.mockupData();
     this.changeDetectorRef.detectChanges();
-    // this.getMotifs()
+    // this.getmotif_ids()
   }
 
   async getParametersLists(){
@@ -188,13 +198,27 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  initFormBuilder(user: User){
-    if(user){
+  initFormBuilder(){
+    if(this.personal){
       this.formGroup.patchValue({
-        personal_id: user.id,
-        ...user.parameter
+        personal_id: this.personal.id,
+        ...this.personal.parameter
       });
+      if(this.personal?.last_entrance?.entry_date){
+        this.formGroup.patchValue({date_entree: this.personal.last_entrance.entry_date, entrance_id: this.personal.last_entrance.id})
+      }
     }
+    if(this.sortie){
+      this.getFilterList('motifs', this.listService.list.EXIT_MOTIF);
+      this.formGroup.patchValue({
+                ...this.sortie
+      })
+    }
+    if(this.sortie?.entrance?.entry_date){
+      this.formGroup.patchValue({date_entree: this.sortie.entrance.entry_date, entrance_id: this.sortie.entrance.id})
+    } 
+   
+
   }
 
   async getFilterList(items, list_name, list_param?){
@@ -211,9 +235,20 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     
   }
 
-  async markActionAsDone(id, is_done){
-    let marked = await this.userService.markActionAsDone({id:id}).toPromise();
+  reset(hardReset=false){
+    this.formGroup.reset()
+    if(hardReset)
+      this.sortie = null;
+    this.initFormBuilder()
+  }
+
+  async markActionAsDone(histo){
+    let marked = await this.userService.markActionAsDone({id:histo.id}).toPromise();
     if(marked)
+      histo.user = marked.user;
+      histo.user_id = marked.user.id;
+      histo.done_at = marked.done_at;
+
       this.messageService.add({
         severity: 'success',
         summary: 'Parfait!',
@@ -222,7 +257,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       });
   }
 
-  async getMotifs(){
+  async getmotifs(){
    this.motifs = await this.userService.getTypesByModel('exit_type').toPromise();
   }
 
@@ -231,6 +266,19 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
 
   isRequired(control) {
     return SharedClasses.isControlRequired(this.formGroup.controls[control]) ? '(*)': '';
+  }
+
+  async addComment(histo){
+    let commented = await this.userService.addComment({id:histo.id, comment:histo._comment}).toPromise();
+    if(commented)
+      histo.comment = commented.comment;
+      histo.adding_comment = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Parfait!',
+        detail: 'Le commentaire a bien été ajouté',
+        sticky: false,
+      });
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -255,26 +303,111 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  save() {
+  _addComment(histo) {
+    if(histo.user_id == this.userId)
+      histo.adding_comment = true
+    else
+    this.messageService.add({
+      severity: 'warning',
+      summary: 'Attention!',
+      detail: 'Vous ne pouvez ajouter de commentaires que sur les actions que vous avez validées',
+      sticky: false,
+    });
+
+  }
+
+
+  async save() {
     this.error = '';
     markFormAsDirty(this.formGroup);
     if(!this.formGroup.valid ){
-      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      this.error = 'Des éléments bloquants nécessitent votre attention';
       getFormValidationErrors(this.formGroup);
       return;
     }
+
     Object.keys(this.formGroup.value).forEach(key => {
       if(this.formGroup.value[key] === 'false'){
         this.formGroup.value[key] = false;
       }
     });
-    this.submitSortie.emit(this.formGroup.value);
+
+    const dates = ['end_date_preavis', 'date_limit_reponse','requested_at'];
+    const saveData = {
+      ...this.formGroup.value
+    }
+    dates.forEach(date => {
+      saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+    });
+
+    console.log('save data :: ', saveData)
+
+
+    // this.submitvm.emit(saveData);
+    console.log(saveData)
+    let res = null;
+  
+      // case of new exit
+      try{
+
+        res = await this.personalService.exitPersonal(saveData).toPromise();
+        if(res.result && res.result.data){
+          
+          this.submitting = false;
+          this.reset()
+          console.log('res ===', res);
+          if(res.result.data.last_sortie)
+          this.sortie = res.result.data.last_sortie
+          this.initFormBuilder()
+        }
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Sortie enregistrée avec succès'});
+      }catch (error) {
+        console.log('errorMessage', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Un problème est survenue',
+          detail: 'Impossible d\'enregistrer la sortie',
+          sticky: false});
+      }
   }
 
   clearDateInput(input: string) {
     this.formGroup.patchValue({
       [input]: null
     })
+  }
+
+  async getPreavisCalculation() {
+    console.log(this.formGroup.getRawValue())
+    const {personal_id, motif_id, requested_at} = this.formGroup.getRawValue();
+    console.log('getPreavisCalculation', personal_id, motif_id, requested_at);
+    if(requested_at){
+      console.log('adding 30 d  ys from ', moment(requested_at).add('30','days'));
+      this.formGroup.patchValue({date_limit_reponse: moment(requested_at).add('30','days').toISOString()});
+    }
+    if(!personal_id || !motif_id || !requested_at){
+      return;
+    }
+    try {
+      const params = {
+        personal_id,
+        motif_id,
+        requested_at: formatDateForBackend(requested_at)
+      }
+
+      const res = await this.personalService.getPreavisCalculation(params).toPromise();
+      console.log('res getPreavisCalculation', res);
+      if(moment(res.calculated_date)?.isValid()) {
+        console.log('patching end_date_preavis')
+        this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).toISOString()});
+        // this.formGroup.patchValue({end_date_preavis: moment(res.calculated_date).format('DD/MM/YYYY')});
+      }else
+        this.formGroup.patchValue({end_date_preavis:null})
+    }catch (e) {
+      console.log('error getPreavisCalculation', e);
+    }finally {
+
+    }
   }
 
 

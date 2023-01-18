@@ -61,9 +61,10 @@
                       <label class="col-12">{{formLabels.date_entree}} {{isRequired(formInputs.date_entree)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
-                          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
+                          <owl-date-time #owl_dt1 [pickerType]="'calendar'" [readOnly]="true" disabled></owl-date-time>
                           <input [owlDateTime]="owl_dt1"
                                  class="form-control input date"
+                                 [formControl]="formGroup.controls[formInputs.date_entree]"
                                  [owlDateTimeTrigger]="owl_dt1"
                                  placeholder="Choisir la date d'entrée"
                                  name="date_entree"
@@ -72,9 +73,6 @@
                                   && formGroup.controls[formInputs.date_entree].dirty}"
                           />
                           <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_entree)"
-                               *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                           </div>
                         </div>
@@ -87,104 +85,126 @@
                         </div>
                       </div>
                     </div>
+                   
                     <div class="col">
-                      <label class="col-12">{{formLabels.date_sortie}} {{isRequired(formInputs.date_sortie)}}</label>
+                      <label class="col-2">{{formLabels.requested_at}} {{isRequired(formInputs.requested_at)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
-                          <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-                          <input [owlDateTime]="owl_dt2"
-                                 class="form-control input date"
-                                 [owlDateTimeTrigger]="owl_dt2"
-                                 placeholder="Choisir la date sortie"
-                                 name="date_end"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_sortie].hasError('required')
-                                  && formGroup.controls[formInputs.date_sortie].dirty}"
-                          />
-<!--                          [(ngModel)]="sortie.end_date"-->
-                          <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_sortie)"
-                               *ngIf="formGroup.controls[formInputs.date_sortie].value"></i>&nbsp;
-                            <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-                          </div>
-                        </div>
-
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_sortie].hasError('required')
-                    && formGroup.controls[formInputs.date_sortie].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date de la dernière vm est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <label class="col-2">{{formLabels.date_reception_courrier}} {{isRequired(formInputs.date_reception_courrier)}}</label>
-                      <div class="col">
-                        <div class="date-picker-group">
-                          <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                          <owl-date-time  #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
                           <input [owlDateTime]="owl_dt3"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt3"
+                                 (dateTimeChange)="getPreavisCalculation()"
+                                 [formControl]="formGroup.controls[formInputs.requested_at]"
                                  name="date_courrier"
-                                 placeholder="Choisir la date de la reception du courrier ici"
+                                 placeholder="Renseignez la date de reception du courrier"
                                  [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_reception_courrier].hasError('required')
-                                  && formGroup.controls[formInputs.date_reception_courrier].dirty}"
+                               formGroup.controls[formInputs.requested_at].hasError('required')
+                                  && formGroup.controls[formInputs.requested_at].dirty}"
                           />
 <!--                          [(ngModel)]="sortie.requested_at"-->
                           <div class="icons-container">
                             <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_reception_courrier)"
-                               *ngIf="formGroup.controls[formInputs.date_reception_courrier].value"></i>&nbsp;
+                               (click)="clearDateInput(formInputs.requested_at)"
+                               *ngIf="formGroup.controls[formInputs.requested_at].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_reception_courrier].hasError('required')
-                    && formGroup.controls[formInputs.date_reception_courrier].dirty">
+                             *ngIf="formGroup.controls[formInputs.requested_at].hasError('required')
+                    && formGroup.controls[formInputs.requested_at].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date de reception du courrier est obligatoire
                         </div>
                       </div>
                     </div>
                     <div class="col">
-                      <label class="col-2">{{formLabels.motif}} {{isRequired(formInputs.motif)}}</label>
+                      <label class="col-2">{{formLabels.motif_id}} {{isRequired(formInputs.motif_id)}}</label>
                       <div class="col">
 
                         <ng-select
                                 [items]="motifs"
+                                dropdownPosition="'bottom'"
                                 [bindLabel]="'label'"
                                 [bindValue]="'id'"
+                                (change)="getPreavisCalculation()"
                                 class="form-control select"
-                                placeholder="Sélectionner le type d'entretien ici"
-                                [formControl]="formGroup.controls[formInputs.motif]"
+                                placeholder="Sélectionner le motif"
+                                [formControl]="formGroup.controls[formInputs.motif_id]"
                                 (open)="getFilterList('motifs', listService.list.EXIT_MOTIF)"
                                 [loading]="loadingSelect[listService.list.EXIT_MOTIF]"
-                                [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.motif].hasError('required')
-                                        && formGroup.controls[formInputs.motif].dirty}"
+                                [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.motif_id].hasError('required')
+                                        && formGroup.controls[formInputs.motif_id].dirty}"
                                 [multiple]="false"
                               >
                         </ng-select>
 
-                              <!-- <ng-select class="select form-control"
-                                          [multiple]="false"
-                                          [items]="motifs"
-                                          [bindLabel]="'label'"
-                                          [bindValue]="'id'"
-                                          name="motif"
-                                          [placeholder]="'Sélectionner le motif'"
-                                          [(ngModel)]="sortie.motif_id"
-                              ></ng-select> -->
+                        <div class="form-control-feedback"
+                              *ngIf="formGroup.controls[formInputs.motif_id].hasError('required')
+                                  && formGroup.controls[formInputs.motif_id].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le motif de la sortie est obligatoire
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.end_date_preavis}} {{isRequired(formInputs.end_date_preavis)}}</label>
+                      <div class="col">
+                        <!-- <div class="date-picker-group">
+                          <dp-date-picker
+                                          [mode]="'daytime'"
+                                          placeholder="Choisir la date de fin de préavis"
+                                          [config]="config"
+                                          class="date-picker"
+                                          theme="dp-material"
+                                          #datepicker
+                                          [ngClass]="{'is-invalid error-input':
+                                          formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                             && formGroup.controls[formInputs.end_date_preavis].dirty}"
+                                          [formControl]="formGroup.controls[formInputs.end_date_preavis]"
+                                       ></dp-date-picker>
+    
+                          <div class="icons-container">
+                            <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+                          </div>
+                        </div> -->
+
+                        <div class="date-picker-group">
+                          <owl-date-time  #owl_dtpreavis [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dtpreavis"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dtpreavis"
+                                 [formControl]="formGroup.controls[formInputs.end_date_preavis]"
+                                 name="date_courrier"
+                                 placeholder="Renseignez la date de fin du préavis"
+                                 [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                  && formGroup.controls[formInputs.end_date_preavis].dirty}"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.end_date_preavis)"
+                               *ngIf="formGroup.controls[formInputs.end_date_preavis].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+                    
+
+                        <div class="form-control-feedback"
+                             *ngIf="formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                  && formGroup.controls[formInputs.end_date_preavis].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          La date de fin de préavis est obligatoire
+                        </div>
                       </div>
                     </div>
                     <div class="col">
                       <label class="col-2">{{formLabels.date_limit_reponse}} {{isRequired(formInputs.date_limit_reponse)}}</label>
                       <div class="col">
-                        {{(sortie?.date_limite_reponse | dateMessage) || 'N.R'}}
-                        <!-- <div class="date-picker-group">
-                          <owl-date-time #owl_dt4 [pickerType]="'calendar'" ></owl-date-time>
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dt4 [pickerType]="'calendar'" [readonly]="true" disabled ></owl-date-time>
                           <input [owlDateTime]="owl_dt4"
                                  class="form-control input date"
                                  [owlDateTimeTrigger]="owl_dt4"
@@ -195,9 +215,6 @@
                                  [formControl]="formGroup.controls[formInputs.date_limit_reponse]"
                           />
                           <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_limit_reponse)"
-                               *ngIf="formGroup.controls[formInputs.date_limit_reponse].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                           </div>
                         </div>
@@ -207,33 +224,10 @@
                     && formGroup.controls[formInputs.date_limit_reponse].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date limite de réponse est obligatoire
-                        </div> -->
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <div class="row">
-
-                    <div class="col-3" *ngFor="let histo of sortie?.histos; "
-                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
-                      <div class="check-box-btn">
-                        <input type="checkbox"
-                               [checked]="histo.checked"
-                               name="check_{{histo.action.slug}}"
-                               [ngClass]="{'disabled': histo.done_at}"
-                               (change)="markActionAsDone(histo.id,histo.checked) "
-                               [disabled]="histo.done_at"
-                               [id]="histo.id"
-                        >
-<!--                        [(ngModel)]="histo.checked"-->
-                        <label [for]="histo.id">
-                          <span class="name">{{histo.action.label}}</span>
-                          <!-- <div class="link">Ajouter un commentaire</div> -->
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
                   <div class="row">
                     <div class="col-1">
                       Pièces jointes
@@ -265,6 +259,71 @@
                         </ng-template>
                       </div>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <br><br><br>
+                    <div class="col-3"  style="display: flex;align-items: flex-start;" *ngFor="let histo of sortie?.histos; "
+                    [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage) + (histo.comment? ' Note: '+ histo.comment:'')):''">
+                    <label for="{{formLabels.verification_ts_prefacture}}bak" class="label-action"
+                            data-content="{{formLabels.verification_ts_prefacture}}">
+                      <span class="name">{{histo.action.label}}</span>
+                      <div class="comment" *ngIf="histo.comment">{{histo.comment}}</div>
+                      <div class="link" (click)="_addComment(histo)" *ngIf="!histo.comment && !histo.adding_comment"  [ngClass]="{'forbidden': histo.user_id != userId}">Ajouter une note</div>
+                        <ng-container *ngIf="histo.adding_comment;">
+                          <div class="d-flex align-items-center">
+                            <input type="text"
+                                   class="form-control input"
+                                   name="comment"
+                                   (keyup.enter)="addComment(histo)"
+                                   (keyup.esc)="histo.adding_comment = false;histo.comment=null;"
+                                   [placeholder]="'Saisir un commentaire'"
+                                   [(ngModel)]="histo._comment"
+                            />
+                            <div class="text-center d-flex text-nowrap">
+                              &nbsp;&nbsp;<i class="icon-check primary-icon pointer" (click)="addComment(histo)"></i>
+                              &nbsp;&nbsp;<i class="icon-close danger-icon pointer" (click)="histo.adding_comment = false;histo.comment=null;"></i>
+                            </div>
+                          </div>
+                        </ng-container>
+                    </label>
+                      <br>
+                      <div class="check-box-btn">
+                        <input type="checkbox"
+                               id="{{formLabels.verification_ts_prefacture}}"
+                               [checked]="histo.checked"
+                               name="check_{{histo.action.slug}}"
+                               [(ngModel)]="histo.checked"
+                               [ngClass]="{'disabled': histo.done_at}"
+                               (change)="markActionAsDone(histo) "
+                               [disabled]="histo.done_at"
+                        >
+
+                      </div>
+                    </div>
+                  </div>
+
+                
+
+                  <div class="justify-content-center submit-block">
+
+                        <app-button
+                        [type]="'tertiary'"
+                        [text]="'Effacer'"
+                        (onClick)="reset(true)"
+                        [iconLeft]="'icon-close'"
+                        [customStyle]="{'min-width': '130px'}"
+                      >
+                      </app-button>
+                      <app-button
+                        [type]="'secondary'"
+                        [text]="'Confirmer la sortie'"
+                        [isLoading]="submitting"
+                        [textLoading]="'Sauvegarde en cours..'"
+                        [iconLeft]="'icon-check'"
+                        (onClick)="save()"
+                      >
+                      </app-button>
                   </div>
 
 

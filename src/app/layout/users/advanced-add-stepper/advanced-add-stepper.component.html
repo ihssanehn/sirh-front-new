@@ -53,6 +53,7 @@
     <app-sortie-advanced-form
     *ngIf="user"
     [sortie]="user.last_sortie"
+    [user]="user"
       (submitSortie)="submitSortie($event)"
     ></app-sortie-advanced-form>
   </mat-step>

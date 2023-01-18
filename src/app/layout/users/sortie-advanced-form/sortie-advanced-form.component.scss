@@ -36,6 +36,22 @@
   font-weight: 500;
 }
 
+.forbidden{
+  cursor:not-allowed;
+  opacity: 0.5;
+  color:#4f83b1;
+}
+
+.comment{
+  color:grey;
+  font-style: italic;
+}
+
+.label-action{
+  margin-bottom:2em!important;
+}
+
+
 .files-viewer{
   background: #068aff0a;
   min-height: 50px

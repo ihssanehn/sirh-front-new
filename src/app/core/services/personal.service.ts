@@ -73,4 +73,8 @@ export class PersonalService {
   export(params, entity) {
     return this.apiService.post('personal/'+entity+'/export', params, true);
   }
+
+  exitPersonal(params: any) {
+    return this.apiService.post('personal_a/exit', params);
+  }
 }
