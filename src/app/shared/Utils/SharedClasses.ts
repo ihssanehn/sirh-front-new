@@ -115,13 +115,13 @@ export function paramsToFormData(params, input_names_for_files, input_names_for_
   Object.keys(params).forEach(key => {
     if(params.hasOwnProperty(key)){
       if(Array.isArray(params[key])){
-        if(input_names_for_files?.includes(key)){
+        // if(input_names_for_files?.includes(key)){
           params[key].forEach((file, index) => {
             fd.append(key, file);
           })
-        }else{
-          fd.append(key, JSON.stringify(params[key]));
-        }
+        // }else{
+        //   fd.append(key, JSON.stringify(params[key]));
+        // }
       }else {
         if(params[key] != null){
           fd.append(key, params[key]);

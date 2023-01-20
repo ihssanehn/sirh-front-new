@@ -284,7 +284,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   }
 
-  openSelectRole(type, item = null){
+  openEditModal(type, item = null){
     if(this.modalService.hasOpenModals()){
       return;
     }

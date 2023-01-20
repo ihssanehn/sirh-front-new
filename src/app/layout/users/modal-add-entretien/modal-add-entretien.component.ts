@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import {MainStore} from "@store/mainStore.store";
 import * as moment from "moment";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
+import FileSaver from "file-saver";
 
 @Component({
   selector: 'app-modal-add-entretien',
@@ -72,7 +73,8 @@ export class ModalAddEntretienComponent implements OnInit {
         effective_date: val.effective_date ? moment(val.effective_date).format('YYYY-MM-DD'): null,
       });
     }
-    this.projectToEditFiles = val.document_files;
+    this.files = val.document_files?.attachments || [];
+    this.projectToEditFiles = val.document_files?.attachments || [];
     this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE);
     this.getFilterList('personals', this.listService.list.PERSONAL);
   }
@@ -350,7 +352,7 @@ export class ModalAddEntretienComponent implements OnInit {
   }
 
   findFile(file) {
-    return this.files.find(function(existingFile) {
+    return this.files?.find(function(existingFile) {
       return (
         existingFile.name         === file.name &&
         existingFile.lastModified === file.lastModified &&
@@ -404,10 +406,10 @@ export class ModalAddEntretienComponent implements OnInit {
     };
 
     try{
-      // const res: any = await this.userService.downloadDocument(params).toPromise();
-      // console.log('res blob', res);
-      // const blob = new Blob([res.body]);
-      // FileSaver.saveAs(blob, file.name);
+      const res: any = await this.personalService.downloadDocument(params).toPromise();
+      console.log('res blob', res);
+      const blob = new Blob([res.body], { type: res.headers?.get('Content-Type') });
+      FileSaver.saveAs(blob, file.name);
     }catch(error){
       console.log('e', error);
       this.mainStore.showMessage(`Echec de téléchargement!`, `le document n'a pas pu être téléchargé`, 'error');

@@ -172,15 +172,15 @@
                             &nbsp;Ajouter une pièce jointe
                           </label>
                           <div class="row justify-content-center" *ngIf="files?.length>0; else noFileEmptyState">
-                            <div class="file" *ngFor="let item of files" title="{{item.name}}" (click)="download(item)">
+                            <div class="file" *ngFor="let item of files" title="{{item.name || item.original_name}}" (click)="download(item)">
                               <div class="close-icon" (click)="removeFile(item)">
                                 <i class="icon-close"></i>
                               </div>
                               <div class="icon">
-                                <i class="{{getIcon(item.name)}}"></i>
+                                <i class="{{getIcon(item.name || item.original_name)}}"></i>
                               </div>
                               <div class="">
-                                <div class="name">{{getFileName(item.name)}}</div>
+                                <div class="name">{{getFileName(item.name || item.original_name)}}</div>
                                 <div class="size">{{getFileSize(item.size)}}</div>
                               </div>
                             </div>
