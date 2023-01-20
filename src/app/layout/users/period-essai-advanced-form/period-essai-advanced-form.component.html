@@ -56,39 +56,16 @@
                 <div class="form-bloc">
                   <div class="row">
                     <div class="col">
-                      <label class="col-12">{{formLabels.statut_salarie}}
-                        {{isRequired(formInputs.statut_salarie)}}</label>
-                      <div class="col">
-                        <ng-select
-                          [items]="status"
-                          [bindLabel]="'label'"
-                          [bindValue]="'id'"
-                          class="form-control select"
-                          placeholder="Sélectionner l'admin facturation ici"
-                          [formControl]="formGroup.controls[formInputs.statut_salarie]"
-                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.statut_salarie].hasError('required')
-                                  && formGroup.controls[formInputs.statut_salarie].dirty}"
-                          [multiple]="false"
-                        >
-                        </ng-select>
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.statut_salarie].hasError('required')
-                  && formGroup.controls[formInputs.statut_salarie].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          Le statut du salarié est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
                       <label class="col-12">{{formLabels.decision}}
+                  
                         {{isRequired(formInputs.decision)}}</label>
                       <div class="col">
                         <ng-select
                           [items]="decisions"
                           [bindLabel]="'label'"
-                          [bindValue]="'id'"
+                          (change)="getTrialPeriodRenewCalculation(formGroup.controls[formInputs.decision].value.code)"
                           class="form-control select"
-                          placeholder="Sélectionner le droit de création de projet  ici"
+                          placeholder="Sélectionner la décision"
                           [formControl]="formGroup.controls[formInputs.decision]"
                           [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.decision].hasError('required')
                                   && formGroup.controls[formInputs.decision].dirty}"
@@ -103,37 +80,38 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col">
-                      <label class="col-2">{{formLabels.date_entree}} {{isRequired(formInputs.date_entree)}}</label>
+                
+                
+                    <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'rupture'">
+                      <label class="col-2">{{formLabels.motif_id}} {{isRequired(formInputs.motif_id)}}</label>
                       <div class="col">
-                        <div class="date-picker-group">
-                          <owl-date-time #owl_dt1 [pickerType]="'calendar'" ></owl-date-time>
-                          <input [owlDateTime]="owl_dt1"
-                                 class="form-control input date"
-                                 [owlDateTimeTrigger]="owl_dt1"
-                                 placeholder="Choisir la date d'entée ici"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_entree].hasError('required')
-                                  && formGroup.controls[formInputs.date_entree].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_entree]"
-                          />
-                          <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_entree)"
-                               *ngIf="formGroup.controls[formInputs.date_entree].value"></i>&nbsp;
-                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                          </div>
-                        </div>
+
+                        <ng-select
+                                [items]="motifs"
+                                dropdownPosition="'bottom'"
+                                [bindLabel]="'label'"
+                                [bindValue]="'id'"
+                                class="form-control select"
+                                placeholder="Sélectionner le motif"
+                                [formControl]="formGroup.controls[formInputs.motif_id]"
+                                (open)="getFilterList('motifs', listService.list.EXIT_MOTIF)"
+                                [loading]="loadingSelect[listService.list.EXIT_MOTIF]"
+                                [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.motif_id].hasError('required')
+                                        && formGroup.controls[formInputs.motif_id].dirty}"
+                                [multiple]="false"
+                              >
+                        </ng-select>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
-                    && formGroup.controls[formInputs.date_entree].dirty">
+                              *ngIf="formGroup.controls[formInputs.motif_id].hasError('required')
+                                  && formGroup.controls[formInputs.motif_id].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date d'entrée est obligatoire
+                          Le motif de la sortie est obligatoire
                         </div>
+
                       </div>
                     </div>
-                    <div class="col">
+                    <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'rupture'">
                       <label class="col-2">{{formLabels.date_sortie}} {{isRequired(formInputs.date_sortie)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
@@ -163,10 +141,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <label class="col-2">{{formLabels.date_fin_renouvelement}} {{isRequired(formInputs.date_fin_renouvelement)}}</label>
+                    <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'renouvellement' || formGroup.controls[formInputs.renewal_date].value">
+                      <label class="col-2">{{formLabels.renewal_date}} {{isRequired(formInputs.renewal_date)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
                           <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
@@ -175,21 +151,21 @@
                                  [owlDateTimeTrigger]="owl_dt3"
                                  placeholder="Choisir la date de fin de renouvellement ici"
                                  [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_fin_renouvelement].hasError('required')
-                                  && formGroup.controls[formInputs.date_fin_renouvelement].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_fin_renouvelement]"
+                               formGroup.controls[formInputs.renewal_date].hasError('required')
+                                  && formGroup.controls[formInputs.renewal_date].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.renewal_date]"
                           />
                           <div class="icons-container">
                             <i class="icon-close"
-                               (click)="clearDateInput(formInputs.date_fin_renouvelement)"
-                               *ngIf="formGroup.controls[formInputs.date_fin_renouvelement].value"></i>&nbsp;
+                               (click)="clearDateInput(formInputs.renewal_date)"
+                               *ngIf="formGroup.controls[formInputs.renewal_date].value"></i>&nbsp;
                             <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_fin_renouvelement].hasError('required')
-                    && formGroup.controls[formInputs.date_fin_renouvelement].dirty">
+                             *ngIf="formGroup.controls[formInputs.renewal_date].hasError('required')
+                    && formGroup.controls[formInputs.renewal_date].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date de fin de renouvellement est obligatoire
                         </div>
@@ -222,24 +198,6 @@
                     && formGroup.controls[formInputs.date_fin_period_essai].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date de fin de période d'essai est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <label class="col-12">{{formLabels.suivi_evolution_perido_essai}}
-                        {{isRequired(formInputs.suivi_evolution_perido_essai)}}</label>
-                      <div class="col">
-                        <input type="text" class="form-control input"
-                               [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.suivi_evolution_perido_essai].hasError('required')
-                                  && formGroup.controls[formInputs.suivi_evolution_perido_essai].dirty}"
-                               [formControl]="formGroup.controls[formInputs.suivi_evolution_perido_essai]"
-                               placeholder="Saisir le suivi d'evolution du PE" />
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.suivi_evolution_perido_essai].hasError('required')
-                  && formGroup.controls[formInputs.suivi_evolution_perido_essai].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          Le suivi de l'évolution période d'essai est obligatoire
                         </div>
                       </div>
                     </div>
@@ -290,6 +248,28 @@
                   </div> -->
                 </div>
               </div>
+
+            
+            </div>
+            <div class="justify-content-center submit-block">
+
+                  <app-button
+                  [type]="'tertiary'"
+                  [text]="'Effacer'"
+                  (onClick)="reset()"
+                  [iconLeft]="'icon-close'"
+                  [customStyle]="{'min-width': '130px'}"
+                >
+                </app-button>
+                <app-button
+                  [type]="'secondary'"
+                  [text]="'Enregistrer'"
+                  [isLoading]="submitting"
+                  [textLoading]="'Sauvegarde en cours..'"
+                  [iconLeft]="'icon-check'"
+                  (onClick)="save()"
+                >
+                </app-button>
             </div>
 
 

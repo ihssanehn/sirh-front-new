@@ -98,9 +98,15 @@ export interface Activity {
 
 export interface PersonalAnnex {
   registration_number?: string;
+  label?:string;
   nom?: string;
   prenom?: any;
   created_at?: Date;
   updated_at?: Date;
+  entry_date?:Date;
   id?: number;
+  contrat?:object;
+  status?:object;
+  entity?:object;
+  manager?:object;
   }
