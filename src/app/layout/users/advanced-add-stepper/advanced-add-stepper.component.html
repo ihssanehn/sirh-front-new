@@ -1,5 +1,30 @@
-<p class="head-title"> Suivi salarié: {{user?.nom || ''}} {{user?.prenom || ''}} - {{user?.registration_number || ''}}</p>
+<p class="head-title"> 
+  {{user?.civility}} {{user?.label}}
+</p>
 
+<div class="row col-10 offset-1 mb-3 mt-3 head-info" *ngIf="user">
+  <br>
+  
+  <div class="col">
+    En {{user?.contrat.label || 'N.R'}} depuis le {{ (user?.entry_date | dateMessage) || 'N.R'}} 
+    <br>{{user?.status.label || 'N.R'}} chez {{user?.entity.label || 'N.R'}} 
+  </div>
+  <div class="col">
+    Matricule: {{user?.registration_number || 'N.R'}}
+    <br>
+    CP: {{user?.manager.full_name || 'N.R'}}
+  </div>
+  <div class="col">
+    Siège: {{user?.siege.label}}
+    <br>
+    <span *ngIf="user?.is_externe">Externe</span>
+    <span *ngIf="!user?.is_externe">Interne</span>
+     
+  </div>
+
+
+
+</div>
 <mat-stepper linear #stepper  (selectionChange)="selectionChange($event)">
   <!-- change default 'edit' icon -->
   <ng-template #stepperIcon>
@@ -18,7 +43,8 @@
   <mat-step label="Période d'essai">
     <app-period-essai-advanced-form
       *ngIf="user"
-      [trial_periods]="user.trial_periods"
+      [user]="user"
+      [trial_period]="user?.current_pe"
       (submitPeriodEssai)="submitPE($event)"
     ></app-period-essai-advanced-form>
   </mat-step>

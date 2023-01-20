@@ -99,6 +99,7 @@ export interface Activity {
 export interface PersonalAnnex {
   registration_number?: string;
   label?:string;
+  civility?:string;
   nom?: string;
   prenom?: any;
   created_at?: Date;
@@ -108,5 +109,7 @@ export interface PersonalAnnex {
   contrat?:object;
   status?:object;
   entity?:object;
+  siege?:object;
   manager?:object;
+  is_externe?:boolean;
   }
