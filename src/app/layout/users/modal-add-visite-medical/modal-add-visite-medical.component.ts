@@ -19,7 +19,7 @@ import * as moment from "moment/moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
-
+import FileSaver from "file-saver";
 
 @Component({
   selector: 'app-modal-add-visite-medical',
@@ -404,10 +404,10 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     };
 
     try{
-      // const res: any = await this.userService.downloadDocument(params).toPromise();
-      // console.log('res blob', res);
-      // const blob = new Blob([res.body]);
-      // FileSaver.saveAs(blob, file.name);
+      const res: any = await this.personalService.downloadDocument(params).toPromise();
+      console.log('res blob', res);
+      const blob = new Blob([res.body], { type: res.headers?.get('Content-Type') });
+      FileSaver.saveAs(blob, file.name);
     }catch(error){
       console.log('e', error);
       this.mainStore.showMessage(`Echec de téléchargement!`, `le document n'a pas pu être téléchargé`, 'error');

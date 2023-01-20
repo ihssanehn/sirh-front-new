@@ -77,4 +77,8 @@ export class PersonalService {
   exitPersonal(params: any) {
     return this.apiService.post('personal_a/exit', params);
   }
+
+  downloadDocument(params) {
+    return this.apiService.get(`personal/getAttachment`, params, true);
+  }
 }
