@@ -23,7 +23,7 @@
 <!--          [text]="'Ajouter un utilisateur/collaborateur'"-->
 <!--          [type]="'primary'"-->
 <!--          [iconLeft]="'fa fa-plus'"-->
-<!--          (onClick)="openSelectRole()"-->
+<!--          (onClick)="openEditModal()"-->
 <!--          [customStyle]="{'white-space': 'nowrap'}"-->
 <!--        ></app-button>-->
 <!--      </div>-->
@@ -65,7 +65,7 @@
           [text]="'Ajouter ' + type"
           [type]="'secondary'"
           [iconRight]="'icon-add'"
-          (onClick)="openSelectRole(type)"
+          (onClick)="openEditModal(type)"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>
@@ -658,14 +658,14 @@
                   <td>{{item.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
                   <td >
                     <!-- <span class="link">Attacher un document</span> &nbsp; -->
-                    <i class="icon-attachment"></i>
+                    <i class="icon-attachment"></i> {{item?.document_files?.attachments?.length || 0}} Documents
                   </td>
                   <td style="padding-right: 0;">
                     <div class="actions">
                       <i class="icon-edit"
                          data-toggle="tooltip"
                          data-placement="top"
-                         (click)="openSelectRole('entretien', item)"
+                         (click)="openEditModal('entretien', item)"
                          title="Modifier"></i>&nbsp;&nbsp;
                       <i class="icon-close danger-icon"
                          data-toggle="tooltip"
@@ -971,14 +971,14 @@
                   </td>
 
                 <td>
-                  <i class="icon-attachment"></i> {{item?.document_files?.length || 0}} Documents
+                  <i class="icon-attachment"></i> {{item?.document_files?.attachments?.length || 0}} Documents
                 </td>
                 <td>
                   <div class="actions">
                     <i class="icon-edit"
                        data-toggle="tooltip"
                        data-placement="top"
-                       (click)="openSelectRole('visite_medicale', item)"
+                       (click)="openEditModal('visite_medicale', item)"
                        title="Modifier"></i>
                   </div>
                 </td>
@@ -1406,7 +1406,7 @@
                 </ng-container>
                   <td>
                     <div class="actions">
-                      <i class="icon-edit primary-icon pointer" (click)="openSelectRole('sortie', item)"></i>
+                      <i class="icon-edit primary-icon pointer" (click)="openEditModal('sortie', item)"></i>
                     </div>
                   </td>
                 </tr>

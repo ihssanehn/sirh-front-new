@@ -72,7 +72,8 @@ export class ModalAddEntretienComponent implements OnInit {
         effective_date: val.effective_date ? moment(val.effective_date).format('YYYY-MM-DD'): null,
       });
     }
-    this.projectToEditFiles = val.document_files;
+    this.files = val.document_files?.attachments || [];
+    this.projectToEditFiles = val.document_files?.attachments || [];
     this.getFilterList('entretien_types', this.listService.list.INTERVIEW_TYPE);
     this.getFilterList('personals', this.listService.list.PERSONAL);
   }
@@ -350,7 +351,7 @@ export class ModalAddEntretienComponent implements OnInit {
   }
 
   findFile(file) {
-    return this.files.find(function(existingFile) {
+    return this.files?.find(function(existingFile) {
       return (
         existingFile.name         === file.name &&
         existingFile.lastModified === file.lastModified &&

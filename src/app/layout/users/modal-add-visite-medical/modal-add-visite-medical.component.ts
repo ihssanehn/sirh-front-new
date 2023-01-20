@@ -68,10 +68,11 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     if(this.formGroup){
       this.formGroup.patchValue({
         ...val,
-        scheduled_date: val.scheduled_date ? moment(val.scheduled_date).format('YYYY-MM-DD') : null
+        scheduled_date: val.scheduled_date ? moment(val.scheduled_date).format('YYYY-MM-DD') : null,
       });
     }
-    this.projectToEditFiles = val.document_files;
+    this.files = val.document_files?.attachments || [];
+    this.projectToEditFiles = val.document_files?.attachments || [];
     this.getFilterList('personals', this.listService.list.PERSONAL);
   }
 
@@ -349,7 +350,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
   }
 
   findFile(file) {
-    return this.files.find(function(existingFile) {
+    return this.files?.find(function(existingFile) {
       return (
         existingFile.name         === file.name &&
         existingFile.lastModified === file.lastModified &&
