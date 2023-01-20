@@ -336,7 +336,7 @@
                 <tr *ngFor="let item of listItems"  >
                   <td data-title="Numéro de registration" >{{item?.registration_number}}</td>
                   <td>
-                    <div class="photo-cell" [routerLink]="['/users/details/'+item.id]">
+                    <div class="photo-cell pointer" [routerLink]="['/users/details/'+item.id]">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -438,7 +438,7 @@
                           <div class="label blue-text" >Société</div>
                         </td>
                         <td>
-                          <div class="value" >Private discuss</div>
+                          <div class="value" >{{item?.personal?.entity}}</div>
                         </td>
                       </tr>
                       <tr>
@@ -446,7 +446,7 @@
                           <div class="label blue-text" >Centre de profit</div>
                         </td>
                         <td>
-                          <div class="value" >CDP 8</div>
+                          <div class="value" >{{item?.personal?.manager}}</div>
                         </td>
                       </tr>
                     </table>
@@ -457,21 +457,39 @@
                           <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                                Période d'essai à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                                Entretien à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
-                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link"></i>
+                                Visites médicales à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
@@ -479,7 +497,7 @@
                       </ng-container>
                   </ng-template>
                   <td>
-                    <div class="photo-cell">
+                    <div class="photo-cell pointer">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -565,7 +583,7 @@
                           <div class="label blue-text" >Société</div>
                         </td>
                         <td>
-                          <div class="value" >Private discuss</div>
+                          <div class="value" >{{item?.personal?.entity}}</div>
                         </td>
                       </tr>
                       <tr>
@@ -573,7 +591,7 @@
                           <div class="label blue-text" >Centre de profit</div>
                         </td>
                         <td>
-                          <div class="value" >CDP 8</div>
+                          <div class="value" >{{item?.personal?.manager}}</div>
                         </td>
                       </tr>
                     </table>
@@ -585,21 +603,39 @@
                           <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Période d'essai à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Entretien à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
-                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Visites médicales à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
@@ -607,7 +643,7 @@
                       </ng-container>
                   </ng-template>
                   <td>
-                    <div class="photo-cell">
+                    <div class="photo-cell pointer">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -712,7 +748,7 @@
                           <div class="label blue-text" >Société</div>
                         </td>
                         <td>
-                          <div class="value" >Private discuss</div>
+                          <div class="value" >{{item?.personal?.entity}}</div>
                         </td>
                       </tr>
                       <tr>
@@ -720,7 +756,7 @@
                           <div class="label blue-text" >Centre de profit</div>
                         </td>
                         <td>
-                          <div class="value" >CDP 8</div>
+                          <div class="value" >{{item?.personal?.manager}}</div>
                         </td>
                       </tr>
                     </table>
@@ -731,21 +767,39 @@
                           <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Période d'essai à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Entretien à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
                           <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                             <td>
                               <div class="item danger-text" >
-                                Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                Visites médicales à valider &nbsp;&nbsp;
+                                <a
+                                  target="_blank"
+                                  [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]"
+                                >
+                                  <i class="fa fa-external-link danger-icon"></i>
+                                </a>
                               </div>
                             </td>
                           </tr>
@@ -753,7 +807,7 @@
                       </ng-container>
                   </ng-template>
 
-                  <div class="photo-cell">
+                  <div class="photo-cell pointer">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -844,7 +898,7 @@
                           <div class="label blue-text" >Société</div>
                         </td>
                         <td>
-                          <div class="value" >Private discuss</div>
+                          <div class="value" >{{item?.personal?.entity}}</div>
                         </td>
                       </tr>
                       <tr>
@@ -852,7 +906,7 @@
                           <div class="label blue-text" >Centre de profit</div>
                         </td>
                         <td>
-                          <div class="value" >CDP 8</div>
+                          <div class="value" >{{item?.personal?.manager}}</div>
                         </td>
                       </tr>
                     </table>
@@ -864,21 +918,39 @@
                         <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                           <td>
                             <div class="item danger-text">
-                              Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              Période d'essai à valider &nbsp;&nbsp;
+                              <a
+                                target="_blank"
+                                [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                              >
+                                <i class="fa fa-external-link danger-icon"></i>
+                              </a>
                             </div>
                           </td>
                         </tr>
                         <tr *ngIf="item?.personal?.has_interview_to_validate">
                           <td>
                             <div class="item danger-text">
-                              Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              Entretien à valider &nbsp;&nbsp;
+                              <a
+                                target="_blank"
+                                [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
+                              >
+                                <i class="fa fa-external-link danger-icon"></i>
+                              </a>
                             </div>
                           </td>
                         </tr>
                         <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                           <td>
                             <div class="item danger-text" >
-                              Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                              Visites médicales à valider &nbsp;&nbsp;
+                              <a
+                                target="_blank"
+                                [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]"
+                              >
+                                <i class="fa fa-external-link danger-icon"></i>
+                              </a>
                             </div>
                           </td>
                         </tr>
@@ -886,7 +958,7 @@
                     </ng-container>
                   </ng-template>
 
-                  <div class="photo-cell">
+                  <div class="photo-cell pointer">
                     <div class="photo">
                       <div class="img-container">
                         <img
@@ -1088,7 +1160,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >Private discuss</div>
+                            <div class="value" >{{item?.personal?.entity}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -1096,7 +1168,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >CDP 8</div>
+                            <div class="value" >{{item?.personal?.manager}}</div>
                           </td>
                         </tr>
                       </table>
@@ -1110,28 +1182,46 @@
                             <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Période d'essai à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                                  >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Entretien à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
+                                  >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
                             <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                               <td>
                                 <div class="item danger-text" >
-                                  Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Visites médicales à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]"
+                                  >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
                           </table>
                         </ng-container>
                     </ng-template>
-                    <div class="photo-cell">
+                    <div class="photo-cell pointer">
                       <div class="photo">
                         <div class="img-container">
                           <img
@@ -1307,7 +1397,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >Private discuss</div>
+                            <div class="value" >{{item?.personal?.entity}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -1315,7 +1405,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >CDP 8</div>
+                            <div class="value" >{{item?.personal?.manager}}</div>
                           </td>
                         </tr>
                       </table>
@@ -1326,21 +1416,39 @@
                             <tr *ngIf="item?.personal?.has_trial_period_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Période d'essai à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Période d'essai à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.periode_essai]"
+                                  >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Entretien à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]">
+                                  >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
                             <tr *ngIf="item?.personal?.has_medical_visit_to_validate">
                               <td>
                                 <div class="item danger-text" >
-                                  Visites médicales à valider &nbsp;&nbsp;<i class="fa fa-external-link pointer"></i>
+                                  Visites médicales à valider &nbsp;&nbsp;
+                                  <a
+                                    target="_blank"
+                                    [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]">
+                                    >
+                                    <i class="fa fa-external-link danger-icon"></i>
+                                  </a>
                                 </div>
                               </td>
                             </tr>
