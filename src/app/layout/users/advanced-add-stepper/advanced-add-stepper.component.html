@@ -6,16 +6,16 @@
   <br>
   
   <div class="col">
-    En {{user?.contrat.label || 'N.R'}} depuis le {{ (user?.entry_date | dateMessage) || 'N.R'}} 
-    <br>{{user?.status.label || 'N.R'}} chez {{user?.entity.label || 'N.R'}} 
+    En {{user?.contrat?.label || 'N.R'}} depuis le {{ (user?.entry_date | dateMessage) || 'N.R'}} 
+    <br>{{user?.status?.label || 'N.R'}} chez {{user?.entity?.label || 'N.R'}} 
   </div>
   <div class="col">
     Matricule: {{user?.registration_number || 'N.R'}}
     <br>
-    CP: {{user?.manager.full_name || 'N.R'}}
+    CP: {{user?.manager?.full_name || 'N.R'}}
   </div>
   <div class="col">
-    Siège: {{user?.siege.label}}
+    Siège: {{user?.siege?.label}}
     <br>
     <span *ngIf="user?.is_externe">Externe</span>
     <span *ngIf="!user?.is_externe">Interne</span>

@@ -90,4 +90,8 @@ export class PersonalService {
   downloadDocument(params) {
     return this.apiService.get(`personal/getAttachment`, params, true);
   }
+
+  getDetailed(params){
+    return this.apiService.post('personal_a/get',params);
+  }
 }
