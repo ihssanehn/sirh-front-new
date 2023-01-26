@@ -54,6 +54,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   user_stats
   personals
 
+  /** nja filters */
+  entities=[];
+  sieges=[];
+  contrats=[];
+  status=[];
+  actions_valid=[];
+  actions_to_valid=[];
+
   STEPS = {
     entree: 0,
     periode_essai: 1,
@@ -84,7 +92,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     stats_to_complete: [],
     matricule_stats: [],
     user_stats: null,
-    personals: []
+    personals: [],
+
+    entities:[],
+    sieges:[],
+    contrats:[],
+    status:[],
+    actions_valid:[],
+    actions_to_valid:[]
   }
   loadingData: boolean;
   type;
@@ -195,6 +210,15 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       this.profit_centers = this.personnalFilters.profit_centers;
       this.roles = this.personnalFilters.roles;
       this.states_to_complete = this.personnalFilters.states_to_complete;
+
+      this.entities = await this.listService.getAll('entity').toPromise();
+      this.sieges = await this.listService.getAll('siege_type').toPromise();
+      this.contrats = await this.listService.getAll('contrat_type').toPromise();
+      this.status = await this.listService.getAll('status','PERSONAL').toPromise();
+
+
+
+
     } catch (e) {
       console.log('error filter PROFIT_CENTER', e);
     }
@@ -361,7 +385,14 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       matricule_stats: [],
       personals: [],
       is_virtual: null,
-      user_stats: null
+      user_stats: null,
+
+      entities:[],
+      sieges:[],
+      contrats:[],
+      status:[],
+      actions_valid:[],
+      actions_to_valid:[]
     });
     console.log('resetFilters', this.filter)
     this.getUsers();
