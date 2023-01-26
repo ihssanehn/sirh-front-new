@@ -1,0 +1,27 @@
+@import '../users.styles';
+
+
+.top-container{
+  overflow: hidden;
+  padding-left: unset;
+  padding-right: unset;
+  form{
+    overflow: auto;
+    padding-bottom: 120px !important;
+    max-width: unset;
+  }
+  .submit-block{
+     padding-top: 0;
+  }
+}
+
+.head-info{
+margin-bottom: 0 !important;
+}
+
+.vertical-separator{
+border-left: 1px solid $lightgray;
+width: 1px;
+margin: 0 5%;
+}
+

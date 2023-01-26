@@ -8,6 +8,7 @@ import {GroupAddStepperComponent} from "@layout/users/group-add-stepper/group-ad
 import {UniqueEntiteGuard} from "@app/core/guards/unique-entite-guard.service";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 import {AdvancedAddStepperComponent} from "@layout/users/advanced-add-stepper/advanced-add-stepper.component";
+import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-form.component";
 
 
 const routes: Routes = [
@@ -83,7 +84,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'simple'
+        redirectTo: 'basic'
       },
       {
         path: 'simple',
@@ -96,6 +97,10 @@ const routes: Routes = [
       {
         path: 'group',
         component: GroupAddStepperComponent,
+      },
+      {
+        path: 'basic',
+        component: UserBasicFormComponent,
       },
       // {
       //   path: 'avance',

@@ -266,8 +266,16 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       link: 'users/new',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
-      is_locked: true,
+      is_locked: false,
       subMenu: [
+        {
+          id: 1,
+          name: 'Création utilisateur',
+          type: 'link',
+          icon: null,
+          link: 'users/new/basic',
+          opened: false,
+        },
         {
           id: 2,
           name: 'Création simple',
@@ -822,7 +830,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,
@@ -838,7 +846,7 @@ export const $headerItems = [
     link: '/projets',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,
@@ -846,7 +854,7 @@ export const $headerItems = [
     link: '/activites',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,
@@ -854,7 +862,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,
@@ -862,7 +870,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: false
+    display: true
   },
   {
     id: 1,

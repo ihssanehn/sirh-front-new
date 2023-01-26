@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { UsersRoutingModule } from './users-routing.module';
@@ -7,8 +7,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgSelectModule} from '@ng-select/ng-select';
-import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeIntl, OwlDateTimeModule} from "ng-pick-datetime";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {OwlDateTimeModule} from "ng-pick-datetime";
 import {SelectRoleComponent} from "@layout/users/select-role/select-role.component";
 import {PerimetreComponent} from "@layout/users/perimetre/perimetre.component";
 import {AccessComponent} from "@layout/users/access/access.component";
@@ -48,12 +48,9 @@ import { DateMessagePipe } from '@app/shared/pipes/dateMessage.pipe';
 import { ModalAddSortieComponent } from './modal-add-sortie/modal-add-sortie.component';
 import { ModalAddEntreeComponent } from './modal-add-entree/modal-add-entree.component';
 import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/modal-add-entretien.component";
-import {
-  ModalAddVisiteMedicalComponent
-} from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
-import {CustomDateTimeIntl, MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
-import {CustomAdapter, CustomDateParserFormatter} from "@shared/classes/dateAdapter";
- import {DpDatePickerModule} from "ng2-date-picker";
+import { ModalAddVisiteMedicalComponent } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
+import {DpDatePickerModule} from "ng2-date-picker";
+import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-form.component";
 
 
 @NgModule({
@@ -74,7 +71,6 @@ import {CustomAdapter, CustomDateParserFormatter} from "@shared/classes/dateAdap
     InfiniteScrollModule,
     MatTooltipModule,
     MatMenuModule,
-
     DpDatePickerModule
    ],
   declarations: [
@@ -107,7 +103,8 @@ import {CustomAdapter, CustomDateParserFormatter} from "@shared/classes/dateAdap
     ModalAddSortieComponent,
     ModalAddEntreeComponent,
     ModalAddEntretienComponent,
-    ModalAddVisiteMedicalComponent
+    ModalAddVisiteMedicalComponent,
+    UserBasicFormComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,
