@@ -318,4 +318,9 @@ export class UserService {
   }
 
 
+  addUserWithPermissions(params) {
+    // user/addUserWithPermissions
+    return this.apiService.post('user/addUserWithPermissions', params)
+      .pipe(map(res => { return res?.result?.data || []}));;
+  }
 }

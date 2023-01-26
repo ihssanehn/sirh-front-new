@@ -1,0 +1,262 @@
+<div class="container top-container">
+  <ng-container *ngIf="!errorLoadData; else dataNotFound">
+    <ng-container *ngIf="loadingData; else loadedData">
+      <div class="loading">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </ng-container>
+    <ng-template #loadedData>
+        <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container p-0"
+              novalidate>
+          <h2 class="m-0">Ajouter un nouveau utilisateur</h2>
+          <div class="row form-box">
+            <div class="main-container col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Informations personnelles</h5>
+                <div class="form-bloc">
+                  <div class="row">
+                      <label class="col-2">Nom {{isRequired(formInputs.last_name)}}</label>
+                      <div class="col">
+                        <input type="text"
+                               placeholder="Saisir le nom ici"
+                               class="form-control input"
+                               [formControl]="userFormGroup.controls[formInputs.last_name]"
+                               [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.last_name].hasError('required')   && userFormGroup.controls[formInputs.last_name].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.controls[formInputs.last_name].hasError('required')
+                    && userFormGroup.controls[formInputs.last_name].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le nom est obligatoire
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">Prénom {{isRequired(formInputs.first_name)}}</label>
+                    <div class="col">
+                      <input type="text"
+                             placeholder="Saisir le prénom ici"
+                             [formControl]="userFormGroup.controls[formInputs.first_name]"
+                             class="form-control input"
+                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.first_name].hasError('required')
+                                  && userFormGroup.controls[formInputs.first_name].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.first_name].hasError('required')
+                    && userFormGroup.controls[formInputs.first_name].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le prénom est obligatoire
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <label class="col-2">Email {{isRequired(formInputs.email)}}</label>
+                    <div class="col">
+                      <input
+                        type="email"
+                        placeholder="Saisir l'adresse email ici"
+                        class="form-control input"
+                        [formControl]="userFormGroup.controls[formInputs.email]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.email].hasError('required')
+                                      && userFormGroup.controls[formInputs.email].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.email].hasError('required')
+                    && userFormGroup.controls[formInputs.email].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'adresse email est obligatoire
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <label class="col-2">Adresse {{isRequired(formInputs.address)}}</label>
+                    <div class="col">
+                      <textarea
+                        placeholder="Saisir l'adresse'"
+                        class="form-control input"
+                        [formControl]="userFormGroup.controls[formInputs.address]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.address].hasError('required')
+                                      && userFormGroup.controls[formInputs.address].dirty}"
+                      ></textarea>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.address].hasError('required')
+                    && userFormGroup.controls[formInputs.address].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        L'adresse est obligatoire
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <label class="col-2">Mot de passe {{isRequired(formInputs.password)}}</label>
+                    <div class="col">
+                      <input
+                        type="password"
+                        placeholder="Saisir le mot de passe"
+                        class="form-control input"
+                        [formControl]="userFormGroup.controls[formInputs.password]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password].hasError('required')
+                                      && userFormGroup.controls[formInputs.password].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('requiresDigit') &&
+                        userFormGroup.get('password').dirty">
+                        {{'PASSWORD REQUIRES DIGITS' | translate}}
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('requiresUppercase') &&
+                        userFormGroup.get('password').dirty">
+                        {{'PASSWORD REQUIRES UPPERCASE' | translate}}
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('requiresLowercase') &&
+                        userFormGroup.get('password').dirty">
+                        {{'PASSWORD REQUIRES LOWERCASE' | translate}}
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('requiresSpecialChars') &&
+                        userFormGroup.get('password').dirty">
+                        {{'PASSWORD REQUIRES SPECIAL CHARACTERS' | translate}}
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('minLength') &&
+                        userFormGroup.get('password').dirty">
+                        {{'PASSWORD REQUIRES MINIMUM LENGTH' | translate}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <label class="col-2">Confirmation de mot de passe {{isRequired(formInputs.password_confirm)}}</label>
+                    <div class="col">
+                      <input
+                        type="password"
+                        placeholder="Saisir la confirmation de mot de passe"
+                        class="form-control input"
+                        [formControl]="userFormGroup.controls[formInputs.password_confirm]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password_confirm].hasError('required')
+                                      && userFormGroup.controls[formInputs.password_confirm].dirty}"
+                      />
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.get('confirm_password')?.hasError('required')
+                && userFormGroup.get('confirm_password').dirty">
+                        {{'PASSWORD CONFIRMATION IS REQUIRED' | translate}}
+                      </div>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.hasError('passwordMismatch') &&
+                        userFormGroup.get('confirm_password').dirty">
+                        {{'PASSWORD CONFIRMATION IS INCORRECT' | translate}}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="main-container col-xl-6 col-12 form-column">
+              <div class="col-12 white-box">
+                <h5>Profil</h5>
+                <div class="form-bloc">
+                  <div class="row">
+                    <label class="col-2">Accès {{isRequired(formInputs.permission_ids)}}</label>
+                    <div class="col">
+<!--                      <input type="text"-->
+<!--                             placeholder="Saisir le nom ici"-->
+<!--                             class="form-control input"-->
+<!--                             [formControl]="userFormGroup.controls[formInputs.permission_ids]"-->
+<!--                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.permission_ids].hasError('required')   && userFormGroup.controls[formInputs.last_name].dirty}"-->
+<!--                      />-->
+                      <ng-select
+                        [items]="permissions"
+                        bindLabel="label"
+                        bindValue="id"
+                        [groupBy]="'group_by'"
+                        placeholder="Sélectionner les permissions"
+                        class="select form-control"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        (open)="getFilterList('permissions', listService.list.PERMISSIONS_BY_ELEMENT)"
+                        [loading]="loadingSelect[listService.list.PERMISSIONS_BY_ELEMENT]"
+                        [formControl]="userFormGroup.controls[formInputs.permission_ids]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.permission_ids].hasError('required')
+                                      && userFormGroup.controls[formInputs.permission_ids].dirty}"
+                      >
+                      </ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.permission_ids].hasError('required')
+                    && userFormGroup.controls[formInputs.permission_ids].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Veillez saisir quelques permissions
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-2">Profil {{isRequired(formInputs.profile_id)}}</label>
+                    <div class="col">
+<!--                      <input type="text"-->
+<!--                             placeholder="Saisir le prénom ici"-->
+<!--                             [formControl]="userFormGroup.controls[formInputs.profile_id]"-->
+<!--                             class="form-control input"-->
+<!--                             [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_id].hasError('required')-->
+<!--                                  && userFormGroup.controls[formInputs.profile_id].dirty}"-->
+<!--                      />-->
+                      <ng-select
+                        [items]="profiles"
+                        bindLabel="label"
+                        bindValue="id"
+                        placeholder="Sélectionner le profil"
+                        [multiple]="false"
+                        class="select form-control"
+                        (open)="getFilterList('profiles', listService.list.PROFILE)"
+                        [loading]="loadingSelect[listService.list.PROFILE]"
+                        [formControl]="userFormGroup.controls[formInputs.profile_id]"
+                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.profile_id].hasError('required')
+                                      && userFormGroup.controls[formInputs.profile_id].dirty}"
+                      ></ng-select>
+                      <div class="form-control-feedback"
+                           *ngIf="userFormGroup.controls[formInputs.profile_id].hasError('required')
+                    && userFormGroup.controls[formInputs.profile_id].dirty">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        Le profil est obligatoire
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="submit-block">
+            <app-button [text]="'Annuler'"
+                        [type]="'tertiary'"
+                        [isDisabled]="submitting"
+                        (onClick)="cancel()"
+                        [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
+            </app-button>
+            <app-button [text]="'Enregistrer'"
+                        [isDisabled]="isDisabled()"
+                        [type]="'secondary'"
+                        (onClick)="saveUser()"
+                        [customStyle]="{'min-height': '30px'}">
+            </app-button>
+          </div>
+        </form>
+    </ng-template>
+  </ng-container>
+</div>
+
+
+
+<ng-template #emptyState>
+  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
+                       [image]="'images/emptystate.png'"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #dataNotFound>
+  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
+                       [image]="'images/error404.png'">
+  </app-centred-message>
+</ng-template>
