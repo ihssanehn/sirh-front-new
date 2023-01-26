@@ -4,13 +4,16 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {formatDateForBackend, getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ListsService} from "@services/lists.service";
 import {MainStore} from "@store/mainStore.store";
+import { PersonalService } from '@app/core/services/personal.service';
+import * as moment from 'moment';
+import { isMoment } from 'moment';
 
 
 
@@ -30,6 +33,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
   warning = '';
   status = [];
   decisions = [];
+  loadingSelect = {};
   @Input() submitting: boolean;
   formInputs = {
     personal_id: 'personal_id',
@@ -37,11 +41,14 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     decision: 'decision',
     date_entree: 'date_entree',
     date_sortie: 'date_sortie',
-    date_fin_renouvelement: 'date_fin_renouvelement',
+    renewal_date: 'renewal_date',
     date_fin_period_essai: 'date_fin_period_essai',
     suivi_evolution_perido_essai: 'suivi_evolution_perido_essai',
     gestion_courrier_gp: 'gestion_courrier_gp',
-    reception_bilan_pe: 'reception_bilan_pe'
+    reception_bilan_pe: 'reception_bilan_pe',
+    id:'id',
+    motif_id: 'motif_id',
+
   }
   formLabels =  {
     personal_id: 'personal_id',
@@ -49,11 +56,13 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     decision: 'Décision',
     date_entree: 'Date d\'entrée',
     date_sortie: 'Date de sortie',
-    date_fin_renouvelement: 'Date de fin de renouvellement',
+    renewal_date: 'Date de fin de renouvellement',
     date_fin_period_essai: 'Date de fin de période d\'essai',
     suivi_evolution_perido_essai: 'Suivi de l\'évolution période d\'essai',
     gestion_courrier_gp:  'Gestion courrier GP',
-    reception_bilan_pe: 'Réception bilan PE'
+    reception_bilan_pe: 'Réception bilan PE',
+    motif_id: 'Motif',
+
   }
 
   errorLoadData: boolean;
@@ -61,9 +70,9 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
   validators_conge =  [];
   loadingLists: boolean;
   current_pe;
+  idUser;
   @Input() title = '';
   @Input() type = '';
-  @Input()  idUser: any;
   @Input()  profile_id: any;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() preview: EventEmitter<any> = new EventEmitter();
@@ -71,13 +80,16 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
   @Input()
   public set user(val: User) {
     if(val){
+      this.idUser = val.id;
+      console.log('here', val.id)
+      this.formGroup.patchValue({personal_id: val.id})
       // this.initFormBuilder(val);
     }
   }
   @Input()
-  public set trial_periods(val:any) {
+  public set trial_period(val:any) {
     if(val){
-      this.current_pe = val[0]
+      this.current_pe = val;
       this.initFormBuilder(this.current_pe);
 
     }
@@ -95,6 +107,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
               private changeDetectorRef: ChangeDetectorRef,
               private listService: ListsService,
               private mainStore: MainStore,
+              private personalService: PersonalService,
               private userService : UserService) {
 
     this.noWhitespaceValidator.bind(this);
@@ -104,12 +117,11 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
       decision: [null],
       date_entree: [null],
       date_sortie: [null],
-      date_fin_renouvelement: [null],
+      renewal_date: [null],
       date_fin_period_essai: [null],
-      suivi_evolution_perido_essai: [null],
-      gestion_courrier_gp: [null],
-      reception_bilan_pe: [null],
-      histos: new FormArray([])
+      histos: new FormArray([]),
+      id:[null],
+      motif_id:[null]
     });
 
     this.modalService.dismissAll();
@@ -183,14 +195,14 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
         pe.histos.forEach((_histo) => this.histosFromArray.push((new FormControl({checked:_histo?.done_at?true:false}))));
       }
       this.formGroup.patchValue({
-        decision:pe.decision.id,
-        date_entree: [null],
+        decision:pe.decision,
+        date_entree: pe?.entrance?pe.entrance?.entry_date:null,
         date_sortie: [null],
-        date_fin_renouvelement: pe?.renewal_date?pe.renewal_date:null,
+        renewal_date: pe?.renewal_date?pe.renewal_date:null,
         date_fin_period_essai: pe.end_date,
         suivi_evolution_perido_essai: [null],
-        gestion_courrier_gp: [null],
-        reception_bilan_pe: [null],
+        statut_salarie:this.user?.status_id,
+        id:pe.id
       });
       console.log(this.formGroup)
     }
@@ -211,6 +223,35 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     this.location.back();
   }
 
+  async getTrialPeriodRenewCalculation(code:string) {
+    console.log(this.formGroup.getRawValue())
+    if(code != 'renouvellement')
+      return;
+    const {personal_id, date_fin_period_essai} = this.formGroup.getRawValue();
+    if(!personal_id  || !date_fin_period_essai){
+      return;
+    }
+    try {
+      const params = {
+        personal_id,
+        end_date: formatDateForBackend(this.current_pe?.end_date)
+      }
+      const res = await this.personalService.getTrialPeriodRenewCalculation(params).toPromise();
+      console.log('res renew calculation', res);
+      if(moment(res.calculated_date)?.isValid()) {
+        console.log('patching end_date_preavis')
+        this.formGroup.patchValue({renewal_date: moment(res.calculated_date).toISOString(), date_fin_period_essai: moment(res.calculated_date).toISOString()});
+      }else
+        this.formGroup.patchValue({renewal_date:null})
+    }catch (e) {
+      console.log('error getPreavisCalculation', e);
+    }finally {
+
+    }
+  }
+
+  
+
   cancelEditting() {
 
   }
@@ -223,20 +264,42 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  save() {
+  
+  async save() {
     this.error = '';
     markFormAsDirty(this.formGroup);
     if(!this.formGroup.valid ){
-      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      this.error = 'Des éléments bloquants nécessitent votre attention';
       getFormValidationErrors(this.formGroup);
       return;
     }
+
     Object.keys(this.formGroup.value).forEach(key => {
       if(this.formGroup.value[key] === 'false'){
         this.formGroup.value[key] = false;
       }
     });
-    this.submitPeriodEssai.emit(this.formGroup.value);
+    
+    const dates = ['renewal_date', 'date_fin_period_essai', 'date_sortie'];
+    const saveData = {
+      ...this.formGroup.value
+    }
+    dates.forEach(date => {
+      saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
+    });
+
+
+    // this.submitvm.emit(saveData);
+    console.log(saveData)
+    let res = null;
+    if(saveData){
+      res = await this.personalService.createOrUpdateTrialPeriod(saveData).toPromise();
+      if(res.result && res.result.data){
+        this.submitting = false;
+        this.reset();
+      }
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Période d\'essai modifiée avec succès'});
+    }
   }
 
   clearDateInput(input: string) {
@@ -244,5 +307,29 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
       [input]: null
     })
   }
+
+  reset(){
+    this.formGroup.reset()
+    this.formGroup.patchValue({
+      personal_id: this.idUser,
+    });
+  }
+
+  async getFilterList(items, list_name, list_param?){
+    
+    try{
+      this.loadingSelect[list_name] = true;
+      const _result = await this.listService.getAll(list_name, list_param).toPromise();
+      this[items] =  _result.filter(motif => {
+        return motif.code.includes('fin_pe');
+    });
+
+    } catch (e) {
+      console.log('error filter', e);
+    } finally {
+      this.loadingSelect[list_name] = false;
+    }
+  
+}
 }
 

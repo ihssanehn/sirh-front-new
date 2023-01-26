@@ -9,6 +9,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatStepper} from "@angular/material/stepper";
 import {User, PersonalAnnex} from "@app/core/entities";
 import {MainStore} from "@store/mainStore.store";
+import { PersonalService } from '@app/core/services/personal.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private changeDetectorRef: ChangeDetectorRef,
     private mainStore: MainStore,
-    private userService : UserService
+    private userService : PersonalService
   ) {
 
   }
@@ -76,7 +77,26 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
       }
       console.log('user_id', user_id);
       if(user_id){
-        await this.getUser(user_id);
+        let _queryParams = {id:user_id};
+      console.log('params step ====', params.step);
+        switch(params.step){
+          case '0':
+            _queryParams['with_entrance'] =true
+            break;
+          case '1':
+              _queryParams['with_pe'] =true
+              break;
+          case '2':
+              _queryParams['with_entretiens'] =true
+              break;
+          case '3':
+              _queryParams['with_vm'] =true
+              break;
+          case '4': 
+              _queryParams['with_sortie'] =true
+              break;
+        }
+        await this.getUser(_queryParams);
         if(!this.user){
           this.moveForward(0);
         }
@@ -87,9 +107,10 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     })
   }
 
-  async getUser(id){
+  async getUser(params){
+    console.log('here get user')
     try{
-      const res = await this.userService.getDetailed({id}).toPromise();
+      const res = await this.userService.getDetailed(params).toPromise();
       this.user = res.result?.data;
       // if(this.user?.type_account === 'independent'){
       //   this.router.navigate(['users/new/'+this.user.type_account], {queryParams: {step: 0, user_id: this.user.id}});
@@ -129,67 +150,67 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   }
   
 
-  async submitEntree($event: any) {
-    try{
-      this.submittingEntree = true;
-      console.log('submitEntree', $event);
-        this.moveForward(1, null);
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-      console.log('error submit entree', e);
-    }finally {
-      this.submittingEntree = false;
-    }
-  }
+  // async submitEntree($event: any) {
+  //   try{
+  //     this.submittingEntree = true;
+  //     console.log('submitEntree', $event);
+  //       this.moveForward(1, null);
+  //   }catch (e){
+  //     this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+  //     console.log('error submit entree', e);
+  //   }finally {
+  //     this.submittingEntree = false;
+  //   }
+  // }
 
-  async submitPE($event: any) {
-    try{
-      this.submittingEntree = true;
-        this.moveForward(2, null);
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-      console.log('error submit PE', e);
-    }finally {
-      this.submittingEntree = false;
-    }
-  }
+  // async submitPE($event: any) {
+  //   try{
+  //     this.submittingEntree = true;
+  //       this.moveForward(2, null);
+  //   }catch (e){
+  //     this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+  //     console.log('error submit PE', e);
+  //   }finally {
+  //     this.submittingEntree = false;
+  //   }
+  // }
 
-  async submitEntretien($event: any) {
-    try{
-      this.submittingEntree = true;
-        const res = await this.userService.addInterview($event).toPromise();
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-      console.log('error submit Entretien', e);
-    }finally {
-      this.submittingEntree = false;
-    }
-  }
+  // async submitEntretien($event: any) {
+  //   try{
+  //     this.submittingEntree = true;
+  //       const res = await this.userService.addInterview($event).toPromise();
+  //   }catch (e){
+  //     this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+  //     console.log('error submit Entretien', e);
+  //   }finally {
+  //     this.submittingEntree = false;
+  //   }
+  // }
 
-  async submitVM($event: any) {
-    try{
-      this.submittingEntree = true;
-      const res = await this.userService.addVM($event).toPromise();
-      // this.moveForward(4, null);
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-      console.log('error submit vm', e);
-    }finally {
-      this.submittingEntree = false;
-    }
-  }
+  // async submitVM($event: any) {
+  //   try{
+  //     this.submittingEntree = true;
+  //     const res = await this.userService.addVM($event).toPromise();
+  //     // this.moveForward(4, null);
+  //   }catch (e){
+  //     this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+  //     console.log('error submit vm', e);
+  //   }finally {
+  //     this.submittingEntree = false;
+  //   }
+  // }
 
-  async submitSortie($event: any) {
-    try{
-      this.submittingEntree = true;
-        this.moveForward(5, null);
-    }catch (e){
-      this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
-      console.log('error submit sortie', e);
-    }finally {
-      this.submittingEntree = false;
-    }
-  }
+  // async submitSortie($event: any) {
+  //   try{
+  //     this.submittingEntree = true;
+  //       this.moveForward(5, null);
+  //   }catch (e){
+  //     this.mainStore.showMessage(`Echec de l'opération!`, `Les informations n'ont pas pu être mises à jour`, 'error');
+  //     console.log('error submit sortie', e);
+  //   }finally {
+  //     this.submittingEntree = false;
+  //   }
+  // }
 
 }
 
