@@ -213,7 +213,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Entrée',
           type: 'link',
           icon: null,
-          link: 'users/list/entree',
+          link: 'users/suivi/entree',
           opened: false,
         },
         {
@@ -221,7 +221,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Périodes d’essais',
           type: 'link',
           icon: null,
-          link: 'users/list/period_essai',
+          link: 'users/suivi/period_essai',
           opened: false,
         },
         {
@@ -229,7 +229,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Entretiens',
           type: 'link',
           icon: null,
-          link: 'users/list/entretien',
+          link: 'users/suivi/entretien',
           opened: false,
         },
         // {
@@ -245,7 +245,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Visites Médicales',
           type: 'link',
           icon: null,
-          link: 'users/list/visite_medicale',
+          link: 'users/suivi/visite_medicale',
           opened: false,
         },
         {
@@ -253,7 +253,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           name: 'Sortie',
           type: 'link',
           icon: null,
-          link: 'users/list/sortie',
+          link: 'users/suivi/sortie',
           opened: false,
         },
       ]
