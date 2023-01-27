@@ -211,8 +211,12 @@ export class UserService {
         return this.apiService.post('user/personnel/'+params?.id+'/update', params);
     }
 
-    getOne(params){
+    getOnePersonal(params){
         return this.apiService.get('personal/getPersonal?personal_id='+ params.id);
+    }
+
+    getOneUser(id){
+        return this.apiService.get('user/getUserDetails?id='+ id);
     }
 
     getDetailed(params){
@@ -319,8 +323,12 @@ export class UserService {
 
 
   addUserWithPermissions(params) {
-    // user/addUserWithPermissions
     return this.apiService.post('user/addUserWithPermissions', params)
+      .pipe(map(res => { return res?.result?.data || []}));
+  }
+
+  updateUserWithPermissions(params) {
+    return this.apiService.post('user/updateUserWithPermissions ', params)
       .pipe(map(res => { return res?.result?.data || []}));
   }
 

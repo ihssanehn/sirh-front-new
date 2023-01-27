@@ -1,5 +1,6 @@
 
 export interface User {
+  permission_ids?: Array<any>;
   full_name?: string;
   type_account?: string;
   comment_service_provider?: any;

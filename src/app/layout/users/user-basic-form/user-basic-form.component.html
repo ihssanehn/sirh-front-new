@@ -89,68 +89,79 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <label class="col-2">Mot de passe {{isRequired(formInputs.password)}}</label>
-                    <div class="col">
-                      <input
-                        type="password"
-                        placeholder="Saisir le mot de passe"
-                        class="form-control input"
-                        [formControl]="userFormGroup.controls[formInputs.password]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password].hasError('required')
-                                      && userFormGroup.controls[formInputs.password].dirty}"
-                      />
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('requiresDigit') &&
-                        userFormGroup.get('password').dirty">
-                        {{'PASSWORD REQUIRES DIGITS' | translate}}
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('requiresUppercase') &&
-                        userFormGroup.get('password').dirty">
-                        {{'PASSWORD REQUIRES UPPERCASE' | translate}}
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('requiresLowercase') &&
-                        userFormGroup.get('password').dirty">
-                        {{'PASSWORD REQUIRES LOWERCASE' | translate}}
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('requiresSpecialChars') &&
-                        userFormGroup.get('password').dirty">
-                        {{'PASSWORD REQUIRES SPECIAL CHARACTERS' | translate}}
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('minLength') &&
-                        userFormGroup.get('password').dirty">
-                        {{'PASSWORD REQUIRES MINIMUM LENGTH' | translate}}
-                      </div>
-                    </div>
+                  <div class="link" *ngIf="!showChangePassword; else cancelEditPassword" (click)="showChangePassword = true">
+                    <i class="fa fa-lock"></i> &nbsp;Modifier le mot de passe
                   </div>
 
-                  <div class="row">
-                    <label class="col-2">Confirmation de mot de passe {{isRequired(formInputs.password_confirm)}}</label>
-                    <div class="col">
-                      <input
-                        type="password"
-                        placeholder="Saisir la confirmation de mot de passe"
-                        class="form-control input"
-                        [formControl]="userFormGroup.controls[formInputs.password_confirm]"
-                        [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password_confirm].hasError('required')
-                                      && userFormGroup.controls[formInputs.password_confirm].dirty}"
-                      />
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.get('confirm_password')?.hasError('required')
-                && userFormGroup.get('confirm_password').dirty">
-                        {{'PASSWORD CONFIRMATION IS REQUIRED' | translate}}
-                      </div>
-                      <div class="form-control-feedback"
-                           *ngIf="userFormGroup.hasError('passwordMismatch') &&
-                        userFormGroup.get('confirm_password').dirty">
-                        {{'PASSWORD CONFIRMATION IS INCORRECT' | translate}}
+                  <ng-template #cancelEditPassword>
+                    <div class="danger-text link" (click)="showChangePassword = false">
+                      <i class="icon-close"></i> &nbsp;Annuler la modification du mot de passe
+                    </div>
+                  </ng-template>
+
+                  <ng-container *ngIf="!userFormGroup.value || showChangePassword">
+                    <div class="row">
+                      <label class="col-2">Mot de passe {{isRequired(formInputs.password)}}</label>
+                      <div class="col">
+                        <input
+                          type="password"
+                          placeholder="Saisir le mot de passe"
+                          class="form-control input"
+                          [formControl]="userFormGroup.controls[formInputs.password]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password].hasError('required')
+                                      && userFormGroup.controls[formInputs.password].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('requiresDigit') &&
+                        userFormGroup.get('password').dirty">
+                          {{'PASSWORD REQUIRES DIGITS' | translate}}
+                        </div>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('requiresUppercase') &&
+                        userFormGroup.get('password').dirty">
+                          {{'PASSWORD REQUIRES UPPERCASE' | translate}}
+                        </div>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('requiresLowercase') &&
+                        userFormGroup.get('password').dirty">
+                          {{'PASSWORD REQUIRES LOWERCASE' | translate}}
+                        </div>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('requiresSpecialChars') &&
+                        userFormGroup.get('password').dirty">
+                          {{'PASSWORD REQUIRES SPECIAL CHARACTERS' | translate}}
+                        </div>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('minLength') &&
+                        userFormGroup.get('password').dirty">
+                          {{'PASSWORD REQUIRES MINIMUM LENGTH' | translate}}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    <div class="row">
+                      <label class="col-2">Confirmation de mot de passe {{isRequired(formInputs.password_confirm)}}</label>
+                      <div class="col">
+                        <input
+                          type="password"
+                          placeholder="Saisir la confirmation de mot de passe"
+                          class="form-control input"
+                          [formControl]="userFormGroup.controls[formInputs.password_confirm]"
+                          [ngClass]="{'is-invalid error-input': userFormGroup.controls[formInputs.password_confirm].hasError('required')
+                                      && userFormGroup.controls[formInputs.password_confirm].dirty}"
+                        />
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.get('confirm_password')?.hasError('required')
+                && userFormGroup.get('confirm_password').dirty">
+                          {{'PASSWORD CONFIRMATION IS REQUIRED' | translate}}
+                        </div>
+                        <div class="form-control-feedback"
+                             *ngIf="userFormGroup.hasError('passwordMismatch') &&
+                        userFormGroup.get('confirm_password').dirty">
+                          {{'PASSWORD CONFIRMATION IS INCORRECT' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
 
                 </div>
               </div>
@@ -234,9 +245,9 @@
                         (onClick)="goToList()"
                         [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
             </app-button>
-            <app-button [text]="'Enregistrer'"
+            <app-button [text]="userFormGroup.value.id ? 'Enregistrer les modifications': 'Crérre l\'utilisateur'"
                         [type]="'secondary'"
-                        (onClick)="saveUser()"
+                        (onClick)="userFormGroup.value.id ? updateUser() : saveUser()"
                         [customStyle]="{'min-height': '30px'}">
             </app-button>
           </div>

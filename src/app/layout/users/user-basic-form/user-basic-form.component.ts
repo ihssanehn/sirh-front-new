@@ -43,6 +43,7 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
   loadingSelect = {};
   id_entite = null;
+  showChangePassword = false;
   constructor(private formBuilder: FormBuilder,
               private errorService: ErrorService,
               private router: Router,
@@ -56,6 +57,7 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
               private mainStore: MainStore,
               private userService : UserService) {
 
+    this.passwordConfirming = this.passwordConfirming.bind(this);
     this.userFormGroup = this.formBuilder.group({
       id: [null],
       email: [null, Validators.required],
@@ -72,6 +74,9 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
     this.activatedRoute.params.subscribe(params => {
       console.log('params', params);
+      if(Number(params.id)){
+          this.getUser(params.id);
+      }
     })
   }
 
@@ -89,9 +94,17 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
 
   initFormBuilder(user: User) {
-     this.userFormGroup.patchValue({
-       ...user,
-    });
+    if(user){
+      this.userFormGroup.patchValue({
+        ...user,
+        permission_ids: user.permission_ids?.map(item => item.id) || [],
+      });
+      if(!(this.permissions?.length>0) && Array.isArray(user.permission_ids)){
+        this.permissions = user.permission_ids || [];
+      }
+      this.getFilterList('permissions', this.listService.list.PERMISSIONS_BY_ELEMENT);
+      this.getFilterList('profiles', this.listService.list.PROFILE);
+    }
   }
 
 
@@ -139,29 +152,31 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
   }
 
   passwordConfirming(c: AbstractControl) {
-    if(c.get('password').value) {
-      if (c.get('password')?.value.length < 6) {
-        return {minLength: true};
-      }
+    if(this.showChangePassword){
+      if(c.get('password').value) {
+        if (c.get('password')?.value.length < 6) {
+          return {minLength: true};
+        }
 
-      if (!(new RegExp("(?=.*[A-Z])")).test(c.get('password').value)) {
-        return {requiresUppercase: true};
-      }
+        if (!(new RegExp("(?=.*[A-Z])")).test(c.get('password').value)) {
+          return {requiresUppercase: true};
+        }
 
-      if (!(new RegExp("(?=.*[a-z])")).test(c.get('password').value)) {
-        return {requiresLowercase: true};
-      }
+        if (!(new RegExp("(?=.*[a-z])")).test(c.get('password').value)) {
+          return {requiresLowercase: true};
+        }
 
-      if (!(new RegExp("(?=.*[0-9])")).test(c.get('password').value)) {
-        return {requiresDigit: true};
-      }
+        if (!(new RegExp("(?=.*[0-9])")).test(c.get('password').value)) {
+          return {requiresDigit: true};
+        }
 
-      if (!(new RegExp("(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?])")).test(c.get('password').value)) {
-        return {requiresSpecialChars: true};
-      }
+        if (!(new RegExp("(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?])")).test(c.get('password').value)) {
+          return {requiresSpecialChars: true};
+        }
 
-      if (c.get('password').value !== c.get('password_confirm').value && c.get('password_confirm').value !== null) {
-        return {passwordMismatch: true};
+        if (c.get('password').value !== c.get('password_confirm').value && c.get('password_confirm').value !== null) {
+          return {passwordMismatch: true};
+        }
       }
     }
   }
@@ -184,9 +199,51 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
     }
     try{
       const res = await this.userService.addUserWithPermissions(this.userFormGroup.value).toPromise();
-      this.goToList()
+      this.goToList();
+      this.messageService.add({severity: 'success', summary: 'Succès',
+        detail: 'Utilisateur ajouté avec succès', sticky: false});
     }catch (e) {
+      this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur d\'ajout de l\'utilisateur',  sticky: false});
+    }finally {
 
+    }
+  }
+
+
+  async updateUser() {
+
+    const params = {...this.userFormGroup.value}
+    if(this.showChangePassword){
+      this.userFormGroup.controls[this.formInputs.password].setValidators(Validators.required);
+      this.userFormGroup.controls[this.formInputs.password].updateValueAndValidity();
+
+      this.userFormGroup.controls[this.formInputs.password_confirm].setValidators(Validators.required);
+      this.userFormGroup.controls[this.formInputs.password_confirm].updateValueAndValidity();
+    }else{
+      this.userFormGroup.controls[this.formInputs.password].clearValidators();
+      this.userFormGroup.controls[this.formInputs.password].updateValueAndValidity();
+
+      this.userFormGroup.controls[this.formInputs.password_confirm].clearValidators();
+      this.userFormGroup.controls[this.formInputs.password_confirm].updateValueAndValidity();
+      delete params.password;
+      delete params.password_confirm;
+    }
+
+    this.error = '';
+    markFormAsDirty(this.userFormGroup);
+    if(!this.userFormGroup.valid ){
+      this.error = 'Il y a des éléments qui nécessitent votre attention';
+      getFormValidationErrors(this.userFormGroup);
+      return;
+    }
+
+    try{
+      const res = await this.userService.updateUserWithPermissions (params).toPromise();
+          this.messageService.add({severity: 'success', summary: 'Succès',
+            detail: 'Utilisateur mis à jour avec succès', sticky: false});
+          this.getUser(this.userFormGroup.value.id);
+    }catch (e) {
+        this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de mise à jour des informations de cet utilisateur',  sticky: false});
     }finally {
 
     }
@@ -223,6 +280,19 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
   goToList() {
     this.router.navigate(['/users/list']);
+  }
+
+  private async getUser(id: any) {
+    try {
+      this.loadingData = true;
+      const res = await this.userService.getOneUser(id).toPromise();
+      this.initFormBuilder(res?.result?.data[0]);
+      console.log('res', res?.result?.data[0]);
+    } catch (e) {
+      console.log('error', e);
+    } finally {
+      this.loadingData = false;
+    }
   }
 }
 

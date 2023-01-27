@@ -107,7 +107,7 @@
                     <i class="icon-edit-bold"
                        data-toggle="tooltip"
                        data-placement="top"
-                       (click)="goToUpdateUser(item)"
+                       [routerLink]="['/users/new/basic/'+item?.id]"
                        title="Modifier"></i>
                   </div>
                 </td>

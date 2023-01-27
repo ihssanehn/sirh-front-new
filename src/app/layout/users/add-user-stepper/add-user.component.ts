@@ -75,7 +75,7 @@ export class AddUserComponent implements OnInit, AfterViewInit {
 
   async getUser(id){
     try{
-      const res = await this.userService.getOne({id}).toPromise();
+      const res = await this.userService.getOnePersonal({id}).toPromise();
       this.user = res.result?.data;
     }catch (e) {
       console.log('getUser error', e);
