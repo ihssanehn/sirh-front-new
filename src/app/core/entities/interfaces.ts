@@ -18,6 +18,7 @@ export interface User {
     last_name?: string;
     email_professional?: string;
     email_personal?: string;
+    email?: string;
     civility?: string;
     birthday?: Date;
     birth_place?: string;
@@ -52,10 +53,13 @@ export interface User {
     first_annual_salary?: string;
     benefits?: string;
     profile_name?: string;
+    role_name?: string;
     cp_name?: string;
     photo_profile?: string;
     created_at?: Date;
     updated_at?: Date;
+  last_connexion?: Date;
+
   }
 
 export interface RHDocument {

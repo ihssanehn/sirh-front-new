@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AddUserComponent} from "@layout/users/add-user/add-user.component";
+import {AddUserComponent} from "@layout/users/add-user-stepper/add-user.component";
 import {UserInfoFormComponent} from "@layout/users/user-info-form/user-info-form.component";
 import {ListsService} from "@services/lists.service";
 import {User} from "@app/core/entities";

@@ -84,7 +84,7 @@
 .footer{
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 15px;
   .right-buttons{
     margin: 0;
@@ -119,7 +119,10 @@ table{
 
   thead{
     th{
+      //white-space: nowrap!important;
       font-size: 12px!important;
+      padding: 5px!important;
+      padding-left: 0 !important;
       vertical-align: bottom;
       min-width: 120px;
     }
@@ -127,6 +130,7 @@ table{
   &.table_entree{
     thead{
       th{
+        padding: 0px 20px 0px 0px!important; //for column entree long name
         &.th-btn{
           background-color: $primaryColor;
           cursor: pointer;
@@ -145,13 +149,12 @@ table{
       padding-bottom: 5px;
       color: #4D4D4D;
       opacity: .9;
-      min-height: 45px;
+
+
+      padding-left: 0 !important;
     }
     .name{
       font-size: 11px !important;
-    }
-    .capitalize{
-      text-transform: capitalize;
     }
   }
   .sticky{
@@ -167,7 +170,8 @@ table{
 }
 
 .name{
-  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .category-cell{
@@ -181,6 +185,9 @@ table{
 ::ng-deep .small-table{
   margin-bottom: 10px;
   td{
+    //padding-left: 0 !important;
+    //padding-right: 0 !important;
     border: 0 !important;
+    padding: 4px 5px !important;
   }
 }

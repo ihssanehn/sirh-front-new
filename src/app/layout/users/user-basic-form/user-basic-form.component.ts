@@ -184,6 +184,7 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
     }
     try{
       const res = await this.userService.addUserWithPermissions(this.userFormGroup.value).toPromise();
+      this.goToList()
     }catch (e) {
 
     }finally {
@@ -218,6 +219,10 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
   cancel() {
     this.userFormGroup.reset();
+  }
+
+  goToList() {
+    this.router.navigate(['/users/list']);
   }
 }
 

@@ -299,28 +299,33 @@ export class UserService {
 
   listActions(params) {
     return this.apiService.post('action/list', params)
-    .pipe(map(res => { return res?.result?.data || []}));;
+    .pipe(map(res => { return res?.result?.data || []}));
   }
 
   markActionAsDone(params) {
     return this.apiService.post('action/markAsDone', params)
-    .pipe(map(res => { return res?.result?.data || []}));;
+    .pipe(map(res => { return res?.result?.data || []}));
   }
 
   addComment(params) {
     return this.apiService.post('action/addComment', params)
-    .pipe(map(res => { return res?.result?.data || []}));;
+    .pipe(map(res => { return res?.result?.data || []}));
   }
 
   getTypesByModel(model) {
     return this.apiService.get('personal_a/types/'+ model)
-    .pipe(map(res => { return res?.result?.data || []}));;
+    .pipe(map(res => { return res?.result?.data || []}));
   }
 
 
   addUserWithPermissions(params) {
     // user/addUserWithPermissions
     return this.apiService.post('user/addUserWithPermissions', params)
-      .pipe(map(res => { return res?.result?.data || []}));;
+      .pipe(map(res => { return res?.result?.data || []}));
+  }
+
+  getListUsers(params){
+    return this.apiService.post('user/getListUsers', params)
+      .pipe(map(res => { return res?.result }));
   }
 }

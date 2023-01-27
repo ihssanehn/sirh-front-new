@@ -231,12 +231,10 @@
           <div class="submit-block">
             <app-button [text]="'Annuler'"
                         [type]="'tertiary'"
-                        [isDisabled]="submitting"
-                        (onClick)="cancel()"
+                        (onClick)="goToList()"
                         [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
             </app-button>
             <app-button [text]="'Enregistrer'"
-                        [isDisabled]="isDisabled()"
                         [type]="'secondary'"
                         (onClick)="saveUser()"
                         [customStyle]="{'min-height': '30px'}">

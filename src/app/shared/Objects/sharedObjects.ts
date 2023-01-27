@@ -196,7 +196,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       name: 'Suivi salarié',
       type: 'sub',
       icon: null,
-      link: 'users/list',
+      link: 'users/suivi',
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
       subMenu: [
@@ -259,6 +259,13 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       ]
     },
     {
+      id: 4,
+      name: 'List des utilisateurs',
+      type: 'link',
+      icon: null,
+      link: 'users/list',
+    },
+    {
       id: 3,
       name: 'Création',
       type: 'sub',
@@ -283,6 +290,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           icon: null,
           link: 'users/new/simple',
           opened: false,
+          is_locked: true,
         },
         {
           id: 2,
@@ -291,6 +299,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           icon: null,
           link: 'users/new/independent',
           opened: false,
+          is_locked: true,
         },
         {
           id: 2,
@@ -299,6 +308,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
           icon: null,
           link: 'users/new/group',
           opened: false,
+          is_locked: true,
         },
         {
           id: 2,
@@ -830,7 +840,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,
@@ -846,7 +856,7 @@ export const $headerItems = [
     link: '/projets',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,
@@ -854,7 +864,7 @@ export const $headerItems = [
     link: '/activites',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,
@@ -862,7 +872,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,
@@ -870,7 +880,7 @@ export const $headerItems = [
     link: '/users/info',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
-    display: true
+    display: false
   },
   {
     id: 1,

@@ -1,9 +1,9 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListUsersComponent } from './list-users/list-users.component';
+import { SuiviSalariesComponent } from './suivi-salaries/suivi-salaries.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { SharedModule } from '@shared/shared.module';
-import { AddUserComponent } from './add-user/add-user.component';
+import { AddUserComponent } from './add-user-stepper/add-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -51,6 +51,7 @@ import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/moda
 import { ModalAddVisiteMedicalComponent } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
 import {DpDatePickerModule} from "ng2-date-picker";
 import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-form.component";
+import {ListUsersComponent} from "@layout/users/list-users/list-users.component";
 
 
 @NgModule({
@@ -74,7 +75,7 @@ import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-f
     DpDatePickerModule
    ],
   declarations: [
-    ListUsersComponent,
+    SuiviSalariesComponent,
     AddUserComponent,
     UserInfoFormComponent,
     SelectRoleComponent,
@@ -104,7 +105,8 @@ import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-f
     ModalAddEntreeComponent,
     ModalAddEntretienComponent,
     ModalAddVisiteMedicalComponent,
-    UserBasicFormComponent
+    UserBasicFormComponent,
+    ListUsersComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,

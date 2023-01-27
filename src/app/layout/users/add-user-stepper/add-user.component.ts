@@ -14,7 +14,7 @@ import {forEach} from "angular";
 
 
 @Component({
-  selector: 'app-add-user',
+  selector: 'app-add-user-stepper',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
