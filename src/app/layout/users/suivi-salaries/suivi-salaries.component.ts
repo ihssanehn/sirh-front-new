@@ -54,6 +54,17 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   user_stats
   personals
 
+  /** nja filters */
+  entities=[];
+  sieges=[];
+  contrats=[];
+  status=[];
+  actions_valid=[];
+  actions_to_valid=[];
+  loadingSelect = {};
+  decisions=[];
+
+
   STEPS = {
     entree: 0,
     periode_essai: 1,
@@ -84,7 +95,14 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     stats_to_complete: [],
     matricule_stats: [],
     user_stats: null,
-    personals: []
+    personals: [],
+
+    entities:[],
+    sieges:[],
+    contrats:[],
+    status:[],
+    actions_valid:[],
+    actions_to_valid:[]
   }
   loadingData: boolean;
   type;
@@ -129,6 +147,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
         case 'period_essai': {
           this.type = 'period_essai';
+          this.model_type ='trial_period';
           this.sectionName = 'Suivi salariés - Périodes d\'essais'
           break;
         }
@@ -146,6 +165,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
         case 'entretien': {
           this.type = 'entretien';
+          this.model_type =null;
           this.sectionName = 'Suivi salariés - Entretiens'
           break;
         }
@@ -156,6 +176,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
         case 'visite_medicale': {
           this.type = 'visite_medicale';
+          this.model_type ='medical_visit';
           this.sectionName = 'Suivi salariés - Visites médicales'
           break;
         }
@@ -163,9 +184,9 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
           this.type = 'general';
         }
       }
+      this.resetFilters()
       this.getUsers();
-      if(type == 'entree' || type == 'sortie')
-        this.getAction();
+      this.getAction();
 
     });
 
@@ -195,14 +216,46 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.profit_centers = this.personnalFilters.profit_centers;
       this.roles = this.personnalFilters.roles;
       this.states_to_complete = this.personnalFilters.states_to_complete;
+
+      this.entities = await this.listService.getAll('entity').toPromise();
+      this.sieges = await this.listService.getAll('siege_type').toPromise();
+      this.contrats = await this.listService.getAll('contrat_type').toPromise();
+      this.status = await this.listService.getAll('status','PERSONAL').toPromise();
+
+
+
+
     } catch (e) {
       console.log('error filter PROFIT_CENTER', e);
     }
   }
 
-  async getAction(){
-    this._allActions = await this.userService.listActions({model_type:this.model_type}).toPromise();
+  async getFilterList(items, list_name, list_param?){
+    
+    try{
+      this.loadingSelect[list_name] = true;
+      let result =  await this.listService.getAll(list_name, list_param).toPromise();
+      if(list_param == 'decision_trail_period')
+        result.unshift({id:null,label:'En attente'})
+      this[items] = result;
 
+    } catch (e) {
+      console.log('error filter', e);
+    } finally {
+      this.loadingSelect[list_name] = false;
+    }
+  
+  }
+
+
+
+  async getAction(){
+    this._allActions = null;
+    if(this.model_type)
+      this._allActions = await this.userService.listActions({model_type:this.model_type}).toPromise();
+
+    if(this.model_type != 'entrance' && this.model_type != 'sortie')
+      return;
     const localstorage_entree = JSON.parse(localStorage.getItem("columns_"+this.model_type) || "[]");
 
     if(localstorage_entree?.length > 0){
@@ -361,7 +414,17 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       matricule_stats: [],
       personals: [],
       is_virtual: null,
-      user_stats: null
+      user_stats: null,
+
+      entities:[],
+      sieges:[],
+      contrats:[],
+      status:[],
+      actions_valid:[],
+      actions_to_valid:[],
+      decisions:[], 
+      centre:null,
+      types:[]
     });
     console.log('resetFilters', this.filter)
     this.getUsers();
