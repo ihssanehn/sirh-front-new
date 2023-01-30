@@ -20,6 +20,7 @@ import {PersonalService} from "@services/personal.service";
 import {formatDateForBackend} from "@shared/Utils/SharedClasses";
 import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 import { saveAs } from 'file-saver';
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
 
 
 @Component({
@@ -597,6 +598,19 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
 
     }finally {
 
+    }
+  }
+
+  openDocumentRHFilesModal(document?){
+    const modalRef = this.modalService.open(ModalDocumentrhFilesComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed result', result);
+    }, reason => {
+      console.log('closed reason', reason);
+    });
+    if(document){
+      modalRef.componentInstance.files = document.attachments;
+      modalRef.componentInstance.title = 'Télécharger les documents';
     }
   }
 }

@@ -757,7 +757,10 @@
                     <td>{{item.effective_date ? 'Réalisé':'Planifiée' || 'etat'}}</td>
                     <td >
                       <!-- <span class="link">Attacher un document</span> &nbsp; -->
-                      <i class="icon-attachment"></i> {{item?.document_files?.attachments?.length || 0}} Documents
+                      <span class="pointer" *ngIf="item?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(item?.document_files)">
+                        <i class="icon-attachment"></i> 
+                        {{item?.document_files?.attachments?.length || 0}} 
+                      </span>
                     </td>
                     <td style="padding-right: 0;">
                       <div class="actions">
@@ -1068,7 +1071,9 @@
                     </ng-template>
                   </td>
                   <td>
-                    <span>--</span>
+                    <span>
+                      derniere visite ?
+                    </span>
                   </td>
                   <td>
                     <div class="d-flex align-items-center">
@@ -1106,7 +1111,10 @@
                     </td>
   
                   <td>
-                    <i class="icon-attachment"></i> {{item?.document_files?.attachments?.length || 0}} Documents
+                    <span class="pointer" *ngIf="item?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(item?.document_files)">
+                      <i class="icon-attachment"></i> 
+                      {{item?.document_files?.attachments?.length || 0}} 
+                    </span>
                   </td>
                   <td>
                     <div class="actions">

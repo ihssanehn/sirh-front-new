@@ -12,7 +12,8 @@ import {SharedClasses} from "@shared/Utils/SharedClasses";
 import {UserService} from "@app/core/services";
 import * as FileSaver from 'file-saver';
 import {MainStore} from "@store/mainStore.store";
-
+import { DomSanitizer} from '@angular/platform-browser';
+import { JwtStore } from '@app/store/jwt.store';
 @Component({
   selector: 'app-modal-documentrh-files',
   templateUrl: './modal-documentrd-files.component.html',
@@ -20,12 +21,15 @@ import {MainStore} from "@store/mainStore.store";
 })
 export class ModalDocumentrhFilesComponent implements OnInit {
   @Input() files = [];
+  @Input() title = null;
+  show_file = null;
   constructor(
     private modalService: NgbModal,
     public modal: NgbActiveModal,
-    private listService: ListsService,
+    private jwtStore: JwtStore,
     private userService: UserService,
-    private mainStore: MainStore
+    private mainStore: MainStore,
+    private domSanitizer: DomSanitizer
   ) {
   }
 
@@ -46,7 +50,6 @@ export class ModalDocumentrhFilesComponent implements OnInit {
 
   getIcon(filename) {
     const file_ex = filename.split('.').pop();
-    console.log('getIcon', filename, file_ex);
     return 'icon-file-' + SharedClasses.getFileType(file_ex);
   }
 
@@ -75,5 +78,11 @@ export class ModalDocumentrhFilesComponent implements OnInit {
 
     if(fileSize.length < 7) return `${Math.round(+fileSize/1024).toFixed(2)} kb`
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
+  }
+
+  previewFile(document){
+    this.show_file = { ...document,
+                        safe_url:this.domSanitizer.bypassSecurityTrustResourceUrl(document.path_to_view+'&token='+this.jwtStore.getToken)
+                    };
   }
 }

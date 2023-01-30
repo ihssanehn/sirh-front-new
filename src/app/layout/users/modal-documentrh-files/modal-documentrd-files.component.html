@@ -1,6 +1,8 @@
 <div class="container top-container ">
   <div class="header modal-header">
-    <h1 class="main-title">&nbsp;</h1>
+    <h1 class="main-title">&nbsp;
+      {{title}}
+    </h1>
     <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
   </div>
 
@@ -10,7 +12,7 @@
         <table>
           <thead></thead>
           <tbody>
-            <tr class="file" *ngFor="let item of files" title="{{item.original_name}}" (click)="download(item)">
+            <tr class="file" *ngFor="let item of files" title="{{item.original_name}}">
               <td>
                 <div class="first-part col">
                   <div class="icon">
@@ -28,6 +30,15 @@
                 <div class="size col">{{item.created_at | dateMessage}}</div>
               </td>
               <td>
+                <div class="actions col"  *ngIf="getIcon(item.original_name) == 'icon-file-img'" (click)="previewFile(item)">
+                  <i class="fa fa-eye"
+                     data-toggle="tooltip"
+                     data-placement="top"
+                    
+                     title="Aperçu"></i>
+                </div>
+              </td>
+              <td>
                 <div class="actions col">
                   <i class="fa fa-download"
                      data-toggle="tooltip"
@@ -36,6 +47,14 @@
                      title="Télécharger"></i>
                 </div>
               </td>
+            </tr>
+            <tr *ngIf="show_file">
+              <div class="row">
+                <img
+                      [src]="show_file.safe_url"
+                    class="img-fluid"
+                  />
+              </div>
             </tr>
           </tbody>
         </table>
