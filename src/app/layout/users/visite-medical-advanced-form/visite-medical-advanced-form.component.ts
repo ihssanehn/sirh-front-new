@@ -4,7 +4,7 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {getFormValidationErrors, markFormAsDirty, SharedClasses, paramsToFormData} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
@@ -17,6 +17,7 @@ import { DateMessagePipe } from '@app/shared/pipes/dateMessage.pipe';
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import { PersonalService } from '@app/core/services/personal.service';
 import { debounceTime, distinctUntilChanged, Observable, switchMap, tap } from 'rxjs';
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
 
 
 
@@ -213,6 +214,8 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
         send_convocation:is_checked_convoc,
         id:vm.id
       });
+      this.files = vm.document_files?.attachments || [];
+      this.projectToEditFiles = vm.document_files?.attachments || [];
     }
   }
 
@@ -266,12 +269,33 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
     });
 
+    if(this.projectToEditFiles?.length > 0){ // Edit state
+      const document_files_to_delete = [];
+      const document_files_to_add = [];
+      this.projectToEditFiles.forEach(att => {
+        if(!this.files.find(file => file.id === att.id)){
+          document_files_to_delete.push(att.id);
+        }
+      });
+      this.files.forEach(file => {
+        if(file instanceof File){
+          document_files_to_add.push(file);
+        }
+      });
+      saveData['document_files_to_delete'] = document_files_to_delete;
+      saveData['document_files'] = document_files_to_add;
+    }else{ // add state
+      saveData['document_files'] = this.files;
+    }
+
+    const fd = paramsToFormData(saveData, ['document_files'], null);
+
 
     // this.submitvm.emit(saveData);
     console.log(saveData)
     let res = null;
     if(saveData?.id){
-      res = await this.personalService.updateVM(saveData).toPromise();
+      res = await this.personalService.updateVM(fd).toPromise();
       if(res.result && res.result.data){
         let index = this._medical_visits.findIndex((_item) => _item["id"] == saveData.id);
         let vm = res.result.data;
@@ -289,7 +313,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       }
       this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
     }else{
-      res = await this.personalService.addVM(saveData).toPromise();
+      res = await this.personalService.addVM(fd).toPromise();
       if(res.result && res.result.data){
         let vm = res.result.data;
         const _convoc_sent = vm.histos.filter(histo => {
@@ -514,7 +538,23 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
   }
   // ABOUT FILE UPLOAD END
+
+
+  openDocumentRHFilesModal(document?){
+    const modalRef = this.modalService.open(ModalDocumentrhFilesComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed result', result);
+    }, reason => {
+      console.log('closed reason', reason);
+    });
+    if(document){
+      modalRef.componentInstance.files = document.attachments;
+      modalRef.componentInstance.title = 'Télécharger les documents';
+    }
+  }
 }
+
+
 
 
 // TODO

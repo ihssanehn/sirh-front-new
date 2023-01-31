@@ -8,7 +8,8 @@ import {
   formatDateForBackend,
   getFormValidationErrors,
   markFormAsDirty,
-  SharedClasses
+  SharedClasses,
+  paramsToFormData
 } from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
@@ -21,6 +22,7 @@ import {isMoment} from "moment/moment";
 import * as moment from "moment/moment";
 import {MY_CUSTOM_DATETIME_FORMATS} from "@shared/classes/CustomDateTimeFormat";
 import { PersonalService } from '@app/core/services/personal.service';
+import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
 
 
 
@@ -200,6 +202,8 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
         effective_date: item.effective_date,
         id:item.id
       });
+      this.files = item.document_files?.attachments || [];
+      this.projectToEditFiles = item.document_files?.attachments || [];
     }
   }
 
@@ -264,30 +268,36 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     dates.forEach(date => {
       saveData[date] = formatDateForBackend(saveData[date]);
     });
-    const fd = new FormData();
 
-    Object.keys(saveData).forEach(key => {
-      if(Array.isArray(saveData[key])){
-        if(key === 'document_files'){
-          saveData[key].forEach((file, index) => {
-            fd.append(`document_files`, file);
-          })
-        }else{
-          fd.append(key, JSON.stringify(saveData[key]));
+
+    if(this.projectToEditFiles?.length > 0){ // Edit state
+      const document_files_to_delete = [];
+      const document_files_to_add = [];
+      this.projectToEditFiles.forEach(att => {
+        if(!this.files.find(file => file.id === att.id)){
+          document_files_to_delete.push(att.id);
         }
-      }else {
-        if(saveData[key] != null){
-          fd.append(key, saveData[key]);
+      });
+      this.files.forEach(file => {
+        if(file instanceof File){
+          document_files_to_add.push(file);
         }
-      }
-    });
+      });
+      saveData['document_files_to_delete'] = document_files_to_delete;
+      saveData['document_files'] = document_files_to_add;
+    }else{ // add state
+      saveData['document_files'] = this.files;
+    }
+
+    const fd = paramsToFormData(saveData, ['document_files'],[]);
+    
 
     // this.submitEntretien.emit(fd);
     console.log(saveData)
     let res = null;
     if(saveData?.id){
       fd.append('id', saveData.id);
-      res = await this.personalService.updateEntretien(saveData).toPromise();
+      res = await this.personalService.updateEntretien(fd).toPromise();
       if(res.result && res.result.data){
         let index = this.interviews.findIndex((_item) => _item["id"] == saveData.id);
         this.interviews.splice(index,1, res.result.data);
@@ -296,7 +306,7 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
       }
       this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
     }else{
-      res = await this.personalService.addEntretien(saveData).toPromise();
+      res = await this.personalService.addEntretien(fd).toPromise();
       if(res.result && res.result.data){
         this.interviews.unshift(res.result.data)
         this.submitting = false;
@@ -496,6 +506,19 @@ export class EntretienAdvancedFormComponent implements OnInit, AfterViewInit {
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
   }
   // ABOUT FILE UPLOAD END
+
+  openDocumentRHFilesModal(document?){
+    const modalRef = this.modalService.open(ModalDocumentrhFilesComponent, { size: 'lg' , centered: true, windowClass: 'myModal'});
+    modalRef.result.then(result=>{
+      console.log('closed result', result);
+    }, reason => {
+      console.log('closed reason', reason);
+    });
+    if(document){
+      modalRef.componentInstance.files = document.attachments;
+      modalRef.componentInstance.title = 'Télécharger les documents';
+    }
+  }
 
 }
 

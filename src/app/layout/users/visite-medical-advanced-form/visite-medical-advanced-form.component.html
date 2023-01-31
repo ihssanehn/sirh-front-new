@@ -192,6 +192,11 @@
                           </span>&nbsp;&nbsp;<span>
                             {{vm.centre}}
                           </span>
+                          <span class="pointer" *ngIf="vm?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(vm?.document_files)">
+                            <i class="icon-attachment"></i> 
+                            {{vm?.document_files?.attachments?.length || 0}} 
+                          </span>
+                          &nbsp;&nbsp;  
                             &nbsp;&nbsp;<i class="icon-edit-bold primary-icon pointer d-inline-block" (click)="initFormBuilder(vm)"></i>
                         </div>
                       </div>

@@ -232,6 +232,10 @@
                             </span>
                             
                           </span>
+                          <span class="pointer" *ngIf="item?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(item?.document_files)">
+                            <i class="icon-attachment"></i> 
+                            {{item?.document_files?.attachments?.length || 0}} 
+                          </span>
                           &nbsp;&nbsp;<i class="icon-edit-bold primary-icon pointer d-inline-block" (click)="editInterview(item)"></i>
                         </div>
                       </div>
