@@ -929,11 +929,11 @@
                   <th>
                     Centre médical
                   </th>
-                  <th>
+                  <!-- <th>
                     Date dernière visite médicale
-                  </th>
+                  </th> -->
                   <th>
-                    Date prochaine visite médicale
+                    Date visite médicale
                   </th>
                   <th>
                     Convocation envoyée
@@ -1070,11 +1070,11 @@
                       &nbsp;<i class="icon-edit-bold primary-icon pointer" (click)="openVmForEditting('centre', item)"></i>
                     </ng-template>
                   </td>
-                  <td>
+                  <!-- <td>
                     <span>
-                      derniere visite ?
+                      {{item?.personal?.last_vm?.scheduled_date | dateMessage}}
                     </span>
-                  </td>
+                  </td> -->
                   <td>
                     <div class="d-flex align-items-center">
                       <owl-date-time #owl_dt2 [pickerType]="'calendar'"
