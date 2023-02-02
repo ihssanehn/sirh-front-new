@@ -10,12 +10,14 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { JwtService } from '@services/index';
 import { JwtStore } from '@store/jwt.store';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
   constructor(
     private jwtStore: JwtStore,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   intercept(
@@ -43,6 +45,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         } else {
           // server-side error
           console.log(err);
+          if(err.status === 401){
+            this.router.navigate(['/auth/login']).then(res=>console.log('Unauthorized::Redirecting login page', res));
+          }
           // errorMessage = `Error : ${err.message}`;
           // this.showErrorMessage(err.status, err.statusText);
         }
