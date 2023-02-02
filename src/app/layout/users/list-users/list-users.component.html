@@ -33,10 +33,10 @@
       </div>
       <div class="right-buttons">
         <app-button
-          [text]="'Ajouter ' + type"
-          [type]="'secondary'"
+          [text]="'Ajouter un utilisateur'"
+          [type]="'primary'"
           [iconRight]="'icon-add'"
-          (onClick)="openEditModal(type)"
+          [routerLink]="['/users/new/basic']"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>
       </div>

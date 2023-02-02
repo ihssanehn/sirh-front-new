@@ -61,6 +61,11 @@ export class LayoutComponent implements OnInit{
                   $sidebarItems_users[1].opened = true;
                 }
 
+                if(this.router.url.indexOf('users') !== -1){
+                  $sidebarItems_users[0].opened = true; // todo make it false (true only on Lot 1)
+                  $sidebarItems_users[1].opened = true;
+                }
+
                 break;
               }
               case 'missions': {
