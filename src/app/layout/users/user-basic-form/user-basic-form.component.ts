@@ -72,10 +72,10 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
     this.modalService.dismissAll();
 
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(async params => {
       console.log('params', params);
       if(Number(params.id)){
-          this.getUser(params.id);
+          await this.getUser(params.id);
       }
     })
   }
@@ -148,7 +148,7 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
   }
 
   goback() {
-    this.location.back();
+    this.router.navigate(['/users']);
   }
 
   passwordConfirming(c: AbstractControl) {
@@ -251,9 +251,6 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
 
   async getFilterList(items, list_name, list_param?){
     try{
-      if(this[items]?.length > 0){
-        return;
-      }
       this.loadingSelect[list_name] = true;
       this[items] = await this.listService.getAll(list_name, list_param).toPromise();
       console.log('this[items]', this[items]);
@@ -286,10 +283,12 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
     try {
       this.loadingData = true;
       const res = await this.userService.getOneUser(id).toPromise();
-      this.initFormBuilder(res?.result?.data[0]);
-      console.log('res', res?.result?.data[0]);
+      this.initFormBuilder(res?.result?.data);
+      console.log('res', res?.result?.data);
     } catch (e) {
       console.log('error', e);
+      this.messageService.add({severity: 'error', summary: this.translate.instant('FAILURE!'), detail: 'Erreur de chargement des informations de cet utilisateur',  sticky: false});
+      this.goback();
     } finally {
       this.loadingData = false;
     }

@@ -1,4 +1,7 @@
 <div class="container top-container">
+  <div (click)="goback()" class="link" style="margin-bottom: 20px;">
+    <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Retour vers la liste
+  </div>
   <ng-container *ngIf="!errorLoadData; else dataNotFound">
     <ng-container *ngIf="loadingData; else loadedData">
       <div class="loading">
@@ -8,7 +11,7 @@
     <ng-template #loadedData>
         <form (submit)="submit()" *ngIf="userFormGroup" [formGroup]="userFormGroup" autocomplete="off" class="container p-0"
               novalidate>
-          <h2 class="m-0">Ajouter un nouveau utilisateur</h2>
+          <h2 class="m-0">{{this.userFormGroup.value?.id ? 'Modification des informations de l\'utilisateur': 'Ajouter un nouveau utilisateur'}}</h2>
           <div class="row form-box">
             <div class="main-container col-xl-6 col-12 form-column">
               <div class="col-12 white-box">
@@ -89,17 +92,20 @@
                     </div>
                   </div>
 
-                  <div class="link" *ngIf="!showChangePassword; else cancelEditPassword" (click)="showChangePassword = true">
-                    <i class="fa fa-lock"></i> &nbsp;Modifier le mot de passe
-                  </div>
-
-                  <ng-template #cancelEditPassword>
-                    <div class="danger-text link" (click)="showChangePassword = false">
-                      <i class="icon-close"></i> &nbsp;Annuler la modification du mot de passe
+                  <ng-container *ngIf="userFormGroup.value?.id">
+                    <div class="link" *ngIf="!showChangePassword; else cancelEditPassword" (click)="showChangePassword = true">
+                      <i class="fa fa-lock"></i> &nbsp;Modifier le mot de passe
                     </div>
-                  </ng-template>
 
-                  <ng-container *ngIf="!userFormGroup.value || showChangePassword">
+                    <ng-template #cancelEditPassword>
+                      <div class="danger-text link" (click)="showChangePassword = false">
+                        <i class="icon-close"></i> &nbsp;Annuler la modification du mot de passe
+                      </div>
+                    </ng-template>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="!userFormGroup.value?.id || showChangePassword">
                     <div class="row">
                       <label class="col-2">Mot de passe {{isRequired(formInputs.password)}}</label>
                       <div class="col">
@@ -240,7 +246,7 @@
           </div>
 
           <div class="submit-block">
-            <app-button [text]="'Annuler'"
+            <app-button [text]="'Retour'"
                         [type]="'tertiary'"
                         (onClick)="goToList()"
                         [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">

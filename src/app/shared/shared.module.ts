@@ -22,18 +22,20 @@ import {MomentPipe} from "@shared/pipes/MomentPipe";
 import {AgoPipe} from "@shared/pipes/ago.pipe";
 import {DateMessagePipe} from "@shared/pipes/dateMessage.pipe";
 import {VarDirective} from "@shared/directive/ng-var.directive";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgxPermissionsModule,
-    RouterModule,
-    TranslateModule,
-    LaddaModule.forRoot({
-      style: 'zoom-out',
-    }),
-    ImageCropperModule,
-  ],
+    imports: [
+        CommonModule,
+        NgxPermissionsModule,
+        RouterModule,
+        TranslateModule,
+        LaddaModule.forRoot({
+            style: 'zoom-out',
+        }),
+        ImageCropperModule,
+        FormsModule,
+    ],
   declarations: [
     PasswordBannerComponent,
     SafePipe,

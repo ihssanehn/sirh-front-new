@@ -38,7 +38,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   pagination: any = {
     page: 1,
     total: 10,
-    limit: 10
+    pageSize: 10
   };
 
   profiles
@@ -133,7 +133,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               private messageService: MessageService,
               public mainStore: MainStore,
-              private listService: ListsService,
+              public listService: ListsService,
               private route: ActivatedRoute,
               private router: Router) {
 
@@ -186,7 +186,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
       }
       this.resetFilters()
-      this.getUsers();
+      this.getListElements();
       this.getAction();
 
     });
@@ -194,7 +194,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getUsers();
+    this.getListElements();
     this.getFilters();
   }
 
@@ -232,7 +232,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
   async getFilterList(items, list_name, list_param?){
-    
+
     try{
       this.loadingSelect[list_name] = true;
       let result =  await this.listService.getAll(list_name, list_param).toPromise();
@@ -245,7 +245,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     } finally {
       this.loadingSelect[list_name] = false;
     }
-  
+
   }
 
 
@@ -313,23 +313,23 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       });
   }
 
-  getUsers(){
+  getListElements(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type
+      type: this.type,
+      limit: this.pagination.pageSize,
     }
     Object.keys(this.filter).forEach(key => {
-      if(this.filter[key] !== null && this.filter[key] !== []){
+      if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
         params[key] = this.filter[key];
       }
     })
     this.loadingData = true;
     this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.listItems = result.data.data;
-      console.log('this.listItems', this.listItems);
       this.pagination = { ...this.pagination, total: result?.data?.total };
     }, err =>{
-      console.log('err getUsers', err);
+      console.log('err getListElements', err);
       this.listItems = [];
       this.loadingData = false;
     }, ()=>{
@@ -374,7 +374,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(dynamicModal, { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
-      this.getUsers();
+      this.getListElements();
     }, reason => {
       console.log('closed');
     });
@@ -423,12 +423,12 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       status:[],
       actions_valid:[],
       actions_to_valid:[],
-      decisions:[], 
+      decisions:[],
       centre:null,
       types:[]
     });
     console.log('resetFilters', this.filter)
-    this.getUsers();
+    this.getListElements();
     // showFilters = !showFilters;
   }
 
@@ -454,14 +454,14 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
   changePagination() {
-    this.pagination = { ...this.pagination, limit: this.pagination.limit, total: this.pagination.total };
+    this.pagination = { ...this.pagination, pageSize: this.pagination.pageSize, total: this.pagination.total };
     this.filter.page = this.pagination.page;
-    this.filter.limit = this.pagination.limit;
-    this.getUsers();
+    this.filter.limit = this.pagination.pageSize;
+    this.getListElements();
   }
 
   filterChanged() {
-    this.getUsers();
+    this.getListElements();
   }
 
   onCheckChange($event) {
@@ -495,7 +495,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     }
     try{
       const result = await this.personalService.updateEntretien(params).toPromise();
-      this.getUsers();
+      this.getListElements();
       if(result){
         this.messageService.add({
           severity: 'success',
@@ -523,7 +523,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     }
     try{
       const result = await this.personalService.updateVM(params).toPromise();
-      this.getUsers();
+      this.getListElements();
       if(result){
         this.messageService.add({
           severity: 'success',

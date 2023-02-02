@@ -13,10 +13,6 @@ import {ModalAddSortieComponent} from "@layout/users/modal-add-sortie/modal-add-
 import {ModalAddEntreeComponent} from "@layout/users/modal-add-entree/modal-add-entree.component";
 import {ModalAddEntretienComponent} from "@layout/users/modal-add-entretien/modal-add-entretien.component";
 import {ModalAddVisiteMedicalComponent} from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
-import {PersonalService} from "@services/personal.service";
-import {formatDateForBackend} from "@shared/Utils/SharedClasses";
-import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
-import { saveAs } from 'file-saver';
 import {User} from "@app/core/entities";
 
 
@@ -35,7 +31,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   pagination: any = {
     page: 1,
     total: 10,
-    limit: 10
+    pageSize: 10,
   };
   profiles
   roles
@@ -52,7 +48,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     keyword: '',
     is_virtual: null,
     page: 1,
-    limit: 10,
+    per_page: 10,
     is_blocked: null,
     to_be_completed: null,
     profiles: null
@@ -101,10 +97,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type
+      type: this.type,
+      limit: this.filter.per_page
     }
     Object.keys(this.filter).forEach(key => {
-      if(this.filter[key] !== null && this.filter[key] !== []){
+      if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
         params[key] = this.filter[key];
       }
     })
@@ -112,7 +109,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.searchSubscription = this.userService.getListUsers(params).subscribe((result) => {
       this.listItems = result.data.data;
       console.log('this.listItems', this.listItems);
-      this.pagination = { ...this.pagination, total: result?.data?.total };
+      // this.pagination = { ...this.pagination, total: result?.data?.total };
+      this.pagination = {...this.pagination, page: result?.data?.current_page, pageSize: result?.data?.per_page, total: result?.data?.total};
+      this.filter.page = this.pagination.page;
+      this.filter.per_page = this.pagination.pageSize;
     }, err =>{
       console.log('err getUsers', err);
       this.listItems = [];
@@ -198,9 +198,9 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
 
   changePagination() {
-    this.pagination = { ...this.pagination, limit: this.pagination.limit, total: this.pagination.total };
+    this.pagination = { ...this.pagination, per_page: this.pagination.pageSize, total: this.pagination.total };
     this.filter.page = this.pagination.page;
-    this.filter.limit = this.pagination.limit;
+    this.filter.per_page = this.pagination.pageSize;
     this.getUsers();
   }
 
