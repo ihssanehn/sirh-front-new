@@ -485,7 +485,7 @@
                       <ng-template #infopopover>
                       <div class="title">
                         {{item?.personal?.nom}} {{item?.personal?.prenom}}
-                        <span class="light-text">({{item?.personal?.registration_number}})</span>
+                        <span class="light-text" *ngIf="item?.personal?.registration_number">({{item?.personal?.registration_number}})</span>
                       </div>
                       <table class="small-table">
                         <tr>
@@ -496,7 +496,7 @@
                             <div class="value" >{{ item?.personal?.entry_date | dateMessage}}</div>
                           </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="item?.personal?.entity">
                           <td>
                             <div class="label blue-text" >Société</div>
                           </td>
@@ -509,7 +509,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -533,7 +533,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -646,7 +646,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.entity}}</div>
+                            <div class="value" >{{item?.personal?.entity?.label}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -654,7 +654,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -679,7 +679,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -846,7 +846,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -964,7 +964,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.entity}}</div>
+                            <div class="value" >{{item?.personal?.entity?.label}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -972,7 +972,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -997,7 +997,7 @@
                           <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Entretien à valider &nbsp;&nbsp;
+                                Entretien à effectuer &nbsp;&nbsp;
                                 <a
                                   target="_blank"
                                   [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -1266,7 +1266,7 @@
                               <tr *ngIf="item?.personal?.has_interview_to_validate">
                                 <td>
                                   <div class="item danger-text">
-                                    Entretien à valider &nbsp;&nbsp;
+                                    Entretien à effectuer &nbsp;&nbsp;
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -1468,7 +1468,7 @@
                               <div class="label blue-text" >Société</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.entity}}</div>
+                              <div class="value" >{{item?.personal?.entity?.label}}</div>
                             </td>
                           </tr>
                           <tr>
@@ -1476,7 +1476,7 @@
                               <div class="label blue-text" >Centre de profit</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.manager}}</div>
+                              <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                             </td>
                           </tr>
                         </table>
@@ -1500,11 +1500,11 @@
                               <tr *ngIf="item?.personal?.has_interview_to_validate">
                                 <td>
                                   <div class="item danger-text">
-                                    Entretien à valider &nbsp;&nbsp;
+                                    Entretien à effectuer &nbsp;&nbsp;
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]">
-                                    >
+                                    
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1517,7 +1517,7 @@
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]">
-                                      >
+                                      
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
