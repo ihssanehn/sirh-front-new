@@ -169,10 +169,10 @@ export class ModalAddSortieComponent implements OnInit {
       let res;
       if(this.item?.id){
         params.id = this.item.id;
-        res = await this.personalService.updateSortie(params).toPromise();
+        res = await this.personalService.exitPersonal(params).toPromise();
         this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Sortie modifié avec succès'});
       }else{
-        res = await this.personalService.addSortie(params).toPromise();
+        res = await this.personalService.exitPersonal(params).toPromise();
         this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Sortie ajouté avec succès'});
       }
 

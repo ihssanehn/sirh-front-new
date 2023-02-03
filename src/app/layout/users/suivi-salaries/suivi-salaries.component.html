@@ -300,7 +300,7 @@
           </div>
         </div>
       </div>
-      <div class="filtres row">
+      <!-- <div class="filtres row">
         <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
           <label class="">Etat de l'utilisateur</label>
           <div class="btn-group btn-group-toggle"
@@ -341,7 +341,7 @@
             </label>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
       <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
         <h2 class="main-title">
@@ -1561,7 +1561,7 @@
                     <td data-title="Entité" >{{item?.entrance?.manager?.full_name || item?.personal?.manager?.full_name  + "perso ::" || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{item?.motif?.label || 'N.R'}}</td>
-                    <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
+                    <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.end_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >
