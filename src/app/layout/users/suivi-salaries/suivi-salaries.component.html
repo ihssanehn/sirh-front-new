@@ -301,7 +301,7 @@
           </div>
         </div>
       </div>
-      <div class="filtres row">
+      <!-- <div class="filtres row">
         <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
           <label class="">Etat de l'utilisateur</label>
           <div class="btn-group btn-group-toggle"
@@ -342,7 +342,7 @@
             </label>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
       <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
         <h2 class="main-title">
@@ -486,7 +486,7 @@
                       <ng-template #infopopover>
                       <div class="title">
                         {{item?.personal?.nom}} {{item?.personal?.prenom}}
-                        <span class="light-text">({{item?.personal?.registration_number}})</span>
+                        <span class="light-text" *ngIf="item?.personal?.registration_number">({{item?.personal?.registration_number}})</span>
                       </div>
                       <table class="small-table">
                         <tr>
@@ -497,7 +497,7 @@
                             <div class="value" >{{ item?.personal?.entry_date | dateMessage}}</div>
                           </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="item?.personal?.entity">
                           <td>
                             <div class="label blue-text" >Société</div>
                           </td>
@@ -510,7 +510,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -534,7 +534,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -647,7 +647,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.entity}}</div>
+                            <div class="value" >{{item?.personal?.entity?.label}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -655,7 +655,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -680,7 +680,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -847,7 +847,7 @@
                             <tr *ngIf="item?.personal?.has_interview_to_validate">
                               <td>
                                 <div class="item danger-text">
-                                  Entretien à valider &nbsp;&nbsp;
+                                  Entretien à effectuer &nbsp;&nbsp;
                                   <a
                                     target="_blank"
                                     [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -965,7 +965,7 @@
                             <div class="label blue-text" >Société</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.entity}}</div>
+                            <div class="value" >{{item?.personal?.entity?.label}}</div>
                           </td>
                         </tr>
                         <tr>
@@ -973,7 +973,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager}}</div>
+                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -998,7 +998,7 @@
                           <tr *ngIf="item?.personal?.has_interview_to_validate">
                             <td>
                               <div class="item danger-text">
-                                Entretien à valider &nbsp;&nbsp;
+                                Entretien à effectuer &nbsp;&nbsp;
                                 <a
                                   target="_blank"
                                   [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -1267,7 +1267,7 @@
                               <tr *ngIf="item?.personal?.has_interview_to_validate">
                                 <td>
                                   <div class="item danger-text">
-                                    Entretien à valider &nbsp;&nbsp;
+                                    Entretien à effectuer &nbsp;&nbsp;
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]"
@@ -1469,7 +1469,7 @@
                               <div class="label blue-text" >Société</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.entity}}</div>
+                              <div class="value" >{{item?.personal?.entity?.label}}</div>
                             </td>
                           </tr>
                           <tr>
@@ -1477,7 +1477,7 @@
                               <div class="label blue-text" >Centre de profit</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.manager}}</div>
+                              <div class="value" >{{item?.personal?.manager?.full_name}}</div>
                             </td>
                           </tr>
                         </table>
@@ -1501,11 +1501,11 @@
                               <tr *ngIf="item?.personal?.has_interview_to_validate">
                                 <td>
                                   <div class="item danger-text">
-                                    Entretien à valider &nbsp;&nbsp;
+                                    Entretien à effectuer &nbsp;&nbsp;
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]">
-                                    >
+                                    
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1518,7 +1518,7 @@
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]">
-                                      >
+                                      
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1562,7 +1562,7 @@
                     <td data-title="Entité" >{{item?.entrance?.manager?.full_name || item?.personal?.manager?.full_name  + "perso ::" || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{item?.motif?.label || 'N.R'}}</td>
-                    <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage: 'DD MMM yyyy HH:mm') || 'N.R'}}</td>
+                    <td data-title="Entité" >{{ (item?.end_date_preavis | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >{{ (item?.end_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Entité" >
