@@ -193,7 +193,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     // },
     {
       id: 2,
-      name: 'Suivi salarié',
+      name: 'Suivi salariés',
       type: 'sub',
       icon: null,
       link: 'users/suivi',
@@ -260,7 +260,7 @@ export const $sidebarItems_users: Array<SidebarItem> = [
     },
     {
       id: 4,
-      name: 'List des utilisateurs',
+      name: 'Utilisateurs SIRH',
       type: 'link',
       icon: null,
       link: 'users/list',
@@ -884,8 +884,8 @@ export const $headerItems = [
   },
   {
     id: 1,
-    name: 'Suivi du salarié',
-    link: '/users',
+    name: 'Suivi salariés',
+    link: '/users/suivi/entree',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
     display: true
