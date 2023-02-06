@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       const res = await this.userService.signin(credentials).toPromise();
       console.log('user', res);
-      this.router.navigate(['/']);
+      this.router.navigate(['/users/suivi/entree']);
     }catch (err){
       console.log('err login', err);
       this.loading = false;
