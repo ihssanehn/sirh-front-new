@@ -109,7 +109,7 @@ export class ModalAddEntreeComponent implements OnInit {
     this.contrats = await this.listService.getAll('contrat_type').toPromise();
     this.sieges = await this.listService.getAll('siege_type').toPromise();
     this.entities = await this.listService.getAll('entity').toPromise();
-    this.managers = await this.listService.getAll('manager').toPromise();
+    this.managers = await this.listService.getAll('users').toPromise();
    }
 
 
