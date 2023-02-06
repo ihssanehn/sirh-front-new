@@ -68,7 +68,6 @@
             (onClick)="openEditModal(type)"
             [customStyle]="{'white-space': 'nowrap'}"
           ></app-button>
-          test
         </div>
       </div>
     <div class="filter-container" *ngIf="showFilters">
@@ -1505,7 +1504,7 @@
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.entretien]">
-                                    
+
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1518,7 +1517,7 @@
                                     <a
                                       target="_blank"
                                       [routerLink]="['/users/details?user_id'+item?.personal?.id+'&step='+STEPS.visite_medicale]">
-                                      
+
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
