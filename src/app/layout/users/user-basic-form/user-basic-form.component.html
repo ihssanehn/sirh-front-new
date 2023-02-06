@@ -251,7 +251,7 @@
                         (onClick)="goToList()"
                         [customStyle]="{'min-height': '30px', 'margin-right': '15px'}">
             </app-button>
-            <app-button [text]="userFormGroup.value.id ? 'Enregistrer les modifications': 'Crérre l\'utilisateur'"
+            <app-button [text]="userFormGroup.value.id ? 'Enregistrer les modifications': 'Créer l\'utilisateur'"
                         [type]="'secondary'"
                         (onClick)="userFormGroup.value.id ? updateUser() : saveUser()"
                         [customStyle]="{'min-height': '30px'}">
