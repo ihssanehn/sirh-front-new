@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService, ErrorService } from '@services/index';
 import {UserStore} from '@store/user.store';
 import {MessageService} from 'primeng/api';
+import {MainStore} from "@store/mainStore.store";
 
 @Component({
   selector: 'app-update',
@@ -20,8 +21,15 @@ export class UpdateComponent implements OnInit {
               private errorService: ErrorService,
               private userService : UserService,
               public userStore : UserStore,
+              private mainStore : MainStore,
               private messageService : MessageService
-              ) { }
+              ) {
+    this.mainStore.currentHeaderSection = {
+      title: 'Mon profil',
+      subtitle: 'Mise à jour du profil',
+      isFullScreen: true
+    };
+  }
 
   ngOnInit(){
     // this.loggedUser = this.userService.getCurrentUser();
@@ -30,8 +38,8 @@ export class UpdateComponent implements OnInit {
 
   initFormBuilder(){
     this.profileFormGroup = this.formBuilder.group({
-      firstname: [this.userStore.getAuthenticatedUser?.firstname, Validators.required],
-      lastname: [this.userStore.getAuthenticatedUser?.lastname, Validators.required],
+      first_name: [this.userStore.getAuthenticatedUser?.firstname, Validators.required],
+      last_name: [this.userStore.getAuthenticatedUser?.lastname, Validators.required],
       phone: [this.userStore.getAuthenticatedUser?.phone],
     });
     this.passwordFormGroup = this.formBuilder.group({

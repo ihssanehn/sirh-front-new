@@ -4,6 +4,7 @@ import {LayoutComponent} from '@layout/layout.component';
 import {AcceilComponent} from "@layout/acceil/acceil.component";
 import {AuthGuard} from "@app/core/guards/auth-guard.service";
 import {EntiteGuard} from "@app/core/guards/entite-guard.service";
+import {UpdateComponent} from "@layout/profile/update/update.component";
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
         loadChildren: () => import('./activity/activity.module').then(m => m.ActivityModule),
         canActivate: [EntiteGuard]
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+      }
     ]
   }
 ];

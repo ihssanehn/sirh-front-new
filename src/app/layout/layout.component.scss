@@ -52,6 +52,7 @@
     overflow-x: hidden;
     //margin-top: 70px;
 }
+
 ::ng-deep .ng-sidebar{
     z-index: 999 !important;
 }
@@ -65,5 +66,11 @@
   ::ng-deep .ng-sidebar__content{
     background: $septenaryColor;
     padding: 0 0 0 calc(#{$sidebar-large-width} + 10px) !important;
+  }
+}
+
+.ng-sidebar__content_no_padding{
+  ::ng-deep .ng-sidebar__content{
+    padding: 0 !important;
   }
 }
