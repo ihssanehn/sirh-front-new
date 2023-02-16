@@ -96,10 +96,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of listItems" >
-                <td data-title="Nom" ><div class="name capitalize">{{item?.full_name}} </div></td>
-                <td data-title="Profile" >{{item?.profile_name}}</td>
-                <td data-title="Rôle" >{{item?.role_name}}</td>
+              <tr *ngFor="let item of listItems" class="table-item" (click)="goToEdit(item)">
+                <td data-title="Nom" ><div class="name capitalize underlined pointer">{{item?.full_name}} </div></td>
+                <td data-title="Profile" >{{getRoleLabel(item?.profile_name)}}</td>
+                <td data-title="Rôle" >{{getRoleLabel(item?.role_name)}}</td>
                 <td data-title="Email">{{item?.email}}</td>
                 <td>{{item?.last_connexion | timeAgo}} </td>
                 <td style="text-align: right;padding-right: 0;">

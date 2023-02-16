@@ -148,7 +148,9 @@ export class UserBasicFormComponent implements OnInit, AfterViewInit {
   }
 
   goback() {
-    this.router.navigate(['/users']);
+    this.router.navigate(['/users'],
+      { queryParams: this.activatedRoute.snapshot.queryParams }
+      );
   }
 
   passwordConfirming(c: AbstractControl) {

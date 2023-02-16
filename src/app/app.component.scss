@@ -211,7 +211,16 @@
   }
 }
 
+.table-item{
+  cursor: pointer;
+  &:hover{
+    background-color: #068aff8c !important;
+  }
+}
 
+.underlined{
+  text-decoration: underline;
+}
 
 
 .photo-cell{
@@ -272,11 +281,6 @@
 
 .date-picker-group{
   position: relative;
-  //max-width: 40%;
-  //min-width: 280px;
-  input{
-    //position: absolute;
-  }
   .icons-container{
     position: absolute;
     top: 28%;
@@ -300,11 +304,6 @@
     background: white;
     padding: 15px 25px;
     margin-bottom: 15px;
-    //.main-title{
-    //  font-size: 1.23em;
-    //  font-weight: 500;
-    //  color: $mainGray;
-    //}
     .paragraph{
       padding: 15px 0;
     }
@@ -422,18 +421,10 @@
 }
 
 .select{
-  //border: 0;
-  //width: 50px;
   padding-left: 0;
   font-size: 12px;
   min-width: unset !important;
-  //width: fit-content;
-  //border-top: 0;
-  //border-left: 0;
-  //border-right: 0;
-  //border: 1px solid #c1c2c3;
   border: 1px solid #c1c2c375;
-  //min-height: 40px;
   padding-top: 5px;
   padding-bottom: 5px;
   ::ng-deep .ng-value-container {
@@ -448,21 +439,12 @@
     border-bottom: 0;
     border-radius: 0;
     box-shadow: none !important;
-    //height: 20px;
     height: unset;
     min-height: 27px;
-    //min-height: unset;
     overflow: visible;
-    //*{
-    //  color: $octonaryColor;
-    //}
-    .ng-arrow{
-      //border-color: transparent transparent $primaryColor;
-    }
   }
   ::ng-deep .ng-optgroup{
     color: $primaryColor;
-    //background: $lightPrimaryColor;
   }
   ::ng-deep .flag{
     border-radius: 50%;
