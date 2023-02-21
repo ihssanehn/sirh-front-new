@@ -69,9 +69,13 @@ export class PersonalService {
   getPersonalExtraInfo() {
     return this.apiService.get('personal_a/get/info').pipe(map(result => result?.result?.data || []));
   }
-
+  
   export(params, entity) {
-    return this.apiService.post('personal/'+entity+'/export', params, true);
+    let _namespace = 'personal/'
+    if(entity == 'entrances')
+      _namespace = 'personal_a/'
+
+    return this.apiService.post(_namespace +entity+'/export', params, true);
   }
 
   exitPersonal(params: any) {
