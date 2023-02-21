@@ -33,9 +33,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     total: 10,
     pageSize: 10,
   };
-  profiles
-  roles
-
+  profiles = [];
   STEPS = {
     entree: 0,
     periode_essai: 1,
@@ -46,13 +44,12 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   filter = {
     keyword: '',
-    is_virtual: null,
+    // is_virtual: null,
     page: 1,
     per_page: 10,
-    is_blocked: null,
-    to_be_completed: null,
+    // is_blocked: null,
+    // to_be_completed: null,
     profiles: null
-
   }
   loadingData: boolean;
   type;
@@ -72,7 +69,27 @@ export class ListUsersComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router) {
 
-
+    this.route.queryParams.subscribe((params: any) => {
+      console.log('params', params);
+      let profiles;
+      if(params?.profiles){
+        if(Array.isArray(params.profiles)){
+          profiles = params.profiles.map(item => +item);
+        }else{
+          profiles = [+params.profiles];
+        }
+        console.log('profiles', profiles);
+        if(profiles?.length>0){
+          this.filter.profiles = profiles;
+          this.showFilters = true;
+        }
+      }
+      const page = params?.page ? +params.page : 1;
+      const per_page = params?.per_page ? +params.per_page : 10;
+      this.filter = {...this.filter, page, per_page };
+      this.getUsers();
+      console.log('params', this.filter);
+    });
   }
 
   ngOnInit() {
@@ -85,10 +102,10 @@ export class ListUsersComponent implements OnInit, OnDestroy {
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
     try{
-       this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
+       const personnalFilters = await this.listService.getPersonalFilters().toPromise();
        console.log('this.filters', this.personnalFilters);
-       this.profiles = this.personnalFilters.profiles;
-       this.roles = this.personnalFilters.roles;
+       this.profiles = personnalFilters.profiles;
+       // this.roles = this.personnalFilters.roles;
     } catch (e) {
       console.log('error filter PROFIT_CENTER', e);
     }
@@ -113,6 +130,7 @@ export class ListUsersComponent implements OnInit, OnDestroy {
       this.pagination = {...this.pagination, page: result?.data?.current_page, pageSize: result?.data?.per_page, total: result?.data?.total};
       this.filter.page = this.pagination.page;
       this.filter.per_page = this.pagination.pageSize;
+      this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     }, err =>{
       console.log('err getUsers', err);
       this.listItems = [];
@@ -182,17 +200,15 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.filter = Object.assign(this.filter, {
-      is_blocked: null,
-      to_be_completed: null,
+      // is_blocked: null,
+      // to_be_completed: null,
 
-      roles: [],
-      member_ships: [],
+      // roles: [],
       profiles: [],
-      profit_centers: [],
-
+      // profit_centers: [],
     });
-    console.log('resetFilters', this.filter)
-    this.getUsers();
+
+    // this.getUsers();
     // showFilters = !showFilters;
   }
 
@@ -205,11 +221,47 @@ export class ListUsersComponent implements OnInit, OnDestroy {
   }
 
   filterChanged() {
-    this.getUsers();
+
+    console.log('resetFilters', this.filter)
+    // add filters to query params merge
+    this.filter.page = 1;
+    this.filter.per_page = 10;
+    this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
+    // this.getUsers();
   }
 
   onCheckChange($event) {
 
   }
 
+  getRoleLabel(role){
+    switch (role){
+      case 'assistant': {
+        return 'Assistant'
+      }
+      case 'user': {
+        return 'Utilisateur'
+      }
+      case 'business_manager': {
+        return 'Business manager'
+      }
+      case 'gp': {
+        return 'GP'
+      }
+      case 'adv': {
+        return 'ADV'
+      }
+      case 'accounting': {
+        return 'Comptable'
+      }
+      case 'reporting': {
+        return 'Reporting'
+      }
+    }
+  }
+
+  goToEdit(item) {
+    this.router.navigate(['users/new/basic/'+item.id],
+      { queryParams: this.route.snapshot.queryParams });
+  }
 }

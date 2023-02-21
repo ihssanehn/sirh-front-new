@@ -85,11 +85,11 @@
 <!--<div *mobxAutorun>-->
 
 <app-header class=""></app-header>
-    <ng-sidebar-container >
+    <ng-sidebar-container  [ngClass]="{'ng-sidebar__content_no_padding': mainStore.currentHeaderSection?.isFullScreen}">
 
         <ng-sidebar
                 style="height: 100vh"
-                [opened]="mainStore.sidebarOpened && !mainStore.currentHeaderSection.isFullScreen"
+                [opened]="mainStore.sidebarOpened && !mainStore.currentHeaderSection?.isFullScreen"
                 [closeOnClickBackdrop]="true"
                 [dockedSize]="'50px'"
                 [dock]="false"

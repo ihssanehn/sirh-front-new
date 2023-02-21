@@ -200,13 +200,9 @@
     display: none;
   }
   .mat-menu-item{
-    //padding-left: 25px !important;
-    //padding-right: 25px !important;
     font-size: calc(min(12px, 3.8vw));
     opacity: .9;
-    padding: 0;
-    padding-left: 10px;
-    padding-right: 16px;
+    padding: 0px 25px;
     i{
       margin-right: 10px;
       &:before{
@@ -374,4 +370,5 @@
     }
   }
 }
+
 
