@@ -345,6 +345,8 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       scheduled_date:null,
       send_convocation:null
     });
+    this.files = [];
+    if(this.last_vm) this.last_vm.tooltip_msg =null
   }
 
 
