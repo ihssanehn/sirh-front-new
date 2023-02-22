@@ -111,7 +111,7 @@
 
                       </div>
                     </div>
-                    <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'rupture'">
+                    <!-- <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'rupture'">
                       <label class="col-2">{{formLabels.date_sortie}} {{isRequired(formInputs.date_sortie)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
@@ -140,7 +140,7 @@
                           La date de sortie est obligatoire
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="col" *ngIf="formGroup.controls[formInputs.decision].value?.code == 'renouvellement' || formGroup.controls[formInputs.renewal_date].value">
                       <label class="col-2">{{formLabels.renewal_date}} {{isRequired(formInputs.renewal_date)}}</label>
                       <div class="col">
