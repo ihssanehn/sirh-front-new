@@ -584,21 +584,33 @@
                     <td data-title="Sortie" class="tel">{{(item?.renewal_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Sortie" class="tel">{{(item?.end_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Sortie" class="tel">{{(item?.personal?.end_date | dateMessage) || 'N.R'}}</td>
-                    <ng-container *ngFor="let histo of item?.historiques_actions">
-                      <td>
-                        <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
-                          <input type="checkbox"
-                                 class="small-checkbox"
-                                 [disabled]="histo?.checked"
-                                 [ngClass]="{'disabled': histo?.checked}"
-                                 id="with_inactive_cp"
-                                 (change)="markActionAsDone(histo.id, histo.checked)"
-                                 [checked]="histo?.checked"
-                                 [(ngModel)]="histo.checked"
-                                 name="checbox_" >
-                        </div>
-                      </td>
-                  </ng-container>
+                    <td>
+                      <div class="check-box-btn"  [matTooltip]="item._pe_gp?.user ? ('Validé par ' +item._pe_gp?.user?.prenom + ' ' + item._pe_gp?.user?.nom + ' le '+ (item._pe_gp?.done_at | dateMessage)):''">
+                        <input type="checkbox"
+                               class="small-checkbox"
+                               [disabled]="item._pe_gp?.checked"
+                               [ngClass]="{'disabled': item._pe_gp?.checked}"
+                               id="with_inactive_cp"
+                               (change)="markActionAsDone(item._pe_gp.id, item._pe_gp.checked)"
+                               [checked]="item._pe_gp?.checked"
+                               [(ngModel)]="item._pe_gp.checked"
+                               name="checbox_item._pe_gp" >
+                      </div>
+                    </td>
+                    <td>
+                      <div class="check-box-btn"  [matTooltip]="item._bilan_pe?.user ? ('Validé par ' +item._bilan_pe?.user?.prenom + ' ' + item._bilan_pe?.user?.nom + ' le '+ (item._bilan_pe?.done_at | dateMessage)):''">
+                        <input type="checkbox"
+                               class="small-checkbox"
+                               [disabled]="item._bilan_pe?.checked"
+                               [ngClass]="{'disabled': item._bilan_pe?.checked}"
+                               id="with_inactive_cp"
+                               (change)="markActionAsDone(item._bilan_pe.id, item._bilan_pe.checked)"
+                               [checked]="item._bilan_pe?.checked"
+                               [(ngModel)]="item._bilan_pe.checked"
+                               name="checbox_item._bilan_pe" >
+                      </div>
+                    </td>
+                   
                     <td style="padding-right: 0;">
                       <div class="actions">
                         <i class="icon-edit"
