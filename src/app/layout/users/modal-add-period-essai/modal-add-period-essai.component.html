@@ -14,34 +14,30 @@
 
                     <div class="row">
                       <div class="col">
-                        <label class="col-12">{{formMetaData.personal_id.label}}
-                          {{isRequired(formMetaData.personal_id.input)}}</label>
+                        <label class="col-12">{{formMetaData.personal.label}}
+                          {{isRequired(formMetaData.personal.input)}}</label>
                         <div class="col">
                           <ng-select
                             [items]="personals"
                             [bindLabel]="'label'"
-                            [bindValue]="'id'"
                             (open)="getFilterList('personals', listService.list.PERSONAL)"
                             [loading]="loadingSelect[listService.list.PERSONAL]"
                             class="form-control select"
-                            placeholder="{{formMetaData.personal_id.placeholder}}"
-                            [formControl]="formGroup.controls[formMetaData.personal_id.input]"
-                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.personal_id.input].hasError('required')
-                                  && formGroup.controls[formMetaData.personal_id.input].dirty}"
+                            placeholder="{{formMetaData.personal.placeholder}}"
+                            [formControl]="formGroup.controls[formMetaData.personal.input]"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.personal.input].hasError('required')
+                                  && formGroup.controls[formMetaData.personal.input].dirty}"
                             [multiple]="false"
                           >
                           </ng-select>
                           <div class="form-control-feedback"
-                               *ngIf="formGroup.controls[formMetaData.personal_id.input].hasError('required')
-                  && formGroup.controls[formMetaData.personal_id.input].dirty">
+                               *ngIf="formGroup.controls[formMetaData.personal.input].hasError('required')
+                  && formGroup.controls[formMetaData.personal.input].dirty">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {{formMetaData.personal_id.errorRequired}}
+                            {{formMetaData.personal.errorRequired}}
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div class="row">
                       <div class="col">
                         <label class="col-12">{{formMetaData.decision.label}}
                           {{isRequired(formMetaData.decision.input)}}</label>
@@ -65,6 +61,68 @@
                   && formGroup.controls[formMetaData.decision.input].dirty">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             {{formMetaData.decision.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col" *ngIf="formGroup.controls[formMetaData.decision.input].value?.code == 'rupture'">
+                        <label class="col-2">{{formMetaData.motif_id.label}} {{isRequired(formMetaData.motif_id.input)}}</label>
+                        <div class="col">
+
+                          <ng-select
+                            [items]="motifs"
+                            dropdownPosition="'bottom'"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            placeholder="{{formMetaData.motif_id.placeholder}}"
+                            [formControl]="formGroup.controls[formMetaData.motif_id.input]"
+                            (open)="getFilterList('motifs', listService.list.EXIT_MOTIF)"
+                            [loading]="loadingSelect[listService.list.EXIT_MOTIF]"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.motif_id.input].hasError('required')
+                                        && formGroup.controls[formMetaData.motif_id.input].dirty}"
+                            [multiple]="false"
+                          >
+                          </ng-select>
+
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.motif_id.input].hasError('required')
+                                  && formGroup.controls[formMetaData.motif_id.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{formMetaData.motif_id.errorRequired}}
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="col" *ngIf="formGroup.controls[formMetaData.decision.input].value?.code == 'renouvellement' || formGroup.controls[formMetaData.renewal_date.input].value">
+                        <label class="col-2">{{formMetaData.renewal_date.label}} {{isRequired(formMetaData.renewal_date.input)}}</label>
+                        <div class="col">
+                          <div class="date-picker-group">
+                            <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
+                            <input [owlDateTime]="owl_dt3"
+                                   class="form-control input date"
+                                   [owlDateTimeTrigger]="owl_dt3"
+                                   placeholder="{{formMetaData.renewal_date.placeholder}}"
+                                   [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formMetaData.renewal_date.input].hasError('required')
+                                  && formGroup.controls[formMetaData.renewal_date.input].dirty}"
+                                   [formControl]="formGroup.controls[formMetaData.renewal_date.input]"
+                            />
+                            <div class="icons-container">
+                              <i class="icon-close"
+                                 (click)="clearDateInput(formMetaData.renewal_date.input)"
+                                 *ngIf="formGroup.controls[formMetaData.renewal_date.input].value"></i>&nbsp;
+                              <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.renewal_date.input].hasError('required')
+                    && formGroup.controls[formMetaData.renewal_date.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{formMetaData.renewal_date.errorRequired}}
                           </div>
                         </div>
                       </div>
@@ -99,101 +157,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col" *ngIf="formGroup.controls[formMetaData.decision.input].value?.code == 'rupture'">
-                        <label class="col-2">{{formMetaData.motif_id.label}} {{isRequired(formMetaData.motif_id.input)}}</label>
-                        <div class="col">
-
-                          <ng-select
-                            [items]="motifs"
-                            dropdownPosition="'bottom'"
-                            [bindLabel]="'label'"
-                            [bindValue]="'id'"
-                            class="form-control select"
-                            placeholder="{{formMetaData.motif_id.placeholder}}"
-                            [formControl]="formGroup.controls[formMetaData.motif_id.input]"
-                            (open)="getFilterList('motifs', listService.list.EXIT_MOTIF)"
-                            [loading]="loadingSelect[listService.list.EXIT_MOTIF]"
-                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.motif_id.input].hasError('required')
-                                        && formGroup.controls[formMetaData.motif_id.input].dirty}"
-                            [multiple]="false"
-                          >
-                          </ng-select>
-
-                          <div class="form-control-feedback"
-                               *ngIf="formGroup.controls[formMetaData.motif_id.input].hasError('required')
-                                  && formGroup.controls[formMetaData.motif_id.input].dirty">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {{formMetaData.motif_id.errorRequired}}
-                          </div>
-
-                        </div>
-                      </div>
-                      <div class="col" *ngIf="formGroup.controls[formMetaData.decision.input].value?.code == 'rupture'">
-                        <label class="col-2">{{formMetaData.date_sortie.label}} {{isRequired(formMetaData.date_sortie.input)}}</label>
-                        <div class="col">
-                          <div class="date-picker-group">
-                            <owl-date-time #owl_dt2 [pickerType]="'calendar'" ></owl-date-time>
-                            <input [owlDateTime]="owl_dt2"
-                                   class="form-control input date"
-                                   [owlDateTimeTrigger]="owl_dt2"
-                                   placeholder="{{formMetaData.date_sortie.placeholder}}"
-                                   [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formMetaData.date_sortie.input].hasError('required')
-                                  && formGroup.controls[formMetaData.date_sortie.input].dirty}"
-                                   [formControl]="formGroup.controls[formMetaData.date_sortie.input]"
-                            />
-                            <div class="icons-container">
-                              <i class="icon-close"
-                                 (click)="clearDateInput(formMetaData.date_sortie.input)"
-                                 *ngIf="formGroup.controls[formMetaData.date_sortie.input].value"></i>&nbsp;
-                              <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
-                            </div>
-                          </div>
-
-                          <div class="form-control-feedback"
-                               *ngIf="formGroup.controls[formMetaData.date_sortie.input].hasError('required')
-                    && formGroup.controls[formMetaData.date_sortie.input].dirty">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {{formMetaData.date_sortie.errorRequired}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col" *ngIf="formGroup.controls[formMetaData.decision.input].value?.code == 'renouvellement' || formGroup.controls[formMetaData.renewal_date.input].value">
-                        <label class="col-2">{{formMetaData.renewal_date.label}} {{isRequired(formMetaData.renewal_date.input)}}</label>
-                        <div class="col">
-                          <div class="date-picker-group">
-                            <owl-date-time #owl_dt3 [pickerType]="'calendar'" ></owl-date-time>
-                            <input [owlDateTime]="owl_dt3"
-                                   class="form-control input date"
-                                   [owlDateTimeTrigger]="owl_dt3"
-                                   placeholder="{{formMetaData.renewal_date.placeholder}}"
-                                   [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formMetaData.renewal_date.input].hasError('required')
-                                  && formGroup.controls[formMetaData.renewal_date.input].dirty}"
-                                   [formControl]="formGroup.controls[formMetaData.renewal_date.input]"
-                            />
-                            <div class="icons-container">
-                              <i class="icon-close"
-                                 (click)="clearDateInput(formMetaData.renewal_date.input)"
-                                 *ngIf="formGroup.controls[formMetaData.renewal_date.input].value"></i>&nbsp;
-                              <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
-                            </div>
-                          </div>
-
-                          <div class="form-control-feedback"
-                               *ngIf="formGroup.controls[formMetaData.renewal_date.input].hasError('required')
-                    && formGroup.controls[formMetaData.renewal_date.input].dirty">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            {{formMetaData.renewal_date.errorRequired}}
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col"></div>
-                    </div>
-
 
                     <div class="justify-content-center submit-block">
                       <app-button

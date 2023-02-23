@@ -31,9 +31,9 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
   formGroup: FormGroup;
 
   formMetaData = {
-    personal_id: {
-      input: 'personal_id',
-      label: 'Personnel',
+    personal: {
+      input: 'personal',
+      label: 'Salarié',
       placeholder: 'Selectionner le personnel',
       errorRequired: 'Le personnel est obligatoire'
     },
@@ -89,6 +89,7 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
     if(this.formGroup){
         this.formGroup.patchValue({
         ...val,
+        date_fin_period_essai:val.end_date
       });
     }
     this.getFilterList('personals', this.listService.list.PERSONAL);
@@ -105,7 +106,7 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
   ) {
     this.formGroup = this.formBuilder.group({
       id: [null],
-      personal_id: [null],
+      personal: [null],
       decision: [null],
       date_entree: [null],
       date_sortie: [null],
@@ -138,7 +139,14 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
     }else{
       try{
         this.loadingSelect[list_name] = true;
-        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+        const _result = await this.listService.getAll(list_name, list_param).toPromise();
+        if(items === 'motifs'){
+          this[items] =  _result.filter(motif => {
+              return motif.code.includes('fin_pe');
+          });
+        }
+        else
+          this[items] = _result
 
       } catch (e) {
         console.log('error filter', e);
@@ -158,13 +166,13 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
     console.log(this.formGroup.getRawValue())
     if(code != 'renouvellement')
       return;
-    const {personal_id, date_fin_period_essai} = this.formGroup.getRawValue();
-    if(!personal_id  || !date_fin_period_essai){
+    const {personal, date_fin_period_essai} = this.formGroup.getRawValue();
+    if(!personal  || !date_fin_period_essai){
       return;
     }
     try {
       const params = {
-        personal_id,
+        personal_id:personal.id,
         end_date: formatDateForBackend(this.current_pe?.end_date)
       }
       const res = await this.personalService.getTrialPeriodRenewCalculation(params).toPromise();
@@ -195,6 +203,7 @@ export class ModalAddPeriodEssaiComponent implements OnInit {
     dates.forEach(date => {
       saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
     });
+    saveData.personal_id = saveData.personal.id;
 
     let res = null;
     try {
