@@ -287,8 +287,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     }else{ // add state
       saveData['document_files'] = this.files;
     }
-
-    const fd = paramsToFormData(saveData, ['document_files'], null);
+    const fd = paramsToFormData(saveData, ['document_files'], ['scheduled_date']);
 
 
     // this.submitvm.emit(saveData);
@@ -346,6 +345,8 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       scheduled_date:null,
       send_convocation:null
     });
+    this.files = [];
+    if(this.last_vm) this.last_vm.tooltip_msg =null
   }
 
 

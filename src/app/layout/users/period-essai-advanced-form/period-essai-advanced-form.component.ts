@@ -112,19 +112,41 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
 
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
-      personal_id: [null],
+      personal_id: [null, Validators.compose([Validators.required])],
       statut_salarie: [null],
-      decision: [null],
+      decision: [null, Validators.compose([Validators.required])],
       date_entree: [null],
       date_sortie: [null],
       renewal_date: [null],
-      date_fin_period_essai: [null],
+      date_fin_period_essai: [null, Validators.compose([Validators.required])],
       histos: new FormArray([]),
       id:[null],
       motif_id:[null]
     });
 
     this.modalService.dismissAll();
+
+      //test nja
+        this.formGroup.get('decision').valueChanges.subscribe(val => {
+
+          // en cas de rupture: motif required
+          if (val.code === 'rupture') {
+            this.formGroup.controls['motif_id'].setValidators([Validators.required]);
+          } else {
+            this.formGroup.controls['motif_id'].clearValidators();
+          }
+
+          // en cas de renouvellement: date renouvellement required
+          if (val.code === 'renouvellement') {
+            this.formGroup.controls['renewal_date'].setValidators([Validators.required]);
+          } else {
+            this.formGroup.controls['renewal_date'].clearValidators();
+          }
+
+
+          this.formGroup.controls['motif_id'].updateValueAndValidity();
+        });
+      //test nja
   }
 
   mockupData(){
@@ -270,6 +292,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
     markFormAsDirty(this.formGroup);
     if(!this.formGroup.valid ){
       this.error = 'Des éléments bloquants nécessitent votre attention';
+      console.log(this.formGroup)
       getFormValidationErrors(this.formGroup);
       return;
     }
@@ -280,7 +303,7 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
       }
     });
     
-    const dates = ['renewal_date', 'date_fin_period_essai', 'date_sortie'];
+    const dates = ['renewal_date', 'date_fin_period_essai'];
     const saveData = {
       ...this.formGroup.value
     }
@@ -301,6 +324,8 @@ export class PeriodEssaiAdvancedFormComponent implements OnInit, AfterViewInit {
       this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Période d\'essai modifiée avec succès'});
     }
   }
+
+
 
   clearDateInput(input: string) {
     this.formGroup.patchValue({
