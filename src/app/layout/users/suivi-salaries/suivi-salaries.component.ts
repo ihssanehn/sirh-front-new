@@ -316,6 +316,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
   getListElements(){
+    this.listItems = [];
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
       type: this.type,
