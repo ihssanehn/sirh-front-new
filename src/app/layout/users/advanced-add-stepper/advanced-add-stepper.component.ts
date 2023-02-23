@@ -92,7 +92,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
           case '3':
               _queryParams['with_vm'] =true
               break;
-          case '4': 
+          case '4':
               _queryParams['with_sortie'] =true
               break;
         }
@@ -148,7 +148,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
         { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
-  
+
 
   // async submitEntree($event: any) {
   //   try{
@@ -211,6 +211,13 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   //     this.submittingEntree = false;
   //   }
   // }
+
+  goback() {
+    this.location.back();
+    // this.router.navigate(['/users/suivi'],
+    //   { queryParams: this.activatedRoute.snapshot.queryParams }
+    // );
+  }
 
 }
 

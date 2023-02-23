@@ -85,19 +85,6 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     is_blocked: null,
     to_be_completed: null,
 
-    roles: [],
-    member_ships: [],
-    profiles: [],
-    profit_centers: [],
-
-
-    business_lines: [],
-    op_directions: [],
-    business_units: [],
-    departments: [],
-    facturation_stats: [],
-    stats_to_complete: [],
-    matricule_stats: [],
     user_stats: null,
     personals: [],
 
@@ -191,7 +178,39 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.resetFilters()
       this.getListElements();
       this.getAction();
+    });
 
+    this.route.queryParams.subscribe((params: any) => {
+      console.log('params', params);
+      const filters = ['entities', 'sieges', 'contrats', 'status', 'actions_valid', 'actions_to_valid'];
+      filters.forEach(filter => {
+        if(params[filter]){
+          if(Array.isArray(params[filter])){
+            this.filter[filter] = params[filter].map(item => +item);
+        }else{
+            this.filter[filter] = [+params[filter]];}
+        }
+        if(this.filter[filter]?.length>0){
+          this.showFilters = true;
+        }
+      });
+      if(params?.profiles){
+        // if(Array.isArray(params.profiles)){
+        //   profiles = params.profiles.map(item => +item);
+        // }else{
+        //   profiles = [+params.profiles];
+        // }
+        // if(profiles?.length>0){
+        //   this.filter.profiles = profiles;
+        //   this.showFilters = true;
+        // }
+      }
+      const page = params?.page ? +params.page : 1;
+      const limit = params?.limit ? +params.limit : 10;
+      this.filter = {...this.filter, page, limit };
+
+      this.getListElements();
+      console.log('params', this.filter);
     });
 
   }
@@ -398,6 +417,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.router.navigate(['users/new/'+user.type_account], {queryParams: {step: 0, user_id: user.id}});
     }
   }
+
   ngOnDestroy() {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
   }
@@ -466,9 +486,16 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     this.getListElements();
   }
 
+
   filterChanged() {
+    console.log('resetFilters', this.filter)
+    // add filters to query params merge
+    this.filter.page = 1;
+    this.filter.limit = 10;
+    this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     this.getListElements();
   }
+
 
   onCheckChange($event) {
     localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
@@ -635,4 +662,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
 
+  goToDetails(route: string, queryParams = {}) {
+    this.router.navigate([route], { queryParams: {...queryParams, ...this.filter}, queryParamsHandling: 'merge' });
+  }
 }

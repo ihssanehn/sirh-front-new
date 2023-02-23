@@ -1,13 +1,18 @@
-<p class="head-title"> 
+
+<div (click)="goback()" class="link" style="margin-bottom: 20px;">
+  <i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Retour vers la liste
+</div>
+
+<p class="head-title">
   {{user?.civility}} {{user?.label}}
 </p>
 
 <div class="row col-10 offset-1 mb-3 mt-3 head-info" *ngIf="user">
   <br>
-  
+
   <div class="col">
-    En {{user?.contrat?.label || 'N.R'}} depuis le {{ (user?.entry_date | dateMessage) || 'N.R'}} 
-    <br>{{user?.status?.label || 'N.R'}} chez {{user?.entity?.label || 'N.R'}} 
+    En {{user?.contrat?.label || 'N.R'}} depuis le {{ (user?.entry_date | dateMessage) || 'N.R'}}
+    <br>{{user?.status?.label || 'N.R'}} chez {{user?.entity?.label || 'N.R'}}
   </div>
   <div class="col">
     Matricule: {{user?.registration_number || 'N.R'}}
@@ -19,7 +24,7 @@
     <br>
     <span *ngIf="user?.is_externe">Externe</span>
     <span *ngIf="!user?.is_externe">Interne</span>
-     
+
   </div>
 
 
