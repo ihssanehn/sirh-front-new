@@ -17,10 +17,13 @@ import {
   ModalAddVisiteMedicalComponent
 } from "@layout/users/modal-add-visite-medical/modal-add-visite-medical.component";
 import {PersonalService} from "@services/personal.service";
-import {formatDateForBackend} from "@shared/Utils/SharedClasses";
+import {formatDateForBackend, getFormValidationErrors, markFormAsDirty} from "@shared/Utils/SharedClasses";
 import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 import { saveAs } from 'file-saver';
 import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-files/modal-documentrh-files.component";
+import {ModalAddPeriodEssaiComponent} from "@layout/users/modal-add-period-essai/modal-add-period-essai.component";
+import {isMoment} from "moment";
+import * as moment from "moment/moment";
 
 
 @Component({
@@ -222,8 +225,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.sieges = await this.listService.getAll('siege_type').toPromise();
       this.contrats = await this.listService.getAll('contrat_type').toPromise();
       this.status = await this.listService.getAll('status','PERSONAL').toPromise();
-
-
+      this.decisions = await this.listService.getAll('status','decision_trail_period').toPromise();
 
 
     } catch (e) {
@@ -324,7 +326,9 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         params[key] = this.filter[key];
       }
     })
-    this.loadingData = true;
+    if(!(this.listItems?.length > 0)){
+      this.loadingData = true;
+    }
     this.searchSubscription = this.userService.getUsers(params).subscribe((result) => {
       this.listItems = result.data.data;
       this.pagination = { ...this.pagination, total: result?.data?.total };
@@ -348,6 +352,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         break;
       }
       case 'period_essai': {
+        dynamicModal = ModalAddPeriodEssaiComponent;
         break;
       }
       case 'entree': {
@@ -613,4 +618,20 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.title = 'Télécharger les documents';
     }
   }
+
+  async updatePE(item: any, attrToUpdate: string) {
+    try {
+      const params = {
+        id: item.id,
+        [attrToUpdate]: item[attrToUpdate]
+      }
+      const res = await this.personalService.createOrUpdateTrialPeriod(params).toPromise();
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Période d\'essai modifiée avec succès'});
+      this.getListElements();
+    }catch (e) {
+      this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de la modification de la période d\'essai'});
+    }
+  }
+
+
 }

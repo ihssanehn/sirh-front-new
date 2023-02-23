@@ -1,0 +1,26 @@
+@import '../users.styles';
+
+
+.top-container{
+  overflow: hidden;
+  form{
+    overflow: auto;
+    height: 100%;
+    padding-bottom: 120px !important;
+    max-width: unset;
+  }
+}
+
+.head-info{
+  margin-bottom: 0 !important;
+}
+
+.bold-label{
+  font-weight: 500;
+}
+
+.form-column{
+  padding-bottom: 0 !important;
+}
+
+

@@ -436,10 +436,10 @@
                 <thead>
                  <tr>
                    <th>
+                     Salarié
+                   </th>
+                   <th>
                      Matricule
-                    </th>
-                    <th>
-                      Salarié
                     </th>
                    <th>
                      Centre de profit
@@ -450,18 +450,12 @@
                   <th>
                     Date entrée
                   </th>
-                  <!-- <th>
-                    Ancienneté
-                  </th> -->
                   <th>
                     Décision
                   </th>
                   <th>
                     Date de fin de renouvellement
                   </th>
-                  <!-- <th>
-                    Suivi evolution période d'essai
-                  </th> -->
                   <th>
                     Date fin période essai
                   </th>
@@ -471,18 +465,14 @@
                   <th *ngFor="let action of _allActions">
                     {{action.label}}
                   </th>
-                  <!-- <th>
-                    Courrier P.E signé
-                  </th>
-                   <th>
-                    Réception bilan PE
-                  </th> -->
+                   <th style="text-align: right">
+                     Actions
+                   </th>
                  </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of listItems"  >
-                    <td data-title="Numéro de registration" >{{item?.personal?.registration_number}}</td>
-                      <ng-template #infopopover>
+                    <ng-template #infopopover>
                       <div class="title">
                         {{item?.personal?.nom}} {{item?.personal?.prenom}}
                         <span class="light-text" *ngIf="item?.personal?.registration_number">({{item?.personal?.registration_number}})</span>
@@ -582,10 +572,15 @@
                         >{{item?.personal?.nom}} {{item?.personal?.prenom}} </div>
                       </div>
                     </td>
+                    <td data-title="Numéro de registration" >{{item?.personal?.registration_number}}</td>
                     <td data-title="Centre de profit" class="tel">{{ item?.entrance?.manager?.full_name || 'of perso ::'+ item?.personal?.manager?.full_name}}</td>
                     <td data-title="Rôle" >{{item?.entrance?.status?.label || 'of perso::'+item?.personal?.status?.label || 'status_personal'}}</td>
                     <td data-title="Entrée" class="tel">{{ (item?.entrance?.entry_date | dateMessage)  ||(item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
-                    <td data-title="Numéro de registration" >{{item?.decision?.label || 'En attente' }}</td>
+                    <td data-title="Numéro de registration" >
+                      <div class="pointer" (click)="item.update_decision_state">
+                        {{item?.decision?.label || 'En attente' }}
+                      </div>
+                    </td>
                     <td data-title="Sortie" class="tel">{{(item?.renewal_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Sortie" class="tel">{{(item?.end_date | dateMessage) || 'N.R'}}</td>
                     <td data-title="Sortie" class="tel">{{(item?.personal?.end_date | dateMessage) || 'N.R'}}</td>
@@ -604,6 +599,15 @@
                         </div>
                       </td>
                   </ng-container>
+                    <td style="padding-right: 0;">
+                      <div class="actions">
+                        <i class="icon-edit"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           (click)="openEditModal('period_essai', item)"
+                           title="Modifier"></i>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
