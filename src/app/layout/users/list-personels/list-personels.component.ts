@@ -16,6 +16,7 @@ import {ModalAddVisiteMedicalComponent} from "@layout/users/modal-add-visite-med
 import {User} from "@app/core/entities";
 import {PersonalService} from "@services/personal.service";
 import {Personal} from "@entities/personal.entity";
+import {ProfileAdvancedFormComponent} from "@layout/users/profile-advanced-form/profile-advanced-form.component";
 
 
 @Component({
@@ -113,20 +114,22 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      type: this.type,
-      limit: this.filter.per_page
+      limit: this.filter.per_page,
+      page: this.filter.page
     }
-    Object.keys(this.filter).forEach(key => {
-      if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
-        params[key] = this.filter[key];
-      }
-    })
-    this.loadingData = true;
-    this.searchSubscription = this.personelService.getAllPersonals().subscribe((result) => {
+    // Object.keys(this.filter).forEach(key => {
+    //   if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
+    //     params[key] = this.filter[key];
+    //   }
+    // })
+    if(!(this.listItems?.length > 0)){
+      this.loadingData = true;
+    }
+    this.searchSubscription = this.personelService.getAllPersonalsAnnex(params).subscribe((result) => {
       console.log('result', result);
       this.listItems = result.data;
       console.log('this.listItems', this.listItems);
-      this.pagination = {...this.pagination, page: result?.data?.current_page, pageSize: result?.data?.per_page, total: result?.data?.total};
+      this.pagination = {...this.pagination, page: result?.current_page, pageSize: result?.per_page, total: result?.total};
       this.filter.page = this.pagination.page;
       this.filter.per_page = this.pagination.pageSize;
       this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
@@ -140,40 +143,11 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
 
   }
 
-  openEditModal(type, item = null){
+  openEditModal(item = null){
     if(this.modalService.hasOpenModals()){
       return;
     }
-    let dynamicModal = null;
-    switch (type){
-      case 'general': {
-        break;
-      }
-      case 'period_essai': {
-        break;
-      }
-      case 'entree': {
-        dynamicModal = ModalAddEntreeComponent;
-        break;
-      }
-      case 'sortie': {
-        dynamicModal = ModalAddSortieComponent;
-        break;
-      }
-      case 'entretien': {
-        dynamicModal = ModalAddEntretienComponent;
-        break;
-      }
-      case 'formation': {
-        // dynamicModal = ModalAddFormationComponent;
-        break;
-      }
-      case 'visite_medicale': {
-        dynamicModal = ModalAddVisiteMedicalComponent;
-        break;
-      }
-    }
-    const modalRef = this.modalService.open(dynamicModal, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    const modalRef = this.modalService.open(ProfileAdvancedFormComponent, { size: 'sm' , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
       this.getUsers();
@@ -181,7 +155,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
       console.log('closed');
     });
     if(item){
-      modalRef.componentInstance.data = item;
+      modalRef.componentInstance.personal = item;
     }
   }
 
@@ -216,6 +190,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
     this.pagination = { ...this.pagination, per_page: this.pagination.pageSize, total: this.pagination.total };
     this.filter.page = this.pagination.page;
     this.filter.per_page = this.pagination.pageSize;
+    console.log('changePagination', this.filter);
     this.getUsers();
   }
 

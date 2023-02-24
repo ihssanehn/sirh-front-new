@@ -3,13 +3,9 @@
 
 .top-container{
   overflow: hidden;
-  .main-container{
-    //padding: 0;
-  }
   form{
     overflow: auto;
     height: 100%;
-    padding-bottom: 120px !important;
     max-width: unset;
   }
 }

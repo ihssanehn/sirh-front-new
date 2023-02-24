@@ -103,7 +103,7 @@ export class PersonalService {
     return this.apiService.post('personal_a/update',params);
   }
 
-  getAllPersonals() {
-    return this.apiService.get('personal_a/all').pipe(map(result => result?.result?.data || []));
+  getAllPersonalsAnnex(params) {
+    return this.apiService.get('personal_a/all', params).pipe(map(result => result?.result?.data || []));
   }
 }

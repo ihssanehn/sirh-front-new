@@ -1,6 +1,7 @@
 <div class="container top-container">
   <div class="header centered">
     <h1 class="main-title center">Modification des informations personnelles</h1>
+    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
   </div>
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
@@ -37,7 +38,7 @@
                           </ng-select>
                            <div class="form-control-feedback"
                                *ngIf="formGroup.controls[formInputs.civility].hasError('required')
-                        && formGroup.controls[formInputs.civility].dirty"> 
+                        && formGroup.controls[formInputs.civility].dirty">
                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                             La civilité est obligatoire
                           </div>
@@ -137,7 +138,7 @@
                                     [multiple]="false"
                                 >
                             </ng-select>
-                          
+
                             <div class="form-control-feedback"
                                  *ngIf="formGroup.controls[formInputs.contrat].hasError('required')
                       && formGroup.controls[formInputs.contrat].dirty">
@@ -198,7 +199,7 @@
                           </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col">
                             <label class="col-12">{{formLabels.entity}}
@@ -248,7 +249,7 @@
                             </div>
                           </div>
                       </div>
-                       
+
                     </div>
                     <div class="row">
                       <div class="col-6">
@@ -265,7 +266,7 @@
                                           id="{{formLabels.is_externe}}"
                                           [formControl]="formGroup.controls[formInputs.is_externe]"
                                           name="check_"/>
-                              
+
                             </div>
 
                             <div class="check-box-btn">
@@ -278,17 +279,17 @@
                                         id="{{formLabels.is_active}}"
                                         [formControl]="formGroup.controls[formInputs.is_active]"
                                         name="check_"/>
-                            
+
                           </div>
                           </div>
 
-                      
-        
+
+
                       </div>
                       </div>
                     </div>
 
-                   
+
 
                     <div class="row">
                       <div class="btn-div">
@@ -305,15 +306,15 @@
                       </app-button>
                       </div>
                     </div>
-  
+
                   </div>
                 </div>
               </div>
-  
-  
+
+
             </div>
         </form>
-      
+
       </div>
     </ng-template>
   </ng-container>

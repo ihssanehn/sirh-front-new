@@ -5,6 +5,7 @@ import { PersonalService } from '@app/core/services/personal.service';
 import { MessageService } from 'primeng/api';
 import { SharedClasses, markFormAsDirty } from '@app/shared/Utils/SharedClasses';
 import {User} from "@app/core/entities";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-profile-advanced-form',
@@ -22,7 +23,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
   managers = [];
   @Input() submitting: boolean;
   @Output() onUpdatePersonal: EventEmitter<any> = new EventEmitter();
-  
+
   @Input()
   public set personal(val: User) {
     if(val){
@@ -72,7 +73,8 @@ export class ProfileAdvancedFormComponent implements OnInit {
       private formBuilder: FormBuilder,
       private listService: ListsService,
       private personalService: PersonalService,
-      private messageService:MessageService
+      private messageService:MessageService,
+      public modal: NgbActiveModal
 ) {
 
     this.formGroup = this.formBuilder.group({
@@ -146,6 +148,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
           this.submittingUpdate = false;
           this.messageService.add({severity:'success', summary: 'Succès',   detail: val.result.message, sticky: false});
         }
+        this.modal.close('success');
 
       }).catch( err => {
         const errors = [];
