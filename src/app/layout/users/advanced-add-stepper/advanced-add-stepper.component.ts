@@ -63,7 +63,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
       const user_id = Number(params.user_id);
       console.log('params', params);
       if(this.myStepper){
-        if([0, 1, 2, 3, 4].includes(step)){
+        if([0, 1, 2, 3, 4, 5].includes(step)){
           console.log('moved', step);
           // this.myStepper.selectedIndex = step;
           if(this.myStepper.selectedIndex < step){
@@ -84,19 +84,19 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
         let _queryParams = {id:user_id};
       console.log('params step ====', params.step);
         switch(params.step){
-          case '0':
+          case '1':
             _queryParams['with_entrance'] =true
             break;
-          case '1':
+          case '2':
               _queryParams['with_pe'] =true
               break;
-          case '2':
+          case '3':
               _queryParams['with_entretiens'] =true
               break;
-          case '3':
+          case '4':
               _queryParams['with_vm'] =true
               break;
-          case '4':
+          case '5': 
               _queryParams['with_sortie'] =true
               break;
         }
@@ -113,15 +113,15 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
 
   getStepLabelById(step_id: number){
     switch (step_id){
-      case 0:
-        return 'entree';
       case 1:
-        return 'periode_essai';
+        return 'entree';
       case 2:
-        return 'entretien';
+        return 'periode_essai';
       case 3:
-        return 'visite_medicale';
+        return 'entretien';
       case 4:
+        return 'visite_medicale';
+      case 5:
         return 'sortie';
       default: return '';
     }
@@ -170,6 +170,10 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   }
 
 
+  
+  onUpdatePersonal($event: any) {
+    this.user = $event;
+  }
   // async submitEntree($event: any) {
   //   try{
   //     this.submittingEntree = true;

@@ -33,6 +33,17 @@
 <mat-stepper  #stepper  (selectionChange)="selectionChange($event)">
   <!-- change default 'edit' icon -->
   <ng-template #stepperIcon>
+    <i class="icon-user"></i>
+  </ng-template>
+  <mat-step label="Profil">
+     <app-profile-advanced-form
+        *ngIf="user"
+        [personal]="user"
+        (onUpdatePersonal)="onUpdatePersonal($event)"
+     ></app-profile-advanced-form>
+  </mat-step>
+
+  <ng-template #stepperIcon>
     <i class="icon-entree"></i>
   </ng-template>
   <mat-step label="Entrée">
@@ -42,6 +53,7 @@
         [entrance]="user.last_entrance"
      ></app-entre-advanced-form>
   </mat-step>
+
   <ng-template #stepperIcon>
     <i class="icon-period-essai"></i>
   </ng-template>

@@ -63,7 +63,7 @@ export class PersonalService {
   }
 
   getPreavisCalculation(params) {
-    return this.apiService.post('personal/exit/calculate-preavis', params).pipe(map(result => result?.result?.data || []));;
+    return this.apiService.post('personal/exit/calculate-preavis', params).pipe(map(result => result?.result?.data || []));
   }
 
   getPersonalExtraInfo() {
@@ -83,11 +83,11 @@ export class PersonalService {
   }
 
   getTrialPeriodRenewCalculation(params) {
-    return this.apiService.post('personal/personal_trial_period/calculate-renewal', params).pipe(map(result => result?.result?.data || []));;
+    return this.apiService.post('personal/personal_trial_period/calculate-renewal', params).pipe(map(result => result?.result?.data || []));
   }
 
   createOrUpdateTrialPeriod(params) {
-    return this.apiService.post('personal/personal_trial_period/update', params).pipe(map(result => result?.result?.data || []));;
+    return this.apiService.post('personal/personal_trial_period/update', params).pipe(map(result => result?.result?.data || []));
   }
 
 
@@ -97,6 +97,10 @@ export class PersonalService {
 
   getDetailed(params){
     return this.apiService.post('personal_a/get',params);
+  }
+
+  update(params){
+    return this.apiService.post('personal_a/update',params);
   }
 
   getAllPersonals() {

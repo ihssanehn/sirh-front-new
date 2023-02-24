@@ -54,6 +54,7 @@ import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-f
 import {ListUsersComponent} from "@layout/users/list-users/list-users.component";
 import {ModalAddPeriodEssaiComponent} from "@layout/users/modal-add-period-essai/modal-add-period-essai.component";
 import {ListPersonelsComponent} from "@layout/users/list-personels/list-personels.component";
+import { ProfileAdvancedFormComponent } from './profile-advanced-form/profile-advanced-form.component';
 
 
 @NgModule({
@@ -109,6 +110,8 @@ import {ListPersonelsComponent} from "@layout/users/list-personels/list-personel
     ModalAddVisiteMedicalComponent,
     UserBasicFormComponent,
     ListUsersComponent,
+    ModalAddPeriodEssaiComponent,
+    ProfileAdvancedFormComponent,
     ModalAddPeriodEssaiComponent,
     ListPersonelsComponent
   ],

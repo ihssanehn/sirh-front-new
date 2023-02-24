@@ -2,15 +2,7 @@
        #uploadMoreFiles
        multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 <div class="container top-container">
-  <div class="header">
-    <div class="btns left-btns">
-      <app-button
-        [text]="'Annuler'"
-        [type]="'secondary_2'"
-        [routerLink]="['/users']"
-        [isDisabled]="submitting"
-      ></app-button>
-    </div>
+  <div class="header centered">
     <h1 class="main-title">
       <span *ngIf="!formGroup.controls.id.value">
         Ajouter un entretien
@@ -19,22 +11,6 @@
         Modification de l'entretien prévu le {{ (formGroup.controls[formInputs.theoretical_date].value) | dateMessage}}
       </span>
     </h1>
-    <div class="btns right-btns">
-      <app-button
-        [text]="'Précédent'"
-        [type]="'primary_inverse'"
-        [iconLeft]="'icon-arrow-left'"
-        (onClick)="move(-1)"
-        [isDisabled]="submitting"
-      ></app-button>&nbsp;&nbsp;
-      <app-button
-        [text]="'Suivant'"
-        [type]="'primary'"
-        [iconRight]="'icon-arrow-right'"
-        (onClick)="move(1)"
-        [isLoading]="submitting"
-      ></app-button>
-    </div>
   </div>
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
