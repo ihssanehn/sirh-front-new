@@ -184,7 +184,8 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
           this.type = 'general';
         }
       }
-
+      this.filter.page =1;
+      this.pagination.page =1;
       this.getListElements();
       this.getAction();
     });
