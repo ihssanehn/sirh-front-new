@@ -23,48 +23,87 @@
           (onClick)="getUsers()"
           [customStyle]="{'white-space': 'nowrap'}"
         ></app-button>&nbsp;
-<!--        <app-button-->
-<!--          [text]="'Recherche avancé'"-->
-<!--          [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"-->
-<!--          [type]="'tertiary'"-->
-<!--          (onClick)="showFilters = !showFilters; resetFilters()"-->
-<!--          [customStyle]="{'white-space': 'nowrap'}"-->
-<!--        ></app-button>-->
+        <app-button
+          [text]="'Recherche avancé'"
+          [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"
+          [type]="'tertiary'"
+          (onClick)="showFilters = !showFilters; resetFilters()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
       </div>
 <!--      <div class="right-buttons">-->
-<!--&lt;!&ndash;        <app-button&ndash;&gt;-->
-<!--&lt;!&ndash;          [text]="'Ajouter un utilisateur'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [type]="'primary'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [iconRight]="'icon-add'"&ndash;&gt;-->
-<!--&lt;!&ndash;          [routerLink]="['/users/new/basic']"&ndash;&gt;-->
-<!--&lt;!&ndash;          [customStyle]="{'white-space': 'nowrap'}"&ndash;&gt;-->
-<!--&lt;!&ndash;        ></app-button>&ndash;&gt;-->
+<!--        <app-button-->
+<!--          [text]="'Ajouter un utilisateur'"-->
+<!--          [type]="'primary'"-->
+<!--          [iconRight]="'icon-add'"-->
+<!--          (onClick)="openEditModal()"-->
+<!--          [customStyle]="{'white-space': 'nowrap'}"-->
+<!--        ></app-button>-->
 <!--      </div>-->
     </div>
   <div class="filter-container" *ngIf="showFilters">
     <h3 class="filter-tilte-bloc ">
       <span>Recherche avancée</span>
       <span class="reset-filters" (click)="resetFilters()">
-          <i class="icon-close"></i>&nbsp;
-          Réinitialiser les filtres
-        </span>
+            <i class="icon-close"></i>&nbsp;
+            Réinitialiser les filtres
+          </span>
     </h3>
     <div class="filtres row ">
       <div class="flex-column col-12 col-sm-6 col-lg-3  ">
-        <label>Type de profil</label>
+        <label>Entité</label>
         <div>
           <ng-select class="select form-control"
                      [multiple]="true"
-                     [items]="profiles"
+                     [items]="entities"
                      (change)="filterChanged()"
-                     [(ngModel)]="filter.profiles"
+                     [(ngModel)]="filter.entities"
+                     dropdownPosition="bottom"
                      [bindLabel]="'label'"
                      [bindValue]="'id'"
-                     [placeholder]="'Filtrer par profils'" ></ng-select>
+                     [placeholder]="'Filtrer par entité PIMAN'" ></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Siège</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="sieges"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.sieges"
+                     [placeholder]="'Filtrer le siège'" ></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Contrat</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="contrats"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.contrats"
+                     [placeholder]="'Filtrer contrat'"></ng-select>
+        </div>
+      </div>
+      <div class=" flex-column  col-12 col-sm-6 col-lg-3 ">
+        <label>Statut</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="status"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.status"
+                     [placeholder]="'Filtrer par statut'"></ng-select>
         </div>
       </div>
     </div>
-
   </div>
     <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
       <h2 class="main-title">
@@ -77,23 +116,26 @@
         <table class="table-responsive card-list-table">
             <thead>
               <tr>
+                <th>Matricule</th>
                 <th>
                   Nom
                 </th>
-                <th>Matricule</th>
                 <th>Contrat</th>
                 <th>Statut</th>
                 <th>Date d'entrée</th>
                 <th>Entité</th>
                 <th>Siège</th>
                 <th>Centre de profit</th>
-                <th>Actif ?</th>
                 <th>Externe</th>
+                <th>Actif ?</th>
                 <th style="text-align: right;">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of listItems" class="table-item" >
+                <td data-title="Matricule">
+                  {{item?.registration_number}}
+                </td>
                 <td data-title="Nom" >
                   <div class="photo-cell pointer">
                     <div class="photo">
@@ -110,9 +152,6 @@
                       {{item?.label || 'N.R'}}
                     </div>
                   </div>
-                </td>
-                <td data-title="Matricule">
-                  {{item?.registration_number}}
                 </td>
                 <td data-title="Contrat">
                   {{item?.contrat?.label || 'N.R'}}
@@ -132,11 +171,11 @@
                 <td data-title="Centre de profit">
                   {{item?.manager?.full_name || 'N.R'}}
                 </td>
-                <td data-tile="Actif" [ngClass]="{'text-success': item?.is_active, 'text-danger': !item?.is_active}">
-                  {{item?.is_active ? 'Oui' : 'Non'}}
-                </td>
                 <td data-tile="Actif">
                   {{item?.is_externe ? 'Oui' : 'Non'}}
+                </td>
+                <td data-tile="Actif" [ngClass]="{'text-success': item?.is_active, 'text-danger': !item?.is_active}">
+                  {{item?.is_active ? 'Oui' : 'Non'}}
                 </td>
                 <td data-title="Action" style="text-align: right;">
                   <div class="actions">

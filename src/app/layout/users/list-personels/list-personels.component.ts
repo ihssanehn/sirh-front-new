@@ -17,6 +17,7 @@ import {User} from "@app/core/entities";
 import {PersonalService} from "@services/personal.service";
 import {Personal} from "@entities/personal.entity";
 import {ProfileAdvancedFormComponent} from "@layout/users/profile-advanced-form/profile-advanced-form.component";
+import {formatDateForBackend} from "@shared/Utils/SharedClasses";
 
 
 @Component({
@@ -48,8 +49,12 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   filter = {
     keyword: '',
     page: 1,
-    per_page: 10,
-    profiles: null
+    limit: 10,
+
+    entities:[],
+    sieges:[],
+    contrats:[],
+    status:[]
   }
   loadingData: boolean;
   type;
@@ -58,39 +63,48 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   actions;
   model_type;
   _allActions;
+
   id_entite = null;
+  entities = [];
+  sieges = [];
+  contrats = [];
+  status = [];
+  loadingSelect = {};
 
   constructor(
               private personelService: PersonalService,
+              private userService: UserService,
               private translate: TranslateService,
               private modalService: NgbModal,
               private messageService: MessageService,
               public mainStore: MainStore,
-              private listService: ListsService,
+              public listService: ListsService,
               private route: ActivatedRoute,
               private router: Router) {
 
     this.route.queryParams.subscribe((params: any) => {
       console.log('params', params);
-      let profiles;
-      if(params?.profiles){
-        if(Array.isArray(params.profiles)){
-          profiles = params.profiles.map(item => +item);
-        }else{
-          profiles = [+params.profiles];
+      const filters = Object.keys(this.filter).filter(item => !['keyword', 'page', 'limit'].includes(item));
+      filters.forEach(filter => {
+        if(params[filter]){
+          if(Array.isArray(params[filter])){
+            this.filter[filter] = params[filter].map(item => +item); // Filers arrays
+          }else{
+              this.filter[filter] = [+params[filter]]; // Filers ids
+          }
         }
-        console.log('profiles', profiles);
-        if(profiles?.length>0){
-          this.filter.profiles = profiles;
+        if(this.filter[filter]?.length>0){
           this.showFilters = true;
         }
-      }
+      });
       const page = params?.page ? +params.page : 1;
-      const per_page = params?.per_page ? +params.per_page : 10;
-      this.filter = {...this.filter, page, per_page };
+      const limit = params?.limit ? +params.limit : 10;
+      this.filter = {...this.filter, page, limit };
+
       this.getUsers();
       console.log('params', this.filter);
     });
+
   }
 
   ngOnInit() {
@@ -98,30 +112,46 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
     this.getFilters();
   }
 
-
   async getFilters(){
-    this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
     try{
-       const personnalFilters = await this.listService.getPersonalFilters().toPromise();
-       console.log('this.filters', this.personnalFilters);
-       this.profiles = personnalFilters.profiles;
+      this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
+      this.entities = await this.listService.getAll('entity').toPromise();
+      this.sieges = await this.listService.getAll('siege_type').toPromise();
+      this.contrats = await this.listService.getAll('contrat_type').toPromise();
+      this.status = await this.listService.getAll('status','PERSONAL').toPromise();
     } catch (e) {
       console.log('error filter PROFIT_CENTER', e);
     }
   }
 
+  async getFilterList(items, list_name, list_param?){
+
+    try{
+      this.loadingSelect[list_name] = true;
+      let result =  await this.listService.getAll(list_name, list_param).toPromise();
+      if(list_param == 'decision_trail_period')
+        result.unshift({id:null,label:'En attente'})
+      this[items] = result;
+
+    } catch (e) {
+      console.log('error filter', e);
+    } finally {
+      this.loadingSelect[list_name] = false;
+    }
+
+  }
+
   getUsers(){
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
     const params = {
-      limit: this.filter.per_page,
+      limit: this.filter.limit,
       page: this.filter.page
     }
-    // Object.keys(this.filter).forEach(key => {
-    //   if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
-    //     params[key] = this.filter[key];
-    //   }
-    // })
+    Object.keys(this.filter).forEach(key => {
+      if(this.filter[key] !== null && this.filter[key] !== [] && (Array.isArray(this.filter[key]) ? this.filter[key].length > 0 : true)){
+        params[key] = this.filter[key];
+      }
+    })
     if(!(this.listItems?.length > 0)){
       this.loadingData = true;
     }
@@ -129,9 +159,9 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
       console.log('result', result);
       this.listItems = result.data;
       console.log('this.listItems', this.listItems);
-      this.pagination = {...this.pagination, page: result?.current_page, pageSize: result?.per_page, total: result?.total};
+      this.pagination = {...this.pagination, page: result?.current_page, pageSize: result?.limit, total: result?.total};
       this.filter.page = this.pagination.page;
-      this.filter.per_page = this.pagination.pageSize;
+      this.filter.limit = this.pagination.pageSize;
       this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     }, err =>{
       console.log('err getUsers', err);
@@ -173,39 +203,32 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
 
   resetFilters() {
     this.filter = Object.assign(this.filter, {
-      // is_blocked: null,
-      // to_be_completed: null,
-
-      // roles: [],
-      profiles: [],
-      // profit_centers: [],
+      entities:[],
+      sieges:[],
+      contrats:[],
+      status:[]
     });
-
-    // this.getUsers();
+    console.log('resetFilters', this.filter)
+    this.filterChanged();
     // showFilters = !showFilters;
   }
 
 
   changePagination() {
-    this.pagination = { ...this.pagination, per_page: this.pagination.pageSize, total: this.pagination.total };
+    this.pagination = { ...this.pagination, limit: this.pagination.pageSize, total: this.pagination.total };
     this.filter.page = this.pagination.page;
-    this.filter.per_page = this.pagination.pageSize;
+    this.filter.limit = this.pagination.pageSize;
     console.log('changePagination', this.filter);
     this.getUsers();
   }
 
   filterChanged() {
-
-    console.log('resetFilters', this.filter)
+    console.log('filterChanged', this.filter)
     // add filters to query params merge
-    this.filter.page = 1;
-    this.filter.per_page = 10;
+    this.filter.page = this.filter.page || 1;
+    this.filter.limit = this.filter.limit || 10;
     this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
-    // this.getUsers();
-  }
-
-  onCheckChange($event) {
-
+    this.getUsers();
   }
 
   getRoleLabel(role){
@@ -239,7 +262,4 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
       { queryParams: this.route.snapshot.queryParams });
   }
 
-  goToDetails(s: string, param2: { user_id: any; step: number }) {
-
-  }
 }

@@ -101,8 +101,6 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     centre: null,
     startDate: null,
     endDate: null,
-
-
   }
   loadingData: boolean;
   type;
@@ -135,60 +133,6 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
               public listService: ListsService,
               private route: ActivatedRoute,
               private router: Router) {
-
-    this.route.params.subscribe(params => {
-      console.log('params', params);
-      const {type} = params;
-      switch (type){
-        case 'general': {
-          this.type = 'general';
-          this.sectionName = 'Salariés'
-          break;
-        }
-        case 'period_essai': {
-          this.type = 'period_essai';
-          this.model_type ='trial_period';
-          this.sectionName = 'Suivi salariés - Périodes d\'essais'
-          break;
-        }
-        case 'entree': {
-          this.type = 'entree';
-          this.sectionName = 'Suivi salariés - Entrées'
-          this.model_type ='entrance';
-          break;
-        }
-        case 'sortie': {
-          this.type = 'sortie';
-          this.sectionName = 'Suivi salariés - Sorties'
-          this.model_type ='sortie';
-          break;
-        }
-        case 'entretien': {
-          this.type = 'entretien';
-          this.model_type =null;
-          this.sectionName = 'Suivi salariés - Entretiens'
-          break;
-        }
-        case 'formation': {
-          this.type = 'formation';
-          this.sectionName = 'Suivi salariés - Formations'
-          break;
-        }
-        case 'visite_medicale': {
-          this.type = 'visite_medicale';
-          this.model_type ='medical_visit';
-          this.sectionName = 'Suivi salariés - Visites médicales'
-          break;
-        }
-        default: {
-          this.type = 'general';
-        }
-      }
-      this.filter.page =1;
-      this.pagination.page =1;
-      this.getListElements();
-      this.getAction();
-    });
 
     this.route.queryParams.subscribe((params: any) => {
       console.log('params', params);
@@ -227,8 +171,6 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
 
 
   async getFilters(){
-    const id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
-
     try{
       this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
       console.log('this.filters', this.personnalFilters);
