@@ -70,11 +70,12 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   entretien_types=[];
 
   STEPS = {
-    entree: 0,
-    periode_essai: 1,
-    entretien: 2,
-    visite_medicale: 3,
-    sortie: 4,
+    personal:0,
+    entree: 1,
+    periode_essai: 2,
+    entretien: 3,
+    visite_medicale: 4,
+    sortie: 5,
   }
 
   filter = {

@@ -113,15 +113,15 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
 
   getStepLabelById(step_id: number){
     switch (step_id){
-      case 0:
-        return 'entree';
       case 1:
-        return 'periode_essai';
+        return 'entree';
       case 2:
-        return 'entretien';
+        return 'periode_essai';
       case 3:
-        return 'visite_medicale';
+        return 'entretien';
       case 4:
+        return 'visite_medicale';
+      case 5:
         return 'sortie';
       default: return '';
     }
