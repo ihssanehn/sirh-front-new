@@ -1,0 +1,168 @@
+<div class="list container top-container">
+    <div class="sub-header">
+      <h1 class="main-title">
+       Personnel
+      </h1>
+
+      <div class="search d-flex">
+        <div class="input-group">
+          <input type="text"
+                 class="form-control input"
+                 placeholder="Rechercher un utilisateur"
+                 (input)="getUsers()"
+                 aria-describedby="basic-addon2"
+                 [(ngModel)]="filter.keyword"/>
+          <div class="input-group-append" id="basic-addon2">
+            <i class="icon-search"></i>
+          </div>
+        </div>&nbsp;
+        <app-button
+          [text]="'Rechercher'"
+          [type]="'primary_light'"
+          [iconLeft]="'icon-search'"
+          (onClick)="getUsers()"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>&nbsp;
+<!--        <app-button-->
+<!--          [text]="'Recherche avancé'"-->
+<!--          [iconRight]="showFilters ? 'icon-arrow-up': 'icon-arrow-down'"-->
+<!--          [type]="'tertiary'"-->
+<!--          (onClick)="showFilters = !showFilters; resetFilters()"-->
+<!--          [customStyle]="{'white-space': 'nowrap'}"-->
+<!--        ></app-button>-->
+      </div>
+      <div class="right-buttons">
+        <app-button
+          [text]="'Ajouter un utilisateur'"
+          [type]="'primary'"
+          [iconRight]="'icon-add'"
+          [routerLink]="['/users/new/basic']"
+          [customStyle]="{'white-space': 'nowrap'}"
+        ></app-button>
+      </div>
+    </div>
+  <div class="filter-container" *ngIf="showFilters">
+    <h3 class="filter-tilte-bloc ">
+      <span>Recherche avancée</span>
+      <span class="reset-filters" (click)="resetFilters()">
+          <i class="icon-close"></i>&nbsp;
+          Réinitialiser les filtres
+        </span>
+    </h3>
+    <div class="filtres row ">
+      <div class="flex-column col-12 col-sm-6 col-lg-3  ">
+        <label>Type de profil</label>
+        <div>
+          <ng-select class="select form-control"
+                     [multiple]="true"
+                     [items]="profiles"
+                     (change)="filterChanged()"
+                     [(ngModel)]="filter.profiles"
+                     [bindLabel]="'label'"
+                     [bindValue]="'id'"
+                     [placeholder]="'Filtrer par profils'" ></ng-select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+    <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
+      <h2 class="main-title">
+        Résultats de recherche
+      </h2>
+    </div>
+  <ng-container *ngIf="!loadingData; else loadingTemplate">
+    <div class="wrap" *ngIf="listItems?.length>0; else emptyState" >
+      <div class="table-wrapper">
+        <table class="table-responsive card-list-table">
+            <thead>
+              <tr>
+                <th>
+                  Nom
+                </th>
+                <th>Matricule</th>
+                <th>Contrat</th>
+                <th>Statut</th>
+                <th>Date d'entrée</th>
+                <th>Entité</th>
+                <th>Siège</th>
+                <th>Centre de profit</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listItems" class="table-item" (click)="goToEdit(item)">
+                <td data-title="Nom" >
+                  <div class="photo-cell pointer">
+                    <div class="photo">
+                      <div class="img-container">
+                        <img
+                          [src]="('assets/images/'+(item?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                        />
+                      </div>
+                    </div>
+                    <div class="name"
+                         (click)="goToDetails('/users/details', {user_id: item?.id, step: STEPS.sortie})"
+                    >
+                      {{item?.civility}}
+                      {{item?.label || 'N.R'}}
+                    </div>
+                  </div>
+                </td>
+                <td data-title="Matricule">
+                  {{item?.registration_number}}
+                </td>
+                <td data-title="Contrat">
+                  {{item?.contrat?.label || 'N.R'}}
+                </td>
+                <td data-title="Statut">
+                  {{item?.status?.label || 'N.R'}}
+                </td>
+                <td data-title="Date d'entrée">
+                  {{(item?.entry_date | dateMessage) || 'N.R'}}
+                </td>
+                <td data-title="Entité">
+                  {{item?.entity?.label || 'N.R'}}
+                </td>
+                <td data-title="Siège">
+                  {{item?.siege?.label || 'N.R'}}
+                </td>
+                <td data-title="Centre de profit">
+                  {{item?.manager?.full_name || 'N.R'}}
+                </td>
+                <td data-title="Action" style="text-align: right;">
+                  <div class="actions">
+                    <i class="icon-edit-bold"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       [routerLink]="['/users/new/simple?user_id='+item?.id+'&step=0']"
+                       title="Modifier"></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="footer" >
+      <app-pagination name="pagination"
+                      (change)="changePagination()"
+                      [(ngModel)]="pagination"
+                      ngDefaultControl>
+      </app-pagination>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #emptyState>
+  <app-centred-message
+    [image]="'images/user_empty_state.svg'"
+    [message]="( 'Aucun élément trouvé pour le moment' | translate )"
+  ></app-centred-message>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex w-100 h-100 align-items-center justify-content-center">
+    <img src="assets/images/loading.svg" style="height: 100px;" />
+  </div>
+</ng-template>

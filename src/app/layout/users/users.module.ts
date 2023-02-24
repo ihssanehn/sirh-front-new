@@ -53,6 +53,7 @@ import {DpDatePickerModule} from "ng2-date-picker";
 import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-form.component";
 import {ListUsersComponent} from "@layout/users/list-users/list-users.component";
 import {ModalAddPeriodEssaiComponent} from "@layout/users/modal-add-period-essai/modal-add-period-essai.component";
+import {ListPersonelsComponent} from "@layout/users/list-personels/list-personels.component";
 import { ProfileAdvancedFormComponent } from './profile-advanced-form/profile-advanced-form.component';
 
 
@@ -110,7 +111,9 @@ import { ProfileAdvancedFormComponent } from './profile-advanced-form/profile-ad
     UserBasicFormComponent,
     ListUsersComponent,
     ModalAddPeriodEssaiComponent,
-    ProfileAdvancedFormComponent
+    ProfileAdvancedFormComponent,
+    ModalAddPeriodEssaiComponent,
+    ListPersonelsComponent
   ],
   entryComponents: [
     ModalPerimetreUsersComponent,

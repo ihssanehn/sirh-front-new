@@ -1,0 +1,186 @@
+@import "../users.styles";
+
+.top-container{
+  overflow: inherit !important;
+  height: unset !important;
+  padding-bottom: 20px;
+  padding-left: 2%;
+  padding-right: 2%;
+  .sub-header {
+    margin-bottom: 30px;
+  }
+}
+.filter-container{
+  background: white;
+  border-radius: 5px;
+  //border: 1px solid lightgray;
+  //width: 100%;
+  //display: flex;
+  margin: 15px 0;
+  padding: 10px 10px;
+  .filter-tilte-bloc{
+    font-size: 16px;
+    margin: 11px 0 15px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-left: 0;
+    .reset-filters{
+      font-size: 12px;
+      color: $mainColor;
+      cursor: pointer;
+    }
+  }
+  .filtres{
+    display: flex;
+    margin: 15px 0;
+    //label{
+    //  font-size: 13px;
+    //  font-weight: 300;
+    //  margin-bottom: 5px;
+    //  opacity: .8;
+    //}
+    .block-check{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .btn-group-toggle{
+        input{
+          max-width: 80%;
+          display: none;
+        }
+        label{
+          margin-bottom: 0;
+        }
+      }
+      @media (max-width: 1024px){
+        input{
+          max-width: unset;
+        }
+      }
+      .btn-group-toggle{
+        border: 1px solid $lightgray;
+        border-radius: 10px;
+        font-size: 12px;
+        .btn-primary{
+          background-color: $mainColor;
+        }
+      }
+    }
+  }
+  .input-group{
+    .form-control{
+       width: unset !important;
+    }
+  }
+  //ng-select{
+  //  ::ng-deep .ng-select-container{
+  //    min-height: 35px;
+  //  }
+  //}
+}
+
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 15px;
+  .right-buttons{
+    margin: 0;
+  }
+}
+
+.tel{
+  white-space: nowrap;
+}
+
+.icon-cell{
+  width: 70px;
+}
+
+.wrap{
+  justify-content: flex-start !important;
+  overflow: visible;
+  .table-wrapper{
+    overflow: visible;
+  }
+}
+
+.wrap table {
+  table-layout: auto !important;
+}
+
+.wrap th, .myclass td, .wrap thead th, .wrap tbody td, .wrap tfoot td, .wrap tfoot th {
+  width: auto !important;
+}
+
+table{
+
+  thead{
+    th{
+      font-size: 12px!important;
+      vertical-align: bottom;
+      min-width: 120px;
+    }
+  }
+  &.table_entree{
+    thead{
+      th{
+        &.th-btn{
+          background-color: $primaryColor;
+          cursor: pointer;
+          i{
+            &::before{color:white!important}
+          }
+        }
+      }
+    }
+  }
+  tbody{
+    td{
+      font-size: 12px;
+      padding-right: 7px;
+      padding-top: 10px;
+      padding-bottom: 5px;
+      color: #4D4D4D;
+      opacity: .9;
+      min-height: 45px;
+    }
+    .name{
+      font-size: 11px !important;
+    }
+    .capitalize{
+      text-transform: capitalize;
+    }
+  }
+  .sticky{
+    position:sticky;
+  }
+  .small-checkbox {
+    border-color: #9b9797 !important;
+  }
+}
+
+.check-box-btn{
+  padding: 0 !important;
+}
+
+.name{
+  font-weight: 600;
+}
+
+.category-cell{
+  background: $lighterPrimaryColor;
+  color: $primaryColor !important;
+  text-align: center;
+  padding: 0 !important;
+  border-radius: 8px 8px 0 0;
+}
+
+::ng-deep .small-table{
+  margin-bottom: 10px;
+  td{
+    border: 0 !important;
+  }
+}

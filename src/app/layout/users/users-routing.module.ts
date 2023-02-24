@@ -10,13 +10,14 @@ import {EntiteGuard} from "@app/core/guards/entite-guard.service";
 import {AdvancedAddStepperComponent} from "@layout/users/advanced-add-stepper/advanced-add-stepper.component";
 import {UserBasicFormComponent} from "@layout/users/user-basic-form/user-basic-form.component";
 import {ListUsersComponent} from "@layout/users/list-users/list-users.component";
+import {ListPersonelsComponent} from "@layout/users/list-personels/list-personels.component";
 
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'list'
+    redirectTo: 'suivi'
   },
   {
     path: 'suivi',
@@ -24,7 +25,11 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'entree'
+        redirectTo: 'personnel'
+      },
+      {
+        path: 'personnel',
+        component: ListPersonelsComponent,
       },
       {
         path: ':type',
