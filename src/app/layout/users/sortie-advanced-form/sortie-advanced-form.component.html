@@ -3,32 +3,8 @@
        multiple (change)="uploadFile($event); uploadMoreFiles.value = ''"/>
 
 <div class="container top-container">
-  <div class="header">
-    <div class="btns left-btns">
-      <app-button
-        [text]="'Annuler'"
-        [type]="'secondary_2'"
-        [routerLink]="['/users']"
-        [isDisabled]="submitting"
-      ></app-button>
-    </div>
+  <div class="header centered">
     <h1 class="main-title">Sortie</h1>
-    <div class="btns right-btns">
-      <app-button
-        [text]="'Précédent'"
-        [type]="'primary_inverse'"
-        [iconLeft]="'icon-arrow-left'"
-        (onClick)="move(-1)"
-        [isDisabled]="submitting"
-      ></app-button>&nbsp;&nbsp;
-      <app-button
-        [text]="'Suivant'"
-        [type]="'primary'"
-        [iconRight]="'icon-arrow-right'"
-        (onClick)="save()"
-        [isLoading]="submitting"
-      ></app-button>
-    </div>
   </div>
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
