@@ -67,7 +67,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   actions_to_valid=[];
   loadingSelect = {};
   decisions=[];
-
+  entretien_types=[];
 
   STEPS = {
     entree: 0,
@@ -93,7 +93,15 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     contrats:[],
     status:[],
     actions_valid:[],
-    actions_to_valid:[]
+    actions_to_valid:[],
+    types:[],
+    decisions: [],
+
+    centre: null,
+    startDate: null,
+    endDate: null,
+
+
   }
   loadingData: boolean;
   type;
@@ -182,7 +190,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.subscribe((params: any) => {
       console.log('params', params);
-      const filters = ['entities', 'sieges', 'contrats', 'status', 'actions_valid', 'actions_to_valid'];
+      const filters = Object.keys(this.filter).filter(item => !['keyword', 'page', 'limit'].includes(item));
       filters.forEach(filter => {
         if(params[filter]){
           if(Array.isArray(params[filter])){
@@ -451,7 +459,10 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       actions_to_valid:[],
       decisions:[],
       centre:null,
-      types:[]
+      types:[],
+
+      startDate: null,
+      endDate: null,
     });
     console.log('resetFilters', this.filter)
     this.getListElements();
