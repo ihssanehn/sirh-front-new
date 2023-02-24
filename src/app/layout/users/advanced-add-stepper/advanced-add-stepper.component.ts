@@ -30,6 +30,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   submittingPerimeters: boolean;
   submittingParameters: boolean;
   submittingAccess: boolean;
+  cameFrom: string;
   constructor(
     private formBuilder: FormBuilder,
     private errorService: ErrorService,
@@ -56,6 +57,9 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     this.myStepper.selectedIndex = 0;
     this.activatedRoute?.queryParams?.subscribe(async params => {
       const step = Number(params.step);
+      if(this.cameFrom == null){
+        this.cameFrom = this.getStepLabelById(step);
+      }
       const user_id = Number(params.user_id);
       console.log('params', params);
       if(this.myStepper){
@@ -107,6 +111,22 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
     })
   }
 
+  getStepLabelById(step_id: number){
+    switch (step_id){
+      case 0:
+        return 'entree';
+      case 1:
+        return 'periode_essai';
+      case 2:
+        return 'entretien';
+      case 3:
+        return 'visite_medicale';
+      case 4:
+        return 'sortie';
+      default: return '';
+    }
+  }
+
   async getUser(params){
     console.log('here get user')
     try{
@@ -148,7 +168,7 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
         { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge'});
     }
   }
-  
+
 
   
   onUpdatePersonal($event: any) {
@@ -215,6 +235,16 @@ export class AdvancedAddStepperComponent implements OnInit, AfterViewInit {
   //     this.submittingEntree = false;
   //   }
   // }
+
+  goback() {
+    console.log('cameFrom', this.cameFrom);
+    // return;
+    // this.location.back();
+    // this.router.navigate(['/users/suivi'],
+    //   { queryParams: this.activatedRoute.snapshot.queryParams }
+    // );
+    this.router.navigate(['/users/suivi/'+this.cameFrom],  { queryParams: this.activatedRoute.snapshot.queryParams });
+  }
 
 }
 

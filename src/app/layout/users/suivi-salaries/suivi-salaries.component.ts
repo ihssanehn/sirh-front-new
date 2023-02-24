@@ -67,7 +67,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   actions_to_valid=[];
   loadingSelect = {};
   decisions=[];
-
+  entretien_types=[];
 
   STEPS = {
     entree: 0,
@@ -85,19 +85,6 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     is_blocked: null,
     to_be_completed: null,
 
-    roles: [],
-    member_ships: [],
-    profiles: [],
-    profit_centers: [],
-
-
-    business_lines: [],
-    op_directions: [],
-    business_units: [],
-    departments: [],
-    facturation_stats: [],
-    stats_to_complete: [],
-    matricule_stats: [],
     user_stats: null,
     personals: [],
 
@@ -106,7 +93,15 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     contrats:[],
     status:[],
     actions_valid:[],
-    actions_to_valid:[]
+    actions_to_valid:[],
+    types:[],
+    decisions: [],
+
+    centre: null,
+    startDate: null,
+    endDate: null,
+
+
   }
   loadingData: boolean;
   type;
@@ -188,10 +183,37 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
           this.type = 'general';
         }
       }
-      this.resetFilters()
+
       this.getListElements();
       this.getAction();
+    });
 
+    this.route.queryParams.subscribe((params: any) => {
+      console.log('params', params);
+      const filters = Object.keys(this.filter).filter(item => !['keyword', 'page', 'limit'].includes(item));
+      const filtersDates = ['startDate', 'endDate'];
+      filters.forEach(filter => {
+        if(params[filter]){
+          if(Array.isArray(params[filter])){
+            this.filter[filter] = params[filter].map(item => +item); // Filers arrays
+          }else{
+            if(filtersDates.includes(filter)){
+              this.filter[filter] = params[filter]; // Filers dates
+            }else{
+              this.filter[filter] = [+params[filter]]; // Filers ids
+            }
+          }
+        }
+        if(this.filter[filter]?.length>0){
+          this.showFilters = true;
+        }
+      });
+      const page = params?.page ? +params.page : 1;
+      const limit = params?.limit ? +params.limit : 10;
+      this.filter = {...this.filter, page, limit };
+
+      this.getListElements();
+      console.log('params', this.filter);
     });
 
   }
@@ -398,6 +420,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.router.navigate(['users/new/'+user.type_account], {queryParams: {step: 0, user_id: user.id}});
     }
   }
+
   ngOnDestroy() {
     if(this.searchSubscription){ this.searchSubscription.unsubscribe(); }
   }
@@ -431,10 +454,13 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       actions_to_valid:[],
       decisions:[],
       centre:null,
-      types:[]
+      types:[],
+
+      startDate: null,
+      endDate: null,
     });
     console.log('resetFilters', this.filter)
-    this.getListElements();
+    this.filterChanged();
     // showFilters = !showFilters;
   }
 
@@ -466,9 +492,18 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     this.getListElements();
   }
 
+
   filterChanged() {
+    console.log('filterChanged', this.filter)
+    // add filters to query params merge
+    this.filter.page = this.filter.page || 1;
+    this.filter.limit = this.filter.limit || 10;
+    this.filter.startDate = this.filter.startDate ? formatDateForBackend(this.filter.startDate) : null;
+    this.filter.endDate = this.filter.endDate ? formatDateForBackend(this.filter.endDate): null;
+    this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     this.getListElements();
   }
+
 
   onCheckChange($event) {
     localStorage.setItem("columns_"+this.model_type, JSON.stringify(this.columns_entree));
@@ -635,4 +670,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   }
 
 
+  goToDetails(route: string, queryParams = {}) {
+    this.router.navigate([route], { queryParams: {...queryParams, ...this.filter}, queryParamsHandling: 'merge' });
+  }
 }
