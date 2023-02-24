@@ -159,7 +159,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
       console.log('result', result);
       this.listItems = result.data;
       console.log('this.listItems', this.listItems);
-      this.pagination = {...this.pagination, page: result?.current_page, pageSize: result?.limit, total: result?.total};
+      this.pagination = {...this.pagination, page: result?.current_page, pageSize: result?.per_page, total: result?.total};
       this.filter.page = this.pagination.page;
       this.filter.limit = this.pagination.pageSize;
       this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });

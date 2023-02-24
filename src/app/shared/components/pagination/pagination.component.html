@@ -13,7 +13,7 @@
     <span class="separtor">
 
       {{ (pagination.page -1) * pagination.pageSize + 1 }}-{{ (pagination.page * pagination.pageSize)
-    < pagination.total ? (pagination.page * pagination.pageSize) : pagination.total }} de {{pagination.total}} </span>
+    < pagination.total ? (pagination.page * pagination.pageSize) : pagination.total }} sur {{pagination.total}} au total </span>
 
     <div class="right separtor">
             <span class="pagination-previous" [class.disabled]="isFirstPage()">

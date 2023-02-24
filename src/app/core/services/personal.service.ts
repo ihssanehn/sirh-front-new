@@ -104,6 +104,6 @@ export class PersonalService {
   }
 
   getAllPersonalsAnnex(params) {
-    return this.apiService.get('personal_a/all', params).pipe(map(result => result?.result?.data || []));
+    return this.apiService.post('personal_a/all', params).pipe(map(result => result?.result?.data || []));
   }
 }

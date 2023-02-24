@@ -118,16 +118,16 @@
               <tr>
                 <th>Matricule</th>
                 <th>
-                  Nom
+                  Salarié
                 </th>
-                <th>Contrat</th>
-                <th>Statut</th>
                 <th>Date d'entrée</th>
                 <th>Entité</th>
+                <th>Statut</th>
+                <th>Contrat</th>
                 <th>Siège</th>
                 <th>Centre de profit</th>
                 <th>Externe</th>
-                <th>Actif ?</th>
+                <th>Actif</th>
                 <th style="text-align: right;">Action</th>
               </tr>
             </thead>
@@ -153,17 +153,17 @@
                     </div>
                   </div>
                 </td>
-                <td data-title="Contrat">
-                  {{item?.contrat?.label || 'N.R'}}
-                </td>
-                <td data-title="Statut">
-                  {{item?.status?.label || 'N.R'}}
-                </td>
                 <td data-title="Date d'entrée">
                   {{(item?.entry_date | dateMessage) || 'N.R'}}
                 </td>
                 <td data-title="Entité">
                   {{item?.entity?.label || 'N.R'}}
+                </td>
+                <td data-title="Statut">
+                  {{item?.status?.label || 'N.R'}}
+                </td>
+                <td data-title="Contrat">
+                  {{item?.contrat?.label || 'N.R'}}
                 </td>
                 <td data-title="Siège">
                   {{item?.siege?.label || 'N.R'}}
@@ -171,10 +171,10 @@
                 <td data-title="Centre de profit">
                   {{item?.manager?.full_name || 'N.R'}}
                 </td>
-                <td data-tile="Actif">
+                <td data-title="Externe">
                   {{item?.is_externe ? 'Oui' : 'Non'}}
                 </td>
-                <td data-tile="Actif" [ngClass]="{'text-success': item?.is_active, 'text-danger': !item?.is_active}">
+                <td data-title="Actif" [ngClass]="{'text-success': item?.is_active, 'text-danger': !item?.is_active}">
                   {{item?.is_active ? 'Oui' : 'Non'}}
                 </td>
                 <td data-title="Action" style="text-align: right;">
