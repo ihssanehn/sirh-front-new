@@ -69,7 +69,7 @@ export class PersonalService {
   getPersonalExtraInfo() {
     return this.apiService.get('personal_a/get/info').pipe(map(result => result?.result?.data || []));
   }
-  
+
   export(params, entity) {
     let _namespace = 'personal/'
     if(entity == 'entrances')
@@ -90,12 +90,16 @@ export class PersonalService {
     return this.apiService.post('personal/personal_trial_period/update', params).pipe(map(result => result?.result?.data || []));;
   }
 
- 
+
   downloadDocument(params) {
     return this.apiService.get(`personal/getAttachment`, params, true);
   }
 
   getDetailed(params){
     return this.apiService.post('personal_a/get',params);
+  }
+
+  getAllPersonals() {
+    return this.apiService.get('personal_a/all').pipe(map(result => result?.result?.data || []));
   }
 }

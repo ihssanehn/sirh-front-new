@@ -200,14 +200,14 @@ export const $sidebarItems_users: Array<SidebarItem> = [
       // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
       opened: false,
       subMenu: [
-        // {
-        //   id: 2,
-        //   name: 'Liste Général',
-        //   type: 'link',
-        //   icon: null,
-        //   link: 'users/list/general',
-        //   opened: false,
-        // },
+        {
+          id: 2,
+          name: 'List personnel',
+          type: 'link',
+          icon: null,
+          link: 'users/suivi/personnel',
+          opened: false,
+        },
         {
           id: 2,
           name: 'Entrée',
@@ -885,7 +885,7 @@ export const $headerItems = [
   {
     id: 1,
     name: 'Suivi salariés',
-    link: '/users/suivi/entree',
+    link: '/users/suivi',
     // onlyFor: [$userRoles.SUPERADMIN, $userRoles.MANAGER, $userRoles.USER],
     opened: false,
     display: true
