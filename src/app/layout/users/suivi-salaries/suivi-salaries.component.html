@@ -38,6 +38,13 @@
             [iconRight]="'icon-add'"
             (onClick)="openEditModal(type)"
             [customStyle]="{'white-space': 'nowrap'}"
+          ></app-button>&nbsp;
+          <app-button
+            [text]="'Exporter'"
+            [type]="'tertiary_inverse'"
+            [iconLeft]="'icon-file'"
+            [customStyle]="{'white-space': 'nowrap'}"
+            (onClick)="export()"
           ></app-button>
         </div>
       </div>
@@ -116,10 +123,11 @@
                        [owlDateTimeTrigger]="owl_dt1"
                        placeholder="Choisir la date de début"
                        [(ngModel)]="filter.startDate"
+                       (dateTimeChange)="filterChanged()"
                 />
                 <div class="icons-container">
                   <i class="icon-close"
-                     (click)="filter.startDate = null"
+                     (click)="filter.startDate = null; filterChanged()"
                      *ngIf="filter.startDate"></i>&nbsp;
                   <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
                 </div>
@@ -133,10 +141,11 @@
                        [owlDateTimeTrigger]="owl_dt2"
                        placeholder="Choisir la date de fin"
                        [(ngModel)]="filter.endDate"
+                       (dateTimeChange)="filterChanged()"
                 />
                 <div class="icons-container">
                   <i class="icon-close"
-                     (click)="filter.endDate = null"
+                     (click)="filter.endDate = null; filterChanged()"
                      *ngIf="filter.endDate"></i>&nbsp;
                   <i [owlDateTimeTrigger]="owl_dt2" class="fa fa-calendar"></i>
                 </div>
@@ -271,50 +280,8 @@
           </div>
         </div>
       </div>
-      <!-- <div class="filtres row">
-        <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
-          <label class="">Etat de l'utilisateur</label>
-          <div class="btn-group btn-group-toggle"
-               ngbRadioGroup name="radioBasic"
-               (change)="filterChanged()"
-               [(ngModel)]="filter.user_stats">
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.user_stats === true}">
-              <input ngbButton type="radio" [value]="true"> Actif
-            </label>
-            <label ngbButtonLabel class="btn-primary"
-                   [ngClass]="{'btn-primary': filter.user_stats === null}">
-              <input ngbButton type="radio" [value]="null"> Tous
-            </label>
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.user_stats === false}">
-              <input ngbButton type="radio" [value]="false"> Inactif
-            </label>
-          </div>
-        </div>
-        <div class="flex-column  col-12 col-sm-6 col-lg-3  block-check ">
-          <label class="">Utilisateur virtuel</label>
-          <div class="btn-group btn-group-toggle"
-               ngbRadioGroup name="radioBasic"
-               (change)="filterChanged()"
-               [(ngModel)]="filter.is_virtual">
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.is_virtual === true}">
-              <input ngbButton type="radio" [value]="true"> Oui
-            </label>
-            <label ngbButtonLabel class="btn-primary"
-                   [ngClass]="{'btn-primary': filter.is_virtual === null}">
-              <input ngbButton type="radio" [value]="null"> Tous
-            </label>
-            <label ngbButtonLabel
-                   [ngClass]="{'btn-primary': filter.is_virtual === false}">
-              <input ngbButton type="radio" [value]="false"> Non
-            </label>
-          </div>
-        </div>
-      </div> -->
     </div>
-      <div class="sub-header" *ngIf="showFilters || keyword?.length>0">
+      <div class="sub-header d-flex align-items-center justify-content-between" *ngIf="showFilters || keyword?.length>0">
         <h2 class="main-title">
           Résultats de recherche
         </h2>
@@ -1590,27 +1557,11 @@
         </div>
       </div>
       <div class="footer" *ngIf="listItems?.length>0">
-
         <app-pagination name="pagination"
                         (change)="changePagination()"
                         [(ngModel)]="pagination"
                         ngDefaultControl>
         </app-pagination>
-        <div class="right-buttons flex-end">
-  <!--        <app-button-->
-  <!--          [text]="'Importer'"-->
-  <!--          [type]="'tertiary_inverse'"-->
-  <!--          [iconLeft]="'icon-file'"-->
-  <!--          [customStyle]="{'white-space': 'nowrap'}"-->
-  <!--        ></app-button>&nbsp;-->
-          <app-button
-            [text]="'Exporter'"
-            [type]="'tertiary_inverse'"
-            [iconLeft]="'icon-file'"
-            [customStyle]="{'white-space': 'nowrap'}"
-            (onClick)="export()"
-          ></app-button>
-        </div>
       </div>
     </ng-container>
   </div>

@@ -183,7 +183,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
           this.type = 'general';
         }
       }
-      this.resetFilters()
+
       this.getListElements();
       this.getAction();
     });
@@ -191,28 +191,23 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe((params: any) => {
       console.log('params', params);
       const filters = Object.keys(this.filter).filter(item => !['keyword', 'page', 'limit'].includes(item));
+      const filtersDates = ['startDate', 'endDate'];
       filters.forEach(filter => {
         if(params[filter]){
           if(Array.isArray(params[filter])){
-            this.filter[filter] = params[filter].map(item => +item);
-        }else{
-            this.filter[filter] = [+params[filter]];}
+            this.filter[filter] = params[filter].map(item => +item); // Filers arrays
+          }else{
+            if(filtersDates.includes(filter)){
+              this.filter[filter] = params[filter]; // Filers dates
+            }else{
+              this.filter[filter] = [+params[filter]]; // Filers ids
+            }
+          }
         }
         if(this.filter[filter]?.length>0){
           this.showFilters = true;
         }
       });
-      if(params?.profiles){
-        // if(Array.isArray(params.profiles)){
-        //   profiles = params.profiles.map(item => +item);
-        // }else{
-        //   profiles = [+params.profiles];
-        // }
-        // if(profiles?.length>0){
-        //   this.filter.profiles = profiles;
-        //   this.showFilters = true;
-        // }
-      }
       const page = params?.page ? +params.page : 1;
       const limit = params?.limit ? +params.limit : 10;
       this.filter = {...this.filter, page, limit };
@@ -465,7 +460,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       endDate: null,
     });
     console.log('resetFilters', this.filter)
-    this.getListElements();
+    this.filterChanged();
     // showFilters = !showFilters;
   }
 
@@ -499,10 +494,12 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
 
 
   filterChanged() {
-    console.log('resetFilters', this.filter)
+    console.log('filterChanged', this.filter)
     // add filters to query params merge
-    this.filter.page = 1;
-    this.filter.limit = 10;
+    this.filter.page = this.filter.page || 1;
+    this.filter.limit = this.filter.limit || 10;
+    this.filter.startDate = this.filter.startDate ? formatDateForBackend(this.filter.startDate) : null;
+    this.filter.endDate = this.filter.endDate ? formatDateForBackend(this.filter.endDate): null;
     this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     this.getListElements();
   }
