@@ -41,16 +41,27 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     centre: 'centre',
     date_last_vm: 'date_last_vm',
     scheduled_date: 'scheduled_date',
-    send_convocation: 'send_convocation'
+    send_convocation: 'send_convocation',
+    reception_fa: 'reception_fa',
+    type_id:'type_id',
+    personal_info:'personal_info',
+    date_rdv_requested:'date_rdv_requested',
+    comments:'comments'
   }
   formLabels =  {
     personal_id: 'personal_id',
     centre: 'Centre médical',
     date_last_vm: 'Date dernière visite médicale',
     scheduled_date: 'Date de la visite médicale',
-    send_convocation: 'Convocation envoyée'
+    send_convocation: 'Convocation envoyée',
+    reception_fa: 'Réception fiche aptitude',
+    type_id: 'Type de visite médicale',
+    personal_info: 'Informations salarié',
+    date_rdv_requested: 'Date de la demande de RDV',
+    comments: 'Commentaire',
   }
   etats = [];
+  vm_types=[];
   errorLoadData: boolean;
   loadingData: boolean;
   loadingLists: boolean;
@@ -65,6 +76,8 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
   medicalCenters = [];
   last_vm;
   _medical_visits;
+  loadingSelect = {};
+
   // @Input()
   // public set user(val: User) {
   //   if(val){
@@ -77,6 +90,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       this.last_vm = val[0]
       this._medical_visits =val;
       this.initFormBuilder(val[0]);
+      this.getFilterList('vm_types', this.listService.list.VM_TYPE)
 
       // send_convocation
       
@@ -143,9 +157,14 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     this.formGroup = this.formBuilder.group({
       personal_id: [null, Validators.compose([Validators.required])],
       centre: [null, Validators.compose([Validators.required])],
+      type_id: [null, Validators.compose([Validators.required])],
       date_last_vm: [null],
+      personal_info: [null],
+      comments: [null],
+      date_rdv_requested: [null],
       scheduled_date: [null, Validators.compose([Validators.required])],
       send_convocation: [null],
+      reception_fa: [null],
       id: [null]
     });
 
@@ -194,25 +213,53 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
     }
   }
 
+  async getFilterList(items, list_name, list_param?){
+      try{
+        this.loadingSelect[list_name] = true;
+        this[items] = await this.listService.getAll(list_name, list_param).toPromise();
+
+      } catch (e) {
+        console.log('error filter', e);
+      } finally {
+        this.loadingSelect[list_name] = false;
+      }
+  }
+
   initFormBuilder(vm){
     if(vm){
       console.log('initFormBuilder VM :::',vm)
       const _convoc_sent = vm.histos.filter(histo => {
           return histo.action.slug == 'CONVOCATION_SENT';
       });
+      const _reception_fa = vm.histos.filter(histo => {
+        return histo.action.slug == 'RECEPTION_FICHE_APTITUDE';
+    });
       console.log('is sent convicaion ??',_convoc_sent)
+      console.log('is receptio fa ??',_reception_fa)
       let is_checked_convoc = false;
       if(_convoc_sent && _convoc_sent.length > 0){
         is_checked_convoc = _convoc_sent[0].done_at?true:false;
-        this.last_vm.tooltip_msg= 'le '+this.dateMessagePipe.transform(_convoc_sent[0].done_at)+' par '+(_convoc_sent[0].user?(_convoc_sent[0].user.prenom +' '+_convoc_sent[0].user.nom):'N.R');
+        this.last_vm._convoc_sent_tooltip = null;
+        if(is_checked_convoc)
+        this.last_vm._convoc_sent_tooltip= 'le '+this.dateMessagePipe.transform(_convoc_sent[0].done_at)+' par '+(_convoc_sent[0].user?(_convoc_sent[0].user.prenom +' '+_convoc_sent[0].user.nom):'N.R');
+      }
+      let is_reception_fa = false;
+
+      if(_reception_fa && _reception_fa.length > 0){
+        is_reception_fa = _reception_fa[0].done_at?true:false;
+        this.last_vm._reception_fa_tooltip = null;
+        if(is_reception_fa)
+        this.last_vm._reception_fa_tooltip= 'le '+this.dateMessagePipe.transform(_reception_fa[0].done_at)+' par '+(_reception_fa[0].user?(_reception_fa[0].user.prenom +' '+_reception_fa[0].user.nom):'N.R');
       }
 
       this.formGroup.patchValue({
-        personal_id: vm.personal_id,
-        scheduled_date:vm.scheduled_date,
-        centre: vm.centre,
+        ...vm,
+        // personal_id: vm.personal_id,
+        // scheduled_date:vm.scheduled_date,
+        // centre: vm.centre,
         send_convocation:is_checked_convoc,
-        id:vm.id
+        reception_fa:is_reception_fa,
+        // id:vm.id
       });
       this.files = vm.document_files?.attachments || [];
       this.projectToEditFiles = vm.document_files?.attachments || [];
@@ -261,7 +308,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
       }
     });
 
-    const dates = ['date_last_vm', 'scheduled_date'];
+    const dates = ['date_last_vm', 'scheduled_date','date_rdv_requested'];
     const saveData = {
       ...this.formGroup.value
     }
@@ -310,7 +357,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
         this.submitting = false;
         this.reset()
       }
-      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien modifié avec succès'});
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Visite médicale modifiée avec succès'});
     }else{
       res = await this.personalService.addVM(fd).toPromise();
       if(res.result && res.result.data){
@@ -327,7 +374,7 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
         this.submitting = false;
         this.reset()
       }
-      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Entretien ajouté avec succès'});
+      this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Visite médicale ajoutée avec succès'});
     }
   }
 

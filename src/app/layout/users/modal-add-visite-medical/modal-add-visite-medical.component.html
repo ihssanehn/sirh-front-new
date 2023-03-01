@@ -44,6 +44,36 @@
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <div class="row">
+                    
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.type_id.label}}
+                          {{isRequired(formMetaData.type_id.input)}}</label>
+                        <div class="col">
+                          <ng-select
+                            [items]="vm_types"
+                            [bindLabel]="'label'"
+                            [bindValue]="'id'"
+                            class="form-control select"
+                            [placeholder]="formMetaData.type_id.placeholder"
+                            [formControlName]="formMetaData.type_id.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.type_id.input].hasError('required')
+                                    && formGroup.controls[formMetaData.type_id.input].dirty}"
+                            [multiple]="false"
+                            (open)="getFilterList('vm_types', listService.list.VM_TYPE)"
+                            [loading]="loadingSelect[listService.list.VM_TYPE]"
+                          >
+                          </ng-select>
+
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.type_id.input].hasError('required')
+                    && formGroup.controls[formMetaData.type_id.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{formMetaData.type_id.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
                       <div class="col">
                         <label class="col-12">{{formMetaData.centre.label}}
                           {{isRequired(formMetaData.centre.input)}}</label>
@@ -57,20 +87,6 @@
                           />
                           <label class="light-text" *ngIf="searching">Recherche...</label>
 
-
-                          <!--                          <ng-select-->
-<!--                            [items]="medical_centers"-->
-<!--                            class="form-control select"-->
-<!--                            [placeholder]="formMetaData.centre.placeholder"-->
-<!--                            [formControlName]="formMetaData.centre.input"-->
-<!--                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.centre.input].hasError('required')-->
-<!--                                    && formGroup.controls[formMetaData.centre.input].dirty}"-->
-<!--                            [multiple]="false"-->
-<!--                            (open)="getFilterList('medical_centers', listService.list.MEDICAL_CENTER)"-->
-<!--                            [loading]="loadingSelect[listService.list.MEDICAL_CENTER]"-->
-<!--                          >-->
-<!--                          </ng-select>-->
-
                           <div class="form-control-feedback"
                                *ngIf="formGroup.controls[formMetaData.centre.input].hasError('required')
                     && formGroup.controls[formMetaData.centre.input].dirty">
@@ -79,9 +95,11 @@
                           </div>
                         </div>
                       </div>
+                   
                     </div>
 
                     <div class="row">
+                   
                       <div class="col">
                             <label class="col-12">{{formMetaData.scheduled_date.label}}
                               {{isRequired(formMetaData.scheduled_date.input)}}
@@ -114,7 +132,88 @@
                                 {{formMetaData.scheduled_date.errorRequired}}
                               </div>
                             </div>
+                      </div>
+
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.date_rdv_requested.label}}
+                          {{isRequired(formMetaData.date_rdv_requested.input)}}
+                        </label>
+                        <div class="col">
+
+                          <div class="date-picker-group">
+                            <owl-date-time #owl_dtdr [pickerType]="'calendar'" ></owl-date-time>
+                            <input [owlDateTime]="owl_dtdr"
+                                   class="form-control input date"
+                                   [owlDateTimeTrigger]="owl_dtdr"
+                                   [placeholder]="formMetaData.date_rdv_requested.placeholder"
+                                   [ngClass]="{'is-invalid error-input':
+                           formGroup.controls[formMetaData.date_rdv_requested.input].hasError('required')
+                              && formGroup.controls[formMetaData.date_rdv_requested.input].dirty}"
+                                   [formControlName]="formMetaData.date_rdv_requested.input"
+                            />
+                            <div class="icons-container">
+                              <i class="icon-close"
+                                 (click)="clearDateInput(formMetaData.date_rdv_requested.input)"
+                                 *ngIf="formGroup.controls[formMetaData.date_rdv_requested.input].value"></i>&nbsp;
+                              <i [owlDateTimeTrigger]="owl_dtdr" class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.date_rdv_requested.input].hasError('required')
+                    && formGroup.controls[formMetaData.date_rdv_requested.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            {{formMetaData.date_rdv_requested.errorRequired}}
+                          </div>
                         </div>
+                      </div>
+                      
+                        
+                    </div>
+
+                    <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.personal_info.label}}
+                          {{isRequired(formMetaData.personal_info.input)}}</label>
+                        <div class="col">
+                          <textarea
+                            class="form-control select"
+                            [placeholder]="formMetaData.personal_info.placeholder"
+                            [formControlName]="formMetaData.personal_info.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.personal_info.input].hasError('required')
+                                    && formGroup.controls[formMetaData.personal_info.input].dirty}"
+                          >
+                          </textarea>
+                           <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.personal_info.input].hasError('required')
+                        && formGroup.controls[formMetaData.personal_info.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                             {{formMetaData.personal_info.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <label class="col-12">{{formMetaData.comments.label}}
+                          {{isRequired(formMetaData.comments.input)}}</label>
+                        <div class="col">
+                          <textarea
+                            class="form-control select"
+                            [placeholder]="formMetaData.comments.placeholder"
+                            [formControlName]="formMetaData.comments.input"
+                            [ngClass]="{'is-invalid error-input': formGroup.controls[formMetaData.comments.input].hasError('required')
+                                    && formGroup.controls[formMetaData.comments.input].dirty}"
+                          >
+                          </textarea>
+                           <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formMetaData.comments.input].hasError('required')
+                        && formGroup.controls[formMetaData.comments.input].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                             {{formMetaData.comments.errorRequired}}
+                          </div>
+                        </div>
+                      </div>
+                 
+                   
                     </div>
 
                     <div class="row">

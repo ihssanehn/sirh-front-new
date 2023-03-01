@@ -37,6 +37,8 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
   loadingLists: boolean;
   formGroup: FormGroup;
 
+  vm_types=[];
+
   formMetaData = {
     personal_id: {
       input: 'personal_id',
@@ -55,7 +57,31 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       label: 'Date de la visite',
       placeholder: 'Sélectionner la date de la visite',
       errorRequired: 'La date est obligatoire'
-    }
+    },
+    type_id: {
+      input: 'type_id',
+      label: 'Type de la visite',
+      placeholder: 'Sélectionner le type de visite',
+      errorRequired: 'Le type est obligatoire'
+    },
+    personal_info: {
+      input: 'personal_info',
+      label: 'Informations salarié',
+      placeholder: 'Saisir les informations spécifiques du salarié',
+    },
+    date_rdv_requested: {
+      input: 'date_rdv_requested',
+      label: 'Date demande RDV centre',
+      placeholder: 'Sélectionner la date de demande de RDV',
+    },
+    comments: {
+      input: 'comments',
+      label: 'Commentaire',
+      placeholder: '',
+    },
+    
+    
+    
   }
 
   personals = [];
@@ -64,16 +90,21 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
   id_entite = null;
   item = null;
   @Input() set data(val){
+    console.log('setting input data val :::', val)
     this.item = val;
     if(this.formGroup){
       this.formGroup.patchValue({
         ...val,
         scheduled_date: val.scheduled_date ? moment(val.scheduled_date).format('YYYY-MM-DD') : null,
+        date_rdv_requested: val.date_rdv_requested ? moment(val.date_rdv_requested).format('YYYY-MM-DD') : null,
+        
       });
     }
     this.files = val.document_files?.attachments || [];
     this.projectToEditFiles = val.document_files?.attachments || [];
     this.getFilterList('personals', this.listService.list.PERSONAL);
+    this.getFilterList('vm_types', this.listService.list.VM_TYPE);
+
   }
 
   @Input()
@@ -125,9 +156,14 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       id: [this.item?.id || null],
-      personal_id: [this.item?.type_id || null, Validators.compose([Validators.required])],
-      centre: [this.item?.type_id || null, Validators.compose([Validators.required])],
-      scheduled_date: [this.item ? moment(this.item.effective_date).format('YYYY-MM-DD') : null]
+      personal_id: [null, Validators.compose([Validators.required])],
+      centre: [null, Validators.compose([Validators.required])],
+      type_id: [null, Validators.compose([Validators.required])],
+      parent_id: [null],
+      scheduled_date: [this.item ? moment(this.item.scheduled_date).format('YYYY-MM-DD') : null],
+      comments: [null],
+      personal_info: [null],
+      date_rdv_requested: [null],
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
 
@@ -174,11 +210,14 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
     }
     try{
       this.submitting = true;
-      const params: any = {
-        personal_id: this.formGroup.getRawValue().personal_id,
-        centre: this.formGroup.getRawValue().centre,
-        scheduled_date: this.formGroup.getRawValue().scheduled_date,
-      }
+      // const params: any = {
+      //   personal_id: this.formGroup.getRawValue().personal_id,
+      //   centre: this.formGroup.getRawValue().centre,
+      //   scheduled_date: this.formGroup.getRawValue().scheduled_date,
+      //   parent_id: this.formGroup.getRawValue().parent_id,
+      // }
+      const params = this.formGroup.getRawValue();
+
 
       if(this.projectToEditFiles?.length > 0){ // Edit state
         const document_files_to_delete = [];
@@ -200,7 +239,7 @@ export class ModalAddVisiteMedicalComponent implements OnInit {
       }
 
 
-      const fd = paramsToFormData(params, ['document_files'], ['scheduled_date']);
+      const fd = paramsToFormData(params, ['document_files'], ['scheduled_date','date_rdv_requested']);
 
       let res;
       if(this.item?.id){

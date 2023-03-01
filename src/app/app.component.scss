@@ -739,6 +739,10 @@ a, .link{
 .danger-icon:before{
   color: $danger !important;
 }
+.warning-icon:before{
+  color: $warning !important;
+}
+
 
 .danger-text{
   color: $danger !important;

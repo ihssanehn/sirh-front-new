@@ -42,17 +42,35 @@
                 <div class="form-bloc">
                   <div class="row">
                     <div class="col">
+                      <label class="col-12">{{formLabels.type_id}}
+                        {{isRequired(formInputs.type_id)}}</label>
+                      <div class="col">
+                        <ng-select
+                          [items]="vm_types"
+                          [bindLabel]="'label'"
+                          [bindValue]="'id'"
+                          class="form-control select"
+                          placeholder="Sélectionner le type d'entretien"
+                          [formControl]="formGroup.controls[formInputs.type_id]"
+                          (open)="getFilterList('vm_types', listService.list.VM_TYPE)"
+                          [loading]="loadingSelect[listService.list.VM_TYPE]"
+                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.type_id].hasError('required')
+                                  && formGroup.controls[formInputs.type_id].dirty}"
+                          [multiple]="false"
+                        >
+                        </ng-select>
+                        <div class="form-control-feedback"
+                             *ngIf="formGroup.controls[formInputs.type_id].hasError('required')
+                  && formGroup.controls[formInputs.type_id].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Le type d'entretien est obligatoire
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
                       <label class="col-12">{{formLabels.centre}}
                         {{isRequired(formInputs.centre)}}</label>
                       <div class="col">
-                        <!-- <input type="text"
-                               placeholder="Saisir le centre médical"
-                               class="form-control input"
-                               [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre].hasError('required')
-                                  && formGroup.controls[formInputs.centre].dirty}"
-                               [formControl]="formGroup.controls[formInputs.centre]"
-                        /> -->
-
                           <input id="typeahead-basic"
                                   type="text"
                                   class="form-control input"
@@ -70,7 +88,32 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col">
+                      <label class="col-12">{{formLabels.personal_info}}
+                        {{isRequired(formInputs.personal_info)}}</label>
+                      <div class="col">
+                        <textarea
+                          rows="1"
+                          class="form-control select p-2"
+                          placeholder="Sélectionner les informations salarié"
+                          [formControl]="formGroup.controls[formInputs.personal_info]"
+                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.personal_info].hasError('required')
+                                  && formGroup.controls[formInputs.personal_info].dirty}"
+                        >
+                        </textarea>
+                        <div class="form-control-feedback"
+                             *ngIf="formGroup.controls[formInputs.personal_info].hasError('required')
+                  && formGroup.controls[formInputs.personal_info].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                    </div>
 
+                 
+                    
+                  </div>
+
+                  <div class="row">
                     <div class="col">
                       <label class="col-2">{{formLabels.scheduled_date}} {{isRequired(formInputs.scheduled_date)}}</label>
                       <div class="col">
@@ -102,8 +145,64 @@
                       </div>
                     </div>
                     <div class="col">
+                      <label class="col-2">{{formLabels.date_rdv_requested}} {{isRequired(formInputs.date_rdv_requested)}}</label>
+                      <div class="col">
+                        <div class="date-picker-group">
+                          <owl-date-time #owl_dtrdvreq [pickerType]="'calendar'" ></owl-date-time>
+                          <input [owlDateTime]="owl_dtrdvreq"
+                                 class="form-control input date"
+                                 [owlDateTimeTrigger]="owl_dtrdvreq"
+                                 placeholder="Renseignez la date de demande de RDV"
+                                 [ngClass]="{'is-invalid error-input':
+                               formGroup.controls[formInputs.date_rdv_requested].hasError('required')
+                                  && formGroup.controls[formInputs.date_rdv_requested].dirty}"
+                                 [formControl]="formGroup.controls[formInputs.date_rdv_requested]"
+                          />
+                          <div class="icons-container">
+                            <i class="icon-close"
+                               (click)="clearDateInput(formInputs.date_rdv_requested)"
+                               *ngIf="formGroup.controls[formInputs.date_rdv_requested].value"></i>&nbsp;
+                            <i [owlDateTimeTrigger]="owl_dtrdvreq" class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+
+                        <div class="form-control-feedback"
+                             *ngIf="formGroup.controls[formInputs.date_rdv_requested].hasError('required')
+                    && formGroup.controls[formInputs.date_rdv_requested].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                          Date de la demande de RDV
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="col">
+                      <label class="col-12">{{formLabels.comments}}
+                        {{isRequired(formInputs.comments)}}</label>
+                      <div class="col">
+                        <textarea
+                          rows="1"
+                          class="form-control select p-2"
+                          placeholder="Commentaires"
+                          [formControl]="formGroup.controls[formInputs.comments]"
+                          [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.comments].hasError('required')
+                                  && formGroup.controls[formInputs.comments].dirty}"
+                        >
+                        </textarea>
+                        <div class="form-control-feedback"
+                             *ngIf="formGroup.controls[formInputs.comments].hasError('required')
+                  && formGroup.controls[formInputs.comments].dirty">
+                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </div>
+                      </div>
+                    </div>
+                 
+                    
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
                       <label class="col-2">{{formLabels.send_convocation}} {{isRequired(formInputs.send_convocation)}}</label>
-                      <div class="col" [matTooltip]="last_vm?.tooltip_msg">
+                      <div class="col" [matTooltip]="last_vm?._convoc_sent_tooltip">
                         <div class="check-box-btn">
                           <input type="checkbox"
                                  id="{{formLabels.send_convocation}}"
@@ -112,6 +211,21 @@
                           <label for="{{formLabels.send_convocation}}"
                                  data-content="{{formLabels.send_convocation}}">
                             <span class="name">{{formLabels.send_convocation}}</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label class="col-2">{{formLabels.reception_fa}} {{isRequired(formInputs.reception_fa)}}</label>
+                      <div class="col" [matTooltip]="last_vm?._reception_fa_tooltip">
+                        <div class="check-box-btn">
+                          <input type="checkbox"
+                                 id="{{formLabels.reception_fa}}"
+                                 [formControl]="formGroup.controls[formInputs.reception_fa]"
+                          >
+                          <label for="{{formLabels.reception_fa}}"
+                                 data-content="{{formLabels.reception_fa}}">
+                            <span class="name">{{formLabels.reception_fa}}</span>
                           </label>
                         </div>
                       </div>
@@ -160,14 +274,24 @@
                       <div class="row">
 
                         <div class="item col-3" *ngFor="let vm of _medical_visits" >
-                          <span class="fa fa-exclamation-triangle danger-icon" title="convocation non envoyée" *ngIf="!vm.send_convocation"></span>
+                          <span class="fa fa-exclamation-triangle warning-icon" title="convocation non envoyée" *ngIf="!vm.send_convocation"></span>
                           <span class="fa fa-check" *ngIf="vm.send_convocation"></span>
+                          <span *ngIf="vm.type">
+                            {{vm?.type?.label}}
+                          </span>
+                          <span>
+                            {{vm.centre}}
+                          </span>
+                          <br>
+                          <span title="date non renseignée" class="text-danger" *ngIf="!vm.scheduled_date">
+                            <span class="fa fa-clock-o danger-icon" ></span>
+                            Date à définir
+                          </span>
 
                           <span class="light-text">
                             {{vm.scheduled_date | dateMessage}}
-                          </span>&nbsp;&nbsp;<span>
-                            {{vm.centre}}
                           </span>
+                       
                           <span class="pointer" *ngIf="vm?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(vm?.document_files)">
                             <i class="icon-attachment"></i> 
                             {{vm?.document_files?.attachments?.length || 0}} 

@@ -6,12 +6,14 @@
 
         <div class="search d-flex">
           <div class="input-group">
+            <!-- (input)="getListElements()" -->
+
             <input type="text"
                    class="form-control input"
-                   placeholder="Rechercher un utilisateur"
-                   (input)="getListElements()"
+                   placeholder="Rechercher un salarié (matricule, nom, prenom)"
                    aria-describedby="basic-addon2"
-                   [(ngModel)]="filter.keyword"/>
+                   [(ngModel)]="filter.keyword"
+                   (ngModelChange)="this.onKeywordChanged.next($event)"/>
             <div class="input-group-append" id="basic-addon2">
               <i class="icon-search"></i>
             </div>
@@ -236,6 +238,23 @@
               </ng-select>
           </div>
         </div>
+        <div class=" flex-column  col-12 col-sm-6 col-lg-3 " *ngIf="type === 'visite_medicale'">
+          <label>Type</label>
+          <div>
+            <ng-select
+              [items]="vm_types"
+              [bindLabel]="'label'"
+              [bindValue]="'id'"
+              (change)="filterChanged()"
+              class="form-control select"
+              placeholder="Sélectionner le type de visite"
+              [(ngModel)]="filter.types"
+              (open)="getFilterList('vm_types', listService.list.VM_TYPE)"
+              [loading]="loadingSelect[listService.list.VM_TYPE]"
+              [multiple]="true">
+            </ng-select>
+          </div>
+        </div>
         <div class=" flex-column  col-12 col-sm-6 col-lg-3 " *ngIf="type =='visite_medicale'">
           <label>Centre médical</label>
           <div>
@@ -266,6 +285,7 @@
             </ng-select>
           </div>
         </div>
+       
         <div class="flex-column col-12 col-sm-6 col-lg-3  ">
           <label>Business Manager</label>
           <div>
@@ -871,35 +891,52 @@
                 <thead>
                 <tr>
                   <th>
-                    Salarié
-                  </th>
-                  <th>
                     Matricule
                   </th>
                   <th>
+                    Salarié
+                  </th>
+                  <!-- <th>
                     Société
                   </th>
                   <th>
                     Siège
+                  </th> -->
+                  <th>
+                    Type
+                  </th>
+                  <th>
+                    Info salarié
                   </th>
                   <th>
                     Centre médical
                   </th>
-                  <!-- <th>
-                    Date dernière visite médicale
-                  </th> -->
+                  <th>
+                    Date demande RDV
+                  </th>
                   <th>
                     Date visite médicale
                   </th>
                   <th>
+                    Date prochaine visite médicale
+                  </th>
+                  <th>
+                    Commentaires
+                  </th>
+                  <th>
                     Convocation envoyée
                   </th>
-                  <th>Pièces jointes</th>
+                  <th>
+                    Récéption fiche aptitude
+                  </th>
+                  <th>Documents</th>
                   <th style="text-align: right">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of listItems"  >
+                  <td>{{item?.personal?.registration_number}}</td>
+
                   <td>
                     <ng-template #infopopover>
                       <div class="title">
@@ -1002,9 +1039,10 @@
                       >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                     </div>
                   </td>
-                  <td>{{item?.personal?.registration_number}}</td>
-                  <td>{{item?.personal?.entity?.label || 'N.R'}}</td>
-                  <td>{{item?.personal?.siege?.label || 'N.R'}}</td>
+                  <!-- <td>{{item?.personal?.entity?.label || 'N.R'}}</td> -->
+                  <!-- <td>{{item?.personal?.siege?.label || 'N.R'}}</td> -->
+                  <td>{{item?.type?.label || 'N.R'}}</td>
+                  <td>{{item?.personal_info || ' - '}}</td>
                   <td>
                     <ng-container *ngIf="item.is_editting_mc; else mc_label_temp">
                       <div class="d-flex align-items-center">
@@ -1026,11 +1064,13 @@
                       &nbsp;<i class="icon-edit-bold primary-icon pointer" (click)="openVmForEditting('centre', item)"></i>
                     </ng-template>
                   </td>
-                  <!-- <td>
-                    <span>
-                      {{item?.personal?.last_vm?.scheduled_date | dateMessage}}
+                  <td>
+                    <span [matTooltip]="item?.date_rdv_requested_histo">
+                      {{item?.date_rdv_requested | dateMessage}}
+                      <span *ngIf="item.date_rdv_requested_histo" class="icon icon-info"></span>
                     </span>
-                  </td> -->
+                  </td>
+               
                   <td>
                     <div class="d-flex align-items-center">
                       <owl-date-time #owl_dt2 [pickerType]="'calendar'"
@@ -1049,22 +1089,50 @@
                           </span>
                     </div>
                   </td>
+                  <td>
+                      <span *ngIf="!item.next_vm" class="pointer" [ngClass]="{'link': !item?.next_vm}" (click)="openEditModal('next_vm', item)">
+                           <i class="fa fa-calendar primary-icon"></i>&nbsp; {{item?.next_vm ? (item?.next_vm | dateMessage): 'Ajouter une date'}}
+                      </span>
+                      <span *ngIf="item.next_vm">
+                        {{item.next_vm?.scheduled_date | dateMessage}}
+                      </span>
+                  </td>
+                  <td>{{item?.comments || ' - '}}</td>
 
-                    <td>
-                      <ng-container *ngFor="let histo of item?.historiques_actions">
-                        <div class="check-box-btn"  [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage)):''">
-                        <input type="checkbox"
-                               class="small-checkbox"
-                               [disabled]="histo?.checked"
-                               [ngClass]="{'disabled': histo?.checked}"
-                               id="with_inactive_cp"
-                               (change)="markActionAsDone(histo.id, histo.checked)"
-                               [checked]="histo?.checked"
-                               [(ngModel)]="histo.checked"
-                               name="checbox_" >
-                      </div>
-                      </ng-container>
-                    </td>
+
+                  <td>
+                    <div class="check-box-btn" *ngIf="item?.convoc_sent" [matTooltip]="item?.convoc_sent?.done_at ? ('Validé par ' +item?.convoc_sent?.user?.prenom + ' ' + item?.convoc_sent?.user?.nom + ' le '+ (item?.convoc_sent?.done_at | dateMessage) + (item?.convoc_sent.comment? ' Note: '+ item?.convoc_sent.comment:'')):''">
+
+                      <input type="checkbox"
+                              class="small-checkbox"
+                              [disabled]="item?.convoc_sent?.checked"
+                              [ngClass]="{'disabled': item?.convoc_sent?.checked}"
+                              id="with_inactive_cp"
+                              (change)="markActionAsDone(item?.convoc_sent.id, item?.convoc_sent.checked)"
+                              [checked]="item.convoc_sent?.checked"
+                              [(ngModel)]="item.convoc_sent.checked"
+                              name="checbox_" >
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="check-box-btn" *ngIf="item?.reception_fa" [matTooltip]="item?.reception_fa?.done_at ? ('Validé par ' +item?.reception_fa?.user?.prenom + ' ' + item?.reception_fa?.user?.nom + ' le '+ (item?.reception_fa?.done_at | dateMessage) + (item?.reception_fa.comment? ' Note: '+ item?.reception_fa.comment:'')):''">
+
+                      <input type="checkbox"
+                              class="small-checkbox"
+                              [disabled]="item?.reception_fa?.checked"
+                              [ngClass]="{'disabled': item?.reception_fa?.checked}"
+                              id="with_inactive_cp"
+                              (change)="markActionAsDone(item?.reception_fa.id, item?.reception_fa.checked)"
+                              [checked]="item.reception_fa?.checked"
+                              [(ngModel)]="item.reception_fa.checked"
+                              name="checbox_" >
+                    </div>
+                  </td>
+
+                 
+                    
+
 
                   <td>
                     <span class="pointer" *ngIf="item?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(item?.document_files)">

@@ -1,7 +1,6 @@
 <div class="container top-container">
-  <div class="header">
+  <div class="header centered">
     <h1 class="main-title center">Modification des informations personnelles</h1>
-    <i class="icon-close float-right pointer" (click)="modal.dismiss()"></i>
   </div>
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>

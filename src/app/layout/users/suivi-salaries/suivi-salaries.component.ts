@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { UserService } from '@services/index';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {TranslateService} from '@ngx-translate/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -68,6 +68,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   loadingSelect = {};
   decisions=[];
   entretien_types=[];
+  vm_types=[];
 
   STEPS = {
     personal:0,
@@ -126,6 +127,9 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+
+  onKeywordChanged = new Subject<string>();
   constructor(private userService : UserService,
               private personalService : PersonalService,
               private translate: TranslateService,
@@ -192,10 +196,13 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.subscribe((params: any) => {
       console.log('params', params);
-      const filters = Object.keys(this.filter).filter(item => !['keyword', 'page', 'limit'].includes(item));
+      const filters = Object.keys(this.filter).filter(item => !['page', 'limit'].includes(item));
       const filtersDates = ['startDate', 'endDate'];
       filters.forEach(filter => {
-        if(params[filter]){
+        console.log('filter :::', filter)
+        if(filter === 'centre' || filter === 'keyword')
+          this.filter[filter]= params[filter]
+        else if(params[filter]){
           if(Array.isArray(params[filter])){
             this.filter[filter] = params[filter].map(item => +item); // Filers arrays
           }else{
@@ -217,6 +224,14 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       this.getListElements();
       console.log('params', this.filter);
     });
+
+    this.onKeywordChanged.pipe(
+      debounceTime(700),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.filterChanged();
+        this.getListElements()
+      });
 
   }
 
@@ -398,6 +413,17 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       }
       case 'visite_medicale': {
         dynamicModal = ModalAddVisiteMedicalComponent;
+        break;
+      }
+      case 'next_vm': {
+        if(item && item.id){
+          item = {
+            parent_id : item.id,
+            personal_id: item.personal_id,
+            centre:item.centre,
+          }
+          dynamicModal = ModalAddVisiteMedicalComponent;
+        }
         break;
       }
     }
