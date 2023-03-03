@@ -1200,7 +1200,8 @@
                     </th>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                         <th>
-                          {{extraColumn.label}}
+                          <span [innerHTML]="extraColumn.label">
+                          </span>
                         </th>
                     </ng-container>
                     <th style="text-align: center" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" class="sticky th-btn" width="2%" style="position: sticky;right:-80px;" [matMenuTriggerFor]="statusMenu">
@@ -1339,15 +1340,15 @@
                       </div>
                     </td>
 
-                    <td>{{item?.entity.label || 'N.R'}}</td>
+                    <td>{{item?.entity?.label || 'N.R'}}</td>
                     <td>{{item?.siege?.label || 'N.R'}}</td>
                     <td>{{ (item?.entry_date | dateMessage) || 'N.R'}}</td>
                     <td>{{item?.manager?.full_name || 'N.R'}}</td>
-                    <td>{{item?.contrat.label || 'N.R'}}</td>
+                    <td>{{item?.contrat?.label || 'N.R'}}</td>
                     <td>{{item?.status?.label || 'N.R'}}</td>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                         <td>
-                          <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
+                          <div class="check-box-btn"  [matTooltip]="(item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):'') + (item?.slug_actions?.[extraColumn.slug]?.comment? '&#13; Commentaire: ' + item?.slug_actions?.[extraColumn.slug]?.comment : '') ">
                             <input type="checkbox"
                                    class="small-checkbox"
                                    *ngIf="item.slug_actions[extraColumn.slug]"

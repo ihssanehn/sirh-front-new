@@ -50,7 +50,9 @@
                     [matTooltip]="histo?.user ? ('Validé par ' +histo?.user?.prenom + ' ' + histo?.user?.nom + ' le '+ (histo?.done_at | dateMessage) + (histo.comment? ' Note: '+ histo.comment:'')):''">
                     <label for="{{formLabels.verification_ts_prefacture}}bak" class="label-action"
                             data-content="{{formLabels.verification_ts_prefacture}}">
-                      <span class="name">{{histo.action.label}}</span>
+                      <span class="name">
+                        <span [innerHtml]="histo.action.label"></span>
+                      </span>
                       <div class="comment" *ngIf="histo.comment">{{histo.comment}}</div>
                       <div class="link" (click)="_addComment(histo)" *ngIf="!histo.comment && !histo.adding_comment"  [ngClass]="{'forbidden': histo.user_id != userId}">Ajouter une note</div>
                         <ng-container *ngIf="histo.adding_comment;">
