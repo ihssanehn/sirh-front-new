@@ -1582,10 +1582,10 @@
                     <td>
                       {{item?.personal?.registration_number || 'N.R'}}
                     </td>
-                    <td>{{item?.entrance?.entity?.label || item?.personal?.entity?.label + "perso ::"|| 'N.R'}}</td>
-                    <td>{{item?.entrance?.siege?.label ||  item?.personal?.siege?.label + "perso ::"  || 'N.R'}}</td>
+                    <td>{{item?.entrance?.entity?.label || (item?.personal?.entity ? item?.personal?.entity?.label + "perso ::" : 'N.R')}}</td>
+                    <td>{{item?.entrance?.siege?.label ||  (item?.personal?.siege ? item?.personal?.siege?.label + "perso ::" : 'N.R' )}}</td>
                     <td> {{(item?.entrance?.entry_date | dateMessage) || (item?.personal?.entry_date + "perso ::" | dateMessage) || 'N.R'}}</td>
-                    <td>{{item?.entrance?.manager?.full_name || item?.personal?.manager?.full_name  + "perso ::" || 'N.R'}}</td>
+                    <td>{{item?.entrance?.manager?.full_name || (item?.personal?.manager ? item?.personal?.manager?.full_name  + "perso ::" :'N.R')}}</td>
                     <td>{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                     <td>{{item?.motif?.label || 'N.R'}}</td>
                     <td>{{ (item?.end_date_preavis | dateMessage) || 'N.R'}}</td>
@@ -1596,7 +1596,9 @@
                     </td>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <td>
-                        <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''">
+                        <!-- <div class="check-box-btn"  [matTooltip]="item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):''"> -->
+                          <div class="check-box-btn"  [matTooltip]="(item?.slug_actions[extraColumn.slug]?.user ? ('Validé par ' +item?.slug_actions?.[extraColumn.slug]?.user?.prenom + ' ' + item?.slug_actions?.[extraColumn.slug]?.user?.nom + ' le '+ (item?.slug_actions?.[extraColumn.slug]?.done_at | dateMessage)):'') + (item?.slug_actions?.[extraColumn.slug]?.comment? '&#13; Commentaire: ' + item?.slug_actions?.[extraColumn.slug]?.comment : '') ">
+                         
                           <input type="checkbox"
                                  class="small-checkbox"
                                  *ngIf="item.slug_actions[extraColumn.slug]"
