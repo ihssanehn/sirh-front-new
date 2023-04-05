@@ -175,7 +175,7 @@
                   {{item?.is_externe ? 'Oui' : 'Non'}}
                 </td>
                 <td data-title="Actif" [ngClass]="{'text-success': item?.is_active, 'text-danger': !item?.is_active}">
-                  {{item?.is_active ? 'Oui' : 'Non'}}
+                  {{item?.is_active ? 'Oui' : 'sortie le '+ (item?.end_date|dateMessage)}}
                 </td>
                 <td data-title="Action" style="text-align: right;">
                   <div class="actions">
