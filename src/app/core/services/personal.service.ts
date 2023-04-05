@@ -106,4 +106,12 @@ export class PersonalService {
   getAllPersonalsAnnex(params) {
     return this.apiService.post('personal_a/all', params).pipe(map(result => result?.result?.data || []));
   }
+  getMetaData(params) {
+    return this.apiService.get('007/getMetaData?type='+params).pipe(map(result => result?.result?.data || []));
+  }
+
+  getManagers(params?) {
+    return this.apiService.post('007/manager/list', params).pipe(map(result => result?.result?.data || []));
+  }
+  
 }

@@ -1,7 +1,7 @@
 <div class="list container top-container">
       <div class="sub-header ">
         <h1 class="main-title">
-         {{sectionName}}
+         {{sectionName}} 
         </h1>
 
         <div class="search d-flex">
@@ -459,7 +459,7 @@
                             <div class="label blue-text" >Centre de profit</div>
                           </td>
                           <td>
-                            <div class="value" >{{item?.personal?.manager?.full_name}}</div>
+                            <div class="value" >{{item?.entrance?.manager?.full_name}}</div>
                           </td>
                         </tr>
                       </table>
@@ -533,7 +533,7 @@
                       </div>
                     </td>
                     <td>{{item?.personal?.registration_number}}</td>
-                    <td class="tel">{{ item?.entrance?.manager?.full_name || 'of perso ::'+ item?.personal?.manager?.full_name}}</td>
+                    <td title="{{item?.entrance?.manager?.full_name}}">{{ item?.entrance?.manager?.slug || 'of perso ::'+ item?.personal?.manager?.label}}</td>
                     <td>{{item?.entrance?.status?.label || 'of perso::'+item?.personal?.status?.label || 'status_personal'}}</td>
                     <td class="tel">{{ (item?.entrance?.entry_date | dateMessage)  ||(item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
                     <td >
@@ -707,7 +707,7 @@
                     <td>{{item?.personal?.registration_number}}</td>
                     <td>{{item?.personal?.entity?.label || 'entity_name'}}</td>
                     <td>{{ (item?.personal?.entry_date | dateMessage )|| 'date entree'}}</td>
-                    <td>{{item?.personal?.manager?.full_name}}</td>
+                    <td title="{{item?.personal?.manager?.full_name}}">{{item?.personal?.manager?.slug}}</td>
                     <td>{{item?.type?.label || 'entretien_type'}}</td>
                     <td>
                       {{item?.theoretical_date | dateMessage}}
@@ -1256,7 +1256,7 @@
                               <div class="label blue-text" >Société</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.entity}}</div>
+                              <div class="value" >{{item?.entity?.label || 'N.R'}}</div>
                             </td>
                           </tr>
                           <tr>
@@ -1264,7 +1264,7 @@
                               <div class="label blue-text" >Centre de profit</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.manager}}</div>
+                              <div class="value" >{{item?.manager?.full_name}}</div>
                             </td>
                           </tr>
                         </table>
@@ -1343,7 +1343,8 @@
                     <td>{{item?.entity?.label || 'N.R'}}</td>
                     <td>{{item?.siege?.label || 'N.R'}}</td>
                     <td>{{ (item?.entry_date | dateMessage) || 'N.R'}}</td>
-                    <td>{{item?.manager?.full_name || 'N.R'}}</td>
+                    <!-- <td>{{item?.bu?.label || 'N.R'}}</td> -->
+                    <td title="{{item?.manager?.full_name}}">{{item?.manager?.slug ? item?.manager?.slug:item?.manager?.nom || 'N.R'}}</td>
                     <td>{{item?.contrat?.label || 'N.R'}}</td>
                     <td>{{item?.status?.label || 'N.R'}}</td>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
@@ -1585,7 +1586,8 @@
                     <td>{{item?.entrance?.entity?.label || (item?.personal?.entity ? item?.personal?.entity?.label + "perso ::" : 'N.R')}}</td>
                     <td>{{item?.entrance?.siege?.label ||  (item?.personal?.siege ? item?.personal?.siege?.label + "perso ::" : 'N.R' )}}</td>
                     <td> {{(item?.entrance?.entry_date | dateMessage) || (item?.personal?.entry_date + "perso ::" | dateMessage) || 'N.R'}}</td>
-                    <td>{{item?.entrance?.manager?.full_name || (item?.personal?.manager ? item?.personal?.manager?.full_name  + "perso ::" :'N.R')}}</td>
+                    <td title="{{item?.entrance?.manager?.full_name}}">{{item?.entrance?.manager?.slug ? item?.entrance?.manager?.slug:item?.entrance?.manager?.nom || 'N.R'}}</td>
+                    <!-- <td>{{item?.entrance?.manager?.label || (item?.personal?.manager ? item?.personal?.manager?.label  + "perso ::" :'N.R')}}</td> -->
                     <td>{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                     <td>{{item?.motif?.label || 'N.R'}}</td>
                     <td>{{ (item?.end_date_preavis | dateMessage) || 'N.R'}}</td>

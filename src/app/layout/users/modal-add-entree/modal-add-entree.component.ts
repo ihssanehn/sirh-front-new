@@ -22,6 +22,7 @@ export class ModalAddEntreeComponent implements OnInit {
   status = [];
   sieges = [];
   managers = [];
+  bus = [];
   @Input() submitting: boolean;
   errorLoadData: boolean;
   loadingData: boolean;
@@ -37,7 +38,8 @@ export class ModalAddEntreeComponent implements OnInit {
     first_name: 'first_name',
     email: 'email',
     contrat: 'contrat_id',
-    centre_profit: 'manager_id',
+    centre_profit: 'bu_id',
+    manager: 'manager_id',
     status: 'status',
     entity: 'entity_id',
     date_entree: 'entry_date',
@@ -53,6 +55,7 @@ export class ModalAddEntreeComponent implements OnInit {
     email: 'Email',
     contrat: 'Contrat',
     centre_profit: 'Centre de profit',
+    manager: 'Manager',
     status: 'Statut',
     entity:  'Entité',
     date_entree: 'Date d\'entrée',
@@ -76,6 +79,7 @@ export class ModalAddEntreeComponent implements OnInit {
       first_name: [null, Validators.compose([Validators.required])],
       email: [null, Validators.compose([Validators.required])],
       contrat_id: [null, Validators.compose([Validators.required])],
+      bu_id: [null, Validators.compose([Validators.required])],
       manager_id: [null, Validators.compose([Validators.required])],
       status: [null, Validators.compose([Validators.required])],
       entity_id: [null, Validators.compose([Validators.required])],
@@ -108,8 +112,12 @@ export class ModalAddEntreeComponent implements OnInit {
     this.status = await this.listService.getAll('status','PERSONAL').toPromise();
     this.contrats = await this.listService.getAll('contrat_type').toPromise();
     this.sieges = await this.listService.getAll('siege_type').toPromise();
-    this.entities = await this.listService.getAll('entity').toPromise();
-    this.managers = await this.listService.getAll('users').toPromise();
+    
+    // this.entities = await this.listService.getAll('entity').toPromise();
+    // this.managers = await this.listService.getAll('users').toPromise();
+    this.managers = await this.personalService.getManagers({'without_archive':1}).toPromise();
+    this.entities = await this.personalService.getMetaData('ENTITY').toPromise();
+    this.bus = await this.personalService.getMetaData('BU').toPromise();
    }
 
 

@@ -12,6 +12,7 @@ export interface Personal {
   status_id?: any;
   contrat_id?: any;
   manager_id?: any;
+  bu_id?: any;
   entity_id?: any;
   siege_id?: any;
   entry_date?: Date;
@@ -23,6 +24,7 @@ export interface Personal {
   contrat?: any;
   entity?: any;
   manager?: any;
+  bu?: any;
   siege?: any;
   label: string;
 }
