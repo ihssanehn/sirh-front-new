@@ -34,8 +34,8 @@ export class PersonalService {
     return this.apiService.post('personal/interview/calculation-theoretical', param).pipe(map(result => result?.result?.data || []));
   }
 
-  getPersonnelAnnex() {
-    return this.apiService.get('personal_a/mini').pipe(map(result => result?.result?.data || []));
+  getPersonnelAnnex(params?) {
+    return this.apiService.post('personal_a/mini',params).pipe(map(result => result?.result?.data || []));
   }
 
   addEntretien(params: any) {

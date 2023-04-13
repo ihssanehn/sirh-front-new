@@ -58,21 +58,21 @@ export class ModalAddSortieComponent implements OnInit {
   formMetaData = {
     personal_id: {
       input: 'personal_id',
-      label: 'Personnel',
-      placeholder: 'Selectionner le personnel',
-      errorRequired: 'Le personnel est obligatoire'
+      label: 'Salarié',
+      placeholder: 'Selectionner le salarié',
+      errorRequired: 'Le salarié est obligatoire'
     },
     motif_id: {
       input: 'motif_id',
       label: 'Motif',
       placeholder: 'Selectionner le motif',
-      errorRequired: 'La motif est obligatoire'
+      errorRequired: 'Le motif est obligatoire'
     },
     requested_at: {
       input: 'requested_at',
       label: 'Date reception courrier',
       placeholder: 'La date de reception du courrier',
-      errorRequired: 'La de reception du courrier est obligatoire'
+      errorRequired: 'La date de reception du courrier est obligatoire'
     },
     end_date_preavis: {
       input: 'end_date_preavis',
@@ -131,8 +131,7 @@ export class ModalAddSortieComponent implements OnInit {
     if(items === 'personals'){
       try{
         this.loadingSelect[list_name] = true;
-        this[items] = await this.personalService.getPersonnelAnnex().toPromise();
-        console.log('this.item this.personals', this.personals);
+        this[items] = await this.personalService.getPersonnelAnnex({with_exited:true}).toPromise();
       } catch (e) {
         console.log('error filter', e);
       } finally {
