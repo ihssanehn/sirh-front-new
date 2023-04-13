@@ -1496,7 +1496,7 @@
                               <div class="label blue-text" >Société</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.entity?.label}}</div>
+                              <div class="value" >{{item?.entity?.label || 'N.R'}}</div>
                             </td>
                           </tr>
                           <tr>
@@ -1504,12 +1504,15 @@
                               <div class="label blue-text" >Centre de profit</div>
                             </td>
                             <td>
-                              <div class="value" >{{item?.personal?.manager?.full_name}}</div>
+                              <div class="value" >{{item?.manager?.full_name}}</div>
                             </td>
                           </tr>
                         </table>
                         <ng-container
-                            *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate ||  item?.personal?.has_trial_period_to_validate">
+                            *ngIf="item?.personal?.has_interview_to_validate ||
+                               item?.personal?.has_medical_visit_to_validate ||
+                               item?.personal?.has_trial_period_to_validate"
+                          >
                             <div class="item danger-text text-decoration-underline">Informations manquantes</div>
                             <table class="small-table">
                               <tr *ngIf="item?.personal?.has_trial_period_to_validate">
@@ -1533,7 +1536,6 @@
                                       target="_blank"
                                       (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.entretien})"
                                     >
-
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1547,7 +1549,6 @@
                                       target="_blank"
                                       (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.visite_medicale})"
                                     >
-
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
                                   </div>
@@ -1556,7 +1557,6 @@
                             </table>
                           </ng-container>
                       </ng-template>
-
                       <div class="photo-cell pointer">
                         <div class="photo">
                           <div class="img-container">
@@ -1566,20 +1566,17 @@
                               container="body"
                               [autoClose]="true"
                               [attr.src]="item?.personal?.photo_profile ? (item?.personal?.photo_profile |
-                          getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png')) |
-                          async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
+                        getPhotoFromBackend: ('assets/images/'+(item?.personal?.civility === 'Mme' ? 'woman.png': 'man.png')) |
+                        async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                             />
                             <i class="fa fa-exclamation-triangle danger-icon"
                                *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
-                            ></i>
+                              ></i>
                           </div>
                         </div>
                         <div class="name"
-                             (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.sortie})"
-                        >
-                          {{item?.personal?.nom || 'N.R'}}
-                          {{item?.personal?.prenom || 'N.R'}}
-                        </div>
+                             (click)="goToDetails('/users/details', { user_id: item?.personal?.id, step: STEPS.entree})"
+                        >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                       </div>
                     </td>
                     <td class="sticky-col second-col">

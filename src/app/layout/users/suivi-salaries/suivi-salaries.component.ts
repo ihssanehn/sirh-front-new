@@ -41,7 +41,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   pagination: any = {
     page: 1,
     total: 10,
-    pageSize: 10
+    pageSize: 20
   };
 
   profiles
