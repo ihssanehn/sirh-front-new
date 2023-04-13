@@ -314,12 +314,12 @@
               <table class="table-responsive card-list-table">
                 <thead>
                   <tr>
-                  <th>
-                    Matricule
-                  </th>
-                  <th>
-                    Salarié
-                  </th>
+                    <th>
+                      Salarié
+                    </th>
+                    <th>
+                      Matricule
+                    </th>
                   <th>
                     Profil
                   </th>
@@ -352,7 +352,6 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of listItems"  >
-                    <td>{{item?.registration_number}}</td>
                     <td>
                       <div class="photo-cell pointer"
                            (click)="goToDetails('/users/details/'+item.id)"
@@ -369,6 +368,7 @@
                         <div class="name">{{item?.full_name}} </div>
                       </div>
                     </td>
+                    <td>{{item?.registration_number}}</td>
                     <td>{{item?.profile_name}}</td>
                     <td>{{item?.role_name}}</td>
                     <td>{{item?.cp_name}}</td>
@@ -891,10 +891,10 @@
                 <thead>
                 <tr>
                   <th>
-                    Matricule
+                    Salarié
                   </th>
                   <th>
-                    Salarié
+                    Matricule
                   </th>
                   <!-- <th>
                     Société
@@ -935,7 +935,6 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of listItems"  >
-                  <td>{{item?.personal?.registration_number}}</td>
 
                   <td>
                     <ng-template #infopopover>
@@ -1039,6 +1038,7 @@
                       >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
                     </div>
                   </td>
+                  <td>{{item?.personal?.registration_number}}</td>
                   <!-- <td>{{item?.personal?.entity?.label || 'N.R'}}</td> -->
                   <!-- <td>{{item?.personal?.siege?.label || 'N.R'}}</td> -->
                   <td>{{item?.type?.label || 'N.R'}}</td>
