@@ -205,3 +205,35 @@ table{
     padding: 4px 5px !important;
   }
 }
+
+
+.view {
+  margin: auto;
+  width: 600px;
+}
+
+.table-wrapper {
+  position: relative;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+th{
+  &.sticky-col{
+    background-color: $septenaryColor;
+  }
+}
+
+.sticky-col {
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 10;
+}
+
+.first-col {
+  left: 0px;
+}
+
+.second-col {
+  left: 16em;
+}

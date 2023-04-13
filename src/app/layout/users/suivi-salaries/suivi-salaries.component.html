@@ -1174,11 +1174,11 @@
                     </ng-container>
                   </tr>
                   <tr>
-                    <th>
-                      Matricule
-                    </th>
-                    <th>
+                    <th class="sticky-col first-col">
                       Salarié
+                    </th>
+                    <th class="sticky-col second-col">
+                      Matricule
                     </th>
                     <th>
                       Société
@@ -1234,9 +1234,8 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of listItems">
-                    <td>{{item?.personal?.registration_number || 'N.R'}}</td>
 
-                    <td>
+                    <td class="sticky-col first-col">
                       <ng-template #infopopover>
                         <div class="title">
                           {{item?.personal?.nom}} {{item?.personal?.prenom}}
@@ -1340,6 +1339,9 @@
                       </div>
                     </td>
 
+                    <td class="sticky-col second-col">{{item?.personal?.registration_number || 'N.R'}}</td>
+
+
                     <td>{{item?.entity?.label || 'N.R'}}</td>
                     <td>{{item?.siege?.label || 'N.R'}}</td>
                     <td>{{ (item?.entry_date | dateMessage) || 'N.R'}}</td>
@@ -1397,10 +1399,10 @@
               <table class="table-responsive card-list-table table_entree">
                 <thead>
                   <tr>
-                  <th>
+                  <th class="sticky-col first-col">
                     Salarié
                   </th>
-                  <th>
+                  <th class="sticky-col second-col">
                     Matricule
                   </th>
                   <th>
@@ -1474,7 +1476,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of listItems" >
-                    <td>
+                    <td class="sticky-col first-col">
                       <ng-template #infopopover>
                         <div class="title">
                           {{item?.personal?.nom}} {{item?.personal?.prenom}}
@@ -1580,7 +1582,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="sticky-col second-col">
                       {{item?.personal?.registration_number || 'N.R'}}
                     </td>
                     <td>{{item?.entrance?.entity?.label || (item?.personal?.entity ? item?.personal?.entity?.label + "perso ::" : 'N.R')}}</td>
