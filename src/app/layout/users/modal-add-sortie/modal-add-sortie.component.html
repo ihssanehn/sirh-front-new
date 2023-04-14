@@ -55,7 +55,7 @@
                       [multiple]="false"
                       (open)="getFilterList('motifs', listService.list.EXIT_TYPE)"
                       [loading]="loadingSelect[listService.list.EXIT_TYPE]"
-                      (change)="getPreavisCalculation()"
+                      (change)="getPreavisCalculation();onMotifChanged();"
                     >
                     </ng-select>
 
@@ -118,32 +118,11 @@
                                       && formGroup.controls[formMetaData.end_date_preavis.input].dirty}"
                     ></i>
                     <ng-template #endPreavisDatePopover>
-                      Ce champ est calculé automatiquement en fonction de la date d'entrée du personnel, le motif et la date de réception du courrier.
-                      Sauf si vous le modifiez manuellement.
+                      Ce champ est calculé automatiquement pour les démissions, en fonction du statut du salarié et de la date de réception du courrier.
+                      Vous pouvez le modifier manuellement.
                     </ng-template>
                   </label>
                   <div class="col">
-
-<!--                    <div class="date-picker-group">-->
-<!--                      <owl-date-time #owl_dt1 [pickerType]="'timer'" ></owl-date-time>-->
-<!--                      <input [owlDateTime]="owl_dt1"-->
-<!--                             class="form-control input date"-->
-<!--                             [owlDateTimeTrigger]="owl_dt1"-->
-<!--                             [placeholder]="formMetaData.end_date_preavis.placeholder"-->
-<!--                             [ngClass]="{'is-invalid error-input':-->
-<!--                               formGroup.controls[formMetaData.end_date_preavis.input].hasError('required')-->
-<!--                                  && formGroup.controls[formMetaData.end_date_preavis.input].dirty}"-->
-<!--                             [formControlName]="formMetaData.end_date_preavis.input"-->
-<!--                      />-->
-<!--                      <div class="icons-container">-->
-<!--                        <i class="icon-close"-->
-<!--                           (click)="clearDateInput(formMetaData.end_date_preavis.input)"-->
-<!--                           *ngIf="formGroup.controls[formMetaData.end_date_preavis.input].value"></i>&nbsp;-->
-<!--                        <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>-->
-<!--                      </div>-->
-<!--                    </div>-->
-
-
                     <div class="date-picker-group">
                       <dp-date-picker
                                       [mode]="'daytime'"
@@ -171,6 +150,24 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="row" *ngIf="display_radio_end_date">
+                <label class="col-12">{{formMetaData.is_provisional_date.label}}
+                  {{isRequired(formMetaData.is_provisional_date.input)}}</label>
+                <div class="btn-group radio"
+                        ngbRadioGroup name="radioBasic"
+                        [formControlName]="formMetaData.is_provisional_date.input"
+                  >
+                    <label ngbButtonLabel>
+                      <input ngbButton type="radio" [value]="0" id="starts_at_am">&nbsp;
+                      <span class="radio-label" for="starts_at_am">Date définitive</span>
+                    </label>
+                    <label ngbButtonLabel>
+                      <input ngbButton type="radio" [value]="1" id="starts_at_pm">&nbsp;
+                      <span class="radio-label" for="starts_at_pm">Date provisoire</span>
+                    </label>
+                  </div>
               </div>
 
 

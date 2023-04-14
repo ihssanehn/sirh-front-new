@@ -1475,7 +1475,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of listItems" >
+                  <tr *ngFor="let item of listItems"  [ngClass]="{'highlighted': item?.is_provisional_date}">
                     <td class="sticky-col first-col">
                       <ng-template #infopopover>
                         <div class="title">
@@ -1571,7 +1571,7 @@
                             />
                             <i class="fa fa-exclamation-triangle danger-icon"
                                *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
-                              ></i>
+                              </i>
                           </div>
                         </div>
                         <div class="name"
@@ -1582,16 +1582,20 @@
                     <td class="sticky-col second-col">
                       {{item?.personal?.registration_number || 'N.R'}}
                     </td>
-                    <td>{{item?.entrance?.entity?.label || (item?.personal?.entity ? item?.personal?.entity?.label + "perso ::" : 'N.R')}}</td>
-                    <td>{{item?.entrance?.siege?.label ||  (item?.personal?.siege ? item?.personal?.siege?.label + "perso ::" : 'N.R' )}}</td>
-                    <td> {{(item?.entrance?.entry_date | dateMessage) || (item?.personal?.entry_date + "perso ::" | dateMessage) || 'N.R'}}</td>
+                    <td>{{item?.entrance?.entity?.label || (item?.personal?.entity ? item?.personal?.entity?.label : 'N.R')}}</td>
+                    <td>{{item?.entrance?.siege?.label ||  (item?.personal?.siege ? item?.personal?.siege?.label  : 'N.R' )}}</td>
+                    <td> {{(item?.entrance?.entry_date | dateMessage) || (item?.personal?.entry_date | dateMessage) || 'N.R'}}</td>
                     <td title="{{item?.entrance?.manager?.full_name}}">{{item?.entrance?.manager?.slug ? item?.entrance?.manager?.slug:item?.entrance?.manager?.nom || 'N.R'}}</td>
                     <!-- <td>{{item?.entrance?.manager?.label || (item?.personal?.manager ? item?.personal?.manager?.label  + "perso ::" :'N.R')}}</td> -->
                     <td>{{ (item?.requested_at | dateMessage) || 'N.R'}}</td>
                     <td>{{item?.motif?.label || 'N.R'}}</td>
                     <td>{{ (item?.end_date_preavis | dateMessage) || 'N.R'}}</td>
                     <td>{{ (item?.date_limite_reponse | dateMessage) || 'N.R'}}</td>
-                    <td>{{ (item?.end_date | dateMessage) || 'N.R'}}</td>
+                    <td>
+                      <span [ngClass]="{'highlighted-label': item?.is_provisional_date}">
+                        {{ (item?.end_date | dateMessage) || 'N.R'}}
+                      </span>
+                    </td>
                     <td>
                         <i class="icon-attachment primary-icon"></i>
                     </td>

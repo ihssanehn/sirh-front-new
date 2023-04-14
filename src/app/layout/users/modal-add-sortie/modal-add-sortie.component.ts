@@ -44,6 +44,7 @@ export class ModalAddSortieComponent implements OnInit {
   validators_conge =  [];
   loadingLists: boolean;
   formGroup: FormGroup;
+  display_radio_end_date:boolean=false;
 
   config: IDatePickerConfig = {
     format: 'DD/MM/YYYY HH:mm',
@@ -78,6 +79,12 @@ export class ModalAddSortieComponent implements OnInit {
       input: 'end_date_preavis',
       label: 'Date fin normal préavis',
       placeholder: 'La date fin normal préavis',
+      errorRequired: 'La date fin normal préavis est obligatoire'
+    },
+    is_provisional_date: {
+      input: 'is_provisional_date',
+      label: 'Date de fin saisie',
+      placeholder: 'La date de fin est-elle provisoire ?',
       errorRequired: 'La date fin normal préavis est obligatoire'
     }
   }
@@ -115,6 +122,8 @@ export class ModalAddSortieComponent implements OnInit {
       motif_id: [this.item?.motif_id || null, Validators.compose([Validators.required])],
       requested_at: [this.item ? moment(this.item.requested_at).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
       end_date_preavis: [this.item ? moment(this.item.end_date_preavis).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
+      is_provisional_date: [this.item?.is_provisional_date || 0],
+      
     });
     this.id_entite = this.mainStore.selectedEntities?.length === 1 ? this.mainStore.selectedEntities[0].id: null;
   }
@@ -162,7 +171,8 @@ export class ModalAddSortieComponent implements OnInit {
         personal_id: this.formGroup.getRawValue().personal_id,
         motif_id: this.formGroup.getRawValue().motif_id,
         requested_at: formatDateForBackend(this.formGroup.getRawValue().requested_at),
-        end_date_preavis: formatDateTimeForBackend(moment(this.formGroup.getRawValue().end_date_preavis, 'DD/MM/YYYY HH:mm'))
+        end_date_preavis: formatDateTimeForBackend(moment(this.formGroup.getRawValue().end_date_preavis, 'DD/MM/YYYY HH:mm')),
+        is_provisional_date:this.formGroup.getRawValue().is_provisional_date
       }
       console.log('params', params);
       let res;
@@ -215,6 +225,16 @@ export class ModalAddSortieComponent implements OnInit {
     }finally {
 
     }
+  }
+
+  onMotifChanged(){
+    console.log(this.formGroup.getRawValue().motif_id)
+    const motifFound = this.motifs.find(motif => motif.id === this.formGroup.getRawValue().motif_id);
+    console.log(motifFound)
+    if(motifFound && motifFound?.code === 'demission')
+      this.display_radio_end_date = true;
+    else
+      this.display_radio_end_date = false;
   }
 
   clearDateInput(input: string) {

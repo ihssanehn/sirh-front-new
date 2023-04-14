@@ -40,6 +40,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     showTwentyFourHours: true,
   }
   @Input() submitting: boolean;
+  display_radio_end_date:boolean =false;
   loadingSelect = {};
   formInputs = {
     personal_id: 'personal_id',
@@ -49,6 +50,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     motif_id: 'motif_id',
     end_date_preavis: 'end_date_preavis',
     date_limit_reponse: 'date_limit_reponse',
+    is_provisional_date:'is_provisional_date',
 
     mail_direction_bm: 'mail_direction_bm',
     mail_admin: 'mail_admin',
@@ -66,6 +68,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     date_sortie: 'Date de sortie',
     requested_at: 'Date réception courrier',
     motif_id: 'Motif',
+    is_provisional_date: 'Date de fin saisie',
     end_date_preavis: 'Fin normal préavis',
     date_limit_reponse: 'Date limite de réponse',
     mail_direction_bm: 'Mail Direction + BM',
@@ -137,11 +140,12 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     this.noWhitespaceValidator.bind(this);
     this.formGroup = this.formBuilder.group({
       personal_id: [null, Validators.compose([Validators.required])],
-      entrance_id: [null, Validators.compose([Validators.required])],
+      entrance_id: [null],
       requested_at: [null, Validators.compose([Validators.required])],
       motif_id: [null, Validators.compose([Validators.required])],
       end_date_preavis: [null, Validators.compose([Validators.required])],
       date_limit_reponse: [null, Validators.compose([Validators.required])],
+      is_provisional_date: [0],
       date_entree: [null],
       date_sortie: [null],
       id: [null],
@@ -217,8 +221,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     if(this.sortie?.entrance?.entry_date){
       this.formGroup.patchValue({date_entree: this.sortie.entrance.entry_date, entrance_id: this.sortie.entrance.id})
     } 
-   
-
+    this.getmotifs();
   }
 
   async getFilterList(items, list_name, list_param?){
@@ -259,6 +262,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
 
   async getmotifs(){
    this.motifs = await this.userService.getTypesByModel('exit_type').toPromise();
+   this.onMotifChanged()
   }
 
   
@@ -585,6 +589,18 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       this.mainStore.showMessage(`Echec de téléchargement!`, `le document n'a pas pu être téléchargé`, 'error');
     }
 
+  }
+
+  onMotifChanged(){
+    console.log('onMotifChanged',this.formGroup.getRawValue().motif_id)
+    if(this.motifs){
+      const motifFound = this.motifs.find(motif => motif.id === this.formGroup.getRawValue().motif_id);
+      console.log(motifFound)
+      if(motifFound && motifFound?.code === 'demission')
+        this.display_radio_end_date = true;
+      else
+      this.display_radio_end_date = false;
+    }
   }
 
   getFileSize(size){

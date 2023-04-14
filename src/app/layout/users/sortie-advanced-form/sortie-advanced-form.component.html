@@ -104,7 +104,7 @@
                                 dropdownPosition="'bottom'"
                                 [bindLabel]="'label'"
                                 [bindValue]="'id'"
-                                (change)="getPreavisCalculation()"
+                                (change)="getPreavisCalculation();onMotifChanged();"
                                 class="form-control select"
                                 placeholder="Sélectionner le motif"
                                 [formControl]="formGroup.controls[formInputs.motif_id]"
@@ -176,6 +176,23 @@
                         </div>
                       </div>
                     </div>
+                 
+                    <div class="col" *ngIf="display_radio_end_date">
+                      <label class="col-12">{{formLabels.is_provisional_date}}</label>
+                      <div class="btn-group radio"
+                              ngbRadioGroup name="radioBasic"
+                              [formControl]="formGroup.controls[formInputs.is_provisional_date]"
+                        >
+                          <label ngbButtonLabel>
+                            <input ngbButton type="radio" [value]="0" id="is_provisional_date_0">&nbsp;
+                            <span class="radio-label" for="is_provisional_date_0">Date définitive</span>
+                          </label>
+                          <label ngbButtonLabel>
+                            <input ngbButton type="radio" [value]="1" id="is_provisional_date_1">&nbsp;
+                            <span class="radio-label" for="is_provisional_date_1">Date provisoire</span>
+                          </label>
+                        </div>
+                    </div>
                     <div class="col">
                       <label class="col-2">{{formLabels.date_limit_reponse}} {{isRequired(formInputs.date_limit_reponse)}}</label>
                       <div class="col">
@@ -203,7 +220,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                 </div>
+    
                   <div class="row">
                     <div class="col-1">
                       Pièces jointes

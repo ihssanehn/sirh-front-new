@@ -14,6 +14,10 @@
   -webkit-border-radius: 3em;
   border-radius: 3em;
 }
+.photo-cell  .photo   i{
+  background-color: transparent!important;
+}
+
 
 
 .top-container{
@@ -169,6 +173,19 @@ table{
     }
     .name{
       font-size: 11px !important;
+    }
+    tr{
+      &.highlighted{
+        td{
+          background-color: #ffd5c6!important;
+          .highlighted-label{
+            background-color: #920606;
+            padding: 0.5em;
+            color: white;
+            border-radius: 15px;
+          }
+        }
+      }
     }
   }
   .sticky{
