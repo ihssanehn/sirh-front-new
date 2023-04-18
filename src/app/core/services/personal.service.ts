@@ -58,6 +58,10 @@ export class PersonalService {
     return this.apiService.post('personal/medical_visit/update', params);
   }
 
+  cancelVM(params: any) {
+    return this.apiService.post('personal/medical_visit/cancel', params);
+  }
+
   updateSortie(params: any) {
     return this.apiService.post('personal/exit/update', params);
   }

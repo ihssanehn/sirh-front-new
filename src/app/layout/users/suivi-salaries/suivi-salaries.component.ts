@@ -737,6 +737,45 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     });
   }
 
+  async cancelVM(id) {
+    Swal.fire({
+      title: this.translate.instant('ARE YOU SURE?'),
+      text: this.translate.instant('ARE YOU SURE YOU WANT TO CANCEL THIS VM?'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#59a6d4',
+      cancelButtonColor: '#f3533b',
+      confirmButtonText: this.translate.instant('YES, DELETE!'),
+      cancelButtonText: this.translate.instant('CANCEL'),
+      heightAuto: false
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          const res = await this.personalService.cancelVM({id}).toPromise();
+          console.log('res', res);
+          if ( res?.result?.data) {
+            Swal.fire({
+              title: this.translate.instant('SUCCESSFUL OPERATION!'),
+              text: 'L\'entrée a bien été annulée',
+              icon: 'success',
+              heightAuto: false
+            });
+            this.getListElements();
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          console.log('errorMessage', error);
+          Swal.fire(
+              this.translate.instant('FAILURE!'),
+              error,
+              'error'
+          );
+        }
+      }
+    });
+  }
+
 
   goToDetails(route: string, queryParams = {}) {
     this.router.navigate([route], { queryParams: {...queryParams, ...this.filter}, queryParamsHandling: 'merge' });
