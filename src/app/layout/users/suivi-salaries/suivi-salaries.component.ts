@@ -24,6 +24,7 @@ import {ModalDocumentrhFilesComponent} from "@layout/users/modal-documentrh-file
 import {ModalAddPeriodEssaiComponent} from "@layout/users/modal-add-period-essai/modal-add-period-essai.component";
 import {isMoment} from "moment";
 import * as moment from "moment/moment";
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -695,6 +696,45 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     }catch (e) {
       this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de la modification de la période d\'essai'});
     }
+  }
+
+  async cancelEntrance(id) {
+    Swal.fire({
+      title: this.translate.instant('ARE YOU SURE?'),
+      text: this.translate.instant('ARE YOU SURE YOU WANT TO CANCEL THIS ENTRANCE?'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#59a6d4',
+      cancelButtonColor: '#f3533b',
+      confirmButtonText: this.translate.instant('YES, DELETE!'),
+      cancelButtonText: this.translate.instant('CANCEL'),
+      heightAuto: false
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          const res = await this.personalService.cancelEntree({id}).toPromise();
+          console.log('res', res);
+          if ( res?.result?.data) {
+            Swal.fire({
+              title: this.translate.instant('SUCCESSFUL OPERATION!'),
+              text: 'L\'entrée a bien été annulée',
+              icon: 'success',
+              heightAuto: false
+            });
+            this.getListElements();
+          } else {
+            throw new Error();
+          }
+        } catch (error) {
+          console.log('errorMessage', error);
+          Swal.fire(
+              this.translate.instant('FAILURE!'),
+              error,
+              'error'
+          );
+        }
+      }
+    });
   }
 
 

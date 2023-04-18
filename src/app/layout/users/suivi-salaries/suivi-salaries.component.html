@@ -934,7 +934,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of listItems"  >
+                <tr *ngFor="let item of listItems" [ngClass]="{'highlighted': item?.flag}" >
 
                   <td>
                     <ng-template #infopopover>
@@ -1030,12 +1030,14 @@
                           />
                           <i class="fa fa-exclamation-triangle danger-icon"
                              *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
-                            ></i>
+                            </i>
                         </div>
                       </div>
                       <div class="name"
                            (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.visite_medicale})"
-                      >{{item?.personal?.nom}} {{item?.personal?.prenom}}</div>
+                      >
+                      {{item?.personal?.nom}} {{item?.personal?.prenom}}
+                    </div>
                     </div>
                   </td>
                   <td>{{item?.personal?.registration_number}}</td>
@@ -1168,6 +1170,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <th>
                       </th>
@@ -1204,6 +1207,8 @@
                           </span>
                         </th>
                     </ng-container>
+                    <th style="text-align: right">Actions</th>
+
                     <th style="text-align: center" [matTooltip]="'Selectionnez les colonnes que vous souhaitez visualiser'" class="sticky th-btn" width="2%" style="position: sticky;right:-80px;" [matMenuTriggerFor]="statusMenu">
                       <i class="fa fa-filter" ></i>
                     </th>
@@ -1365,31 +1370,16 @@
                           </div>
                         </td>
                     </ng-container>
+                  
                     <td>
                       <div class="actions">
-
-                        <!--                              <span class="d-none d-lg-flex">Détails</span>-->
-
-                        <!--                                <ng-container *ngIf="!user.blocked_at; else unlock">-->
-                        <!--                                    <i class="fa fa-lock"-->
-                        <!--                                       data-toggle="tooltip"-->
-                        <!--                                       data-placement="top"-->
-                        <!--                                       (click)="askBlockUser(user.id)"-->
-                        <!--                                       title="{{'DISABLE ACCOUNT' | translate}}"></i>-->
-                        <!--                                </ng-container>-->
-                        <!--                                <ng-template #unlock>-->
-                        <!--                                    <i class="fa fa-unlock"-->
-                        <!--                                       data-toggle="tooltip"-->
-                        <!--                                       data-placement="top"-->
-                        <!--                                       (click)="askUnBlockUser(user.id)"-->
-                        <!--                                       title="{{'ENABLE ACCOUNT' | translate}}"></i>-->
-                        <!--                                </ng-template>-->
-                        <!--                                <i class="fa fa-trash"-->
-                        <!--                                   (click)="archive(user.id)"-->
-                        <!--                                   data-toggle="tooltip"-->
-                        <!--                                   data-placement="top"-->
-                        <!--                                   title="{{'DELETE' | translate}}"></i>-->
+                          <span class="danger-action pointer d-none d-lg-flex" (click)="cancelEntrance(item.id)">
+                            Annuler
+                          </span>
                       </div>
+                    </td>
+                    <td>
+
                     </td>
                   </tr>
                 </tbody>

@@ -30,6 +30,10 @@ export class PersonalService {
     return this.apiService.post('personal_a/create', params);
   }
 
+  cancelEntree(params) {
+    return this.apiService.post('personal_a/entrances/cancel', params);
+  }
+
   getTheoricalDateCalulation(param) {
     return this.apiService.post('personal/interview/calculation-theoretical', param).pipe(map(result => result?.result?.data || []));
   }
