@@ -81,6 +81,12 @@ export class ModalAddSortieComponent implements OnInit {
       placeholder: 'La date fin normal préavis',
       errorRequired: 'La date fin normal préavis est obligatoire'
     },
+    end_date: {
+      input: 'end_date',
+      label: 'Date de sortie',
+      placeholder: 'La date de sortie',
+      errorRequired: 'La date de sortie est obligatoire'
+    },
     is_provisional_date: {
       input: 'is_provisional_date',
       label: 'Date de fin saisie',
@@ -101,6 +107,8 @@ export class ModalAddSortieComponent implements OnInit {
         ...val,
         requested_at: val.requested_at ? moment(val.requested_at).format('YYYY-MM-DD'): null,
         end_date_preavis: val.end_date_preavis ? moment(val.end_date_preavis).format('DD/MM/YYYY HH:mm'): null,
+        end_date: val.end_date ? moment(val.end_date).format('YYYY-MM-DD'): null,
+        
       });
     }
     this.getFilterList('motifs', this.listService.list.EXIT_TYPE);
@@ -122,6 +130,7 @@ export class ModalAddSortieComponent implements OnInit {
       motif_id: [this.item?.motif_id || null, Validators.compose([Validators.required])],
       requested_at: [this.item ? moment(this.item.requested_at).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
       end_date_preavis: [this.item ? moment(this.item.end_date_preavis).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
+      end_date: [this.item ? moment(this.item.end_date).format('YYYY-MM-DD') : null, Validators.compose([Validators.required])],
       is_provisional_date: [this.item?.is_provisional_date || 0],
       
     });
@@ -150,7 +159,8 @@ export class ModalAddSortieComponent implements OnInit {
       try{
         this.loadingSelect[list_name] = true;
         this[items] = await this.listService.getAll(list_name, list_param).toPromise();
-
+        if(items ==='motifs')
+          this.onMotifChanged()
       } catch (e) {
         console.log('error filter', e);
       } finally {
@@ -171,6 +181,7 @@ export class ModalAddSortieComponent implements OnInit {
         personal_id: this.formGroup.getRawValue().personal_id,
         motif_id: this.formGroup.getRawValue().motif_id,
         requested_at: formatDateForBackend(this.formGroup.getRawValue().requested_at),
+        end_date: formatDateForBackend(this.formGroup.getRawValue().end_date),
         end_date_preavis: formatDateTimeForBackend(moment(this.formGroup.getRawValue().end_date_preavis, 'DD/MM/YYYY HH:mm')),
         is_provisional_date:this.formGroup.getRawValue().is_provisional_date
       }

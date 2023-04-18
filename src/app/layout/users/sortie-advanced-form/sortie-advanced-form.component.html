@@ -34,35 +34,6 @@
                 <div class="form-bloc">
                   <div class="row">
                     <div class="col">
-                      <label class="col-12">{{formLabels.date_entree}} {{isRequired(formInputs.date_entree)}}</label>
-                      <div class="col">
-                        <div class="date-picker-group">
-                          <owl-date-time #owl_dt1 [pickerType]="'calendar'" [readOnly]="true" disabled></owl-date-time>
-                          <input [owlDateTime]="owl_dt1"
-                                 class="form-control input date"
-                                 [formControl]="formGroup.controls[formInputs.date_entree]"
-                                 [owlDateTimeTrigger]="owl_dt1"
-                                 placeholder="Choisir la date d'entrée"
-                                 name="date_entree"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_entree].hasError('required')
-                                  && formGroup.controls[formInputs.date_entree].dirty}"
-                          />
-                          <div class="icons-container">
-                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                          </div>
-                        </div>
-
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_entree].hasError('required')
-                    && formGroup.controls[formInputs.date_entree].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date d'entrée est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                   
-                    <div class="col">
                       <label class="col-2">{{formLabels.requested_at}} {{isRequired(formInputs.requested_at)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
@@ -83,7 +54,7 @@
                             <i class="icon-close"
                                (click)="clearDateInput(formInputs.requested_at)"
                                *ngIf="formGroup.controls[formInputs.requested_at].value"></i>&nbsp;
-                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                            <i [owlDateTimeTrigger]="owl_dt3" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
@@ -125,95 +96,28 @@
 
                       </div>
                     </div>
-                    <div class="col">
-                      <label class="col-12">{{formLabels.end_date_preavis}} {{isRequired(formInputs.end_date_preavis)}}</label>
-                      <div class="col">
-                        <!-- <div class="date-picker-group">
-                          <dp-date-picker
-                                          [mode]="'daytime'"
-                                          placeholder="Choisir la date de fin de préavis"
-                                          [config]="config"
-                                          class="date-picker"
-                                          theme="dp-material"
-                                          #datepicker
-                                          [ngClass]="{'is-invalid error-input':
-                                          formGroup.controls[formInputs.end_date_preavis].hasError('required')
-                                             && formGroup.controls[formInputs.end_date_preavis].dirty}"
-                                          [formControl]="formGroup.controls[formInputs.end_date_preavis]"
-                                       ></dp-date-picker>
-    
-                          <div class="icons-container">
-                            <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
-                          </div>
-                        </div> -->
-
-                        <div class="date-picker-group">
-                          <owl-date-time  #owl_dtpreavis [pickerType]="'calendar'" ></owl-date-time>
-                          <input [owlDateTime]="owl_dtpreavis"
-                                 class="form-control input date"
-                                 [owlDateTimeTrigger]="owl_dtpreavis"
-                                 [formControl]="formGroup.controls[formInputs.end_date_preavis]"
-                                 name="date_courrier"
-                                 placeholder="Renseignez la date de fin du préavis"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.end_date_preavis].hasError('required')
-                                  && formGroup.controls[formInputs.end_date_preavis].dirty}"
-                          />
-                          <div class="icons-container">
-                            <i class="icon-close"
-                               (click)="clearDateInput(formInputs.end_date_preavis)"
-                               *ngIf="formGroup.controls[formInputs.end_date_preavis].value"></i>&nbsp;
-                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
-                          </div>
-                        </div>
                     
-
-                        <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.end_date_preavis].hasError('required')
-                                  && formGroup.controls[formInputs.end_date_preavis].dirty">
-                          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                          La date de fin de préavis est obligatoire
-                        </div>
-                      </div>
-                    </div>
-                 
-                    <div class="col" *ngIf="display_radio_end_date">
-                      <label class="col-12">{{formLabels.is_provisional_date}}</label>
-                      <div class="btn-group radio"
-                              ngbRadioGroup name="radioBasic"
-                              [formControl]="formGroup.controls[formInputs.is_provisional_date]"
-                        >
-                          <label ngbButtonLabel>
-                            <input ngbButton type="radio" [value]="0" id="is_provisional_date_0">&nbsp;
-                            <span class="radio-label" for="is_provisional_date_0">Date définitive</span>
-                          </label>
-                          <label ngbButtonLabel>
-                            <input ngbButton type="radio" [value]="1" id="is_provisional_date_1">&nbsp;
-                            <span class="radio-label" for="is_provisional_date_1">Date provisoire</span>
-                          </label>
-                        </div>
-                    </div>
                     <div class="col">
                       <label class="col-2">{{formLabels.date_limit_reponse}} {{isRequired(formInputs.date_limit_reponse)}}</label>
                       <div class="col">
                         <div class="date-picker-group">
                           <owl-date-time #owl_dt4 [pickerType]="'calendar'" [readonly]="true" disabled ></owl-date-time>
                           <input [owlDateTime]="owl_dt4"
-                                 class="form-control input date"
-                                 [owlDateTimeTrigger]="owl_dt4"
-                                 placeholder="Choisir la date limite de réponse ici"
-                                 [ngClass]="{'is-invalid error-input':
-                               formGroup.controls[formInputs.date_limit_reponse].hasError('required')
+                                class="form-control input date"
+                                [owlDateTimeTrigger]="owl_dt4"
+                                placeholder="Choisir la date limite de réponse ici"
+                                [ngClass]="{'is-invalid error-input':
+                              formGroup.controls[formInputs.date_limit_reponse].hasError('required')
                                   && formGroup.controls[formInputs.date_limit_reponse].dirty}"
-                                 [formControl]="formGroup.controls[formInputs.date_limit_reponse]"
+                                [formControl]="formGroup.controls[formInputs.date_limit_reponse]"
                           />
                           <div class="icons-container">
-                            <i [owlDateTimeTrigger]="owl_dt1" class="fa fa-calendar"></i>
+                            <i [owlDateTimeTrigger]="owl_dt4" class="fa fa-calendar"></i>
                           </div>
                         </div>
 
                         <div class="form-control-feedback"
-                             *ngIf="formGroup.controls[formInputs.date_limit_reponse].hasError('required')
+                            *ngIf="formGroup.controls[formInputs.date_limit_reponse].hasError('required')
                     && formGroup.controls[formInputs.date_limit_reponse].dirty">
                           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                           La date limite de réponse est obligatoire
@@ -221,6 +125,111 @@
                       </div>
                     </div>
                  </div>
+                    
+                    <div class="row">
+                      <div class="col-4">
+                        <label class="col-12">{{formLabels.end_date_preavis}} {{isRequired(formInputs.end_date_preavis)}}</label>
+                        <div class="col">
+                          <!-- <div class="date-picker-group">
+                            <dp-date-picker
+                                            [mode]="'daytime'"
+                                            placeholder="Choisir la date de fin de préavis"
+                                            [config]="config"
+                                            class="date-picker"
+                                            theme="dp-material"
+                                            #datepicker
+                                            [ngClass]="{'is-invalid error-input':
+                                            formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                               && formGroup.controls[formInputs.end_date_preavis].dirty}"
+                                            [formControl]="formGroup.controls[formInputs.end_date_preavis]"
+                                         ></dp-date-picker>
+      
+                            <div class="icons-container">
+                              <i (click)="datepicker?.api?.open()" class="fa fa-calendar"></i>
+                            </div>
+                          </div> -->
+  
+                          <div class="date-picker-group">
+                            <owl-date-time  #owl_dtpreavis [pickerType]="'calendar'" ></owl-date-time>
+                            <input [owlDateTime]="owl_dtpreavis"
+                                   class="form-control input date"
+                                   [owlDateTimeTrigger]="owl_dtpreavis"
+                                   [formControl]="formGroup.controls[formInputs.end_date_preavis]"
+                                   name="date_courrier"
+                                   placeholder="Renseignez la date de fin du préavis"
+                                   [ngClass]="{'is-invalid error-input':
+                                 formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                    && formGroup.controls[formInputs.end_date_preavis].dirty}"
+                            />
+                            <div class="icons-container">
+                              <i class="icon-close"
+                                 (click)="clearDateInput(formInputs.end_date_preavis)"
+                                 *ngIf="formGroup.controls[formInputs.end_date_preavis].value"></i>&nbsp;
+                              <i [owlDateTimeTrigger]="owl_dtpreavis" class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+                      
+  
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.end_date_preavis].hasError('required')
+                                    && formGroup.controls[formInputs.end_date_preavis].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            La date de fin de préavis est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <label class="col-2">{{formLabels.end_date}} {{isRequired(formInputs.end_date)}}</label>
+                        <div class="col">
+                          <div class="date-picker-group">
+                            <owl-date-time  #owl_date_srtoie [pickerType]="'calendar'" ></owl-date-time>
+                            <input [owlDateTime]="owl_date_srtoie"
+                                   class="form-control input date"
+                                   [owlDateTimeTrigger]="owl_date_srtoie"
+                                   (dateTimeChange)="getPreavisCalculation()"
+                                   [formControl]="formGroup.controls[formInputs.end_date]"
+                                   name="date_courrier"
+                                   placeholder="Renseignez la date de reception du courrier"
+                                   [ngClass]="{'is-invalid error-input':
+                                 formGroup.controls[formInputs.end_date].hasError('required')
+                                    && formGroup.controls[formInputs.end_date].dirty}"
+                            />
+  <!--                          [(ngModel)]="sortie.end_date"-->
+                            <div class="icons-container">
+                              <i class="icon-close"
+                                 (click)="clearDateInput(formInputs.end_date)"
+                                 *ngIf="formGroup.controls[formInputs.end_date].value"></i>&nbsp;
+                              <i [owlDateTimeTrigger]="owl_date_srtoie" class="fa fa-calendar"></i>
+                            </div>
+                          </div>
+  
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.end_date].hasError('required')
+                      && formGroup.controls[formInputs.end_date].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            La date de reception du courrier est obligatoire
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-4" *ngIf="display_radio_end_date">
+                        <label class="col-12">{{formLabels.is_provisional_date}}</label>
+                        <div class="btn-group radio"
+                                ngbRadioGroup name="radioBasic"
+                                [formControl]="formGroup.controls[formInputs.is_provisional_date]"
+                          >
+                            <label ngbButtonLabel>
+                              <input ngbButton type="radio" [value]="0" id="is_provisional_date_0">&nbsp;
+                              <span class="radio-label" for="is_provisional_date_0">Date définitive</span>
+                            </label>
+                            <label ngbButtonLabel>
+                              <input ngbButton type="radio" [value]="1" id="is_provisional_date_1">&nbsp;
+                              <span class="radio-label" for="is_provisional_date_1">Date provisoire</span>
+                            </label>
+                          </div>
+                      </div>
+                    
+                    </div>
+
     
                   <div class="row">
                     <div class="col-1">

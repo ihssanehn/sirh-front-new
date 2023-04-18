@@ -388,6 +388,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
       return;
     }
     let dynamicModal = null;
+    let _size ='sm';
     switch (type){
       case 'general': {
         break;
@@ -397,10 +398,12 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         break;
       }
       case 'entree': {
+        _size='xl';
         dynamicModal = ModalAddEntreeComponent;
         break;
       }
       case 'sortie': {
+        _size='xl';
         dynamicModal = ModalAddSortieComponent;
         break;
       }
@@ -413,6 +416,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         break;
       }
       case 'visite_medicale': {
+        _size='xl';
         dynamicModal = ModalAddVisiteMedicalComponent;
         break;
       }
@@ -428,7 +432,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         break;
       }
     }
-    const modalRef = this.modalService.open(dynamicModal, { size: 'sm' , centered: true, windowClass: 'myModal'});
+    const modalRef = this.modalService.open(dynamicModal, { size: _size , centered: true, windowClass: 'myModal'});
     modalRef.result.then(result=>{
       console.log('closed', result);
       this.getListElements();

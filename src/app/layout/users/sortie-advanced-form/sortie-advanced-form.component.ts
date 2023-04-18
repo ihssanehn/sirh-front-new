@@ -45,7 +45,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   formInputs = {
     personal_id: 'personal_id',
     date_entree: 'date_entree',
-    date_sortie: 'date_sortie',
+    end_date: 'end_date',
     requested_at: 'requested_at',
     motif_id: 'motif_id',
     end_date_preavis: 'end_date_preavis',
@@ -65,7 +65,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
   formLabels =  {
     personal_id: 'personal_id',
     date_entree: 'Date d\'entrée',
-    date_sortie: 'Date de sortie',
+    end_date: 'Date de sortie',
     requested_at: 'Date réception courrier',
     motif_id: 'Motif',
     is_provisional_date: 'Date de fin saisie',
@@ -144,10 +144,10 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       requested_at: [null, Validators.compose([Validators.required])],
       motif_id: [null, Validators.compose([Validators.required])],
       end_date_preavis: [null, Validators.compose([Validators.required])],
+      end_date: [null, Validators.compose([Validators.required])],
       date_limit_reponse: [null, Validators.compose([Validators.required])],
       is_provisional_date: [0],
       date_entree: [null],
-      date_sortie: [null],
       id: [null],
     });
 
@@ -160,7 +160,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     const data = {
       personal_id: null,
       date_entree: null,
-      date_sortie:  null,
+      end_date:  null,
       requested_at:  null,
       motif_id:  null,
       end_date_preavis:  null,
@@ -336,7 +336,7 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       }
     });
 
-    const dates = ['end_date_preavis', 'date_limit_reponse','requested_at'];
+    const dates = ['end_date_preavis', 'date_limit_reponse','requested_at','end_date'];
     const saveData = {
       ...this.formGroup.value
     }
