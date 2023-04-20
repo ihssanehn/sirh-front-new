@@ -107,6 +107,9 @@
                       getPhotoFromBackend: ('assets/images/'+(userStore.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png')) |
                       async) : ('assets/images/'+(userStore.getAuthenticatedUser?.civility === 'Mme' ? 'woman.png': 'man.png'))"
           />
+          <span>
+              {{userStore.getAuthenticatedUser?.full_name}}
+            </span>
         </div>
         <i class="fa fa-chevron-down" aria-hidden="true" [matMenuTriggerFor]="profileMenu" ></i>
 
