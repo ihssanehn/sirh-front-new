@@ -29,13 +29,7 @@
 
   <div class="error-pannel" *ngIf="formGroup && !formGroup.valid && formGroup.dirty && error?.length>0"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{error}}</div>
   <div class="warning-pannel" *ngIf="warning?.length>0">{{warning}}</div>
-  <ng-container *ngIf="!errorLoadData; else dataNotFound">
-    <ng-container *ngIf="loadingData; else loadedData">
-      <div class="loading">
-        <img src="assets/images/loader.gif" />
-      </div>
-    </ng-container>
-    <ng-template #loadedData>
+  <ng-container *ngIf="entrance; else emptyState">
       <div class="container-fluid top-container p-0">
         <form  autocomplete="off" class="container p-0" novalidate>
           <h5 *ngIf="title">
@@ -94,7 +88,6 @@
           </div>
         </form>
       </div>
-    </ng-template>
   </ng-container>
 </div>
 
@@ -102,13 +95,8 @@
 
 
 <ng-template #emptyState>
-  <app-centred-message [message]="( 'Pas d\'utilisateur/collaborateur trouvé pour le moment' | translate )"
-                       [image]="'images/emptystate.png'"
+  <app-centred-message [message]="( 'Aucune donnée d\'entrée trouvée pour ce salarié' | translate )"
+                       [image]="'images/user_empty_state.svg'"
   ></app-centred-message>
 </ng-template>
 
-<ng-template #dataNotFound>
-  <app-centred-message [message]="'DATA LOADING ERROR' | translate"
-                       [image]="'images/error404.png'">
-  </app-centred-message>
-</ng-template>
