@@ -104,24 +104,6 @@
 
                     <div class="row">
                         <div class="col">
-                            <label class="col-12">{{formLabels.email}}
-                              {{isRequired(formInputs.email)}}</label>
-                            <div class="col">
-                                <input type="text" class="form-control input"
-                                   [ngClass]="{'is-invalid error-input':
-                                   formGroup.controls[formInputs.email].hasError('required')
-                                      && formGroup.controls[formInputs.email].dirty}"
-                                   [formControl]="formGroup.controls[formInputs.email]"
-                                   placeholder="Saisir l'email du salarié" />
-                              <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formInputs.email].hasError('required')
-                        && formGroup.controls[formInputs.email].dirty">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                Saisir l'email du salarié
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
                           <label class="col-12">{{formLabels.contrat}}
                             {{isRequired(formInputs.contrat)}}</label>
                           <div class="col">
@@ -146,33 +128,57 @@
                             </div>
                           </div>
                         </div>
+                        <div class="col">
+                          <label class="col-12">{{formLabels.status}}
+                            {{isRequired(formInputs.status)}}</label>
+                          <div class="col">
+                              <ng-select
+                                  [items]="status"
+                                  [bindLabel]="'label'"
+                                  [bindValue]="'id'"
+                                  class="form-control select"
+                                  placeholder="Sélectionner le statut"
+                                  [formControl]="formGroup.controls[formInputs.status]"
+                                  [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.status].hasError('required')
+                                          && formGroup.controls[formInputs.status].dirty}"
+                                  [multiple]="false"
+                              >
+                          </ng-select>
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.status].hasError('required')
+                      && formGroup.controls[formInputs.status].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir le statut du salarié
+                            </div>
+                          </div>
+                      </div>
                     </div>
 
                     <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.entity}}
+                          {{isRequired(formInputs.entity)}}</label>
                         <div class="col">
-                            <label class="col-12">{{formLabels.status}}
-                              {{isRequired(formInputs.status)}}</label>
-                            <div class="col">
-                                <ng-select
-                                    [items]="status"
+                            <ng-select
+                                    [items]="entities"
                                     [bindLabel]="'label'"
                                     [bindValue]="'id'"
                                     class="form-control select"
-                                    placeholder="Sélectionner le statut"
-                                    [formControl]="formGroup.controls[formInputs.status]"
-                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.status].hasError('required')
-                                            && formGroup.controls[formInputs.status].dirty}"
+                                    placeholder="Sélectionner l'entitié"
+                                    [formControl]="formGroup.controls[formInputs.entity]"
+                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.entity].hasError('required')
+                                            && formGroup.controls[formInputs.entity].dirty}"
                                     [multiple]="false"
                                 >
                             </ng-select>
-                              <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formInputs.status].hasError('required')
-                        && formGroup.controls[formInputs.status].dirty">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                Saisir le statut du salarié
-                              </div>
-                            </div>
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.entity].hasError('required')
+                    && formGroup.controls[formInputs.entity].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Saisir le statut du salarié
+                          </div>
                         </div>
+                    </div>
                         <div class="col">
                           <label class="col-12">{{formLabels.centre_profit}}
                             {{isRequired(formInputs.centre_profit)}}</label>
@@ -200,30 +206,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col">
-                            <label class="col-12">{{formLabels.entity}}
-                              {{isRequired(formInputs.entity)}}</label>
-                            <div class="col">
-                                <ng-select
-                                        [items]="entities"
-                                        [bindLabel]="'label'"
-                                        [bindValue]="'id'"
-                                        class="form-control select"
-                                        placeholder="Sélectionner l'entitié"
-                                        [formControl]="formGroup.controls[formInputs.entity]"
-                                        [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.entity].hasError('required')
-                                                && formGroup.controls[formInputs.entity].dirty}"
-                                        [multiple]="false"
-                                    >
-                                </ng-select>
-                              <div class="form-control-feedback"
-                                   *ngIf="formGroup.controls[formInputs.entity].hasError('required')
-                        && formGroup.controls[formInputs.entity].dirty">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                Saisir le statut du salarié
-                              </div>
-                            </div>
-                        </div>
+                        
                         <div class="col">
                           <label class="col-12">{{formLabels.siege}}
                             {{isRequired(formInputs.siege)}}</label>
@@ -247,45 +230,41 @@
                               Saisir le siège du salarié
                             </div>
                           </div>
-                      </div>
-
+                        </div>
+                        <div class="col">
+                              <div class="col-6" style="padding-left: 0px;">
+                                <div class="check-box-btn">
+                                      <label class="secondary_label" for="{{formLabels.is_externe}}">
+                                          <span class="name">
+                                              {{formLabels.is_externe}}
+                                          </span>
+                                      </label>
+                                          <input type="checkbox"
+                                              id="{{formLabels.is_externe}}"
+                                              [formControl]="formGroup.controls[formInputs.is_externe]"
+                                              name="check_"/>
+    
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <div class="check-box-btn">
+                                    <label class="secondary_label" for="{{formLabels.is_active}}">
+                                        <span class="name">
+                                            {{formLabels.is_active}}
+                                        </span>
+                                    </label>
+                                        <input type="checkbox"
+                                            id="{{formLabels.is_active}}"
+                                            [formControl]="formGroup.controls[formInputs.is_active]"
+                                            name="check_"/>
+    
+                                </div>
+                              </div>
+                             
+                        </div>
                     </div>
                     <div class="row">
-                      <div class="col-6">
-                        <div class="row">
-                          <div class="col" style="padding-left: 0px;">
-
-                            <div class="check-box-btn">
-                                  <label class="secondary_label" for="{{formLabels.is_externe}}">
-                                      <span class="name">
-                                          {{formLabels.is_externe}}
-                                      </span>
-                                  </label>
-                                      <input type="checkbox"
-                                          id="{{formLabels.is_externe}}"
-                                          [formControl]="formGroup.controls[formInputs.is_externe]"
-                                          name="check_"/>
-
-                            </div>
-
-                            <div class="check-box-btn">
-                                <label class="secondary_label" for="{{formLabels.is_active}}">
-                                    <span class="name">
-                                        {{formLabels.is_active}}
-                                    </span>
-                                </label>
-                                    <input type="checkbox"
-                                        id="{{formLabels.is_active}}"
-                                        [formControl]="formGroup.controls[formInputs.is_active]"
-                                        name="check_"/>
-
-                          </div>
-                          </div>
-
-
-
-                      </div>
-                      </div>
+                    
                     </div>
 
 

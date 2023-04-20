@@ -20,6 +20,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
   status = [];
   sieges = [];
   managers = [];
+  bus = [];
   @Input() submitting: boolean;
   @Output() onUpdatePersonal: EventEmitter<any> = new EventEmitter();
 
@@ -77,11 +78,11 @@ export class ProfileAdvancedFormComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       id: [null, Validators.compose([Validators.required])],
-      civility: [null, Validators.compose([Validators.required])],
+      civility: [null],
       registration_number: [null],
       last_name: [null, Validators.compose([Validators.required])],
       first_name: [null, Validators.compose([Validators.required])],
-      email: [null, Validators.compose([Validators.required])],
+      email: [null],
       contrat_id: [null, Validators.compose([Validators.required])],
       manager_id: [null, Validators.compose([Validators.required])],
       status_id: [null, Validators.compose([Validators.required])],
@@ -127,8 +128,9 @@ export class ProfileAdvancedFormComponent implements OnInit {
     this.status = await this.listService.getAll('status','PERSONAL').toPromise();
     this.contrats = await this.listService.getAll('contrat_type').toPromise();
     this.sieges = await this.listService.getAll('siege_type').toPromise();
-    this.entities = await this.listService.getAll('entity').toPromise();
-    this.managers = await this.listService.getAll('users').toPromise();
+    this.managers = await this.personalService.getManagers({'without_archive':1}).toPromise();
+    this.entities = await this.personalService.getMetaData('ENTITY').toPromise();
+    this.bus = await this.personalService.getMetaData('BU').toPromise();
    }
 
 

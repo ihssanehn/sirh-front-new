@@ -262,4 +262,8 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
       { queryParams: this.route.snapshot.queryParams });
   }
 
+  goToDetails(route: string, queryParams = {}) {
+    this.router.navigate([route], { queryParams: {...queryParams, ...this.filter}, queryParamsHandling: 'merge' });
+  }
+
 }
