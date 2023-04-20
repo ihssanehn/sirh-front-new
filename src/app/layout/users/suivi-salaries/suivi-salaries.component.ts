@@ -41,7 +41,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
   showFilters = false;
   pagination: any = {
     page: 1,
-    total: 10,
+    total: 30,
     pageSize: 20
   };
 
@@ -84,7 +84,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
     keyword: '',
     is_virtual: null,
     page: 1,
-    limit: 10,
+    limit: 20,
     is_blocked: null,
     to_be_completed: null,
 
@@ -219,7 +219,7 @@ export class SuiviSalariesComponent implements OnInit, OnDestroy {
         }
       });
       const page = params?.page ? +params.page : 1;
-      const limit = params?.limit ? +params.limit : 10;
+      const limit = params?.limit ? +params.limit : 20;
       this.filter = {...this.filter, page, limit };
 
       this.getListElements();
