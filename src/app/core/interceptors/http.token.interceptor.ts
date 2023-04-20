@@ -45,7 +45,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         } else {
           // server-side error
           console.log(err);
-          if(err.status === 401){
+          if(err.status === 401 || err.status === 403){
             this.router.navigate(['/auth/login']).then(res=>console.log('Unauthorized::Redirecting login page', res));
           }
           // errorMessage = `Error : ${err.message}`;
