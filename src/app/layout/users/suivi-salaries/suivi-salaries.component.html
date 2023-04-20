@@ -1504,6 +1504,7 @@
                         <ng-container
                             *ngIf="item?.personal?.has_interview_to_validate ||
                                item?.personal?.has_medical_visit_to_validate ||
+                               item?.personal?.has_medical_visit_to_cancel ||
                                item?.personal?.has_trial_period_to_validate"
                           >
                             <div class="item danger-text text-decoration-underline">Informations manquantes</div>
@@ -1528,6 +1529,19 @@
                                     <a
                                       target="_blank"
                                       (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.entretien})"
+                                    >
+                                      <i class="fa fa-external-link danger-icon"></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr *ngIf="item?.personal?.has_medical_visit_to_cancel">
+                                <td>
+                                  <div class="item danger-text">
+                                    Visite médicale à annuler &nbsp;&nbsp;
+                                    <a
+                                      target="_blank"
+                                      (click)="goToDetails('/users/details', {user_id: item?.personal?.id, step: STEPS.visite_medicale})"
                                     >
                                       <i class="fa fa-external-link danger-icon"></i>
                                     </a>
@@ -1563,7 +1577,7 @@
                         async) : ('assets/images/'+(item?.personal?.civility === 'Mme.' ? 'woman.png': 'man.png'))"
                             />
                             <i class="fa fa-exclamation-triangle danger-icon"
-                               *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate">
+                               *ngIf="item?.personal?.has_interview_to_validate || item?.personal?.has_medical_visit_to_validate || item?.personal?.has_trial_period_to_validate || item?.personal?.has_medical_visit_to_cancel">
                               </i>
                           </div>
                         </div>
