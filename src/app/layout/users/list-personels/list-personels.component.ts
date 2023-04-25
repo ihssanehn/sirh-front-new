@@ -34,8 +34,8 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   showFilters = false;
   pagination: any = {
     page: 1,
-    total: 10,
-    pageSize: 10,
+    total: 20,
+    pageSize: 20,
   };
   profiles = [];
   STEPS = {
@@ -49,7 +49,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   filter = {
     keyword: '',
     page: 1,
-    limit: 10,
+    limit: 20,
 
     entities:[],
     sieges:[],
@@ -98,7 +98,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
         }
       });
       const page = params?.page ? +params.page : 1;
-      const limit = params?.limit ? +params.limit : 10;
+      const limit = params?.limit ? +params.limit : 20;
       this.filter = {...this.filter, page, limit };
 
       this.getUsers();
@@ -115,10 +115,11 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
   async getFilters(){
     try{
       this.personnalFilters = await this.listService.getPersonalFilters().toPromise();
-      this.entities = await this.listService.getAll('entity').toPromise();
       this.sieges = await this.listService.getAll('siege_type').toPromise();
       this.contrats = await this.listService.getAll('contrat_type').toPromise();
       this.status = await this.listService.getAll('status','PERSONAL').toPromise();
+
+      this.entities = await this.personelService.getMetaData('ENTITY').toPromise();
     } catch (e) {
       console.log('error filter PROFIT_CENTER', e);
     }
@@ -226,7 +227,7 @@ export class ListPersonelsComponent implements OnInit, OnDestroy {
     console.log('filterChanged', this.filter)
     // add filters to query params merge
     this.filter.page = this.filter.page || 1;
-    this.filter.limit = this.filter.limit || 10;
+    this.filter.limit = this.filter.limit || 20;
     this.router.navigate([], { queryParams: this.filter, queryParamsHandling: 'merge' });
     this.getUsers();
   }
