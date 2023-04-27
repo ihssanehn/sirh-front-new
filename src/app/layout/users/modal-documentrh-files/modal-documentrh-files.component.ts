@@ -42,8 +42,8 @@ export class ModalDocumentrhFilesComponent implements OnInit {
     const arr_filename = file_name.split('.');
     const file_ex = arr_filename.pop();
     file_name = arr_filename.join('.');
-    if ( file_name.length > 20 ) {
-      file_name = file_name.substr(0,20) + '...';
+    if ( file_name.length > 40 ) {
+      file_name = file_name.substr(0,40) + '...';
     }
     return file_name+'.'+file_ex;
   }
@@ -80,9 +80,13 @@ export class ModalDocumentrhFilesComponent implements OnInit {
     return `${(Math.round(+fileSize/1024)/1000).toFixed(2)} MB`
   }
 
-  previewFile(document){
-    this.show_file = { ...document,
-                        safe_url:this.domSanitizer.bypassSecurityTrustResourceUrl(document.path_to_view+'&token='+this.jwtStore.getToken)
-                    };
+  async previewFile(document){
+    const res: any = await this.userService.getDocumentUrl(document).toPromise();
+    const _path = res?.result?.data?.path;
+    if(_path){
+      this.show_file = { ...document,
+            safe_url:this.domSanitizer.bypassSecurityTrustResourceUrl(_path)
+      };
+    }
   }
 }

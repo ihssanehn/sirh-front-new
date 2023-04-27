@@ -11,9 +11,9 @@
       <div class="row" *ngIf="files?.length>0">
         <table>
           <thead></thead>
-          <tbody>
+          <tbody class="table-scrollable">
             <tr class="file" *ngFor="let item of files" title="{{item.original_name}}">
-              <td>
+              <td width="60">
                 <div class="first-part col">
                   <div class="icon">
                     <i class="{{getIcon(item.original_name)}}"></i>
@@ -23,13 +23,13 @@
                   </div>
                 </div>
               </td>
-              <td>
+              <td width="10">
                 <div class="size col">{{getFileSize(item.size)}}</div>
               </td>
-              <td>
+              <td width="10">
                 <div class="size col">{{item.created_at | dateMessage}}</div>
               </td>
-              <td>
+              <td width="10">
                 <div class="actions col"  *ngIf="getIcon(item.original_name) == 'icon-file-img'" (click)="previewFile(item)">
                   <i class="fa fa-eye"
                      data-toggle="tooltip"
@@ -38,7 +38,7 @@
                      title="Aperçu"></i>
                 </div>
               </td>
-              <td>
+              <td width="10">
                 <div class="actions col">
                   <i class="fa fa-download"
                      data-toggle="tooltip"
@@ -48,6 +48,9 @@
                 </div>
               </td>
             </tr>
+            
+          </tbody>
+          <tbody>
             <tr *ngIf="show_file">
               <div class="row">
                 <img

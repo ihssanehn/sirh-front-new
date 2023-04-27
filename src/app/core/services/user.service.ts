@@ -276,6 +276,9 @@ export class UserService {
   downloadDocument(params) {
     return this.apiService.get(`personal/getAttachment`, params, true);
   }
+  getDocumentUrl(params) {
+    return this.apiService.get(`personal/getAttachmentUrl`, params);
+  }
 
   deleteDocument(params: { id: any }) {
     return this.apiService.post(`personal/deleteDocument`, params);

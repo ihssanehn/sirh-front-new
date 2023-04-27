@@ -35,6 +35,9 @@
   border-bottom: 1px solid lightgray;
   padding: 15px 15px;
   align-items: center;
+  display: table;
+  width: 100%;
+  table-layout: fixed;/* even columns width , fix width of table too*/
   &:last-child{
     border-bottom: none;
   }
@@ -76,4 +79,10 @@
       opacity: 1;
     }
   }
+}
+
+.table-scrollable{
+  max-height: 60vh;
+  overflow-y: scroll;
+  display: block;
 }
