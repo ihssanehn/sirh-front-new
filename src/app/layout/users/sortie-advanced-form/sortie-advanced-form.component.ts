@@ -4,7 +4,7 @@ import {ErrorService, UserService} from '@app/core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {formatDateForBackend, getFormValidationErrors, markFormAsDirty, SharedClasses} from '@shared/Utils/SharedClasses';
+import {formatDateForBackend, getFormValidationErrors, markFormAsDirty, paramsToFormData, SharedClasses} from '@shared/Utils/SharedClasses';
 import {Location} from '@angular/common';
 import {$userRoles} from '@shared/Objects/sharedObjects';
 import {User} from "@app/core/entities";
@@ -217,10 +217,13 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
       this.formGroup.patchValue({
                 ...this.sortie
       })
+      this.files = this.sortie.document_files?.attachments || [];
+      this.projectToEditFiles = this.sortie.document_files?.attachments || [];
     }
     if(this.sortie?.entrance?.entry_date){
       this.formGroup.patchValue({date_entree: this.sortie.entrance.entry_date, entrance_id: this.sortie.entrance.id})
     } 
+  
     this.getmotifs();
   }
 
@@ -338,7 +341,8 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
 
     const dates = ['end_date_preavis', 'date_limit_reponse','requested_at','end_date'];
     const saveData = {
-      ...this.formGroup.value
+      ...this.formGroup.value,
+      document_files: this.files,
     }
     dates.forEach(date => {
       saveData[date] = saveData[date] && isMoment(moment(saveData[date])) ? moment(saveData[date]).format('YYYY-MM-DD') : null
@@ -351,10 +355,34 @@ export class SortieAdvancedFormComponent implements OnInit, AfterViewInit {
     console.log(saveData)
     let res = null;
   
+
+    /**FILES */
+    if(this.projectToEditFiles?.length > 0){ // Edit state
+      const document_files_to_delete = [];
+      const document_files_to_add = [];
+      this.projectToEditFiles.forEach(att => {
+        if(!this.files.find(file => file.id === att.id)){
+          document_files_to_delete.push(att.id);
+        }
+      });
+      this.files.forEach(file => {
+        if(file instanceof File){
+          document_files_to_add.push(file);
+        }
+      });
+      saveData['document_files_to_delete'] = document_files_to_delete;
+      saveData['document_files'] = document_files_to_add;
+    }else{ // add state
+      saveData['document_files'] = this.files;
+    }
+
+    const fd = paramsToFormData(saveData, ['document_files'],[]);
+
+    /** FILE */
       // case of new exit
       try{
 
-        res = await this.personalService.exitPersonal(saveData).toPromise();
+        res = await this.personalService.exitPersonal(fd).toPromise();
         if(res.result && res.result.data){
           
           this.submitting = false;

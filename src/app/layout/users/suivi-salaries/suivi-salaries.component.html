@@ -1604,7 +1604,10 @@
                       </span>
                     </td>
                     <td>
-                        <i class="icon-attachment primary-icon"></i>
+                        <span class="pointer" *ngIf="item?.document_files?.attachments?.length" (click)="openDocumentRHFilesModal(item?.document_files)">
+                          <i class="icon-attachment"></i>
+                          {{item?.document_files?.attachments?.length || 0}}
+                        </span>
                     </td>
                     <ng-container *ngFor="let extraColumn of getActiveColumns('columns_entree')">
                       <td>
