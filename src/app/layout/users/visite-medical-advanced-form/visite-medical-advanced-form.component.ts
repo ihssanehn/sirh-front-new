@@ -111,6 +111,9 @@ export class VisiteMedicalAdvancedFormComponent implements OnInit, AfterViewInit
   public set user(val: User) {
     if(val){
       this.idUser = val.id;
+      this.formGroup.patchValue({
+        personal_id: val.id,
+      });
     }
   }
 
