@@ -23,6 +23,7 @@ export class ModalAddEntreeComponent implements OnInit {
   sieges = [];
   managers = [];
   bus = [];
+  time_modes = [];
   @Input() submitting: boolean;
   errorLoadData: boolean;
   loadingData: boolean;
@@ -41,6 +42,7 @@ export class ModalAddEntreeComponent implements OnInit {
     centre_profit: 'bu_id',
     manager: 'manager_id',
     status: 'status',
+    time_mode: 'time_mode',
     entity: 'entity_id',
     date_entree: 'entry_date',
     is_externe:'is_externe',
@@ -57,6 +59,7 @@ export class ModalAddEntreeComponent implements OnInit {
     centre_profit: 'Centre de profit',
     manager: 'Manager',
     status: 'Statut',
+    time_mode:'Modalité horaire',
     entity:  'Entité',
     date_entree: 'Date d\'entrée',
     is_externe:  'Externe',
@@ -85,6 +88,7 @@ export class ModalAddEntreeComponent implements OnInit {
       entity_id: [null, Validators.compose([Validators.required])],
       entry_date: [null, Validators.compose([Validators.required])],
       siege_id: [null, Validators.compose([Validators.required])],
+      time_mode: [null, Validators.compose([Validators.required])],
       is_externe: [false],
       is_pe: [true],
     });
@@ -118,6 +122,7 @@ export class ModalAddEntreeComponent implements OnInit {
     this.managers = await this.personalService.getManagers({'without_archive':1}).toPromise();
     this.entities = await this.personalService.getMetaData('ENTITY').toPromise();
     this.bus = await this.personalService.getMetaData('BU').toPromise();
+    this.time_modes = await this.personalService.getMetaData('TIME_MODE').toPromise();
    }
 
 

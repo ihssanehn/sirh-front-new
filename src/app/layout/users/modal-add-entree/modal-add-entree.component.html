@@ -217,34 +217,59 @@
                               </div>
                             </div>
                         </div>
+
                         <div class="col">
-                          <label class="col-12">{{formLabels.centre_profit}}
-                            {{isRequired(formInputs.centre_profit)}}</label>
+                          <label class="col-12">{{formLabels.time_mode}}
+                            {{isRequired(formInputs.time_mode)}}</label>
                           <div class="col">
-                            <ng-select
-                                    [items]="bus"
-                                    [bindLabel]="'libelle'"
-                                    [bindValue]="'id'"
-                                    class="form-control select"
-                                    placeholder="Sélectionner le centre de profit"
-                                    [formControl]="formGroup.controls[formInputs.centre_profit]"
-                                    [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre_profit].hasError('required')
-                                            && formGroup.controls[formInputs.centre_profit].dirty}"
-                                    [multiple]="false"
-                                >
-                            </ng-select>
+                              <ng-select
+                                  [items]="time_modes"
+                                  [bindLabel]="'label'"
+                                  class="form-control select"
+                                  placeholder="Sélectionner la modalité horaire"
+                                  [formControl]="formGroup.controls[formInputs.time_mode]"
+                                  [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.time_mode].hasError('required')
+                                          && formGroup.controls[formInputs.time_mode].dirty}"
+                                  [multiple]="false"
+                              >
+                          </ng-select>
                             <div class="form-control-feedback"
-                                 *ngIf="formGroup.controls[formInputs.centre_profit].hasError('required')
-                      && formGroup.controls[formInputs.centre_profit].dirty">
+                                 *ngIf="formGroup.controls[formInputs.time_mode].hasError('required')
+                      && formGroup.controls[formInputs.time_mode].dirty">
                               <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                              Saisir le contrat du salarié
+                              Saisir la modalité horaire de travail du salarié
                             </div>
                           </div>
-                        </div>
+                      </div>
+                        
                     </div>
                     
                    
                     <div class="row">
+                      <div class="col">
+                        <label class="col-12">{{formLabels.centre_profit}}
+                          {{isRequired(formInputs.centre_profit)}}</label>
+                        <div class="col">
+                          <ng-select
+                                  [items]="bus"
+                                  [bindLabel]="'libelle'"
+                                  [bindValue]="'id'"
+                                  class="form-control select"
+                                  placeholder="Sélectionner le centre de profit"
+                                  [formControl]="formGroup.controls[formInputs.centre_profit]"
+                                  [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.centre_profit].hasError('required')
+                                          && formGroup.controls[formInputs.centre_profit].dirty}"
+                                  [multiple]="false"
+                              >
+                          </ng-select>
+                          <div class="form-control-feedback"
+                               *ngIf="formGroup.controls[formInputs.centre_profit].hasError('required')
+                    && formGroup.controls[formInputs.centre_profit].dirty">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            Saisir le contrat du salarié
+                          </div>
+                        </div>
+                      </div>
                       <div class="col">
                         <label class="col-12">{{formLabels.manager}}
                           {{isRequired(formInputs.manager)}}</label>
@@ -269,6 +294,11 @@
                           </div>
                         </div>
                     </div>
+                    
+                     
+                    </div>
+
+                    <div class="row">
                       <div class="col-6">
                         <label class="col-12">{{formLabels.date_entree}}
                           {{isRequired(formInputs.date_entree)}}</label>
@@ -300,10 +330,6 @@
                             </div>
                         </div>
                       </div>
-                     
-                    </div>
-
-                    <div class="row">
                       <div class="col-6">
                           <div class="row">
                             <div class="col" style="padding-left: 0px;">

@@ -231,40 +231,65 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="col">
-                              <div class="col-6" style="padding-left: 0px;">
-                                <div class="check-box-btn">
-                                      <label class="secondary_label" for="{{formLabels.is_externe}}">
-                                          <span class="name">
-                                              {{formLabels.is_externe}}
-                                          </span>
-                                      </label>
-                                          <input type="checkbox"
-                                              id="{{formLabels.is_externe}}"
-                                              [formControl]="formGroup.controls[formInputs.is_externe]"
-                                              name="check_"/>
-    
-                                </div>
-                              </div>
-                              <div class="col-6">
-                                <div class="check-box-btn">
-                                    <label class="secondary_label" for="{{formLabels.is_active}}">
-                                        <span class="name">
-                                            {{formLabels.is_active}}
-                                        </span>
-                                    </label>
-                                        <input type="checkbox"
-                                            id="{{formLabels.is_active}}"
-                                            [formControl]="formGroup.controls[formInputs.is_active]"
-                                            name="check_"/>
-    
-                                </div>
-                              </div>
-                             
+                          <label class="col-12">{{formLabels.time_mode}}
+                            {{isRequired(formInputs.time_mode)}}</label>
+                          <div class="col">
+                              <ng-select
+                                      [items]="time_modes"
+                                      [bindLabel]="'label'"
+                                      [bindValue]="'id'"
+                                      class="form-control select"
+                                      placeholder="Sélectionner la modalité horaire"
+                                      [formControl]="formGroup.controls[formInputs.time_mode]"
+                                      [ngClass]="{'is-invalid error-input': formGroup.controls[formInputs.time_mode].hasError('required')
+                                              && formGroup.controls[formInputs.time_mode].dirty}"
+                                      [multiple]="false"
+                                  >
+                              </ng-select>
+                            <div class="form-control-feedback"
+                                 *ngIf="formGroup.controls[formInputs.time_mode].hasError('required')
+                      && formGroup.controls[formInputs.time_mode].dirty">
+                              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                              Saisir la modalité horaire du salarié
+                            </div>
+                          </div>
                         </div>
+                      
                     </div>
                     <div class="row">
-                    
+                      <div class="col">
+                          <div class="col-6" style="padding-left: 0px;">
+                            <div class="check-box-btn">
+                                  <label class="secondary_label" for="{{formLabels.is_externe}}">
+                                      <span class="name">
+                                          {{formLabels.is_externe}}
+                                      </span>
+                                  </label>
+                                      <input type="checkbox"
+                                          id="{{formLabels.is_externe}}"
+                                          [formControl]="formGroup.controls[formInputs.is_externe]"
+                                          name="check_"/>
+
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="check-box-btn">
+                                <label class="secondary_label" for="{{formLabels.is_active}}">
+                                    <span class="name">
+                                        {{formLabels.is_active}}
+                                    </span>
+                                </label>
+                                    <input type="checkbox"
+                                        id="{{formLabels.is_active}}"
+                                        [formControl]="formGroup.controls[formInputs.is_active]"
+                                        name="check_"/>
+
+                            </div>
+                          </div>
+                        
+                    </div>
                     </div>
 
 

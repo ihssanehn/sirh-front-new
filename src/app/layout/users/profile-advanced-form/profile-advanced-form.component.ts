@@ -20,6 +20,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
   status = [];
   sieges = [];
   managers = [];
+  time_modes = [];
   bus = [];
   @Input() submitting: boolean;
   @Output() onUpdatePersonal: EventEmitter<any> = new EventEmitter();
@@ -51,7 +52,8 @@ export class ProfileAdvancedFormComponent implements OnInit {
     date_entree: 'entry_date',
     is_externe:'is_externe',
     is_active:'is_active',
-    siege:'siege_id'
+    siege:'siege_id',
+    time_mode:'time_mode_id'
   }
   formLabels =  {
     civility: 'Civilité',
@@ -66,7 +68,8 @@ export class ProfileAdvancedFormComponent implements OnInit {
     date_entree: 'Date d\'entrée',
     is_externe:  'Externe',
     is_active:'Actif ?',
-    siege:'Siège'
+    siege:'Siège',
+    time_mode:'Modalité horaire'
   }
 
     constructor(
@@ -89,6 +92,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
       entity_id: [null, Validators.compose([Validators.required])],
       entry_date: [null, Validators.compose([Validators.required])],
       siege_id: [null, Validators.compose([Validators.required])],
+      time_mode_id: [null, Validators.compose([Validators.required])],
       is_externe: [false],
       is_active: [null],
     });
@@ -131,6 +135,7 @@ export class ProfileAdvancedFormComponent implements OnInit {
     this.managers = await this.personalService.getManagers({'without_archive':1}).toPromise();
     this.entities = await this.personalService.getMetaData('ENTITY').toPromise();
     this.bus = await this.personalService.getMetaData('BU').toPromise();
+    this.time_modes = await this.personalService.getMetaData('TIME_MODE').toPromise();
    }
 
 
