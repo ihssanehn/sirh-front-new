@@ -5,9 +5,7 @@ build-image:
   stage: build
   image: docker
   script:
-    - if [ "$CI_COMMIT_BRANCH" == "v0.1-dev" ]; then
-        APP_ENV="dev";
-      elif [ "$CI_COMMIT_BRANCH" == "develop" ]; then
+    - if [ "$CI_COMMIT_BRANCH" == "develop" ]; then
         APP_ENV="dev";
       elif [ "$CI_COMMIT_BRANCH" == "master" ]; then
         APP_ENV="preprod";
@@ -17,10 +15,9 @@ build-image:
     - docker push ${REGISTRY_URL}/${IMAGE_BRANCH}
     - docker image rm ${REGISTRY_URL}/${IMAGE_BRANCH}
   only:
-    - v0.1-dev
     - develop
     - master
 
 variables:
-  IMAGE_NAME: 'sirh/node-backend'
+  IMAGE_NAME: 'sirh/sirh-web/sirh-front-new'
   IMAGE_BRANCH: '${IMAGE_NAME}:${CI_COMMIT_BRANCH}'
