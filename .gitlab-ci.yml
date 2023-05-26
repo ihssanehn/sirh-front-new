@@ -1,0 +1,26 @@
+stages:
+  - build
+
+build-image:
+  stage: build
+  image: docker
+  script:
+    - if [ "$CI_COMMIT_BRANCH" == "v0.1-dev" ]; then
+        APP_ENV="dev";
+      elif [ "$CI_COMMIT_BRANCH" == "develop" ]; then
+        APP_ENV="dev";
+      elif [ "$CI_COMMIT_BRANCH" == "master" ]; then
+        APP_ENV="preprod";
+      fi
+    - docker build --build-arg appEnv=$APP_ENV -t ${REGISTRY_URL}/${IMAGE_BRANCH} .
+    - docker login ${REGISTRY_URL} -u ${REGISTRY_USER} -p ${ACCESS_TOKEN}
+    - docker push ${REGISTRY_URL}/${IMAGE_BRANCH}
+    - docker image rm ${REGISTRY_URL}/${IMAGE_BRANCH}
+  only:
+    - v0.1-dev
+    - develop
+    - master
+
+variables:
+  IMAGE_NAME: 'sirh/node-backend'
+  IMAGE_BRANCH: '${IMAGE_NAME}:${CI_COMMIT_BRANCH}'
