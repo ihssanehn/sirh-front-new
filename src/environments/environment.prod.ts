@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  apiUrl : 'https://sirh.preprod.piman-digital.fr/',
+  apiUrl : 'https://sirh-api.preprod.piman-digital.fr/',
   appBaseHref : './',
   logo: 'logo-pds.png',
   favicon: 'favicon.ico',
